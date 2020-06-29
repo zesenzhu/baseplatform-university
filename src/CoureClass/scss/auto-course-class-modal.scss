@@ -1,0 +1,146 @@
+@import "./base";
+
+.auto-course-class-modal{
+
+  .ant-modal-body{
+
+    overflow: inherit!important;
+
+  }
+
+}
+
+.auto-course-content{
+
+  .props{
+
+    font-size: 14px;
+
+  }
+
+  .course_wrapper{
+
+    margin-top: 10px;
+
+    border: 1px solid #bac7d9;
+
+    @include border-radius(8px);
+
+    height: 140px;
+
+    .emptyBox{
+
+      padding-top:10px;
+
+    }
+
+    .empty{
+
+      width: 240px;
+
+      height: 50px;
+
+      @include background-size(contain);
+
+    }
+
+    .course-item{
+
+      float: left;
+
+      margin-left:10px;
+
+      margin-top: 10px;
+
+    }
+
+  }
+
+  .course_scroll{
+
+    height: 110px;
+
+  }
+
+  .grade-wrapper,.type-wrapper{
+
+    margin-top: 16px;
+
+    &>div{
+
+      float: left;
+
+    }
+
+    .ant-checkbox-group{
+
+      width:498px;
+
+      .ant-checkbox-wrapper{
+
+        margin-left:6px;
+
+      }
+
+    }
+    
+    .emp-grade{
+
+      color: #999999;
+      
+    }
+
+  }
+
+  .warn-tips{
+
+    margin-top: 16px;
+
+    .tips{
+
+      display: inline-block;
+      width: 520px;
+      vertical-align: top;
+      color: #ff6600;
+
+      padding-left:4px;
+
+    }
+
+  }
+
+  .btn{
+
+    &.edit{
+
+      float: right;
+
+      margin-right: 10px;
+
+      width: 18px;
+
+      height: 18px;
+
+      border: none;
+
+      outline: none;
+
+      background: transparent center no-repeat;
+
+      cursor: pointer;
+
+      background-image: url("#{$image-url}/edit.png");
+
+      @include background-size(contain);
+
+      &:hover{
+
+        background-image: url("#{$image-url}/edit-hover.png");
+
+      }
+
+    }
+
+  }
+
+}

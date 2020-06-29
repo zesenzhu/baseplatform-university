@@ -1,0 +1,34 @@
+@import "../sass/public-minx.scss";
+@import './handleCollegeModal.scss';
+@import './ApplicationSetting.scss';
+@import './AccessDetailModal.scss';
+@import './AddAppilicationModal.scss';
+@import './AddAccessEntrancesModal.scss';
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+}
+
+a {
+    text-align: center;
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+.Modal-1 .ant-modal-body {
+    padding: 0;
+}
+
+.Modal-HandleCollegeModal .ant-modal-body {
+    padding: 24px 36px;
+}

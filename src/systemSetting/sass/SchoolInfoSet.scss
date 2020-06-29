@@ -1,0 +1,573 @@
+@import "./public-minx.scss";
+.school-InfoSetting {
+    position: relative;
+    top: 0px;
+    right: 0px;
+    width: 944px;
+    padding: 15px 30px;
+    height: 626px;
+    //   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    // background: url("../images/school_bg.jpg") no-repeat;
+    // background-size: cover;
+    box-sizing: border-box;
+    .hr {
+        margin: 2px 0;
+        width: 100%;
+        border-top: 1px dashed #aaa;
+    }
+    .edite-info-box {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 21px;
+    }
+    .edite-info-box-2 {
+        margin-top: 70px;
+    }
+    .edite-info {
+        position: absolute;
+        // top: 33px;
+        right: 0;
+        top: 0;
+        width: 48px;
+        height: 16px;
+        line-height: 18px;
+        color: #0099ff;
+        cursor: pointer;
+        font-size: 14px;
+        span {
+            float: left;
+            width: 16px;
+            height: 16px;
+            background: url("../images/icon-edit.png") no-repeat;
+            margin-right: 4px;
+        }
+        &:hover {
+            color: #ff6600;
+            span {
+                background: url("../images/icon-edit-hover.png") no-repeat;
+            }
+        }
+    }
+    .import-info {
+        top: 0;
+        float: right;
+        margin-left: 15px;
+        // width: 48px;
+        height: 16px;
+        line-height: 18px;
+        color: #0099ff;
+        cursor: pointer;
+        font-size: 14px;
+        span {
+            float: left;
+            width: 12px;
+            margin-top: 2px;
+            height: 12px;
+            background: url("../images/icon-add.png") no-repeat;
+            margin-right: 4px;
+        }
+        &:hover {
+            color: rgb(255, 111, 15);
+            span {
+                background: url("../images/icon-add-active.png") no-repeat;
+            }
+        }
+    }
+    .add-info {
+        // position: absolute;
+        // // top: 33px;
+        // right: 0;
+        top: 0;
+        float: right;
+        margin-left: 20px;
+        // width: 48px;
+        height: 16px;
+        line-height: 18px;
+        color: #0099ff;
+        cursor: pointer;
+        font-size: 14px;
+        span {
+            float: left;
+            width: 16px;
+            height: 16px;
+            background: url("../images/icon-import.png") no-repeat;
+            margin-right: 4px;
+        }
+        &:hover {
+            color: rgb(255, 111, 15);
+            span {
+                background: url("../images/icon-import-active.png") no-repeat;
+            }
+        }
+    }
+    .top-tips {
+        position: relative;
+        line-height: 18px;
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .school-msg-box {
+        position: relative;
+        margin-top: 50px;
+        width: 100%;
+        height: 124px;
+        display: block;
+        overflow: hidden;
+        .school-msg-box-2 {
+            float: left;
+            margin-left: 50px;
+            // @include Vcenter();
+            margin-top: 62px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    }
+    .school-logo {
+        // @include Hcenter();
+        position: relative;
+        float: left;
+        margin-left: 250px;
+        // top: 100px;
+        // top: 111px;
+        width: 124px;
+        height: 124px;
+        // background-color: red;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        padding: 3px 3px;
+        overflow: hidden;
+        img {
+            @include Center();
+            max-width: 118px;
+            max-height: 118px;
+            border-radius: 50%;
+        }
+    }
+    .school-name {
+        // @include Hcenter();
+        // top: 256px;
+        width: 100%;
+        float: left;
+        height: 30px;
+        font-family: MicrosoftYaHei-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #006499;
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: default;
+    }
+    .school-info {
+        // position: absolute;
+        // top: 332px;
+        left: 313px;
+        float: left;
+        width: 100%;
+        // height: 47px;
+        font-family: MicrosoftYaHei;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        line-height: 30px;
+        letter-spacing: 0px;
+        color: #999999;
+        .school-code,
+        .school-type {
+            cursor: default;
+            span {
+                color: #000;
+                margin-left: 5px;
+            }
+        }
+    }
+    .college-msg-box {
+        position: relative;
+        .college-top-box {
+            position: relative;
+            margin-top: 5px;
+            .college-msg-total {
+                position: relative;
+                display: inline-block;
+                height: 28px;
+                font-size: 14px;
+                line-height: 28px;
+                color: #000;
+                .college-msg-num {
+                    color: red;
+                }
+            }
+            .college-search-box {
+                float: right;
+                // height: 20px;
+            }
+        }
+    }
+}
+
+.content-render {
+    margin-top: 10px;
+    position: relative;
+    .ant-table-thead>tr>th {
+        padding: 0;
+    }
+    .table {
+        .ant-table-thead {
+            th:nth-child(2) {
+                // text-align: left;
+                // padding-left: 60px;
+            }
+            th {
+                padding: 0;
+            }
+        }
+        .ant-table-row {
+            td:nth-child(2),
+            td:nth-child(3) {
+                padding: 10px 0;
+            }
+            td {
+                padding: 10px 0;
+                line-height: 1;
+            }
+            td:nth-child(1) {
+                padding-left: 10px;
+            }
+        }
+        .key-content {
+            font-size: 14px;
+            line-height: 23px;
+            color: #999;
+            margin: 0 0 0 3px;
+        }
+        .name-key {
+            font-size: 14px;
+            line-height: 23px;
+            color: #999;
+            margin: 0 3px;
+        }
+        .name-img {
+            margin: 0 6px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 1px solid #999;
+            object-fit: cover;
+        }
+        .name-College {
+            // text-decoration: underline;
+            color: #333;
+            height: 20px;
+            line-height: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            width: 210px;
+            overflow: hidden; //超出一行文字自动隐藏
+            text-overflow: ellipsis; //文字隐藏后添加省略号
+            white-space: nowrap; //强制不换行
+        }
+        .CollegeCode {
+            font-size: 14px;
+            color: #999;
+            height: 17px;
+            line-height: 17px;
+            display: inline-block;
+            width: 140px;
+            overflow: hidden; //超出一行文字自动隐藏
+            text-overflow: ellipsis; //文字隐藏后添加省略号
+            white-space: nowrap; //强制不换行
+        }
+        .LeaderCount,
+        .StudentCount,
+        .TeacherCount {
+            font-size: 14px;
+            color: #999;
+            height: 17px;
+            line-height: 17px;
+            display: inline-block;
+            width: 80px;
+            overflow: hidden; //超出一行文字自动隐藏
+            text-overflow: ellipsis; //文字隐藏后添加省略号
+            white-space: nowrap; //强制不换行
+        }
+        .Grader {
+            font-size: 14px;
+            color: #999;
+        }
+        .GradeName {
+            font-size: 14px;
+            color: #333;
+        }
+        .MyClass {
+            font-size: 14px;
+            color: #666;
+            .CollegeMajor {
+                line-height: 20px;
+            }
+            .GradeClass {
+                line-height: 20px;
+            }
+        }
+        .ant-checkbox-gray .ant-checkbox {
+            top: -3px;
+        }
+        .handle-content {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .handle-btn {
+            float: right;
+            height: 24px;
+            width: 56px;
+            line-height: 24px;
+            font-size: 14px;
+            padding: 0;
+            text-align: center;
+            margin-right: 3px;
+        }
+        .check-btn {
+            float: right;
+            height: 24px;
+            width: 56px;
+            line-height: 24px;
+            font-size: 14px;
+            padding: 0;
+            text-align: center;
+            margin-right: 2px;
+        }
+    }
+    .initTitle {
+        color: #000
+    }
+    .checkAll-box {
+        margin-top: 10px;
+        margin-left: 10px;
+        .checkAll-title {
+            // vertical-align: text-bottom;
+            height: 28px;
+            line-height: 28px;
+        }
+    }
+    .deleteAll {
+        color: #fff;
+        width: 56px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0;
+        text-align: center;
+        margin-left: 8px;
+        border: none;
+        font-size: 14px;
+        span {
+            vertical-align: baseline;
+        }
+        // box-sizing: content-box;
+    }
+    .pagination-box {
+        margin-top: 10px;
+        float: right;
+    }
+}
+
+.editContent {
+    height: 300px;
+    // background: olive;
+    .content-left {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 192px;
+        height: 348px;
+        background: url("../images/conten_left_bg.png") no-repeat;
+        .school-logo {
+            @include Hcenter();
+            top: 36px;
+            width: 130px;
+            height: 130px;
+            //   background: url("../images/school_pic_bg.png") no-repeat;
+            //   border: 1px solid #999999;
+            overflow: hidden;
+            img {
+                @include Center();
+                max-width: 130px;
+                max-height: 130px;
+            }
+        }
+        .choose-pic,
+        .upload-pic {
+            @include Hcenter();
+            top: 174px;
+            width: 130px;
+            height: 28px;
+            background: url("../images/modify_cancel.png");
+            background-size: cover;
+            //   border: none;
+            border-radius: 4px;
+            font-family: MicrosoftYaHei;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 28px;
+            cursor: pointer;
+            input {
+                margin: auto auto;
+            }
+        }
+        .upload-pic {
+            top: 210px;
+            background: url("../images/modify_sure.png");
+            background-size: cover;
+        }
+        .upload-tips {
+            @include Hcenter();
+            top: 253px;
+            width: 151px;
+            height: 52px;
+            font-family: MicrosoftYaHei;
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 20px;
+            letter-spacing: 0px;
+            color: #999999;
+        }
+    }
+    .content-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 532px;
+        height: 348px;
+        .win-shcool-name {
+            position: absolute;
+            left: 31px;
+            top: 64px;
+            width: 400px;
+            height: 28px;
+            line-height: 28px;
+            input {
+                width: 320px;
+                height: 28px;
+                margin-left: 8px;
+                background-color: #ffffff;
+                border-radius: 4px;
+                border: solid 1px #bac7d9;
+                padding-left: 10px;
+                color: #000;
+            }
+        }
+        .win-school-code {
+            position: absolute;
+            top: 108px;
+            left: 31px;
+            width: 260px;
+            height: 28px;
+            // background: blue;
+            input {
+                margin-left: 8px;
+                border: none;
+                width: 180px;
+                height: 28px;
+                background-color: #ffffff;
+                border-radius: 4px;
+                border: solid 1px #bac7d9;
+                padding-left: 10px;
+                color: #000;
+            }
+        }
+        .win-school-type {
+            width: 350px;
+            height: 108px;
+            margin-left: 31px;
+            margin-top: 140px;
+            position: relative;
+            .primary-school,
+            .middle-school,
+            .high-school {
+                height: 28px;
+                position: absolute;
+                left: 67px;
+                top: 0;
+                line-height: 28px;
+                span {
+                    display: inline-block;
+                    width: 60px;
+                    height: 28px;
+                    border: solid 1px #bac7d9;
+                    line-height: 28px;
+                    text-align: center;
+                    font-family: MicrosoftYaHei-Bold;
+                    font-size: 14px;
+                    font-weight: bold;
+                    font-stretch: normal;
+                    letter-spacing: 0px;
+                    color: #ccc;
+                    cursor: pointer;
+                    &.click {
+                        background: url("../images/select_bg.png") top right no-repeat;
+                        color: #2ba500;
+                        border: solid 1px #2ba500;
+                        background-color: #e9ffe9;
+                    }
+                }
+                i {
+                    display: inline-block;
+                    width: 6px;
+                    height: 8px;
+                    background: url("../images/triangle.png");
+                    margin: 0 8px 0 9px;
+                }
+                input {
+                    margin-left: 10px;
+                    color: #2ba500;
+                     :nth-child(2) {
+                        margin-left: 20px;
+                        color: #2ba500;
+                    }
+                }
+            }
+            .middle-school {
+                position: absolute;
+                top: 40px;
+            }
+            .high-school {
+                position: absolute;
+                top: 80px;
+            }
+        }
+        .edit-tips {
+            position: absolute;
+            top: 50px;
+            left: 0px;
+            width: 438px;
+            height: 22px;
+            // line-height: 22px;
+            color: red;
+            font-size: 14px;
+            padding-left: 26px;
+            font-weight: bold;
+            span {
+                @include Vcenter();
+                display: inline-block;
+                width: 16px;
+                height: 22px;
+                background: url("../images/light_but.png");
+                //  background: url('http://img.lancoo.cn/test/123');
+                margin-right: 8px;
+            }
+        }
+    }
+}

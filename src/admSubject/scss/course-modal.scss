@@ -1,0 +1,104 @@
+//
+.course_modal{
+
+  .row_wrapper{
+
+    margin-bottom:20px;
+
+    .content{
+
+      float:left;
+
+      width:280px;
+
+      &:nth-child(2){
+
+        margin-left:80px;
+
+      }
+
+    }
+
+    .ant-input{
+
+      width:200px;
+
+      height: 28px;
+
+    }
+
+    .props{
+
+      margin-right: 12px;
+
+    }
+
+    .dropdown_container{
+
+      margin-left:-8px;
+
+    }
+
+    &.major-container{
+
+      &>div{
+
+        float: left;
+
+      }
+
+    }
+
+  }
+
+  .major_wrapper{
+
+    border: 1px solid #bac7d9;
+
+    margin-left: 8px;
+
+    border-radius:8px;
+
+    height: 140px;
+
+    width: 602px;
+
+    .edit{
+
+      float: right;
+
+      margin-right:10px;
+
+    }
+
+  }
+
+  .major_content{
+
+    height:110px;
+
+  }
+
+  .emp{
+
+    line-height: 110px;
+
+    text-align: center;
+
+    color: #999999;
+
+    font-size: 18px;
+
+  }
+
+  .major_item{
+
+    float: left;
+
+    margin-left: 12px;
+
+    margin-top: 8px;
+
+  }
+
+}

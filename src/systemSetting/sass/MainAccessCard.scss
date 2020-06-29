@@ -1,0 +1,257 @@
+@import "./public-minx.scss";
+.MainAccessCard {
+    position: relative;
+    width: 270px;
+    // height: 139px;
+    float: left;
+    top: 0;
+    margin-bottom: 20px;
+    margin-left: 36px;
+    //   transition:top 10s linear 0s;
+    &:hover {
+        // top: -200px;
+        animation: toTop 0.22s ease-in-out;
+        animation-fill-mode: forwards;
+        .subsystem-content {
+            box-shadow: 0px 6px 6px 0px #abbfd1;
+        }
+    }
+    &:nth-child(3n + 1) {
+        margin-left: 0;
+    }
+    &:nth-child(3n + 2) {
+        .subsystem-content {
+            .pic-bg {
+                background: url("../images/tomato_bg.png");
+            }
+        }
+    }
+    &:nth-child(3n+3) {
+        .subsystem-content {
+            .pic-bg {
+                background: url("../images/green_bg.png");
+            }
+        }
+    }
+    .grey-bg {
+        position: absolute;
+        width: 260px;
+        height: 139px;
+        // top: 4px;
+        left: 5px;
+        bottom: -4px;
+        background-color: #abbfd1;
+        border-radius: 5px;
+        border: solid 1px #abbfd1;
+        //   z-index: 8;
+    }
+    .subsystem-content {
+        position: relative;
+        width: 270px;
+        min-height: 139px;
+        left: 0px;
+        top: 0px;
+        padding: 12px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        border: solid 1px #abbfd1;
+        z-index: 300;
+        .pic-bg {
+            position: relative;
+            // margin-left: 12px;
+            // margin-top: 12px;
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+            background: url("../images/blue_bg.png");
+            img {
+                @include Center();
+                max-width: 64px;
+                max-width: 64px;
+            }
+        }
+        .subsystemName {
+            position: absolute;
+            left: 84px;
+            top: 29px;
+            color: #333333;
+            font-family: MicrosoftYaHei-Bold;
+            font-size: 16px;
+        }
+        .user-type {
+            position: absolute;
+            left: 84px;
+            top: 55px;
+            height: 13px;
+            font-family: MicrosoftYaHei;
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #999999;
+            line-height: 10px;
+            span {
+                display: inline-block;
+                width: 12px;
+                height: 13px;
+                background: url("../images/usertype_bg_logo.png") no-repeat;
+                margin-right: 3px;
+            }
+        }
+        .split-line {
+            @include Hcenter();
+            top: 88px;
+            width: 226px;
+            height: 1px;
+            border: dashed 1px #cccccc;
+        }
+        .access-state {
+            position: absolute;
+            left: 19px;
+            top: 105px;
+            width: 145px;
+            height: 23px;
+            font-size: 14px;
+            color: #999999;
+            .btn-state {
+                margin-left: 11px;
+                width: 64px;
+                height: 20px;
+                background: url("../images/system_close.png") no-repeat;
+                border: none;
+                border-radius: 12px;
+                vertical-align: top;
+                cursor: pointer;
+                &.open {
+                    background: url("../images/system_open.png") no-repeat;
+                }
+                &.ban {
+                    background: url("../images/cannot_close.png") no-repeat;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+    .content-msg-box {
+        position: relative;
+        min-height: 64px;
+        .msg-tilte-box {
+            display: inline-block;
+            vertical-align: top;
+            height: 64px;
+            width: 158px;
+            margin-left: 10px;
+            .msg-app-name {
+                line-height: 25px;
+                width: 158px;
+                color: #333333;
+                font-family: MicrosoftYaHei-Bold;
+                font-size: 16px;
+                @include TextOverflow();
+            }
+            .msg-app-type {
+                display: inline-block;
+                height: 25px;
+                line-height: 25px;
+                margin-top: 10px;
+                text-align: center;
+                width: 70px;
+                border-radius: 5px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                -ms-border-radius: 5px;
+                -o-border-radius: 5px;
+                color: #333333;
+                font-family: MicrosoftYaHei-Bold;
+                @include TextOverflow();
+                font-size: 14px;
+            }
+        }
+        .ApplicationType {
+            background-color: #c3def8;
+            margin-right: 10px;
+        }
+        .IsThirdParty {
+            background-color: #d2f9e6;
+        }
+    }
+    .content-center-msg-box {
+        // display: inline-block;
+        margin-top: 5px;
+        margin-bottom: 25px;
+        .row {
+            line-height: 25px;
+            height: 25px;
+            .row-left {
+                display: inline-block;
+                width: 35%;
+                text-align: right;
+                color: #999;
+                font-family: MicrosoftYaHei-Bold;
+                // @include TextOverflow();
+                font-size: 14px;
+            }
+            .row-right {
+                display: inline-block;
+                width: 65%;
+                text-align: left;
+                color: #333333;
+                vertical-align: top;
+                font-family: MicrosoftYaHei-Bold;
+                @include TextOverflow();
+                font-size: 14px;
+            }
+            .btn-state {
+                // margin-left: 11px;
+                width: 64px;
+                height: 20px;
+                vertical-align: top;
+                margin-top: 12px;
+                background: url("../images/system_close.png") no-repeat;
+                border: none;
+                border-radius: 12px;
+                vertical-align: top;
+                cursor: pointer;
+                &.open {
+                    background: url("../images/system_open.png") no-repeat;
+                }
+                &.ban {
+                    background: url("../images/cannot_close.png") no-repeat;
+                    cursor: not-allowed;
+                }
+                transform: translateY(-50%);
+                -webkit-transform: translateY(-50%);
+                -moz-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                -o-transform: translateY(-50%);
+            }
+        }
+    }
+    .edit-bar-box {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 35px;
+        border-radius: 0 0 5px 5px;
+        background-color: #fff;
+        &:hover {
+            background-color: rgba($color: #666, $alpha: 0.5);
+            .btn-base {
+                display: inline-block;
+            }
+        }
+        .btn-base {
+            display: none;
+            margin-top: 5px;
+            font-size: 14px;
+            height: 25px;
+            line-height: 25px;
+            padding: 0 10px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .btn-detail,
+        .btn-change {}
+    }
+}

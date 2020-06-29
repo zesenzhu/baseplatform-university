@@ -1,0 +1,20 @@
+    .HandleCollegeModal {
+        // padding: 20px 20px;
+        position: relative;
+        .row {
+            position: relative;
+            height: 32px;
+            margin: 10px 0 15px;
+            .left {
+                float: left;
+                width: 25%;
+                line-height: 32px;
+                text-align: right;
+            }
+            .right {
+                float: right;
+                width: 70%;
+                line-height: 32px;
+            }
+        }
+    }

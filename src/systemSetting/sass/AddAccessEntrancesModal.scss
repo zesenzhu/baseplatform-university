@@ -1,0 +1,172 @@
+.AddAccessEntrancesModal {
+    .row {
+        display: block;
+        height: 50px;
+        .access-main-msg-tips {
+            width: 15%;
+            display: inline-block;
+            line-height: 50px;
+            height: 50px;
+            text-align: right;
+            font-size: 14px;
+            vertical-align: top;
+            color: #000;
+            .must-icon {
+                color: red;
+            }
+        }
+        .access-main-msg {
+            display: inline-block;
+            width: 85%;
+            line-height: 50px;
+            height: 50px;
+            text-align: left;
+            font-size: 14px;
+            color: #000;
+            .msg-tips {
+                float: left;
+                line-height: 14px;
+                font-size: 12px;
+                margin-top: -10px;
+                vertical-align: top;
+                color: red;
+            }
+            .ant-checkbox-group {
+                // display: block;
+            }
+            .access-main-msg-input {
+                width: 250px;
+                height: 30px;
+            }
+            .ToolImgBox {
+                height: 70px;
+                width: 70px;
+                display: inline-block;
+                margin-right: 10px;
+                vertical-align: top;
+            }
+            .btn-box {
+                display: inline-block;
+                vertical-align: top;
+                height: 70px;
+                .imgBtn {
+                    height: 28px;
+                    display: block;
+                    line-height: 28px;
+                    font-size: 12px;
+                    padding: 0 5px;
+                    &:last-of-type {
+                        margin-top: 14px;
+                    }
+                }
+            }
+            .imgTips {
+                display: inline-block;
+                /* float: left; */
+                width: 170px;
+                margin-left: 10px;
+                line-height: 20px;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+        }
+        .tips-title {
+            float: left;
+            line-height: 14px;
+            font-size: 12px;
+            color: #aaa;
+            margin-top: -12px;
+        }
+    }
+    .img-row {
+        vertical-align: middle;
+        height: 75px;
+        .access-main-msg-tips {
+            // height: 75px;
+        }
+        .access-main-msg {
+            height: 75px;
+            line-height: 75px;
+            vertical-align: top;
+        }
+        .img-box {
+            width: 50%;
+            display: inline-block;
+            height: 75px;
+        }
+    }
+    .subject-row {
+        height: 60px;
+        .access-main-msg {
+            height: auto;
+            // line-height: 30px;
+        }
+        .devide {
+            border-left: 1px solid #aaa;
+            width: 0;
+            margin: 0 7px 0 5px;
+            vertical-align: top;
+        }
+        .access-main-msg-tips,
+        .checkAll-box {
+            vertical-align: top;
+        }
+        .ant-checkbox-wrapper {
+            margin-left: 8px;
+            .subject {
+                display: inline-block;
+                line-height: 20px;
+                width: 76px;
+                padding-right: 0;
+                vertical-align: text-bottom;
+                @include TextOverflow();
+            }
+        }
+        .access-main-msg .ant-checkbox-group {
+            display: inline-block;
+            width: 500px;
+            height: 50px;
+            margin-top: 8px;
+        }
+        .Scrollbars {
+            .ant-checkbox-wrapper {
+                margin-top: 5px;
+            }
+        }
+    }
+    .app-name-row {
+        height: 30px;
+        .access-main-msg-tips {
+            height: 30px;
+            line-height: 30px;
+        }
+        .access-main-msg {
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+    .addr-row {
+        height: 30px;
+        .access-main-msg-tips {
+            height: 30px;
+            line-height: 30px;
+            vertical-align: top;
+        }
+        .access-main-msg {
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+    .pc-row {
+        height: 70px;
+        .tips-title {
+            margin-top: -10px;
+        }
+    }
+    .ios-row,
+    .android-row {
+        .tips-title {
+            margin-top: -10px;
+        }
+    }
+}

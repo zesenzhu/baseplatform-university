@@ -1,0 +1,101 @@
+@import "./public.scss";
+.resetName {
+    display: block;
+    height: 40px;
+    .left {
+        display: inline-block;
+        width: 30%;
+        line-height: 40px;
+        font-size: 14px;
+        text-align: right;
+    }
+    .right {
+        width: 60%;
+        line-height: 40px;
+        font-size: 14px;
+    }
+}
+
+.ant-modal-footer {
+    div {
+        padding: 0 30px;
+        .ant-btn {
+            &:nth-child(1) {
+                float: left;
+            }
+        }
+    }
+}
+
+.frame-content-rightside {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.Empty {
+    position: relative;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.box {
+    position: relative;
+    min-height: 626px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.myFrame {
+    .frame-block-wrapper {
+        padding-left: 102px;
+    }
+}
+
+.Modal-1 .ant-modal-header {
+    border: none;
+}
+
+.alert-delete-department {
+    .alert-delete-department-title {
+        // text-align: center;
+        .title-bold {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+    .alert-delete-department-handle-box {
+        display: inline-block;
+        width: 350px;
+        margin-top: 10px;
+        .alert-delete-department-tips {
+            // display: inline-block;
+            float: left;
+            height: 60px;
+            line-height: 60px;
+            font-size: 16px;
+        }
+        .alert-delete-department-box {
+            float: left;
+            .ant-radio-group {
+                display: block;
+                margin-left: 15px;
+            }
+            .ant-radio-wrapper {
+                display: block;
+                height: 30px;
+                line-height: 30px;
+            }
+        }
+    }
+}
+
+.text-overflow {
+    @include TextOverflow()
+}
+
+@import './UserCard';
+@import './AddUserModal';
+@import './Breadcrumb';
+@import './AddDepartmentModal';
+@import './EditDepartmentModal';

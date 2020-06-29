@@ -1,0 +1,78 @@
+@import "./base";
+
+.combine-course-class-modal{
+
+  .ant-modal-body{
+
+    overflow: inherit!important;
+
+  }
+
+  .combine-content{
+
+    &>div{
+
+      margin:16px 0;
+
+    }
+
+    .props{
+
+      display: inline-block;
+
+      width:110px;
+
+      text-align: right;
+
+      color: #999999;
+
+      margin-right:8px;
+
+    }
+
+    .class-name-input{
+
+      width:300px;
+
+      height: 28px;
+
+      line-height:1;
+
+    }
+
+    .select-teacher{
+
+      z-index: 5;
+
+      margin-left: -8px;
+
+    }
+
+    .warn-tip{
+
+      display: inline-block;
+
+      width: 20px;
+
+      height: 20px;
+
+      background: url("#{$image-url}/warn.png") no-repeat center;
+
+      @include background-size(cover);
+
+      vertical-align: middle;
+
+    }
+
+    .tip-title{
+
+      color: #ff6600;
+
+      line-height: 20px;
+
+    }
+
+  }
+
+}
+

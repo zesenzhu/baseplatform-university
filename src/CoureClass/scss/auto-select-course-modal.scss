@@ -1,0 +1,153 @@
+@import "./base";
+.auto-select-course-content{
+
+  .check_emp{
+
+    margin-top: 60px;
+
+    margin-left:60px;
+
+    width: 300px;
+
+  }
+
+  .check_wrapper{
+
+    margin:10px 0;
+
+    &.child{
+
+      margin-left: 20px;
+
+    }
+
+  }
+
+  .emptyBox{
+
+    margin-top: 80px;
+
+    margin-left: -20px;
+
+  }
+
+  .trangle{
+
+    display: inline-block;
+
+    vertical-align: middle;
+
+    cursor: pointer;
+
+    background-position:left center;
+
+    background-repeat: no-repeat;
+
+    @include background-size(contain);
+
+    width:16px;
+
+    height: 16px;
+
+    background-image: url("#{$image-url}/trangle.png");
+
+  }
+
+  .ant-checkbox+span{
+
+    padding-right:0;
+
+  }
+
+
+  .course-wrapper{
+
+    height: 22px;
+
+  }
+
+  .subject-wrapper{
+
+    .item-wrapper{
+
+      margin-left: 24px;
+
+      margin-top: 8px;
+
+    }
+
+  }
+
+  //三角动画
+  .drop-enter{
+
+    @include transition(all .3s linear);
+
+  }
+
+  .drop-enter-active{
+
+    @include transform(rotate(90deg));
+
+  }
+
+  .drop-enter-done{
+
+    @include transform(rotate(90deg));
+
+  }
+
+  .drop-exit{
+
+    @include transition(all .3s linear);
+
+  }
+
+  .drop-exit-active{
+
+    @include transform(rotate(0deg));
+
+  }
+
+  .drop-exit-done{
+
+    @include transform(rotate(0deg));
+
+  }
+
+  //下拉动画
+
+  .item-wrapper{
+
+    overflow: hidden;
+
+    max-height:0;
+
+  }
+
+  .slider-enter{
+
+    @include transition(all .3s linear);
+
+  }
+
+  .slider-exit{
+
+    @include transition(all .3s linear);
+
+  }
+
+  .slider-exit-active{
+
+    max-height:0!important;
+
+  }
+
+  .slider-exit-done{
+
+    max-height:0!important;
+
+  }
+
+
+}

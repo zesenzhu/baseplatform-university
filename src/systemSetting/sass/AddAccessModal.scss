@@ -1,0 +1,17 @@
+.AddAccessModal {
+    .exists-content {
+        position: relative;
+        width: 1000px;
+        height: 460px;
+        .Scrollbars {
+            width: 1000px;
+            height: 460px;
+        }
+        .add-card {
+            margin: 10px 4px;
+        }
+    }
+    .ant-tabs-bar {
+        margin: 0;
+    }
+}

@@ -1,0 +1,244 @@
+.AddAppilicationModal {
+    position: relative;
+    height: 460px;
+    width: 1000px;
+    .access-main-msg-box {
+        position: relative;
+        height: 300px;
+        width: 1000px;
+        // padding: 0 10px;
+        .row {
+            // display: inline-block;
+            width: 50%;
+            height: 50px;
+            line-height: 50px;
+            // display: inline-block;
+            float: left;
+            // padding-left: 20px;
+            // padding-right: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            // @include TextOverflow();
+            .access-main-msg {
+                display: inline-block;
+                height: 50px;
+                line-height: 50px;
+                width: 70%;
+                .access-main-msg-input {
+                    width: 250px;
+                    height: 30px;
+                }
+                .msg-tips {
+                    color: red;
+                    line-height: 16px;
+                    vertical-align: top;
+                    font-size: 12px;
+                    margin-top: -10px;
+                }
+            }
+            .access-main-msg-tips {
+                display: inline-block;
+                height: 50px;
+                line-height: 50px;
+                text-align: right;
+                vertical-align: top;
+                width: 30%;
+                .must-icon {
+                    color: red;
+                }
+            }
+        }
+        .left-row {
+            // width: 45%;
+            .access-main-msg {
+                .msg-tips {
+                    margin-top: -10px;
+                }
+            }
+        }
+        .Introduce-row {
+            height: 75px;
+            .access-main-msg {
+                height: 75px;
+                .Introduction-TextArea {
+                    height: 50px;
+                    padding-top: 0;
+                    margin-top: 10px;
+                    padding-bottom: 0;
+                    line-height: 25px;
+                }
+                .msg-tips {
+                    margin-top: 0px;
+                }
+            }
+        }
+        .rigth-row {
+            // width: 55%;
+            .access-main-msg-tips {
+                width: 25%;
+            }
+            .access-main-msg {
+                width: 75%;
+            }
+            .msg-IsThirdParty {
+                .access-main-msg-input {
+                    width: 140px;
+                }
+                .msg-tips {
+                    margin-left: 180px;
+                }
+            }
+        }
+        .img-row {
+            height: 75px;
+            .access-main-msg {
+                height: 75px;
+                margin-top: 10px;
+                .ToolImgBox {
+                    height: 70px;
+                    width: 70px;
+                    display: inline-block;
+                    margin-right: 10px;
+                    vertical-align: top;
+                }
+                .btn-box {
+                    display: inline-block;
+                    vertical-align: top;
+                    height: 70px;
+                    .imgBtn {
+                        height: 28px;
+                        display: block;
+                        line-height: 28px;
+                        font-size: 12px;
+                        padding: 0 5px;
+                        &:last-of-type {
+                            margin-top: 14px;
+                        }
+                    }
+                }
+                .imgTips {
+                    display: inline-block;
+                    /* float: left; */
+                    width: 170px;
+                    margin-left: 10px;
+                    line-height: 20px;
+                    margin-top: 30px;
+                    font-size: 12px;
+                }
+                .msg-tips {
+                    margin-top: 0px;
+                }
+            }
+        }
+        .dropdown_container {
+            margin-top: -10px;
+            .dropdown_wrapper .dropdown_select_ul {
+                top: 40px;
+            }
+        }
+        .add-row {
+            height: 25px;
+            line-height: 25px;
+            .access-main-msg {
+                height: 25px;
+                line-height: 25px;
+            }
+            .access-main-msg-tips {
+                display: inline-block;
+                height: 25px;
+                line-height: 25px;
+                text-align: right;
+                vertical-align: top;
+                width: 30%;
+            }
+            .add-addr {
+                margin-left: 10px;
+                font-size: 14px;
+                // text-decoration: underline;
+                color: #0099ff;
+                cursor: pointer;
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+        }
+    }
+    .Entrances-table {
+        position: relative;
+        height: 160px;
+        overflow: hidden;
+        .Scrollbars {
+            z-index: 6;
+            height: 127px!important; //160-33
+        }
+        .ant-table-tbody>tr>td,
+        .ant-table-thead>tr>th {
+            padding: 2px 0;
+        }
+        .ant-table-header-column {
+            line-height: 28px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .ant-table-column-title {
+            color: #647e86;
+        }
+        .table-top {
+            position: absolute;
+            // width: 100%;
+            z-index: 5;
+            .ant-table-align-center {
+                width: 120px;
+                &:last-of-type {
+                    width: 200px;
+                }
+            }
+        }
+        .Entrances {
+            margin-top: -33px;
+            .UserType,
+            .EntranceName,
+            .EntranceImgUrl,
+            .SubjectNames,
+            .DeviceTypesName {
+                display: inline-block;
+                width: 115px;
+                line-height: 20px;
+                font-size: 14px;
+                @include TextOverflow();
+            }
+            .AccessParam {
+                display: inline-block;
+                width: 195px;
+                line-height: 20px;
+                font-size: 14px;
+                text-decoration: underline;
+                color: #0099ff;
+                cursor: pointer;
+                @include TextOverflow();
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+            .btn-box {
+                display: inline-block;
+                width: 195px;
+                .handle-btn {
+                    line-height: 20px;
+                    margin-left: 30px;
+                    font-size: 14px;
+                    text-decoration: underline;
+                    color: #0099ff;
+                    cursor: pointer;
+                    &:hover {
+                        color: #ff6600;
+                    }
+                    &:first-of-type {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

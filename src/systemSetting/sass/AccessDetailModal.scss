@@ -1,0 +1,83 @@
+.AccessDetailModal {
+    position: relative;
+    height: 500px;
+    width: 800px;
+    .access-main-msg-box {
+        position: relative;
+        height: 280px;
+        width: 800px;
+        // padding: 0 10px;
+        .row {
+            width: 50%;
+            height: 40px;
+            line-height: 40px;
+            // display: inline-block;
+            float: left;
+            padding-left: 20px;
+            padding-right: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            @include TextOverflow();
+        }
+    }
+    .Entrances-table {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+        .Scrollbars {
+            z-index: 6;
+            height: 187px!important; //220-33为主显示高度
+        }
+        .ant-table-tbody>tr>td,
+        .ant-table-thead>tr>th {
+            padding: 2px 0;
+        }
+        .ant-table-header-column {
+            line-height: 28px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .ant-table-column-title {
+            color: #647e86;
+        }
+        .table-top {
+            position: absolute;
+            // width: 100%;
+            z-index: 5;
+            .ant-table-align-center {
+                width: 120px;
+                &:last-of-type {
+                    width: 200px;
+                }
+            }
+        }
+        .Entrances {
+            margin-top: -33px;
+            .UserType,
+            .EntranceName,
+            .EntranceImgUrl,
+            .SubjectNames,
+            .DeviceTypesName {
+                display: inline-block;
+                width: 115px;
+                line-height: 20px;
+                font-size: 14px;
+                @include TextOverflow();
+            }
+            .AccessParam {
+                display: inline-block;
+                width: 195px;
+                line-height: 20px;
+                font-size: 14px;
+                text-decoration: underline;
+                color: #0099ff;
+                cursor: pointer;
+                @include TextOverflow();
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+        }
+    }
+}

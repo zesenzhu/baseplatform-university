@@ -1,0 +1,274 @@
+@mixin textOverFlow(){
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+}
+
+.color_red{
+
+  color: #ff6600;
+
+}
+
+.course_wrapper{
+
+  position: relative;
+
+  padding:20px 32px;
+
+  text-align: center;
+
+  color: #333333;
+
+  .top_wrapper{
+
+    .top_title_wrapper{
+
+      position: relative;
+
+      margin: 0;
+
+      height: 36px;
+
+      margin-top: 10px;
+
+      border-bottom:1px dashed #ccc;
+
+    }
+
+    .top_text{
+
+      float: left;
+
+    }
+
+    .title{
+
+      background: url(../images/icon-location-small.png) no-repeat center center;
+
+      background-size: 14px 20px;
+
+      background-position: left center;
+
+      padding-left: 20px;
+
+      font-size: 18px;
+
+    }
+
+    .top_content{
+
+      position: relative;
+
+      height:120px;
+
+    }
+
+    .top_select_wrapper{
+
+      position: absolute;
+
+      left: 0;
+
+      top:0;
+
+      height:120px;
+
+      &>*{
+
+        float: left;
+
+      }
+
+      .subject_wrapper,.colloge_wrapper{
+
+        position: relative;
+
+        margin-top:16px;
+
+      }
+
+      .subject_wrapper{
+
+        z-index: 5;
+
+      }
+
+      .colloge_wrapper{
+
+        z-index: 3;
+
+      }
+
+      .selectd_layout{
+
+        margin-top:64px;
+
+        margin-left:12px;
+
+      }
+
+    }
+
+    .top_btn_wrapper{
+
+      position: absolute;
+
+      right: 0;
+
+      top: 0;
+
+      height:120px;
+
+      .top_btn{
+
+        float: right;
+
+        margin-right:20px;
+
+        box-sizing: content-box;
+
+        color: #fff;
+
+        font-size: 14px;
+
+        box-shadow: 0 5px 10px -5px #1ca5fe;
+
+        margin-top:16px;
+
+      }
+
+      .search_container{
+
+        float: right;
+
+        margin-top:18px;
+
+      }
+
+    }
+
+
+
+  }
+
+  .table_wrapper{
+
+    .ant-table-tbody>tr>td{
+
+      padding:4px;
+
+      height: 52px;
+
+    }
+
+    .course_number,.course_name,.subject_name,.college_name,.course_type,.major_name{
+
+      @include textOverFlow;
+
+    }
+
+    .course_number{
+
+      max-width: 92px;
+
+    }
+
+    .course_name{
+
+      max-width: 142px;
+
+    }
+
+    .subject_name,.college_name{
+
+      max-width: 112px;
+
+    }
+
+    .major_name{
+
+      max-width: 192px;
+
+    }
+
+    .ant-pagination{
+
+      margin-top: 20px;
+
+    }
+
+    .cooperate_wrapper{
+
+      .del{
+
+        margin-left: 12px;
+
+      }
+
+      .edit{
+
+        margin-top:2px;
+
+      }
+
+    }
+
+  }
+
+  .table_wrapper{
+
+    .emptyBox{
+
+      margin-top: 100px;
+
+    }
+
+  }
+
+}
+
+
+
+
+button{
+
+  &.btn{
+
+    &.edit,&.del{
+
+      width: 18px;
+      height: 18px;
+      border: none;
+      outline: none;
+      background: transparent center no-repeat;
+
+      cursor: pointer;
+
+    }
+
+    &.edit{
+      background-image: url("../images/edit.png");
+
+      &:hover{
+        background-image: url("../images/edit-hover.png");
+
+      }
+    }
+    &.del{
+      background-image: url("../images/del.png");
+      &:hover{
+        background-image: url("../images/del-hover.png");
+
+      }
+    }
+
+  }
+
+}
+
+

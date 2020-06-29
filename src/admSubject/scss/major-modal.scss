@@ -1,0 +1,33 @@
+.major_modal_content{
+
+    .check_emp{
+
+      margin-top: 60px;
+
+      margin-left:60px;
+
+      width: 300px;
+
+    }
+
+  .check_wrapper{
+
+    margin:10px 0;
+
+    &.child{
+
+      margin-left: 20px;
+
+    }
+
+  }
+
+  .emptyBox{
+
+    margin-top: 80px;
+
+    margin-left: -20px;
+
+  }
+
+}

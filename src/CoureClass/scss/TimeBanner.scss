@@ -1,0 +1,180 @@
+@import "./base";
+.timeBanner_tips {
+    height: 14px;
+    display: inline-block;
+    right: 0;
+    font-size: 14px;
+    line-height: 1;
+    color: #666;
+    margin-top: 25px;
+    padding-left: 15px;
+    background: url(../images/logo-lange.png) no-repeat left center;
+    background-size: 13px 13px;
+    transform: translateY(-50%);
+    .tips_num {
+        color: #ff0000;
+    }
+    .tips_handle {
+        color: #0099ff;
+        text-decoration: underline;
+        &:hover {
+            color: #ff6600;
+        }
+    }
+}
+
+.handle-content {
+    float: right;
+    height: 100%;
+    .divide {
+        position: relative;
+        font-size: 14px;
+        color: #c9e1f0;
+        top: -1px;
+        //margin: 0 12px;
+    }
+    .content-button {
+        color: #fff;
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+        border: none;
+        box-shadow: 0px 5px 10px -5px #1ca5fe;
+    }
+    .content {
+        margin-left: 16px;
+    }
+    .search {
+        transform: translateY(-2px)
+    }
+    .enter_class_wrapper{
+
+        display: inline-block;
+
+        position: relative;
+
+        z-index: 5;
+
+        &:hover{
+
+            .import-list-wrapper{
+
+                display: block;
+
+            }
+
+        }
+
+        span{
+
+            display: inline-block;
+
+            cursor: pointer;
+
+            padding-left: 20px;
+
+            color:#0099ff;
+
+            background-repeat: no-repeat;
+
+            background-position: left center;
+
+            &:hover{
+
+                color:#1ca7fe;
+
+                text-decoration: underline;
+
+            }
+
+            &.input{
+
+                background-image: url("#{$image-url}/enter-course-class.png");
+
+            }
+
+            &.import{
+
+                background-image: url("#{$image-url}/import-course-class.png");
+
+            }
+
+            &.auto{
+
+                background-image: url("#{$image-url}/auto-course-class.png");
+
+            }
+
+            &.add{
+
+                background-image: url("#{$image-url}/add-course-class.png");
+
+            }
+
+        }
+
+    }
+    .import-list-wrapper{
+
+        position: absolute;
+
+        display: none;
+
+        left: -16px;
+
+        top: 46px;
+
+        background-color: #ffffff;
+
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+        &>div{
+
+            width: 190px;
+
+            height: 48px;
+
+            //cursor: pointer;
+
+            text-align: center;
+
+            &:hover{
+
+                background-color: #e5f0f3;
+
+            }
+
+        }
+
+    }
+}
+
+.course-college-wrapper.ant-radio-group{
+
+    float:left;
+
+    margin-right:12px;
+
+    line-height: 50px;
+
+    .ant-radio-button-wrapper{
+
+        &.ant-radio-button-checked{
+
+            color: #fff;
+
+            background: #1890ff;
+
+            border-color:#1890ff;
+
+        }
+
+        &>.ant-radio-button{
+
+            display: inline;
+
+        }
+
+    }
+
+}
