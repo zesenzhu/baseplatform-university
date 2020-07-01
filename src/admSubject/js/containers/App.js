@@ -32,7 +32,7 @@ const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
 class App extends Component {
 
 
-    componentDidMount(){
+    /*componentDidMount(){
 
         const { dispatch } = this.props;
 
@@ -83,9 +83,28 @@ class App extends Component {
             }
         })
 
+    }*/
+
+
+    pageInit(){
+
+        const { dispatch } = this.props;
+
+        dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
+
+        const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
+
+        if (UserType==='0'){
+
+            this.requestData();
+
+        }else{
+
+            window.location.href = '/error.aspx?ErrCode=E011';
+
+        }
+
     }
-
-
 
 
     // 请求每个组件主要渲染的数据
@@ -161,11 +180,14 @@ class App extends Component {
                 <Loading opacity={false} tip="加载中..." size="large" spinning={AppLoading.appLoading}>
 
 
-                    <Frame userInfo={{
+                    <Frame
+
+                        /*userInfo={{
                         name: UserName,
                         image: PhotoPath
-                    }}
+                    }}*/
 
+                        pageInit={this.pageInit.bind(this)}
                            module={{
                                cnname: "学科管理",
                                enname: "Subject Management",

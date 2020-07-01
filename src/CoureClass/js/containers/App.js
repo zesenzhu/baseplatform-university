@@ -62,7 +62,7 @@ class App extends Component {
 
   }
 
-  componentWillMount() {
+/*  componentWillMount() {
     const { dispatch, DataState } = this.props;
 
     // 获取接口数据
@@ -136,6 +136,41 @@ class App extends Component {
         that.requestData(route);
       });
     });
+  }*/
+
+
+  pageInit(){
+
+      const { dispatch, DataState } = this.props;
+
+      // 获取接口数据
+      let route = history.location.pathname;
+      // let UserMsg = DataState.LoginUser.SchoolID ? DataState.LoginUser : JSON.parse(sessionStorage.getItem('UserInfo'))
+      let that = this;
+
+      let token = sessionStorage.getItem("token");
+
+      let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+
+      let UserType = UserInfo.UserType;
+
+      if (parseInt(UserType)===7||parseInt(UserType)===10){
+
+          UserInfo.UserType = '0';
+
+      }
+
+      dispatch(
+          actions.UpDataState.getLoginUser(
+              UserInfo
+          )
+      );
+      that.setState({
+          UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
+      });
+
+      that.requestData(route);
+
   }
 
 
@@ -928,10 +963,12 @@ class App extends Component {
         >
             <Router>
              <Frame
-            userInfo={{
+           /* userInfo={{
               name: DataState.LoginUser.UserName,
               image: DataState.LoginUser.PhotoPath
-            }}
+            }}*/
+            pageInit={this.pageInit.bind(this)}
+
             module={{
               cnname: cnname,
               enname: enname,
