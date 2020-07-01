@@ -64,26 +64,25 @@ class Main extends Component {
           render: (SchoolImgUrl) => {
             return (
               <div
-              style={{
-                backgroundImage: `url(${SchoolImgUrl})`,
-                backgroundSize: "40px",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-               className="SchoolImgUrl">
-                 
-              </div>
+                style={{
+                  backgroundImage: `url(${SchoolImgUrl})`,
+                  backgroundSize: "28px",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+                className="SchoolImgUrl"
+              ></div>
             );
           },
         },
         {
           title: "学校名称",
           align: "left",
-          width: 90,
+          width: 225,
           key: "SchoolName",
-          dataIndex: "SchoolName",
+          //dataIndex: "SchoolName",
           // sorter: true,
-          render: (SchoolName) => {
+          render: ({ SchoolName, SchoolState } = data) => {
             return (
               <div className="name-content">
                 <span
@@ -93,6 +92,13 @@ class Main extends Component {
                 >
                   {SchoolName ? SchoolName : "--"}
                 </span>
+                <span
+                  className={`SchoolState ${
+                    SchoolState.value === 1 ? "School-open" : "School-close"
+                  }`}
+                >
+                  {SchoolState.title ? SchoolState.title : "--"}
+                </span>
               </div>
             );
           },
@@ -100,7 +106,7 @@ class Main extends Component {
         {
           title: "代码",
           align: "center",
-          width: 120,
+          width: 95,
           dataIndex: "SchoolCode",
           key: "SchoolCode",
           // sorter: true,
@@ -168,7 +174,7 @@ class Main extends Component {
         //     );
         //   },
         // },
-        
+
         {
           title: "联系人",
           align: "center",
@@ -224,20 +230,25 @@ class Main extends Component {
             );
           },
         },
-        {
-          title: "状态",
-          align: "center",
-          width: 90,
-          dataIndex: "SchoolState",
-          key: "SchoolState",
-          render: (SchoolState) => {
-            return (
-              <span title={SchoolState.title} className={`SchoolLevel ${SchoolState.value===1?'School-open':'School-close'}`}>
-                {SchoolState.title ? SchoolState.title : "--"}
-              </span>
-            );
-          },
-        },
+        // {
+        //   title: "状态",
+        //   align: "center",
+        //   width: 90,
+        //   dataIndex: "SchoolState",
+        //   key: "SchoolState",
+        //   render: (SchoolState) => {
+        //     return (
+        //       <span
+        //         title={SchoolState.title}
+        //         className={`SchoolLevel ${
+        //           SchoolState.value === 1 ? "School-open" : "School-close"
+        //         }`}
+        //       >
+        //         {SchoolState.title ? SchoolState.title : "--"}
+        //       </span>
+        //     );
+        //   },
+        // },
         {
           title: "运行时长",
           align: "center",
@@ -259,34 +270,34 @@ class Main extends Component {
           width: 218,
           // dataIndex: "Key",
           render: (data) => {
-// console.log(data.SchoolID)
+            // console.log(data.SchoolID)
 
             return (
               <div className="handle-content">
-                <Button
+                <span
                   color="blue"
                   type="default"
-                  onClick={this.onSchoolCloseClick.bind(this,data.orderNo )}
-                  className="handle-btn"
+                  onClick={this.onSchoolCloseClick.bind(this, data.orderNo)}
+                  className="handle-btn switch-btn"
                 >
-                  {data.SchoolState.value===1?'关闭':'开启'}
-                </Button>
-                <Button
+                  {data.SchoolState.value === 1 ? "关闭" : "开启"}
+                </span>
+                <span
                   color="blue"
                   type="default"
                   onClick={this.onSchoolEditClick.bind(this, data.orderNo)}
-                  className="handle-btn"
+                  className="handle-btn edit-btn"
                 >
                   编辑
-                </Button>
-                <Button
+                </span>
+                <span
                   color="blue"
                   type="default"
                   onClick={this.onSchoolDeleteClick.bind(this, data.orderNo)}
-                  className="handle-btn"
+                  className="handle-btn delete-btn"
                 >
                   删除
-                </Button>
+                </span>
               </div>
             );
           },
@@ -405,9 +416,7 @@ class Main extends Component {
           UpDataState.AddSchoolInfo(() => {
             dispatch({ type: UpUIState.ADD_MODAL_CLOSE });
             this.ModalDataInit();
-            dispatch(
-               UpDataState.QuerySchoolInfo({})
-            );
+            dispatch(UpDataState.QuerySchoolInfo({}));
           })
         );
       })
@@ -436,9 +445,7 @@ class Main extends Component {
           UpDataState.EditSchoolInfo(() => {
             dispatch({ type: UpUIState.EDIT_MODAL_CLOSE });
             this.ModalDataInit();
-            dispatch(
-              UpDataState.QuerySchoolInfo({})
-           );
+            dispatch(UpDataState.QuerySchoolInfo({}));
           })
         );
       })
@@ -449,7 +456,7 @@ class Main extends Component {
   EditModalCancel = () => {
     const { dispatch, DataState } = this.props;
     dispatch({ type: UpUIState.EDIT_MODAL_CLOSE });
-            this.ModalDataInit();
+    this.ModalDataInit();
   };
 
   // 复选
@@ -494,27 +501,26 @@ class Main extends Component {
   //  批量删除
   onDeleteAllClick = () => {
     const { dispatch, DataState } = this.props;
-    let {checkList} = DataState.CommonData.MainEditData;
-    let {SchoolList} = DataState.SchoolData;
-    let SchoolIDs = '';
+    let { checkList } = DataState.CommonData.MainEditData;
+    let { SchoolList } = DataState.SchoolData;
+    let SchoolIDs = "";
     let SchoolIDArr = [];
-    checkList instanceof Array && checkList.map((child,index)=>{
-      SchoolIDArr.push(SchoolList[child].SchoolID)
-    })
-    SchoolIDs = SchoolIDArr.join()
+    checkList instanceof Array &&
+      checkList.map((child, index) => {
+        SchoolIDArr.push(SchoolList[child].SchoolID);
+      });
+    SchoolIDs = SchoolIDArr.join();
     dispatch(
       actions.UpUIState.showErrorAlert({
-        title: '确定删除所选择的学校吗？',
-        onOk:()=>{
+        title: "确定删除所选择的学校吗？",
+        onOk: () => {
           dispatch(UpUIState.hideErrorAlert());
-          dispatch(UpDataState.DeleteSchoolInfoPatch(
-            SchoolIDs,()=>{
-              
-              dispatch(
-                UpDataState.QuerySchoolInfo({})
-             );
-            }))
-        }
+          dispatch(
+            UpDataState.DeleteSchoolInfoPatch(SchoolIDs, () => {
+              dispatch(UpDataState.QuerySchoolInfo({}));
+            })
+          );
+        },
       })
     );
   };
@@ -553,7 +559,6 @@ class Main extends Component {
       })
     );
     dispatch(actions.UpDataState.QuerySchoolInfo({}));
-
   };
   // 添加学校
   onAddSchoolClick = () => {
@@ -565,30 +570,28 @@ class Main extends Component {
   // 选择状态
   onStatusDropMenuChange = (e) => {
     const { dispatch, DataState } = this.props;
-    dispatch(
-      UpDataState.InitQuerySchoolParams( )
-    );
+    dispatch(UpDataState.InitQuerySchoolParams());
     dispatch(UpDataState.SetSchoolStatusData(e));
     dispatch(actions.UpDataState.QuerySchoolInfo({}));
   };
   // 关闭
-  onSchoolCloseClick = ( orderNo) => {
+  onSchoolCloseClick = (orderNo) => {
     const { dispatch, DataState } = this.props;
-    let {SchoolState,SchoolID} = DataState.SchoolData.SchoolList[orderNo.key]
-     let State = ''
-     if(SchoolState.value===1){
-      State = 2
-     }else {
-      State = 1
-     }
-// console.log(State,SchoolID)
-    dispatch(UpDataState.UpdateSchoolState(
-       State,SchoolID,()=>{
-        dispatch(
-          UpDataState.QuerySchoolInfo({})
-       );
-       }
-    ))
+    let { SchoolState, SchoolID } = DataState.SchoolData.SchoolList[
+      orderNo.key
+    ];
+    let State = "";
+    if (SchoolState.value === 1) {
+      State = 2;
+    } else {
+      State = 1;
+    }
+    // console.log(State,SchoolID)
+    dispatch(
+      UpDataState.UpdateSchoolState(State, SchoolID, () => {
+        dispatch(UpDataState.QuerySchoolInfo({}));
+      })
+    );
   };
   // 编辑
   onSchoolEditClick = (key) => {
@@ -599,45 +602,55 @@ class Main extends Component {
       SchoolCode,
       SchoolLevel,
       SchoolSessionType,
-       SchoolLink,SchoolImgUrl,SchoolID
-
+      SchoolLink,
+      SchoolImgUrl,
+      SchoolID,
     } = SchoolList[key.key];
-    let {SchoolLinkman,SchoolTel}= SchoolLink
-       
-    dispatch(UpDataState.SetSchoolModalInitData({SchoolName,
-      SchoolCode,
-      SchoolLevel,
-      SchoolSessionType,SchoolImgUrl,SchoolID,SchoolLinkman,SchoolTel}));
+    let { SchoolLinkman, SchoolTel } = SchoolLink;
+
+    dispatch(
+      UpDataState.SetSchoolModalInitData({
+        SchoolName,
+        SchoolCode,
+        SchoolLevel,
+        SchoolSessionType,
+        SchoolImgUrl,
+        SchoolID,
+        SchoolLinkman,
+        SchoolTel,
+      })
+    );
     dispatch({ type: UpUIState.EDIT_MODAL_OPEN });
   };
   // 删除
   onSchoolDeleteClick = (orderNo) => {
     const { dispatch, DataState } = this.props;
-    let { SchoolID} = DataState.SchoolData.SchoolList[orderNo.key]
-    
-        dispatch(
-          actions.UpUIState.showErrorAlert({
-            title: '确定删除该学校吗？',
-            onOk:()=>{
-              dispatch(UpUIState.hideErrorAlert());
-              dispatch(UpDataState.DeleteSchoolInfo(
-                SchoolID,()=>{
-                  
-                  dispatch(
-                    UpDataState.QuerySchoolInfo({})
-                 );
-                }))
-            }
-          })
-        );
-       
-      
-   
+    let { SchoolID } = DataState.SchoolData.SchoolList[orderNo.key];
+
+    dispatch(
+      actions.UpUIState.showErrorAlert({
+        title: "确定删除该学校吗？",
+        onOk: () => {
+          dispatch(UpUIState.hideErrorAlert());
+          dispatch(
+            UpDataState.DeleteSchoolInfo(SchoolID, () => {
+              dispatch(UpDataState.QuerySchoolInfo({}));
+            })
+          );
+        },
+      })
+    );
   };
   render() {
     const { DataState, UIState } = this.props;
     const { CommonData, SchoolData } = DataState;
-    let { SchoolList, Total,TotalSchoolCount, CurrentPage, ClosedCount } = SchoolData;
+    let {
+      SchoolList,
+      Total,
+      TotalSchoolCount,
+      CurrentPage,
+      ClosedCount,
+    } = SchoolData;
     let { checkList, checkAll } = CommonData.MainEditData;
     let {
       keyWord,
@@ -671,9 +684,11 @@ class Main extends Component {
               dropList={CommonData.SchoolStatusData.StatusList}
             ></DropDown>
             <span className="Status-data-box">
-              总共有<span className="Status-data-red">[{TotalSchoolCount}]</span>
-              个学校，其中
-              <span className="Status-data-red">[{ClosedCount}]</span>已关闭
+              总共有
+              <span className="Status-data-red">[{TotalSchoolCount}]</span>
+              所学校，其中
+              <span className="Status-data-red">[{ClosedCount}]</span>
+              所学校已关闭访问
             </span>
             <Search
               placeHolder="请输入学校名称或代码进行搜索..."

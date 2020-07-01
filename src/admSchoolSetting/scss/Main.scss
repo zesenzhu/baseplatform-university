@@ -13,9 +13,13 @@
     }
     .top-name {
         font-size: 18px;
+        display: inline-block;
+        background: url(../images/icon-location.png) no-repeat left center / 14px 19px;
+        padding-left: 21px;
         color: #000;
-        font-weight: bold;
+        // font-weight: bold;
         line-height: 30px;
+        color: #333333;
         text-align: center;
     }
     .top-box {
@@ -131,8 +135,13 @@
         }
         .SchoolImgUrl {
             display: inline-block;
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
         }
         .name-key {
             font-size: 14px;
@@ -147,6 +156,9 @@
             border: 1px solid #999;
             object-fit: cover;
         }
+        .name-content {
+            min-width: 200px;
+        }
         .SchoolName {
             // text-decoration: underline;
             color: #333;
@@ -157,10 +169,12 @@
             display: inline-block;
             text-align: left;
             padding-left: 3px;
-            width: 90px;
+            max-width: 135px;
             overflow: hidden; //超出一行文字自动隐藏
             text-overflow: ellipsis; //文字隐藏后添加省略号
             white-space: nowrap; //强制不换行
+            vertical-align: top;
+            margin-right: 5px;
         }
         .SchoolCode {
             font-size: 14px;
@@ -175,7 +189,7 @@
         }
         .AdminAccount {
             font-size: 14px;
-            color: #999;
+            color: #333;
             height: 20px;
             line-height: 20px;
             display: inline-block;
@@ -186,7 +200,7 @@
         }
         .SchoolLink {
             font-size: 14px;
-            color: #999;
+            color: #333;
             height: 40px;
             // line-height: 20px;
             display: inline-block;
@@ -196,7 +210,7 @@
             display: inline-block;
             width: 95px;
             height: 20px;
-            color: #000;
+            color: #333;
             line-height: 20px;
             overflow: hidden; //超出一行文字自动隐藏
             text-overflow: ellipsis; //文字隐藏后添加省略号
@@ -222,13 +236,21 @@
         }
         .SchoolLevel {
             font-size: 14px;
-            color: #999;
+            color: #333;
+        }
+        .SchoolState {
+            color: #fff;
+            display: inline-block;
+            padding: 0 6px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 3px;
         }
         .School-open {
-            color: #0099ff;
+            background-color: #4fd0a0;
         }
         .School-close {
-            color: #ff6600;
+            background-color: #ec7474;
         }
         .GradeName {
             font-size: 14px;
@@ -266,12 +288,29 @@
         .handle-btn {
             float: right;
             height: 24px;
-            width: 56px;
+            width: 66px;
             line-height: 24px;
             font-size: 14px;
-            padding: 0;
-            text-align: center;
-            margin-right: 3px;
+            // padding: 0;
+            text-align: left;
+            // margin-right: 3px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .switch-btn {
+            color: #0249a5;
+            padding-left: 18px;
+            background: url(../images/icon-switch.png)no-repeat left center/15px 15px;
+        }
+        .edit-btn {
+            color: #0249a5;
+            padding-left: 18px;
+            background: url(../images/icon-edit-2.png)no-repeat left center/15px 15px;
+        }
+        .delete-btn {
+            color: #9a1601;
+            padding-left: 18px;
+            background: url(../images/icon-delete-2.png)no-repeat left center/15px 15px;
         }
         .check-btn {
             float: right;

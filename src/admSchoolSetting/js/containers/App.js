@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import Main from "../component/Main";
 import history from "./history";
-import logo from "../../images/icon-WebResources.png";
+import logo from "../../images/logo-schoolSetting.png";
 //import TimeBanner from '../component/TimeBanner'
 import { postData, getData } from "../../../common/js/fetch";
 import CONFIG from "../../../common/js/config";
@@ -150,7 +150,7 @@ class App extends Component {
             }}
             module={{
               cnname: "学校信息管理",
-              enname: "School Message management",
+              enname: "School Information Management",
               image: logo,
             }}
             className="myFrame"
