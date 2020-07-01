@@ -2,6 +2,33 @@ import logo from '../images/frame/logo.png';
 
 let config = {};
 
+const host = window.location.origin;
+
+const pathName = window.location.pathname;
+
+let pathFolder = '';
+
+if (pathName.includes('/html/')) {
+
+    pathFolder = pathName.split('/html/')[0];
+
+} else if (pathName.includes('.html')) {
+
+    let strArr = window.location.pathname.split('.html')[0].split('/');
+
+    strArr.pop();
+
+    pathFolder = strArr.join('/');
+
+} else {
+
+    pathFolder = pathName;
+
+}
+
+const RootUrl = host + pathFolder;
+
+
 if (process.env.NODE_ENV === 'development'){
 
     config = {
@@ -74,9 +101,9 @@ if (process.env.NODE_ENV === 'development'){
         // AccessProxy_univ:'http://192.168.2.202:7300/mock/5d77442ded0ccd1564c8df28/example',
         AccessProxy_univ:'http://192.168.2.207:10108/SysMgr/Setting/Application',
 
-        SubjectForAccessProxy_univ:'http://192.168.2.207:10108/SubjectResMgr/TextBookMgr'
+        SubjectForAccessProxy_univ:'http://192.168.2.207:10108/SubjectResMgr/TextBookMgr',
 
-
+        HashPrevProxy: RootUrl
 
     }
 
@@ -137,9 +164,10 @@ if (process.env.NODE_ENV === 'production'){
         SchoolSettingProxy_univ:'/SysMgr/Setting',
         DePartmentProxy_univ:'/UserMgr/OrganiztionMgr',
         AccessProxy_univ:'/SysMgr/Setting/Application',
-        SubjectForAccessProxy_univ:'/SubjectResMgr/TextBookMgr'
+        SubjectForAccessProxy_univ:'/SubjectResMgr/TextBookMgr',
 
 
+        HashPrevProxy: RootUrl
 
     }
 

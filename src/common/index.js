@@ -2943,6 +2943,7 @@ class Frame extends React.Component {
       children,
       register,
       WebIndexUrl,
+      WebRootUrl,
       ProductName = "",
       ProVersion = "",
       type,
@@ -3060,35 +3061,35 @@ class Frame extends React.Component {
                                 <a href={WebIndexUrl}>{ProductName}</a>
                             </div>
 
-                            {!register ? (
-                                <div className="frame-home-header-menus">
-                                    <div className="frame-home-header-menu">
-                                        <input
-                                            className="frame-home-logout"
-                                            title="退出"
-                                            type="button"
-                                            onClick={onLogOut ? () => onLogOut() : () => {}}
-                                            value=""
-                                        />
-                                        <a
-                                            href="/html/personalMgr"
-                                            target="_blank"
-                                            className="frame-home-username"
-                                            title={userInfo && userInfo.name ? userInfo.name : ""}
-                                        >
-                                            {userInfo && userInfo.name ? userInfo.name : ""}
-                                        </a>
-                                        <a
-                                            href="/html/personalMgr"
-                                            target="_blank"
-                                            className="frame-home-userpic"
-                                            style={{
-                                                backgroundImage: `url(${
-                                                    userInfo && userInfo.image ? userInfo.image : ""
-                                                    })`,
-                                            }}
-                                        ></a>
-                                    </div>
+              {!register ? (
+                <div className="frame-home-header-menus">
+                  <div className="frame-home-header-menu">
+                    <input
+                      className="frame-home-logout"
+                      title="退出"
+                      type="button"
+                      onClick={onLogOut ? () => onLogOut() : () => {}}
+                      value=""
+                    />
+                    <a
+                      href={`${WebRootUrl}/html/personalMgr`}
+                      target="_blank"
+                      className="frame-home-username"
+                      title={userInfo && userInfo.name ? userInfo.name : ""}
+                    >
+                      {userInfo && userInfo.name ? userInfo.name : ""}
+                    </a>
+                    <a
+                      href={`${WebRootUrl}/html/personalMgr`}
+                      target="_blank"
+                      className="frame-home-userpic"
+                      style={{
+                        backgroundImage: `url(${
+                          userInfo && userInfo.image ? userInfo.image : ""
+                        })`,
+                      }}
+                    ></a>
+                  </div>
 
                                     {MessageShow ? (
                                         <div className="frame-home-header-menu">
