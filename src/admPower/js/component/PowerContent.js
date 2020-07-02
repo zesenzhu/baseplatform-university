@@ -269,7 +269,7 @@ class PowerContent extends React.Component {
                         } else
                           return (
                             <Radio
-                            key={child.PowerID}
+                              key={child.PowerID}
                               value={child.PowerID}
                               checked={child.Status !== 0 ? true : false}
                               className="radio"
@@ -309,8 +309,7 @@ class PowerContent extends React.Component {
                         Power.ganger.map((child, index) => {
                           return (
                             <Radio
-                            key={child.PowerID}
-
+                              key={child.PowerID}
                               value={child.PowerID}
                               checked={child.Status !== 0 ? true : false}
                               className="radio"
@@ -336,7 +335,7 @@ class PowerContent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="content-row clearfix">
+              {/* <div className="content-row clearfix">
                 <div className="left">
                   <img width={108} height={116} alt="director" src={director} />
                 </div>
@@ -346,8 +345,7 @@ class PowerContent extends React.Component {
                       Power.dean.map((child, index) => {
                         return (
                           <Radio
-                          key={child.PowerID}
-
+                            key={child.PowerID}
                             value={child.PowerID}
                             checked={child.Status !== 0 ? true : false}
                             className="radio"
@@ -357,33 +355,9 @@ class PowerContent extends React.Component {
                           </Radio>
                         );
                       })}
-                    {/* <Radio
-                                        value={Power.dean[0].PowerID}
-                                        checked={Power.dean[0].Status !== 0 ? true : false}
-                                        className='radio'
-                                        onChange={this.onRadioChange.bind(this)}
-                                    >{Power.dean[0].PowerName}</Radio>
-                                    <Radio
-                                        value={Power.dean[1].PowerID}
-                                        checked={Power.dean[1].Status !== 0 ? true : false}
-                                        className='radio'
-                                        onChange={this.onRadioChange.bind(this)}
-                                    >{Power.dean[1].PowerName}</Radio>
-                                    <Radio
-                                        value={Power.dean[2].PowerID}
-                                        checked={Power.dean[2].Status !== 0 ? true : false}
-                                        className='radio'
-                                        onChange={this.onRadioChange.bind(this)}
-                                    >{Power.dean[2].PowerName}</Radio>
-                                    <Radio
-                                        value={Power.dean[3].PowerID}
-                                        checked={Power.dean[3].Status !== 0 ? true : false}
-                                        className='radio'
-                                        onChange={this.onRadioChange.bind(this)}
-                                    >{Power.dean[3].PowerName}</Radio> */}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             ""
