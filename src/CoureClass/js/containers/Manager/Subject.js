@@ -57,8 +57,6 @@ function Subject(props) {
 
     },[]);*/
 
-
-
     const updateSubjectList = ()=>{
 
         GetCouseclassSumarry_University({schoolID:SchoolID,userID:UserID,userType:UserType,type:2,dispatch}).then(data=>{
@@ -96,9 +94,9 @@ function Subject(props) {
 
                 <Route key={"all"} exact path={'/manager/subject/all'} component={All}></Route>
 
-                <Route key={history.location.pathname} exact path={'/manager/subject/:subjectID'} component={SubjectCourse}></Route>
+                <Route key={location.href} exact path={'/manager/subject/:subjectID'} component={SubjectCourse}></Route>
 
-                <Route key={history.location.pathname} path={'/manager/subject/:subjectID/:courseID'} component={CourseClass}></Route>
+                <Route key={location.href} path={'/manager/subject/:subjectID/:courseID'} component={CourseClass}></Route>
 
                 <Redirect path={'/manager/subject*'} to={'/manager/subject/all'}></Redirect>
 

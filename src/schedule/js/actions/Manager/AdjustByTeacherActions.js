@@ -290,7 +290,6 @@ const AdjustByTeacherModalInit = () => {
 
                 dispatch({type:ADJUST_BY_TEACHER_CLASS_ROOM_TYPE_LIST_UPDATE,data:ClassRoomTypeList});
 
-
                 dispatch({type:ADJUST_BY_TEACHER_LOADING_HIDE});
 
             }
@@ -360,7 +359,7 @@ const teacherDropChange = (info) => {
 
                     }).filter(i => i!==undefined);
 
-                    const TeacherList = teacherList.find(item=>item.id===list[0].value)&&teacherList.find(item=>item.id===list[0].value)[0]?teacherList.filter(item=>item.id===list[0].value)[0].list:[];
+                    const TeacherList = teacherList.find(item=>item.id===list[0].value)&&teacherList.filter(item=>item.id===list[0].value)[0]?teacherList.filter(item=>item.id===list[0].value)[0].list:[];
 
                     const ReplaceTeacherList = TeacherList.map(item=>{
 
@@ -658,7 +657,7 @@ const TSChange = (e) => {
 
         });
 
-        const TeacherList = teacherList.find(item=>item.id===SubjectID)&&teacherList.find(item=>item.id===SubjectID)[0]?teacherList.filter(item=>item.id===SubjectID)[0].list:[];
+        const TeacherList = teacherList.find(item=>item.id===SubjectID)&&teacherList.filter(item=>item.id===SubjectID)[0]?teacherList.filter(item=>item.id===SubjectID)[0].list:[];
 
         const ReplaceTeacherList = TeacherList.map(item=>{
 

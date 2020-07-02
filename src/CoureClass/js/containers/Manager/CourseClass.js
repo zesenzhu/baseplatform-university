@@ -33,6 +33,18 @@ import AddEditCourseClass from "./AddEditCourseClass";
 import actions from "../../actions";
 
 
+let tableDataVar = {
+
+    dataSource:[],
+
+    checkedList:[],
+
+    checkedAll:false,
+
+    checkClassListProps:[]
+
+};
+
 
 function CourseClass(props) {
 
@@ -295,7 +307,13 @@ function CourseClass(props) {
 
                     let tbData = data.Item?data.Item.map((i,k)=>({...i,key:i.OrderNO,index:k})):[];
 
-                    setTableData(e=>({...e,dataSource:tbData}));
+                    setTableData(e=>{
+
+                        tableDataVar = {...e,dataSource:tbData};
+
+                        return {...e,dataSource:tbData};
+
+                    });
 
                     setTbUpParams(e=>({...e,pageIndex:data.PageIndex,Total:data.CourseClassCount}));
 
@@ -322,10 +340,13 @@ function CourseClass(props) {
 
     const tableDataRef = useStateValue(tableData);
 
+
+
     //弹窗ref
     const CombineCourseRef = useRef();
 
     const AddEditClassRef = useRef();
+
 
     //更新table事件
 
@@ -341,11 +362,23 @@ function CourseClass(props) {
 
                 let tbData = data.Item?data.Item.map((i,k)=>({...i,key:i.OrderNO,index:k})):[];
 
-                setTableData(e=>({...e,dataSource:tbData}));
+                setTableData(e=>{
+
+                    tableDataVar = {...e,dataSource:tbData};
+
+                    return {...e,dataSource:tbData}
+
+                });
 
                 setTbUpParams(e=>({...e,pageIndex:data.PageIndex,Total:data.CourseClassCount}));
 
-                setTableData(e=>({...e,checkedList:[],checkedAll:false}));
+                setTableData(e=>{
+
+                    tableDataVar = {...e,checkedList:[],checkedAll:false};
+
+                    return {...e,checkedList:[],checkedAll:false}
+
+                });
 
             }
 
@@ -376,11 +409,17 @@ function CourseClass(props) {
     //点击
     const tableRowCheck = (keyList) =>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
        const checkedAll = keyList.length=== dataSource.length?true:false;
 
-        setTableData(e=>({...e,checkedList:keyList,checkedAll}));
+        setTableData(e=>{
+
+            tableDataVar = {...e,checkedList:keyList,checkedAll};
+
+            return {...e,checkedList:keyList,checkedAll}
+
+        });
 
     };
 
@@ -388,13 +427,21 @@ function CourseClass(props) {
     //全选
     const tableCheckAll = () =>{
 
-        const { checkedAll,dataSource } = tableDataRef.current;
+        const { checkedAll,dataSource } = tableDataVar;
 
         const newCheckedAll = !checkedAll;
 
         const checkedList = checkedAll?[]:dataSource.map(i=>i.index);
 
-        setTableData(data=>({...data,checkedAll:newCheckedAll,checkedList}));
+        setTableData(data=>{
+
+            tableDataVar = {...data,checkedAll:newCheckedAll,checkedList};
+
+            return {...data,checkedAll:newCheckedAll,checkedList};
+
+        });
+
+
 
     };
 
@@ -416,7 +463,7 @@ function CourseClass(props) {
     //删除单个教学班ok
     const delOneCourseClassOk = (key) =>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
         DeleteCourseClass_University({SchoolID,UserID,UserType,CourseClassIDs:dataSource[key].CourseClassID,dispatch}).then(data=>{
 
@@ -437,7 +484,7 @@ function CourseClass(props) {
 
     const editCourseClass = (key)=>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
         //弹出弹窗
 
@@ -537,7 +584,7 @@ function CourseClass(props) {
 
     const delAllCourseClass = () =>{
 
-        const { checkedList,dataSource } = tableDataRef.current;
+        const { checkedList,dataSource } = tableDataVar;
 
         if (checkedList.length>0){
 
@@ -576,7 +623,7 @@ function CourseClass(props) {
 
     const combineCourseClass = () =>{
 
-       const { checkedList,dataSource } = tableDataRef.current;
+       const { checkedList,dataSource } = tableDataVar;
 
         if (checkedList.length<=1){
 
@@ -614,7 +661,13 @@ function CourseClass(props) {
 
                  setTbUpParams(e=>({...e,courseNO:checkCourseNOList[0]}));
 
-                 setTableData(data=>({...data,checkClassListProps:checkClasses}));
+                 setTableData(data=>{
+
+                     tableDataVar = {...data,checkClassListProps:checkClasses};
+
+                     return {...data,checkClassListProps:checkClasses}
+
+                 });
 
                  setCombineModal(true);
 
@@ -717,9 +770,13 @@ function CourseClass(props) {
                 <div className="Class-box">
 
                     <div className="Class-top">
-            <span className="top-tips">
-              <span className="tips tip-menu">{breadCrumbTitle}</span>
-            </span>
+
+                    <span className="top-tips">
+
+                        <span className="tips tip-menu">{breadCrumbTitle}</span>
+
+                    </span>
+
                     </div>
 
                     <div className="Class-hr"></div>
