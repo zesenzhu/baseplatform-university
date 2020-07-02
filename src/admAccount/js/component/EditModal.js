@@ -56,7 +56,7 @@ class EditModal extends React.Component {
     // //console.log(this.state.data)
     let token = sessionStorage.getItem("token");
     let userType = "Admin";
-    let userID = DataState.LoginUser.UserID;
+    let userID = this.state.data.UserName.UserID;
     let curImgPath = "";
     if (this.state.UserKey === "change") {
       this.setState({
