@@ -81,15 +81,36 @@ const getCurrentSemester = (SchoolID) => {
           let termNum = semesterInfo[item][semesterInfo[item].length - 1];
           // console.log(semesterInfo[item]);
           let ChineseName = termNum === "1" ? "第一学期" : "第二学期";
-          console.log(termNum,semesterInfo[item][semesterInfo[item].length - 1])
+          // console.log(termNum,semesterInfo[item][semesterInfo[item].length - 1])
           let TermArr = semesterInfo[item].split('-');
+          let TermList =[];
+          let NextTermEndDate ='';
+          let NextTermStartDate ='';
+          let TermEndYear = parseInt(TermArr[1].slice(0,TermArr[1].length-2))
+          let TermStartYear = parseInt(TermArr[0])
+          if(parseInt(termNum)===1){
+            NextTermEndDate = TermEndYear +'-07-01 00:00:00'
+            NextTermStartDate = TermEndYear +'-03-01 00:00:00'
+            TermList.push({value:TermStartYear+'-'+TermEndYear+'02',title:TermStartYear+'-'+TermEndYear+'  第二学期'});
+            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'01',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第一学期'});
+
+          }else if(parseInt(termNum)===2){
+            NextTermEndDate = TermEndYear+1 +'-02-01 00:00:00'
+            NextTermStartDate = TermStartYear+1 +'-09-01 00:00:00'
+            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'01',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第一学期'});
+            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'02',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第二学期'});
+          }
           semesterInfo = {
             ...semesterInfo,
+            NextTerm:TermList[0],
             termNum: termNum,
             TermStartYear:TermArr[0],
             TermEndYear:TermArr[1].slice(0,TermArr[1].length-2),
             ChineseName: ChineseName,
             defaultTerm: item,
+            TermList,
+            NextTermEndDate,
+            NextTermStartDate
           };
         } else if (item === "TermStartDate") {
           semesterInfo = {
