@@ -30,7 +30,7 @@ class ReplaceSchedule extends Component{
 
     }
 
-
+    //学科更换
     SubjectChange(info){
 
         const { dispatch,replaceSchedule } = this.props;

@@ -125,6 +125,7 @@ class App extends Component {
             that.requestData(route);
 
             clearInterval(timeRun);
+
           }
         }, 1000);
 
@@ -134,6 +135,7 @@ class App extends Component {
         let route = history.location.pathname;
 
         that.requestData(route);
+
       });
     });
   }*/
@@ -170,6 +172,14 @@ class App extends Component {
       });
 
       that.requestData(route);
+
+      history.listen(() => {
+          //路由监听
+          let route = history.location.pathname;
+
+          that.requestData(route);
+
+      });
 
   }
 

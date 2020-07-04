@@ -58,9 +58,10 @@ function ChangeTimeModal(props) {
 
     const { SchoolID,UserID,UserType } = UserInfo;
 
-    const { ItemSchedule=[],NowDate='',NowClassHourNO=0,ItemWeek=[],ItemClassHour=[],ItemClassHourCount=[] } = ScheduleInfo;
+    const { ItemSchedule=[],NowClassDate='',NowClassHourNO=0,ItemWeek=[],ItemClassHour=[],ItemClassHourCount=[] } = ScheduleInfo;
 
     const { WeekNO='',WeekDay='',ClassID='',CourseClassID='',ScheduleType='',ClassRoomID='',ClassRoomName='',ScheduleID,TeacherID='',ClassDate='',ClassHourNO=1 } = ItemSchedule.length>0?ItemSchedule[0]:{};
+
 
     useEffect(()=>{
 
@@ -80,7 +81,7 @@ function ChangeTimeModal(props) {
 
                 setNowClassHour(NowClassHourNO);
 
-                setNowDate(NowDate);
+                setNowDate(NowClassDate);
 
             });
 
@@ -146,7 +147,6 @@ function ChangeTimeModal(props) {
 
     },[ItemWeek]);
 
-
     const TimeList = useMemo(()=>{
 
         let list = [];
@@ -184,7 +184,6 @@ function ChangeTimeModal(props) {
         return list;
 
     },[ItemWeek,weekNO]);
-
 
     const ths = useMemo(()=>{
 
@@ -412,7 +411,15 @@ function ChangeTimeModal(props) {
 
                     showSuccessAlert({title:'调整教室成功',dispatch});
 
-                    postMessage('updateCourse','*');
+                    if (window.parent){
+
+                        window.parent.postMessage('updateCourse','*');
+
+                    }else{
+
+                        window.postMessage('updateCourse','*');
+
+                    }
 
                 }
 
@@ -429,6 +436,21 @@ function ChangeTimeModal(props) {
 
     };
 
+    //关闭弹窗
+
+    const closeModal = () =>{
+
+        if (window.parent){
+
+            window.parent.postMessage('closeIframe','*');
+
+        }else{
+
+            window.postMessage('closeIframe','*');
+
+        }
+
+    };
 
 
 
@@ -448,7 +470,7 @@ function ChangeTimeModal(props) {
 
                className="component-change-time-wrapper"
 
-               onCancel={e=>postMessage('closeIframe','*')}
+               onCancel={closeModal}
 
                onOk={e=>changeTimeCommit()}
 
@@ -548,7 +570,6 @@ function ChangeTimeModal(props) {
                                             });
 
                                             let tds = [];
-
 
                                             //从周一开始判断
                                             for (let i =0; i <= 6; i++){
@@ -733,6 +754,7 @@ function ChangeTimeModal(props) {
                                                 }
 
                                             }
+
 
                                             return  <tr key={key}>
 

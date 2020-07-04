@@ -92,6 +92,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 vertical-align: bottom;
+                line-height: 18px;
             }
             .teacher-name-wrapper {
                 @include flex;

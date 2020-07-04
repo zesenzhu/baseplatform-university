@@ -29,9 +29,17 @@ import {Modal} from "../../../common";
 
 import AddEditCourseClass from "../containers/Manager/AddEditCourseClass";
 
-import {firstLoadClose} from "../reducers/commonSetting";
+let tableDataVar = {
 
+    dataSource:[],
 
+    checkedList:[],
+
+    checkedAll:false,
+
+    checkClassListProps:[]
+
+};
 
 function Search(props) {
 
@@ -255,7 +263,13 @@ function Search(props) {
 
                         let tbData = data.Item?data.Item.map((i,k)=>({...i,key:i.OrderNO,index:k})):[];
 
-                        setTableData(e=>({...e,dataSource:tbData}));
+                        setTableData(e=>{
+
+                            tableDataVar = {...e,dataSource:tbData};
+
+                            return {...e,dataSource:tbData};
+
+                        });
 
                         setTbUpParams(e=>({...e,pageIndex:data.PageIndex,key:params,Total:data.CourseClassCount}));
 
@@ -306,11 +320,23 @@ function Search(props) {
 
                 let tbData = data.Item?data.Item.map((i,k)=>({...i,key:i.OrderNO,index:k})):[];
 
-                setTableData(e=>({...e,dataSource:tbData}));
+                setTableData(e=>{
+
+                    tableDataVar = {...e,dataSource:tbData};
+
+                    return {...e,dataSource:tbData}
+
+                });
 
                 setTbUpParams(e=>({...e,pageIndex:data.PageIndex,Total:data.CourseClassCount}));
 
-                setTableData(e=>({...e,checkedList:[],checkedAll:false}));
+                setTableData(e=>{
+
+                    tableDataVar = {...e,checkedList:[],checkedAll:false};
+
+                    return {...e,checkedList:[],checkedAll:false}
+
+                });
 
             }
 
@@ -338,11 +364,17 @@ function Search(props) {
     //点击
     const tableRowCheck = (keyList) =>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
         const checkedAll = keyList.length=== dataSource.length?true:false;
 
-        setTableData(e=>({...e,checkedList:keyList,checkedAll}));
+        setTableData(e=>{
+
+            tableDataVar = {...e,checkedList:keyList,checkedAll};
+
+            return {...e,checkedList:keyList,checkedAll}
+
+        });
 
     };
 
@@ -350,13 +382,19 @@ function Search(props) {
     //全选
     const tableCheckAll = () =>{
 
-        const { checkedAll,dataSource } = tableDataRef.current;
+        const { checkedAll,dataSource } = tableDataVar;
 
         const newCheckedAll = !checkedAll;
 
         const checkedList = checkedAll?[]:dataSource.map(i=>i.index);
 
-        setTableData(data=>({...data,checkedAll:newCheckedAll,checkedList}));
+        setTableData(data=>{
+
+            tableDataVar = {...data,checkedAll:newCheckedAll,checkedList};
+
+            return {...data,checkedAll:newCheckedAll,checkedList};
+
+        });
 
     };
 
@@ -373,7 +411,7 @@ function Search(props) {
     //删除单个教学班ok
     const delOneCourseClassOk = (key) =>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
         DeleteCourseClass_University({SchoolID,UserID,UserType,CourseClassIDs:dataSource[key].CourseClassID,dispatch}).then(data=>{
 
@@ -394,7 +432,7 @@ function Search(props) {
 
     const editCourseClass = (key)=>{
 
-        const {dataSource} = tableDataRef.current;
+        const {dataSource} = tableDataVar;
 
         //弹出弹窗
 
@@ -494,7 +532,7 @@ function Search(props) {
 
     const delAllCourseClass = () =>{
 
-        const { checkedList,dataSource } = tableDataRef.current;
+        const { checkedList,dataSource } = tableDataVar;
 
         if (checkedList.length>0){
 
@@ -533,7 +571,7 @@ function Search(props) {
 
     const combineCourseClass = () =>{
 
-        const { checkedList,dataSource } = tableDataRef.current;
+        const { checkedList,dataSource } = tableDataVar;
 
         if (checkedList.length<=1){
 
@@ -571,7 +609,13 @@ function Search(props) {
 
                 setTbUpParams(e=>({...e,courseNO:checkCourseNOList[0]}));
 
-                setTableData(data=>({...data,checkClassListProps:checkClasses}));
+                setTableData(data=>{
+
+                    tableDataVar = {...data,checkClassListProps:checkClasses};
+
+                    return {...data,checkClassListProps:checkClasses}
+
+                });
 
                 setCombineModal(true);
 
