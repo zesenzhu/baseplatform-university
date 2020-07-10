@@ -65,10 +65,10 @@ class Main extends Component {
             return (
               <div
                 style={{
-                  backgroundImage: `url(${SchoolImgUrl})`,
-                  backgroundSize: "28px",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
+                  background:SchoolImgUrl? `url(${SchoolImgUrl})no-repeat center/28px`:'',
+                  // backgroundSize: "28px",
+                  // backgroundPosition: "center",
+                  // backgroundRepeat: "no-repeat",
                 }}
                 className="SchoolImgUrl"
               ></div>
