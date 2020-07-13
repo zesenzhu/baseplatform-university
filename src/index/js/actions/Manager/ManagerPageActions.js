@@ -43,8 +43,6 @@ const PageInit = () => {
 
     let { UserID,UserClass }  = getState().LoginUser;
 
-    const managerDesk = getManagerDesk({UserID,dispatch});
-
     const productInfo = ApiActions.GetBaseInfoForPages({dispatch});
 
     Promise.all([managerDesk,productInfo]).then(res=>{

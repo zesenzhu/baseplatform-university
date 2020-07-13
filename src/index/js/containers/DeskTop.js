@@ -1,20 +1,20 @@
 import React,{Component} from 'react';
 
-import AppAlertActions from '../../actions/AppAlertActions';
+import AppAlertActions from '../actions/AppAlertActions';
 
-import ManagerPageActions from '../../actions/Manager/ManagerPageActions';
+import ManagerPageActions from '../actions/Manager/ManagerPageActions';
 
-import HeaderActions from '../../actions/Manager/HeaderActions';
+import HeaderActions from '../actions/Manager/HeaderActions';
 
-import Header from '../../components/Manager/Header';
+import Header from '../components/Header';
 
-import ModulesContent from '../../components/Manager/ModulesContent';
+import ModulesContent from '../components/ModulesContent';
 
-import { LogOut,getQueryVariable } from "../../../../common/js/disconnect";
+import { LogOut,getQueryVariable } from "../../../common/js/disconnect/index";
 
 import { connect } from 'react-redux';
 
-class Index extends Component{
+class DeskTop extends Component{
 
     constructor(props) {
 
@@ -190,4 +190,4 @@ const mapStateToProps = (state) => {
 
 };
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(DeskTop);

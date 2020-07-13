@@ -12,15 +12,7 @@ import AppAlertActions from '../actions/AppAlertActions';
 
 import { connect } from 'react-redux';
 
-import TeacherDeskTop from './Teacher/Index';
-
-import ManagerDeskTop from './Manager/Index';
-
-import StudentDeskTop from './Student/Index';
-
-import Bs2CsCommon from "../actions/Bs2CsCommon";
-
-import BTCActions from '../actions/BsToCsActions';
+import DeskTop from './DeskTop';
 
 import {getData} from "../../../common/js/fetch";
 
@@ -68,84 +60,6 @@ class App extends Component {
 
             }
 
-           /* TokenCheck_Connect(true,()=>{
-
-                if (sessionStorage.getItem('UserInfo')){
-
-                    let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
-
-                    const {UserType,SubjectIDs} = UserInfo;
-
-                    if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2){
-
-                        if (parseInt(UserType)===1&&SubjectIDs===''){
-
-                            window.location.href='/Error.aspx?errcode=E011';
-
-                        }else{
-
-                            dispatch({type:LoginUserActions.LOGIN_USER_INFO_UPDATE,data:UserInfo});
-
-                        }
-
-                        window.BsToCs = new Bs2CsCommon((e)=>dispatch(that.BsToCsCallBack(e)));
-
-                    }else if(parseInt(UserType)===6){
-
-                        window.location.href = '/html/admSchoolSetting/';
-
-                    }else{
-
-                        dispatch(AppAlertActions.alertTips({title:'目前只对管理员和教师以及学生开放，其他用户敬请期待',cancel:()=>{ return this.Logout }}));
-
-                    }
-
-                }else{
-
-                    let getUserInfo = setInterval(()=>{
-
-                        if (sessionStorage.getItem('UserInfo')){
-
-                            let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
-
-                            const {UserType,SubjectIDs} = UserInfo;
-
-                            if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2){
-
-                                if (parseInt(UserType)===1&&SubjectIDs===''){
-
-                                    window.location.href='/Error.aspx?errcode=E011';
-
-                                }else{
-
-                                    dispatch({type:LoginUserActions.LOGIN_USER_INFO_UPDATE,data:UserInfo});
-
-                                }
-
-                                window.BsToCs = new Bs2CsCommon((e)=>dispatch(that.BsToCsCallBack(e)));
-
-                            }else if(parseInt(UserType)===6){
-
-                                window.location.href = '/html/admSchoolSetting/';
-
-                            }else{
-
-
-                                dispatch(AppAlertActions.alertTips({title:'目前只对管理员和教师以及学生开放，其他用户敬请期待',cancel:()=>{ return this.Logout }}));
-
-
-                            }
-
-                            clearInterval(getUserInfo);
-
-                        }
-
-                    },20)
-
-                }
-
-            });*/
-
         }
 
     }
@@ -161,19 +75,9 @@ class App extends Component {
 
         const {UserType,SubjectIDs} = UserInfo;
 
-        if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2){
+        if ([0,1,2,3,7,10].includes(parseInt(UserType))){
 
-            if (parseInt(UserType)===1&&SubjectIDs===''){
-
-                window.location.href='/Error.aspx?errcode=E011';
-
-            }else{
-
-                dispatch({type:LoginUserActions.LOGIN_USER_INFO_UPDATE,data:UserInfo});
-
-            }
-
-            window.BsToCs = new Bs2CsCommon((e)=>dispatch(that.BsToCsCallBack(e)));
+            dispatch({type:LoginUserActions.LOGIN_USER_INFO_UPDATE,data:UserInfo});
 
         }else if(parseInt(UserType)===6){
 
@@ -208,24 +112,7 @@ class App extends Component {
 
     }
 
-    //判断是否有基础平台的插件
-     BsToCsCallBack(data){
 
-        return dispatch=>{
-
-            if (data){
-
-                dispatch({type:BTCActions.BTC_TO_TRUE});
-
-            }else{
-
-                dispatch({type:BTCActions.BTC_TO_FALSE});
-
-            }
-
-        }
-
-    }
 
 
     render() {
@@ -246,35 +133,9 @@ class App extends Component {
 
                 }
 
-                {
 
-                    LoginUser.UserType === "0"?
+                <DeskTop></DeskTop>
 
-                        <ManagerDeskTop></ManagerDeskTop>
-
-                        :''
-
-                }
-
-                {
-
-                    LoginUser.UserType === "1"?
-
-                    <TeacherDeskTop></TeacherDeskTop>
-
-                    :''
-
-                }
-
-                {
-
-                    LoginUser.UserType === "2"?
-
-                        <StudentDeskTop></StudentDeskTop>
-
-                        :''
-
-                }
 
                 <Alert
                     type={AppAlert.type}
