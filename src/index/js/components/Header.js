@@ -4,6 +4,8 @@ import echarts from 'echarts/lib/echarts';
 
 import 'echarts/lib/chart/pie';
 
+import {removeSlashUrl} from '../actions/ApiActions';
+
 //import ReactEcharts from 'echarts-for-react';
 
 
@@ -69,7 +71,7 @@ class Header extends Component{
 
     componentWillReceiveProps(nextProps){
 
-        const { HeaderSetting } = nextProps;
+        const { HeaderSetting,LoginUser } = nextProps;
 
         if (Object.keys(HeaderSetting.Options).length>0&&(!this.state.Options)){
 
@@ -77,33 +79,49 @@ class Header extends Component{
 
             myChart.setOption(nextProps.HeaderSetting.Options);
 
-            myChart.on('click',(params)=>{
+            if (parseInt(LoginUser.UserType)===0){
 
-                const token = sessionStorage.getItem('token');
+                myChart.on('click',(params)=>{
 
-                switch (params.seriesName){
+                    const token = sessionStorage.getItem('token');
 
-                    case "1":
+                    switch (params.seriesName){
 
-                        window.open(`/SysMgr/NetworkInfo/OnlineUserInfo.aspx?lg_tk=${token}`);
+                        case "1":
 
-                        break;
+                            window.open(`/SysMgr/NetworkInfo/OnlineUserInfo.aspx?lg_tk=${token}`);
 
-                    case "2":
+                            break;
 
-                        window.open(`/SysMgr/NetworkInfo/LoginLogsInfo.aspx?lg_tk=${token}`);
+                        case "2":
 
-                        break;
+                            window.open(`/SysMgr/NetworkInfo/LoginLogsInfo.aspx?lg_tk=${token}`);
 
-                    case "3":
+                            break;
 
-                        window.open(`/SysMgr/NetworkInfo/LoginExceptInfo.aspx?lg_tk=${token}`);
+                        case "3":
 
-                        break;
+                            window.open(`/SysMgr/NetworkInfo/LoginLogsInfo.aspx?lg_tk=${token}`);
 
-                }
+                            break;
 
-            });
+                        case "4":
+
+                            window.open(`/SysMgr/NetworkInfo/LoginExceptInfo.aspx?lg_tk=${token}`);
+
+                            break;
+
+                        case "5":
+
+                            window.open(`/html/systemSetting?lg_tk=${token}`);
+
+                            break;
+
+                    }
+
+                });
+
+            }
 
             this.setState({Options:true});
 
@@ -111,39 +129,14 @@ class Header extends Component{
 
     }
 
-  /*  componentDidMount(){
-
-        const { Modules } = this.props;
-
-        const myChart = echarts.init(document.getElementById('echarts'));
-
-        console.log(Modules);
-
-        //const OnlineUserManage = Modules.find(item=>item.GroupID==='G-0-1-003').Modules;
-
-
-
-    }*/
 
     render() {
 
         const { HeaderSetting,LoginUser,HeaderMenuToggle,LogOut,ProductName,MessageShow } = this.props;
 
-        const { TopVisit,OnlineUsers,SuspiciousLogin,OnlineDiskUsed,GroupFileSpaceUsed } = HeaderSetting;
+        const { WebRootUrl='' } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
-        let onlineNum = OnlineDiskUsed?parseInt(OnlineDiskUsed.split('/')[0]):0;
-
-        let onlineDiskInfo = this.diskSize(onlineNum);
-
-        let groupNum = GroupFileSpaceUsed?parseInt(GroupFileSpaceUsed.split('/')[0]):0;
-
-        let groupInfo = this.diskSize(groupNum);
-
-        const Events = {
-
-            'click':(e)=>{console.log(e)}
-
-        };
+        const token = sessionStorage.getItem("token");
 
         return (
 
@@ -169,15 +162,13 @@ class Header extends Component{
 
                                 <div className="menu-wrapper" id="header-menu-wrapper" style={{display:`${HeaderSetting.MenuShow?'block':'none'}`}}>
 
-                                    <a href="/html/personalMgr" target="_blank" className="perMgrLink menu">账号管理</a>
-
-                                    {/*<a className="help menu">帮助</a>*/}
+                                    <a href={`${removeSlashUrl(WebRootUrl)}/html/personalMgr?lg_tk=${token}`} target="_blank" className="perMgrLink menu">账号管理</a>
 
                                     <a className="logout menu" onClick={()=>LogOut()}>退出登录</a>
 
                                 </div>
 
-                                <a href="/html/personalMgr" target="_blank" className="frame-home-userpic" style={{backgroundImage:`url(${LoginUser.PhotoPath})`}}></a>
+                                <a href={`${removeSlashUrl(WebRootUrl)}/html/personalMgr?lg_tk=${token}`} target="_blank" className="frame-home-userpic" style={{backgroundImage:`url(${LoginUser.PhotoPath})`}}></a>
 
                             </div>
 
@@ -195,11 +186,7 @@ class Header extends Component{
 
                             }
 
-                            {/*<div className="frame-home-header-menu">*/}
 
-                                {/*<a className="frame-home-tel-menu" title="通讯录"></a>*/}
-
-                            {/*</div>*/}
 
                         </div>
 
@@ -209,17 +196,33 @@ class Header extends Component{
 
                 <div className="echarts-for-react" id="echarts"></div>
 
-                <div className={"shadow-wrapper"}>
+                <div className={`shadow-wrapper ${parseInt(LoginUser.UserType)!==0?'hasOne':''}`}>
 
-                    <div className={"blue"}></div>
+                    {
 
-                    <div className={"green"}></div>
+                        parseInt(LoginUser.UserType)===0?
 
-                    <div className={"orange"}></div>
+                            <>
 
-                    <div className={"blue"}></div>
+                                <div className={"blue"}></div>
 
-                    <div className={"green"}></div>
+                                <div className={"green"}></div>
+
+                                <div className={"orange"}></div>
+
+                                <div className={"blue"}></div>
+
+                                <div className={"green"}></div>
+
+                            </>
+
+                            :
+
+                            <div className={"orange"}></div>
+
+                    }
+
+
 
                 </div>
 

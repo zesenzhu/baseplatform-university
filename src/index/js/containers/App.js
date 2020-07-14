@@ -18,6 +18,12 @@ import {getData} from "../../../common/js/fetch";
 
 import CONFIG from "../../../common/js/config";
 
+import {productInfoChange} from "../reducers/ProductInfo";
+
+import apiActions from '../actions/ApiActions';
+
+import dynamicFile from 'dynamic-file';
+
 class App extends Component {
 
     constructor(props){
@@ -71,9 +77,67 @@ class App extends Component {
 
         const that = this;
 
-        let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
+        const UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
 
-        const {UserType,SubjectIDs} = UserInfo;
+        const token = sessionStorage.getItem("token");
+
+        const {UserType,UserClass} = UserInfo;
+
+        const ProductInfo = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        //填充产品信息
+
+
+        if (parseInt(UserType)===1&&parseInt(UserClass)===2){
+
+            ProductInfo['MessageShow'] = false;
+
+        }else{
+
+            ProductInfo['MessageShow'] = true;
+
+            apiActions.GetMsgWebServerAddress({dispatch}).then(data=>{
+
+                if (data){
+
+                    let PsnMgrLgAssistantAddr = data.WebSvrAddr;
+
+                    sessionStorage.setItem('PsnMgrToken',token);//用户Token
+
+                    sessionStorage.setItem('PsnMgrMainServerAddr',ProductInfo.WebRootUrl); //基础平台IP地址和端口号 形如：http://192.168.129.1:30103/
+
+                    sessionStorage.setItem('PsnMgrLgAssistantAddr',PsnMgrLgAssistantAddr);
+
+                    dynamicFile([
+
+                        `${PsnMgrLgAssistantAddr}/PsnMgr/LgAssistant/css/lancoo.cp.assistantInfoCenter.css`,
+
+                        `${PsnMgrLgAssistantAddr}/PsnMgr/LgAssistant/js/jquery-1.7.2.min.js`
+
+                    ]).then(()=>{
+
+                        dynamicFile([
+
+                            `${PsnMgrLgAssistantAddr}/PsnMgr/LgAssistant/assets/jquery.pagination.js`,
+
+                            `${PsnMgrLgAssistantAddr}/PsnMgr/LgAssistant/js/lancoo.cp.assistantInfoCenter.js`
+
+                        ])
+
+                    })
+
+                }
+
+            });
+
+        }
+
+        document.title = ProductInfo.ProductName;
+
+        dispatch(productInfoChange(ProductInfo));
+
+
+        //判断用户信息
 
         if ([0,1,2,3,7,10].includes(parseInt(UserType))){
 
@@ -119,6 +183,7 @@ class App extends Component {
 
         const { AppAlert,LoginUser,AppLoading } = this.props;
 
+
         return (
 
             <div className="desk-top-wrapper">
@@ -134,7 +199,16 @@ class App extends Component {
                 }
 
 
-                <DeskTop></DeskTop>
+
+                {
+
+                    Object.keys(LoginUser).length>0?
+
+                        <DeskTop></DeskTop>
+
+                        :null
+
+                }
 
 
                 <Alert

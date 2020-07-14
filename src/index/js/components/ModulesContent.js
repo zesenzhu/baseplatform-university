@@ -1,14 +1,109 @@
-import React,{Component} from 'react';
+import React,{memo,useEffect,useRef,useMemo} from 'react';
+
+import {useSelector,useDispatch} from 'react-redux';
 
 
+function ModulesContent(props){
 
-class ModulesContent extends Component{
+        const {UserType,UserClass} = useSelector(state=>state.LoginUser);
 
-    render() {
+        const Modules = useMemo(()=>{
 
-        const { Modules,ModuleClick } = this.props;
+            if (parseInt(UserType)===0&&([1,2].includes(parseInt(UserClass)))){
+
+                return [
+
+                    {Url:'/html/admArchives',Name:'用户档案管理',ClassName:'userManager'},
+
+                    {Url:'/html/admclass',Name:'行政班管理',ClassName:'admClass'},
+
+                    {Url:'/html/admAccount',Name:'用户账号管理',ClassName:'admAccount'},
+
+                    {Url:'/html/admPower',Name:'用户权限管理',ClassName:'admPower'},
+
+                    {Url:'/html/admSubject',Name:'学科管理',ClassName:'admSubject'},
+
+                    {Url:'/html/CoureClass',Name:'教学班管理',ClassName:'courseClass'},
+
+                    {Url:'/html/schedule',Name:'课程安排管理',ClassName:'schedule'},
+
+                    {Url:'/SysMgr/NetworkInfo/OnlineUserInfo.aspx',Name:'在线用户管理',ClassName:'onlineUser'},
+
+                    {Url:'/SysMgr/NetworkInfo/LoginLogsInfo.aspx',Name:'网络访问统计',ClassName:'visitTotal'},
+
+                    {Url:'/html/systemSetting',Name:'系统设置',ClassName:'sysSetting'},
+
+                ]
+
+            }else if (parseInt(UserType)===0&&([3,4].includes(parseInt(UserClass)))){
+
+                return [
+
+                    {Url:'/html/admArchives',Name:'用户档案管理',ClassName:'userManager'},
+
+                    {Url:'/html/admclass',Name:'行政班管理',ClassName:'admClass'},
+
+                    {Url:'/html/admSubject',Name:'学科管理',ClassName:'admSubject'},
+
+                    {Url:'/html/CoureClass',Name:'教学班管理',ClassName:'courseClass'},
+
+                    {Url:'/html/schedule',Name:'课程安排管理',ClassName:'schedule'},
+
+                ]
+
+            }else if (parseInt(UserType)===1) {
+
+                return [
+
+                    {Url:'/html/admclass',Name:'我的行政班管理',ClassName:'admClass'},
+
+                    {Url:'/html/CoureClass',Name:'我的教学班管理',ClassName:'courseClass'},
+
+                    {Url:'/html/schedule',Name:'我的课程安排管理',ClassName:'schedule'},
+
+                ]
+
+            }else if (parseInt(UserType)===2||parseInt(UserType)===3){
+
+                return [
+
+                    {Url:'/html/admclass',Name:'我的行政班',ClassName:'admClass'},
+
+                    {Url:'/html/CoureClass',Name:'我的教学班',ClassName:'courseClass'},
+
+                    {Url:'/html/schedule',Name:'我的课程安排',ClassName:'schedule'},
+
+                ]
+
+            }else if (parseInt(UserType)===7||parseInt(UserType)===10){
+
+                return [
+
+                    {Url:'/html/admArchives',Name:'用户档案管理',ClassName:'userManager'},
+
+                    {Url:'/html/admclass',Name:'行政班管理',ClassName:'admClass'},
+
+                    {Url:'/html/admSubject',Name:'学科管理',ClassName:'admSubject'},
+
+                    {Url:'/html/CoureClass',Name:'教学班管理',ClassName:'courseClass'},
+
+                    {Url:'/html/schedule',Name:'课程安排管理',ClassName:'schedule'},
+
+                ]
+
+            }
 
 
+        },[UserType]);
+
+
+        const ModuleClick = ({Url}) =>{
+
+            const token = sessionStorage.getItem("token");
+
+            window.open(Url+'?lg_tk='+token);
+
+        };
 
         return (
 
@@ -16,39 +111,17 @@ class ModulesContent extends Component{
 
                 {
 
-                    Modules.map((item,key)=>{
+                    Modules.map((i,k)=>{
 
-                        return <div key={key} className="modules-row">
+                        return  <div  key={k} className={"module-item"} onClick={()=>{ModuleClick({Url:i.Url})}}>
 
-                            <div className="modules-wrapper">
+                            <div className="module-bg">
 
-                                <div className="modules-type">{item.GroupName}</div>
-
-                                <div className="module-item-wrapper clearfix">
-
-                                    {
-
-                                        item.Modules.map((i,k)=>{
-
-                                            return <div  key={k} className="module-item" onClick={()=>{ ModuleClick({AccessType:i.AccessType,AccessParam:i.AccessParam,ModuleStatus:i.ModuleStatus,SysID:i.SysID})}}>
-
-                                                        <div className="module-bg">
-
-                                                            <div className="module-icon" style={{backgroundImage:`url(${i.ModuleLogoPath})`}}></div>
-
-                                                        </div>
-
-                                                        <div className="title">{i.ModuleName}</div>
-
-                                                    </div>
-
-                                        })
-
-                                    }
-
-                                </div>
+                                <div className={`module-icon ${i.ClassName}`}></div>
 
                             </div>
+
+                            <div className="title">{i.Name}</div>
 
                         </div>
 
@@ -60,8 +133,6 @@ class ModulesContent extends Component{
 
         )
 
-    }
-
 }
 
-export default ModulesContent;
+export default (memo(ModulesContent));

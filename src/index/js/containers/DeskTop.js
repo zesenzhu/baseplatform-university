@@ -2,9 +2,9 @@ import React,{Component} from 'react';
 
 import AppAlertActions from '../actions/AppAlertActions';
 
-import ManagerPageActions from '../actions/Manager/ManagerPageActions';
+import PageActions from '../actions/PageActions';
 
-import HeaderActions from '../actions/Manager/HeaderActions';
+import HeaderActions from '../actions/HeaderActions';
 
 import Header from '../components/Header';
 
@@ -22,7 +22,7 @@ class DeskTop extends Component{
 
         const { dispatch } = props;
 
-        dispatch(ManagerPageActions.PageInit());
+        dispatch(PageActions.PageInit());
 
     }
 
@@ -67,72 +67,6 @@ class DeskTop extends Component{
     }
 
 
-    //点击模块的时候调用
-    ModuleClick({AccessType,AccessParam,ModuleStatus,SysID}){
-
-        const { dispatch } = this.props;
-
-        if (AccessType === 'href'){
-
-            if (ModuleStatus===1){
-
-                if (SysID!==''){
-
-                    let lg_tk = getQueryVariable('lg_tk')||sessionStorage.getItem('token');
-
-                    window.open(`${AccessParam}?lg_tk=${lg_tk}`);
-
-                }else{
-
-                    window.open(AccessParam);
-
-                }
-
-            }else{
-                
-                switch (ModuleStatus) {
-
-
-                    case 2:
-
-                        dispatch(AppAlertActions.alertTips({title:"该功能尚未购买（未检测到加密锁信息），请联系管理员购买后再使用"}));
-
-                        break;
-
-                    case 3:
-
-                        dispatch(AppAlertActions.alertTips({title:"该功能尚未完成部署，请稍候再试"}));
-
-                        break;
-
-                    case 4:
-
-                        dispatch(AppAlertActions.alertTips({title:"该功能正在维护中，请稍候再试"}));
-
-                        break;
-
-                    case 5:
-
-                        dispatch(AppAlertActions.alertTips({title:"该功能已过试用期，请联系管理员购买后再使用"}));
-
-                        break;
-
-                    default:
-
-                        return;
-
-                }
-
-            }
-
-        }else{
-
-            //后期做处理
-
-        }
-
-    }
-
     //退出登录
     LogOut(){
 
@@ -154,7 +88,7 @@ class DeskTop extends Component{
 
         const { LoginUser,Manager,ProductInfo } = this.props;
 
-        const { HeaderSetting,Modules } = Manager;
+        const { HeaderSetting } = Manager;
 
         return (
 
@@ -162,7 +96,7 @@ class DeskTop extends Component{
 
                 <Header MessageShow={ProductInfo.MessageShow} ProductName={ProductInfo.ProductName} LoginUser={LoginUser} LogOut={this.LogOut.bind(this)}   HeaderSetting={HeaderSetting} HeaderMenuToggle={this.HeaderMenuToggle.bind(this)}></Header>
 
-                <ModulesContent Modules={Modules} ModuleClick={this.ModuleClick.bind(this)}></ModulesContent>
+                <ModulesContent></ModulesContent>
 
                 <div className="footer">{ProductInfo.ProVersion}</div>
 
