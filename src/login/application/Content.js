@@ -16,8 +16,6 @@ import {connect} from 'react-redux';
 
 import md5 from 'md5';
 
-import {fetch} from 'whatwg-fetch';
-
 import {getNewTkUrl,goToNextPage,decodeObjValue} from "../api/utils";
 
 
