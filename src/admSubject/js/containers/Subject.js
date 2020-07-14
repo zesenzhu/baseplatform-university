@@ -46,10 +46,11 @@ function Subject(props){
 
            {
                title: "学科名称",
-               align: "center",
+               align: "left",
                key: "SubjectName",
-               width:180,
+               width:270,
                dataIndex: "SubjectName",
+               className:'subject-name-title',
                render: item => {
 
                    return (
@@ -73,7 +74,7 @@ function Subject(props){
                 title:'学科编号',
                 align:'center',
                 key:'SubjectNumber',
-                width:150,
+                width:170,
                 dataIndex:'SubjectNumber',
                 // sorter:true,
                 render:item=>{
@@ -87,7 +88,7 @@ function Subject(props){
            {
                title: "开课课程总数",
                align: "center",
-               width:100,
+               width:170,
                dataIndex: "CourseCount",
                key: "CourseCount",
                render: (item,key) => {
@@ -127,6 +128,7 @@ function Subject(props){
                align: "center",
                dataIndex:'index',
                key:'index',
+               width:346,
                render: (key,item) => {
 
                    return (
@@ -692,10 +694,6 @@ function Subject(props){
 
     dispatch(subActions.lookSubject(SubjectID));
 
-    $('.frame_leftmenu_mainitem:first-child').removeClass('active selected');
-
-    $('.frame_leftmenu_mainitem:last-child').addClass('active selected');
-
     dispatch(menuActions.leftMenuChange('course'));
 
   };
@@ -712,10 +710,23 @@ function Subject(props){
               <div className="Adm-box">
                   <div className="Adm-top">
               <span className="top-tips">
-                <span className="tips tips-location">学科管理</span>
+                <span className="tips tips-subject">学科管理</span>
               </span>
 
-                  </div>
+                      {
+
+                          !isAIProduct?
+
+                              <Button onClick={onAddSubjectClick} className="top-btn" color="blue" shape="round">+添加学科</Button>
+
+                              :
+
+                              null
+
+                      }
+
+              </div>
+
                   <div className="Adm-hr" ></div>
 
                   <div className="Adm-content">
@@ -724,32 +735,9 @@ function Subject(props){
 
                           <div className={"result_text_wrapper"}>
 
-                              {
-                                  search.searched?
-
-                                      <span className={"search_result_text"}>共搜索到“<span className={"color_red"}>{search.searchedValue}</span>”相关学科<span className={"color_red"}>{pagination.total}</span>门</span>
-
-                                      :
-
-                                      <span className={"result_text"}>当前共有<span className={"color_red"}>{pagination.total}</span>门学科</span>
-
-                              }
+                              <span className={"result_text"}>当前共有<span className={"color_red"}>{pagination.total}</span>门学科</span>
 
                           </div>
-
-                          {
-
-                              !isAIProduct?
-
-                                  <Button onClick={onAddSubjectClick} className="top-btn" color="blue" shape="round">+添加学科</Button>
-
-                                  :
-
-                                  ''
-
-                          }
-
-                          <Search onCancelSearch={subSearchCancel} CancelBtnShow={search.cancelShow} Value={search.value} onChange={e=>{e.persist();searchValueChange(e)}} width={270} onClickSearch={subSearch} placeHolder={"根据学科编号或名称进行搜索"}></Search>
 
                       </div>
 
@@ -785,7 +773,7 @@ function Subject(props){
 
                                   :
 
-                                  <Empty type={"3"} title={search.searched?'没有搜索到相关学科数据':'没有学科数据'}></Empty>
+                                  <Empty type={"3"} title={'没有相关学科数据'}></Empty>
 
                           }
 
