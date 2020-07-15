@@ -201,7 +201,7 @@ function Course(props) {
 
             {
 
-                title:"所属专业",
+                title:"面向专业",
 
                 key:'MajorNames',
 

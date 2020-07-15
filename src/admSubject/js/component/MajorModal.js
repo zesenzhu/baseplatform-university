@@ -322,7 +322,7 @@ function MajorModal(props,ref) {
 
                             </div>
 
-                            <Scroll style={{height:310}}>
+                            <Scroll style={{height:360}}>
 
                                     {
 
