@@ -63,9 +63,11 @@ function Course(props) {
 
                 dataIndex:'CourseName',
 
-                width:150,
+                width:260,
 
-                align:'center',
+                align:'left',
+
+                className:'course-name-title',
 
                 render:(i,k)=>{
 
@@ -85,7 +87,7 @@ function Course(props) {
 
                 // sorter:true,
 
-                width:100,
+                width:150,
 
                 align:'center',
 
@@ -125,7 +127,7 @@ function Course(props) {
 
                 dataIndex:'CollegeName',
 
-                width:120,
+                width:150,
 
                 align:'center',
 
@@ -199,13 +201,13 @@ function Course(props) {
 
             {
 
-                title:"所属专业",
+                title:"面向专业",
 
                 key:'MajorNames',
 
                 dataIndex:'MajorNames',
 
-                width:200,
+                width:140,
 
                 align:'center',
 
@@ -231,10 +233,22 @@ function Course(props) {
 
                     return <div className={"cooperate_wrapper"}>
 
-                        <button onClick={e=>modalOpen("edit",k)} className={"btn edit"}></button>
+                        <Button
+                            color="blue"
+                            type="default"
+                            onClick={e=>modalOpen("edit",k)}
+                            className="handle-btn"
+                        >
+                            编辑
+                        </Button>
+
+                        <Button color="blue" type="default" onClick={e=>delCourse(k)} className="handle-btn">删除</Button>
+
+
+                        {/*<button onClick={e=>modalOpen("edit",k)} className={"btn edit"}></button>
 
                         <button  onClick={e=>delCourse(k)} className={"btn del"}></button>
-
+*/}
                     </div>
 
                 }
@@ -764,6 +778,8 @@ function Course(props) {
 
                         </div>
 
+                        <Button onClick={e=>modalOpen('add')} className="top_btn" color="blue" shape="round">+添加课程</Button>
+
                     </div>
 
                     <div className={"top_content"}>
@@ -774,7 +790,7 @@ function Course(props) {
 
                                 <div className={"subject_wrapper"}>
 
-                                    <span className={"drop_title"}>选择学科:</span>
+                                    <span className={"drop_title"}>学科:</span>
 
                                     <DropDown
 
@@ -792,11 +808,7 @@ function Course(props) {
 
                                     </DropDown>
 
-                                </div>
-
-                                <div className={"colloge_wrapper"}>
-
-                                    <span className={"drop_title"}>选择学院:</span>
+                                    <span className={"drop_title"}>学院:</span>
 
                                     <DropDown
 
@@ -814,6 +826,27 @@ function Course(props) {
                                     </DropDown>
 
                                 </div>
+
+                               {/* <div className={"colloge_wrapper"}>
+
+                                    <span className={"drop_title"}>学院:</span>
+
+                                    <DropDown
+
+                                        dropSelectd={college.dropSelectd}
+
+                                        dropList={college.dropList}
+
+                                        onChange={collegeDropChange}
+
+                                        height={300}
+
+                                    >
+
+
+                                    </DropDown>
+
+                                </div>*/}
 
                             </div>
 
@@ -846,8 +879,6 @@ function Course(props) {
                         <div className={"top_btn_wrapper clearfix"}>
 
                             <Search onClickSearch={searchClick} onCancelSearch={cancelClick} onChange={e=>{e.persist();searchValueChange(e)}} Value={search.value} CancelBtnShow={search.cancelShow} placeHolder={"请输入课程编号或名称搜索"} width={240}></Search>
-
-                            <Button onClick={e=>modalOpen('add')} className="top_btn" color="blue" shape="round">+添加课程</Button>
 
                         </div>
 

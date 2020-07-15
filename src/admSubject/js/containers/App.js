@@ -10,7 +10,6 @@ import Frame from '../../../common/Frame';
 
 import logo from '../../images/SubjectLogo.png'
 
-
 import Subject from './Subject'
 
 import Course from './Course';
@@ -21,6 +20,8 @@ import actions from '../actions';
 
 import * as menuActions from '../actions/menuActions';
 
+import TimeBanner from '../component/TimeBanner';
+
 import { QueryPower } from "../../../common/js/power";
 
 import * as subActions from "../actions/subPassActions";
@@ -30,60 +31,6 @@ import {getQueryVariable} from "../../../common/js/disconnect";
 const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
 
 class App extends Component {
-
-
-    /*componentDidMount(){
-
-        const { dispatch } = this.props;
-
-        TokenCheck_Connect(false,()=>{
-
-            if (sessionStorage.getItem('UserInfo')) {
-
-                dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
-
-                const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
-
-                if (UserType==='0'){
-
-                    this.requestData();
-
-                }else{
-
-                 window.location.href = '/error.aspx?ErrCode=E011';
-
-                }
-
-            }
-            else {
-
-                let that = this;
-
-                let timeRun = setInterval(function () {
-
-                    if (sessionStorage.getItem('UserInfo')) {
-
-                        dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
-
-                        const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
-
-                        if (UserType==='0'){
-
-                            that.requestData();
-
-                        }else{
-
-                            window.location.href = '/error.aspx?ErrCode=E011';
-
-                        }
-
-                        clearInterval(timeRun)
-                    }
-                }, 1000)
-            }
-        })
-
-    }*/
 
 
     pageInit(){
@@ -153,11 +100,11 @@ class App extends Component {
     };
 
 
-    menuClick(item){
+    menuClick(ID){
 
         const { dispatch } = this.props;
 
-        dispatch(menuActions.leftMenuChange(item.ident));
+        dispatch(menuActions.leftMenuChange(ID));
 
         dispatch(subActions.lookSubject(''));
 
@@ -175,17 +122,13 @@ class App extends Component {
         const { UserID,UserName,PhotoPath } = LoginUser;
 
         return (
+
             <React.Fragment>
 
                 <Loading opacity={false} tip="加载中..." size="large" spinning={AppLoading.appLoading}>
 
 
                     <Frame
-
-                        /*userInfo={{
-                        name: UserName,
-                        image: PhotoPath
-                    }}*/
 
                         pageInit={this.pageInit.bind(this)}
                            module={{
@@ -195,14 +138,11 @@ class App extends Component {
                            }}
                            className='myFrame'
                            type="triangle"
+                           showLeftMenu={false}>
 
-                           showBarner={false}
+                        <div ref={"frame-time-barner"}>
 
-                           showLeftMenu={true}>
-
-                        <div ref={"frame-left-menu"}>
-
-                            <MenuLeftNoLink Menu={menu.list} menuClick={this.menuClick.bind(this)}></MenuLeftNoLink>
+                            <TimeBanner timeBannerChange={this.menuClick.bind(this)} active={menu.active} list={[{ID:'subject',Name:'学科管理'},{ID:'course',Name:'课程管理'}]}></TimeBanner>
 
                         </div>
 

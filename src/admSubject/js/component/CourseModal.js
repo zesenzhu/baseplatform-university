@@ -501,7 +501,7 @@ function CourseModal(props,ref) {
 
                     {
 
-                        college.dropSelectd.value!==0&&(courseType.dropSelectd.value===1||courseType.dropSelectd.value===2)?
+                        college.dropSelectd.value!==0&&(courseType.dropSelectd.value===1||courseType.dropSelectd.value===3)?
 
                             <div className={"row_wrapper major-container clearfix"}>
 
@@ -552,13 +552,14 @@ function CourseModal(props,ref) {
 
                     <Modal
                         className={"major_modal"}
-                        bodyStyle={{height:400,padding:'30px 0px 30px 40px'}}
-                        width={500}
+                        bodyStyle={{height:400,padding:'20px 0 20px 40px'}}
+                        width={360}
                         type="1"
                         title={"选择专业"}
                         visible={major.modalShow}
-                        onOk={majorOk}
-                        onCancel={majorClose}
+                        // onOk={majorOk}
+                        onCancel={majorOk}
+                        footer={null}
 
                     >
 

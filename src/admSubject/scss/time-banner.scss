@@ -1,0 +1,102 @@
+.banner-wrapper{
+
+  .banner-item{
+
+    position: relative;
+
+    width: 118px;
+
+    border:0;
+
+    outline: none;
+
+    text-indent: 20px;
+
+    cursor: pointer;
+
+    background-color: #ffffff;
+
+    background-position:20px center;
+
+    background-repeat: no-repeat;
+
+
+    &:first-child{
+
+      &:after{
+
+        position: absolute;
+
+        width: 1px;
+
+        height:14px;
+
+        background-color: #cccccc;
+
+        content: '';
+
+        right:0;
+
+        top:50%;
+
+        transform: translateY(-50%);
+
+      }
+
+    }
+
+    &:hover{
+
+      color: #ff6600;
+
+    }
+
+    &.active{
+
+      color: #ff6600;
+
+      background-color:#ffefe5;
+
+    }
+
+    &.subject{
+
+      background-image: url("../images/subject.png");
+
+      background-position: 20px 17px;
+
+      &:hover{
+
+        background-image: url("../images/subject-active.png");
+
+      }
+
+      &.active{
+
+        background-image: url("../images/subject-active.png");
+
+      }
+
+    }
+
+    &.course{
+
+      background-image: url("../images/course.png");
+
+      &:hover{
+
+        background-image: url("../images/course-active.png");
+
+      }
+
+      &.active{
+
+        background-image: url("../images/course-active.png");
+
+      }
+
+    }
+
+  }
+
+}

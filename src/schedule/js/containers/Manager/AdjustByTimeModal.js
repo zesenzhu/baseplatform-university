@@ -697,7 +697,7 @@ class AdjustByTimeModal extends Component{
 
                     <div className={"colleges-detail-wrapper"}>
 
-                        <Scroll style={{height:240}}>
+                        <Scroll style={{height:280}}>
 
                             <CheckBoxGroup onChange={this.collegeChange.bind(this)} value={this.state.collegeModal.checkedColleges}>
 

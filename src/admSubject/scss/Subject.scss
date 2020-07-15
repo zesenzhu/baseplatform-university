@@ -13,7 +13,7 @@ $image-url: "../images";
 
 .Adm {
     position: relative;
-    padding: 19px 52px;
+    padding: 18px 32px;
     text-align: center;
     color: #333333;
     //公用
@@ -40,6 +40,13 @@ $image-url: "../images";
                     background-size: 14px 19px;
                     background-position: left center;
                 }
+
+                .tips-subject{
+                    background: url(../images/subject-icon.png) no-repeat center center;
+                    //background-size: 20px 18px;
+                    background-position: left center;
+                }
+
             }
             .top-nav {
                 float: right;
@@ -56,6 +63,32 @@ $image-url: "../images";
                     top: -1px;
                     margin: 0 12px;
                 }
+            }
+
+            .ant-btn{
+
+                float: right;
+                width: 104px;
+                height: 28px;
+                line-height: 28px;
+                background-image: linear-gradient(90deg,
+                        #0fc1fc 0%,
+                        #1da4fe 100%),
+                linear-gradient(
+                                #ffffff,
+                                #ffffff);
+
+                border-radius: 14px;
+                box-shadow: 0 5px 10px -5px #1ca5fe;
+                font-size: 14px;
+                color: #fff;
+
+                &:hover{
+
+                    opacity: 0.8;
+
+                }
+
             }
 
         }
@@ -96,6 +129,8 @@ $image-url: "../images";
 
                     line-height: 28px;
 
+                    color: #999999;
+
                 }
 
             }
@@ -117,11 +152,11 @@ $image-url: "../images";
                         }
                     }
                     .ant-table-tbody>tr {
-                        height: 84px;
+                        height: 54px;
                     }
                     .ant-table-row {
                         td {
-                            padding: 10px;
+                            padding:0;
                             white-space: nowrap;
                             &:first-of-type {
                                 //padding: 10px 39px;
@@ -134,6 +169,19 @@ $image-url: "../images";
                     .ant-table-column-title {
                         white-space: nowrap;
                     }
+
+                  .subject-name-title{
+
+                    text-indent: 30px;
+
+                  }
+
+                  .ant-table-header-column{
+
+                    display: block;
+
+                  }
+
                     .SubjectName-content {
                         //margin-left: 17px;
                         font-size: 14px;
@@ -142,18 +190,24 @@ $image-url: "../images";
                             //margin-left: 17px;
                             color: #333;
 
-                            max-width: 120px;
+                            max-width: 240px;
 
                             margin: 0 auto;
 
                             @include textOverFlow;
+
+                            text-align: left;
+
+                            text-indent: 26px;
 
                         }
                     }
 
                     .subject_number{
 
-                        max-width:120px;
+                        max-width:160px;
+
+                        margin: 0 auto;
 
                         @include textOverFlow;
 
@@ -161,7 +215,9 @@ $image-url: "../images";
 
                     .teacher_name{
 
-                        max-width:120px;
+                        display: block;
+
+                        max-width:160px;
 
                         @include textOverFlow;
 
@@ -190,7 +246,7 @@ $image-url: "../images";
                             text-overflow: ellipsis; //文字隐藏后添加省略号
                             white-space: nowrap; //强制不换行
                         }
-                        .noHandle {
+                        .noHandle{
                             color: #999999;
                         }
                     }
@@ -265,11 +321,11 @@ $image-url: "../images";
                     }
                     .handle-btn {
                         //float: right;
-                        height: 24px;
-                        line-height: 24px;
+                        height: 22px;
+                        line-height: 22px;
                         font-size: 14px;
-                        padding: 0 14px;
-                        margin-right: 10px;
+                        padding: 0 12px;
+                        margin-right:6px;
                     }
 
                     //2020.3.20
@@ -282,6 +338,8 @@ $image-url: "../images";
                             border:0;
 
                             color: #0099ff;
+
+                            margin-left: 6px;
 
                             background-color:transparent;
 
