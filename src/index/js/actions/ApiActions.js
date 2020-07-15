@@ -91,7 +91,7 @@ const GetOnlineStatistics =  async ({dispatch})=>{
 
     const token = sessionStorage.getItem('token');
 
-    const res = await Method.getGetData(`/BaseApi/Login/GetOnlineStatistics?appid=000&access_token=4d39af1bff534514e24948568b750f6c&token=${token}`,1,'http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev');
+    const res = await Method.getGetData(`/BaseApi/Login/GetOnlineStatistics?appid=000&access_token=4d39af1bff534514e24948568b750f6c&token=${token}`,1);
 
     if (res.StatusCode===200){
 
