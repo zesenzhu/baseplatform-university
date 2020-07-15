@@ -466,6 +466,7 @@ class Graduate extends React.Component {
         )
       );
     } else {
+      console.log(DataState.GetGraduateGradeClassMsg.Classes[this.state.secondSelect.value],e.value)
       this.setState({
         checkedList: [],
         checkAll: false,
@@ -658,8 +659,8 @@ class Graduate extends React.Component {
                   (this.state.thirdSelect.value !== 0
                     ? "&gradeID=" + this.state.thirdSelect.value
                     : "") +
-                  (this.state.thirdSelect.value !== 0
-                    ? "&classID=" + this.state.thirdSelect.value
+                  (this.state.fourthSelect.value !== 0
+                    ? "&classID=" + this.state.fourthSelect.value
                     : "") +
           (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
           (this.state.order ? "&SortType=" + this.state.order : "")
@@ -698,8 +699,8 @@ class Graduate extends React.Component {
                   (this.state.thirdSelect.value !== 0
                     ? "&gradeID=" + this.state.thirdSelect.value
                     : "") +
-                  (this.state.thirdSelect.value !== 0
-                    ? "&classID=" + this.state.thirdSelect.value
+                  (this.state.fourthSelect.value !== 0
+                    ? "&classID=" + this.state.fourthSelect.value
                     : "") +
           (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
           (this.state.order ? "&SortType=" + this.state.order : "")
@@ -760,8 +761,8 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value !== 0
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            (this.state.thirdSelect.value !== 0
-              ? "&classID=" + this.state.thirdSelect.value
+            (this.state.fourthSelect.value !== 0
+              ? "&classID=" + this.state.fourthSelect.value
               : "") +
             "&sortFiled=" +
             sorter.columnKey +
@@ -796,8 +797,8 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value !== 0
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            (this.state.thirdSelect.value !== 0
-              ? "&classID=" + this.state.thirdSelect.value
+            (this.state.fourthSelect.value !== 0
+              ? "&classID=" + this.state.fourthSelect.value
               : "") +
             "&PageSize=10&schoolID=" +
             this.state.userMsg.SchoolID +
@@ -829,8 +830,8 @@ class Graduate extends React.Component {
           (this.state.thirdSelect.value !== 0
             ? "&gradeID=" + this.state.thirdSelect.value
             : "") +
-          (this.state.thirdSelect.value !== 0
-            ? "&classID=" + this.state.thirdSelect.value
+          (this.state.fourthSelect.value !== 0
+            ? "&classID=" + this.state.fourthSelect.value
             : "") +
           "&PageIndex=" +
           (e - 1) +
@@ -973,8 +974,8 @@ class Graduate extends React.Component {
                 (this.state.thirdSelect.value !== 0
                   ? "&gradeID=" + this.state.thirdSelect.value
                   : "") +
-                (this.state.thirdSelect.value !== 0
-                  ? "&classID=" + this.state.thirdSelect.value
+                (this.state.fourthSelect.value !== 0
+                  ? "&classID=" + this.state.fourthSelect.value
                   : "") +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
@@ -1071,8 +1072,8 @@ class Graduate extends React.Component {
                 (this.state.thirdSelect.value !== 0
                   ? "&gradeID=" + this.state.thirdSelect.value
                   : "") +
-                (this.state.thirdSelect.value !== 0
-                  ? "&classID=" + this.state.thirdSelect.value
+                (this.state.fourthSelect.value !== 0
+                  ? "&classID=" + this.state.fourthSelect.value
                   : "") +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
