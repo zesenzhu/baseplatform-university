@@ -40,7 +40,7 @@ function handleTreeUnivData(data) {
     child.Majors instanceof Array &&
       child.Majors.map(major => {
         let GradesArr = [{ value: 0, title: "全部年级" }];
-
+        Classes[major.MajorID] = {}
         major.Grades instanceof Array &&
           major.Grades.map(grade => {
             let ClassesArr = [{ value: 0, title: "全部班级" }];
@@ -53,7 +53,7 @@ function handleTreeUnivData(data) {
                   father: Class.GradeID
                 });
               });
-            Classes[grade.GradeID] = ClassesArr;
+            Classes[major.MajorID][grade.GradeID] = ClassesArr;
             GradesArr.push({
               value: grade.GradeID,
               title: grade.GradeName,

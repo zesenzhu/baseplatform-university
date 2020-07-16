@@ -129,22 +129,22 @@ class MainContent extends Component {
       }
     });
   }
-  componentWillMount(){
+  componentDidMount() {
     let that = this;
-that.handleMenu()
+    that.handleMenu();
 
-//     history.listen((location)=>{
-//     let path =  location.pathname.split("/")[2];
-// console.log(path)
-// that.handleMenu(path)
-//     })
+    //     history.listen((location)=>{
+    //     let path =  location.pathname.split("/")[2];
+    // console.log(path)
+    // that.handleMenu(path)
+    //     })
   }
   //操作左侧菜单，响应路由变化
   handleMenu = (path) => {
     if (history.location.pathname === "/MainContent") {
       history.push("/MainContent/Semester");
     }
-     path = path||history.location.pathname.split("/")[2];
+    path = path || history.location.pathname.split("/")[2];
     // console.log(path);
     let param = this.state.MenuParams;
     let len = param.children.length;
@@ -184,12 +184,17 @@ that.handleMenu()
       return <div></div>;
     }
     let path = history.location.pathname.split("/")[2];
-    let isImport = false
-    if(path==='Import'){
-      isImport = true
+    let isImport = false;
+    if (path === "Import") {
+      isImport = true;
     }
     // console.log(path)
-    if(path!=='Semester'&&path!=='School'&&path!=='Subsystem'&&path!=='Import'){
+    if (
+      path !== "Semester" &&
+      path !== "School" &&
+      path !== "Subsystem" &&
+      path !== "Import"
+    ) {
       history.push("/MainContent/Semester");
     }
     return (
@@ -242,7 +247,7 @@ that.handleMenu()
               </Router>
             ) : (
               ""
-            )} 
+            )}
           </div>
         </Frame>
       </Loading>
