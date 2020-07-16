@@ -1849,7 +1849,7 @@ class Loading extends React.Component {
  * 弹出框 start
  * */
 
-class Alert extends React.Component {
+class AppAlert extends React.Component {
   constructor(props) {
     super(props);
 
@@ -2906,11 +2906,15 @@ class Frame extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    if (window.AppRightContentChange) {
-      window.AppRightContentChange(this.RightContent.clientHeight);
+    UNSAFE_componentWillReceiveProps(){
+
+        if(window.AppRightContentChange){
+
+            window.AppRightContentChange(this.RightContent.clientHeight);
+
+        }
+
     }
-  }
 
   render() {
     const {
@@ -3702,6 +3706,8 @@ class Tips extends React.Component {
 const LeftMenu = withRouter(MenuLeft);
 
 const PagiNation = memo(PageComponent);
+
+const Alert = memo(AppAlert);
 
 const DropDown = memo(DropComponent);
 
