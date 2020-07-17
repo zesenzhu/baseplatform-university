@@ -20,6 +20,8 @@ import {connect} from 'react-redux';
 
 import {CSSTransition} from 'react-transition-group';
 
+import WeekDayPick from '../../component/WeekDayPick';
+
 
 
 class Subject extends Component{
@@ -73,29 +75,18 @@ class Subject extends Component{
 
     }
 
-    //选择下一周次
-    weekNextEvent(){
+
+
+    //日期变化
+    weekDateChange(date,week,weekDay){
 
         const {dispatch,Manager} = this.props;
 
-        const {NowWeekNo} = Manager.SubjectTeacherSchedule;
+        dispatch({type:STSAction.MANAGER_STS_NOW_WEEK_NO_CHANGE,data:week});
 
-        dispatch({type:STSAction.STS_NOW_WEEK_CHANGE,data:(NowWeekNo+1)});
+        dispatch({type:STSAction.MANAGER_STS_NOW_WEEK_DAY_CHANGE,data:weekDay});
 
-        $('#tb').find('div.ant-table-body').scrollTop(0);
-
-        dispatch(STSAction.STSPageUpdate());
-
-    }
-
-    //选择上一周次
-    weekPrevEvent(){
-
-        const {dispatch,Manager} = this.props;
-
-        const {NowWeekNo} = Manager.SubjectTeacherSchedule;
-
-        dispatch({type:STSAction.STS_NOW_WEEK_CHANGE,data:(NowWeekNo-1)});
+        dispatch({type:STSAction.MANAGER_STS_NOW_CLASS_DATE_CHANGE,data:date});
 
         $('#tb').find('div.ant-table-body').scrollTop(0);
 
@@ -110,21 +101,11 @@ class Subject extends Component{
 
         const { pageIndex,TeacherCount } = Manager.SubjectTeacherSchedule;
 
-        console.log(123);
-
         if (pageIndex < Math.ceil(TeacherCount/10) ){
 
             dispatch(STSAction.STSPageUpdate({nextPage:true}));
 
         }
-
-        // else if (Math.ceil(TeacherCount/10)>0){
-
-        //     message.info('已经是最后一页了！',0.2);
-
-        //     message.config({maxCount:1,top:200});
-
-        // }
 
     }
 
@@ -285,23 +266,23 @@ class Subject extends Component{
 
                         </DropDown>
 
-                        <TermPick
 
-                            ItemTermName={PeriodWeekTerm.ItemTerm?PeriodWeekTerm.ItemTerm.TermName:''}
+                        <WeekDayPick
 
-                            NowWeekNo={SubjectTeacherSchedule.NowWeekNo}
+                            NowWeekNO={SubjectTeacherSchedule.NowWeekNO}
 
-                            ItemWeek ={ItemWeek}
+                            NowWeekDay={SubjectTeacherSchedule.NowWeekDay}
 
-                            WeekNO={PeriodWeekTerm.WeekNO?PeriodWeekTerm.WeekNO:''}
+                            NowClassDate={SubjectTeacherSchedule.NowClassDate}
 
-                            weekPickEvent = {this.weekPickEvent.bind(this)}
+                            WeekList={ItemWeek}
 
-                            weekNextEvent = {this.weekNextEvent.bind(this)}
+                            weekDateChange={this.weekDateChange.bind(this)}
 
-                            weekPrevEvent = {this.weekPrevEvent.bind(this)}>
+                        >
 
-                        </TermPick>
+                        </WeekDayPick>
+
 
                         <div className="double-single-table-wrapper">
 

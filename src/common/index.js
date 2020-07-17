@@ -1460,7 +1460,9 @@ class DropComponent extends React.Component {
                     ? mutipleOptions.empSearchTitle
                     : "暂未有相关数据"
                 }
-              ></Empty>
+              >
+
+              </Empty>
             )}
           </Loading>
         </ul>
@@ -1639,7 +1641,7 @@ class DropComponent extends React.Component {
             <Scrollbars
               style={{ width:width - 2}}
               autoHeight
-              autoHeightMin={24}
+              autoHeightMin={0}
               autoHeightMax={288}
               renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
               renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
