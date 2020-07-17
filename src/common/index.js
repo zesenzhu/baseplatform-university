@@ -1174,15 +1174,7 @@ class DropComponent extends React.Component {
       dropSelectd: props.dropSelectd ? props.dropSelectd : "",
       dropListShow: false,
       range2ListShow: "",
-      range2ListActive: "",
-
-      tmpDropList:[],
-
-       searchCloseBtn:false,
-
-       searchValue:'',
-
-       isAllString:false
+      range2ListActive: ""
 
     };
   }
@@ -1191,23 +1183,7 @@ class DropComponent extends React.Component {
 
     const { dropSelectd,dropList } = nextProps;
 
-    let isAllString = true;
-
-    for (let i =0;i<=dropList.length-1;i++){
-
-       const type =  typeof dropList[i].title;
-
-       if(type!=='string'){
-
-         isAllString = false;
-
-         break;
-
-       }
-
-    }
-
-    this.setState({ searchValue:'',dropSelectd: dropSelectd,isAllString,tmpDropList:dropList,searchCloseBtn:false});
+    this.setState({ dropSelectd:dropSelectd});
 
   }
 
@@ -1264,9 +1240,12 @@ class DropComponent extends React.Component {
   } //在二级的时候展开下拉
 
   componentDidMount() {
+
+    const that = this;
+
     document.addEventListener("click", (e) =>
-      this.outDropClick({
-        that: this,
+        that.outDropClick({
+        that,
         target: e.target,
         ulDom: this.refs.dropdown_select_ul,
         spanDom: this.refs.dropdown_default_span,
@@ -1276,19 +1255,25 @@ class DropComponent extends React.Component {
 
   outDropClick(e) {
 
-    const { dropList=[] } = this.props;
 
-    const { that, target, ulDom, spanDom } = e;
+    const {that,target, ulDom, spanDom } = e;
 
     if (ulDom && spanDom) {
       //在该界面上已有该组件才这样展示
       if (!spanDom.contains(target) && !ulDom.contains(target)) {
-        that.setState({  searchValue:'',tmpDropList:dropList,searchCloseBtn:false,dropListShow:false }, () => {
+
+          that.setState({dropListShow:false }, () => {
+
           $(ulDom).hide();
+
         });
+
       }
+
     }
+
   } //当点击事件发生在下拉组件之外的时候
+
   onClickSearch(e) {
     const { mutipleOptions } = this.props;
     if (e.value) {
@@ -1309,51 +1294,6 @@ class DropComponent extends React.Component {
     }
   }
 
-
-
-
-  //输入框变化
-  searchChange(e){
-
-    const { dropList } = this.props;
-
-    if(e.target.value){
-
-        this.setState({searchCloseBtn:true});
-
-        if(this.state.isAllString){
-
-          const newList = dropList.filter(i=>i.title.includes(e.target.value));
-
-          this.setState({tmpDropList:newList});
-
-        }else{
-
-            //simpleSearchChange(e.target.value);
-
-        }
-
-    }else{
-
-        this.setState({searchCloseBtn:false});
-
-        this.setState({tmpDropList:dropList});
-
-    }
-
-    this.setState({searchValue:e.target.value});
-
-  }
-
-  //关闭简单搜索
-
-    closeSimpleSearch() {
-
-        const {dropList} = this.props;
-
-        this.setState({searchValue: '', tmpDropList: dropList, searchCloseBtn: false});
-
-    }
 
 
 
@@ -1610,26 +1550,6 @@ class DropComponent extends React.Component {
           style={{ width:width, overflow: "initial" }}
         >
 
-          {
-
-            this.state.isAllString||(!this.state.isAllString&&dropSimpleSearch)?
-
-            dropList.length>12?
-
-                <li className={"dropdown_select_search"}>
-
-                  <AntdInput placeholder={"输入关键词搜索"} style={{width:width}} value={this.state.searchValue} onChange={this.searchChange.bind(this)}/>
-
-                  <i onClick={this.closeSimpleSearch.bind(this)} className={`dropdown_search_close ${!this.state.searchCloseBtn?'hide':''}`}></i>
-
-                </li>
-
-                :null
-
-                :null
-
-          }
-
           <Loading
             opacity={false}
             spinning={dropLoadingShow}
@@ -1642,9 +1562,10 @@ class DropComponent extends React.Component {
               renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
               renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
             >
+
               {
 
-                  this.state.tmpDropList.map(item => {
+                  dropList.map(item => {
 
                    return (
 
@@ -3701,16 +3622,9 @@ class Tips extends React.Component {
   }
 }
 
-const LeftMenu = withRouter(MenuLeft);
-
-const PagiNation = memo(PageComponent);
-
-const Alert = memo(AppAlert);
-
-const DropDown = memo(DropComponent);
 
 
-PagiNation.defaultProps = {
+PageComponent.defaultProps = {
 
     showQuickJumper:true,
 
@@ -3728,17 +3642,32 @@ PagiNation.defaultProps = {
 
 };
 
-DropDown.defaultProps = {
+DropComponent.defaultProps = {
 
-  dropList:[],TitleShow:true,
+    dropList:[],
 
-  width:120,dropLoadingShow:false,
+    TitleShow:true,
 
-  dropSimpleSearch:false,
+    width:120,
 
-  //simpleSearchChange:()=>{}
+    dropLoadingShow:false,
+
+    dropSimpleSearch:false,
+
+    //simpleSearchChange:()=>{}
 
 };
+
+const LeftMenu = withRouter(MenuLeft);
+
+const PagiNation = memo(PageComponent);
+
+const Alert = memo(AppAlert);
+
+const DropDown = memo(DropComponent);
+
+
+
 
 
 export {
