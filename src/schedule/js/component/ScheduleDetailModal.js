@@ -240,20 +240,6 @@ class ScheduleDetailModal extends Component{
 
                                 <span className="subject-name">{CourseName}</span>
 
-                                {
-
-                                    CanOperate?
-
-                                        IsOver===0&&ScheduleType!==1?
-
-                                            <button className="adjust-btn change-schedule" onClick={()=>ChangeScheduleShow({StartEndTime,WeekDay,ClassHourName,ClassDate:NowClassDate,ClassHourNO:NowClassHourNO,WeekNO,TeacherID:NowTeacherID,NowClassRoomID,NowClassRoomName,ScheduleID,ClassID,CourseClassID})}>换课</button>
-
-                                            :''
-
-                                        :''
-
-                                }
-
                             </div>
 
                         </div>

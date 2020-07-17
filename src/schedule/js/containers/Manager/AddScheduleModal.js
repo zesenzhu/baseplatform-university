@@ -248,13 +248,13 @@ function AddScheduleModal(props){
     //课程搜索
     const courseSearchClick = (e) =>{
 
-        const  result = utils.SearchReg({key:e.value,type:'2',dispatch,ErrorTips:'输入的班级名称或ID格式不正确'});
+        const  result = utils.SearchReg({key:e.value,type:'2',dispatch,ErrorTips:'输入的课程名称格式不正确'});
 
         if (result){
 
             let searchList = [];
 
-            this.state.course.dropList.map(i=>{
+            courseState.dropList.map(i=>{
 
                 let list = i.list.filter(item=>item.name.indexOf(e.value)!==-1);
 
@@ -262,7 +262,7 @@ function AddScheduleModal(props){
 
             });
 
-            this.setState({course:{...this.state.course,searchOpen:true,CancelBtnShow:'y',searchList,searchLoadingShow:false}});
+            setCourseState(d=>({...d,searchOpen:true,CancelBtnShow:'y',searchList,searchLoadingShow:false}));
 
         }
 
@@ -273,80 +273,7 @@ function AddScheduleModal(props){
     //课程搜索取消
     const courseSearchClose = (e) => {
 
-        this.setState({course:{...this.state.course,CancelBtnShow:'n',searchOpen:false}});
-
-        /*  const { subject,gradeClass,teachers,classDisabled,teacherDisabled,checkedClass,checkedTeacher } = AddScheduleModal;
-
-          if (classDisabled||teacherDisabled){
-
-              dispatch({type: ASMActions.MANAGER_ADD_SCHEDULE_MODAL_CLASS_TEACHER_DROP_ABLED});
-
-          }
-
-          const SubjectGrades = subject.find(item=>item.value===e.value).Grades;
-
-          const SubjectGradeList = SubjectGrades.split(',');
-
-          const classList = gradeClass.map(item=>{
-
-              if (SubjectGradeList.findIndex(i=>i===item.id)>=0){
-
-                  return item
-
-              }else{
-
-                  return;
-
-              }
-
-          }).filter(item=>item!==undefined);
-
-          const teacherList = teachers.map(item=>{
-
-              if (item.SubjectID===e.value){
-
-                  return {
-
-                      value:item.TeacherID,
-
-                      title:<span className="teacher-id-name" title={`${item.TeacherName}[${item.TeacherID}]`}><span className="teacher-name">{item.TeacherName}</span><span className="teacher-id" style={{color:'#999'}}>[{item.TeacherID}]</span></span>
-
-                  }
-
-              }else{
-
-                  return;
-
-              }
-
-          }).filter(i=>i!==undefined);
-
-          dispatch({type: ASMActions.MANAGER_ADD_SCHEDULE_MODAL_CLASS_TEACHER_DROP_CHANGE});
-
-          dispatch({type:ASMActions.MANAGER_ADD_SCHEDULE_MODAL_CLASS_TEACHER_LIST_UPDATE,data:{teacherList,classList}});
-
-          if (teacherList.length===0){
-
-                 dispatch({type:ASMActions.MANAGER_ADD_SCHEDULE_MODAL_TEACHER_DROP_DISABLED});
-
-                 dispatch({type:ASMActions.MANAGER_ADD_SCHEDULE_MODAL_TEACHER_DROP_CHANGE,data:{value:"none",title:"该学科下暂无教师"}});
-
-          }
-
-          //切换学科清除搜索输入的内容
-
-          dispatch({type:ASMActions.ADD_SCHEDULE_MODAL_CLASS_SEARCH_CLOSE});
-
-          $('.select-class .search_cancel_input').hide();
-
-          $('.select-class .search_text_input').val('');
-
-          $('.select-class .dropdown_item1_name.slide .dropdown_item3_li.active').removeClass('.active');
-
-          $('.select-class .dropdown_item1_name.slide').removeClass('slide');
-
-          $('.select-class .dropdown_item1_name').next('.dropdown_list_ul3').hide();
-  */
+        setCourseState(d=>({...d,CancelBtnShow:'n',searchOpen:false}));
 
     };
 
