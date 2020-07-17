@@ -1317,8 +1317,6 @@ class DropComponent extends React.Component {
 
     const { dropList } = this.props;
 
-      const { simpleSearchChange } = this.props;
-
     if(e.target.value){
 
         this.setState({searchCloseBtn:true});
@@ -1331,7 +1329,7 @@ class DropComponent extends React.Component {
 
         }else{
 
-            simpleSearchChange(e.target.value);
+            //simpleSearchChange(e.target.value);
 
         }
 
@@ -1639,7 +1637,7 @@ class DropComponent extends React.Component {
             <Scrollbars
               style={{ width:width - 2}}
               autoHeight
-              autoHeightMin={24}
+              autoHeightMin={0}
               autoHeightMax={288}
               renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
               renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
@@ -3738,7 +3736,7 @@ DropDown.defaultProps = {
 
   dropSimpleSearch:false,
 
-  simpleSearchChange:()=>{}
+  //simpleSearchChange:()=>{}
 
 };
 
