@@ -306,7 +306,7 @@ class ReplaceSchedule extends Component{
 
     }else {
 
-        TeacherSubjectTip = '该教师暂无课程安排';
+        TeacherSubjectTip = '该教师暂无可调整课程';
 
     }
 
