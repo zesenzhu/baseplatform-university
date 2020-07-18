@@ -1565,12 +1565,12 @@ class DropComponent extends React.Component {
 
               {
 
-                  dropList.map(item => {
+                  dropList.map((item,key) => {
 
                    return (
 
                           <li
-                          key={item.value}
+                          key={key}
                           className={`dropdown_select_li ${
                             activeValue && activeValue === item.value
                               ? "active"

@@ -441,18 +441,7 @@ class ReplaceSchedule extends Component{
                                 disabled={replaceTeacherOptions.dropDisabled}
                                 dropList={replaceTeacherOptions.dropList}
                                 style={{zIndex:9}}
-                                // type="multiple"
-                                // mutipleOptions={{
-                                //     range:2,
-                                //     dropMultipleList:teacherList,
-                                //     dropMultipleChange:this.replaceTeacherDropChange.bind(this),
-                                //     dropClickSearch:this.replaceTeacherClickSearch.bind(this),
-                                //     dropCancelSearch:this.replaceTeacherSearchClose.bind(this),
-                                //     searchList:replaceTeacherOptions.searchList,
-                                //     searchPlaceholder:"请输入姓名或工号进行搜索...",
-                                //     searchOpen:replaceTeacherOptions.searchOpen,
-                                //     searchLoadingShow:replaceTeacherOptions.searchLoadingShow
-                                // }}
+
                                 >
 
                             </DropDown>

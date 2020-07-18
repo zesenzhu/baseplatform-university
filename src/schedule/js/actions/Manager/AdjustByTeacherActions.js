@@ -433,7 +433,9 @@ const teacherDropChange = (info) => {
 
                     if (data.ItemSubject.length===1){
 
-                        const TeacherList = teacherList.filter(item=>item.id===subject.SubjectID)[0].list;
+                        const tmpList = teacherList.filter(item=>item.id===subject.SubjectID);
+
+                        const TeacherList = tmpList.length>0?tmpList[0].list:[];
 
                         const ReplaceTeacherList = TeacherList.map(item=>{
 

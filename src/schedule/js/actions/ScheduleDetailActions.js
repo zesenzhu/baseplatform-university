@@ -247,8 +247,6 @@ const ChangeTimeShow = (params) =>{
 
         } = params;
 
-        console.log(ClassID,CourseClassID);
-
         const { ItemWeek,NowDate } = getState().PeriodWeekTerm;
 
         const { WeekNO,ItemClassHour,ItemClassHourCount,NowClassHourNO } = getState().ScheduleDetail.Params;
@@ -258,7 +256,7 @@ const ChangeTimeShow = (params) =>{
 
         dispatch({type:COMPONENT_CHANGE_TIME_MODAL_INIT,data:{TeacherID,ScheduleID,NowClassRoomID,NowClassRoomName,StartEndTime,ClassHourType,NowDate,WeekDay,ItemClassHourCount,NowClassHourNO,WeekNO,OriginWeekNO:WeekNO,ClassDate,ClassHourNO,ItemClassHour,ItemWeek,ClassID,CourseClassID}});
 
-        dispatch({type:COMPONENT_CHANGE_TIME_MODAL_LOADING_HIDE});
+
 
 
     }
