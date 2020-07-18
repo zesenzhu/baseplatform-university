@@ -138,7 +138,7 @@ class ClassTotal extends Component{
 
         const { ItemClassHour,ItemClassHourCount,NowClassHourNO } = SubjectCourseGradeClassRoom;
 
-        const {WeekNO,ScheduleList} = ClassTotal;
+        const {NowWeekNO,ScheduleList} = ClassTotal;
 
         const { ClassID } = Params;
 
@@ -156,7 +156,7 @@ class ClassTotal extends Component{
 
         });
 
-        dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_PARAMS_UPDATE,data:{ItemClassHour,ItemClassHourCount,NowClassHourNO,WeekNO,PageIndex:FindPage}});
+        dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_PARAMS_UPDATE,data:{ItemClassHour,ItemClassHourCount,NowClassHourNO,WeekNO:NowWeekNO,PageIndex:FindPage}});
 
         dispatch(SDActions.ScheduleDetailShow(Params));
 

@@ -843,8 +843,6 @@ class App extends Component{
 
                                             adjustByClassRoomShow={this.adjustByClassRoomShow.bind(this)}
 
-
-
                                             Import={this.Import.bind(this)}
 
                                             Intellenct={this.PathToIntellenct.bind(this)}

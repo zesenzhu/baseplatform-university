@@ -142,7 +142,6 @@ class Subject extends Component{
 
         const { dispatch,Manager } = this.props;
 
-
         //旧代码
         //dispatch(STSAction.ScheduleDetailShow(Params));
 
@@ -166,7 +165,7 @@ class Subject extends Component{
 
         const { ItemClassHour,ItemClassHourCount,NowClassHourNO } = Manager.SubjectCourseGradeClassRoom;
 
-        const WeekNO = Manager.SubjectTeacherSchedule.NowWeekNo;
+        const WeekNO = Manager.SubjectTeacherSchedule.NowWeekNO;
 
         dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_PARAMS_UPDATE,data:{ItemClassHour,ItemClassHourCount,NowClassHourNO,WeekNO,PageIndex:FindPage}});
 

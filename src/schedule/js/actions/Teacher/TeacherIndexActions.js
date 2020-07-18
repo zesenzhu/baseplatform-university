@@ -31,13 +31,17 @@ const STSPageInit = () => {
         let {PeriodWeekTerm,LoginUser,Teacher} = getState();
         //如果前面获取的周次、学段信息已获得
 
+        const {WeekNO,NowWeekDay,NowDate} = PeriodWeekTerm;
+
         let {SchoolID,UserID,UserType} =LoginUser;//需要的参数后期加入
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
-        let NowWeekNo = PeriodWeekTerm.WeekNO;
+        dispatch({type:STSActions.TEACHER_STS_NOW_WEEK_NO_CHANGE,data:WeekNO});
 
-        dispatch({type:STSActions.STS_NOW_WEEK_CHANGE,data:NowWeekNo});
+        dispatch({type:STSActions.TEACHER_STS_NOW_WEEK_DAY_CHANGE,data:NowWeekDay});
+
+        dispatch({type:STSActions.TEACHER_STS_NOW_CLASS_DATE_CHANGE,data:NowDate});
 
         //判断是否需要重新加载课时信息
 
@@ -88,7 +92,8 @@ const STSPageInit = () => {
 
             }
 
-            ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+            //旧代码
+            /*ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
                 SubjectID,SchoolID, CollegeID,PageIndex:1,PageSize:10,dispatch
 
@@ -161,7 +166,79 @@ const STSPageInit = () => {
 
                 dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
+            });*/
+
+            ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
+
+                if (json){
+
+                    let SubjectTeacherSchedule = [];
+
+
+                    SubjectTeacherSchedule =  json.ItemTeacher.map((item) => {
+
+                        let teacherObj = {
+
+                            id:item.TeacherID,
+
+                            name:item.TeacherName
+
+                        };
+
+                        let list = utils.ScheduleRemoveRepeat(json.ItemSchedule.map((i) => {
+
+                            if (i.TeacherID === item.TeacherID){
+
+                                return {
+
+                                    ...i,
+
+                                    type:i.ScheduleType,
+
+                                    title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                    titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                    secondTitle:i.SubjectName,
+
+                                    secondTitleID:i.SubjectID,
+
+                                    thirdTitle:i.ClassRoomName,
+
+                                    thirdTitleID:i.ClassRoomID,
+
+                                    WeekDay:i.WeekDay,
+
+                                    ClassHourNO:i.ClassHourNO
+
+                                };
+
+                            }else {
+
+                                return ;
+
+                            }
+
+                        }).filter(i => {return i!==undefined}));
+
+                        teacherObj['list'] = list;
+
+                        return teacherObj;
+
+                    });
+
+                    dispatch({type:STSActions.TEACHER_SUBJECT_TEACHER_SUBJECT_TEACHER_COUNT,data:json.TeacherCount});
+
+                    dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_INIT,data:SubjectTeacherSchedule});
+
+                }
+
+                dispatch({type:STSActions.LOADING_HIDE});
+
+                dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
             });
+
 
         }else{
 
@@ -221,8 +298,8 @@ const STSPageInit = () => {
                     dispatch({type:SCGCRActions.SCGCR_INFO_INIT,data:data});
 
 
-
-                    ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+                        //旧代码
+                    /*ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
                         SubjectID,SchoolID, CollegeID,PageIndex:1,PageSize:10,dispatch
 
@@ -296,6 +373,78 @@ const STSPageInit = () => {
                         dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
                     });
+*/
+                    ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
+
+                        if (json){
+
+                            let SubjectTeacherSchedule = [];
+
+
+                            SubjectTeacherSchedule =  json.ItemTeacher.map((item) => {
+
+                                let teacherObj = {
+
+                                    id:item.TeacherID,
+
+                                    name:item.TeacherName
+
+                                };
+
+                                let list = utils.ScheduleRemoveRepeat(json.ItemSchedule.map((i) => {
+
+                                    if (i.TeacherID === item.TeacherID){
+
+                                        return {
+
+                                            ...i,
+
+                                            type:i.ScheduleType,
+
+                                            title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                            titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                            secondTitle:i.SubjectName,
+
+                                            secondTitleID:i.SubjectID,
+
+                                            thirdTitle:i.ClassRoomName,
+
+                                            thirdTitleID:i.ClassRoomID,
+
+                                            WeekDay:i.WeekDay,
+
+                                            ClassHourNO:i.ClassHourNO
+
+                                        };
+
+                                    }else {
+
+                                        return ;
+
+                                    }
+
+                                }).filter(i => {return i!==undefined}));
+
+                                teacherObj['list'] = list;
+
+                                return teacherObj;
+
+                            });
+
+                            dispatch({type:STSActions.TEACHER_SUBJECT_TEACHER_SUBJECT_TEACHER_COUNT,data:json.TeacherCount});
+
+                            dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_INIT,data:SubjectTeacherSchedule});
+
+                        }
+
+                        dispatch({type:STSActions.LOADING_HIDE});
+
+                        dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+                    });
+
 
                 }
 
@@ -514,7 +663,6 @@ const STTPageInit = () => {
                 dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
             });
-
 
         }else{
 
