@@ -84,8 +84,6 @@ function ChangeTimeModal(props){
 
         if (Show){
 
-            console.log(111);
-
             ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO,dispatch}).then(data=>{
 
                 if (data){
