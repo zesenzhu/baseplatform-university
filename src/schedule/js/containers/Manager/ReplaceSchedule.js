@@ -314,7 +314,7 @@ class ReplaceSchedule extends Component{
 
                 <div className="replace-schedule-wrapper">
 
-                    <div className="teacher-wrapper clearfix">
+                    <div className="teacher-wrapper clearfix" style={{zIndex:5}}>
 
                         <div className="props">老师:</div>
 
