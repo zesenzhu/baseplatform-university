@@ -3871,13 +3871,14 @@ const ModalCommit = ({changeTimeModal,changeRoomModal}) => {
 
               }
 
-              let ClassID = classCheckedList.join(',');
+              let ClassID = classList.filter(i=>{return classCheckedList.includes(i.id)}).map(i=>i.id).join(',');
 
-              let ClassNameList = classCheckedList.map(item=>{
 
-                  return classList.find(i=>i.id===item).name
+              let ClassNameList = classList.filter(i=>{
 
-              }).join(',');
+                  return classCheckedList.includes(i.id);
+
+              }).map(i=>i.name).join(',');
 
 
 
