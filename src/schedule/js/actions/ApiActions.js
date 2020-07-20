@@ -1026,7 +1026,7 @@ const GetAllScheduleOfCourseClassOneDayForPage = async ({SchoolID='',CourseNO=''
 };
 
 
-//获取高校版教学班一天总课表
+//获取教室一天总课表
 
 const GetAllScheduleOfClassRoomOneDayForPage = async ({SchoolID='',PeriodID='',ClassRoomType='',ClassDate,PageIndex=1,PageSize=10,CollegeID='',dispatch}) => {
 
