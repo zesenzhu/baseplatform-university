@@ -50,7 +50,6 @@ function TimeBanner(props){
     });
 
 
-
     //props
 
     const {dispatch,UIState,DataState,breadCrumb} = props;

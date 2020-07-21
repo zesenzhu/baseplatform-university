@@ -105,7 +105,11 @@ if (process.env.NODE_ENV === 'development'){
 
         SubjectForAccessProxy_univ:'http://192.168.2.207:10108/SubjectResMgr/TextBookMgr',
 
-        HashPrevProxy: RootUrl
+        HashPrevProxy: RootUrl,
+
+        //新版的教学班
+
+        NewCourseClass:'http://192.168.2.207:10108'
 
     }
 
@@ -168,8 +172,9 @@ if (process.env.NODE_ENV === 'production'){
         AccessProxy_univ:'/SysMgr/Setting/Application',
         SubjectForAccessProxy_univ:'/SubjectResMgr/TextBookMgr',
 
+        HashPrevProxy: RootUrl,
 
-        HashPrevProxy: RootUrl
+        NewCourseClass:RootUrl
 
     }
 

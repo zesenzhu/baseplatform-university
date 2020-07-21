@@ -116,11 +116,11 @@ function AddEditCourseClass(props,ref) {
 
                     const { Item,ClassItem,CourseClassID,CourseClassName,CourseNO,CourseName,TeacherID,TeacherName,GradeID,GradeName,MajorIDs } = data;
 
-                    if (UserType==='1'){//如果是教师端
+                    if (UserType===1){//如果是教师端
 
                         setTeacher(e=>({...e,teacherInfo:{TeacherID:UserID,TeacherName:UserName}}));
 
-                    }else if (UserType==='0'){
+                    }else if (UserType===0){
 
                         setTeacher(e=>({...e,disabled:false,dropSelectd:{value:TeacherID?TeacherID:'',title:TeacherName?<span title={`${TeacherName}[${TeacherID}]`}>{TeacherName}<span style={{color:'#999999'}}>[{TeacherID}]</span></span>:'请选择教师'}}));
 
@@ -170,7 +170,7 @@ function AddEditCourseClass(props,ref) {
 
         }else{
 
-            if (UserType==='1'){
+            if (UserType===1){
 
                 setTeacher(e=>({...e,teacherInfo:{TeacherID:UserID,TeacherName:UserName}}));
 
@@ -179,7 +179,7 @@ function AddEditCourseClass(props,ref) {
 
             if (CourseInfo.CourseNO){
 
-                if (UserType==='0'){
+                if (UserType===0){
 
                     GetTeacherInfo_University({schoolID:SchoolID,courseNO:CourseInfo.CourseNO,dispatch}).then(data=>{
 
@@ -356,7 +356,7 @@ function AddEditCourseClass(props,ref) {
 
         showCourseTip:()=>setCourse(e=>({...e,tip:true})),
 
-        TeacherID:UserType==='0'?teacher.dropSelectd.value:teacher.teacherInfo.TeacherID,
+        TeacherID:UserType===0?teacher.dropSelectd.value:teacher.teacherInfo.TeacherID,
 
         showTeacherTip:()=>setTeacher(e=>({...e,tip:true})),
 
@@ -450,7 +450,7 @@ function AddEditCourseClass(props,ref) {
 
                             {
 
-                                UserType==='1'?
+                                UserType===1?
 
                                     <span className={"teacher-name"}>{teacher.teacherInfo.TeacherName}</span>
 

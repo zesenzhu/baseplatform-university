@@ -86,10 +86,6 @@ export const showErrorAlert = ({title,littleTitle,ok,cancel,close,okShow,cancelS
 
                 close:close?close:hideAlert(dispatch),
 
-                okShow:okShow==='n'?false:true,
-
-                cancelShow:cancelShow==='n'?false:true,
-
                 okTitle,
 
                 cancelTitle
@@ -123,10 +119,6 @@ export const showWarnAlert = ({title,littleTitle,ok,cancel,close,okShow,cancelSh
                 cancel:cancel?cancel:hideAlert(dispatch),
 
                 close:close?close:hideAlert(dispatch),
-
-                okShow:okShow==='n'?false:true,
-
-                cancelShow:cancelShow==='n'?false:true,
 
                 okTitle,
 
@@ -186,9 +178,9 @@ export const showQueryAlert = ({title,littleTitle,ok,cancel,close,okShow,cancelS
 
                 close:close?close:hideAlert(dispatch),
 
-                okShow:okShow==='n'?false:true,
+                okShow:okShow==='n'?'n':'y',
 
-                cancelShow:cancelShow==='n'?false:true,
+                cancelShow:cancelShow==='n'?'n':'y',
 
                 okTitle,
 

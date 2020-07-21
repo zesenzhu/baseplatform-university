@@ -390,7 +390,7 @@ class Empty extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { style } = nextProps;
 
     this.setState({
@@ -522,7 +522,7 @@ class Modal extends React.Component {
     this.selectType(this.props.type);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { title } = nextProps;
 
     this.selectType(this.props.type);
@@ -1179,7 +1179,7 @@ class DropComponent extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
     const { dropSelectd,dropList } = nextProps;
 
@@ -2445,7 +2445,7 @@ class Menu extends React.Component {
     });
     this.paramsDeconstruction(this.props);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.paramsDeconstruction(nextProps); //props有变化时执行
   }
 

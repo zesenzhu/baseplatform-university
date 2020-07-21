@@ -1,0 +1,41 @@
+.title-bar-wrapper{
+
+  .content{
+
+    margin-left: 26px;
+
+    border-bottom: 1px dashed #cccccc;
+
+    height: 30px;
+
+  }
+
+  .left-title{
+
+    float: left;
+
+    font-size: 16px;
+
+    color: #333333;
+
+  }
+
+  .right-wrapper{
+
+    float: right;
+
+  }
+
+  background-position: left 4px;
+
+  background-repeat: no-repeat;
+
+  background-size: 18px;
+
+  &.manage{
+
+    background-image:url("../../../../images/manage-icon-active.png");
+
+  }
+
+}
