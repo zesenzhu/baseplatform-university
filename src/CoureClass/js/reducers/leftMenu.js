@@ -29,7 +29,45 @@ const defaultState = {
 
     show:false,
 
-    memuList:[]
+    menuList:[
+
+        {
+
+            link:'/statics/college',
+
+            name:'院系教学班统计',
+
+            id:'college',
+
+            menu:'menu45'
+
+        },
+
+        {
+
+            link:'/statics/course',
+
+            name:'课程教学班统计',
+
+            id:'course',
+
+            menu:'menu46'
+
+        },
+
+        {
+
+            link:'/statics/teacher',
+
+            name:'教师教学班统计',
+
+            id:'teacher',
+
+            menu:'menu20'
+
+        }
+
+    ]
 
 };
 

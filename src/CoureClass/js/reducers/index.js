@@ -5,6 +5,7 @@ import leftMenu from './leftMenu';
 import breadCrumb from './breadCrumb';
 import previewData from "./previewData";
 import commonSetting from './commonSetting';
+import bannerState from './bannerState';
 
 //新的redux
 import LoginUser from './LoginUser';
@@ -22,6 +23,8 @@ let rootReducers = combineReducers({
     breadCrumb,
     previewData,
     commonSetting,
-    AppLoading
+    AppLoading,
+    bannerState
+
 });
 export default rootReducers;

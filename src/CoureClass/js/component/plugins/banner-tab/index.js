@@ -2,20 +2,13 @@ import React,{useEffect,useCallback,useMemo,memo} from 'react';
 
 import history from '../../../containers/history';
 
+import {NavLink} from 'react-router-dom';
+
 import './index.scss';
 
 function Banner(props) {
 
-    const {tabList,tabActive} = props;
-
-    //切换活动状态
-    const activeChange = useCallback(()=>{
-
-        const activeUrl = tabList.find(i=>i.TabID===tabActive).TabUrl;
-
-        return history.push(activeUrl);
-
-    },[tabActive]);
+    const {tabList} = props;
 
     return(
 
@@ -27,7 +20,7 @@ function Banner(props) {
 
                     return(
 
-                        <button onClick={activeChange} key={i.TabID} className={`tab-item ${i.TabID} ${i.TabID===tabActive?'active':''}`}>{i.TabName}</button>
+                        <NavLink to={i.TabPath} activeClassName={"active"} key={i.TabID} className={`tab-item ${i.TabID}`}>{i.TabName}</NavLink>
 
                     )
 

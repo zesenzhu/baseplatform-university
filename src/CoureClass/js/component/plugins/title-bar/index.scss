@@ -1,5 +1,7 @@
 .title-bar-wrapper{
 
+  margin:0 32px;
+
   .content{
 
     margin-left: 26px;
@@ -35,6 +37,24 @@
   &.manage{
 
     background-image:url("../../../../images/manage-icon-active.png");
+
+  }
+
+  &.college{
+
+    background-image:url("../../../../images/college-icon.png");
+
+  }
+
+  &.course{
+
+    background-image:url("../../../../images/course-icon.png");
+
+  }
+
+  &.person{
+
+    background-image:url("../../../../images/person-icon.png");
 
   }
 

@@ -4,27 +4,11 @@ import { Loading, Alert, LeftMenu, Modal } from "../../../common";
 
 import { connect } from "react-redux";
 
-import CONFIG from "../../../common/js/config";
-
-import deepCompare from "../../../common/js/public";
-
-import {HashRouter as Router,Redirect,Route, Link, Switch} from "react-router-dom";
-
-import history from "./history";
+import {HashRouter as Router,withRouter} from "react-router-dom";
 
 import Frame from "../../../common/Frame";
 
 import logo from "../../images/image-MyClass.png";
-
-import All from "../component/All";
-
-import Subject from "../component/Subject";
-
-import Search from "../component/Search";
-
-import Class from "../component/Class";
-
-import Dynamic from "../component/Dynamic";
 
 import Record from "../component/Record";
 
@@ -32,60 +16,50 @@ import ImportFile from "../component/ImportFile";
 
 import LogDetails from "../component/LogDetails";
 
-import HandleCourseClass from "../component/HandleCourseClass";
-
-import AddCourseClass from "../component/AddCourseClass";
-
 
 import CourseClassDetails from "../component/CourseClassDetails";
 
 import {changeBreadCrumb} from '../reducers/breadCrumb';
 
-import Teacher from "../component/Teacher";
+import {leftMemuShow,leftMemuHide} from "../reducers/leftMenu";
 
-import Manager from './Manager/index';
+import {bannerShow,bannerHide} from "../reducers/bannerState";
+
+import Teacher from "../component/Teacher";
 
 import Banner from '../component/banner/index';
 
 import AppRoutes from './AppRoutes';
 
-
 import "../../scss/index.scss";
-
-import { postData } from "../../../common/js/fetch";
 
 import actions from "../actions";
 
 import { QueryPower } from "../../../common/js/power";
 
 import {loginUserUpdate} from "../reducers/LoginUser";
-import leftMenu from "../reducers/leftMenu";
 
 const COURECLASS_MODULEID = "000-2-0-17"; //教学班管理
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    const { dispatch } = props;
-    this.state = {
-      MenuParams: {},
-      showBarner: true,
-      showLeftMenu: true,
-      UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
-    };
+    constructor(props){
 
-    window.MenuClcik = this.MenuClcik.bind(this);
+        super(props);
 
+        this.state = {
 
+          firstLoad:true
 
-  }
+        };
+
+    }
 
 
   //界面初始化
   pageInit(){
 
-      const { dispatch, DataState } = this.props;
+      const { dispatch, DataState,history } = this.props;
 
       // 获取接口数据
       let route = history.location.pathname;
@@ -96,12 +70,9 @@ class App extends Component {
 
       let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-
       const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:parseInt(UserInfo.UserClass)};
 
-
       dispatch(loginUserUpdate(UserInfoCopy));
-
 
       let UserType = UserInfo.UserType;
 
@@ -126,6 +97,38 @@ class App extends Component {
           //路由监听
           let route = history.location.pathname;
 
+          if(route.split('/')[1]==='statics'){
+
+              dispatch(bannerShow());
+
+              dispatch(leftMemuShow());
+
+          }
+
+          if(route.split('/')[1]==='manage'){
+
+              dispatch(bannerShow());
+
+              dispatch(leftMemuHide());
+
+          }
+
+          if(route.split('/')[1]==='ImportFile'){
+
+              dispatch(bannerHide());
+
+              dispatch(leftMemuHide());
+
+          }
+
+          if(route.split('/')[1]==='Log'){
+
+              dispatch(bannerHide());
+
+              dispatch(leftMemuHide());
+
+          }
+
           that.requestData(route);
 
       });
@@ -133,29 +136,59 @@ class App extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps){
 
-    this.setState({
-      MenuParams: nextProps.DataState.GetCoureClassAllMsg.MenuParams
-    });
 
-    if(history.location.pathname.split('/')[1]==='ImportFile'){
+      if (this.state.firstLoad){
 
-      this.setState({showBarner: false,
-          showLeftMenu: false});
+          const {history,dispatch} = nextProps;
 
-    }
+          const route = history.location.pathname;
 
-      if(history.location.pathname.split('/')[1]==='Log'){
+          this.setState({
 
-          this.setState({showBarner: false,
-              showLeftMenu: false});
+              firstLoad:false
+
+          },()=>{
+
+              if(route.split('/')[1]==='statics'){
+
+                  dispatch(bannerShow());
+
+                  dispatch(leftMemuShow());
+
+              }
+
+              if(route.split('/')[1]==='manage'){
+
+                  dispatch(bannerShow());
+
+                  dispatch(leftMemuHide());
+
+              }
+
+              if(route.split('/')[1]==='ImportFile'){
+
+                  dispatch(bannerHide());
+
+                  dispatch(leftMemuHide());
+
+              }
+
+              if(route.split('/')[1]==='Log'){
+
+                  dispatch(bannerHide());
+
+                  dispatch(leftMemuHide());
+
+              }
+
+          });
 
       }
 
-
-
   }
+
 
   onAppAlertOK() {
     const { dispatch } = this.props;
@@ -362,17 +395,6 @@ class App extends Component {
 
   };
 
-  MenuClcik = (id, type, sub = null) => {
-
-    if (type === "All") {
-      history.push("/All");
-    } else if (type === "Subject") {
-      history.push("/Subject/" + id + "/all");
-    } else if (type === "Class") {
-      history.push("/Subject/" + sub + "/Class/" + id);
-    }
-
-  };
 
   //模态框关闭
   CourseClassDetailsModalOk = () => {
@@ -394,384 +416,24 @@ class App extends Component {
     const { dispatch, DataState } = this.props;
     dispatch(actions.UpUIState.LogDetailsModalClose());
   };
-  //编辑教学班模态框
-  ChangeCourseClassModalOk = () => {
-    const { dispatch, DataState } = this.props;
-    let userMsg = DataState.LoginUser;
-    let data = DataState.GetCourseClassDetailsHandleClassMsg;
-    let route = history.location.pathname;
-    let pathArr = route.split("/");
-    let handleRoute = pathArr[1];
-    let routeID = pathArr[2];
-    let subjectID = pathArr[3];
-    let classID = pathArr[4];
-    let SubjectID = DataState.GetCoureClassAllMsg.Subject;
-    let GradeID = DataState.GetCoureClassAllMsg.Grade;
-    let pageIndex = DataState.GetClassAllMsg.allClass.pageIndex;
-    let isFalse = false;
 
-
-    if (
-      data.selectData.Teacher.value === data.TeacherID &&
-      data.selectData.CourseClass.CourseClassName === data.CourseClassName &&
-
-      JSON.stringify(data.selectData.Student)===JSON.stringify(data.TableSource)
-    ) {
-      dispatch(
-        actions.UpUIState.showErrorAlert({
-          type: "warn",
-          title: "教学班信息没有发生改变",
-          ok: this.onAppAlertOK.bind(this),
-          cancel: this.onAppAlertCancel.bind(this),
-          close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
-        })
-      );
-      return;
-    }
-    let value = data.selectData.CourseClass.CourseClassName;
-    if (value === "") {
-
-      dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_OPEN });
-
-      isFalse = true
-    }
-    //console.log(this.state.courseClassName, e.target.value)
-    let Test = /^[_\->/()（）A-Za-z0-9\u4e00-\u9fa5]{0,50}$/.test(value);
-    if (!Test) {
-
-      dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_OPEN });
-
-      isFalse = true
-    }
-    if(isFalse){
-      return
-    }
-    dispatch({ type: actions.UpUIState.SUBJECT_TIPS_SHOW_CLOSE });
-    dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_CLOSE });
-
-    dispatch({ type: actions.UpUIState.GRADE_TIPS_SHOW_CLOSE });
-    let courseClassStus = data.selectData.Student.map((child, index) => {
-      return child.StudentID;
-    }).join();
-    let url = "/InsertOrEditCourseClass";
-
-    postData(
-      CONFIG.CourseClassProxy + url,
-      {
-        userID: userMsg.UserID,
-        userType: userMsg.UserType,
-        schoolID: userMsg.SchoolID,
-        courseClassName: data.selectData.CourseClass.CourseClassName,
-        teacherID: data.selectData.Teacher.value,
-        gradeID: data.GradeID,
-        subjectID: data.SubjectID,
-        courseClassStus: courseClassStus,
-        courseClassID: data.selectData.CourseClass.CourseClassID
-      },
-      2,
-      "json"
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        if (json.StatusCode === 400) {
-        } else if (json.StatusCode === 200) {
-          dispatch(
-            actions.UpUIState.showErrorAlert({
-              type: "success",
-              title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
-            })
-          );
-          if (userMsg.UserType === "0") {
-            if (handleRoute === "Search") {
-              dispatch(
-                actions.UpDataState.getClassAllMsg(
-                  "/GetGradeCouseclassDetailForPage?schoolID=" +
-                    this.state.UserMsg.SchoolID +
-                    "&key=" +
-                    routeID +
-                    "&pageIndex=" +
-                    pageIndex +
-                    "&pageSize="+DataState.SetPagiSizeMsg.ClassPagisize+"&subjectID=" +
-
-                    "&gradeID=" 
-
-                )
-              );
-            } else {
-              dispatch(
-                actions.UpDataState.getClassAllMsg(
-                  "/GetGradeCouseclassDetailForPage?schoolID=" +
-                    this.state.UserMsg.SchoolID +
-                    "&key=&pageIndex=" +
-                    pageIndex +
-                    "&pageSize="+DataState.SetPagiSizeMsg.ClassPagisize+"&subjectID=" +
-                    routeID +
-                    "&gradeID=" +
-                    classID,
-                  routeID,
-                  classID
-                )
-              );
-            }
-          } else if (userMsg.UserType === "1") {
-            history.push("/Teacher");
-          }
-        }
-      });
-    dispatch({ type: actions.UpUIState.MODAL_LOADING_CLOSE });
-    dispatch(actions.UpUIState.ChangeCourseClassModalClose());
-    dispatch(actions.UpDataState.setCourseClassName([]));
-    dispatch(actions.UpDataState.setCourseClassStudentMsg([]));
-    dispatch(actions.UpDataState.setSubjectTeacherMsg([]));
-    dispatch(actions.UpDataState.setClassStudentTransferMsg([]));
-    dispatch(actions.UpDataState.setClassStudentTransferTransferMsg([]));
-    dispatch(actions.UpDataState.setSubjectTeacherTransferMsg([]));
-  };
   //关闭
   onAlertWarnHide = () => {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   };
-  ChangeCourseClassModalCancel = () => {
-    const { dispatch, DataState } = this.props;
-    dispatch(actions.UpDataState.setCourseClassName({}));
-    dispatch(actions.UpDataState.setCourseClassStudentMsg({}));
-    dispatch(actions.UpDataState.setSubjectTeacherMsg([]));
-    dispatch(actions.UpDataState.setClassStudentTransferMsg({}));
-    dispatch(actions.UpDataState.setClassStudentTransferTransferMsg({}));
-    dispatch(actions.UpDataState.setSubjectTeacherTransferMsg({}));
-    dispatch(
-      actions.UpDataState.setCourseClassDataMsg({
-        Subject: {},
-        Grade: {},
-        Teacher: [],
-        Student: []
-      })
-    );
-    dispatch(actions.UpUIState.ChangeCourseClassModalClose());
-    dispatch({ type: actions.UpUIState.MODAL_LOADING_CLOSE });
-  };
-  //添加教学班模态框
-  AddCourseClassModalOk = () => {
-    const { dispatch, DataState } = this.props;
-    let Student =
-      DataState.GetCourseClassDetailsHandleClassMsg.selectData.Student;
-    let userMsg = DataState.LoginUser;
-    let data = DataState.GetCourseClassDetailsHandleClassMsg;
-    let route = history.location.pathname;
-    let pathArr = route.split("/");
-    let handleRoute = pathArr[1];
-    let routeID = pathArr[2];
-    let subjectID = pathArr[3];
-    let classID = pathArr[4];
-    let pageIndex = DataState.GetClassAllMsg.allClass.pageIndex;
-    let isFalse = false;
 
-    if (data.selectData.CourseClass.CourseClassName === "") {
-
-      dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_OPEN });
-      isFalse = true
-    }
-    let value = data.selectData.CourseClass.CourseClassName;
-    //console.log(this.state.courseClassName, e.target.value)
-    let Test = /^[_\->/()（）A-Za-z0-9\u4e00-\u9fa5]{0,50}$/.test(value);
-    if (value === "" || value === undefined || !Test) {
-
-      dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_OPEN });
-
-      isFalse = true
-
-    }
-
-    if (
-      data.selectData.Subject &&
-      data.selectData.Subject instanceof Object &&
-      !data.selectData.Subject.value
-    ) {
-     
-      dispatch({ type: actions.UpUIState.SUBJECT_TIPS_SHOW_OPEN });
-
-      isFalse = true
-
-    }
-
-    if (
-      data.selectData.Grade &&
-      data.selectData.Grade instanceof Object &&
-      !data.selectData.Grade.value
-    ) {
-
-      dispatch({ type: actions.UpUIState.GRADE_TIPS_SHOW_OPEN });
-
-
-      isFalse = true
-
-    }
-
-    if(isFalse){
-      return
-    }
-    dispatch({ type: actions.UpUIState.SUBJECT_TIPS_SHOW_CLOSE });
-    dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_CLOSE });
-
-    dispatch({ type: actions.UpUIState.GRADE_TIPS_SHOW_CLOSE });
-
-
-    let courseClassStus = data.selectData.Student.map((child, index) => {
-      return child.StudentID;
-    }).join();
-    let url = "/InsertOrEditCourseClass";
-
-
-    postData(
-      CONFIG.CourseClassProxy + url,
-      {
-        userID: userMsg.UserID,
-        userType: userMsg.UserType,
-        schoolID: userMsg.SchoolID,
-        courseClassName: data.selectData.CourseClass.CourseClassName,
-        teacherID: data.selectData.Teacher.value,
-        gradeID: data.selectData.Grade.value,
-        subjectID: data.selectData.Subject.value,
-        courseClassStus: courseClassStus,
-        courseClassID: ""
-      },
-      2,
-      "json"
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        if (json.StatusCode === 400) {
-
-        } else if (json.StatusCode === 200) {
-          dispatch(
-            actions.UpUIState.showErrorAlert({
-              type: "success",
-              title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
-            })
-          );
-          if (userMsg.UserType === "0") {
-            if (handleRoute === "Search") {
-              dispatch(
-                actions.UpDataState.getClassAllMsg(
-                  "/GetGradeCouseclassDetailForPage?schoolID=" +
-                    this.state.UserMsg.SchoolID +
-                    "&key=" +
-                    routeID +
-                    "&pageIndex=" +
-                    pageIndex +
-                    "&pageSize="+DataState.SetPagiSizeMsg.SearchPagisize+"&subjectID=" +
-
-                    "&gradeID=" 
-
-                )
-              );
-            } else {
-              if(classID){
-                dispatch(
-                  actions.UpDataState.getClassAllMsg(
-                    "/GetGradeCouseclassDetailForPage?schoolID=" +
-                      this.state.UserMsg.SchoolID +
-                      "&key=&pageIndex=" +
-                      pageIndex +
-                      "&pageSize="+DataState.SetPagiSizeMsg.ClassPagisize+"&subjectID=" +
-                      routeID +
-                      "&gradeID=" +
-                      classID,
-                    routeID,
-                    classID
-                  )
-                );
-              }else if(routeID){
-                dispatch({ type: actions.UpUIState.RIGHT_LOADING_OPEN });
-
-                dispatch(
-                  actions.UpDataState.getSubjectAllMsg(
-                    "/GetSubjectCouseclassSumarry?subjectID=" + routeID,
-                    routeID
-                  )
-                );
-              }else{
-                dispatch(
-                  actions.UpDataState.getCoureClassAllMsg(
-                    "/GetCouseclassSumarry?schoolID=" + this.state.UserMsg.SchoolID,
-                    this.MenuClcik
-                  )
-                );
-              }
-              
-            }
-          } else if (userMsg.UserType === "1") {
-            history.push("/Teacher");
-          }
-        }
-      });
-    dispatch(actions.UpUIState.AddCourseClassModalClose());
-    dispatch({ type: actions.UpUIState.MODAL_LOADING_CLOSE });
-
-    dispatch(actions.UpDataState.setCourseClassName({ CourseClassName: "" }));
-    dispatch(
-      actions.UpDataState.setCourseClassDataMsg({
-        Subject: {},
-        Grade: {},
-        Teacher: [],
-        Student: []
-      })
-    );
-    dispatch(actions.UpDataState.setCourseClassStudentMsg([]));
-    dispatch(actions.UpDataState.setSubjectTeacherMsg([]));
-    dispatch(actions.UpDataState.setClassStudentTransferMsg([]));
-    dispatch(actions.UpDataState.setClassStudentTransferTransferMsg([]));
-    dispatch(actions.UpDataState.setSubjectTeacherTransferMsg([]));
-  };
-  AddCourseClassModalCancel = () => {
-    const { dispatch, DataState } = this.props;
-    let Student = DataState.GetCourseClassDetailsHandleClassMsg.TableSource;
-    let Teacher = {
-      value: DataState.GetCourseClassDetailsHandleClassMsg.TeacherID,
-      title: DataState.GetCourseClassDetailsHandleClassMsg.TeacherName
-    };
-    dispatch(actions.UpUIState.AddCourseClassModalClose());
-    dispatch({ type: actions.UpUIState.SUBJECT_TIPS_SHOW_CLOSE });
-    dispatch({ type: actions.UpUIState.NAME_TIPS_SHOW_CLOSE });
-
-    dispatch({ type: actions.UpUIState.GRADE_TIPS_SHOW_CLOSE });
-    dispatch({ type: actions.UpUIState.MODAL_LOADING_CLOSE });
-  };
 
   menuClick({id,name}){
 
-    const { dispatch,breadCrumb } = this.props;
+    const { dispatch,breadCrumb,history } = this.props;
 
     const path  = history.location.pathname;
-
-    const state = path.split('/')[2];
-
-    if (state==='subject'){ //判断是在学科管理下还是学院管理下
-
-        let step = id==='all'?1:2;
-
-        dispatch(changeBreadCrumb({step,subject:{...breadCrumb.subject,activeSub:{id,name}}}));
-
-    }else{
-
-        let step = id==='all'?1:2;
-
-        dispatch(changeBreadCrumb({step,college:{...breadCrumb.college,activeCollege:{id,name}}}));
-
-    }
 
   }
 
   render() {
-    const { LoginUser,UIState,DataState,leftMenu,AppLoading } = this.props;
+    const { LoginUser,UIState,DataState,leftMenu,AppLoading,bannerState,history } = this.props;
 
     let {UserID,UserType,UserClass} = LoginUser;
 
@@ -786,57 +448,62 @@ class App extends Component {
       cnname = "我的教学班管理";
       enname = "My class Management";
     }
+
     return (
-      <React.Fragment>
+
+      <>
+
         <Loading
           tip="加载中..."
           opacity={false}
           size="large"
           spinning={AppLoading}
         >
-            <Router>
-             <Frame
 
-            pageInit={this.pageInit.bind(this)}
+                <Router>
 
-            module={{
-              cnname: cnname,
-              enname: enname,
-              image: logo
-            }}
-            type="triangle"
-            showBarner={this.state.showBarner}
-            showLeftMenu={leftMenu.show}
-          >
-            <div ref="frame-time-barner">
+                    <Frame
 
-              <Banner key={history.location.pathname}/>
+                    pageInit={this.pageInit.bind(this)}
 
-            </div>
+                    module={{
+                      cnname: cnname,
+                      enname: enname,
+                      image: logo
+                    }}
+                    type="triangle"
+                    showBarner={bannerState.show}
+                    showLeftMenu={leftMenu.show}
+                  >
+                    <div ref="frame-time-barner">
 
-            <div ref="frame-left-menu">
+                      <Banner key={history.location.pathname}/>
 
-                <LeftMenu Menu={leftMenu.menuList} menuClick={this.menuClick.bind(this)}></LeftMenu>
+                    </div>
 
-            </div>
+                    <div ref="frame-left-menu">
 
-            <div ref="frame-right-content">
+                        <LeftMenu Icon={"pic3"} Menu={leftMenu.menuList} menuClick={this.menuClick.bind(this)}></LeftMenu>
 
-               {
+                    </div>
 
-                 UserID?
+                    <div ref="frame-right-content">
 
-                   <AppRoutes></AppRoutes>
+                       {
 
-                 :null
+                         UserID?
 
-                }
+                           <AppRoutes></AppRoutes>
 
-            </div>
+                         :null
 
-             </Frame>
+                        }
 
-            </Router>
+                    </div>
+
+                     </Frame>
+
+                </Router>
 
         </Loading>
 
@@ -858,6 +525,7 @@ class App extends Component {
         </Alert>
 
         {/* 模态框 */}
+
         <Modal
           ref="CourseClassDetailsMadal"
           bodyStyle={{ padding: 0 }}
@@ -880,62 +548,7 @@ class App extends Component {
             <CourseClassDetails></CourseClassDetails>
           </Loading>
         </Modal>
-        <Modal
-          ref="CourseClassDetailsMadal"
-          type="1"
-          width={800}
 
-          destroyOnClose={true}
-          title={"编辑教学班"}
-          bodyStyle={{ height: 405 + "px", padding: 0 }}
-
-          visible={UIState.ChangeCourseClassModalShow.Show}
-          onOk={this.ChangeCourseClassModalOk}
-          onCancel={this.ChangeCourseClassModalCancel}
-        >
-          <Loading
-            wrapperClassName="handle-laoding"
-            opacity={false}
-            spinning={UIState.AppLoading.modalLoading}
-          >
-            <HandleCourseClass></HandleCourseClass>
-
-          </Loading>
-        </Modal>
-        <Modal
-          ref="AddCourseClassDetailsMadal"
-          type="1"
-          width={800}
-
-          destroyOnClose={true}
-          title={"添加教学班"}
-          bodyStyle={{ height: 405 + "px", padding: 0 }}
-
-
-          visible={UIState.AddCourseClassModalShow.Show}
-          onOk={this.AddCourseClassModalOk}
-          onCancel={this.AddCourseClassModalCancel}
-        >
-          <Loading
-            wrapperClassName="handle-laoding"
-            opacity={false}
-            spinning={UIState.AppLoading.modalLoading}
-          >
-            {UIState.AddCourseClassModalShow.Show ? (
-              <AddCourseClass
-                type={
-                  DataState.LoginUser.UserType === "0"
-                    ? "Admin"
-                    : DataState.LoginUser.UserType === "1"
-                    ? "Teacher"
-                    : false
-                }
-              ></AddCourseClass>
-            ) : (
-              ""
-            )}
-          </Loading>
-        </Modal>
         <Modal
           ref="LogDetailsMadal"
           type="1"
@@ -950,19 +563,21 @@ class App extends Component {
         >
           <LogDetails></LogDetails>
         </Modal>
-      </React.Fragment>
+
+      </>
     );
   }
 }
 const mapStateToProps = state => {
-  let { UIState, DataState,breadCrumb,AppLoading,leftMenu,LoginUser } = state;
+  let { UIState, DataState,breadCrumb,AppLoading,leftMenu,LoginUser,bannerState } = state;
   return {
     UIState,
     DataState,
     leftMenu,
     breadCrumb,
     AppLoading,
-    LoginUser
+    LoginUser,
+    bannerState
   };
 };
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(withRouter(App));

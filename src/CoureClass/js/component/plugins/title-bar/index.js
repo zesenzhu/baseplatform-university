@@ -1,7 +1,5 @@
 import React,{useEffect,useCallback,useMemo,memo} from 'react';
 
-import history from '../../../containers/history';
-
 import './index.scss';
 
 function TitleBar(props) {

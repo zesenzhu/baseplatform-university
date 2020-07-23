@@ -20,30 +20,29 @@ import {logCountUpdate} from "../../reducers/commonSetting";
 
 import {Button} from "antd";
 
-import {
-    DropDown,
-    Search,
-    Table,
-    PagiNation,
-    CheckBox,
-    CheckBoxGroup,
-    Loading,
-    Empty,
-    Alert,
-    Modal
-} from "../../../../common";
+import {DropDown, Search, Table, PagiNation, CheckBox,
+
+    CheckBoxGroup, Loading, Empty, Alert, Modal} from "../../../../common";
 
 import {teacherSearchReg,showWarnAlert,hideAlert,showQueryAlert,subNameReg} from '../../actions/utils';
 
-import './index.scss'
 import CombineCourseClass from "../Manager/CombineCourseClass";
+
+import {leftMemuHide} from "../../reducers/leftMenu";
+
+import './index.scss'
+
+
 
 
 
 function Index(props) {
 
     //loading
-    const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(true);
+
+    //tableLoading
+    const [tableLoading,setTableLoading] = useState(false);
 
     //学科
 
@@ -104,7 +103,7 @@ function Index(props) {
 
        total:0,
 
-       pageSizeList:[10,20,50,100]
+       pageSizeList:['10','20','50','100']
 
     });
 
@@ -202,6 +201,14 @@ function Index(props) {
     const AddEditClassRef = useRef();
 
 
+    //componentDidMount
+    useEffect(()=>{
+
+        dispatch(leftMemuHide());
+
+    },[]);
+
+
     useEffect(()=>{
 
         if (SchoolID){
@@ -253,6 +260,8 @@ function Index(props) {
         const GetCourseClassInfoForPage = GetCourseClassInfoForPage_University({schoolID:SchoolID,subjectID,courseNO,collegeID,gradeID,key,pageIndex,pageSize,userID:UserID,userType:UserType,dispatch});
 
         Promise.all([GetAllInfo,GetCourseClassInfoForPage]).then(res=>{
+
+           let LogCount = 0;
 
            if (res[0]){
 
@@ -321,8 +330,6 @@ function Index(props) {
 
            if (res[1]){
 
-
-
                let tableList = res[1].Item&&res[1].Item.length>0?res[1].Item.map((i,k)=>{
 
                     const NO = createNO(k);
@@ -351,11 +358,14 @@ function Index(props) {
 
                 });
 
+                LogCount = res[1].LastLogCount?res[1].LastLogCount:0;
+
            }
 
-            const LogCount = res[1].LastLogCount?res[1].LastLogCount:0;
 
             dispatch(logCountUpdate(LogCount));
+
+            setLoading(false);
 
             dispatch(appLoadingHide());
 
@@ -1111,7 +1121,7 @@ function Index(props) {
 
         const pageIndex = paginationRef.current.current;
 
-        setLoading(true);
+        setTableLoading(true);
 
         GetCourseClassInfoForPage_University({schoolID:SchoolID,subjectID,courseNO,collegeID,gradeID,key,pageIndex,pageSize,userID:UserID,userType:UserType,dispatch}).then(data=>{
 
@@ -1159,7 +1169,7 @@ function Index(props) {
 
             }
 
-            setLoading(false);
+            setTableLoading(false);
 
         });
 
@@ -1171,7 +1181,7 @@ function Index(props) {
 
     return(
 
-        <>
+        <Loading spinning={loading} tip={"加载中,请稍候..."}>
 
             <div className={"manage-wrapper"}>
 
@@ -1209,7 +1219,7 @@ function Index(props) {
 
                 <div className={"course-class-table"}>
 
-                    <Loading spinning={loading}>
+                    <Loading spinning={tableLoading}>
 
                         {
 
@@ -1252,7 +1262,7 @@ function Index(props) {
 
                     }
 
-                    <PagiNation onShowSizeChange={pageSizeChange} onChange={pageChange} showSizeChanger={true} current={pagination.current} total={pagination.total} pageSize={pagination.pageSize}>
+                    <PagiNation pageSizeOptions={pagination.pageSizeList} hideOnSinglePage={pagination.pageSize===parseInt(pagination.pageSizeList[0])} onShowSizeChange={pageSizeChange} onChange={pageChange} showSizeChanger={true} current={pagination.current} total={pagination.total} pageSize={pagination.pageSize}>
 
 
                     </PagiNation>
@@ -1320,7 +1330,7 @@ function Index(props) {
             </Modal>
 
 
-        </>
+        </Loading>
 
     )
 

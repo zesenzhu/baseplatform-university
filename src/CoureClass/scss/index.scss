@@ -18,3 +18,17 @@
 label {
     cursor: pointer;
 }
+
+#root{
+
+    &>.ant-spin-nested-loading{
+
+        &>.ant-spin-container:after{
+
+            z-index:1081;
+
+        }
+
+    }
+
+}

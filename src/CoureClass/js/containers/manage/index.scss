@@ -2,7 +2,7 @@
 
 .manage-wrapper{
 
-  padding: 28px 36px;
+  padding:28px 0;
 
   .title-bar-wrapper{
 
@@ -99,7 +99,7 @@
 
     z-index: 3;
 
-    margin: 16px auto;
+    margin: 16px 32px;
 
     line-height: 28px;
 
@@ -139,6 +139,8 @@
 
 
   .course-class-table{
+
+    margin:0 32px;
 
     font-size: 14px;
 
@@ -314,7 +316,7 @@
 
   .course-class-bottom{
 
-    margin:24px auto;
+    margin:24px 32px;
 
     height: 28px;
 

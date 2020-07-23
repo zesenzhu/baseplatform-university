@@ -6,6 +6,18 @@ import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 
 import Manage from './manage';
 
+import CollegeTotal from './statics/college-statics/total';
+
+import TheCollege from './statics/college-statics/the-college';
+
+import CourseTotal from './statics/course-statics/total';
+
+import TheCourse from './statics/course-statics/the-course';
+
+import TeacherTotal from './statics/teacher-statics/total';
+
+import TheResearchRoom from './statics/teacher-statics/the-research-room';
+
 
 
 function AppRoutes(props){
@@ -18,7 +30,19 @@ function AppRoutes(props){
 
             case 0:
 
-                return <Redirect path={"/*"} to={'/manage'}></Redirect>
+                return (<Switch>
+
+                    <Redirect path={"/statics/teacher*"} to={'/statics/teacher/total'}></Redirect>
+
+                    <Redirect path={"/statics/course*"} to={'/statics/course/total'}></Redirect>
+
+                    <Redirect path={"/statics/college*"} to={'/statics/college/total'}></Redirect>
+
+                    <Redirect path={"/statics*"} to={'/statics/college/total'}></Redirect>
+
+                    <Redirect path={"/*"} to={'/manage'}></Redirect>
+
+                </Switch>);
 
                 break;
 
@@ -73,6 +97,19 @@ function AppRoutes(props){
             }*/}
 
             <Route exact path={"/manage"} component={Manage}></Route>
+
+            <Route exact path={"/statics/college/total"} component={CollegeTotal}></Route>
+
+            <Route exact path={"/statics/college/:collegeID"} component={TheCollege}></Route>
+
+            <Route exact path={"/statics/course/total"} component={CourseTotal}></Route>
+
+            <Route exact path={"/statics/course/:courseType"} component={TheCourse}></Route>
+
+            <Route exact path={"/statics/teacher/total"} component={TeacherTotal}></Route>
+
+            <Route exact path={"/statics/teacher/:teachingRoomID"} component={TheResearchRoom}></Route>
+
 
             {RedirctPath}
 

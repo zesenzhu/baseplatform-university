@@ -831,7 +831,7 @@ class PageComponent extends React.Component {
 
           <AntPagination
 
-          className={`${className ? className : ""} ${
+          className={`${className} ${
             size && size === "micro" ? "micro" : ""
           } `}
 
@@ -3638,7 +3638,9 @@ PageComponent.defaultProps = {
 
     pageSize:10,
 
-    current:1
+    current:1,
+
+    className:''
 
 };
 

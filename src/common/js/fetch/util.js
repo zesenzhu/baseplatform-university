@@ -268,6 +268,7 @@ class ErrorAlert extends React.Component {
             abstract={this.props.title}
             onCancel={this.onCancel}
             onClose={this.onClose}
+            cancelShow={"n"}
         ></Alert>
     }
 
