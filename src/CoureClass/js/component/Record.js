@@ -29,6 +29,7 @@ import {
   Link,
   BrowserRouter
 } from "react-router-dom";
+import {appLoadingHide} from "../reducers/AppLoading";
 
 class Record extends React.Component {
   constructor(props) {
@@ -215,6 +216,8 @@ class Record extends React.Component {
                   "&operateType=0"
               )
           );
+
+          dispatch(appLoadingHide());
 
           this.setState({firstLoad:false});
 

@@ -310,10 +310,12 @@ const searchClassStudentMsg = (url) => {
             }
         });
     }
-}
+};
+
 //获取最新动态
 const getCourseClassDynamicMsg = (url) => {
     return (dispatch) => {
+
         dispatch(actions.UpUIState.CourseClassDynamicLoadingOpen());
 
         getData(CONFIG.CourseClassProxy + url,2).then(res => {
@@ -326,7 +328,7 @@ const getCourseClassDynamicMsg = (url) => {
             }
         });
     }
-}
+};
 //获取历史记录
 const getCourseClassRecordMsg = (url) => {
     return (dispatch) => {

@@ -18,6 +18,11 @@ import TeacherTotal from './statics/teacher-statics/total';
 
 import TheResearchRoom from './statics/teacher-statics/the-research-room';
 
+import ImportFile from '../component/ImportFile';
+
+import Record from '../component/Record';
+
+import Dynamic from '../component/Dynamic';
 
 
 function AppRoutes(props){
@@ -32,6 +37,10 @@ function AppRoutes(props){
 
                 return (<Switch>
 
+                    <Route path="/Log/Record" component={Record}></Route>
+
+                    <Route path="/Log/Dynamic" component={Dynamic}></Route>
+
                     <Redirect path={"/statics/teacher*"} to={'/statics/teacher/total'}></Redirect>
 
                     <Redirect path={"/statics/course*"} to={'/statics/course/total'}></Redirect>
@@ -41,6 +50,16 @@ function AppRoutes(props){
                     <Redirect path={"/statics*"} to={'/statics/college/total'}></Redirect>
 
                     <Redirect path={"/*"} to={'/manage'}></Redirect>
+
+                </Switch>);
+
+                break;
+
+            case 1:
+
+                return (<Switch>
+
+                    <Redirect path={"/*"} to={'/Teacher'}></Redirect>
 
                 </Switch>);
 
@@ -110,6 +129,7 @@ function AppRoutes(props){
 
             <Route exact path={"/statics/teacher/:teachingRoomID"} component={TheResearchRoom}></Route>
 
+            <Route exact path="/ImportFile" component={ImportFile}></Route>
 
             {RedirctPath}
 

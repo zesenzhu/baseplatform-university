@@ -172,6 +172,8 @@ function Index(props) {
 
     const LoginUser = useSelector(state=>state.LoginUser);
 
+    const { collegeID,collegeName,gradeID,gradeName,subjectID,subjectName,courseType,courseTypeName,courseName,courseID,teachingRoomID,teachingRoomName,teacherID,teacherName } = useSelector(state=>state.breadCrumb.manage);
+
     const {UserType,UserClass,SchoolID,UserID} = LoginUser;
 
     const dispatch = useDispatch();
@@ -213,13 +215,43 @@ function Index(props) {
 
         if (SchoolID){
 
+            if (collegeID&&collegeName&&gradeID&&gradeName){
+
+                collegeRef.current = {...collegeRef.current,dropSelectd:{value:collegeID,title:collegeName}};
+
+                gradesRef.current = {...gradesRef.current,dropSelectd:{value:gradeID,title:gradeName}};
+
+                setColleges(d=>({...d,dropSelectd:{value:collegeID,title:collegeName}}));
+
+                setGrades(d=>({...d,dropSelectd:{value:gradeID,title:gradeName}}));
+
+            }
+
+            if (subjectID&&courseID){
+
+                subjectsRef.current = {...subjectsRef.current,dropSelectd:{value:subjectID,title:subjectName}};
+
+                coursesRef.current = {...coursesRef.current,dropSelectd:{value:courseID,title:courseName}};
+
+                setSubjects(d=>({...d,dropSelectd:{value:subjectID,title:subjectName}}));
+
+                setCourses(d=>({...d,dropSelectd:{value:courseID,title:courseName}}));
+
+            }
+
+            if (teacherID&&teacherName){
+
+                searchRef.current = {...searchRef.current,value:teacherID,CancelBtnShow:'y'};
+
+                setSearch(d=>({...d,value:teacherID,CancelBtnShow:'y'}));
+
+            }
 
             pageInit();
 
-
         }
 
-    },[UserType]);
+    },[SchoolID]);
 
 
     //成功的出现函数
@@ -276,7 +308,7 @@ function Index(props) {
 
                const data = res[0];
 
-               let subjectList = [],collegeList = [],gradeList=[];
+               let subjectList = [],collegeList = [],gradeList=[],courseList = [],courseDisabled=true;
 
                if(data.SubjectItem&&data.SubjectItem.length>0){
 
@@ -301,6 +333,23 @@ function Index(props) {
                }
 
                gradeList.unshift({value:'',title:'全部年级'});
+
+
+               if (courseID&&subjectID){
+
+                   if(data.CourseItem&&data.CourseItem.length>0){
+
+                       courseList = data.CourseItem.filter(i=>i.SubjectID===subjectID).map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                   }
+
+                   courseList.unshift({value:'',title:'全部课程'});
+
+                   courseDisabled = false;
+
+               }
+
+               setCourses(d=>({...d,dropList:courseList,disabled:courseDisabled}));
 
                setSubjects(d=>{
 

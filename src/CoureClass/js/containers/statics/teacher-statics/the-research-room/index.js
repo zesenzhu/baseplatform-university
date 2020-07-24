@@ -17,6 +17,7 @@ import {GetTeachingRoomCouseclassSumarry_University,GetTeachingRoomCouseclassSum
 import StaticsCircle from '../../../../component/plugins/statics-circle';
 
 import './index.scss';
+import {manageBreadCrumbChange} from "../../../../reducers/breadCrumb";
 
 function TheCollege(props) {
 
@@ -248,7 +249,9 @@ function TheCollege(props) {
     //点击卡片
     const tabClick = useCallback(({CardID,CardName})=>{
 
-        
+        dispatch(manageBreadCrumbChange({teachingRoomID,teachingRoomName,teacherID:CardID,teacherName:CardName}));
+
+        history.push('/manage');
 
     },[]);
 
@@ -285,7 +288,7 @@ function TheCollege(props) {
 
                         :
 
-                        <Empty type={"3"} title={"暂无教学班相关数据"}></Empty>
+                        <Empty type={"3"} title={"暂无教师相关教学班数据"}></Empty>
 
                 }
 

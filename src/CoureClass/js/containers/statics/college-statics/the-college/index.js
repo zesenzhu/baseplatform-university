@@ -12,6 +12,8 @@ import CardTab from '../../../../component/plugins/card-tab';
 
 import {NavLink} from 'react-router-dom';
 
+import {manageBreadCrumbChange} from "../../../../reducers/breadCrumb";
+
 import {GetCollegeGradeCouseclassSumarry_University} from '../../../../actions/apiActions';
 
 import Charts from '../../../../component/plugins/charts';
@@ -167,16 +169,20 @@ function TheCollege(props) {
 
     //点击图表
 
-    const chartClick = (GradeID) =>{
+    const chartClick = (gradeID,gradeName) =>{
 
+        dispatch(manageBreadCrumbChange({gradeID,collegeID,collegeName,gradeName}));
 
+        history.push('/manage');
 
     };
 
     //点击卡片
     const tabClick = useCallback(({CardID,CardName})=>{
 
+        dispatch(manageBreadCrumbChange({gradeID:CardID,gradeName:CardName,collegeID,collegeName}));
 
+        history.push('/manage');
 
     },[]);
 
@@ -203,7 +209,7 @@ function TheCollege(props) {
 
                         </>
 
-                        :<Empty type={"3"} title={"暂无教学班相关信息"}></Empty>
+                        :<Empty type={"3"} title={"暂无年级相关教学班信息"}></Empty>
 
                 }
 

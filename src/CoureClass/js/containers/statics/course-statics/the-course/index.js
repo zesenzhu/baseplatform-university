@@ -12,6 +12,8 @@ import CardTab from '../../../../component/plugins/card-tab';
 
 import {NavLink} from 'react-router-dom';
 
+import {manageBreadCrumbChange} from "../../../../reducers/breadCrumb";
+
 import {GetCourseTypeCouseclassSumarryForPage_University,GetCourseTypeCouseclassSumarry_University} from '../../../../actions/apiActions';
 
 import StaticsCircle from '../../../../component/plugins/statics-circle';
@@ -258,7 +260,9 @@ function TheCourse(props) {
     //点击卡片
     const tabClick = useCallback(({CardID,CardName})=>{
 
-        
+        dispatch(manageBreadCrumbChange({subjectID,subjectName,courseTypeName,courseType,courseID:CardID,courseName:CardName}));
+
+        history.push('/manage');
 
     },[]);
 
@@ -307,7 +311,7 @@ function TheCourse(props) {
 
                         :
 
-                        <Empty type={"3"} title={"暂无教学班相关数据"}></Empty>
+                        <Empty type={"3"} title={"暂无课程相关教学班数据"}></Empty>
 
                 }
 

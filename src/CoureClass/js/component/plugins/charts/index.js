@@ -204,11 +204,11 @@ function Charts(props) {
     //点击事件
     const clickChart = useCallback((params)=>{
 
-        const {data} = params;
+        const {data,name} = params;
 
         const { id } = data;
 
-        chartClick(id);
+        chartClick(id,name);
 
     },[]);
 

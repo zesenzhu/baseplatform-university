@@ -44,7 +44,7 @@ function Index(props) {
 
                 <span className="tips">当前共有<span className={"red"}>{LogCount}</span>条更新记录
 
-                 <NavLink className="tips_handle">查看详情</NavLink>
+                    <NavLink target={"_blank"} to={"/Log/Dynamic"} className="tips_handle">查看详情</NavLink>
 
                 </span>
 

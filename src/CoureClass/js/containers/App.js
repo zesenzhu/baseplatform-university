@@ -72,7 +72,7 @@ class App extends Component {
 
       const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:parseInt(UserInfo.UserClass)};
 
-      dispatch(loginUserUpdate(UserInfoCopy));
+
 
       let UserType = UserInfo.UserType;
 
@@ -87,6 +87,9 @@ class App extends Component {
               UserInfo
           )
       );
+
+      dispatch(loginUserUpdate(UserInfoCopy));
+
       that.setState({
           UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
       });
@@ -183,6 +186,14 @@ class App extends Component {
 
               }
 
+              if(route.split('/')[1]==='Teacher'){
+
+                  dispatch(bannerHide());
+
+                  dispatch(leftMemuHide());
+
+              }
+
           });
 
       }
@@ -226,7 +237,6 @@ class App extends Component {
 
       if (parseInt(UserType)===7||parseInt(UserType)===10){
 
-          console.log(UserMsg,this.state.UserMsg);
           let SubjectID = DataState.GetCoureClassAllMsg.Subject;
           let GradeID = DataState.GetCoureClassAllMsg.Grade;
 
@@ -236,22 +246,13 @@ class App extends Component {
           let subjectID = pathArr[3];
           let classID = pathArr[4];
 
-          if (UserMsg.UserType==='0'&&handleRoute==='manager'){
 
-              this.setState({
-                  showBarner: true,
-                  showLeftMenu: true
-              });
 
-          }else if (
+        if (
               (UserMsg.UserType === "0" || UserMsg.UserType === "7") &&
               handleRoute === "Log"
           ) {
 
-              this.setState({
-                  showBarner: true,
-                  showLeftMenu: true
-              });
 
               if (routeID === "Record") {
                   dispatch(
@@ -313,25 +314,15 @@ class App extends Component {
                   let subjectID = pathArr[3];
                   let classID = pathArr[4];
 
-                  if (UserMsg.UserType==='0'&&handleRoute==='manager'){
 
-                      this.setState({
-                          showBarner: true,
-                          showLeftMenu: true
-                      });
 
-                  }else if (
+                if (
                       (UserMsg.UserType === "0" || UserMsg.UserType === "7") &&
                       handleRoute === "Log"
                   ) {
 
-                      this.setState({
-                          showBarner: true,
-                          showLeftMenu: true
-                      });
-
                       if (routeID === "Record") {
-                          dispatch(
+                         /* dispatch(
                               actions.UpDataState.getCourseClassRecordMsg(
                                   "/GetGourseClassLogForPage?userID=" +
                                   UserMsg.UserID +
@@ -345,9 +336,10 @@ class App extends Component {
 
                                   "&operateType=0"
                               )
-                          );
+                          );*/
                       } else {
-                          dispatch(
+
+                          /*dispatch(
                               actions.UpDataState.getCourseClassDynamicMsg(
                                   "/GetGourseClassLogNew?userID=" +
                                   UserMsg.UserID +
@@ -359,16 +351,16 @@ class App extends Component {
                                   "&endDate=" +
                                   "&operateType=0"
                               )
-                          );
+                          );*/
                       }
 
-                      dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });
+
+
+                     /* dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });*/
 
                   } else if (UserMsg.UserType === "1" && handleRoute === "Teacher") {
-                      this.setState({
-                          showBarner: true,
-                          showLeftMenu: false
-                      });
+
+                    console.log(UserMsg);
 
                       dispatch(
                           actions.UpDataState.getTeacherCourseClassMsg(
@@ -380,11 +372,6 @@ class App extends Component {
                       );
 
 
-                  } else if (handleRoute === "ImportFile") {
-                      this.setState({
-                          showBarner: false,
-                          showLeftMenu: false
-                      });
                   }
               }
           });
