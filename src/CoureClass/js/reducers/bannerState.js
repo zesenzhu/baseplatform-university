@@ -10,13 +10,19 @@ export const BANNER_LOG_SHOW = 'BANNER_LOG_SHOW';
 
 export const BANNER_LOG_HIDE = 'BANNER_LOG_HIDE';
 
+export const BANNER_BTN_HIDE = 'BANNER_BTN_HIDE';
+
+export const BANNER_BTN_SHOW = 'BANNER_BTN_SHOW';
+
 const defaultState = {
 
   tab:true,
 
   log:true,
 
-  show:true
+  show:true,
+
+  btn:false
 
 };
 
@@ -57,6 +63,18 @@ export const bannerLogShow = ()=>{
 
 };
 
+export const bannerBtnShow = ()=>{
+
+    return {type:BANNER_BTN_SHOW};
+
+};
+
+export const bannerBtnHide = ()=>{
+
+    return {type:BANNER_BTN_HIDE};
+
+};
+
 
 const bannerState = (state=defaultState,actions)=>{
 
@@ -85,6 +103,14 @@ const bannerState = (state=defaultState,actions)=>{
         case BANNER_LOG_HIDE:
 
             return {...state,log:false};
+
+        case BANNER_BTN_SHOW:
+
+            return {...state,btn:true};
+
+        case BANNER_BTN_HIDE:
+
+            return {...state,btn:false};
 
         default:
 

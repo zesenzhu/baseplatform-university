@@ -8,7 +8,7 @@ function CardTab(props) {
 
     return(
 
-        <div className={`card-wrapper card-type${type} clearfix`}>
+        <div className={`card-statics-wrapper card-type${type} clearfix`}>
 
             {
 

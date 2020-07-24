@@ -31,6 +31,7 @@ import CombineCourseClass from "../Manager/CombineCourseClass";
 import {leftMemuHide} from "../../reducers/leftMenu";
 
 import './index.scss'
+import actions from "../../actions";
 
 
 
@@ -481,9 +482,9 @@ function Index(props) {
 
                 title:'班级名称',
 
-                render:(i)=>{
+                render:(i,data)=>{
 
-                    return <Button type={"link"} className={"course-class-name"} title={i}>{i}</Button>
+                    return <Button type={"link"} onClick={e=>openClassDetail(data.CourseClassID)} className={"course-class-name"} title={i}>{i}</Button>
 
                 }
 
@@ -1225,6 +1226,15 @@ function Index(props) {
     };
 
 
+    //打开教学班详情的弹窗
+
+    const openClassDetail = (classID)=>{
+
+        dispatch(actions.UpUIState.CourseClassDetailsModalOpen());
+
+        dispatch(actions.UpDataState.getCourseClassDetailsMsg('/GetCourseClassDetail_University?courseClassID='+classID))
+
+    };
 
 
 

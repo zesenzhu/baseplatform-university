@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState,memo} from "react";
+import React,{useEffect,useRef,useState,memo,useCallback} from "react";
 
 import { connect } from "react-redux";
 
@@ -48,14 +48,14 @@ function Teacher(props){
     const AddEditClassRef = useRef();
 
 
-    const editCourseClass = (classID) => {
+    const editCourseClass = useCallback((classID) => {
 
       setAddEditCourse(e=>({...e,show:true,courseClassID:classID}));
 
-    };
+    },[]);
 
     //编辑教学班OK
-    const addEditOk = () =>{
+    const addEditOk = useCallback(() =>{
 
         const { CourseClassID,CourseClassName,GradeID,showGradeTip,showCourseClassTip, CourseNO, showCourseTip, TeacherID, showTeacherTip, ClassIDs, StudentIDs, showModalLoading,hideModalLoading } = AddEditClassRef.current;
 
@@ -144,10 +144,10 @@ function Teacher(props){
         }
 
 
-    };
+    },[]);
 
 
-    const updateTeacherCourseClass = () =>{
+    const updateTeacherCourseClass = useCallback(() =>{
 
         dispatch(
             actions.UpDataState.getTeacherCourseClassMsg(
@@ -158,7 +158,7 @@ function Teacher(props){
             )
         );
 
-    };
+    },[]);
 
     return (
 
@@ -177,6 +177,8 @@ function Teacher(props){
                   key={k}
                   params={i}
                   editCourseClass ={editCourseClass}
+
+                  updateTeacherCourseClass={updateTeacherCourseClass}
 
                   >
 

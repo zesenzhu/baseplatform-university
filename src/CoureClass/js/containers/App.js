@@ -10,22 +10,21 @@ import Frame from "../../../common/Frame";
 
 import logo from "../../images/image-MyClass.png";
 
-import Record from "../component/Record";
-
-import ImportFile from "../component/ImportFile";
-
 import LogDetails from "../component/LogDetails";
-
 
 import CourseClassDetails from "../component/CourseClassDetails";
 
-import {changeBreadCrumb} from '../reducers/breadCrumb';
-
 import {leftMemuShow,leftMemuHide} from "../reducers/leftMenu";
 
-import {bannerShow,bannerHide} from "../reducers/bannerState";
+import {
+    bannerShow,
+    bannerHide,
+    bannerBtnShow,
+    bannerLogHide,
+    bannerTabHide,
+    bannerBtnHide
+} from "../reducers/bannerState";
 
-import Teacher from "../component/Teacher";
 
 import Banner from '../component/banner/index';
 
@@ -132,6 +131,20 @@ class App extends Component {
 
           }
 
+          if(route.split('/')[1]==='Teacher'){
+
+              dispatch(bannerShow());
+
+              dispatch(bannerBtnShow());
+
+              dispatch(bannerLogHide());
+
+              dispatch(bannerTabHide());
+
+              dispatch(leftMemuHide());
+
+          }
+
           that.requestData(route);
 
       });
@@ -188,11 +201,19 @@ class App extends Component {
 
               if(route.split('/')[1]==='Teacher'){
 
-                  dispatch(bannerHide());
+                  dispatch(bannerShow());
+
+                  dispatch(bannerLogHide());
+
+                  dispatch(bannerTabHide());
+
+                  dispatch(bannerBtnShow());
 
                   dispatch(leftMemuHide());
 
               }
+
+
 
           });
 
@@ -253,7 +274,6 @@ class App extends Component {
               handleRoute === "Log"
           ) {
 
-
               if (routeID === "Record") {
                   dispatch(
                       actions.UpDataState.getCourseClassRecordMsg(
@@ -288,11 +308,6 @@ class App extends Component {
 
               dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });
 
-          }else if (handleRoute === "ImportFile") {
-              this.setState({
-                  showBarner: false,
-                  showLeftMenu: false
-              });
           }
 
       }else{
@@ -359,8 +374,6 @@ class App extends Component {
                      /* dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });*/
 
                   } else if (UserMsg.UserType === "1" && handleRoute === "Teacher") {
-
-                    console.log(UserMsg);
 
                       dispatch(
                           actions.UpDataState.getTeacherCourseClassMsg(
@@ -464,7 +477,7 @@ class App extends Component {
                   >
                     <div ref="frame-time-barner">
 
-                      <Banner key={history.location.pathname}/>
+                      <Banner/>
 
                     </div>
 

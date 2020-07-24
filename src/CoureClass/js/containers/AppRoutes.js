@@ -24,6 +24,8 @@ import Record from '../component/Record';
 
 import Dynamic from '../component/Dynamic';
 
+import Teacher from '../component/Teacher';
+
 
 function AppRoutes(props){
 
@@ -130,6 +132,8 @@ function AppRoutes(props){
             <Route exact path={"/statics/teacher/:teachingRoomID"} component={TheResearchRoom}></Route>
 
             <Route exact path="/ImportFile" component={ImportFile}></Route>
+
+            <Route exact path="/Teacher" component={Teacher}></Route>
 
             {RedirctPath}
 
