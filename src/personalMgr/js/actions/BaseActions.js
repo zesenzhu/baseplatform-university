@@ -81,16 +81,65 @@ const Init = () => {
 
     return (dispatch,getState) => {
 
-
         dispatch({type:BASE_SETTING_LOADING_SHOW});
 
         let { UserID,UserType,Gender } = getState().LoginUser;
 
         let { BaseSetting } = getState();
 
+        const { PhotoPath_NoCache } = BaseSetting;
 
+        let userType = '';
 
-        getBaseInfo({UserID,UserType,dispatch}).then(data => {
+        let gender = '';
+
+        switch (UserType) {
+
+            case 0:
+
+                userType = 'Admin';
+
+                break;
+
+            case 1:
+
+                userType = 'Teacher';
+
+                break;
+
+            case 2:
+
+                userType = 'Student';
+
+                break;
+
+            default:
+
+                userType = 'Admin';
+
+        }
+
+        switch (Gender) {
+
+            case '男':
+
+                gender = '0';
+
+                break;
+
+            case '女':
+
+                gender = '1';
+
+                break;
+
+            default:
+
+                gender = '-1';
+
+        }
+
+        /*getBaseInfo({UserID,UserType,dispatch}).then(data => {
 
             if (data){
 
@@ -194,6 +243,40 @@ const Init = () => {
 
 
             }
+
+        });*/
+
+        ApiActions.GetResHttpServerAddr({dispatch}).then(data=>{
+
+            if (data){
+
+                var option = {
+
+                    token: sessionStorage.getItem('token'),
+
+                    resWebUrl: data, //资源站点地址
+
+                    userType:userType,   //用户类型，可选值Admin、Student、Teacher、SchoolLeader
+
+                    userID:UserID, //新增时传空字符串、编辑时传相应UserID
+
+                    curImgPath:PhotoPath_NoCache?PhotoPath_NoCache:BaseSetting.PhotoPath_NoCache, //用户当前头像，新增时可不传
+
+                    size:"small",
+
+                    gender
+
+                };
+
+                dispatch({type:PICUPLOADER_OPTIONS_UPDATE,data:option});
+
+                $('#PicUpload').picUploader(option);
+
+            }
+
+            dispatch({type:BASE_SETTING_LOADING_HIDE});
+
+            dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
         });
 
@@ -354,7 +437,7 @@ const UpdateSesstionStorage = () => {
 
 //获取base信息
 
-let getBaseInfo =  async ({UserID,UserType,dispatch}) => {
+export const getBaseInfo =  async ({UserID,UserType,dispatch}) => {
 
     let res = await Method.getGetData(`/UserMgr/PersonalMgr/GetBasicInfo?UserID=${UserID}&UserType=${UserType}`,2,CONFIG.PersonalProxy);
 
