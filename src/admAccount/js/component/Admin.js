@@ -103,27 +103,27 @@ class Admin extends React.Component {
             );
           },
         },
-        {
-          title: "访问权限",
-          width: 120,
-          align: "center",
-          dataIndex: "Power",
-          key: "Power",
-          render: (Power) => {
-            return (
-              <Tooltip
-                placement="topLeft"
-                width={540}
-                trigger="click"
-                overlayClassName="PowerTip"
-                arrowPointAtCenter={true}
-                title={<TipsPower data={Power}></TipsPower>}
-              >
-                <span className="Power">查看</span>
-              </Tooltip>
-            );
-          },
-        },
+        // {
+        //   title: "访问权限",
+        //   width: 120,
+        //   align: "center",
+        //   dataIndex: "Power",
+        //   key: "Power",
+        //   render: (Power) => {
+        //     return (
+        //       <Tooltip
+        //         placement="topLeft"
+        //         width={540}
+        //         trigger="click"
+        //         overlayClassName="PowerTip"
+        //         arrowPointAtCenter={true}
+        //         title={<TipsPower data={Power}></TipsPower>}
+        //       >
+        //         <span className="Power">查看</span>
+        //       </Tooltip>
+        //     );
+        //   },
+        // },
         {
           title: "联系方式",
           width: 120,
@@ -1347,7 +1347,8 @@ class Admin extends React.Component {
                 </Modal> */}
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0 }}
+          bodyStyle={{ padding: 0,height: '350px' }}
+          width={530}
           type="1"
           title={"添加管理员"}
           visible={this.state.addAdminModalVisible}
@@ -1367,7 +1368,8 @@ class Admin extends React.Component {
         </Modal>
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0 }}
+          bodyStyle={{ padding: 0 ,height: '350px'}}
+          width={530}
           type="1"
           title={"编辑管理员"}
           visible={this.state.changeAdminModalVisible}

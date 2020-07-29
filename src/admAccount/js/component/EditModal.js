@@ -596,7 +596,7 @@ class EditModal extends React.Component {
               </Tips>
             </div>
           </div>
-          <div className="row clearfix">
+          {/* <div className="row clearfix">
             <span className="culonm-1">权限分配：</span>
             <div className="culonm-2 culonm-3">
               <Scrollbars style={{height:'350px', width: "100%" }}>
@@ -689,7 +689,7 @@ class EditModal extends React.Component {
               </Scrollbars>
             </div>
 
-          </div>
+          </div> */}
 
         </div>
       </div>
