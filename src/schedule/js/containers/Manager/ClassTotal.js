@@ -20,6 +20,8 @@ import SDActions from "../../actions/ScheduleDetailActions";
 
 import {CSSTransition} from 'react-transition-group';
 
+import WeekDayPick from '../../component/WeekDayPick';
+
 
 
 class ClassTotal extends Component{
@@ -63,42 +65,18 @@ class ClassTotal extends Component{
 
     }
 
-    //选择某一周次
-    weekPickEvent(e){
 
-        const {dispatch} = this.props;
 
-        dispatch({type:CTActions.MANAGER_CLASS_TOTAL_WEEK_CHANGE,data:e.value});
-
-        $('#tb').find('div.ant-table-body').scrollTop(0);
-
-        dispatch(CTActions.ClassTotalPageUpdate());
-
-    }
-
-    //选择下一周次
-    weekNextEvent(){
+    //日期变化
+    weekDateChange(date,week,weekDay){
 
         const {dispatch,ClassTotal} = this.props;
 
-        const {WeekNO} = ClassTotal;
+        dispatch({type:CTActions.MANAGER_CT_NOW_WEEK_NO_CHANGE,data:week});
 
-        dispatch({type:CTActions.MANAGER_CLASS_TOTAL_WEEK_CHANGE,data:(WeekNO+1)});
+        dispatch({type:CTActions.MANAGER_CT_NOW_WEEK_DAY_CHANGE,data:weekDay});
 
-        $('#tb').find('div.ant-table-body').scrollTop(0);
-
-        dispatch(CTActions.ClassTotalPageUpdate());
-
-    }
-
-    //选择上一周次
-    weekPrevEvent(){
-
-        const {dispatch,ClassTotal} = this.props;
-
-        const {WeekNO} = ClassTotal;
-
-        dispatch({type:CTActions.MANAGER_CLASS_TOTAL_WEEK_CHANGE,data:(WeekNO-1)});;
+        dispatch({type:CTActions.MANAGER_CT_NOW_CLASS_DATE_CHANGE,data:date});
 
         $('#tb').find('div.ant-table-body').scrollTop(0);
 
@@ -119,14 +97,6 @@ class ClassTotal extends Component{
             dispatch(CTActions.ClassTotalPageUpdate({nextPage:true}));
 
         }
-
-        /* else if (Math.ceil(ClassCount/10)>0){
-
-            message.info('已经是最后一页了！',0.2);
-
-            message.config({maxCount:1,top:200});
-
-        } */
 
     }
 
@@ -168,7 +138,7 @@ class ClassTotal extends Component{
 
         const { ItemClassHour,ItemClassHourCount,NowClassHourNO } = SubjectCourseGradeClassRoom;
 
-        const {WeekNO,ScheduleList} = ClassTotal;
+        const {NowWeekNO,ScheduleList} = ClassTotal;
 
         const { ClassID } = Params;
 
@@ -186,7 +156,7 @@ class ClassTotal extends Component{
 
         });
 
-        dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_PARAMS_UPDATE,data:{ItemClassHour,ItemClassHourCount,NowClassHourNO,WeekNO,PageIndex:FindPage}});
+        dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_PARAMS_UPDATE,data:{ItemClassHour,ItemClassHourCount,NowClassHourNO,WeekNO:NowWeekNO,PageIndex:FindPage}});
 
         dispatch(SDActions.ScheduleDetailShow(Params));
 
@@ -219,10 +189,6 @@ class ClassTotal extends Component{
 
         const { PeriodWeekTerm,SubjectCourseGradeClassRoom,ClassTotal } = this.props;
 
-        const { ScheduleDetail,ChangeTime,AdjustClassRoom,ReplaceSchedule } = ClassTotal;
-
-
-
         return(
 
             <CSSTransition in={this.state.fullScreen} timeout={200} classNames={"full-screen"}>
@@ -247,7 +213,24 @@ class ClassTotal extends Component{
 
                         </DropDown>
 
-                        <TermPick
+                        <WeekDayPick
+
+                            NowWeekNO={ClassTotal.NowWeekNO}
+
+                            NowWeekDay={ClassTotal.NowWeekDay}
+
+                            NowClassDate={ClassTotal.NowClassDate}
+
+                            WeekList ={ClassTotal.WeekList}
+
+                            weekDateChange={this.weekDateChange.bind(this)}
+
+                        >
+
+
+                        </WeekDayPick>
+
+                       {/* <TermPick
 
                             ItemTermName={PeriodWeekTerm.ItemTerm?PeriodWeekTerm.ItemTerm.TermName:''}
 
@@ -264,7 +247,7 @@ class ClassTotal extends Component{
                             WeekNO={PeriodWeekTerm.WeekNO?PeriodWeekTerm.WeekNO:''}
                         >
 
-                        </TermPick>
+                        </TermPick>*/}
 
                         <div className="double-single-table-wrapper">
 

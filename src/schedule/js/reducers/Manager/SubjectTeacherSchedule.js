@@ -6,15 +6,19 @@ const SubjectTeacherSchedule = (state={
 
     ItemSubjectSelect:{value:0,title:"全部学科"},
 
-    NowWeekNo:0,
-
     pageIndex:1,
 
     loadingShow:true,
 
     TeacherCount:0,
 
-    ScheduleList:[]
+    ScheduleList:[],
+
+    NowWeekNO:1,
+
+    NowClassDate:'',
+
+    NowWeekDay:1
 
     /*ScheduleDetail:{
 
@@ -104,76 +108,6 @@ const SubjectTeacherSchedule = (state={
 
                 ScheduleList:[],
 
-                ScheduleDetailModal:{
-
-                    Show:false,
-
-                    ModalLoading:false
-
-                },
-
-
-                ChangeTime:{
-
-                    Show:false,
-
-                    ModalLoading:true,
-
-                    SelectWeekDay:'',
-
-                    SelectClassHourNO:0,
-
-                    SelectDate:''
-
-                },
-
-                AdjustClassRoom:{
-
-                    Show:false,
-
-                    ModalLoading:true,
-
-                    ClassRoomList:[],
-
-                    ClassRoomTabActive:0,
-
-                    CheckedValue:'',
-
-                    SearchValue:'',
-
-                    CancelBtnShow:'n',
-
-                    SearchWrapperShow:false,
-
-                    SearchList:[],
-
-                    SearchLoading:false
-
-                },
-
-                ReplaceSchedule:{
-
-                    Show:false,
-
-                    ModalLoading:true,
-
-                    SearchLoading:false,
-
-                    TeacherList:[],
-
-                    ActiveTeacherID:'',
-
-                    SearchList:[],
-
-                    CancelBtnShow:'n',
-
-                    SearchValue:'',
-
-                    SearchLoadingShow:false
-
-                }
-
-
             };
 
         case STSActions.SUBJECT_TEACHER_SCHEDULE_TEACHER_COUNT:
@@ -184,9 +118,17 @@ const SubjectTeacherSchedule = (state={
 
           return {...state,ItemSubjectSelect:actions.data};
 
-        case STSActions.STS_NOW_WEEK_CHANGE:
+        case STSActions.MANAGER_STS_NOW_WEEK_NO_CHANGE:
 
-            return {...state,NowWeekNo:actions.data};
+            return {...state,NowWeekNO:actions.data};
+
+        case STSActions.MANAGER_STS_NOW_WEEK_DAY_CHANGE:
+
+            return {...state,NowWeekDay:actions.data};
+
+        case STSActions.MANAGER_STS_NOW_CLASS_DATE_CHANGE:
+
+            return {...state,NowClassDate:actions.data};
 
         case STSActions.SUBJECT_TEACHER_SCHEDULE_UPDATE:
 

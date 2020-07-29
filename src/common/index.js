@@ -1398,7 +1398,9 @@ class DropComponent extends React.Component {
                     ? mutipleOptions.empSearchTitle
                     : "暂未有相关数据"
                 }
-              ></Empty>
+              >
+
+              </Empty>
             )}
           </Loading>
         </ul>

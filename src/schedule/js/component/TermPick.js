@@ -6,6 +6,7 @@ import {DropDown} from "../../../common";
 class TermPick extends Component{
 
 
+
     render() {
 
         const {ItemTermName,WeekNO,ItemWeek,NowWeekNo,weekPickEvent,weekNextEvent,weekPrevEvent} = this.props;
