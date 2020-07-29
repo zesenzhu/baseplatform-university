@@ -8,18 +8,21 @@ import { postData } from '../../../common/js/fetch'
 
 import '../../scss/ShowCard.scss'
 
-import { HashRouter as Router, Route, Link, BrowserRouter } from 'react-router-dom';
-
 import CONFIG from '../../../common/js/config';
 
 import history from "../containers/history";
+
+import {showQueryAlert,showSuccessAlert} from "../actions/utils";
+
 
 function ShowCardTeacher(props){
 
 
     //props
 
-    const { dispatch, DataState, UIState,editCourseClass } = props;
+    const { dispatch, DataState, UIState } = props;
+
+    const {editCourseClass,updateTeacherCourseClass} = props;
 
     const { LoginUser } = DataState;
 
@@ -31,32 +34,19 @@ function ShowCardTeacher(props){
 
         editCourseClass(classID);
 
-        /*dispatch(actions.UpUIState.ChangeCourseClassModalOpen());
-
-        dispatch(actions.UpDataState.getCourseClassDetailsHandleClassMsg('/GetCourseClassDetail_University?courseClassID=' + classID))
-*/
-
-
     };
     //删除教学班
     const onDeleteClick = (classID) => {
         
-        dispatch(actions.UpUIState.showErrorAlert({
+        dispatch(showQueryAlert({
             type: 'btn-warn',
             title: "您确定删除？",
-            ok: e=>onAppAlertDeleteOK(classID),
-            cancel:onAppAlertCancel,
-            close:onAppAlertClose
+            ok: e=>onAppAlertDeleteOK(classID)
         }));
 
     };
 
-     //关闭
-  const onAlertWarnHide = () => {
 
-    dispatch(actions.UpUIState.hideErrorAlert());
-
-  };
     //单个删除
     const onAppAlertDeleteOK = (id) => {
 
@@ -74,36 +64,21 @@ function ShowCardTeacher(props){
         },2,'json').then(res => {
             return res.json()
         }).then(json => {
+
             if (json.StatusCode === 200) {
-                dispatch(actions.UpUIState.showErrorAlert({
+
+                dispatch(showSuccessAlert({
                     type: 'success',
-                    title: "成功",
-                    onHide: e=>onAlertWarnHide()
+                    title: "成功"
                 }));
-                history.push('/Teacher')
+
+                updateTeacherCourseClass();
 
             }
         })
     };
 
-    //通用提示弹窗
-    const onAppAlertOK = () => {
 
-        dispatch(actions.UpUIState.hideErrorAlert());
-
-    };
-
-
-    const onAppAlertCancel = () => {
-
-        dispatch(actions.UpUIState.hideErrorAlert());
-
-    };
-    const onAppAlertClose = () => {
-
-        dispatch(actions.UpUIState.hideErrorAlert());
-
-    };
     //查看教学班
     const onCheckClick = (classID) => {
 

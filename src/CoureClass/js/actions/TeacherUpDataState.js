@@ -1,9 +1,8 @@
 import { postData, getData } from "../../../common/js/fetch";
-import UpUIState from './UpUIState';
 import CONFIG from '../../../common/js/config';
 import 'whatwg-fetch';
 import actions from './index'
-import Mock from 'mockjs'
+import {appLoadingHide} from "../reducers/AppLoading";
 //常量
 //获取教师任课的教学班信息
 const GET_TECHER_COURSE_CLASS_MSG = 'GET_TECHER_COURSE_CLASS_MSG';
@@ -24,7 +23,7 @@ const getTeacherCourseClassMsg = (url) => {
                 dispatch({ type: GET_TECHER_COURSE_CLASS_MSG, data: json.Data });
                 dispatch({ type: actions.UpUIState.RIGHT_LOADING_CLOSE });
 
-                dispatch({type:actions.UpUIState.APP_LOADING_CLOSE});
+                dispatch(appLoadingHide());
             }
         });
     }

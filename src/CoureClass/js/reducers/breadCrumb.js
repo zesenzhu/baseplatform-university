@@ -1,53 +1,107 @@
-const BREADCRUMB_CHANGE = 'BREADCRUMB_CHANGE';
+const COLLEGE_BREADCRUMB_CHANGE = 'COLLEGE_BREADCRUMB_CHANGE';
 
-export const changeBreadCrumb = ({step,subject,college}) =>{
+const BREADCRUMB_INIT = 'BREADCRUMB_INIT';
 
-    return {type:BREADCRUMB_CHANGE,data:{step,subject,college}};
+const COURSE_BREADCRUMB_CHANGE = 'COURSE_BREADCRUMB_CHANGE';
+
+const TEACHER_BREADCRUMB_CHANGE = 'TEACHER_BREADCRUMB_CHANGE';
+
+
+const MANAGE_BREADCRUMB_CHANGE = 'MANAGE_BREADCRUMB_CHANGE';
+
+
+
+export const collegeBreadCrumbChange = (payLoad) =>{
+
+    return { type:COLLEGE_BREADCRUMB_CHANGE,data:payLoad };
+
+};
+
+export const courseBreadCrumbChange = (payLoad) =>{
+
+    return { type:COURSE_BREADCRUMB_CHANGE,data:payLoad };
+
+};
+
+export const teacherBreadCrumbChange = (payLoad) => {
+
+    return { type:TEACHER_BREADCRUMB_CHANGE,data:payLoad };
+
+};
+
+export const manageBreadCrumbChange = (payLoad) => {
+
+  return {type:MANAGE_BREADCRUMB_CHANGE,data:payLoad};
+
+};
+
+
+export const breadCrumbInit = ()=>{
+
+    return {type:BREADCRUMB_INIT};
 
 };
 
 
 const defaultState = {
 
-    step:1,
+   college:{
 
-    subject:{
+      collegeID:'',
 
-        activeSub:{
+      collegeName:''
 
-            id:"all",
+   },
 
-            name:'教学班信息总览'
+   course:{
 
-        },
+       subjectID:'',
 
-        activeCourse:{
+       subjectName:'',
 
-            id:'',
+       courseType:'',
 
-            name:''
+       courseTypeName:''
 
-        }
+   },
 
-    },
+   teacher:{
 
-    college:{
+       teachingRoomID:'',
 
-        activeCollege:{
+       teacherRoomName:''
 
-            id:"all",
+   },
 
-            name:'教学班信息总览'
+    manage:{
 
-        },
+        collegeID:'',
 
-        activeCourse:{
+        collegeName:'',
 
-            id:'',
+        gradeID:'',
 
-            name:''
+        gradeName:'',
 
-        }
+        subjectID:'',
+
+        subjectName:'',
+
+        courseType:'',
+
+        courseTypeName:'',
+
+        courseName:'',
+
+        courseID:'',
+
+        teachingRoomID:'',
+
+        teachingRoomName:'',
+
+        teacherID:'',
+
+        teacherName:''
 
     }
 
@@ -57,17 +111,308 @@ const breadCrumb = (state=defaultState,actions) =>{
 
     switch (actions.type) {
 
-        case BREADCRUMB_CHANGE:
+        case COLLEGE_BREADCRUMB_CHANGE:
+
+            return {
+
+                college:{
+
+                    ...state.college,
+
+                    ...actions.data
+
+                },
+
+                course:{
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:''
+
+                },
+
+                teacher:{
+
+                    teachingRoomID:'',
+
+                    teacherRoomName:''
+
+                },
+
+                manage:{
+
+                    collegeID:'',
+
+                    collegeName:'',
+
+                    gradeID:'',
+
+                    gradeName:'',
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:'',
+
+                    courseName:'',
+
+                    courseID:'',
+
+                    teachingRoomID:'',
+
+                    teachingRoomName:'',
+
+                    teacherID:'',
+
+                    teacherName:''
+
+                }
+
+            };
+
+
+        case COURSE_BREADCRUMB_CHANGE:
+
+            return {
+
+                college:{
+
+                    collegeID:'',
+
+                    collegeName:''
+
+                },
+
+                teacher:{
+
+                    teachingRoomID:'',
+
+                    teacherRoomName:''
+
+                },
+
+                manage:{
+
+                    collegeID:'',
+
+                    collegeName:'',
+
+                    gradeID:'',
+
+                    gradeName:'',
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:'',
+
+                    courseName:'',
+
+                    courseID:'',
+
+                    teachingRoomID:'',
+
+                    teachingRoomName:'',
+
+                    teacherID:'',
+
+                    teacherName:''
+
+                },
+
+                course:{
+
+                    ...state.course,
+
+                    ...actions.data
+
+                }
+
+            };
+
+        case TEACHER_BREADCRUMB_CHANGE:
+
+            return {
+
+                college:{
+
+                    collegeID:'',
+
+                    collegeName:''
+
+                },
+
+                teacher:{
+
+                    ...state.teacher,
+
+                    ...actions.data
+
+                },
+
+                course:{
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:''
+
+                },
+
+                manage:{
+
+                    collegeID:'',
+
+                    collegeName:'',
+
+                    gradeID:'',
+
+                    gradeName:'',
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:'',
+
+                    courseName:'',
+
+                    courseID:'',
+
+                    teachingRoomID:'',
+
+                    teachingRoomName:'',
+
+                    teacherID:'',
+
+                    teacherName:''
+
+                }
+
+            };
+
+        case MANAGE_BREADCRUMB_CHANGE:
+
+            return {
+
+                college:{
+
+                    collegeID:'',
+
+                    collegeName:''
+
+                },
+
+                teacher:{
+
+                   teachingRoomID:'',
+
+                   teachingRoomName:''
+
+                },
+
+                course:{
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:''
+
+                },
+
+                manage:{
+
+                    ...state.manage,
+
+                    ...actions.data
+
+                }
+
+            };
+
+        case BREADCRUMB_INIT:
 
             return {
 
                 ...state,
 
-                step:actions.data.step?actions.data.step:state.step,
+                college:{
 
-                subject:actions.data.subject?actions.data.subject:state.subject,
+                    collegeID:'',
 
-                college:actions.data.college?actions.data.college:state.college
+                    collegeName:''
+
+                },
+
+                course:{
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:''
+
+                },
+
+                teacher:{
+
+                    teachingRoomID:'',
+
+                    teacherRoomName:''
+
+                },
+
+                manage:{
+
+                    collegeID:'',
+
+                    collegeName:'',
+
+                    gradeID:'',
+
+                    gradeName:'',
+
+                    subjectID:'',
+
+                    subjectName:'',
+
+                    courseType:'',
+
+                    courseTypeName:'',
+
+                    courseName:'',
+
+                    courseID:'',
+
+                    teachingRoomID:'',
+
+                    teachingRoomName:'',
+
+                    teacherID:'',
+
+                    teacherName:''
+
+                }
 
             };
 

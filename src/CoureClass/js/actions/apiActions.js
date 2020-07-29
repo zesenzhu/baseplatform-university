@@ -3,6 +3,8 @@ import Config from '../../../common/js/config';
 import {getGetData,getPostData,showErrorAlert}  from './utils';
 
 
+
+
 //获取教学班总览信息，可选择按学科管理或按学院管理
 export const GetCouseclassSumarry_University = async ({schoolID,userID,userType,type,dispatch}) =>{
 
@@ -216,6 +218,243 @@ export const GetCourseInfoByUserID_University = async ({schoolID='',userID='',di
     }
 
 };
+
+
+
+
+//新版本教学班
+
+
+//获取全部学科、课程、学院、年级信息
+
+export const GetAllTeachInfo_university = async ({schoolID='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetAllTeachInfo_university?schoolID=${schoolID}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+//分页获取教学班信息（大学版）
+export const GetCourseClassInfoForPage_University = async ({schoolID='',subjectID='',courseNO='',collegeID='',gradeID='',key='',pageIndex='',pageSize='',userID='',userType='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCourseClassInfoForPage_University?schoolID=${schoolID}&subjectID=${subjectID}&courseNO=${courseNO}&collegeID=${collegeID}&gradeID=${gradeID}&key=${key}&pageIndex=${pageIndex}&pageSize=${pageSize}&userID=${userID}&userType=${userType}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+//获取学院教学班统计信息
+export const GetCollegeCouseclassSumarry_University = async ({schoolID='',userID='',userType='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCollegeCouseclassSumarry_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+//分页获取学院教学班统计信息
+export const GetCollegeCouseclassSumarryForPage_University = async ({schoolID='',userID='',userType='',pageIndex=1,pageSize=9,dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCollegeCouseclassSumarryForPage_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&pageIndex=${pageIndex}&pageSize=${pageSize}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+//获取学院年级教学班统计信息
+export const GetCollegeGradeCouseclassSumarry_University = async ({schoolID='',userID='',userType='',collegeID='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCollegeGradeCouseclassSumarry_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&collegeID=${collegeID}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+//获取课程教学班统计信息
+export const GetCouseclassSumarryOfCourse_University = async ({schoolID='',userID='',userType='',subjectID='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCouseclassSumarryOfCourse_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&subjectID=${subjectID}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+//分页获取课程类型下的课程教学班统计信息
+export const GetCourseTypeCouseclassSumarryForPage_University = async ({schoolID='',userID='',userType='',subjectID='',courseType='',pageIndex=1,pageSize=9,dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCourseTypeCouseclassSumarryForPage_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&subjectID=${subjectID}&courseType=${courseType}&pageIndex=${pageIndex}&pageSize=${pageSize}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+//课程类型教学班统计信息
+export const GetCourseTypeCouseclassSumarry_University = async ({schoolID='',userID='',userType='',subjectID='',courseType='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetCourseTypeCouseclassSumarry_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&subjectID=${subjectID}&courseType=${courseType}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+//获取教师教学班统计信息
+export const GetTeacherCouseclassSumarry_University = async ({schoolID='',userID='',userType='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetTeacherCouseclassSumarry_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}`,2,Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+//分页获取教研室信息
+
+export const GetTeachingRoomForPage_University = async ({schoolID='',userID='',userType='',pageSize=9,pageIndex=1,dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetTeachingRoomForPage_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&pageIndex=${pageIndex}&pageSize=${pageSize}`,2,
+
+        /*Config.NewCourseClass);*/
+
+    'http://192.168.2.202:7300/mock/5f158050d53dee0d30437de6/CourseClass');
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+
+//获取教研室教学班统计信息
+
+export const GetTeachingRoomCouseclassSumarry_University = async ({schoolID='',userID='',userType='',teachingRoomID='',dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetTeachingRoomCouseclassSumarry_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&teachingRoomID=${teachingRoomID}`,2, Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+
+//分页获取教研室教师教学班信息
+
+export const GetTeachingRoomCouseclassSumarryForPage_University = async ({schoolID='',userID='',userType='',teachingRoomID='',pageIndex=1,pageSize=9,dispatch}) =>{
+
+    const res = await getGetData(`/CourseClass/api/GetTeachingRoomCouseclassSumarryForPage_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&teachingRoomID=${teachingRoomID}&pageIndex=${pageIndex}&pageSize=${pageSize}`,2, Config.NewCourseClass);
+
+    if (res.StatusCode===200){
+
+        return res.Data;
+
+    }else if (res.StatusCode===400){
+
+        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+    }
+
+};
+
+
+
+
+
+
+
+
+
+
+
 
 
 

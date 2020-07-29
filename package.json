@@ -29,7 +29,7 @@
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
     "dynamic-file": "^0.2.1",
-    "echarts": "^4.2.1",
+    "echarts": "^4.8.0",
     "es6-promise": "^4.2.8",
     "es6-shim": "^0.35.5",
     "eslint": "^5.16.0",

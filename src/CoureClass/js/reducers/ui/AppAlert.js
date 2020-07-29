@@ -18,9 +18,9 @@ const defaultState = {
 
     onClose:'',
 
-    okShow:true,
+    okShow:'y',
 
-    cancelShow:true,
+    cancelShow:'n',
 
     okTitle:'',
 
@@ -33,7 +33,7 @@ const AppAlert = (state = defaultState, actions) => {
 
         case UpUIState.SHOW_ERROR_ALERT:
 
-            return { appAlert: true, title: actions.msg.title,littleTitle: actions.msg.littleTitle,type: actions.msg.type, onOk: actions.msg.ok, onCancel: actions.msg.cancel, onClose: actions.msg.close ,onHide:actions.msg.onHide,okShow:actions.msg.okShow,cancelShow:actions.msg.cancelShow,okTitle:actions.msg.okTitle,cancelTitle:actions.msg.cancelTitle};
+            return { appAlert: true, title: actions.msg.title,littleTitle: actions.msg.littleTitle,type: actions.msg.type, onOk: actions.msg.ok, onCancel: actions.msg.cancel, onClose: actions.msg.close ,onHide:actions.msg.onHide,okShow:actions.msg.okShow?actions.msg.okShow:state.okShow,cancelShow:actions.msg.cancelShow?actions.msg.cancelShow:state.cancelShow,okTitle:actions.msg.okTitle,cancelTitle:actions.msg.cancelTitle};
 
         case UpUIState.CLOSE_ERROR_ALERT:
 

@@ -390,7 +390,7 @@ class Empty extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { style } = nextProps;
 
     this.setState({
@@ -522,7 +522,7 @@ class Modal extends React.Component {
     this.selectType(this.props.type);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { title } = nextProps;
 
     this.selectType(this.props.type);
@@ -831,7 +831,7 @@ class PageComponent extends React.Component {
 
           <AntPagination
 
-          className={`${className ? className : ""} ${
+          className={`${className} ${
             size && size === "micro" ? "micro" : ""
           } `}
 
@@ -1179,7 +1179,7 @@ class DropComponent extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
     const { dropSelectd,dropList } = nextProps;
 
@@ -2447,7 +2447,7 @@ class Menu extends React.Component {
     });
     this.paramsDeconstruction(this.props);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.paramsDeconstruction(nextProps); //props有变化时执行
   }
 
@@ -3640,7 +3640,9 @@ PageComponent.defaultProps = {
 
     pageSize:10,
 
-    current:1
+    current:1,
+
+    className:''
 
 };
 
