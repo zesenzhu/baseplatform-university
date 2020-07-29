@@ -273,6 +273,36 @@ function DoubleSingleTable(props){
     },[ItemClassHour]);
 
 
+    useEffect(()=>{
+
+        if ($('.ant-table-fixed-header .ant-table-scroll .ant-table-hide-scrollbar').css("overflow")==='auto'){
+
+            $('.ant-table-fixed-header .ant-table-scroll .ant-table-hide-scrollbar').css("margin-bottom",'0');
+
+        }else{
+
+            $('.ant-table-fixed-header .ant-table-scroll .ant-table-hide-scrollbar').css("margin-bottom","-17px")
+
+        }
+
+        if ($('.full-screen-doing').length>0){
+
+            const width = 140 + ItemClassHour.length*125;
+
+            $('.full-screen-doing .ant-table-wrapper').css({
+
+                "max-width":width+"px",
+
+                "margin":"0 auto"
+
+            });
+
+        }
+
+    });
+
+
+
         //旧代码
 
         /*//设置头部的td
