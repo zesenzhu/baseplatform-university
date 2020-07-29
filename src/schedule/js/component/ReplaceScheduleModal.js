@@ -27,11 +27,9 @@ class ReplaceScheduleModal extends Component{
         } = Params;
 
 
-
         const TeacherListRemove = TeacherList.filter(i=>i.ID!==TeacherID);
 
         const SearchListRemove = SearchList.filter(i=>i.ID!==TeacherID);
-
 
         return (
 
@@ -96,7 +94,7 @@ class ReplaceScheduleModal extends Component{
 
                                     SearchWrapperShow?
 
-                                        SearchListRemove.length>0?SearchListRemove.map((item,key)=> {
+                                        (SearchListRemove.length>0?SearchListRemove.map((item,key)=> {
 
                                            /* if (item.ID !== TeacherID) {*/
 
@@ -107,11 +105,11 @@ class ReplaceScheduleModal extends Component{
 
                                            /* }*/
 
-                                        }):<Empty type="5" title="没有搜索到内容,请换个搜索词试试"></Empty>
+                                        }):<Empty type="5" title="没有搜索到内容,请换个搜索词试试"></Empty>)
 
                                         :
 
-                                        TeacherListRemove.length>0?SearchListRemove.map((item,key)=>{
+                                        TeacherListRemove.length>0?TeacherListRemove.map((item,key)=>{
 
                                             /*if (item.ID !== TeacherID) {*/
 

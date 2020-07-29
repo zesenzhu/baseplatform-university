@@ -12,7 +12,7 @@ import CourseClass from './CourseClass';
 
 import {GetCouseclassSumarry_University} from "../../actions/apiActions";
 
-import {menuRouterInit} from "../../reducers/leftMenu";
+import {leftMenuListUpdate} from "../../reducers/leftMenu";
 
 import {collegeDataChange} from "../../reducers/previewData";
 
@@ -40,7 +40,7 @@ function College(props) {
 
                 routers.unshift({link:'/manager/college/all',name:'教学班信息总览',menu:'menu10',id:'all'});
 
-                dispatch(menuRouterInit(routers));
+                dispatch(leftMenuListUpdate(routers));
 
                 data.Item = data.Item?data.Item.map(i=>({...i,ObjectName:i.ObjectName})):[];
 
@@ -74,7 +74,7 @@ function College(props) {
 
                 routers.unshift({link:'/manager/college/all',name:'教学班信息总览',menu:'menu10',id:'all'});
 
-                dispatch(menuRouterInit(routers));
+                dispatch(leftMenuListUpdate(routers));
 
                 data.Item = data.Item?data.Item.map(i=>({...i,ObjectName:i.ObjectName})):[];
 

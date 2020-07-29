@@ -4,6 +4,8 @@ import {Loading, Modal} from "../../../common";
 
 import ApiActons from '../actions/ApiActions';
 
+import SDActions from '../actions/ScheduleDetailActions';
+
 import {connect} from 'react-redux';
 
 
@@ -78,11 +80,37 @@ function ChangeTimeModal(props){
 
 
 
+    useEffect(()=>{
+
+        if (Show){
+
+            ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO,dispatch}).then(data=>{
+
+                if (data){
+
+                    const list = data&&data.length>0?data:[];
+
+                    setSchedule(list);
+
+                }
+
+                 setLoading(false);
+
+                //dispatch({type:SDActions.COMPONENT_CHANGE_TIME_MODAL_LOADING_HIDE});
+
+            });
+
+        }
+
+
+    },[Show]);
+
+
     const weekPick = (num) =>{
 
         setLoading(true);
 
-        ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO,dispatch}).then(data=>{
+        ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO:num,dispatch}).then(data=>{
 
             if (data){
 
@@ -102,29 +130,27 @@ function ChangeTimeModal(props){
 
 
     //初始化
-    useEffect(()=>{
-
-        if (loading&&Show){
-
-            console.log(NowClassRoomID,ClassID,CourseClassID,TeacherID);
-
-            ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO,dispatch}).then(data=>{
-
-                if (data){
-
-                    const list = data.Item&&data.Item.length>0?data.Item:[];
-
-                    setSchedule(list);
-
-                }
-
-                setLoading(false);
-
-            });
-
-        }
-
-    },[NowClassRoomID,ClassID,CourseClassID,TeacherID]);
+    // useEffect(()=>{
+    //
+    //     if (loading&&Show){
+    //
+    //         ApiActons.GetScheduleForChangeTime({ClassID,TeacherID,CourseClassID,ClassRoomID:NowClassRoomID,WeekNO,dispatch}).then(data=>{
+    //
+    //             if (data){
+    //
+    //                 const list = data.Item&&data.Item.length>0?data.Item:[];
+    //
+    //                 setSchedule(list);
+    //
+    //             }
+    //
+    //             setLoading(false);
+    //
+    //         });
+    //
+    //     }
+    //
+    // },[NowClassRoomID,ClassID,CourseClassID,TeacherID]);
 
 
 

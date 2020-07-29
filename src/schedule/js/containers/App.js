@@ -262,6 +262,13 @@ class App extends Component{
     }*/
 
 
+
+    componentDidMount(){
+
+        window.onerror=()=>{return true};
+
+    }
+
     pageInit(){
 
         const {dispatch} = this.props;
@@ -271,8 +278,6 @@ class App extends Component{
         let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
 
         let { UserType,UserClass } = UserInfo;
-
-        console.log(UserInfo);
 
         //判断权限
 
@@ -488,10 +493,6 @@ class App extends Component{
         const { dispatch } = this.props;
 
         dispatch({type:SDActions.COMPONENT_SCHEDULE_DETAIL_MODAL_HIDE});
-
-        /*ComPageRefresh.ComPageUpdate(dispatch);*/
-
-        /*dispatch(SDActions.STSPageUpdate());*/
 
     }
 
@@ -842,8 +843,6 @@ class App extends Component{
                                             adjustByTeacherShow = {this.adjustByTeacherShow.bind(this)}
 
                                             adjustByClassRoomShow={this.adjustByClassRoomShow.bind(this)}
-
-
 
                                             Import={this.Import.bind(this)}
 

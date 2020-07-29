@@ -306,7 +306,7 @@ class ReplaceSchedule extends Component{
 
     }else {
 
-        TeacherSubjectTip = '该教师暂无课程安排';
+        TeacherSubjectTip = '该教师暂无可调整课程';
 
     }
 
@@ -347,7 +347,7 @@ class ReplaceSchedule extends Component{
 
                     </div>
 
-                    <div className="subject-wrapper clearfix" style={{zIndex:4}}>
+                    <div className="subject-wrapper clearfix">
 
                         <div className="props">学科:</div>
 
@@ -441,18 +441,7 @@ class ReplaceSchedule extends Component{
                                 disabled={replaceTeacherOptions.dropDisabled}
                                 dropList={replaceTeacherOptions.dropList}
                                 style={{zIndex:9}}
-                                // type="multiple"
-                                // mutipleOptions={{
-                                //     range:2,
-                                //     dropMultipleList:teacherList,
-                                //     dropMultipleChange:this.replaceTeacherDropChange.bind(this),
-                                //     dropClickSearch:this.replaceTeacherClickSearch.bind(this),
-                                //     dropCancelSearch:this.replaceTeacherSearchClose.bind(this),
-                                //     searchList:replaceTeacherOptions.searchList,
-                                //     searchPlaceholder:"请输入姓名或工号进行搜索...",
-                                //     searchOpen:replaceTeacherOptions.searchOpen,
-                                //     searchLoadingShow:replaceTeacherOptions.searchLoadingShow
-                                // }}
+
                                 >
 
                             </DropDown>

@@ -17,6 +17,8 @@ import {useStateValue} from "../../actions/hooks";
 
 import $ from "jquery";
 
+import utils from '../../actions/utils';
+
 
 
 
@@ -24,43 +26,6 @@ import $ from "jquery";
 
 
 function AddTempScheduleModal(props){
-
-   /* constructor(props) {
-
-        super(props);
-
-        this.state={
-
-            update:false,
-
-            course:{
-
-                dropSelectd:{value:'none',title:"请选择课程"},
-
-                dropList:[],
-
-                searchList:[],
-
-                searchOpen:false,
-
-                searchLoadingShow:true,
-
-                CancelBtnShow:'n'
-
-            },
-
-            courseClass:{
-
-                dropSelectd:{value:'none',title:"请选择班级"},
-
-                dropList:[]
-
-            }
-
-        }
-
-    }*/
-
 
     const [courseState,setCourseState] = useState({
 
@@ -210,13 +175,13 @@ function AddTempScheduleModal(props){
     //课程搜索
     const courseSearchClick = (e) => {
 
-        const  result = utils.SearchReg({key:e.value,type:'2',dispatch,ErrorTips:'输入的班级名称或ID格式不正确'});
+        const  result = utils.SearchReg({key:e.value,type:'2',dispatch,ErrorTips:'输入的课程名称格式不正确'});
 
         if (result){
 
             let searchList = [];
 
-            this.state.course.dropList.map(i=>{
+            courseState.dropList.map(i=>{
 
                 let list = i.list.filter(item=>item.name.indexOf(e.value)!==-1);
 
@@ -224,20 +189,18 @@ function AddTempScheduleModal(props){
 
             });
 
-            console.log(searchList);
-
-            this.setState({course:{...this.state.course,searchOpen:true,CancelBtnShow:'y',searchList,searchLoadingShow:false}});
+            setCourseState(d=>({...d,searchOpen:true,CancelBtnShow:'y',searchList,searchLoadingShow:false}));
 
         }
 
 
-    }
+    };
 
 
     //课程搜索取消
     const courseSearchClose = (e) =>{
 
-        this.setState({course:{...this.state.course,CancelBtnShow:'n',searchOpen:false}});
+        setCourseState(d=>({...d,CancelBtnShow:'n',searchOpen:false}));
 
     };
 

@@ -3,6 +3,7 @@ import ApiActions from '../ApiActions';
 import AppAlertActions from '../AppAlertActions';
 
 import utils from '../utils';
+import AppLoadingActions from "../AppLoadingActions";
 
 const SUBJECT_TEACHER_SCHEDULE_INIT = 'SUBJECT_TEACHER_SCHEDULE_INIT';
 
@@ -12,7 +13,11 @@ const TEACHER_SUBJECT_TEACHER_SUBJECT_TEACHER_COUNT = 'TEACHER_SUBJECT_TEACHER_S
 
 const STS_SUBJECT_CHANGE = 'STS_SUBJECT_CHANGE';
 
-const STS_NOW_WEEK_CHANGE = 'STS_NOW_WEEK_CHANGE';
+const TEACHER_STS_NOW_WEEK_NO_CHANGE = 'TEACHER_STS_NOW_WEEK_NO_CHANGE';
+
+const TEACHER_STS_NOW_WEEK_DAY_CHANGE = 'TEACHER_STS_NOW_WEEK_DAY_CHANGE';
+
+const TEACHER_STS_NOW_CLASS_DATE_CHANGE = 'TEACHER_STS_NOW_CLASS_DATE_CHANGE';
 
 const STS_PAGE_ADD = 'STS_PAGE_ADD';
 
@@ -134,7 +139,8 @@ const STSPageUpdate = (opt) => {
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
-        let {NowWeekNo,SubjectSelectd,SubjectTitleID,schedule,pageIndex,SubjectDropShow} = Teacher.SubjectTeacherSubjectSchedule;
+        let {NowClassDate,SubjectSelectd,SubjectTitleID,schedule,pageIndex,SubjectDropShow} = Teacher.SubjectTeacherSubjectSchedule;
+
 
         let SubjectID = '';
 
@@ -156,7 +162,10 @@ const STSPageUpdate = (opt) => {
 
         }
 
-        ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+
+        //旧代码
+
+       /* ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
             SubjectID,CollegeID,SchoolID,WeekNO:NowWeekNo,PageIndex,PageSize:10,dispatch
 
@@ -237,7 +246,88 @@ const STSPageUpdate = (opt) => {
 
             dispatch({type:LOADING_HIDE});
 
+        });*/
+
+
+        ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,SubjectID,PageIndex,CollegeID,ClassDate:NowClassDate,dispatch}).then(data=>{
+
+            if (data){
+
+                let SubjectTeacherSubjectSchedule =  data.ItemTeacher.map((item) => {
+
+                    let teacherObj = {
+
+                        id:item.TeacherID,
+
+                        name:item.TeacherName
+
+                    };
+
+                    let list = utils.ScheduleRemoveRepeat(data.ItemSchedule.map((i) => {
+
+                        if (i.TeacherID === item.TeacherID){
+
+                            return {
+
+                                ...i,
+
+                                type:i.ScheduleType,
+
+                                title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                secondTitle:i.SubjectName,
+
+                                secondTitleID:i.SubjectID,
+
+                                thirdTitle:i.ClassRoomName,
+
+                                thirdTitleID:i.ClassRoomID,
+
+                                WeekDay:i.WeekDay,
+
+                                ClassHourNO:i.ClassHourNO
+
+                            };
+
+                        }else {
+
+                            return ;
+
+                        }
+
+                    }).filter(i => {return i!==undefined}));
+
+                    teacherObj['list'] = list;
+
+                    return teacherObj;
+
+                });
+                //判断操作是否是下一页操作
+                if (opt&&opt.nextPage){
+
+                    schedule.push(...SubjectTeacherSubjectSchedule);
+
+                    dispatch({type:SUBJECT_TEACHER_SCHEDULE_UPDATE,data:schedule});
+
+                    dispatch({type:STS_PAGE_ADD});
+
+                }else{
+
+                    dispatch({type:SUBJECT_TEACHER_SCHEDULE_UPDATE,data:SubjectTeacherSubjectSchedule});
+
+                }
+
+                dispatch({type:TEACHER_SUBJECT_TEACHER_SUBJECT_TEACHER_COUNT,data:data.TeacherCount});
+
+            }
+
+
+            dispatch({type:LOADING_HIDE});
+
         });
+
 
     }
 
@@ -875,7 +965,11 @@ export default {
 
     STS_SUBJECT_CHANGE,
 
-    STS_NOW_WEEK_CHANGE,
+    TEACHER_STS_NOW_WEEK_NO_CHANGE,
+
+    TEACHER_STS_NOW_WEEK_DAY_CHANGE,
+
+    TEACHER_STS_NOW_CLASS_DATE_CHANGE,
 
     SUBJECT_TEACHER_SCHEDULE_UPDATE,
 

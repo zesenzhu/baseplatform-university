@@ -171,6 +171,12 @@ class Teacher extends Component{
 
     }
 
+    componentDidMount(){
+
+        console.log(this.Term);
+
+    }
+
     render() {
 
         const { PeriodWeekTerm ,Manager} = this.props;
@@ -252,11 +258,14 @@ class Teacher extends Component{
 
                         weekPrevEvent = {this.weekPrevEvent.bind(this)}
                         
-                        WeekNO={PeriodWeekTerm.WeekNO?PeriodWeekTerm.WeekNO:''}>
+                        WeekNO={PeriodWeekTerm.WeekNO?PeriodWeekTerm.WeekNO:''}
+
+                    >
 
                     </TermPick>
 
                     <SingleDoubleTable
+
                         topHeight = {64}
                         commonHeight = {90}
                         commonWidth={106}

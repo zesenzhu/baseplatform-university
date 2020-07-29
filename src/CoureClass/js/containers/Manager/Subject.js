@@ -12,7 +12,7 @@ import CourseClass from './CourseClass';
 
 import {GetCouseclassSumarry_University} from "../../actions/apiActions";
 
-import {menuRouterInit} from "../../reducers/leftMenu";
+import {leftMenuListUpdate} from "../../reducers/leftMenu";
 
 import {subjectDataChange} from "../../reducers/previewData";
 
@@ -69,7 +69,7 @@ function Subject(props) {
 
                 routers.unshift({link:'/manager/subject/all',name:'教学班信息总览',menu:'menu10',id:'all'});
 
-                dispatch(menuRouterInit(routers));
+                dispatch(leftMenuListUpdate(routers));
 
                 data.Item = data.Item?data.Item.map(i=>({...i,ObjectName:`${i.ObjectName}教学班`})):[];
 

@@ -5,6 +5,7 @@ import AppAlertActions from "../AppAlertActions";
 import $ from 'jquery';
 
 import utils from '../utils';
+import AppLoadingActions from "../AppLoadingActions";
 
 const SUBJECT_TEACHER_SCHEDULE_INIT = 'SUBJECT_TEACHER_SCHEDULE_INIT';
 
@@ -23,6 +24,16 @@ const MANAGER_STS_PAGE_UPDATE = 'MANAGER_STS_PAGE_UPDATE';
 const LOADING_SHOW = 'LOADING_SHOW';
 
 const LOADING_HIDE = 'LOADING_HIDE';
+
+//周次变化
+const MANAGER_STS_NOW_WEEK_NO_CHANGE = 'MANAGER_STS_NOW_WEEK_NO_CHANGE';
+
+//日期变化
+
+const MANAGER_STS_NOW_CLASS_DATE_CHANGE = 'MANAGER_STS_NOW_CLASS_DATE_CHANGE';
+
+//星期变化
+const MANAGER_STS_NOW_WEEK_DAY_CHANGE = 'MANAGER_STS_NOW_WEEK_DAY_CHANGE';
 
 //课程详情弹窗开启和关闭
 const MANAGER_STS_SCHEDULE_DETAIL_MODAL_SHOW = 'MANAGER_STS_SCHEDULE_DETAIL_MODAL_SHOW';
@@ -132,7 +143,7 @@ const STSPageUpdate = (opt) => {
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
-        let {NowWeekNo,ItemSubjectSelect,schedule,ScheduleList,pageIndex} = Manager.SubjectTeacherSchedule;
+        let {NowClassDate,ItemSubjectSelect,schedule,ScheduleList,pageIndex} = Manager.SubjectTeacherSchedule;
 
         let SubjectID = '';
 
@@ -150,7 +161,7 @@ const STSPageUpdate = (opt) => {
 
         }
 
-        ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+        /*ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
             CollegeID,SchoolID,SubjectID,WeekNO:NowWeekNo,PageIndex,PageSize:10,dispatch
 
@@ -242,7 +253,98 @@ const STSPageUpdate = (opt) => {
 
             }
 
+        });*/
+
+        ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,SubjectID,PageIndex,ClassDate:NowClassDate,dispatch}).then(data=>{
+
+            if (data){
+
+                let SubjectTeacherSchedule =  data.ItemTeacher.map((item) => {
+
+                    let teacherObj = {
+
+                        id:item.TeacherID,
+
+                        name:item.TeacherName,
+
+                        active:false
+
+                    };
+
+                    let list = utils.ScheduleRemoveRepeat(data.ItemSchedule.map((i) => {
+
+                        if (i.TeacherID === item.TeacherID){
+
+                            return {
+
+                                ...i,
+
+                                type:i.ScheduleType,
+
+                                title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                secondTitle:i.SubjectName,
+
+                                secondTitleID:i.SubjectID,
+
+                                thirdTitle:i.ClassRoomName,
+
+                                thirdTitleID:i.ClassRoomID
+
+                            };
+
+                        }else{
+
+                            return;
+
+                        }
+
+                    }).filter(i => {return i!==undefined}));
+
+                    teacherObj['list'] = list;
+
+                    return teacherObj;
+
+                });
+
+
+                let scheduleList = [];
+                //判断操作是否是下一页操作
+                if (opt&&opt.nextPage){
+
+                    schedule.push(...SubjectTeacherSchedule);
+
+                    scheduleList = Array.from(ScheduleList);
+
+                    dispatch({type:SUBJECT_TEACHER_SCHEDULE_UPDATE,data:schedule});
+
+                    dispatch({type:STS_PAGE_ADD});
+
+                }else{
+
+                    $('#tb').find('div.ant-table-body').scrollTop(0);
+
+                    dispatch({type:SUBJECT_TEACHER_SCHEDULE_UPDATE,data:SubjectTeacherSchedule});
+
+                    dispatch({type:MANAGER_STS_PAGE_UPDATE,data:1});
+
+                }
+
+
+                scheduleList.push(Array.from(SubjectTeacherSchedule));
+
+                dispatch({type:MANAGER_STS_SCHEDULE_UPDATE,data:scheduleList});
+
+                dispatch({type:SUBJECT_TEACHER_SCHEDULE_TEACHER_COUNT,data:data.TeacherCount});
+
+                dispatch({type:LOADING_HIDE});
+
+            }
+
         });
+
 
     }
 
@@ -261,7 +363,7 @@ const ScheduleListUpdate = (PageIndex) =>{
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
-        let {NowWeekNo,ItemSubjectSelect,ScheduleList,pageIndex} = Manager.SubjectTeacherSchedule;
+        let {NowClassDate,ItemSubjectSelect,ScheduleList,pageIndex} = Manager.SubjectTeacherSchedule;
 
         let SubjectID = '';
 
@@ -273,9 +375,9 @@ const ScheduleListUpdate = (PageIndex) =>{
         }
 
 
-        ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+        ApiActions.GetAllScheduleOfTeachersOneDayForPage({
 
-            CollegeID,SchoolID,SubjectID,WeekNO:NowWeekNo,PageIndex,PageSize:10,dispatch
+            SchoolID,CollegeID,SubjectID,PageIndex,ClassDate:NowClassDate,dispatch
 
         }).then(data => {
 
@@ -1006,6 +1108,16 @@ export default {
     LOADING_SHOW,
 
     LOADING_HIDE,
+
+    //周次变化
+    MANAGER_STS_NOW_WEEK_NO_CHANGE,
+
+//日期变化
+
+    MANAGER_STS_NOW_CLASS_DATE_CHANGE,
+
+//星期变化
+    MANAGER_STS_NOW_WEEK_DAY_CHANGE,
 
     //课程详情
 

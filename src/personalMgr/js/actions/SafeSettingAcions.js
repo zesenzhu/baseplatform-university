@@ -1,5 +1,7 @@
 import AppAlertActions from './AppAlertActions';
 
+import AppLoadingActions from './AppLoadingActions';
+
 import {LogOut} from '../../../common/js/disconnect';
 
 import Method from './Method';
@@ -171,9 +173,11 @@ const Init = () => {
 
                 dispatch({type:SAFE_SETTING_INIT_DATA_UPDATE,data:res[0]});
 
-                dispatch({type:SAFE_SETTING_LOADING_HIDE});
-
             }
+
+            dispatch({type:SAFE_SETTING_LOADING_HIDE});
+
+            dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
         });
 

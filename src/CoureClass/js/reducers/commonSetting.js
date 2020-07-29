@@ -1,14 +1,14 @@
-const APP_FIRST_LOAD_CLOSE = 'APP_FIRST_LOAD_CLOSE';
+const LOG_COUNT_UPDATE = 'LOG_COUNT_UPDATE';
 
 const defaultState = {
 
-  firstLoad:true
+  LogCount:0
 
 };
 
-export const firstLoadClose = () =>{
+export const logCountUpdate = (payLoad) =>{
 
-  return { type:APP_FIRST_LOAD_CLOSE };
+  return {type:LOG_COUNT_UPDATE,data:payLoad};
 
 };
 
@@ -17,9 +17,9 @@ const commonSetting = (state=defaultState,actions) => {
 
         switch (actions.type) {
 
-            case APP_FIRST_LOAD_CLOSE:
+            case LOG_COUNT_UPDATE:
 
-                return { ...state,firstLoad:false };
+                return { ...state,LogCount:actions.data };
 
             default:
 

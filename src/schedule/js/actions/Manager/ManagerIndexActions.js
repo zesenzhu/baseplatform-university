@@ -29,6 +29,8 @@ const STSPageInit = () => {
         dispatch({type:STSActions.LOADING_SHOW});
 
         let {PeriodWeekTerm,LoginUser,Manager} = getState();
+
+        const { NowDate,WeekNO,NowWeekDay } = PeriodWeekTerm;
         //如果前面获取的周次、学段信息已获得
 
         let {SchoolID,UserID,UserType} =LoginUser;//需要的参数后期加入
@@ -37,17 +39,99 @@ const STSPageInit = () => {
 
             //所需的参数
 
-        let NowWeekNo = PeriodWeekTerm.WeekNO;
+        dispatch({type:STSActions.MANAGER_STS_NOW_WEEK_NO_CHANGE,data:WeekNO});
 
-        dispatch({type:STSActions.STS_NOW_WEEK_CHANGE,data:NowWeekNo});
+        dispatch({type:STSActions.MANAGER_STS_NOW_WEEK_DAY_CHANGE,data:NowWeekDay});
+
+        dispatch({type:STSActions.MANAGER_STS_NOW_CLASS_DATE_CHANGE,data:NowDate});
 
         if (Object.keys(Manager.SubjectCourseGradeClassRoom).length>0){
 
-            ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
+            //旧代码
 
-                SchoolID,SubjectID:'',WeekNO:0,PageIndex:1,PageSize:10,CollegeID,dispatch
+            /*ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
-            }).then(data=>{
+               SchoolID,SubjectID:'',WeekNO:0,PageIndex:1,PageSize:10,CollegeID,dispatch
+
+           }).then(data=>{
+
+               if (data){
+
+                   let SubjectTeacherSchedule = [];
+
+                   if (data.ItemTeacher.length>0){
+
+                       SubjectTeacherSchedule =  data.ItemTeacher.map((item) => {
+
+                           let teacherObj = {
+
+                               id:item.TeacherID,
+
+                               name:item.TeacherName,
+
+                               active:false
+
+                           };
+
+                           let list = utils.ScheduleRemoveRepeat(data.ItemSchedule.map((i) => {
+
+                               if (i.TeacherID === item.TeacherID){
+
+                                   return {
+
+                                       ...i,
+
+                                       type:i.ScheduleType,
+
+                                       title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                       titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                       secondTitle:i.SubjectName,
+
+                                       secondTitleID:i.SubjectID,
+
+                                       thirdTitle:i.ClassRoomName,
+
+                                       thirdTitleID:i.ClassRoomID,
+
+                                   };
+
+                               }else {
+
+                                   return ;
+
+                               }
+
+                           }).filter(i => {return i!==undefined}));
+
+                           teacherObj['list'] = list;
+
+                           return teacherObj;
+
+                       });
+
+                   }
+
+                   const ScheduleList = [];
+
+                   ScheduleList.push(Array.from(SubjectTeacherSchedule));
+
+                   dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_INIT,data:SubjectTeacherSchedule});
+
+                   dispatch({type:STSActions.MANAGER_STS_SCHEDULE_UPDATE,data:ScheduleList});
+
+                   dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_TEACHER_COUNT,data:data.TeacherCount});
+
+               }
+
+               dispatch({type:STSActions.LOADING_HIDE});
+
+               dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+           });*/
+
+            ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch}).then(data=>{
 
                 if (data){
 
@@ -125,9 +209,12 @@ const STSPageInit = () => {
 
             });
 
+
         }else{
 
-            let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
+            //旧代码
+
+            /*let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
 
             let GetAllScheduleOfTeachersBySubjectIDForPage = ApiActions.GetAllScheduleOfTeachersBySubjectIDForPage({
 
@@ -215,6 +302,103 @@ const STSPageInit = () => {
                 dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
             });
+*/
+
+
+            //新代码
+
+            const GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
+
+            const GetAllScheduleOfTeachersOneDayForPage =  ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch});
+
+           Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfTeachersOneDayForPage]).then((res)=>{
+               //将课程、学期、等等放到redux中
+               // res[0].Data['NowWeekNo'] = PeriodWeekTerm.NowWeekNo;
+
+               if (res[0]){
+
+                   dispatch({type:SCGCRActions.SCGCR_INFO_INIT,data:res[0]});
+
+               }
+
+               if (res[1]){
+
+                   //组织课表的信息存放到redux中
+                   const json = res[1];
+
+                   let SubjectTeacherSchedule = [];
+
+                   if (json.ItemTeacher.length>0){
+
+                       SubjectTeacherSchedule =  json.ItemTeacher.map((item) => {
+
+                           let teacherObj = {
+
+                               id:item.TeacherID,
+
+                               name:item.TeacherName,
+
+                               active:false
+
+                           };
+
+                           let list = utils.ScheduleRemoveRepeat(json.ItemSchedule.map((i) => {
+
+                               if (i.TeacherID === item.TeacherID){
+
+                                   return {
+
+                                       ...i,
+
+                                       type:i.ScheduleType,
+
+                                       title:(i.ClassName!==''?i.ClassName:i.CourseClassName),
+
+                                       titleID:(i.ClassName!==''?i.ClassID:i.CourseClassID),
+
+                                       secondTitle:i.SubjectName,
+
+                                       secondTitleID:i.SubjectID,
+
+                                       thirdTitle:i.ClassRoomName,
+
+                                       thirdTitleID:i.ClassRoomID,
+
+                                   };
+
+                               }else {
+
+                                   return ;
+
+                               }
+
+                           }).filter(i => {return i!==undefined}));
+
+                           teacherObj['list'] = list;
+
+                           return teacherObj;
+
+                       });
+
+                   }
+
+                   const ScheduleList = [];
+
+                   ScheduleList.push(Array.from(SubjectTeacherSchedule));
+
+                   dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_INIT,data:SubjectTeacherSchedule});
+
+                   dispatch({type:STSActions.MANAGER_STS_SCHEDULE_UPDATE,data:ScheduleList});
+
+                   dispatch({type:STSActions.SUBJECT_TEACHER_SCHEDULE_TEACHER_COUNT,data:json.TeacherCount});
+
+                   dispatch({type:STSActions.LOADING_HIDE});
+
+                   dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+               }
+
+           });
 
         }
 
@@ -383,6 +567,8 @@ const ClassTotalInit = (ResetClassHour) => {
         let {PeriodWeekTerm,LoginUser,Manager} = getState();
         //如果前面获取的周次、学段信息已获得
 
+        const {NowDate,WeekNO,NowWeekDay} = PeriodWeekTerm;
+
         let {SchoolID,UserID,UserType} =LoginUser;//需要的参数后期加入
 
         let WeekList = [];
@@ -397,17 +583,20 @@ const ClassTotalInit = (ResetClassHour) => {
 
         }
 
+        dispatch({type:CTActions.MANAGER_CT_NOW_WEEK_NO_CHANGE,data:WeekNO});
+
+        dispatch({type:CTActions.MANAGER_CT_NOW_WEEK_DAY_CHANGE,data:NowWeekDay});
+
+        dispatch({type:CTActions.MANAGER_CT_NOW_CLASS_DATE_CHANGE,data:NowDate});
+
         dispatch({type:CTActions.MANAGER_CLASS_TOTAL_WEEK_LIST_UPDATE,data:WeekList});
-
-        let NowWeekNo = PeriodWeekTerm.WeekNO;
-
-        dispatch({type:CTActions.MANAGER_CLASS_TOTAL_WEEK_CHANGE,data:NowWeekNo});
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;//所需的参数
 
         if (ResetClassHour){
 
-            let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
+            //旧代码
+            /*let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
 
             let GetAllScheduleOfCourseClassByForPage = ApiActions.GetAllScheduleOfCourseClassByForPage({
 
@@ -416,6 +605,128 @@ const ClassTotalInit = (ResetClassHour) => {
             });
 
             Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfCourseClassByForPage]).then((res)=>{
+                //将课程、学期、等等放到redux中
+                // res[0].Data['NowWeekNo'] = PeriodWeekTerm.NowWeekNo;
+
+                if (res[0]){
+
+                    dispatch({type:SCGCRActions.SCGCR_INFO_INIT,data:res[0]});
+
+                    let ClassDropList = res[0].ItemCourse.map(item=>{
+
+                        return {
+
+                            value:item.CourseNO,
+
+                            title:item.CourseName
+
+                        }
+
+                    });
+
+                    ClassDropList.unshift({value:"",title:"全部课程"});
+
+                    dispatch({type:CTActions.MANAGER_CLASS_TOTAL_GRADE_UPDATE,data:ClassDropList});
+
+                }
+
+                if (res[1]){
+
+                    //组织课表的信息存放到redux中
+                    const json = res[1];
+
+                    let Schedule = [];
+
+                    if (json.ItemCourseClass.length>0){
+
+                        Schedule =  json.ItemCourseClass.map((item) => {
+
+                            let classObj = {
+
+                                id:item.CourseClassID,
+
+                                name:item.CourseClassName,
+
+                                active:false
+
+                            };
+
+                            let list = utils.ScheduleRemoveRepeat(json.ItemSchedule.map((i) => {
+
+                                if (i.CourseClassID === item.CourseClassID){
+
+                                    return {
+
+                                        ...i,
+
+                                        type:i.ScheduleType,
+
+                                        title:i.SubjectName,
+
+                                        titleID:i.SubjectID,
+
+                                        secondTitle:i.TeacherName,
+
+                                        secondTitleID:i.TeacherID,
+
+                                        thirdTitle:i.ClassRoomName,
+
+                                        thirdTitleID:i.ClassRoomID,
+
+                                        WeekDay:i.WeekDay,
+
+                                        ClassHourNO:i.ClassHourNO
+
+                                    };
+
+                                }else {
+
+                                    return ;
+
+                                }
+
+                            }).filter(i => {return i!==undefined}));
+
+                            classObj['list'] = list;
+
+                            return classObj;
+
+                        });
+
+                    }
+
+
+
+                    let ScheduleList = [];
+
+                    ScheduleList.push(Array.from(Schedule));
+
+                    dispatch({type:CTActions.MANAGER_CLASS_TOTAL_INIT,data:Schedule});
+
+                    dispatch({type:CTActions.MANAGER_CT_SCHEDULE_LIST_UPDATE,data:ScheduleList});
+
+                    dispatch({type:CTActions.MANAGER_CLASS_TOTAL_CLASS_COUNT,data:json.ClassCount});
+
+
+                }
+
+                dispatch({type:CTActions.MANAGER_CLASS_TOTAL_LOADING_HIDE});
+
+                dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+
+            });
+*/
+
+            let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
+
+            let GetAllScheduleOfCourseClassOneDayForPage = ApiActions.GetAllScheduleOfCourseClassOneDayForPage({
+
+                CollegeID,SchoolID,CourseNO:'',ClassDate:NowDate,PageIndex:1,PageSize:10,dispatch
+
+            });
+
+            Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfCourseClassOneDayForPage]).then((res)=>{
                 //将课程、学期、等等放到redux中
                 // res[0].Data['NowWeekNo'] = PeriodWeekTerm.NowWeekNo;
 
@@ -546,9 +857,9 @@ const ClassTotalInit = (ResetClassHour) => {
 
                 dispatch({type:CTActions.MANAGER_CLASS_TOTAL_GRADE_UPDATE,data:ClassDropList});
 
-                ApiActions.GetAllScheduleOfCourseClassByForPage({
+                ApiActions.GetAllScheduleOfCourseClassOneDayForPage({
 
-                    CollegeID,SchoolID,CourseNO:'',WeekNO:0,PageIndex:1,PageSize:10,dispatch
+                    CollegeID,SchoolID,CourseNO:'',ClassDate:NowDate,PageIndex:1,PageSize:10,dispatch
 
                 }).then(data=>{
 
@@ -639,13 +950,13 @@ const ClassTotalInit = (ResetClassHour) => {
 
             let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,CollegeID,UserID,UserType,dispatch});
 
-            let GetAllScheduleOfCourseClassByForPage = ApiActions.GetAllScheduleOfCourseClassByForPage({
+            let GetAllScheduleOfCourseClassOneDayForPage = ApiActions.GetAllScheduleOfCourseClassOneDayForPage({
 
-                CollegeID,SchoolID,CourseNO:'',WeekNO:0,PageIndex:1,PageSize:10,dispatch
+                CollegeID,SchoolID,CourseNO:'',ClassDate:NowDate,PageIndex:1,PageSize:10,dispatch
 
             });
 
-            Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfCourseClassByForPage]).then((res)=>{
+            Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfCourseClassOneDayForPage]).then((res)=>{
                 //将课程、学期、等等放到redux中
                 // res[0].Data['NowWeekNo'] = PeriodWeekTerm.NowWeekNo;
 
@@ -1016,6 +1327,8 @@ const ClassRoomTotalInit = () => {
 
             // let PeriodID = PeriodWeekTerm.ItemPeriod[PeriodWeekTerm.defaultPeriodIndex].PeriodID;//所需的参数
 
+        const {NowDate,WeekNO,NowWeekDay} = PeriodWeekTerm;
+
         let WeekList = [];
         //封装获取到的周次
         if (PeriodWeekTerm.ItemWeek.length>0) {
@@ -1030,9 +1343,11 @@ const ClassRoomTotalInit = () => {
 
         dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_WEEK_LIST_UPDATE,data:WeekList});
 
-        let NowWeekNo = PeriodWeekTerm.WeekNO;
+        dispatch({type:CRTActions.MANAGER_CRT_NOW_WEEK_NO_CHANGE,data:WeekNO});
 
-        dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_WEEK_CHANGE,data:NowWeekNo});
+        dispatch({type:CRTActions.MANAGER_CRT_NOW_WEEK_DAY_CHANGE,data:NowWeekDay});
+
+        dispatch({type:CRTActions.MANAGER_CRT_NOW_CLASS_DATE_CHANGE,data:NowDate});
 
         if (Object.keys(Manager.SubjectCourseGradeClassRoom).length>0){
 
@@ -1052,7 +1367,9 @@ const ClassRoomTotalInit = () => {
 
             dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_ROOMTYPE_LIST_UPDATE,data:ClassRoomDropList});
 
-            ApiActions.GetAllScheduleOfClassRoomByClassRoomTypeForPage({
+
+            //旧代码
+            /*ApiActions.GetAllScheduleOfClassRoomByClassRoomTypeForPage({
 
                 PeriodID:'',SchoolID,ClassRoomType:'',WeekNO:0,PageIndex:1,PageSize:10,dispatch
 
@@ -1140,11 +1457,98 @@ const ClassRoomTotalInit = () => {
                 dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
             });
+*/
 
+            ApiActions.GetAllScheduleOfClassRoomOneDayForPage({SchoolID,ClassDate:NowDate,dispatch}).then(data=>{
+
+                if (data){
+
+                    //组织课表的信息存放到redux中
+
+                    let Schedule = [];
+
+                    if (data.ItemClassRoom.length>0){
+
+                        Schedule =  data.ItemClassRoom.map((item) => {
+
+                            let classRoomObj = {
+
+                                id:item.ClassRoomID,
+
+                                name:item.ClassRoomName,
+
+                                active:false
+
+                            };
+
+                            let list = utils.ScheduleRemoveRepeat(data.ItemSchedule.map((i) => {
+
+                                if (i.ClassRoomID === item.ClassRoomID){
+
+                                    return {
+
+                                        ...i,
+
+                                        type:i.ScheduleType,
+
+                                        title:i.SubjectName,
+
+                                        titleID:i.SubjectName,
+
+                                        secondTitle:i.TeacherName,
+
+                                        secondTitleID:i.TeacherID,
+
+                                        thirdTitle:(i.ClassName?i.ClassName:i.CourseClassName),
+
+                                        thirdTitleID:(i.ClassName?i.ClassID:i.CourseClassID),
+
+                                        WeekDay:i.WeekDay,
+
+                                        ClassHourNO:i.ClassHourNO
+
+                                    };
+
+                                }else {
+
+                                    return ;
+
+                                }
+
+                            }).filter(i => {return i!==undefined}));
+
+                            classRoomObj['list'] = list;
+
+                            return classRoomObj;
+
+                        });
+
+                    }
+
+                    let ScheduleList = [];
+
+                    ScheduleList.push(Array.from(Schedule));
+
+                    dispatch({type:CRTActions.MANAGER_CRT_SCHEDULE_LIST_UPDATE,data:ScheduleList});
+
+                    dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_INIT,data:Schedule});
+
+                    dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_CLASS_COUNT,data:data.ClassRoomCount});
+
+
+                }
+
+                dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_LOADING_HIDE});
+
+                dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+            })
 
         }else{
 
-            let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,PeriodID:'',UserID,UserType,dispatch});
+            //旧代码
+
+            /*let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,PeriodID:'',UserID,UserType,dispatch});
 
             let GetAllScheduleOfClassRoomByClassRoomTypeForPage = ApiActions.GetAllScheduleOfClassRoomByClassRoomTypeForPage({
 
@@ -1260,7 +1664,124 @@ const ClassRoomTotalInit = () => {
                 dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
 
             });
+*/
 
+            let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({SchoolID,PeriodID:'',UserID,UserType,dispatch});
+
+            let GetAllScheduleOfClassRoomOneDayForPage = ApiActions.GetAllScheduleOfClassRoomOneDayForPage({
+
+                SchoolID,ClassDate:NowDate,dispatch
+
+            });
+
+            Promise.all([GetAllOptionByPeriodID,GetAllScheduleOfClassRoomOneDayForPage]).then((res)=>{
+                //将课程、学期、等等放到redux中
+                // res[0].Data['NowWeekNo'] = PeriodWeekTerm.NowWeekNo;
+
+                if (res[0]){
+
+                    let ClassRoomDropList = res[0].ItemClassRoomType.map(item=>{
+
+                        return {
+
+                            value:item.ClassRoomTypeID,
+
+                            title:item.ClassRoomTypeName
+
+                        }
+
+                    });
+
+                    ClassRoomDropList.unshift({value:"",title:"全部教室"});
+
+                    dispatch({type:SCGCRActions.SCGCR_INFO_INIT,data:res[0]});
+
+                    dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_ROOMTYPE_LIST_UPDATE,data:ClassRoomDropList});
+
+                }
+
+                if (res[1]){
+
+                    //组织课表的信息存放到redux中
+                    const json = res[1];
+
+                    let Schedule = [];
+
+                    if (json.ItemClassRoom.length>0){
+
+                        Schedule =  json.ItemClassRoom.map((item) => {
+
+                            let classRoomObj = {
+
+                                id:item.ClassRoomID,
+
+                                name:item.ClassRoomName,
+
+                                active:false
+
+                            };
+
+                            let list = utils.ScheduleRemoveRepeat(json.ItemSchedule.map((i) => {
+
+                                if (i.ClassRoomID === item.ClassRoomID){
+
+                                    return {
+
+                                        ...i,
+
+                                        type:i.ScheduleType,
+
+                                        title:i.SubjectName,
+
+                                        titleID:i.SubjectName,
+
+                                        secondTitle:i.TeacherName,
+
+                                        secondTitleID:i.TeacherID,
+
+                                        thirdTitle:(i.ClassName?i.ClassName:i.CourseClassName),
+
+                                        thirdTitleID:(i.ClassName?i.ClassID:i.CourseClassID),
+
+                                        WeekDay:i.WeekDay,
+
+                                        ClassHourNO:i.ClassHourNO
+
+                                    };
+
+                                }else {
+
+                                    return ;
+
+                                }
+
+                            }).filter(i => {return i!==undefined}));
+
+                            classRoomObj['list'] = list;
+
+                            return classRoomObj;
+
+                        });
+
+                    }
+
+                    let ScheduleList = [];
+
+                    ScheduleList.push(Array.from(Schedule));
+
+                    dispatch({type:CRTActions.MANAGER_CRT_SCHEDULE_LIST_UPDATE,data:ScheduleList});
+
+                    dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_INIT,data:Schedule});
+
+                    dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_CLASS_COUNT,data:json.ClassRoomCount});
+
+                }
+
+                dispatch({type:CRTActions.MANAGER_CLASS_ROOM_TOTAL_LOADING_HIDE});
+
+                dispatch({type:AppLoadingActions.APP_LOADING_HIDE});
+
+            });
         }
 
 

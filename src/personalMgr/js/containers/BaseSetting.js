@@ -25,6 +25,7 @@ class BaseSetting extends Component {
     };
 
     dispatch(BaseActions.Init());
+
   }
 
   editorStatusChange() {

@@ -12,8 +12,14 @@ const MANAGER_CT_SCHEDULE_LIST_UPDATE = 'MANAGER_CT_SCHEDULE_LIST_UPDATE';
 
 const  MANAGER_CLASS_TOTAL_GRADE_UPDATE = 'MANAGER_CLASS_TOTAL_GRADE_UPDATE';
 
+//weekpick
+const MANAGER_CT_NOW_WEEK_NO_CHANGE = 'MANAGER_CT_NOW_WEEK_NO_CHANGE';
 
-const MANAGER_CLASS_TOTAL_WEEK_CHANGE = 'MANAGER_CLASS_TOTAL_WEEK_CHANGE';
+const MANAGER_CT_NOW_WEEK_DAY_CHANGE = 'MANAGER_CT_NOW_WEEK_DAY_CHANGE';
+
+const MANAGER_CT_NOW_CLASS_DATE_CHANGE = 'MANAGER_CT_NOW_CLASS_DATE_CHANGE';
+
+
 
 
 const MANAGER_CLASS_TOTAL_SCHEDULE_UPDATE = 'MANAGER_CLASS_TOTAL_SCHEDULE_UPDATE';
@@ -136,7 +142,7 @@ const ClassTotalPageUpdate = (opt) =>{
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;//所需的参数
 
-        let { WeekNO,GradeDropSelectd,Schedule,ScheduleList,PageIndex} = Manager.ClassTotal;
+        let { NowClassDate,GradeDropSelectd,Schedule,ScheduleList,PageIndex} = Manager.ClassTotal;
 
         let GradeID = '';
 
@@ -154,9 +160,9 @@ const ClassTotalPageUpdate = (opt) =>{
 
         }
 
-        ApiActions.GetAllScheduleOfCourseClassByForPage({
+        ApiActions.GetAllScheduleOfCourseClassOneDayForPage({
 
-            CollegeID,SchoolID,WeekNO:WeekNO,PageIndex:NextPageIndex,PageSize:10,CourseNO:GradeID,dispatch
+            CollegeID,SchoolID,CourseNO:GradeID,ClassDate:NowClassDate,PageIndex:NextPageIndex,PageSize:10,dispatch
 
         }).then(data => {
 
@@ -273,7 +279,7 @@ const ScheduleListUpdate = (PageIndex) =>{
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;//所需的参数
 
-        let { WeekNO,GradeDropSelectd,Schedule,ScheduleList,PageIndex} = Manager.ClassTotal;
+        let { NowClassDate,WeekNO,GradeDropSelectd,Schedule,ScheduleList,PageIndex} = Manager.ClassTotal;
 
         let GradeID = '';
         //判断已选中的学科是否为全部学科
@@ -284,9 +290,9 @@ const ScheduleListUpdate = (PageIndex) =>{
         }
 
 
-        ApiActions.GetAllScheduleOfCourseClassByForPage({
+        ApiActions.GetAllScheduleOfCourseClassOneDayForPage({
 
-            CollegeID,SchoolID,WeekNO:WeekNO,PageIndex,PageSize:10,CourseNO:GradeID,dispatch
+            CollegeID,SchoolID,CourseNO:GradeID,ClassDate:NowClassDate,PageIndex,dispatch
 
         }).then(data => {
 
@@ -1005,13 +1011,17 @@ const ScheduleModalInfoUpdate = ({SchoolID,TeacherID,ScheduleID,ClassDate,ClassH
 
 export default {
 
+    MANAGER_CT_NOW_WEEK_DAY_CHANGE,
+
+    MANAGER_CT_NOW_CLASS_DATE_CHANGE,
+
+    MANAGER_CT_NOW_WEEK_NO_CHANGE,
+
     MANAGER_CLASS_TOTAL_INIT,
 
     MANAGER_CT_SCHEDULE_LIST_UPDATE,
 
     MANAGER_CLASS_TOTAL_GRADE_UPDATE,
-
-    MANAGER_CLASS_TOTAL_WEEK_CHANGE,
 
     MANAGER_CLASS_TOTAL_SCHEDULE_UPDATE,
 

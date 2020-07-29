@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {appLoadingHide} from "../reducers/AppLoading";
+
 import {
   Frame,
   Menu,
@@ -210,8 +212,10 @@ class Dynamic extends React.Component {
             this.state.endTime +
             "&operateType=" +
             0
-        )
-    );
+        ));
+
+    dispatch(appLoadingHide());
+
   }
 
   //钩子

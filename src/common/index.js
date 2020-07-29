@@ -1,5 +1,5 @@
 import "es6-shim";
-import React from "react";
+import React,{memo} from "react";
 import "antd/dist/antd.min.css";
 import "./index.scss";
 import "./scss/_left_menu.scss";
@@ -390,7 +390,7 @@ class Empty extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { style } = nextProps;
 
     this.setState({
@@ -522,7 +522,7 @@ class Modal extends React.Component {
     this.selectType(this.props.type);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { title } = nextProps;
 
     this.selectType(this.props.type);
@@ -814,173 +814,34 @@ class Table extends React.Component {
 /*
  * 分页组件 start
  * */
-class PagiNation extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      slideDown: true,
-
-      pageSize: 10,
-
-      pageSizeOptions: [10, 20, 50, 100],
-    };
-  }
-
-  onShowSizeChange(size) {
-    this.setState({ slideDown: true, pageSize: size });
-
-    const { onShowSizeChange, current } = this.props;
-
-    if (onShowSizeChange) {
-      onShowSizeChange(current, size);
-    }
-  }
-
-  componentDidMount() {
-    addEventListener("click", this.OutPageSizeEvent.bind(this));
-  }
-
-  //点击之外的地方
-
-  OutPageSizeEvent(e) {
-    const Dom = document.getElementById("pagination-row-set-wrapper");
-
-    if (Dom && !Dom.contains(e.target)) {
-      this.setState({ slideDown: true });
-    }
-  }
-
-  //点击下拉组件
-
-  slideSizeChanger() {
-    this.setState({ slideDown: !this.state.slideDown });
-  }
-
-  //展示全部
+class PageComponent extends React.Component {
 
   render() {
     const {
       children,
-      hideOnSinglePage = true,
       size,
-      showQuickJumper,
       className,
-      total = 0,
-      pageSize,
       showSizeChanger,
-      pageSizeOptions,
       ...reset
     } = this.props;
 
+
     return (
       <ConfigProvider locale={zhCN}>
-        <AntPagination
-          total={total}
-          pageSize={pageSize ? pageSize : this.state.pageSize}
-          {...reset}
-          hideOnSinglePage={hideOnSinglePage}
-          showQuickJumper={
-            size === "micro"
-              ? true
-              : {
-                  goButton: (
-                    <React.Fragment>
-                      {showSizeChanger === true || showSizeChanger === 1 ? (
-                        <span className="pagination-total-self-dom">
-                          (
-                          <span>
-                            共<span className="number">{total}</span>条,
-                          </span>
-                          <span>
-                            每页
-                            <span
-                              className="row-set-wrapper"
-                              id="pagination-row-set-wrapper"
-                            >
-                              <span
-                                className={`set-input ${
-                                  this.state.slideDown ? "down" : "up"
-                                }`}
-                                onClick={this.slideSizeChanger.bind(this)}
-                              >
-                                {pageSize ? pageSize : this.state.pageSize}
-                              </span>
 
-                              <ul
-                                className="select-wrapper"
-                                style={{
-                                  display: `${
-                                    this.state.slideDown ? "none" : "block"
-                                  }`,
-                                }}
-                              >
-                                {pageSizeOptions
-                                  ? pageSizeOptions.map((item, key) => {
-                                      return (
-                                        <li
-                                          key={key}
-                                          className={`select-item ${
-                                            pageSize
-                                              ? pageSize === item
-                                                ? "active"
-                                                : ""
-                                              : this.state.pageSize === item
-                                              ? "active"
-                                              : ""
-                                          }`}
-                                          onClick={this.onShowSizeChange.bind(
-                                            this,
-                                            item
-                                          )}
-                                        >
-                                          {item}
-                                        </li>
-                                      );
-                                    })
-                                  : this.state.pageSizeOptions.map(
-                                      (item, key) => {
-                                        return (
-                                          <li
-                                            key={key}
-                                            className={`select-item ${
-                                              pageSize
-                                                ? pageSize === item
-                                                  ? "active"
-                                                  : ""
-                                                : this.state.pageSize === item
-                                                ? "active"
-                                                : ""
-                                            }`}
-                                            onClick={this.onShowSizeChange.bind(
-                                              this,
-                                              item
-                                            )}
-                                          >
-                                            {item}
-                                          </li>
-                                        );
-                                      }
-                                    )}
-                              </ul>
-                            </span>
-                            条
-                          </span>
-                          )
-                        </span>
-                      ) : (
-                        ""
-                      )}
+          <AntPagination
 
-                      <span className="pagination_go_button">Go</span>
-                    </React.Fragment>
-                  ),
-                }
-          }
-          className={`${className ? className : ""} ${
+          className={`${className} ${
             size && size === "micro" ? "micro" : ""
-          } ${showSizeChanger === false ? "" : "total"}`}
+          } `}
+
           size={size}
+
+          showSizeChanger={showSizeChanger}
+
+          showTotal={showSizeChanger?(total)=><span>共<span style={{color:'#ff6600'}}>{total}</span>条</span>:()=>{}}
+
+          {...reset}
         >
           {children}
         </AntPagination>
@@ -991,6 +852,9 @@ class PagiNation extends React.Component {
 /*
  * 分页组件 end
  * */
+
+
+
 /*
  * 搜索 start
  * */
@@ -1303,21 +1167,24 @@ class Search extends React.Component {
 /*
  * 下拉 start
  * */
-class DropDown extends React.Component {
+class DropComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dropSelectd: props.dropSelectd ? props.dropSelectd : "",
       dropListShow: false,
       range2ListShow: "",
-      range2ListActive: "",
+      range2ListActive: ""
+
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dropSelectd } = nextProps;
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
-    this.setState({ dropSelectd: dropSelectd });
+    const { dropSelectd,dropList } = nextProps;
+
+    this.setState({ dropSelectd:dropSelectd});
+
   }
 
   onToggleDropList() {
@@ -1373,9 +1240,12 @@ class DropDown extends React.Component {
   } //在二级的时候展开下拉
 
   componentDidMount() {
+
+    const that = this;
+
     document.addEventListener("click", (e) =>
-      this.outDropClick({
-        that: this,
+        that.outDropClick({
+        that,
         target: e.target,
         ulDom: this.refs.dropdown_select_ul,
         spanDom: this.refs.dropdown_default_span,
@@ -1384,17 +1254,26 @@ class DropDown extends React.Component {
   }
 
   outDropClick(e) {
-    const { that, target, ulDom, spanDom } = e;
+
+
+    const {that,target, ulDom, spanDom } = e;
 
     if (ulDom && spanDom) {
       //在该界面上已有该组件才这样展示
       if (!spanDom.contains(target) && !ulDom.contains(target)) {
-        that.setState({ dropListShow: false }, () => {
+
+          that.setState({dropListShow:false }, () => {
+
           $(ulDom).hide();
+
         });
+
       }
+
     }
+
   } //当点击事件发生在下拉组件之外的时候
+
   onClickSearch(e) {
     const { mutipleOptions } = this.props;
     if (e.value) {
@@ -1415,13 +1294,15 @@ class DropDown extends React.Component {
     }
   }
 
+
+
+
   render() {
     const {
       Title,
-      TitleShow = true,
+      TitleShow,
       title,
       width,
-      height,
       activeValue,
       disabled,
       dropSelectd,
@@ -1429,11 +1310,12 @@ class DropDown extends React.Component {
       onChange,
       type,
       className,
-
       mutipleOptions,
       dropLoadingShow,
+      dropSimpleSearch,
       ...reset
     } = this.props;
+
 
     let dropContainer = "";
 
@@ -1516,7 +1398,9 @@ class DropDown extends React.Component {
                     ? mutipleOptions.empSearchTitle
                     : "暂未有相关数据"
                 }
-              ></Empty>
+              >
+
+              </Empty>
             )}
           </Loading>
         </ul>
@@ -1600,7 +1484,9 @@ class DropDown extends React.Component {
                 ? mutipleOptions.empTitle
                 : "暂未有相关数据"
             }
-          ></Empty>
+          >
+
+          </Empty>
         );
       }
     } else if (mutipleOptions && mutipleOptions.range === 3) {
@@ -1627,7 +1513,9 @@ class DropDown extends React.Component {
                 onCancelSearch={this.onCancelSearch.bind(this)}
                 CancelBtnShow={mutipleOptions.CancelBtnShow}
                 Value={mutipleOptions.inputValue}
-              ></Search>
+              >
+
+              </Search>
             </div>
 
             <Scrollbars
@@ -1655,35 +1543,35 @@ class DropDown extends React.Component {
         </div>
       );
     } else {
-      let ClientHeight;
-
-      if (dropList && dropList.length < height / 24) {
-        ClientHeight = dropList.length * 24;
-      } else {
-        ClientHeight = height;
-      }
 
       dropContainer = (
-        <ul
+
+          <ul
           className="dropdown_select_ul"
           ref="dropdown_select_ul"
-          style={{ width: width ? width : 120, overflow: "initial" }}
+          style={{ width:width, overflow: "initial" }}
         >
+
           <Loading
             opacity={false}
-            spinning={dropLoadingShow ? dropLoadingShow : false}
+            spinning={dropLoadingShow}
           >
             <Scrollbars
-              style={{ width: width ? width - 2 : 118, height: ClientHeight }}
+              style={{ width:width - 2}}
+              autoHeight
+              autoHeightMin={0}
+              autoHeightMax={288}
               renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
               renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
             >
+
               {
-                //dropList是否存在？dropList:''
-                dropList
-                  ? dropList.map((item, key) => {
-                      return (
-                        <li
+
+                  dropList&&(dropList instanceof Array)&&dropList.map((item,key) => {
+
+                   return (
+
+                          <li
                           key={key}
                           className={`dropdown_select_li ${
                             activeValue && activeValue === item.value
@@ -1702,15 +1590,22 @@ class DropDown extends React.Component {
                         >
                           {item.title}
                         </li>
-                      );
-                    })
-                  : ""
+
+                   );
+
+                 })
               }
+
             </Scrollbars>
+
           </Loading>
-        </ul>
+
+          </ul>
+
       );
+
     }
+
     return (
       <div
         className={`dropdown_container ${className ? className : ""}`}
@@ -1719,7 +1614,7 @@ class DropDown extends React.Component {
         <span className="dropdown_title_span">{title}</span>
         <span
           className="dropdown_wrapper"
-          style={{ width: width ? width : 120 }}
+          style={{ width: width }}
         >
           <span
             ref="dropdown_default_span"
@@ -1728,7 +1623,7 @@ class DropDown extends React.Component {
               //点击展示和隐藏下拉列表
               disabled ? () => {} : this.onToggleDropList.bind(this)
             }
-            style={{ width: width ? width : 120 }}
+            style={{ width:width}}
           >
             <span
               className={`dropdown_icon_span ${
@@ -1875,7 +1770,7 @@ class Loading extends React.Component {
  * 弹出框 start
  * */
 
-class Alert extends React.Component {
+class AppAlert extends React.Component {
   constructor(props) {
     super(props);
 
@@ -2552,7 +2447,7 @@ class Menu extends React.Component {
     });
     this.paramsDeconstruction(this.props);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.paramsDeconstruction(nextProps); //props有变化时执行
   }
 
@@ -2932,11 +2827,15 @@ class Frame extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    if (window.AppRightContentChange) {
-      window.AppRightContentChange(this.RightContent.clientHeight);
+    UNSAFE_componentWillReceiveProps(){
+
+        if(window.AppRightContentChange){
+
+            window.AppRightContentChange(this.RightContent.clientHeight);
+
+        }
+
     }
-  }
 
   render() {
     const {
@@ -3725,7 +3624,55 @@ class Tips extends React.Component {
   }
 }
 
+
+
+PageComponent.defaultProps = {
+
+    showQuickJumper:true,
+
+    showSizeChanger:false,
+
+    hideOnSinglePage:true,
+
+    pageSizeOptions:['10','20','50','100'],
+
+    total:0,
+
+    pageSize:10,
+
+    current:1,
+
+    className:''
+
+};
+
+DropComponent.defaultProps = {
+
+    dropList:[],
+
+    TitleShow:true,
+
+    width:120,
+
+    dropLoadingShow:false,
+
+    dropSimpleSearch:false,
+
+    //simpleSearchChange:()=>{}
+
+};
+
 const LeftMenu = withRouter(MenuLeft);
+
+const PagiNation = memo(PageComponent);
+
+const Alert = memo(AppAlert);
+
+const DropDown = memo(DropComponent);
+
+
+
+
 
 export {
   Radio,

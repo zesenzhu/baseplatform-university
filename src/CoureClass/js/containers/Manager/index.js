@@ -4,7 +4,7 @@ import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import {firstLoadClose} from '../../reducers/commonSetting';
+
 
 import Subject from './Subject';
 
@@ -14,12 +14,6 @@ function Index(props) {
 
 
     const { dispatch } = props;
-
-    useEffect(()=>{
-
-        dispatch(firstLoadClose());
-
-    },[]);
 
     return(
 

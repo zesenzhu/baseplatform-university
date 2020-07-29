@@ -295,8 +295,6 @@ class ReplaceSchedule extends Component{
 
     ];
 
-
-
     return (
 
                 <div className="replace-schedule-wrapper">
@@ -311,7 +309,11 @@ class ReplaceSchedule extends Component{
 
                                 teacherSubject.dropShow?
 
-                                    <DropDown onChange={this.SubjectChange.bind(this)} width={160} height={300} dropSelectd={teacherSubject.select.dropSelectd} style={{zIndex:7}} dropList={teacherSubject.select.dropList}></DropDown>
+                                    <DropDown onChange={this.SubjectChange.bind(this)} width={160}  dropSelectd={teacherSubject.select.dropSelectd} style={{zIndex:7}} dropList={teacherSubject.select.dropList}>
+
+
+
+                                    </DropDown>
 
                                     :
 
@@ -349,7 +351,7 @@ class ReplaceSchedule extends Component{
 
                                     })
 
-                                        :'暂无课程安排'
+                                        :'暂无可调整的课程'
 
                                 }
 
