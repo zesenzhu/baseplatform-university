@@ -240,6 +240,7 @@ class Subject extends Component{
 
         }
 
+
         return (
 
             <CSSTransition in={this.state.fullScreen} timeout={200} classNames={"full-screen"}>
@@ -277,6 +278,8 @@ class Subject extends Component{
                             WeekList={ItemWeek}
 
                             weekDateChange={this.weekDateChange.bind(this)}
+
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
 
                         >
 

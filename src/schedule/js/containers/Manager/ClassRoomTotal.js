@@ -233,6 +233,8 @@ class ClassRoomTotal extends Component{
 
                             weekDateChange={this.weekDateChange.bind(this)}
 
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
+
                         >
 
                         </WeekDayPick>

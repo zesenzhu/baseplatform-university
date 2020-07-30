@@ -64,17 +64,6 @@ class ScheduleSetting extends Component{
     }
 
 
-/*    //切换课表设置的方式
-    SettingTypeChange(opts){
-
-        const { dispatch } = this.props;
-
-        const method = opts.type===1?'统一':'分学段';
-
-        dispatch(AppAlertActions.alertQuery({title:`您确定要切换成按${method}设置吗？`,ok:()=>this.SettingTypeSitch.bind(this,opts)}));
-
-    }*/
-
     //切换调课方式
     SettingTypeSitch(opts){
 
@@ -440,19 +429,6 @@ class ScheduleSetting extends Component{
 
                     <div className="setting-content-wrapper">
 
-                        {/* <div className="setting-type-wrapper">
-
-                        <span className="setting-type-title">选择设置方式:</span>
-
-                        <div className="setting-type-switch clearfix">
-
-                            <div className={`setting-type-tab left ${SettingType===1?'active':''}`} onClick={this.SettingTypeChange.bind(this,{type:1})}>分学段设置</div>
-
-                            <div className={`setting-type-tab right ${SettingType===0?'active':''}`} onClick={this.SettingTypeChange.bind(this,{type:0})}>统一设置</div>
-
-                        </div>
-
-                    </div>*/}
 
                         <PeriodClassHourSetting
 
@@ -474,7 +450,7 @@ class ScheduleSetting extends Component{
 
                     </div>
 
-                    <div className="title-bar">
+                    {/*<div className="title-bar">
 
                         <div className="title-bar-name">物联网自动联动设置</div>
 
@@ -527,7 +503,7 @@ class ScheduleSetting extends Component{
 
                         }
 
-                    </div>
+                    </div>*/}
 
             </div>
 

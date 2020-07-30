@@ -98,7 +98,7 @@ const getCommonInfo = () => {
 
                         dropList.unshift({value:'',title:'全部学院'});
 
-                        let dropObj = dropShow===false?{id:ItemCollege[0].CollegeID,name:ItemCollege[0].CollegeName}:'';
+                        let dropObj = dropShow===false?{id:ItemCollege.length>0?ItemCollege[0].CollegeID:'',name:ItemCollege.length>0?ItemCollege[0].CollegeName:''}:'';
 
                         const newItem = data.ItemWeek.map(i=>{
 

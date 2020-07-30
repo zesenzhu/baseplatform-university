@@ -2815,7 +2815,7 @@ class Frame extends React.Component {
     };
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     $(window).scroll(() => {
       let scrollTop = $(window).scrollTop();
 
@@ -2835,7 +2835,7 @@ class Frame extends React.Component {
 
         }
 
-    }
+    }*/
 
   render() {
     const {

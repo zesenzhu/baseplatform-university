@@ -225,6 +225,8 @@ class ClassTotal extends Component{
 
                             weekDateChange={this.weekDateChange.bind(this)}
 
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
+
                         >
 
 

@@ -430,11 +430,21 @@ function Index(props) {
 
             <Button type={"link"} className={"add"} onClick={e=>addCourseClass()}>添加教学班</Button>
 
-            <Button type={"link"} className={"import"}>导入教学班</Button>
+            <Button type={"link"} className={"import"} onClick={e=>importCourseClass()}>导入教学班</Button>
 
         </>
 
     },[]);
+
+    //导入教学班
+    const importCourseClass = ()=>{
+
+        const token = sessionStorage.getItem("token");
+
+        window.open("/html/CoureClass#/ImportFile?lg_tk="+token);
+
+    };
+
 
     //生成序号函数
     const createNO = useCallback((key)=>{
