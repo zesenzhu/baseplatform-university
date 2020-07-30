@@ -235,6 +235,8 @@ WeekDayPick.defaultProps={
 
     WeekList:[],
 
+    OriginWeekList:[],
+
     weekPrevEvent:()=>{},
 
     weekNextEvent:()=>{},
