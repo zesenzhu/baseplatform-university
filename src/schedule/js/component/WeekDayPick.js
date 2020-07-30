@@ -19,8 +19,6 @@ function WeekDayPick(props) {
 
     const {weekDateChange} = props;
 
-    console.log(OriginWeekList);
-
     useEffect(()=>{
 
         const preDis = NowWeekNO===1&&NowWeekDay===1;
