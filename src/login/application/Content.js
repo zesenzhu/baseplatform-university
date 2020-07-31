@@ -16,6 +16,8 @@ import {connect} from 'react-redux';
 
 import md5 from 'md5';
 
+import pic1 from '../assets/images/dark-tech/dark-tech-animation1.png';
+
 import {getNewTkUrl,goToNextPage,decodeObjValue} from "../api/utils";
 
 
@@ -60,6 +62,9 @@ function Content(props) {
 
 
 
+
+
+
     //默认不选择不再提示
 
     const [unCheckedTips,setUnCheckedTips] = useState(false);
@@ -75,6 +80,12 @@ function Content(props) {
     const accountInput = useRef();
 
     const pwdInput = useRef();
+
+    const CtxRef = useRef();
+
+    const ImgLeftRef = useRef(0);
+
+    const ImgRef = useRef(null);
 
     //不再提示的选择
 
@@ -112,6 +123,49 @@ function Content(props) {
 
             },4000);
 
+        }else if(skin==='dark_tech'){
+
+            const canvas = document.getElementById('dark_tech_pic');
+
+            const ctx = canvas.getContext("2d");
+
+            CtxRef.current = ctx;
+
+            const img = new Image();
+
+            switch (active) {
+
+                case 0:
+
+                    img.src = pic1;
+
+                    ImgRef.current = img;
+
+                    break;
+
+            }
+
+            img.onload = ()=>{
+
+                canvasDraw()
+
+            };
+
+            timer = setTimeout(()=>{
+
+                if (active===2){
+
+                    picChange(0)
+
+                }else{
+
+                    picChange(active+1);
+
+                }
+
+
+            },5000000);
+
         }else{
 
             timer = setTimeout(()=>{
@@ -130,6 +184,9 @@ function Content(props) {
             },4000);
 
         }
+
+
+
         
         return ()=>{
 
@@ -154,6 +211,23 @@ function Content(props) {
       window.top.ClosePop = closeModal;
 
     },[]);
+
+
+    const canvasDraw = ()=>{
+
+        const ctx = CtxRef.current;
+
+        const img = ImgRef.current;
+
+        const left = ImgLeftRef.current;
+
+        ctx.drawImage(img,left,0,15200,400);
+
+        ImgLeftRef.current = left + 10;
+
+        requestAnimationFrame(canvasDraw);
+
+    };
 
 
     //点击注册按钮
@@ -213,7 +287,6 @@ function Content(props) {
             dispatch(showWarnAlert({title:"请输入登录账号",okShow:'n',cancelTitle:'确定',close:accountFoucs,cancel:accountFoucs,cancelShow:'y'}));
 
         }
-
 
     };
 
@@ -586,9 +659,12 @@ function Content(props) {
 
                                                 <div className={"pic-wrapper"}>
 
-                                                    <i className={`pic pic${active+1}`}></i>
+                                                    {/*<i className={`pic pic${active+1}`}></i>
 
-                                                    <i className={`pallet pallet${active+1}`}></i>
+                                                    <i className={`pallet pallet${active+1}`}></i>*/}
+
+                                                    <canvas id={`dark_tech_pic`} width={640} height={500} className={`animation${k}`}></canvas>
+
 
                                                 </div>
 

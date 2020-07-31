@@ -1,11 +1,12 @@
 const jQuery = require('jquery');
+
 const $ = require('jquery');
 
 /*!
  * 左侧菜单栏交互
  * 最后修改日期：2016-07-12
  */
-;
+
 (function() {
 
 
@@ -161,7 +162,7 @@ const $ = require('jquery');
  * 鼠标经过二级菜单
  * 最后修改时间 2016-05-25
  */
-;
+
 (function($) {
 
 
@@ -257,26 +258,11 @@ const $ = require('jquery');
 
 
 /* 新左侧菜单交互 start */
-//一级菜单
-$(document).on('click', '.frame_leftmenu_mainitem_name', function() {
-    /*    var $this = $(this),
-     $arrow = $this.next('.frame_leftmenu_arrow');
-     if ($this.attr('data-disabled') === 'true') {
-     return false;
-     }
-     if ($arrow.length !== 0) {
-     var $secondMenu = $(this).parent('.frame_leftmenu_mainitem').next('.frame_leftmenu_nextgrade_container');
-     if ($secondMenu.is(':hidden')) {
-     $secondMenu.slideDown();
-     $arrow.addClass('spread');
-     } else {
-     $secondMenu.slideUp();
-     $arrow.removeClass('spread');
-     }
-     }*/
-});
+
 //二级菜单
 $(document).on('click', '.frame_leftmenu_twograde_grounp .frame_left_menu_right_arrow', function(e) {
+
+    console.log('jquery 点击1');
     e.stopPropagation();
     var $this = $(this),
         $secondMenu = $this.parent('.frame_leftmenu_twograde_grounp').next('.frame_leftmenu_lastgrade_ul');
@@ -288,20 +274,23 @@ $(document).on('click', '.frame_leftmenu_twograde_grounp .frame_left_menu_right_
         $this.removeClass('arrow_spread');
     }
 });
+
 $(document).on('click',  '.frame_leftmenu_twograde_grounp ', function(e) {
+
+    console.log('jquery 点击2');
+
     e.stopPropagation();
     var $this = $(this),
         $secondMenu = $this.next('.frame_leftmenu_lastgrade_ul');
-    // if ($secondMenu.is(':hidden')) {
+
         $secondMenu.slideDown();
         $this.children('.frame_left_menu_right_arrow').addClass('arrow_spread');
-    // } else {
-    //     $secondMenu.slideUp();
-    //     $this.removeClass('arrow_spread');
-    // }
+
 });
 //active 状态切换，selected 状态切换
 $(document).on('click', '.frame_leftmenu_mainitem_name,.frame_leftmenu_onegrade_name,.frame_leftmenu_twograde_grounp .frame_leftmenu_twograde_text', function() {
+
+    console.log('jquery 点击3');
 
     var $this = $(this);
 
@@ -369,32 +358,19 @@ $(document).on('click', '.frame_leftmenu_mainitem_name,.frame_leftmenu_onegrade_
 
 
 $(document).on('click', '.frame_leftmenu_mainitem_name', function() {
+
+    console.log('jquery 点击4');
+
     var $this = $(this);
 
     $this.closest('.frame_leftpart_container,.frame_left_menu_container').find('.active').removeClass('active');
     $this.parent('.frame_leftmenu_mainitem').addClass('active');
     $this.parent('.frame_leftmenu_mainitem').next('.frame_leftmenu_nextgrade_container').slideDown();
     $this.next().addClass('spread');
-    // if ($this.parent('.frame_leftmenu_mainitem').hasClass('selected')) {
-    //     console.log($this)
-
-    //     $this.parent('.frame_leftmenu_mainitem').addClass('active').addClass('selected');
-    // }
-
-
 
 });
 
-// 鼠标经过主菜单颜色变化
-/*$(document).on('mouseenter', '.frame_leftmenu_mainitem_name a', function () {
- var $this = $(this);
- if (!$this.closest('.frame_leftmenu_mainitem').hasClass('selected')) {
- $this.addClass('frame_left_menu_orange');
- }
- }).on('mouseleave', '.frame_leftmenu_mainitem_name a', function () {
- var $this = $(this);
- $this.removeClass('frame_left_menu_orange');
- });*/
+
 
 // 圆点鼠标经过样式控制
 $(document).on('mouseenter', '.frame_leftmenu_onegrade_name', function() {
@@ -411,7 +387,9 @@ $(document).on('mouseenter', '.frame_leftmenu_twograde_text', function() {
 
 // 点击展开箭头
 $(document).on('click', '.frame_leftmenu_arrow', function() {
-    //$(this).prev('.frame_leftmenu_mainitem_name').trigger('click');
+
+    console.log('jquery 点击5');
+
     var $mainMenu = $(this).siblings('.frame_leftmenu_mainitem_name'),
         $arrow = $(this);
     if ($mainMenu.attr('data-disabled') === 'true') {
@@ -430,16 +408,11 @@ $(document).on('click', '.frame_leftmenu_arrow', function() {
 });
 /* 新左侧菜单交互 end */
 
-/* 左侧菜单新增交互 start */
-/*
- $(document).on('click', '.frame_leftmenu_mainitem', function () {
- var $this = $(this);
- if (!$this.hasClass('active')) {
- $this.addClass('selected').siblings().removeClass('selected');
- }
- });
- */
+
 $(document).on('click', '.frame_leftmenu_mainitem_name', function() {
+
+    console.log('jquery 点击6');
+
     $(this).closest('.frame_leftmenu_mainitem').addClass('selected').siblings().removeClass('selected');
 
 });

@@ -6,6 +6,8 @@ function BottomFloor (props){
 
     const { slider,skin,slideChange } = props;
 
+    console.log(skin);
+
     return(
 
         <div className={"bottom_wrapper"}>

@@ -75,8 +75,6 @@ function Index(props) {
     },[]);
 
 
-    console.log(props);
-
 
     //添加教学班OK
 
