@@ -123,11 +123,11 @@ function Holiday(props) {
 
         let type = '';
         
-        if (date.format("YYYY-MM-DD")===start){
+        if (date.format("YYYY-MM-DD")===start&&!disabled){
 
             contentTitle = '开学';
 
-        }else if (date.format("YYYY-MM-DD")===end){
+        }else if (date.format("YYYY-MM-DD")===end&&!disabled){
 
             contentTitle = '学期结束';
 
