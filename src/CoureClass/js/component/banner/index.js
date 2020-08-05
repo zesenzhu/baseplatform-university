@@ -80,7 +80,7 @@ function Index(props) {
 
     const addEditOk = useCallback(() =>{
 
-        const { CourseClassID,CourseClassName,showCourseClassTip,GradeID,showGradeTip,CourseNO, showCourseTip, TeacherID, showTeacherTip, ClassIDs, StudentIDs, showModalLoading,hideModalLoading } = AddEditClassRef.current;
+        const { CourseClassID,CourseClassName,showCourseClassTip,GradeID,showGradeTip,SubjectID,showSubjectTip,CourseNO,showCourseTip, TeacherID, showTeacherTip, ClassIDs, StudentIDs, showModalLoading,hideModalLoading } = AddEditClassRef.current;
 
         const { SchoolID,UserID,UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
 
@@ -113,6 +113,13 @@ function Index(props) {
         }else{
 
             showCourseTip();
+
+        }
+
+
+        if (!SubjectID){
+
+            showSubjectTip();
 
         }
 

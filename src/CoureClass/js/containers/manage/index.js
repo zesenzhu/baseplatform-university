@@ -66,7 +66,7 @@ function Index(props) {
 
     });
 
-    //课程
+    //年级
     const [grades,setGrades] = useState({
 
         dropSelectd:{value:'',title:'全部年级'},
@@ -506,7 +506,7 @@ function Index(props) {
 
                 title:'任课教师',
 
-                align:'center',
+                align:'left',
 
                 render:(i)=>{
 
@@ -976,7 +976,7 @@ function Index(props) {
     //编辑教学班OK
     const addEditOk = () =>{
 
-        const { CourseClassID,CourseClassName,GradeID,showGradeTip,showCourseClassTip, CourseNO, showCourseTip, TeacherID, showTeacherTip, ClassIDs, StudentIDs, showModalLoading,hideModalLoading } = AddEditClassRef.current;
+        const { CourseClassID,CourseClassName,GradeID,showGradeTip,showCourseClassTip,SubjectID,showSubjectTip, CourseNO, showCourseTip, TeacherID, showTeacherTip, ClassIDs, StudentIDs, showModalLoading,hideModalLoading } = AddEditClassRef.current;
 
         let courseClassOk = false,courseOk = false,teacherOk = false,gradeOk=false;
 
@@ -990,7 +990,7 @@ function Index(props) {
 
             if (!result){
 
-                showCourseClassTip('教学班名称格式不正确');
+                showCourseClassTip('教学班名称应由字母或数字或中文或,_->/()（）等特殊字符构成');
 
             }else{
 
@@ -1000,6 +1000,8 @@ function Index(props) {
 
         }
 
+        console.log(CourseNO);
+
         if (CourseNO){
 
             courseOk = true;
@@ -1007,6 +1009,12 @@ function Index(props) {
         }else{
 
             showCourseTip();
+
+        }
+
+        if (!SubjectID){
+
+            showSubjectTip()
 
         }
 
@@ -1365,7 +1373,7 @@ function Index(props) {
 
                     addEditCourse.show?
 
-                        <AddEditCourseClass IsEdit={addEditCourse.isEdit} CourseInfo={addEditCourse.CourseInfo}  CourseClassID={addEditCourse.courseClassID} ref={AddEditClassRef} dispatch={dispatch} LoginUser={LoginUser}></AddEditCourseClass>
+                        <AddEditCourseClass subjectSelectd={subjects.dropSelectd} courseSelectd={courses.dropSelectd}  IsEdit={addEditCourse.isEdit} CourseInfo={addEditCourse.CourseInfo}  CourseClassID={addEditCourse.courseClassID} ref={AddEditClassRef}></AddEditCourseClass>
 
                         :null
 

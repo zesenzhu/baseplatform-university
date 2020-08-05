@@ -816,7 +816,7 @@ const TeacherPersonalInit = () => {
 
             GetScheduleByUserID = ApiActions.GetScheduleByUserID({
 
-                SchoolID,CollegeID,UserID,WeekNO,UserType,dispatch
+                SchoolID,CollegeID:'',UserID,WeekNO,UserType,dispatch
 
             });
 
@@ -824,7 +824,7 @@ const TeacherPersonalInit = () => {
 
             GetScheduleByUserID = ApiActions.GetScheduleByUserID({
 
-                SchoolID,CollegeID,UserID,UserType,dispatch
+                SchoolID,CollegeID:'',UserID,UserType,dispatch
 
             });
 
@@ -885,7 +885,7 @@ const TeacherPersonalInit = () => {
 
             let GetAllOptionByPeriodID = ApiActions.GetAllOptionByPeriodID({
 
-                SchoolID,CollegeID,UserID,UserType,dispatch
+                SchoolID,CollegeID:'',UserID,UserType,dispatch
 
             });
 

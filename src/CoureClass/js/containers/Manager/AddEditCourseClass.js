@@ -1,4 +1,4 @@
-import React,{useRef,useState,useEffect,memo,useImperativeHandle,forwardRef} from 'react';
+import React,{useRef,useState,useEffect,memo,useCallback,useImperativeHandle,forwardRef} from 'react';
 
 import '../../../scss/HandleCourseClass.scss';
 
@@ -8,13 +8,21 @@ import {Input,Button} from "antd";
 
 import {Scrollbars} from "react-custom-scrollbars";
 
-import {GetTeacherInfo_University,GetCourseClassDetail_University,GetGradeInfo_University} from '../../actions/apiActions';
+import {
+    GetTeacherInfo_University,
+    GetCourseClassDetail_University,
+    GetGradeInfo_University,
+    GetAllTeachInfo_university,
+    GetCourseInfoByUserID_University
+} from '../../actions/apiActions';
 
 import {subNameReg} from '../../actions/utils';
 
 import SelectCourseModal from "./AddEditCourseClass/SelectCourseModal";
 
 import SelectStudent from "./AddEditCourseClass/SelectStudent";
+
+import {useSelector,useDispatch} from 'react-redux';
 
 
 function AddEditCourseClass(props,ref) {
@@ -46,7 +54,35 @@ function AddEditCourseClass(props,ref) {
 
        tip:false,
 
-       courseCheckInfo:{CourseNO:'',CourseName:'',MajorIDs:''}
+       courseCheckInfo:{CourseNO:'',CourseName:'',MajorIDs:''},
+
+        dropSelectd:{value:'',title:'请选择课程'},
+
+        dropList:[],
+
+        disabled:true
+
+    });
+
+    const [subject,setSubject] = useState({
+
+       tip:false,
+
+       dropSelectd:{value:'',title:'请选择学科'},
+
+       dropList:[]
+
+    });
+
+    //后台获取的元数据
+
+    const [dataSource,setDataSource] = useState({
+
+       subject:[],
+
+       course:[],
+
+       grade:[]
 
     });
 
@@ -91,12 +127,14 @@ function AddEditCourseClass(props,ref) {
 
 
     //获取props
-    const { LoginUser,dispatch } = props;
+
+    const LoginUser = useSelector(state=>state.LoginUser);
+
+    const dispatch = useDispatch();
 
     const { SchoolID,UserID,UserType,UserName } = LoginUser;
 
-    const { IsEdit,CourseClassID,CourseInfo } = props;
-
+    const { IsEdit,CourseClassID,CourseInfo ,subjectSelectd,courseSelectd} = props;
 
     //ref
 
@@ -104,15 +142,33 @@ function AddEditCourseClass(props,ref) {
 
     const SelectStudentModalRef = useRef();
 
+    const dataSourceRef = useRef(dataSource);
+
     //初始化
 
     useEffect(()=>{
 
         if (IsEdit){
 
-            GetCourseClassDetail_University({courseClassID:CourseClassID,dispatch}).then(data=>{
+            const getGrade = GetGradeInfo_University({schoolID:SchoolID,dispatch});
 
-                 if (data){
+            const getCourseClassDetail = GetCourseClassDetail_University({courseClassID:CourseClassID,dispatch});
+
+            Promise.all([getGrade,getCourseClassDetail]).then(res=>{
+
+                if (res[0]){
+
+                    const data = res[0];
+
+                    const grade = data.length>0?data.map(i=>({value:i.GradeID,title:i.GradeName})):[{value:'',title:'暂无可选年级'}];
+
+                    setGrade(d=>({...d,dropList:grade}));
+
+                }
+
+                 if (res[1]){
+
+                     const data = res[1];
 
                     const { Item,ClassItem,CourseClassID,CourseClassName,CourseNO,CourseName,TeacherID,TeacherName,GradeID,GradeName,MajorIDs } = data;
 
@@ -172,12 +228,194 @@ function AddEditCourseClass(props,ref) {
 
             if (parseInt(UserType)===1){
 
-                setTeacher(e=>({...e,teacherInfo:{TeacherID:UserID,TeacherName:UserName}}));
+                const getSubjectCourse = GetCourseInfoByUserID_University({userID:UserID,schoolID:SchoolID,dispatch});
+
+                const getGrade = GetGradeInfo_University({schoolID:SchoolID,dispatch});
+
+                Promise.all([getSubjectCourse,getGrade]).then(res=>{
+
+                    if (res[0]){
+
+                        const data = res[0];
+
+                        let subjectList = [],subjectDataList=[],courseDataList = [];
+
+                        if (data.length>0){
+
+                            subjectList = data.map(i=>({value:i.SubjectID,title:i.SubjectName}));
+
+                            data.map(i=>{
+
+                                if (i.Courses&&i.Courses.length>0){
+
+                                    i.Courses.map(item=>{
+
+                                        courseDataList.push({SubjectID:i.SubjectID,CourseNO:item.CourseNO,CourseName:item.CourseName});
+
+                                    })
+
+                                }
+
+                                subjectDataList.push({SubjectID:i.SubjectID,SubjectName:i.SubjectName});
+
+                            });
+
+                            dataSourceRef.current.subject = subjectDataList;
+
+                        }else{
+
+                            subjectList.push({value:'',title:'暂无可选学科'});
+
+                        }
+
+                        setSubject(d=>({...d,dropList:subjectList}));
+
+                        dataSourceRef.current.course = courseDataList;
+
+                        setDataSource(d=>({...d,subject:subjectList,course:courseDataList}));
+
+
+                    }
+
+                    if (res[1]){
+
+                        const data = res[1];
+
+                        const grade = data.length>0?data.map(i=>({value:i.GradeID,title:i.GradeName})):[{value:'',title:'暂无可选年级'}];
+
+                        setGrade(d=>({...d,dropList:grade}));
+
+                    }
+
+                    setTeacher(e=>({...e,teacherInfo:{TeacherID:UserID,TeacherName:UserName}}));
+
+                    setLoading(false);
+
+                });
+
+            }else if (parseInt(UserType)===0) {
+
+                //先获取全部的所需信息
+                GetAllTeachInfo_university({schoolID:SchoolID,dispatch}).then(data=>{
+
+                    if (data){
+
+                        const { SubjectItem=[],GradeItem=[],CourseItem=[] } = data;
+
+                        let gradeList = [],subjectList=[],courseList=[];
+
+                        if (GradeItem&&GradeItem.length>0){
+
+                            gradeList = GradeItem.map(i=>({value:i.GradeID,title:i.GradeName}));
+
+                        }else{
+
+                            gradeList = [{value:'',title:'暂无年级可选'}]
+
+                        }
+
+                        if (SubjectItem&&SubjectItem.length>0){
+
+                            subjectList = SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName}));
+
+                        }else{
+
+                            subjectList = [{value:'',title:'暂无学科可选'}]
+
+                        }
+
+                        if (CourseItem&&CourseItem.length>0){
+
+                            courseList = CourseItem.map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                        }else{
+
+                            courseList = [{value:'',title:'暂无课程可选'}]
+
+                        }
+
+                        dataSourceRef.current.grade = GradeItem;
+
+                        dataSourceRef.current.subject = SubjectItem;
+
+                        dataSourceRef.current.course = CourseItem;
+
+                        setDataSource(d=>({...d,subject:SubjectItem,course:CourseItem,grade:GradeItem}));
+
+                        setCourse(d=>({...d,dropList:courseList}));
+
+                        setSubject(d=>({...d,dropList:subjectList}));
+
+                        setGrade(e=>({...e,dropList:gradeList}));
+
+                        //三种情况
+                        if (subjectSelectd.value&&courseSelectd.value){//当已选择某一个课程的时候
+
+                            GetTeacherInfo_University({schoolID:SchoolID,courseNO:courseSelectd.value,dispatch}).then(data=>{
+
+                                if (data){
+
+                                    const dropList =  data.length>0?data.map(i=>({value:i.TeacherID,title:<span title={`${i.TeacherName}[${i.TeacherID}]`}>{i.TeacherName}<span style={{color:"#999999"}}>[{i.TeacherID}]</span></span>})):[{value:'',title:'该课程下暂无教师'}];
+
+                                    setTeacher(e=>({...e,dropList,disabled:false}));
+
+                                }
+
+                                setLoading(false);
+
+                            });
+
+                            const {course} = dataSourceRef.current;
+
+                            const list = course.filter(i=>i.SubjectID===subjectSelectd.value).map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                            setCourse(d=>({...d,dropSelectd:courseSelectd,disabled:false,dropList:list}));
+
+                            setSubject(d=>({...d,dropSelectd:subjectSelectd}));
+
+                        }else if (subjectSelectd.value){//当只选择了学科的时候
+
+                            const { course } = dataSourceRef.current;
+
+                            const list = course.filter(i=>i.SubjectID===subjectSelectd.value).map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                            if (list.length===0){
+
+                                list.push({value:'',title:'暂无可选课程'});
+
+                            }
+
+                            setCourse(d=>({...d,dropSelectd:{value:'',title:"请选择课程"},disabled:false,dropList:list}));
+
+                            setSubject(d=>({...d,dropSelectd:subjectSelectd}));
+
+                            setLoading(false);
+
+                        }else{
+
+                            const { subject } = dataSourceRef.current;
+
+                            const list = subject.map(i=>({value:i.SubjectID,title:i.SubjectName}));
+
+                            if (list.length===0){
+
+                                list.push({value:'',title:'暂无可选学科'});
+
+                            }
+
+                            setSubject(d=>({...d,dropSelectd:{value:'',title:"请选择学科"},dropList:list}));
+
+                            setLoading(false);
+
+                        }
+
+                    }
+
+                });
 
             }
 
-
-            if (CourseInfo.CourseNO){
+            /*if (CourseInfo.CourseNO){
 
                 if (parseInt(UserType)===0){
 
@@ -211,27 +449,10 @@ function AddEditCourseClass(props,ref) {
 
                 setLoading(false);
 
-            }
+            }*/
+
 
         }
-
-        GetGradeInfo_University({schoolID:SchoolID,dispatch}).then(data=>{
-
-               let gradeList = [];
-
-                if (data&&data.length>0){
-
-                    gradeList = data.map(i=>({value:i.GradeID,title:i.GradeName}));
-
-                }else{
-
-                    gradeList = [{value:'',title:'暂无年级可选'}]
-
-                }
-
-                setGrade(e=>({...e,dropList:gradeList}));
-
-        });
 
     },[]);
 
@@ -242,9 +463,6 @@ function AddEditCourseClass(props,ref) {
     const selectCourseOk = () =>{
 
         const { checked } = SelectCourseModalRef.current;
-
-
-        console.log(checked);
 
         setCourse(data=>({...data,courseCheckInfo:checked,tip:false}));
 
@@ -352,7 +570,11 @@ function AddEditCourseClass(props,ref) {
 
         showCourseClassTip:(title)=>setCourseClass(e=>({...e,tip:true,tipTitle:title})),
 
-        CourseNO:course.courseCheckInfo.CourseNO,
+        SubjectID:subject.dropSelectd.value,
+
+        showSubjectTip:()=>setSubject(d=>({...d,tip:true})),
+
+        CourseNO:IsEdit?course.courseCheckInfo.CourseNO:course.dropSelectd.value,
 
         showCourseTip:()=>setCourse(e=>({...e,tip:true})),
 
@@ -375,6 +597,59 @@ function AddEditCourseClass(props,ref) {
     }));
 
 
+
+    //修改选择的学科
+
+    const subjectChange = useCallback((data)=>{
+
+        const { value,title } = data;
+
+        let courseList = [];
+
+        if (value){
+
+            const { course } = dataSourceRef.current;
+
+            courseList = course.filter(i=>i.SubjectID===value).map(i=>({value:i.CourseNO,title:i.CourseName}))
+
+            if (courseList.length===0){
+
+                courseList.push({value:'',title:'暂无可选课程'});
+
+            }
+
+        }
+
+        setSubject(d=>({...d,dropSelectd:data,tip:false}));
+
+        setTeacher(d=>({...d,dropSelectd:{value:'',title:'请选择教师'},tip:false,disabled:true}));
+
+        setCourse(d=>({...d,disabled:false,dropSelectd:{value:'',title:'请选择课程'},dropList:courseList}))
+
+    },[]);
+
+
+    //修改选择的课程
+
+    const courseChange = useCallback((data)=>{
+
+        const { value,title } = data;
+
+        setCourse(d=>({...d,tip:false,dropSelectd:data}));
+
+        if (value){
+
+            GetTeacherInfo_University({schoolID:SchoolID,courseNO:value,dispatch}).then(data=>{
+
+                const dropList =  data&&data.length>0?data.map(i=>({value:i.TeacherID,title:<span title={`${i.TeacherName}[${i.TeacherID}]`}>{i.TeacherName}<span style={{color:"#999999"}}>[{i.TeacherID}]</span></span>})):[{value:'',title:'该课程下暂无教师'}];
+
+                setTeacher(e=>({...e,dropList,dropSelectd:{value:'',title:'请选择教师'},disabled:false}));
+
+            });
+
+        }
+
+    },[]);
 
 
     return(
@@ -415,24 +690,38 @@ function AddEditCourseClass(props,ref) {
 
                     <div className="row-column">
 
-                        <span className="left">课程：</span>
+                        <span className="left">{IsEdit?'课程':'学科课程'}：</span>
 
                         <span className="right ">
 
-                            <Tips visible={course.tip} title={"请选择课程"}>
+                            {/*<span className={"course-name"} title={course.courseCheckInfo.CourseName}>{course.courseCheckInfo.CourseName}</span>*/}
 
-                                <span className={"course-name"} title={course.courseCheckInfo.CourseName}>{course.courseCheckInfo.CourseName}</span>
+                            {
 
-                                {
+                                !IsEdit?
 
-                                    !IsEdit?
+                                    <>
 
-                                        <Button type={'link'} onClick={e=>setSelectCourseModal(true)}>选择课程</Button>
+                                        <Tips visible={subject.tip} title={"请选择学科"}>
 
-                                        :''
-                                }
+                                            <DropDown className={"select-subject"} dropSelectd={subject.dropSelectd} dropList={subject.dropList} onChange={subjectChange}></DropDown>
 
-                            </Tips>
+                                        </Tips>
+
+                                        <Tips visible={course.tip} title={"请选择课程"}>
+
+                                            <DropDown className={"select-course"} disabled={course.disabled} dropSelectd={course.dropSelectd} dropList={course.dropList} onChange={courseChange}></DropDown>
+
+                                        </Tips>
+
+                                    </>
+
+                                    :
+
+                                    <span className={"course-name"}>{course.courseCheckInfo.CourseName}</span>
+
+                            }
+
 
                         </span>
 
@@ -765,4 +1054,18 @@ function AddEditCourseClass(props,ref) {
 
 }
 
-export default memo(forwardRef(AddEditCourseClass));
+
+
+const ForwardAddEdit = forwardRef(AddEditCourseClass);
+
+ForwardAddEdit.defaultProps = {
+
+    subjectSelectd:{value:'',title:'请选择学科'},
+
+    courseSelectd:{value:'',title:'请选择课程'}
+
+};
+
+
+
+export default memo(ForwardAddEdit);
