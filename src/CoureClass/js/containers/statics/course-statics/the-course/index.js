@@ -130,8 +130,6 @@ function TheCourse(props) {
 
                         const CardItemList = [
 
-                            {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
-
                             {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
 
                             {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
@@ -216,8 +214,6 @@ function TheCourse(props) {
 
                     const CardItemList = [
 
-                        {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
-
                         {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
 
                         {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
@@ -258,13 +254,13 @@ function TheCourse(props) {
 
 
     //点击卡片
-    const tabClick = useCallback(({CardID,CardName})=>{
+    /*const tabClick = useCallback(({CardID,CardName})=>{
 
         dispatch(manageBreadCrumbChange({subjectID,subjectName,courseTypeName,courseType,courseID:CardID,courseName:CardName}));
 
         history.push('/manage');
 
-    },[]);
+    },[]);*/
 
     return(
 
@@ -285,7 +281,7 @@ function TheCourse(props) {
 
                             <Loading spinning={cardLoading} tip={"加载中,请稍候..."}>
 
-                                <CardTab type={4} list={cardList} tabClick={tabClick}></CardTab>
+                                <CardTab type={4} list={cardList}></CardTab>
 
                             </Loading>
 
