@@ -30,7 +30,8 @@ import CombineCourseClass from "../Manager/CombineCourseClass";
 
 import {leftMemuHide} from "../../reducers/leftMenu";
 
-import './index.scss'
+import './index.scss';
+
 import actions from "../../actions";
 
 
@@ -1000,7 +1001,6 @@ function Index(props) {
 
         }
 
-        console.log(CourseNO);
 
         if (CourseNO){
 
@@ -1017,6 +1017,8 @@ function Index(props) {
             showSubjectTip()
 
         }
+
+        console.log(TeacherID);
 
         if (TeacherID){
 

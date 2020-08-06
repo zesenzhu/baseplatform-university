@@ -41,7 +41,7 @@ class App extends Component {
 
         const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
 
-        if (UserType==='0'){
+        if (UserType==='0'||UserType==='7'||UserType==='10'){
 
             this.requestData();
 
@@ -61,41 +61,63 @@ class App extends Component {
 
         const { LoginUser,PeriodMsd } = DataState;
 
-        const { SchoolID } = LoginUser;
+        const { SchoolID,UserType } = LoginUser;
 
-        let havePower = QueryPower({
 
-            UserInfo: LoginUser,
 
-            ModuleID: SUBJECT_MODULEID
-
-        });
-        havePower.then(res => {
-
-            console.log(res);
-
-            if (res) {//有权限
+        if (UserType==='7'||UserType==='10'){
 
             const isCourse = getQueryVariable('isCourse');
 
-                if (isCourse){
+            if (isCourse){
 
-                    dispatch(menuActions.leftMenuChange('course'));
-
-                }else{
-
-                    dispatch(menuActions.leftMenuChange('subject'));
-
-                }
+                dispatch(menuActions.leftMenuChange('course'));
 
             }else{
 
-                window.location.href='/Error.aspx?errcode=E011';
+                dispatch(menuActions.leftMenuChange('subject'));
 
             }
 
+        }else{
 
-        })
+            let havePower = QueryPower({
+
+                UserInfo: LoginUser,
+
+                ModuleID: SUBJECT_MODULEID
+
+            });
+            havePower.then(res => {
+
+                console.log(res);
+
+                if (res) {//有权限
+
+                    const isCourse = getQueryVariable('isCourse');
+
+                    if (isCourse){
+
+                        dispatch(menuActions.leftMenuChange('course'));
+
+                    }else{
+
+                        dispatch(menuActions.leftMenuChange('subject'));
+
+                    }
+
+                }else{
+
+                    window.location.href='/Error.aspx?errcode=E011';
+
+                }
+
+
+            })
+
+        }
+
+
 
     };
 

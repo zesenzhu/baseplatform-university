@@ -176,7 +176,7 @@ function AddEditCourseClass(props,ref) {
 
                         setTeacher(e=>({...e,teacherInfo:{TeacherID:UserID,TeacherName:UserName}}));
 
-                    }else if (parseInt(UserType)===0){
+                    }else if (parseInt(UserType)===0||parseInt(UserType)===10||parseInt(UserType)===7){
 
                         setTeacher(e=>({...e,disabled:false,dropSelectd:{value:TeacherID?TeacherID:'',title:TeacherName?<span title={`${TeacherName}[${TeacherID}]`}>{TeacherName}<span style={{color:'#999999'}}>[{TeacherID}]</span></span>:'请选择教师'}}));
 
@@ -293,7 +293,7 @@ function AddEditCourseClass(props,ref) {
 
                 });
 
-            }else if (parseInt(UserType)===0) {
+            }else if (parseInt(UserType)===0||parseInt(UserType)===7||parseInt(UserType)===10) {
 
                 //先获取全部的所需信息
                 GetAllTeachInfo_university({schoolID:SchoolID,dispatch}).then(data=>{
@@ -578,7 +578,7 @@ function AddEditCourseClass(props,ref) {
 
         showCourseTip:()=>setCourse(e=>({...e,tip:true})),
 
-        TeacherID:parseInt(UserType)===0?teacher.dropSelectd.value:teacher.teacherInfo.TeacherID,
+        TeacherID:(parseInt(UserType)===0||parseInt(UserType)===10||parseInt(UserType)===7)?teacher.dropSelectd.value:teacher.teacherInfo.TeacherID,
 
         showTeacherTip:()=>setTeacher(e=>({...e,tip:true})),
 
