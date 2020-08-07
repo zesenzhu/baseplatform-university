@@ -5,6 +5,7 @@ import PeriodWeekTermActions from './PeriodWeekTermActions';
 import ApiActions from './ApiActions';
 
 import LoginUserActions from "./LoginUserActions";
+import {getQueryVariable} from "../../../common/js/disconnect";
 
 const MANAGER_INTELLENCT_URL_UPDATE = 'MANAGER_INTELLENCT_URL_UPDATE';
 
@@ -43,6 +44,8 @@ const getCommonInfo = () => {
 
                 case 0:
 
+                case 10:
+
                 case 7:
 
                     dispatch({type:ModuleSettingActions.UPDATE_MANAGER_MODULE_SETTING});
@@ -59,6 +62,11 @@ const getCommonInfo = () => {
 
                     dispatch({type:ModuleSettingActions.UPDATE_STUDENT_MODULE_SETTING});
 
+                    if (getQueryVariable('isWorkPlantform')||getQueryVariable('iFrame')){
+
+                        document.getElementsByClassName("frame-content-wrapper")[0].style.marginTop=0;
+
+                    }
                     break;
 
                 default:

@@ -10,8 +10,6 @@ import CTActions from '../../actions/Manager/ClassTotalActions';
 
 import ComPageRefresh from '../../actions/ComPageRefresh';
 
-import TermPick from "../../component/TermPick";
-
 import $ from "jquery";
 
 import DoubleSingleTable from "../../component/DoubleSingleTable";
@@ -36,7 +34,7 @@ class ClassTotal extends Component{
 
         };
 
-        const {dispatch} = this.props;
+        const {dispatch} = props;
 
         dispatch(ComPageRefresh.ComPageInit(ManagerIndexActions.ClassTotalInit()));
 
@@ -165,7 +163,7 @@ class ClassTotal extends Component{
 
     //点击全屏按钮
 
-    FullScreenClick(e) {
+   /* FullScreenClick(e) {
 
         this.setState({fullScreen: !this.state.fullScreen}, () => {
 
@@ -181,11 +179,10 @@ class ClassTotal extends Component{
 
         });
 
-    }
+    }*/
 
 
     render(){
-
 
         const { PeriodWeekTerm,SubjectCourseGradeClassRoom,ClassTotal } = this.props;
 
@@ -195,7 +192,7 @@ class ClassTotal extends Component{
 
                 <div className={`class-total-content ${this.state.fullScreen?'full-screen-doing':''}`}>
 
-                    <div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>
+                    {/*<div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>*/}
 
                     <Loading spinning={ClassTotal.LoadingShow} tip="正在为您查找，请稍后...">
 
@@ -251,38 +248,35 @@ class ClassTotal extends Component{
 
                         </TermPick>*/}
 
-                        <div className="double-single-table-wrapper">
 
-                             {
+                         {
 
-                                ClassTotal.Schedule.length>0?
+                            ClassTotal.Schedule.length>0?
 
-                                    <DoubleSingleTable
-                                        ItemClassHourCount={SubjectCourseGradeClassRoom.ItemClassHourCount}
-                                        ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
-                                        ItemWeek = {PeriodWeekTerm.ItemWeek}
-                                        NowWeekNo={PeriodWeekTerm.NowWeekNo}
-                                        leftColWidth={136}
-                                        commonColWidth={128}
-                                        rowOneHeight={46}
-                                        rowTowHeight={64}
-                                        commonRowHeight={90}
-                                        schedule={ClassTotal.Schedule}
-                                        onClickRow={(record) => this.clickRow.bind(this,record)}
-                                        scrollToBottom={this.scrollToBottom.bind(this)}
-                                        ScheduleDetailShow={this.ScheduleDetailShow.bind(this)}
-                                    >
+                                <DoubleSingleTable
+                                    ItemClassHourCount={SubjectCourseGradeClassRoom.ItemClassHourCount}
+                                    ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
+                                    ItemWeek = {PeriodWeekTerm.ItemWeek}
+                                    NowWeekNo={PeriodWeekTerm.NowWeekNo}
+                                    leftColWidth={136}
+                                    commonColWidth={128}
+                                    rowOneHeight={46}
+                                    rowTowHeight={64}
+                                    commonRowHeight={90}
+                                    schedule={ClassTotal.Schedule}
+                                    onClickRow={(record) => this.clickRow.bind(this,record)}
+                                    scrollToBottom={this.scrollToBottom.bind(this)}
+                                    ScheduleDetailShow={this.ScheduleDetailShow.bind(this)}
+                                >
 
-                                    </DoubleSingleTable>
+                                </DoubleSingleTable>
 
-                                    :
+                                :
 
-                                    <Empty type="3" title="暂无班级课表数据"></Empty>
+                                <Empty type="3" title="暂无班级课表数据"></Empty>
 
-                             }
+                         }
 
-
-                        </div>
 
                     </Loading>
 

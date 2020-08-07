@@ -63,7 +63,7 @@ class TermPick extends Component{
 
         return (
 
-            <div className="term-pick-wrapper clearfix">
+            <div className="term-pick-wrapper work-plant-form clearfix">
 
                 <button className={`prev ${prevDisabled}`}  onClick={prevDisabled?()=>{}:()=>{weekPrevEvent()}}>&lt;&nbsp;上一周</button>
 

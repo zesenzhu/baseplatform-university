@@ -8,8 +8,6 @@ import {GetGradeInfo_University} from "../../actions/apiActions";
 
 import Scroll from 'react-custom-scrollbars';
 
-import {useStateValue} from "../../actions/hooks";
-
 import SelectCourseModal from './AutoCourseClass/SelectCourseModal';
 
 
