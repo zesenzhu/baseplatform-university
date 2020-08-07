@@ -4,7 +4,7 @@ import {useSelector,useDispatch} from 'react-redux';
 
 import {Modal,Loading} from "../../../../common";
 
-import {Calendar} from 'antd';
+import {Calendar,Button} from 'antd';
 
 import {Scrollbars} from 'react-custom-scrollbars';
 
@@ -176,7 +176,7 @@ function Holiday(props) {
 
             setSelectdDate(d=>{
 
-                const list = d;
+                const list = Array.from(d);
 
                 list.push(dateStr);
 
@@ -263,9 +263,19 @@ function Holiday(props) {
 
             className={"set-holiday-modal"}
 
-            onOk={ok}
+            /*onOk={ok}
 
-            onCancel={cancel}
+            onCancel={cancel}*/
+
+            footer={<>
+
+                <span className={"tips"} style={{float:'left'}}>已选择<span style={{color:'#ff6600'}}>{selectdDate.length}</span>天</span>
+
+                <Button className={"ant-btn Button btn-small btn-green"} onClick={ok}>确定</Button>
+
+                <Button className={"ant-btn Button btn-small btn-blue"} onClick={cancel}>取消</Button>
+
+            </>}
 
         >
 

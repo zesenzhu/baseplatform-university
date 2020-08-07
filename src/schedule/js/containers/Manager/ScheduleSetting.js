@@ -419,6 +419,24 @@ function ScheduleSetting(props){
 
                     <div className="title-bar">
 
+                        <div className="title-bar-name">节假日设置</div>
+
+                    </div>
+
+                    <div className={"holiday-time-wrapper clearfix"}>
+
+                        <div className={"left-content"}>
+
+                            本学期自 <span className={"start-date date"}>{holiday.start}</span> 起至 <span className={"start-date date"}>{holiday.end}</span> 止，共{holiday.allDays}天，其中节假日{holiday.holidays}天(含周末)。
+
+                        </div>
+
+                        <Button className={"set-holiday-btn"} type={"primary"} onClick={showHolidayModal}>设置节假日</Button>
+
+                    </div>
+
+                    <div className="title-bar">
+
                         <div className="title-bar-name">节次及上课时间设置</div>
 
                     </div>
@@ -680,6 +698,26 @@ function ScheduleSetting(props){
                 <div className="tap">注:两节课之间的最小起始间隔为1分钟</div>
 
             </Modal>
+
+            <HolidayModal
+
+                show={holiday.show}
+
+                start={holiday.start}
+
+                end={holiday.end}
+
+                holidayNum={holiday.holidays}
+
+                holidayList={holiday.list}
+
+                holidayOk={holidayOk}
+
+                holidayCancel={holidayCancel}
+
+            >
+
+            </HolidayModal>
 
         </React.Fragment>
 
