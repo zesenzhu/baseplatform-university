@@ -164,7 +164,6 @@ class Subject extends Component{
 
         const {SubjectSelectd,SubjectDropList,SubjectDropShow,SubjectTitleName,ScheduleDetail,ChangeTime,AdjustClassRoom,ReplaceSchedule} = SubjectTeacherSubjectSchedule;
 
-
         let ItemWeek = [];
         //封装获取到的周次
         if (PeriodWeekTerm.ItemWeek) {

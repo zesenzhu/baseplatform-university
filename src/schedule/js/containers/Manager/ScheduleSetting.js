@@ -336,13 +336,13 @@ function ScheduleSetting(props){
 
         const { PeriodID,ClassHourNO } = opts;
 
-        dispatch(AppAlertActions.alertQuery({title:"您确定要删除该课时么？",ok:()=>DelClassHourOk({ PeriodID,ClassHourNO,SchoolID })}))
+        dispatch(AppAlertActions.alertQuery({title:"您确定要删除该课时么？",ok:()=>{ return ()=>DelClassHourOk({ PeriodID,ClassHourNO })}}))
 
     },[]);
 
-    const DelClassHourOk = ({ PeriodID,ClassHourNO,SchoolID }) => {
+    const DelClassHourOk = ({ PeriodID,ClassHourNO }) => {
 
-        ApiActions.DeleteClassHourInfo({SchoolID,ClassHourNO,PeriodID,dispatch}).then(data=>{
+        ApiActions.DeleteClassHourInfo({SchoolID:SchoolIDRef.current,ClassHourNO,PeriodID,dispatch}).then(data=>{
 
             if (data===0){
 
