@@ -16,6 +16,22 @@ import {connect} from 'react-redux';
 
 import md5 from 'md5';
 
+import pic1 from '../assets/images/dark-tech/dark-tech-animation1.png';
+
+import pic2 from '../assets/images/dark-tech/dark-tech-animation2.png';
+
+import pic3 from '../assets/images/dark-tech/dark-tech-animation3.png';
+
+import pic4 from '../assets/images/dark-tech/dark-tech-animation4.png';
+
+import animationPic1 from '../assets/images/dark-tech/dark-tech-pic1.png';
+
+import animationPic2 from '../assets/images/dark-tech/dark-tech-pic2.png';
+
+import animationPic3 from '../assets/images/dark-tech/dark-tech-pic3.png';
+
+import animationPic4 from '../assets/images/dark-tech/dark-tech-pic4.png';
+
 import {getNewTkUrl,goToNextPage,decodeObjValue} from "../api/utils";
 
 
@@ -26,7 +42,7 @@ function Content(props) {
     //aibPic
     const [aiPicList,setAiPicList] = useState([0,1,2,3]);
 
-    const [techPicList,setTechPicList] = useState([0,1,2]);
+    const [techPicList,setTechPicList] = useState([0,1,2,3]);
 
     const [aiExamPicList,setAiExamPicList] = useState([0,1,2]);
 
@@ -58,6 +74,13 @@ function Content(props) {
 
     });
 
+    //图片序列帧第一帧是否加载
+
+    const [darkTechImgShow,setDarkTechImgShow] = useState(true);
+
+
+
+
 
 
     //默认不选择不再提示
@@ -75,6 +98,28 @@ function Content(props) {
     const accountInput = useRef();
 
     const pwdInput = useRef();
+
+
+    //绘画句柄
+    const CtxRef = useRef();
+
+
+    //图片动画相关的变量
+    const ImgAnimationRef = useRef({
+
+        img:'',
+
+        dir:'left',
+
+        count:1,
+
+        move:0,
+
+        maxCount:8
+
+    });
+
+    const AnimationRef = useRef();
 
     //不再提示的选择
 
@@ -109,6 +154,82 @@ function Content(props) {
 
                 }
 
+
+            },4000);
+
+        }else if(skin==='dark_tech'){
+
+            setDarkTechImgShow(true);
+
+            const canvas = document.getElementById(`dark_tech_pic`);
+
+            const ctx = canvas.getContext("2d");
+
+            const img = new Image();
+
+            switch (active) {
+
+                case 0:
+
+                    img.src = pic1;
+
+                    break;
+
+                case 1:
+
+                    img.src = pic2;
+
+                    break;
+
+                case 2:
+
+                    img.src = pic3;
+
+                    break;
+
+                case 3:
+
+                    img.src = pic4;
+
+                    break;
+
+            }
+
+            cancelAnimationFrame(AnimationRef.current);
+
+            img.onload = ()=>{
+
+                ImgAnimationRef.current.img = img;
+
+                ImgAnimationRef.current.count = 1;
+
+                ImgAnimationRef.current.move = 0;
+
+                ImgAnimationRef.current.dir = 'left';
+
+                CtxRef.current = ctx;
+
+                cancelAnimationFrame(AnimationRef.current);
+
+                setDarkTechImgShow(false);
+
+                canvasDraw();
+
+            };
+
+            timer = setTimeout(()=>{
+
+                setDarkTechImgShow(true);
+
+                if (active===3){
+
+                    picChange(0)
+
+                }else{
+
+                    picChange(active+1);
+
+                }
 
             },4000);
 
@@ -154,6 +275,224 @@ function Content(props) {
       window.top.ClosePop = closeModal;
 
     },[]);
+
+
+    const canvasDraw = useCallback(()=>{
+
+        const ctx = CtxRef.current;
+
+        const moveTotal = ImgAnimationRef.current.move;
+
+        const direction = ImgAnimationRef.current.dir;
+
+        const countNum = ImgAnimationRef.current.count;
+
+        const {img,maxCount} = ImgAnimationRef.current;
+
+        ctx.clearRect(0,0,640,400);
+
+        ctx.drawImage(img,moveTotal,0,15216,400);
+
+        if (countNum>=maxCount){
+
+            ImgAnimationRef.current.count = 1;
+
+           /* if (direction==='right'){
+
+                ImgAnimationRef.current.move = moveTotal + 634
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634
+
+            }
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.dir = 'right';
+
+            }
+
+            if (ImgAnimationRef.current.move>=0){
+
+                ImgAnimationRef.current.dir = 'left';
+
+            }*/
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.move = 0;
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634;
+
+            }
+
+        }else{
+
+            ImgAnimationRef.current.count = countNum + 1;
+
+        }
+
+        AnimationRef.current = requestAnimationFrame(canvasDraw);
+
+    },[active]);
+
+
+ /*   //四个动画函数
+
+    const canvasDraw1 = ()=>{
+
+        const ctx = CtxRef.current;
+
+        const moveTotal = ImgAnimationRef.current.move;
+
+        const direction = ImgAnimationRef.current.dir;
+
+        const {img,maxCount} = ImgAnimationRef.current;
+
+        ctx.clearRect(0,0,640,400);
+
+        ctx.drawImage(img,moveTotal,0,15216,400);
+
+        if (animationCount1>=maxCount){
+
+            animationCount1 = 1;
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.move = 0;
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634;
+
+            }
+
+        }else{
+
+            animationCount1 = animationCount1 + 1;
+
+        }
+
+        requestAnimationFrame(canvasDraw1);
+
+    };
+
+    const canvasDraw2 = ()=>{
+
+        const ctx = CtxRef.current;
+
+        const moveTotal = ImgAnimationRef.current.move;
+
+        const direction = ImgAnimationRef.current.dir;
+
+        const {img,maxCount} = ImgAnimationRef.current;
+
+        ctx.clearRect(0,0,640,400);
+
+        ctx.drawImage(img,moveTotal,0,15216,400);
+
+        if (animationCount2>=maxCount){
+
+            animationCount2 = 1;
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.move = 0;
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634;
+
+            }
+
+        }else{
+
+            animationCount2 = animationCount2 + 1;
+
+        }
+
+        requestAnimationFrame(canvasDraw2);
+
+    };
+
+    const canvasDraw3 = ()=>{
+
+        const ctx = CtxRef.current;
+
+        const moveTotal = ImgAnimationRef.current.move;
+
+        const direction = ImgAnimationRef.current.dir;
+
+        const {img,maxCount} = ImgAnimationRef.current;
+
+        ctx.clearRect(0,0,640,400);
+
+        ctx.drawImage(img,moveTotal,0,15216,400);
+
+        if (animationCount3>=maxCount){
+
+            animationCount3 = 1;
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.move = 0;
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634;
+
+            }
+
+        }else{
+
+            animationCount3 = animationCount3 + 1;
+
+        }
+
+        requestAnimationFrame(canvasDraw3);
+
+    };
+
+    const canvasDraw4 = ()=>{
+
+        const ctx = CtxRef.current;
+
+        const moveTotal = ImgAnimationRef.current.move;
+
+        const direction = ImgAnimationRef.current.dir;
+
+        const {img,maxCount} = ImgAnimationRef.current;
+
+        ctx.clearRect(0,0,640,400);
+
+        ctx.drawImage(img,moveTotal,0,15216,400);
+
+        if (animationCount4>=maxCount){
+
+            animationCount4 = 1;
+
+            if (ImgAnimationRef.current.move<=-14582){
+
+                ImgAnimationRef.current.move = 0;
+
+            }else{
+
+                ImgAnimationRef.current.move = moveTotal - 634;
+
+            }
+
+        }else{
+
+            animationCount4 = animationCount4 + 1;
+
+        }
+
+        requestAnimationFrame(canvasDraw4);
+
+    };*/
 
 
     //点击注册按钮
@@ -213,7 +552,6 @@ function Content(props) {
             dispatch(showWarnAlert({title:"请输入登录账号",okShow:'n',cancelTitle:'确定',close:accountFoucs,cancel:accountFoucs,cancelShow:'y'}));
 
         }
-
 
     };
 
@@ -518,6 +856,13 @@ function Content(props) {
 
     },[ResHttpRootUrl]);
 
+    //图标
+    const darkTeachImgs = useMemo(()=>{
+
+        return [animationPic1,animationPic2,animationPic3,animationPic4];
+
+    },[]);
+
 
 
     return(
@@ -586,9 +931,21 @@ function Content(props) {
 
                                                 <div className={"pic-wrapper"}>
 
-                                                    <i className={`pic pic${active+1}`}></i>
+                                                    {/*<i className={`pic pic${active+1}`}></i>
 
-                                                    <i className={`pallet pallet${active+1}`}></i>
+                                                    <i className={`pallet pallet${active+1}`}></i>*/}
+
+                                                    {
+
+                                                        darkTechImgShow?
+
+                                                            <i className={"animation-before-pic"} style={{backgroundImage:`url(${darkTeachImgs[k]})`}}/>
+
+                                                            :null
+
+                                                    }
+
+                                                    <canvas id={`dark_tech_pic`} width={640} height={500} className={`animation${k}`}></canvas>
 
                                                 </div>
 

@@ -9,8 +9,6 @@ import ManagerIndexActions from "../../actions/Manager/ManagerIndexActions";
 
 import CRTActions from '../../actions/Manager/ClassRoomTotalActions';
 
-import TermPick from "../../component/TermPick";
-
 import $ from "jquery";
 
 import DoubleSingleTable from "../../component/DoubleSingleTable";
@@ -36,7 +34,7 @@ class ClassRoomTotal extends Component{
 
         };
 
-        const {dispatch} = this.props;
+        const {dispatch} = props;
 
         dispatch(ComPageRefresh.ComPageInit(ManagerIndexActions.ClassRoomTotalInit()));
 
@@ -46,7 +44,7 @@ class ClassRoomTotal extends Component{
     //年级下拉改变
 
     RoomTypeChange(e){
-        
+
         const {dispatch} = this.props;
 
         let data = {};
@@ -95,7 +93,7 @@ class ClassRoomTotal extends Component{
             dispatch(CRTActions.ClassTotalPageUpdate({nextPage:true}));
 
         }
-        
+
         /* else if (Math.ceil(ClassRoomCount/10)>0){
 
             message.info('已经是最后一页了！',0.2);
@@ -171,7 +169,7 @@ class ClassRoomTotal extends Component{
 
     //点击全屏按钮
 
-    FullScreenClick(e){
+   /* FullScreenClick(e){
 
         this.setState({fullScreen:!this.state.fullScreen},()=>{
 
@@ -187,7 +185,7 @@ class ClassRoomTotal extends Component{
 
         });
 
-    }
+    }*/
 
 
     render(){
@@ -203,7 +201,7 @@ class ClassRoomTotal extends Component{
 
                 <div className={`class-total-content ${this.state.fullScreen?'full-screen-doing':''}`}>
 
-                    <div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>
+                    {/*<div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>*/}
 
                     <Loading spinning={ClassRoomTotal.LoadingShow} tip="正在为您查找，请稍后...">
 
@@ -232,6 +230,8 @@ class ClassRoomTotal extends Component{
                             WeekList={ClassRoomTotal.WeekList}
 
                             weekDateChange={this.weekDateChange.bind(this)}
+
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
 
                         >
 

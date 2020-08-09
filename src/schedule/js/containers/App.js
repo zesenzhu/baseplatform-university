@@ -66,202 +66,11 @@ import ChangeScheduleModal from '../component/ChangeScheduleModal';
 
 import SDActions from "../actions/ScheduleDetailActions";
 
+import config from "../../../common/js/config";
+import {getQueryVariable} from "../../../common/js/disconnect";
 
 
 class App extends Component{
-
-    /*constructor(props) {
-
-        super(props);
-
-        const {dispatch} = props;
-
-        const Hash = location.hash;
-
-        //获取公共的信息
-
-        if(publicJS.IEVersion()){
-
-            TokenCheck_Connect(false,()=>{
-
-                if (sessionStorage.getItem('UserInfo')){
-    
-                    let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
-    
-                    let { UserType,UserClass } = UserInfo;
-
-                    console.log(UserInfo);
-    
-                    //判断权限
-    
-                    if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2||parseInt(UserType)===7||parseInt(UserType)===10){
-    
-                        if (parseInt(UserType)===0){//判断管理员权限
-    
-                            QueryPower({UserInfo,ModuleID:'000-2-0-07'}).then(data=>{
-    
-                                if (data){
-
-                                    dispatch(ModuleCommonActions.getCommonInfo());
-    
-                                    if (Hash.includes('Import')){
-    
-                                        dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
-    
-                                    }else{
-    
-                                        dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-    
-                                    }
-    
-                                }else{
-    
-                                    window.location.href='/Error.aspx?errcode=E011';
-    
-                                }
-    
-                            });
-
-                        }else if (parseInt(UserType)===1){
-    
-                            let GetAdjustPower =  QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_U'});
-    
-                            let GetImportPower = QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_C'});
-    
-                            Promise.all([GetAdjustPower,GetImportPower]).then(res=>{
-    
-                                dispatch({type:TeacherPowerActions.TEACHER_POWER_CHANGE,data:{Adjust:res[0],AddImport:res[1]}});
-    
-                                dispatch(ModuleCommonActions.getCommonInfo());
-    
-                                if (Hash.includes('Import')){
-    
-                                    dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
-    
-                                }else{
-    
-                                    dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-    
-                                }
-    
-                            });
-    
-                        }else{
-
-                            dispatch(ModuleCommonActions.getCommonInfo());
-
-                        }
-    
-                    }else{//无权限角色
-    
-                        //window.location.href='/Error.aspx?errcode=E011';
-    
-                    }
-    
-                }else{
-    
-    
-                    let getUserInfo = setInterval(()=>{
-    
-                        if (sessionStorage.getItem('UserInfo')){
-    
-                            let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
-    
-                            /!* dispatch(ModuleCommonActions.getCommonInfo());
-    
-                             if (Hash.includes('Import')){
-    
-                                 dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
-    
-                             }else{
-    
-                                 dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-    
-                             }*!/
-
-                            let { UserType,UserClass } = UserInfo;
-
-                            //判断权限
-    
-                            if (parseInt(UserType)===0||parseInt(UserType===1)||parseInt(UserType)===2||parseInt(UserType)===7||parseInt(UserType)===10){
-    
-                                if (parseInt(UserType)===0){//判断管理员权限
-    
-                                    QueryPower({UserInfo,ModuleID:'000-2-0-07'}).then(data=>{
-    
-                                        if (data){
-    
-                                            dispatch(ModuleCommonActions.getCommonInfo());
-    
-                                            if (Hash.includes('Import')){
-    
-                                                dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
-    
-                                            }else{
-    
-                                                dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-    
-                                            }
-    
-                                        }else{
-    
-                                            window.location.href='/Error.aspx?errcode=E011';
-    
-                                        }
-    
-                                    });
-    
-                                }else if (parseInt(UserType)===1) {
-    
-                                    let GetAdjustPower =  QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_U'});
-    
-                                    let GetImportPower = QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_C'})
-    
-                                    Promise.all([GetAdjustPower,GetImportPower]).then(res=>{
-    
-                                        dispatch({type:TeacherPowerActions.TEACHER_POWER_CHANGE,data:{Adjust:res[0],AddImport:res[1]}});
-    
-                                        dispatch(ModuleCommonActions.getCommonInfo());
-    
-                                        if (Hash.includes('Import')){
-    
-                                            dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
-    
-                                        }else{
-    
-                                            dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-    
-                                        }
-    
-                                    });
-    
-                                }else{
-
-                                    dispatch(ModuleCommonActions.getCommonInfo());
-
-                                }
-    
-                            }else{//无权限角色
-    
-                                //window.location.href='/Error.aspx?errcode=E011';
-    
-                            }
-    
-                            clearInterval(getUserInfo);
-    
-                        }
-    
-                    },10);
-    
-                }
-    
-            });
-
-        }
-
-    }*/
-
-
 
     componentDidMount(){
 
@@ -278,6 +87,8 @@ class App extends Component{
         let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
 
         let { UserType,UserClass } = UserInfo;
+
+
 
         //判断权限
 
@@ -345,7 +156,13 @@ class App extends Component{
 
         }
 
+        if (getQueryVariable('isWorkPlantform')){
 
+            document.getElementsByClassName("frame-drag-flag")[0].style.backgroundColor = '#ffffff';
+
+            document.getElementsByClassName("frame-content-rightside")[0].style.borderTop = '1px solid #f2f2f2';
+
+        }
     }
 
 

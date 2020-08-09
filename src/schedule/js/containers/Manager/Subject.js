@@ -10,8 +10,6 @@ import SDActions from '../../actions/ScheduleDetailActions';
 
 import ComPageRefresh from '../../actions/ComPageRefresh';
 
-import TermPick from '../../component/TermPick';
-
 import DoubleSingleTable from '../../component/DoubleSingleTable';
 
 import $ from 'jquery';
@@ -175,8 +173,7 @@ class Subject extends Component{
     }
 
 
-    //点击全屏按钮
-
+    /*//点击全屏按钮
     FullScreenClick(e){
 
         this.setState({fullScreen:!this.state.fullScreen},()=>{
@@ -193,8 +190,7 @@ class Subject extends Component{
 
         });
 
-    }
-
+    }*/
 
 
     render() {
@@ -240,13 +236,14 @@ class Subject extends Component{
 
         }
 
+
         return (
 
             <CSSTransition in={this.state.fullScreen} timeout={200} classNames={"full-screen"}>
 
                 <div className={`subject-teacher-subject-content ${this.state.fullScreen?'full-screen-doing':''}`}>
 
-                    <div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>
+                    {/*<div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>*/}
 
                     <Loading spinning={SubjectTeacherSchedule.loadingShow} tip="正在为您查找，请稍后...">
 
@@ -278,12 +275,14 @@ class Subject extends Component{
 
                             weekDateChange={this.weekDateChange.bind(this)}
 
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
+
                         >
 
                         </WeekDayPick>
 
 
-                        <div className="double-single-table-wrapper">
+
 
 
                             {
@@ -315,12 +314,6 @@ class Subject extends Component{
                                     <Empty type="3" title="暂无学科教师课表数据"></Empty>
 
                             }
-
-
-
-
-
-                        </div>
 
                     </Loading>
 

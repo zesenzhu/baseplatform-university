@@ -523,11 +523,11 @@ class Modal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { title } = nextProps;
+    const { title,footer } = nextProps;
 
     this.selectType(this.props.type);
 
-    this.setState({ title: title });
+    this.setState({ title,footer });
   }
   // 拖拽modal
 
@@ -2511,11 +2511,12 @@ class MenuLeft extends React.Component {
 
   render() {
     //传递的参数的数据
-    const { Menu, Icon, menuClick } = this.props;
+    const { Menu, Icon, menuClick,history } = this.props;
     //history.pathname路由
-    const pathname = this.props.history.location.pathname;
+    const pathname = history.location.pathname;
 
     return (
+
       <Router>
         <div className="frame_left_menu_pin">
           <div className={`frame_left_menu_pic ${Icon ? Icon : "pic1"}`}></div>
@@ -2647,6 +2648,7 @@ class MenuLeft extends React.Component {
           </div>
         </div>
       </Router>
+
     );
   }
 }
@@ -2815,7 +2817,7 @@ class Frame extends React.Component {
     };
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     $(window).scroll(() => {
       let scrollTop = $(window).scrollTop();
 
@@ -2835,7 +2837,7 @@ class Frame extends React.Component {
 
         }
 
-    }
+    }*/
 
   render() {
     const {

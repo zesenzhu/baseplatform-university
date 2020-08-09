@@ -389,9 +389,9 @@ export const GetTeachingRoomForPage_University = async ({schoolID='',userID='',u
 
     const res = await getGetData(`/CourseClass/api/GetTeachingRoomForPage_University?schoolID=${schoolID}&userID=${userID}&userType=${userType}&pageIndex=${pageIndex}&pageSize=${pageSize}`,2,
 
-        /*Config.NewCourseClass);*/
+        Config.NewCourseClass);
 
-    'http://192.168.2.202:7300/mock/5f158050d53dee0d30437de6/CourseClass');
+    /*'http://192.168.2.202:7300/mock/5f158050d53dee0d30437de6/CourseClass');*/
 
     if (res.StatusCode===200){
 

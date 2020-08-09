@@ -219,6 +219,17 @@ class TeacherPersonalSchedule extends Component{
     }
 
 
+    componentDidMount(){
+
+        document.getElementsByClassName("frame-content-rightside")[0].style.marginTop = '0px';
+
+        document.getElementsByClassName("frame-content-rightside")[0].style.borderTop = '0px';
+
+        document.getElementsByClassName("frame-content-rightside")[0].style.borderRadius = '12px';
+
+
+    }
+
 
     render() {
 

@@ -124,7 +124,7 @@ const TPSUpdate = () => {
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
-        ApiActions.GetScheduleByUserID({SchoolID,CollegeID,UserType,UserID,WeekNO:NowWeekNo,dispatch}).then(data=>{
+        ApiActions.GetScheduleByUserID({SchoolID,CollegeID:'',UserType,UserID,WeekNO:NowWeekNo,dispatch}).then(data=>{
 
             if (data){
 

@@ -69,17 +69,17 @@ class App extends Component {
 
       let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-      const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:parseInt(UserInfo.UserClass)};
+      const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:UserInfo.UserClass};
 
 
 
-      let UserType = UserInfo.UserType;
+      /*let UserType = UserInfo.UserType;
 
       if (parseInt(UserType)===7||parseInt(UserType)===10){
 
           UserInfo.UserType = '0';
 
-      }
+      }*/
 
       dispatch(
           actions.UpDataState.getLoginUser(
@@ -266,8 +266,6 @@ class App extends Component {
           let routeID = pathArr[2];
           let subjectID = pathArr[3];
           let classID = pathArr[4];
-
-
 
         if (
               (UserMsg.UserType === "0" || UserMsg.UserType === "7") &&

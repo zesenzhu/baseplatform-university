@@ -1,6 +1,6 @@
-import React,{Component} from 'react';
+import React,{useEffect,useState,useCallback,useMemo,useRef,memo} from 'react';
 
-import {Input} from "antd";
+import {Input,Button} from "antd";
 
 import {Modal,Radio,RadioGroup} from "../../../../common";
 
@@ -8,47 +8,105 @@ import SSActions from '../../actions/Manager/ScheduleSettingActions';
 
 import AppAlertActions from '../../actions/AppAlertActions';
 
+import {GetTermInfoAndHolidayCount} from '../../actions/ApiActions';
+
 import PeriodClassHourSetting from '../../component/Manager/PeriodClassHourSetting';
 
 import $ from 'jquery';
 
-import { connect } from 'react-redux';
-
+import { useSelector,useDispatch } from 'react-redux';
 
 import ApiActions from "../../actions/ApiActions";
 
+import HolidayModal from '../../component/holiday-modal';
 
-class ScheduleSetting extends Component{
+import moment from 'moment';
 
-    constructor(props){
 
-        super(props);
+function ScheduleSetting(props){
 
-        this.state={
+    //假期
+    const [holiday,setHoliday] = useState({
 
-            FirstUpload:true
+        start:moment().format('YYYY-MM-DD'),
 
-        }
+        end:moment().format('YYYY-MM-DD'),
 
-    }
+        allDays:0,
 
-    componentWillUpdate(){
+        holidays:0,
 
-        const { dispatch,LoginUser } = this.props;
+        list:[],
 
-        if (Object.keys(LoginUser).length>0&&this.state.FirstUpload){
+        show:false
 
-            const { SchoolID } = LoginUser;
+    });
+
+
+    const ScheduleSetting = useSelector(state=>state.Manager.ScheduleSetting);
+
+    const LoginUser = useSelector(state=>state.LoginUser);
+
+    const {SchoolID,UserID,UserType,UserClass} = LoginUser;
+
+    const dispatch = useDispatch();
+
+    const {
+
+        SettingType, MultiplePeriod, SettingByPeriod, SettingByUnify, IsEnable, Times,
+
+        LinkageEditStatus, AdjustClassHourModal,AddClassHourModal,EditTimes,
+
+        EditClassHourModal
+
+    } = ScheduleSetting;
+
+    const {
+
+        MorningRadioChecked,MorningInputDisabled,MorningTime,
+
+        AfternoonRadioChecked,AfternoonInputDisabled,AfternoonTime
+
+    } = AdjustClassHourModal;
+
+
+    const SchoolIDRef = useRef(SchoolID);
+
+
+
+    useEffect(()=>{
+
+        if (UserID){
+
+            SchoolIDRef.current = SchoolID;
 
             dispatch(SSActions.PageInit({SchoolID}));
 
-            this.setState({FirstUpload:false});
+            GetTermInfoAndHolidayCount({SchoolID,dispatch}).then(data=>{
+
+                if (data){
+
+                    const start = data.StartDate?moment(data.StartDate).format("YYYY-MM-DD"):moment().format('YYYY-MM-DD');
+
+                    const end = data.EndDate?moment(data.EndDate).format("YYYY-MM-DD"):moment().format('YYYY-MM-DD');
+
+                    const allDays = data.AllDays?data.AllDays:0;
+
+                    const holidays = data.Holidays?data.Holidays:0;
+
+                    const list = data.HolidayItem&&data.HolidayItem.length>0?data.HolidayItem:[];
+
+                    setHoliday(d=>({...d,start,end,allDays,holidays,list}));
+
+                }
+
+            });
 
         }
 
-    }
+    },[UserID]);
 
-    componentDidMount(){
+    useEffect(()=>{
 
         //改变样式
         $('.frame-content-rightside').css({
@@ -61,35 +119,20 @@ class ScheduleSetting extends Component{
 
         });
 
-    }
+    },[]);
 
-
-/*    //切换课表设置的方式
-    SettingTypeChange(opts){
-
-        const { dispatch } = this.props;
-
-        const method = opts.type===1?'统一':'分学段';
-
-        dispatch(AppAlertActions.alertQuery({title:`您确定要切换成按${method}设置吗？`,ok:()=>this.SettingTypeSitch.bind(this,opts)}));
-
-    }*/
 
     //切换调课方式
-    SettingTypeSitch(opts){
-
-        const { dispatch } = this.props;
+    const SettingTypeSitch = (opts) => {
 
         dispatch(SSActions.SettingTypeSitch(opts));
 
-    }
+    };
 
 
     //批量调整课时
 
-    AdjustClassHour(opts){
-
-        const  { dispatch } = this.props;
+    const AdjustClassHour = useCallback((opts) => {
 
         const { Event } = opts;
 
@@ -98,147 +141,128 @@ class ScheduleSetting extends Component{
 
         dispatch(SSActions.AdjustClassHour(opts));
 
-    }
+    },[]);
+
+
 
     //批量调整课时关闭
 
-    AdjustClassHourHide(){
-
-        const  { dispatch } = this.props;
+    const AdjustClassHourHide  = useCallback(() => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADJUST_MODAL_HIDE});
 
-    }
+    },[]);
+
 
     //确定点击弹窗按钮
 
-    AdjustClassHourOk(){
-
-        const { dispatch } = this.props;
+    const AdjustClassHourOk = useCallback(() => {
 
         dispatch(SSActions.AdjustClassHourOk());
 
-    }
+    },[]);
+
 
     //调整课时上午单选变化
-    MorningRadioChange(e){
-
-        const { dispatch } = this.props;
+    const MorningRadioChange = useCallback((e) => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_MORNING_RADIO_CHANGE,data:e.target.value});
 
-    }
-    //调整课时下午单选变化
-    AfternoonRadioChange(e){
+    },[]);
 
-        const { dispatch } = this.props;
+
+    //调整课时下午单选变化
+    const AfternoonRadioChange = useCallback((e) =>{
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_AFTERNOON_RADIO_CHANGE,data:e.target.value});
 
-    }
+    },[]);
+
 
     //受控组件input变化
 
-    AdjustMorningInputChange(e){
-
-        const { dispatch } = this.props;
+    const AdjustMorningInputChange = useCallback((e) => {
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADJUST_MORNING_INPUT_CHANGE,data:number});
 
-    }
+    },[]);
+
 
     //受控组件input变化
 
-    AdjustAfternoonInputChange(e){
-
-        const { dispatch } = this.props;
+    const AdjustAfternoonInputChange = useCallback((e) => {
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADJUST_AFTERNOON_INPUT_CHANGE,data:number});
 
-    }
+    },[]);
 
 
 
     //添加课时弹窗
 
-    AddClassHour(opts){
-
-        const  { dispatch } = this.props;
+    const AddClassHour = useCallback((opts) => {
 
         dispatch(SSActions.AddClassHour(opts));
 
-    }
+    },[]);
 
 
-    AddClassHourOk(){
-
-        const { dispatch } = this.props;
+    const AddClassHourOk = useCallback(() =>{
 
         dispatch(SSActions.AddClassHourOk());
 
-    }
+    },[]);
 
 
     //隐藏添加课时弹窗
 
-    AddClassHourHide(){
-
-        const  { dispatch } = this.props;
+    const AddClassHourHide = useCallback(() => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_MODAL_HIDE});
 
-    }
+    },[]);
 
 
     //开始-小时变化
-    AddStartHourChange(e) {
-
-        const { dispatch } = this.props;
+    const AddStartHourChange = useCallback((e)=>{
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_START_HOUR_CHANGE,data:e.target.value});
 
-    }
+    },[]);
 
 
     //开始-分钟变化
-    AddStartMinChange(e){
+        const AddStartMinChange= useCallback((e) =>{
 
-        const { dispatch } = this.props;
+            dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_START_MIN_CHANGE,data:e.target.value});
 
-        dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_START_MIN_CHANGE,data:e.target.value});
-
-    }
+        },[]);
 
 
     //结束-小时变化
-    AddEndHourChange(e){
-
-        const { dispatch } = this.props;
+    const AddEndHourChange = useCallback((e) => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_END_HOUR_CHANGE,data:e.target.value});
 
-    }
+    },[]);
 
 
     //结束-分钟变化
-    AddEndMinChange(e){
-
-        const { dispatch } = this.props;
+    const AddEndMinChange = useCallback((e) => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_ADD_CLASSHOUR_END_MIN_CHANGE,data:e.target.value});
 
-    }
+    },[]);
+
 
 
     //编辑OK
 
-    EditClassHour(opts){
-
-        const { dispatch } = this.props;
+    const EditClassHour = useCallback((opts) => {
 
         const { Type,IsUnify,PeriodID,ClassHourName,StartTime,EndTime,ClassHourNO } = opts;
 
@@ -252,90 +276,73 @@ class ScheduleSetting extends Component{
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_MODAL_SHOW,data:{ClassHourNO,Type,OldStartTime:StartTime,OldEndTime:EndTime,IsUnify,PeriodID,ClassHourName,StartHour,EndHour,StartMin,EndMin}})
 
-    }
+    },[]);
 
-    EditClassHourOk(){
-
-        const { dispatch } = this.props;
+    const EditClassHourOk = useCallback(() =>{
 
         dispatch(SSActions.EditClassHourOk());
 
-    }
+    },[]);
 
-    EditClassHourHide(){
-
-        const { dispatch } = this.props;
+    const EditClassHourHide = useCallback(() => {
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_MODAL_HIDE})
 
-    }
+    },[]);
 
 
     //开始-小时变化
-    EditStartHourChange(e) {
-
-        const { dispatch } = this.props;
+    const EditStartHourChange = (e) => {
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_START_HOUR_CHANGE,data:number});
 
-    }
+    };
 
 
     //开始-分钟变化
-    EditStartMinChange(e){
-
-        const { dispatch } = this.props;
+    const EditStartMinChange = (e) =>{
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_START_MIN_CHANGE,data:number});
 
-    }
+    };
 
 
-    //结束-小时变化
-    EditEndHourChange(e){
-
-        const { dispatch } = this.props;
+    ///结束-小时变化
+    const EditEndHourChange = (e) => {
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_END_HOUR_CHANGE,data:number});
 
-    }
+    };
 
 
     //结束-分钟变化
-    EditEndMinChange(e){
-
-        const { dispatch } = this.props;
+    const EditEndMinChange = (e) => {
 
         let number =  e.target.value.replace(/[^\d]/g,'');
 
         dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_EDIT_CLASSHOUR_END_MIN_CHANGE,data:number});
 
-    }
+    };
 
     //删除课时
 
-    DelClassHour(opts){
-
-        const { LoginUser,dispatch } = this.props;
-
-
-        const { SchoolID } = LoginUser;
+    const DelClassHour = useCallback((opts)=> {
 
         const { PeriodID,ClassHourNO } = opts;
 
-        dispatch(AppAlertActions.alertQuery({title:"您确定要删除该课时么？",ok:()=>this.DelClassHourOk.bind(this,{ PeriodID,ClassHourNO,SchoolID,dispatch })}))
+        dispatch(AppAlertActions.alertQuery({title:"您确定要删除该课时么？",ok:()=>{ return ()=>DelClassHourOk({ PeriodID,ClassHourNO })}}))
 
-    }
+    },[]);
 
-    DelClassHourOk({ PeriodID,ClassHourNO,SchoolID,dispatch }){
+    const DelClassHourOk = ({ PeriodID,ClassHourNO }) => {
 
-        ApiActions.DeleteClassHourInfo({SchoolID,ClassHourNO,PeriodID,dispatch}).then(data=>{
+        ApiActions.DeleteClassHourInfo({SchoolID:SchoolIDRef.current,ClassHourNO,PeriodID,dispatch}).then(data=>{
 
             if (data===0){
 
@@ -349,88 +356,84 @@ class ScheduleSetting extends Component{
 
         })
 
-    }
-
-    //点击关闭和开启
-    LinkageChange(){
-
-        const { dispatch } = this.props;
-
-        dispatch(SSActions.LinkageChange());
-    }
-
-    //点击切换状态
-
-    SwitchTimeEditShow(){
-
-        const { dispatch } = this.props;
-
-        dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_LINKAGE_TIME_EDIT_OPEN});
-
-    }
-
-    SwitchTimeEditClose(){
-
-        const { dispatch } = this.props;
-
-        dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_LINKAGE_TIME_EDIT_CANCEL});
-
-        dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_LINKAGE_TIME_EDIT_CLOSE});
+    };
 
 
-    }
+    //假期弹窗出现
+
+    const showHolidayModal = useCallback(()=>{
+
+        setHoliday(d=>({...d,show:true}));
+
+    },[]);
 
 
-    //课表联动输入变化
+    //节假日弹窗点击OK
 
-    LinkageInputChange(e){
+    const holidayOk = useCallback(()=>{
 
-        const { dispatch } = this.props;
+        setHoliday(d=>({...d,show:false}));
 
-        let number =  e.target.value.replace(/[^\d]/g,'');
+        updateHoliday();
 
-        dispatch({type:SSActions.MANAGER_SCHEDULE_SETTING_LINKAGE_INPUT_CHANGE,data:number});
+    },[]);
+
+    //节假日关闭
+    const holidayCancel = useCallback(()=>{
+
+        setHoliday(d=>({...d,show:false}));
+
+    },[]);
+
+    //更新节假日信息
+    const updateHoliday = useCallback(()=>{
+
+        GetTermInfoAndHolidayCount({SchoolID:SchoolIDRef.current,dispatch}).then(data=>{
+
+            if (data){
+
+                const start = data.StartDate?moment(data.StartDate).format("YYYY-MM-DD"):moment().format('YYYY-MM-DD');
+
+                const end = data.EndDate?moment(data.EndDate).format("YYYY-MM-DD"):moment().format('YYYY-MM-DD');
+
+                const allDays = data.AllDays?data.AllDays:0;
+
+                const holidays = data.Holidays?data.Holidays:0;
+
+                const list = data.HolidayItem&&data.HolidayItem.length>0?data.HolidayItem:[];
+
+                setHoliday(d=>({...d,start,end,allDays,holidays,list}));
+
+            }
+
+        });
+
+    },[]);
 
 
-    }
+    return (
 
-    //课表联动输入确定
-
-    SwitchTimeEditOk(){
-
-        const { dispatch } = this.props;
-
-        dispatch(SSActions.SwitchTimeEditOk());
-
-    }
-
-
-
-    render(){
-
-        const { ScheduleSetting } = this.props;
-
-        const {
-
-            SettingType, MultiplePeriod, SettingByPeriod, SettingByUnify, IsEnable, Times,
-
-            LinkageEditStatus, AdjustClassHourModal,AddClassHourModal,EditTimes,
-
-            EditClassHourModal
-
-        } = ScheduleSetting;
-
-        const {
-
-            MorningRadioChecked,MorningInputDisabled,MorningTime,
-
-            AfternoonRadioChecked,AfternoonInputDisabled,AfternoonTime
-
-        } = AdjustClassHourModal;
-
-        return <React.Fragment>
+        <React.Fragment>
 
             <div className="schedule-setting-wrapper">
+
+                    <div className="title-bar">
+
+                        <div className="title-bar-name">节假日设置</div>
+
+                    </div>
+
+                    <div className={"holiday-time-wrapper clearfix"}>
+
+                        <div className={"left-content"}>
+
+                            本学期自 <span className={"start-date date"}>{holiday.start}</span> 起至 <span className={"start-date date"}>{holiday.end}</span> 止，共{holiday.allDays}天，其中节假日{holiday.holidays}天(含周末)。
+
+                        </div>
+
+                        <Button className={"set-holiday-btn"} type={"primary"} onClick={showHolidayModal}>设置节假日</Button>
+
+                    </div>
 
                     <div className="title-bar">
 
@@ -440,19 +443,6 @@ class ScheduleSetting extends Component{
 
                     <div className="setting-content-wrapper">
 
-                        {/* <div className="setting-type-wrapper">
-
-                        <span className="setting-type-title">选择设置方式:</span>
-
-                        <div className="setting-type-switch clearfix">
-
-                            <div className={`setting-type-tab left ${SettingType===1?'active':''}`} onClick={this.SettingTypeChange.bind(this,{type:1})}>分学段设置</div>
-
-                            <div className={`setting-type-tab right ${SettingType===0?'active':''}`} onClick={this.SettingTypeChange.bind(this,{type:0})}>统一设置</div>
-
-                        </div>
-
-                    </div>*/}
 
                         <PeriodClassHourSetting
 
@@ -460,13 +450,13 @@ class ScheduleSetting extends Component{
 
                                     ClassHourList={SettingByUnify.ClassHourList}
 
-                                    AdjustClassHour={this.AdjustClassHour.bind(this)}
+                                    AdjustClassHour={AdjustClassHour}
 
-                                    AddClassHour={this.AddClassHour.bind(this)}
+                                    AddClassHour={AddClassHour}
 
-                                    EditClassHour={this.EditClassHour.bind(this)}
+                                    EditClassHour={EditClassHour}
 
-                                    DelClassHour={this.DelClassHour.bind(this)}
+                                    DelClassHour={DelClassHour}
 
                                 >
 
@@ -474,7 +464,7 @@ class ScheduleSetting extends Component{
 
                     </div>
 
-                    <div className="title-bar">
+                    {/*<div className="title-bar">
 
                         <div className="title-bar-name">物联网自动联动设置</div>
 
@@ -527,7 +517,7 @@ class ScheduleSetting extends Component{
 
                         }
 
-                    </div>
+                    </div>*/}
 
             </div>
 
@@ -547,15 +537,15 @@ class ScheduleSetting extends Component{
 
                    destroyOnClose={true}
 
-                   onOk={this.AdjustClassHourOk.bind(this)}
+                   onOk={AdjustClassHourOk}
 
-                   onCancel={this.AdjustClassHourHide.bind(this)}>
+                   onCancel={AdjustClassHourHide}>
 
                     <div className="monring-setting setting-line clearfix">
 
                         <span className="title">上午:</span>
 
-                        <RadioGroup value={MorningRadioChecked} onChange={this.MorningRadioChange.bind(this)}>
+                        <RadioGroup value={MorningRadioChecked} onChange={MorningRadioChange}>
 
                             <Radio type="gray" value="before">提前</Radio>
 
@@ -563,7 +553,7 @@ class ScheduleSetting extends Component{
 
                         </RadioGroup>
 
-                        <Input maxLength={2} min={1} disabled={MorningInputDisabled} value={MorningInputDisabled?'':MorningTime} onChange={this.AdjustMorningInputChange.bind(this)}/>
+                        <Input maxLength={2} min={1} disabled={MorningInputDisabled} value={MorningInputDisabled?'':MorningTime} onChange={AdjustMorningInputChange}/>
 
                         <span className={"unit"}>分</span>
 
@@ -573,7 +563,7 @@ class ScheduleSetting extends Component{
 
                         <span className="title">下午:</span>
 
-                        <RadioGroup value={AfternoonRadioChecked} onChange={this.AfternoonRadioChange.bind(this)} >
+                        <RadioGroup value={AfternoonRadioChecked} onChange={AfternoonRadioChange} >
 
                             <Radio type="gray" value="before">提前</Radio>
 
@@ -581,7 +571,7 @@ class ScheduleSetting extends Component{
 
                         </RadioGroup>
 
-                        <Input maxLength={2} min={1} disabled={AfternoonInputDisabled} value={AfternoonInputDisabled?'':AfternoonTime} onChange={this.AdjustAfternoonInputChange.bind(this)}/>
+                        <Input maxLength={2} min={1} disabled={AfternoonInputDisabled} value={AfternoonInputDisabled?'':AfternoonTime} onChange={AdjustAfternoonInputChange}/>
 
                         <span className={"unit"}>分</span>
 
@@ -605,20 +595,20 @@ class ScheduleSetting extends Component{
 
                    destroyOnClose={true}
 
-                   onOk={this.AddClassHourOk.bind(this)}
+                   onOk={AddClassHourOk}
 
-                   onCancel={this.AddClassHourHide.bind(this)}
+                   onCancel={AddClassHourHide}
                 >
 
                 <div className="start-time-wrapper">
 
                     <span className="title">开始时间:</span>
 
-                    <Input onChange={this.AddStartHourChange.bind(this)} className="start-hour"  maxLength={2} min={0} max={23} value={AddClassHourModal.StartHour}/>
+                    <Input onChange={AddStartHourChange} className="start-hour"  maxLength={2} min={0} max={23} value={AddClassHourModal.StartHour}/>
 
                     <span className="unit">时</span>
 
-                    <Input onChange={this.AddStartMinChange.bind(this)} className="start-min"  maxLength={2} min={0} max={59} value={AddClassHourModal.StartMin}/>
+                    <Input onChange={AddStartMinChange} className="start-min"  maxLength={2} min={0} max={59} value={AddClassHourModal.StartMin}/>
 
                     <span className="unit">分</span>
 
@@ -628,11 +618,11 @@ class ScheduleSetting extends Component{
 
                     <span className="title">结束时间:</span>
 
-                    <Input onChange={this.AddEndHourChange.bind(this)} className="end-hour"  maxLength={2} min={0} max={23} value={AddClassHourModal.EndHour}/>
+                    <Input onChange={AddEndHourChange} className="end-hour"  maxLength={2} min={0} max={23} value={AddClassHourModal.EndHour}/>
 
                     <span className="unit">时</span>
 
-                    <Input onChange={this.AddEndMinChange.bind(this)} className="end-min"  maxLength={2} min={0} max={59} value={AddClassHourModal.EndMin}/>
+                    <Input onChange={AddEndMinChange} className="end-min"  maxLength={2} min={0} max={59} value={AddClassHourModal.EndMin}/>
 
                     <span className="unit">分</span>
 
@@ -658,9 +648,9 @@ class ScheduleSetting extends Component{
 
                    destroyOnClose={true}
 
-                   onOk={this.EditClassHourOk.bind(this)}
+                   onOk={EditClassHourOk}
 
-                   onCancel={this.EditClassHourHide.bind(this)}
+                   onCancel={EditClassHourHide}
             >
 
                 <div className="class-time-wrapper">
@@ -681,11 +671,11 @@ class ScheduleSetting extends Component{
 
                     <span className="title">开始时间:</span>
 
-                    <Input onChange={this.EditStartHourChange.bind(this)} className="start-hour"  maxLength={2} min={0} max={23} value={EditClassHourModal.StartHour}/>
+                    <Input onChange={EditStartHourChange} className="start-hour"  maxLength={2} min={0} max={23} value={EditClassHourModal.StartHour}/>
 
                     <span className="unit">时</span>
 
-                    <Input onChange={this.EditStartMinChange.bind(this)} className="start-min"  maxLength={2} min={0} max={59} value={EditClassHourModal.StartMin}/>
+                    <Input onChange={EditStartMinChange} className="start-min"  maxLength={2} min={0} max={59} value={EditClassHourModal.StartMin}/>
 
                     <span className="unit">分</span>
 
@@ -695,11 +685,11 @@ class ScheduleSetting extends Component{
 
                     <span className="title">结束时间:</span>
 
-                    <Input onChange={this.EditEndHourChange.bind(this)} className="end-hour"  maxLength={2} min={0} max={23} value={EditClassHourModal.EndHour}/>
+                    <Input onChange={EditEndHourChange} className="end-hour"  maxLength={2} min={0} max={23} value={EditClassHourModal.EndHour}/>
 
                     <span className="unit">时</span>
 
-                    <Input onChange={this.EditEndMinChange.bind(this)} className="end-min"  maxLength={2} min={0} max={59} value={EditClassHourModal.EndMin}/>
+                    <Input onChange={EditEndMinChange} className="end-min"  maxLength={2} min={0} max={59} value={EditClassHourModal.EndMin}/>
 
                     <span className="unit">分</span>
 
@@ -709,24 +699,32 @@ class ScheduleSetting extends Component{
 
             </Modal>
 
+            <HolidayModal
+
+                show={holiday.show}
+
+                start={holiday.start}
+
+                end={holiday.end}
+
+                holidayNum={holiday.holidays}
+
+                holidayList={holiday.list}
+
+                holidayOk={holidayOk}
+
+                holidayCancel={holidayCancel}
+
+            >
+
+            </HolidayModal>
+
         </React.Fragment>
 
-    }
+    )
 
 }
 
-const  mapStateToProps = (state) => {
 
-    let { Manager,LoginUser } = state;
 
-    let { ScheduleSetting } = Manager;
-
-    return {
-
-        ScheduleSetting,LoginUser
-
-    }
-
-};
-
-export default connect(mapStateToProps)(ScheduleSetting);
+export default memo(ScheduleSetting);

@@ -259,7 +259,7 @@ function TheCollege(props) {
 
         <Loading spinning={loading} tip={"加载中,请稍候..."}>
 
-            <div className={"the-course-wrapper"}>
+            <div className={"the-research-room-wrapper"}>
 
                 <TitleBar type={"course"} title={<><NavLink to={"/statics/teacher/total"}>教师教学班统计</NavLink> > {teachingRoomName}</>}></TitleBar>
 

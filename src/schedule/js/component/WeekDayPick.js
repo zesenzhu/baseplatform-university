@@ -15,7 +15,7 @@ function WeekDayPick(props) {
     const [nextDisabled,setNextDisabled] = useState(false);
 
 
-    const { WeekList,NowWeekNO,NowWeekDay,NowClassDate } = props;
+    const { WeekList,NowWeekNO,NowWeekDay,NowClassDate,OriginWeekList } = props;
 
     const {weekDateChange} = props;
 
@@ -23,7 +23,11 @@ function WeekDayPick(props) {
 
         const preDis = NowWeekNO===1&&NowWeekDay===1;
 
+        const nextDis = NowWeekNO===(OriginWeekList?OriginWeekList.length:0)&&NowWeekDay===7;
+
         setPrevDisabled(preDis);
+
+        setNextDisabled(nextDis);
 
     },[NowWeekNO,NowWeekDay]);
 
@@ -177,7 +181,7 @@ function WeekDayPick(props) {
 
     return(
 
-        <div className="term-pick-wrapper week-day-pick clearfix">
+        <div className="term-pick-wrapper work-plant-form week-day-pick clearfix">
 
             <button className={`prev ${prevDisabled?'disabled':''}`}  onClick={prevDisabled?()=>{}:()=>{dateChange({reback:true})}}>&lt;&nbsp;前一天</button>
 
@@ -213,7 +217,7 @@ function WeekDayPick(props) {
 
             </div>
 
-            <button className={`next ${nextDisabled}`} onClick={nextDisabled?()=>{}:()=>{dateChange({forward:true})}}>后一天&nbsp;&gt;</button>
+            <button className={`next ${nextDisabled?'disabled':''}`} onClick={nextDisabled?()=>{}:()=>{dateChange({forward:true})}}>后一天&nbsp;&gt;</button>
 
         </div>
 
@@ -230,6 +234,8 @@ WeekDayPick.defaultProps={
     NowClassDate:'',
 
     WeekList:[],
+
+    OriginWeekList:[],
 
     weekPrevEvent:()=>{},
 

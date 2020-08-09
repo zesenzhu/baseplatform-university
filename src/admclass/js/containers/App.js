@@ -711,7 +711,9 @@ class App extends Component {
         }
       });
     }
+
     window.menuClick = this.menuClick.bind(this);
+
   }
 
   addClass(e) {

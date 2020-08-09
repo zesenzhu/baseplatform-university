@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
 
-import TermPick from "../../component/TermPick";
-
 import STSAction from "../../actions/Teacher/SubjectTeacherSubjectActions";
 
 import {connect} from 'react-redux';
@@ -139,7 +137,7 @@ class Subject extends Component{
 
     //点击全屏按钮
 
-    FullScreenClick(e){
+   /* FullScreenClick(e){
 
         this.setState({fullScreen:!this.state.fullScreen},()=>{
 
@@ -155,7 +153,7 @@ class Subject extends Component{
 
         });
 
-    }
+    }*/
 
 
     render() {
@@ -165,7 +163,6 @@ class Subject extends Component{
         const { SubjectTeacherSubjectSchedule,SubjectCourseGradeClassRoom  } = Teacher;
 
         const {SubjectSelectd,SubjectDropList,SubjectDropShow,SubjectTitleName,ScheduleDetail,ChangeTime,AdjustClassRoom,ReplaceSchedule} = SubjectTeacherSubjectSchedule;
-
 
         let ItemWeek = [];
         //封装获取到的周次
@@ -185,7 +182,7 @@ class Subject extends Component{
 
             <div className={`subject-teacher-subject-content ${this.state.fullScreen?'full-screen-doing':''}`}>
 
-                    <div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>
+                    {/*<div className="full-screen-btn" onClick={this.FullScreenClick.bind(this)}>{this.state.fullScreen?'退出全屏':'全屏'}</div>*/}
 
                     <Loading spinning={SubjectTeacherSubjectSchedule.loadingShow} tip="正在为您查找，请稍后...">
 
@@ -226,6 +223,8 @@ class Subject extends Component{
 
                             weekDateChange={this.weekDateChange.bind(this)}
 
+                            OriginWeekList={PeriodWeekTerm.ItemWeek}
+
                         >
 
                         </WeekDayPick>
@@ -250,9 +249,6 @@ class Subject extends Component{
                         >
 
                         </TermPick>*/}
-
-                        <div className="double-single-table-wrapper">
-
 
                             {
 
@@ -280,8 +276,6 @@ class Subject extends Component{
                                     <Empty type="3" title="暂无学科教师课表数据"></Empty>
 
                             }
-
-                        </div>
 
                     </Loading>
 
