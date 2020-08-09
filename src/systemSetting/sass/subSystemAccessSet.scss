@@ -177,7 +177,10 @@
           top: 29px;
           color: #333333;
           font-family: MicrosoftYaHei-Bold;
-          font-size: 16px;
+          font-size: 16px;max-width: 160px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .user-type {
           position: absolute;
@@ -204,7 +207,7 @@
           top: 88px;
           width: 226px;
           height: 1px;
-          border: dashed 1px #cccccc;
+          border-bottom: dashed 1px #cccccc;
         }
         .access-state {
           position: absolute;
