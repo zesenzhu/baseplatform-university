@@ -2814,6 +2814,8 @@ class Frame extends React.Component {
 
     this.state = {
       fixed: false,
+      isFrame:false,
+      isWorkPlantform:false
     };
   }
 
