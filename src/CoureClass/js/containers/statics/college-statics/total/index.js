@@ -54,7 +54,7 @@ function CollegeTotal(props) {
 
         {id:'courseClass',value:0,title:'教学班数量'},
 
-        {id:'teacher',value:0,title:'教师数量'},
+        {id:'teacher',value:0,title:'任课教师数量'},
 
         {id:'student',value:0,title:'学生数量'}
 
@@ -105,7 +105,7 @@ function CollegeTotal(props) {
 
                         {id:'courseClass',value:CourseClassCount,title:'教学班数量'},
 
-                        {id:'teacher',value:TeacherCount,title:'教师数量'},
+                        {id:'teacher',value:TeacherCount,title:'任课教师数量'},
 
                         {id:'student',value:StudentCount,title:'学生数量'}
 

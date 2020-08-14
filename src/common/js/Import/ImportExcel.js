@@ -17,20 +17,6 @@ class Import extends Component{
 
         this.state = InitState({props,type:'excel'});
 
-        /*const { ImportTarget,ImportMouldes } = this.state;
-
-        //如果有值的话。没有的话等更新
-        if (ImportTarget){
-
-
-
-            this.setState({ModulesLink,UpLoadLoading:false})
-
-        }*/
-
-
-
-
     }
 
 
@@ -518,32 +504,6 @@ class Import extends Component{
 
     }
 
-    /*componentWillReceiveProps(nextProps){
-
-        const { ImportTarget,ImportTitle } = nextProps;
-
-        if (ImportTarget!==this.state.ImportTarget||this.state.ImportTitle!==ImportTitle){
-
-            const { ImportMouldes } = this.state;
-
-            const arr = ImportTarget.split(',');
-
-            const ModulesLink = arr.map(item=>{
-
-                const Path = ImportMouldes.find(i=>i.ID===item).Url;
-
-                return Path;
-
-            });
-
-            this.setState({ModulesLink,UpLoadLoading:false,ImportTarget,ImportTitle});
-
-            console.log(ImportTarget,ImportTitle);
-
-        }
-
-    }*/
-
 
     render(){
 
@@ -553,7 +513,7 @@ class Import extends Component{
 
             UpLoadFileName,AlertObj,StepLoading,UpLoadResult,BackEndData,
 
-            ImportMouldes
+            ImportMouldes,ImportTargetName
 
         } = this.state;
 
@@ -574,6 +534,8 @@ class Import extends Component{
             return Path;
 
         });
+
+        const MouldNames = ImportTargetName.split(',');
 
         return <div id="ImportComponent" className="component-import">
 
@@ -616,7 +578,21 @@ class Import extends Component{
 
                                             ModulesLink&&ModulesLink.map((item,key)=>{
 
-                                                return <a key={key} href={item} target="_blank" className="dodown">"模版{ModulesLink.length>1?key+1:''}"</a>
+                                                return <a key={item} href={item} target="_blank" className="dodown">
+
+                                                    {
+
+                                                        MouldNames[key]?
+
+                                                            `"${MouldNames[key]}"`
+
+                                                            :
+
+                                                            `"模版${ModulesLink.length>1?key+1:''}"`
+
+                                                    }
+
+                                                </a>
 
                                             })
 
