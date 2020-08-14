@@ -4,7 +4,7 @@ import {useSelector,useDispatch} from 'react-redux';
 
 import {appLoadingHide} from "../../../../reducers/AppLoading";
 
-import {Loading,PagiNation} from "../../../../../../common";
+import {Empty, Loading, PagiNation} from "../../../../../../common";
 
 import TitleBar from '../../../../component/plugins/title-bar';
 
@@ -263,6 +263,7 @@ function TeacherTotal(props) {
     };
 
 
+
     return(
 
         <Loading spinning={loading} tip={"加载中,请稍候..."}>
@@ -273,13 +274,28 @@ function TeacherTotal(props) {
 
                 <StaticsCircle list={staticsList}></StaticsCircle>
 
-                <Loading spinning={cardLoading} tip={"加载中,请稍候..."}>
+                {
 
-                    <CardTab tabClick={tabClick} type={5} list={cardList}></CardTab>
+                    cardList.length>0?
 
-                </Loading>
+                        <>
 
-                <PagiNation pageSize={pagination.pageSize} hideOnSinglePage={pagination.pageSize===parseInt(pagination.pageSizeList[0])} showSizeChanger pageSizeOptions={pagination.pageSizeList} onShowSizeChange={pagiSizeChange} total={pagination.total}  current={pagination.current} onChange={pageChange}></PagiNation>
+                            <Loading spinning={cardLoading} tip={"加载中,请稍候..."}>
+
+                                <CardTab tabClick={tabClick} type={5} list={cardList}></CardTab>
+
+                            </Loading>
+
+                            <PagiNation pageSize={pagination.pageSize} hideOnSinglePage={pagination.pageSize===parseInt(pagination.pageSizeList[0])} showSizeChanger pageSizeOptions={pagination.pageSizeList} onShowSizeChange={pagiSizeChange} total={pagination.total}  current={pagination.current} onChange={pageChange}></PagiNation>
+
+                        </>
+
+                        :
+
+                        <Empty type={"3"} title={"暂无相关教研室数据"}></Empty>
+
+                }
+
 
             </div>
 
