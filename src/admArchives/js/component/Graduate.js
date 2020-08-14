@@ -332,7 +332,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             e.value +
@@ -360,7 +360,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
@@ -394,7 +394,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -419,7 +419,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -454,7 +454,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -480,7 +480,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -514,7 +514,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -539,7 +539,7 @@ class Graduate extends React.Component {
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
@@ -575,7 +575,7 @@ class Graduate extends React.Component {
   //   }
   //   dispatch(
   //     actions.UpDataState.getGraduatePreview(
-  //       "/GetGraduate?SchoolID=" +
+  //       "/GetGraduate_Univ?SchoolID=" +
   //         this.state.userMsg.SchoolID +
   //         (e.value !== 0 ? "&gradeID=" + e.value : "") +
   //         "&PageIndex=0&PageSize=10" +
@@ -595,7 +595,7 @@ class Graduate extends React.Component {
   //   });
   //   dispatch(
   //     actions.UpDataState.getGraduatePreview(
-  //       "/GetGraduate?SchoolID=" +
+  //       "/GetGraduate_Univ?SchoolID=" +
   //         this.state.userMsg.SchoolID +
   //         (this.state.firstSelect.value !== 0
   //           ? "&gradeID=" + this.state.firstSelect.value
@@ -646,7 +646,7 @@ class Graduate extends React.Component {
     });
     dispatch(
       actions.UpDataState.getGraduatePreview(
-        "/GetGraduate?SchoolID=" +
+        "/GetGraduate_Univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=0&PageSize=10&keyword=" +
           e.value +
@@ -685,7 +685,7 @@ class Graduate extends React.Component {
     });
     dispatch(
       actions.UpDataState.getGraduatePreview(
-        "/GetGraduate?SchoolID=" +
+        "/GetGraduate_Univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
@@ -749,7 +749,7 @@ class Graduate extends React.Component {
           : "";
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?SchoolID=" +
+          "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             (this.state.keyword ? "&keyword=" + this.state.keyword : "") +
             (this.state.firstSelect.value !== 0
@@ -786,7 +786,7 @@ class Graduate extends React.Component {
     } else {
       dispatch(
         actions.UpDataState.getGraduatePreview(
-          "/GetGraduate?PageIndex=" +
+          "/GetGraduate_Univ?PageIndex=" +
             (this.state.pagination - 1) +
             (this.state.firstSelect.value !== 0
               ? "&collegeID=" + this.state.firstSelect.value
@@ -818,7 +818,7 @@ class Graduate extends React.Component {
     //console.log(e)
     dispatch(
       actions.UpDataState.getGraduatePreview(
-        "/GetGraduate?SchoolID=" +
+        "/GetGraduate_Univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           (this.state.keyword ? "&keyword=" + this.state.keyword : "") +
           (this.state.firstSelect.value !== 0
@@ -962,7 +962,7 @@ class Graduate extends React.Component {
           );
           dispatch(
             actions.UpDataState.getGraduatePreview(
-              "/GetGraduate?SchoolID=" +
+              "/GetGraduate_Univ?SchoolID=" +
                 this.state.userMsg.SchoolID +
                 (this.state.keyword ? "&keyword=" + this.state.keyword : "") +
                 (this.state.firstSelect.value !== 0
@@ -1060,7 +1060,7 @@ class Graduate extends React.Component {
           );
           dispatch(
             actions.UpDataState.getGraduatePreview(
-              "/GetGraduate?SchoolID=" +
+              "/GetGraduate_Univ?SchoolID=" +
                 this.state.userMsg.SchoolID +
                 (this.state.keyword ? "&keyword=" + this.state.keyword : "") +
                 (this.state.firstSelect.value !== 0
