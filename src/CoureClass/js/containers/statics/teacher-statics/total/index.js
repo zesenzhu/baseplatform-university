@@ -139,7 +139,7 @@ function TeacherTotal(props) {
 
                             {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
 
-                            {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
+                            {CardProps:'教师数量:',CardValue:`${i.TeacherCount}人`},
 
                             {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
 
@@ -223,7 +223,7 @@ function TeacherTotal(props) {
 
                         {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
 
-                        {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
+                        {CardProps:'教师数量:',CardValue:`${i.TeacherCount}人`},
 
                         {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
 

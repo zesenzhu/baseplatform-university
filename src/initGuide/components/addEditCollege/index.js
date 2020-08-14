@@ -442,20 +442,5 @@ function AddEditCollege(props,ref) {
 
 }
 
-AddEditCollege.defaultProps = {
-
-  show:false,
-
-  isEdit:false,
-
-  CollegeName:'',
-
-  CollegeCode:'',
-
-  closeModal:()=>{},
-
-  okModal:()=>{}
-
-};
 
 export default memo(forwardRef(AddEditCollege));

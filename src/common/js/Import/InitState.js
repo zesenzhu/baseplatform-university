@@ -12,11 +12,9 @@ const InitState = ({props,type}) => {
 
             ImportTarget:props.ImportTarget?props.ImportTarget:'',
 
+            ImportTargetName:props.ImportTargetName?props.ImportTargetName:'',
+
             FtpPath:'',
-
-           /* UpLoadLoading:true,
-
-            ModulesLink:[],*/
 
             UpLoadFileName:'请选择文件...',
 

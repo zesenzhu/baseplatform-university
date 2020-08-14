@@ -16,9 +16,11 @@ import SchoolSystemCheck from '../../components/schoolSystemCheck';
 
 import { schoolCodeReg,schoolNameReg } from '../../actions/utils';
 
-import {GetSchoolInfo} from "../../actions/apiActions";
+import {GetSchoolInfo,uploadSchoolLogo,AddSchoolInfo,EditSchoolInfo_Middle,EditSchoolInfo_University} from "../../actions/apiActions";
 
 import {appLoadingHide} from "../../store/appLoading";
+
+import {loginUserUpdate} from "../../store/LoginUser";
 
 import CropperModal from '../../../common/js/CropperModal';
 
@@ -133,7 +135,11 @@ function SchoolSetting(props) {
     });
 
 
-    const {UserType,UserID,UserClass,SchoolID} = useSelector(state=>state.LoginUser);
+
+
+    const LoginUser = useSelector(state=>state.LoginUser);
+
+    const {UserType,UserID,UserClass,SchoolID} = LoginUser;
 
     const schoolType = useSelector(state=>state.schoolType);
 
@@ -161,11 +167,23 @@ function SchoolSetting(props) {
 
     const schoolTypeRef = useRef(schoolType);
 
+    const loginUserRef = useRef(LoginUser);
+
+
+    //存放临时文件
+    const tmpFileRef = useRef();
+
     const AreaCheckRef = useRef();
 
     const fileRef = useRef();
 
     const uploadImgRef = useRef();
+
+    useEffect(()=>{
+
+        loginUserRef.current = LoginUser;
+
+    },[LoginUser]);
 
     useEffect(()=>{
         
@@ -181,7 +199,10 @@ function SchoolSetting(props) {
 
                         const {SchoolName,SchoolCode,SchoolLogoUrl,ProvinceID,CityID,CountyID,SchoolType,SchoolSessionType} = data;
 
+
                         if (schoolType==='middle'){ //中小学的时候判断学段信息
+
+                            const list = SchoolSessionType.split("/");
 
                             switch (parseInt(SchoolType)) {
 
@@ -189,9 +210,21 @@ function SchoolSetting(props) {
 
                                     setPeriod(d=>{
 
-                                        periodRef.current = { ...d,primary:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                        periodRef.current = { ...d,
 
-                                        return { ...d,primary:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                            primary:{ checked:list[0],disabled:false,originChecked:list[0]},
+
+                                            middle:{checked:'',disabled:true,originChecked:list[1]}
+
+                                        };
+
+                                        return { ...d,
+
+                                            primary:{ checked:list[0],disabled:false,originChecked:list[0]},
+
+                                            middle:{checked:'',disabled:true,originChecked:list[1]}
+
+                                        };
 
                                     });
 
@@ -201,9 +234,21 @@ function SchoolSetting(props) {
 
                                     setPeriod(d=>{
 
-                                        periodRef.current = { ...d,middle:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                        periodRef.current = { ...d,
 
-                                        return { ...d,middle:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                            middle:{ checked:list[1],disabled:false,originChecked:list[1]},
+
+                                            primary:{checked:'',disabled:true,originChecked:list[0]}
+
+                                        };
+
+                                        return { ...d,
+
+                                            middle:{ checked:list[1],disabled:false,originChecked:list[1]},
+
+                                            primary:{checked:'',disabled:true,originChecked:list[0]}
+
+                                        };
 
                                     });
 
@@ -213,9 +258,25 @@ function SchoolSetting(props) {
 
                                     setPeriod(d=>{
 
-                                        periodRef.current = { ...d,heigh:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                        periodRef.current = { ...d,
 
-                                        return { ...d,heigh:{ checked:SchoolSessionType,disabled:false,originChecked:SchoolSessionType}};
+                                            primary:{ checked:'',disabled:false,originChecked:'5'},
+
+                                            middle:{ checked:'',disabled:false,originChecked:'4'},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
+
+                                        return { ...d,
+
+                                            primary:{ checked:'',disabled:false,originChecked:'5'},
+
+                                            middle:{ checked:'',disabled:false,originChecked:'4'},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
 
                                     });
 
@@ -224,8 +285,6 @@ function SchoolSetting(props) {
                                 case 3:
 
                                     setPeriod(d=>{
-
-                                        const list = SchoolSessionType.split("/");
 
                                         periodRef.current = { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},middle:{ checked:list[1],disabled:false,originChecked:list[1]}};
 
@@ -239,11 +298,25 @@ function SchoolSetting(props) {
 
                                     setPeriod(d=>{
 
-                                        const list = SchoolSessionType.split("/");
+                                        periodRef.current = { ...d,
 
-                                        periodRef.current = { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},heigh:{ checked:list[1],disabled:false,originChecked:list[1]}};
+                                            primary:{ checked:list[0],disabled:false,originChecked:list[0]},
 
-                                        return { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},heigh:{ checked:list[1],disabled:false,originChecked:list[1]}};
+                                            middle:{ checked:'',disabled:false,originChecked:list[1]},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
+
+                                        return { ...d,
+
+                                            primary:{ checked:list[0],disabled:false,originChecked:list[0]},
+
+                                            middle:{ checked:'',disabled:false,originChecked:list[1]},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
 
                                     });
 
@@ -255,9 +328,25 @@ function SchoolSetting(props) {
 
                                         const list = SchoolSessionType.split("/");
 
-                                        periodRef.current = { ...d,middle:{ checked:list[0],disabled:false,originChecked:list[0]},heigh:{ checked:list[1],disabled:false,originChecked:list[1]}};
+                                        periodRef.current = { ...d,
 
-                                        return { ...d,middle:{ checked:list[0],disabled:false,originChecked:list[0]},heigh:{ checked:list[1],disabled:false,originChecked:list[1]}};
+                                            primary:{ checked:'',disabled:false,originChecked:list[0]},
+
+                                            middle:{ checked:list[1],disabled:false,originChecked:list[1]},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
+
+                                        return { ...d,
+
+                                            primary:{ checked:'',disabled:false,originChecked:list[0]},
+
+                                            middle:{ checked:list[1],disabled:false,originChecked:list[1]},
+
+                                            heigh:{ checked:'3',disabled:false,originChecked:'3'}
+
+                                        };
 
                                     });
 
@@ -269,9 +358,9 @@ function SchoolSetting(props) {
 
                                         const list = SchoolSessionType.split("/");
 
-                                        periodRef.current = { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},middle:{ checked:list[1],disabled:false,originChecked:list[1]},heigh:{ checked:list[2],disabled:false,originChecked:list[2]}};
+                                        periodRef.current = { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},middle:{ checked:list[1],disabled:false,originChecked:list[1]},heigh:{ checked:'3',disabled:false,originChecked:'3'}};
 
-                                        return { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},middle:{ checked:list[1],disabled:false,originChecked:list[1]},heigh:{ checked:list[2],disabled:false,originChecked:list[2]}};
+                                        return { ...d,primary:{ checked:list[0],disabled:false,originChecked:list[0]},middle:{ checked:list[1],disabled:false,originChecked:list[1]},heigh:{ checked:'3',disabled:false,originChecked:'3'}};
 
                                     });
 
@@ -307,7 +396,6 @@ function SchoolSetting(props) {
 
                         });
 
-
                         setSchoolCode(d=>{
 
                             schoolCodeRef.current = {...d,value:SchoolCode};
@@ -322,6 +410,8 @@ function SchoolSetting(props) {
 
                     }
 
+                    dispatch(appLoadingHide());
+
                 })
 
             }else{
@@ -329,6 +419,8 @@ function SchoolSetting(props) {
                 logoInit();
 
                 setLoading(false);
+
+                dispatch(appLoadingHide());
 
             }
 
@@ -697,7 +789,7 @@ function SchoolSetting(props) {
 
         const logoUrl = SchoolLogoUrl?SchoolLogoUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default.png`;
 
-        const badgeUrl = `${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/custom_280_40.png`;
+        const badgeUrl = `${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/custom_280_40.png?v=${new Date().getTime()}`;
 
         const actionUrl = `${removeSlashUrl(ResHttpRootUrl)}/SubjectRes_UploadHandler.ashx?method=doUpload_WholeFile&userid=${UserID}`;
 
@@ -727,25 +819,13 @@ function SchoolSetting(props) {
 
     },[]);
 
-    //校徽初始化成功
-    const badgeLoad = useCallback(()=>{
-
-        if (appLoading){
-
-            dispatch(appLoadingHide());
-
-        }
-
-    },[]);
 
     //当校徽初始化错误
     const badgeLoadErr = useCallback(()=>{
 
         const { ResHttpRootUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
-        if (appLoading){
-
-            setSchoolLogo(d=>{
+        setSchoolLogo(d=>{
 
                 schoolLogoRef.current = {...d,badgeUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`};
 
@@ -753,9 +833,6 @@ function SchoolSetting(props) {
 
             });
 
-            dispatch(appLoadingHide());
-
-        }
 
     },[]);
 
@@ -765,6 +842,8 @@ function SchoolSetting(props) {
     const fileChange = useCallback((e)=>{
 
         const file = e.target.files[0];
+
+        tmpFileRef.current = file;
 
         const fileType = file.name.split('.')[file.name.split('.').length-1].toLowerCase();
 
@@ -805,15 +884,36 @@ function SchoolSetting(props) {
 
         uploadImgRef.current.src = url;
 
-        console.log(e,uploadImgRef.current);
-
     };
 
     //上传的图片的尺寸判断
     const tmpImgLoad = useCallback((e) =>{
 
+        const { ResHttpRootUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
         if (uploadImgRef.current.width===280&&uploadImgRef.current.height===40){
 
+            //执行上传操作
+
+            uploadSchoolLogo(tmpFileRef.current,dispatch).then(data=>{
+
+                if (data&&data.Status===200){
+
+                    setSchoolLogo(d=>{
+
+                        schoolLogoRef.current = {...d,badgeUrl:`${ResHttpRootUrl+data.Data}?v=${new Date().getTime()}`};
+
+                        return {...d,badgeUrl:`${ResHttpRootUrl+data.Data}?v=${new Date().getTime()}`}
+
+                    });
+
+                }else{
+
+                    fileRef.current.value='';
+
+                }
+
+            })
 
 
         }else{
@@ -833,7 +933,7 @@ function SchoolSetting(props) {
 
         const { ResHttpRootUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
-        const badgeUrl = `${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/custom_280_40.png`;
+        const badgeUrl = `${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`;
 
         setSchoolLogo(d=>{
 
@@ -989,12 +1089,178 @@ function SchoolSetting(props) {
         }
 
 
+        let SchoolName='',SchoolCode='',SchoolLevel='',SchoolType='',SchoolSessionType='',SchoolImgUrl='',CountyID='';
+
+
         //在这里请求接口,成功后跳转到下一页
 
 
-        toNextPage();
+        if (schoolTypeRef.current==='middle'){ //如果是中小学
+
+            if (provinceOk&&cityOk&&countyOk&&schoolNameOk&&schoolCodeOk&&schoolTypeOk){//判断中小学是否可以提交
+
+                setLoading(true);
+
+                SchoolName = schoolNameRef.current.value;
+
+                SchoolCode = schoolCodeRef.current.value;
+
+                SchoolLevel = 2;
+
+                const {primary,middle,heigh} = periodRef.current;
+
+                SchoolType = (primary.disabled?0:1)+(middle.disabled?0:2)+(heigh.disabled?0:4);
+
+                if (SchoolType!==4){
+
+                    if (primary.disabled){
+
+                        SchoolSessionType = `${9-parseInt(middle.checked)}/${middle.checked}/3`
+
+                    }else if (middle.disabled){
+
+                        SchoolSessionType = `${primary.checked}/${9-parseInt(primary.checked)}/3`
+
+                    }else {
+
+                        SchoolSessionType = `${primary.checked}/${middle.checked}/3`
+
+                    }
+
+                }else{
+
+                    SchoolSessionType = '5/4/3';
+
+                }
+
+                SchoolImgUrl = schoolLogoRef.current.logoUrl;
+
+                CountyID = countyID;
+
+                if (loginUserRef.current.SchoolID){//修改学校信息
+
+                    EditSchoolInfo_Middle({UserID:loginUserRef.current.UserID,
+
+                        dispatch,SchoolID:loginUserRef.current.SchoolID,
+
+                        SchoolName,SchoolCode,SchoolLevel,SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
+
+                            if (data===0){
+
+                                toNextPage();
+
+                            }
+
+                        setLoading(false);
+
+                    })
+
+                }else{
+
+                    AddSchoolInfo({UserID:loginUserRef.current.UserID,
+
+                        dispatch,SchoolName,SchoolCode,SchoolLevel,
+
+                        SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
+
+                            if (data){
+
+                                const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+
+                                UserInfo['SchoolID'] = data;
+
+                                sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
+
+                                dispatch(loginUserUpdate(UserInfo));
+
+                                toNextPage();
+
+                            }
+
+                            setLoading(false);
+
+                    })
+
+                }
+
+            }
 
 
+        }else{
+
+            if (provinceOk&&cityOk&&countyOk&&schoolNameOk&&schoolCodeOk&&schoolSystemOk){ //判断大学是否可以提交
+
+                setLoading(true);
+
+                SchoolName = schoolNameRef.current.value;
+
+                SchoolCode = schoolCodeRef.current.value;
+
+                SchoolLevel = 1;
+
+                SchoolType = 1;
+
+                SchoolSessionType = systemRef.current.checked ;
+
+                SchoolImgUrl = schoolLogoRef.current.logoUrl;
+
+                CountyID = countyID;
+
+                if (loginUserRef.current.SchoolID){
+
+                    EditSchoolInfo_University({dispatch,UserID:loginUserRef.current.UserID,
+
+                        SchoolType,SchoolID:loginUserRef.current.SchoolID,SchoolName,SchoolCode,SchoolLevel,SchoolSessionType,SchoolImgUrl,
+
+                        CountyID
+
+                    }).then(data=>{
+
+                        if (data===0){
+
+                            toNextPage();
+
+                        }
+
+                        setLoading(false);
+
+                    })
+
+                }else{
+
+                    AddSchoolInfo({UserID:loginUserRef.current.UserID,
+
+                        dispatch,SchoolName,SchoolCode,SchoolLevel,
+
+                        SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
+
+                        if (data){
+
+                            const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+
+                            UserInfo['SchoolID'] = data;
+
+                            sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
+
+                            dispatch(loginUserUpdate(UserInfo));
+
+                            toNextPage();
+
+                        }
+
+                        setLoading(false);
+
+                    })
+
+                }
+
+
+            }
+
+        }
+
+
+        //toNextPage();
 
     },[]);
 
@@ -1018,7 +1284,7 @@ function SchoolSetting(props) {
 
         <Loading spinning={loading} tip={"加载中,请稍候..."}>
 
-            <GuideTitle title={"设置院系基础信息"} step={1} tips={"(后续可通过“系统设置”模块进行管理)"}></GuideTitle>
+            <GuideTitle title={"设置学校基础信息"} step={1} tips={"(后续可通过“系统设置”模块进行管理)"}></GuideTitle>
 
             <div className={"school-setting"}>
 
@@ -1034,7 +1300,7 @@ function SchoolSetting(props) {
 
                             <div className={"school-logo-wrapper clearfix"}>
 
-                                <img src={schoolLogo.logoUrl} className={"logo-img"} alt=""/>
+                                <img src={schoolLogo.logoUrl} alt={"图片"} className={"logo-img"} alt=""/>
 
                                 <div className={"btn-wrapper"}>
 
@@ -1052,7 +1318,7 @@ function SchoolSetting(props) {
 
                             <div className={"school-badge-wrapper clearfix"}>
 
-                                <img src={schoolLogo.badgeUrl} onError={badgeLoadErr} onLoad={badgeLoad} className={"logo-img"} alt=""/>
+                                <img alt={"图片"} src={schoolLogo.badgeUrl} onError={badgeLoadErr}  className={"logo-img"} alt=""/>
 
                                 <div className={"btn-wrapper"}>
 

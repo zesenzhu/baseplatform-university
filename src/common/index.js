@@ -30,11 +30,14 @@ import CONFIG from "./js/config";
 
 import "moment/locale/zh-cn";
 
+import {getQueryVariable} from './js/disconnect/index';
+
 const $ = require("jquery");
 
 const history = require("history");
 
 const hashHistory = history.createHashHistory();
+
 
 moment.locale("zh-cn");
 /*
@@ -2820,6 +2823,7 @@ class Frame extends React.Component {
   }
 
   /*componentDidMount() {
+
     $(window).scroll(() => {
       let scrollTop = $(window).scrollTop();
 
@@ -2829,7 +2833,8 @@ class Frame extends React.Component {
         this.setState({ fixed: false });
       }
     });
-  }
+
+  }*/
 
     UNSAFE_componentWillReceiveProps(){
 
@@ -2839,7 +2844,13 @@ class Frame extends React.Component {
 
         }
 
-    }*/
+        if(getQueryVariable('isWorkPlantform')){
+
+            this.setState({isWorkPlantform:true});
+
+        }
+
+    }
 
   render() {
     const {
@@ -2943,7 +2954,7 @@ class Frame extends React.Component {
     }
 
     return (
-      <div className="frame-drag-flag" {...reset}>
+      <div className={`frame-drag-flag   ${this.state.isWorkPlantform?'in-work-plant-form':''}`}   {...reset}>
 
           {
 
@@ -3038,7 +3049,7 @@ class Frame extends React.Component {
         {
           showBarner ? (
 
-              <div className="frame-time-bar">
+              <div className={`frame-time-bar ${this.state.isWorkPlantform?'in-work-plant-form':''}`}>
             <div className="frame-nav-content">{timeBarner}</div>
           </div>
 
@@ -3050,7 +3061,7 @@ class Frame extends React.Component {
         <div
           className={`frame-content-wrapper clearfix ${
             showBarner ? "" : "barnerHide"
-          }`}
+          } ${this.state.isWorkPlantform?'in-work-plant-form':''} `}
         >
           <div
             className={`frame-content-leftside ${
