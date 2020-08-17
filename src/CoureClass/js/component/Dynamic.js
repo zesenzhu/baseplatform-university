@@ -36,6 +36,7 @@ class Dynamic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        firstLoad:true,
       handleTypeSelected: {
         value: 0,
         title: "全部类型"
@@ -196,7 +197,7 @@ class Dynamic extends React.Component {
 
     const { dispatch, DataState, UIState } = this.props;
 
-    let userMsg = DataState.LoginUser;
+    /*let userMsg = DataState.LoginUser;
     dispatch(
         actions.UpDataState.getCourseClassDynamicMsg(
             "/GetGourseClassLogNew?userID=" +
@@ -212,7 +213,7 @@ class Dynamic extends React.Component {
             this.state.endTime +
             "&operateType=" +
             0
-        ));
+        ));*/
 
     dispatch(appLoadingHide());
 
@@ -221,6 +222,38 @@ class Dynamic extends React.Component {
   //钩子
   componentWillReceiveProps(nextProps) {
     const { dispatch, DataState, UIState } = nextProps;
+
+      if (DataState.LoginUser.UserID&&this.state.firstLoad) {
+
+        const userMsg = DataState.LoginUser;
+
+          this.setState((state)=>{
+
+              dispatch(
+                  actions.UpDataState.getCourseClassDynamicMsg(
+                      "/GetGourseClassLogNew?userID=" +
+                      userMsg.UserID +
+                      "&userType=" +
+                      userMsg.UserType +
+                      "&schoolID=" +
+                      userMsg.SchoolID +
+                      "&collegeID="+
+                      "&startDate=" +
+                      this.state.startTime +
+                      "&endDate=" +
+                      this.state.endTime +
+                      "&operateType=0"
+                  )
+              );
+
+              dispatch(appLoadingHide());
+
+              return {...state,firstLoad:false};
+
+          });
+
+      }
+
     let plainOptions = [];
     let dataSource = DataState.GetCourseClassDynamicMsg.tableSource
       ? DataState.GetCourseClassDynamicMsg.tableSource

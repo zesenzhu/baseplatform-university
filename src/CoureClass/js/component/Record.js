@@ -195,7 +195,10 @@ class Record extends React.Component {
     // dispatch(actions.UpDataState.getCourseClassRecordMsg('/GetGourseClassLogForPage?userID=' + userMsg.UserID + '&userType=' + userMsg.UserType + '&schoolID=' + userMsg.SchoolID + '&startDate=' + this.state.startTime + '&endDate=' + this.state.endTime + '&operateType=0'))
   }
 
-  componentWillUpdate(nextProps){
+
+
+
+  /*componentWillUpdate(nextProps){
 
       const { dispatch,DataState } = nextProps;
 
@@ -225,11 +228,42 @@ class Record extends React.Component {
 
 
 
-  }
+  }*/
 
   //钩子
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+
     const { dispatch, DataState, UIState } = nextProps;
+
+    if (DataState.LoginUser.UserID&&this.state.firstLoad) {
+
+          this.setState((state)=>{
+
+              dispatch(
+                  actions.UpDataState.getCourseClassRecordMsg(
+                      "/GetGourseClassLogForPage?userID=" +
+                      DataState.LoginUser.UserID +
+                      "&userType=" +
+                      DataState.LoginUser.UserType +
+                      "&schoolID=" +
+                      DataState.LoginUser.SchoolID +
+                      "&startDate=" +
+
+                      "&endDate=" +
+
+                      "&operateType=0"
+                  )
+              );
+
+              dispatch(appLoadingHide());
+
+              return {...state,firstLoad:false};
+
+          });
+
+      }
+
+
     let plainOptions = this.state.plainOptions;
     let dataSource = DataState.GetCourseClassRecordMsg.tableSource
       ? DataState.GetCourseClassRecordMsg.tableSource
@@ -256,6 +290,9 @@ class Record extends React.Component {
     this.setState({
       dataSource: dataSource
     });
+
+
+
   }
   onHandleTypeChange = value => {
     const { dispatch, DataState } = this.props;

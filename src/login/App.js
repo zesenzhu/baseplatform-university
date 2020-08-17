@@ -133,6 +133,9 @@ function App(props){
                         skin = 'ai_exam';
 
                         break;
+                    default :
+
+                        skin = 'dark_blue';
 
                 }
 

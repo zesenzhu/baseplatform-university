@@ -93,7 +93,7 @@ class App extends Component {
           UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
       });
 
-      that.requestData(route);
+
 
       history.listen(() => {
           //路由监听
@@ -272,6 +272,8 @@ class App extends Component {
               handleRoute === "Log"
           ) {
 
+
+
               if (routeID === "Record") {
                   dispatch(
                       actions.UpDataState.getCourseClassRecordMsg(
@@ -335,7 +337,7 @@ class App extends Component {
                   ) {
 
                       if (routeID === "Record") {
-                         /* dispatch(
+                          dispatch(
                               actions.UpDataState.getCourseClassRecordMsg(
                                   "/GetGourseClassLogForPage?userID=" +
                                   UserMsg.UserID +
@@ -349,10 +351,10 @@ class App extends Component {
 
                                   "&operateType=0"
                               )
-                          );*/
+                          );
                       } else {
 
-                          /*dispatch(
+                          dispatch(
                               actions.UpDataState.getCourseClassDynamicMsg(
                                   "/GetGourseClassLogNew?userID=" +
                                   UserMsg.UserID +
@@ -364,7 +366,7 @@ class App extends Component {
                                   "&endDate=" +
                                   "&operateType=0"
                               )
-                          );*/
+                          );
                       }
 
 
