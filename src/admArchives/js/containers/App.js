@@ -481,7 +481,7 @@ class App extends Component {
                 );
               dispatch(
                 actions.UpDataState.getGraduatePreview(
-                  "/GetGraduate?PageIndex=0&PageSize=10&schoolID=" +
+                  "/GetGraduate_Univ?PageIndex=0&PageSize=10&schoolID=" +
                     userMsg.SchoolID
                 )
               );

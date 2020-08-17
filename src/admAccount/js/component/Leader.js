@@ -958,8 +958,8 @@ class Leader extends React.Component {
           </div>
           <div className="Leader-hr"></div>
           <div className="Leader-content">
-            <div className="content-top">
-              <DropDown
+            {/* <div className="content-top"> */}
+              {/* <DropDown
                 ref="dropMenuFirst"
                 // title="学科："
                 onChange={this.FirstDropMenu.bind(this)}
@@ -992,8 +992,8 @@ class Leader extends React.Component {
                 height={240}
                 dropSelectd={this.state.collegeSelect}
                 dropList={this.state.College}
-              ></DropDown>
-            </div>
+              ></DropDown> */}
+            {/* </div> */}
             <div className="content-render">
               <Loading
                 tip="加载中..."

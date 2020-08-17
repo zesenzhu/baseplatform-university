@@ -145,6 +145,8 @@ class PowerContent extends React.Component {
   render() {
     const { DataState, UIState } = this.props;
     let Power = DataState.GetUserPowerMsg.Power;
+    let {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));//有部门要求不要班主任，ProductType为2就去掉班主任
+    // console.log(ProductType)
     // console.log(Power)
     return (
       <div id="powerContent" className="powerContent">
@@ -298,43 +300,47 @@ class PowerContent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="content-row clearfix">
-                <div className="left">
-                  <img width={108} height={116} alt="master" src={master} />
-                </div>
-                <div className="right">
-                  <div>
-                    {
-                      Power.ganger instanceof Array &&
-                        Power.ganger.map((child, index) => {
-                          return (
-                            <Radio
-                              key={child.PowerID}
-                              value={child.PowerID}
-                              checked={child.Status !== 0 ? true : false}
-                              className="radio"
-                              onChange={this.onRadioChange.bind(this)}
-                            >
-                              {child.PowerName}
-                            </Radio>
-                          );
-                        })
-                      // <Radio
-                      //     value={Power.ganger[0].PowerID}
-                      //     checked={Power.ganger[0].Status !== 0 ? true : false}
-                      //     className='radio'
-                      //     onChange={this.onRadioChange.bind(this)}
-                      // >{Power.ganger[0].PowerName}</Radio>
-                      // <Radio
-                      //     value={Power.ganger[1].PowerID}
-                      //     checked={Power.ganger[1].Status !== 0 ? true : false}
-                      //     className='radio'
-                      //     onChange={this.onRadioChange.bind(this)}
-                      // >{Power.ganger[1].PowerName}</Radio>
-                    }
+              {ProductType !== 2 ? (
+                <div className="content-row clearfix">
+                  <div className="left">
+                    <img width={108} height={116} alt="master" src={master} />
+                  </div>
+                  <div className="right">
+                    <div>
+                      {
+                        Power.ganger instanceof Array &&
+                          Power.ganger.map((child, index) => {
+                            return (
+                              <Radio
+                                key={child.PowerID}
+                                value={child.PowerID}
+                                checked={child.Status !== 0 ? true : false}
+                                className="radio"
+                                onChange={this.onRadioChange.bind(this)}
+                              >
+                                {child.PowerName}
+                              </Radio>
+                            );
+                          })
+                        // <Radio
+                        //     value={Power.ganger[0].PowerID}
+                        //     checked={Power.ganger[0].Status !== 0 ? true : false}
+                        //     className='radio'
+                        //     onChange={this.onRadioChange.bind(this)}
+                        // >{Power.ganger[0].PowerName}</Radio>
+                        // <Radio
+                        //     value={Power.ganger[1].PowerID}
+                        //     checked={Power.ganger[1].Status !== 0 ? true : false}
+                        //     className='radio'
+                        //     onChange={this.onRadioChange.bind(this)}
+                        // >{Power.ganger[1].PowerName}</Radio>
+                      }
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
               {/* <div className="content-row clearfix">
                 <div className="left">
                   <img width={108} height={116} alt="director" src={director} />
