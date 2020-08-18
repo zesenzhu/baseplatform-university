@@ -8,6 +8,8 @@ function TopButtons(props){
 
     const [isFrame,setIsFrame] = useState(false);
 
+    const [aiPractice,setAiPractice] = useState(false);
+
 
     const { Power } = props;
 
@@ -22,6 +24,12 @@ function TopButtons(props){
 
         }
 
+        if (getQueryVariable('aiPractice')){
+
+            setAiPractice(true);
+
+        }
+
 
     },[]);
 
@@ -29,7 +37,7 @@ function TopButtons(props){
 
         return (
 
-            <div className={`teacher-top-btns clearfix`}>
+            <div className={`teacher-top-btns ${aiPractice?'aiPractice':''} clearfix`}>
 
                 {
 

@@ -16,6 +16,8 @@ import {showWarnAlert,showErrorAlert,showSuccessAlert,subNameReg}  from '../acti
 
 import {useStateValue} from "../component/hooks";
 
+import {useSelector,useDispatch} from 'react-redux';
+
 
 
 function CourseModal(props,ref) {
@@ -103,9 +105,14 @@ function CourseModal(props,ref) {
 
     const [credit,setCredit] = useState('');
 
+    const {productType} = useSelector(state=>state);
+
 
     //props
     const { type,subList,collegeList,courseNO,collegeData,courseNameE,courseNumE,subSelectd,collegeSelectd,courseTypeE,majorListE,courseCredit } = props;
+
+
+
 
     //refs
 
@@ -296,9 +303,9 @@ function CourseModal(props,ref) {
 
         courseNO:courseNO,
 
-        courseName:courseNameRef.current.state.value,
+        courseName:productType===6?courseNameInput:courseNameRef.current.state.value,
 
-        courseNum:courseNumRef.current.state.value,
+        courseNum:productType===6?courseNumInput:courseNumRef.current.state.value,
 
         courseNameTipShow:course.nameTipShow,
 
@@ -377,11 +384,23 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>课程名称:</span>
 
-                            <Tips visible={course.nameTipShow} title={course.nameTipTitle}>
+                            {
 
-                                <Input placeholder={"请输入课程名称"} onBlur={courseNameBlur} ref={courseNameRef} onChange={e=>setCourseNameInput(e.target.value)} value={courseNameInput}/>
+                                productType!==6?
 
-                            </Tips>
+                                    <Tips visible={course.nameTipShow} title={course.nameTipTitle}>
+
+                                        <Input placeholder={"请输入课程名称"} onBlur={courseNameBlur} ref={courseNameRef} onChange={e=>setCourseNameInput(e.target.value)} value={courseNameInput}/>
+
+                                    </Tips>
+
+                                    :
+
+                                    <span className={"course-name"}>{courseNameInput}</span>
+
+                            }
+
+
 
                         </div>
 
@@ -389,11 +408,23 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>课程编号:</span>
 
-                            <Tips visible={course.numTipShow} title={course.numTipTitle}>
+                            {
 
-                                <Input placeholder={"请输入课程编号"} onBlur={courseNumBlur} ref={courseNumRef} onChange={e=>setCourseNumInput(e.target.value)} value={courseNumInput}/>
+                                productType!==6?
 
-                            </Tips>
+                                    <Tips visible={course.numTipShow} title={course.numTipTitle}>
+
+                                        <Input placeholder={"请输入课程编号"} onBlur={courseNumBlur} ref={courseNumRef} onChange={e=>setCourseNumInput(e.target.value)} value={courseNumInput}/>
+
+                                    </Tips>
+
+                                    :
+
+                                    <span className={"course-no"}>{courseNumInput}</span>
+
+                            }
+
+
 
                         </div>
 
@@ -405,27 +436,41 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>所属学科:</span>
 
-                            <Tips visible={subjects.tipShow} title={"请选择学科"}>
+                            {
 
-                                <DropDown
+                                productType===6?
 
-                                    width={150}
+                                    <span className={"subject"}>{subjects.dropSelectd.value}</span>
 
-                                    style={{zIndex:5}}
+                                    :
 
-                                    height={300}
+                                    <Tips visible={subjects.tipShow} title={"请选择学科"}>
 
-                                    dropSelectd={subjects.dropSelectd}
+                                        <DropDown
 
-                                    dropList={subjects.dropList}
+                                            width={150}
 
-                                    onChange={subChange}
+                                            style={{zIndex:5}}
 
-                                >
+                                            height={300}
 
-                                </DropDown>
+                                            dropSelectd={subjects.dropSelectd}
 
-                            </Tips>
+                                            dropList={subjects.dropList}
+
+                                            onChange={subChange}
+
+                                        >
+
+                                        </DropDown>
+
+                                    </Tips>
+
+                            }
+
+
+
+
 
                         </div>
 

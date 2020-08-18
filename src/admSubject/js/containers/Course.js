@@ -1,6 +1,6 @@
 import React,{useState,useEffect,memo,useRef} from 'react';
 
-import {connect} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 
 import {Loading, DropDown, Button, Search, Table, PagiNation, Modal, Empty} from "../../../common";
 
@@ -244,11 +244,6 @@ function Course(props) {
 
                         <Button color="blue" type="default" onClick={e=>delCourse(k)} className="handle-btn">删除</Button>
 
-
-                        {/*<button onClick={e=>modalOpen("edit",k)} className={"btn edit"}></button>
-
-                        <button  onClick={e=>delCourse(k)} className={"btn del"}></button>
-*/}
                     </div>
 
                 }
@@ -311,9 +306,7 @@ function Course(props) {
 
     //props
 
-    const { dispatch,LoginUser,subjectProps } = props;
 
-    const { UserID,SchoolID,UserType } = LoginUser;
 
     //refs
 
@@ -330,6 +323,14 @@ function Course(props) {
     const modalRef = useStateValue(modal);
 
     const courseRef = useStateValue(course);
+
+    const {DataState,subjectProps,productType} = useSelector(state=>state);
+
+    const {LoginUser} = DataState;
+
+    const { UserID,SchoolID,UserType } = LoginUser;
+
+    const dispatch = useDispatch();
 
     const CourseModalRef = useRef();
 
@@ -778,7 +779,15 @@ function Course(props) {
 
                         </div>
 
-                        <Button onClick={e=>modalOpen('add')} className="top_btn" color="blue" shape="round">+添加课程</Button>
+                        {
+
+                            productType!==6?
+
+                                <Button onClick={e=>modalOpen('add')} className="top_btn" color="blue" shape="round">+添加课程</Button>
+
+                                :null
+
+                        }
 
                     </div>
 
@@ -826,27 +835,6 @@ function Course(props) {
                                     </DropDown>
 
                                 </div>
-
-                               {/* <div className={"colloge_wrapper"}>
-
-                                    <span className={"drop_title"}>学院:</span>
-
-                                    <DropDown
-
-                                        dropSelectd={college.dropSelectd}
-
-                                        dropList={college.dropList}
-
-                                        onChange={collegeDropChange}
-
-                                        height={300}
-
-                                    >
-
-
-                                    </DropDown>
-
-                                </div>*/}
 
                             </div>
 
@@ -973,14 +961,6 @@ function Course(props) {
 
 }
 
-const mapStateToProps = (state)=>{
 
-    const { LoginUser } = state.DataState;
 
-    const { subjectProps } = state;
-
-    return {LoginUser,subjectProps};
-
-};
-
-export default connect(mapStateToProps)(memo(Course));
+export default memo(Course);

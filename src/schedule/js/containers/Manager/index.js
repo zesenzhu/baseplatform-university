@@ -1,6 +1,4 @@
-import React,{Component} from 'react';
-
-import {connect} from  'react-redux';
+import React,{useMemo,useCallback,useState,useRef,useEffect,memo} from 'react';
 
 import {HashRouter as Router,Route,Switch,Redirect} from  'react-router-dom';
 
@@ -16,77 +14,87 @@ import AdjustByTeacherModal from "./AdjustByTeacherModal";
 
 import AdjustByClassRoom from "./AdjustByClassRoom";
 
+import {useSelector,useDispatch} from 'react-redux';
 
 
 
+function Index(){
+
+
+    const {LoginUser,productType} = useSelector(state=>state);
 
 
 
+    const HeaderLinkList = useMemo(()=>{
 
-class Index extends Component{
+        if (productType===6){
 
-    render() {
+            return [
 
-        const HeaderLinkList = [
+                {link:"/manager/class",name:"班级课表",logo:"class"},
 
-            {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
+                {link:"/manager/room",name:"教室课表",logo:"classroom"},
 
-            {link:"/manager/class",name:"班级课表",logo:"class"},
+            ];
 
-            {link:"/manager/room",name:"教室课表",logo:"classroom"},
+        }else{
 
-        ];
+            return [
 
+                {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
 
-        return (
+                {link:"/manager/class",name:"班级课表",logo:"class"},
 
-            <React.Fragment>
-                {/*头部的路由选项卡*/}
+                {link:"/manager/room",name:"教室课表",logo:"classroom"},
 
-                <HeaderRouter HeaderLinkList={HeaderLinkList}></HeaderRouter>
-               {/* 泡泡型标签链接按钮*/}
+            ];
 
-                <Router>
-
-                    <Switch>
-
-                        <Route path="/manager/subject-teacher/*" component={SubjectTeacher}></Route>
-
-                        <Redirect path="/manager/subject-teacher*" to={{pathname:"/manager/subject-teacher/subject"}}></Redirect>
-
-                        <Route exact path="/manager/class/*" component={ClassTotalSingle}></Route>
-
-                        <Redirect path="/manager/class*" to={{pathname:"/manager/class/total"}}></Redirect>
-
-                        <Route path="/manager/room/*" component={ClassRoomTotalSingle}></Route>
-
-                        <Redirect path="/manager/room*" to={{pathname:"/manager/room/total"}}></Redirect>
+        }
 
 
-                    </Switch>
 
-                </Router>
+    },[LoginUser.UserID,productType]);
 
-                <AdjustByTeacherModal></AdjustByTeacherModal>
+    return (
 
-                <AdjustByClassRoom></AdjustByClassRoom>
+        <React.Fragment>
+            {/*头部的路由选项卡*/}
 
-            </React.Fragment>
+            <HeaderRouter HeaderLinkList={HeaderLinkList}></HeaderRouter>
+           {/* 泡泡型标签链接按钮*/}
 
-        );
+            <Router>
 
-    }
+                <Switch>
+
+                    <Route path="/manager/subject-teacher/*" component={SubjectTeacher}></Route>
+
+                    <Redirect path="/manager/subject-teacher*" to={{pathname:"/manager/subject-teacher/subject"}}></Redirect>
+
+                    <Route exact path="/manager/class/*" component={ClassTotalSingle}></Route>
+
+                    <Redirect path="/manager/class*" to={{pathname:"/manager/class/total"}}></Redirect>
+
+                    <Route path="/manager/room/*" component={ClassRoomTotalSingle}></Route>
+
+                    <Redirect path="/manager/room*" to={{pathname:"/manager/room/total"}}></Redirect>
+
+
+                </Switch>
+
+            </Router>
+
+            <AdjustByTeacherModal></AdjustByTeacherModal>
+
+            <AdjustByClassRoom></AdjustByClassRoom>
+
+        </React.Fragment>
+
+    );
+
 
 }
 
-const mapStateToProps = (state) => {
 
-      const {Manager} = state;
 
-      return {
-          Manager
-      }
-
-};
-
-export default connect(mapStateToProps)(Index);
+export default memo(Index);

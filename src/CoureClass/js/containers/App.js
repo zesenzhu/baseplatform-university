@@ -71,8 +71,6 @@ class App extends Component {
 
       const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:UserInfo.UserClass};
 
-
-
       /*let UserType = UserInfo.UserType;
 
       if (parseInt(UserType)===7||parseInt(UserType)===10){
@@ -93,7 +91,7 @@ class App extends Component {
           UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
       });
 
-
+      that.requestData(route);
 
       history.listen(() => {
           //路由监听

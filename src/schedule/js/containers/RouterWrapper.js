@@ -23,7 +23,7 @@ class RouterWrapper extends Component{
 
         const {state} = this.props;
 
-        const { LoginUser } = state;
+        const { LoginUser,productType } = state;
 
         return (
 
@@ -47,7 +47,13 @@ class RouterWrapper extends Component{
 
                         LoginUser&&(parseInt(LoginUser.UserType)===0||parseInt(LoginUser.UserType)===7||parseInt(LoginUser.UserType)===10)?
 
-                            <Redirect path="/*"  to={{pathname:"/manager/subject-teacher/subject"}}></Redirect>
+                            productType===6?
+
+                                <Redirect path="/*"  to={{pathname:"/manager/class/total"}}></Redirect>
+
+                                :
+
+                                <Redirect path="/*"  to={{pathname:"/manager/subject-teacher/subject"}}></Redirect>
 
                             :''
 

@@ -263,9 +263,9 @@ function Holiday(props) {
 
             className={"set-holiday-modal"}
 
-            /*onOk={ok}
+            /*onOk={ok}*/
 
-            onCancel={cancel}*/
+            onCancel={cancel}
 
             footer={<>
 

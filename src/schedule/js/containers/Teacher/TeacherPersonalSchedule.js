@@ -44,7 +44,9 @@ class TeacherPersonalSchedule extends Component{
 
         this.state={
 
-            isWorkPlantform:false
+            isWorkPlantform:false,
+
+            aiPractice:false
 
         }
 
@@ -151,6 +153,31 @@ class TeacherPersonalSchedule extends Component{
         if (getQueryVariable('isWorkPlantform')){
 
             this.setState({isWorkPlantform:true});
+
+        }
+        
+        if (getQueryVariable("aiPractice")){
+
+            this.setState({aiPractice:true});
+
+            $('.frame-content-wrapper').css({
+
+                marginTop:'0px'
+
+            });
+
+            $('.frame-content-rightside').css({
+
+                marginTop:'0px',
+
+                borderRadius:'0px',
+
+                borderTop:'0px',
+
+                minHeight:'auto'
+
+            });
+
 
         }
 

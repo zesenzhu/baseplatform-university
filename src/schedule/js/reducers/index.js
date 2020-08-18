@@ -24,6 +24,8 @@ import ScheduleDetail from './ScheduleDetail';
 
 import NotBusyRoomModal from './NotBusyRoomModal';
 
+import productType from './productType';
+
 export let initialState = {};
 
 let rootReducers = combineReducers({
@@ -48,7 +50,9 @@ let rootReducers = combineReducers({
 
     ScheduleDetail,
 
-    NotBusyRoomModal
+    NotBusyRoomModal,
+
+    productType
 
 });
 
