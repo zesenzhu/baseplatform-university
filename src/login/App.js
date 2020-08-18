@@ -97,8 +97,6 @@ function App(props){
             if (data){
 
                 let skin = '';
-
-                data.ProductType = 6;
                 
                 switch (parseInt(data.ProductType)) {
 
