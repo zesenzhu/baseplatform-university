@@ -97,6 +97,8 @@ function App(props){
             if (data){
 
                 let skin = '';
+
+                data.ProductType = 6;
                 
                 switch (parseInt(data.ProductType)) {
 
@@ -131,6 +133,12 @@ function App(props){
                     case 5:
 
                         skin = 'ai_exam';
+
+                        break;
+
+                    case 6:
+
+                        skin = 'ai_practice';
 
                         break;
 
@@ -444,14 +452,6 @@ function App(props){
 
 
 
-    const slideChange = (activeIndex) => {
-
-        //轮播变化引导改变
-
-        dispatch(introduceChange({skin,activeIndex}));
-
-    };
-
     //改变style风格样式,对外抛出
     const changeStyle = () => {
 
@@ -693,6 +693,7 @@ function App(props){
     };
 
 
+
     return(
 
         <div className={`app ${skin}`}>
@@ -707,9 +708,9 @@ function App(props){
 
                     <>
 
-                        <TopFloor  aiSchoolLink={aiSchoolLink} picChange={slideChange}></TopFloor>
+                        <TopFloor aiSchoolLink={aiSchoolLink}></TopFloor>
 
-                        <BottomFloor  slideChange={slideChange} slider={slider} skin={skin}></BottomFloor>
+                        <BottomFloor></BottomFloor>
 
                     </>
 
