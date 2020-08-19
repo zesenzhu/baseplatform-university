@@ -12,6 +12,8 @@ import ClassStudent from './ClassStudent';
 
 import { connect } from 'react-redux';
 
+import {getQueryVariable} from "../../../../common/js/disconnect";
+
 
 class ClassTotalStudent extends Component{
 
@@ -45,7 +47,22 @@ class ClassTotalStudent extends Component{
 
         }
 
+        this.state={
 
+            isWorkPlantform:false
+
+        }
+
+    }
+
+
+    componentDidMount(){
+
+        if (getQueryVariable('isWorkPlantform')){
+
+            this.setState({isWorkPlantform:true});
+
+        }
 
     }
 
@@ -80,7 +97,7 @@ class ClassTotalStudent extends Component{
         }
 
 
-        return <div className="class-total-student-wrapper">
+        return <div className={`class-total-student-wrapper ${this.state.isWorkPlantform?'in-work-plant-form':''}`}>
 
             <Router>
 
