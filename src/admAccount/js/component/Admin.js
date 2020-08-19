@@ -124,27 +124,113 @@ class Admin extends React.Component {
         //     );
         //   },
         // },
+        // {
+        //   title: "联系方式",
+        //   width: 120,
+        //   align: "center",
+        //   key: "UserContact",
+        //   dataIndex: "UserContact",
+        //   render: (UserContact) => {
+        //     return (
+        //       <Tooltip
+        //         placement="topLeft"
+        //         trigger="click"
+        //         arrowPointAtCenter={true}
+        //         title={<TipsContact data={UserContact}></TipsContact>}
+        //       >
+        //         <span
+        //           className="UserContact"
+        //           onClick={this.onUserContactClick.bind(this, UserContact)}
+        //         >
+        //           查看
+        //         </span>
+        //       </Tooltip>
+        //     );
+        //   },
+        // },
+        {
+          title: "最后一次登录",
+          align: "center",
+          width: 200,
+          // dataIndex: "LastTime",
+          key: "LastTime",
+          render: (data) => {
+            return (
+              <div className="LastTime">
+                <p
+                  className="last"
+                  title={
+                    data.Others && data.Others.LastTimeLogin
+                      ? data.Others.LastTimeLogin
+                      : "--"
+                  }
+                >
+                  时间:
+                  {data.Others && data.Others.LastTimeLogin
+                    ? data.Others.LastTimeLogin
+                    : "--"}
+                </p>
+                <p
+                  className="last"
+                  title={
+                    data.Others && data.Others.LastTimeIP
+                      ? data.Others.LastTimeIP
+                      : "--"
+                  }
+                >
+                  IP:
+                  {data.Others && data.Others.LastTimeIP
+                    ? data.Others.LastTimeIP
+                    : "--"}
+                </p>
+              </div>
+            );
+          },
+        },
         {
           title: "联系方式",
-          width: 120,
           align: "center",
+          width: 270,
           key: "UserContact",
           dataIndex: "UserContact",
           render: (UserContact) => {
             return (
-              <Tooltip
-                placement="topLeft"
-                trigger="click"
-                arrowPointAtCenter={true}
-                title={<TipsContact data={UserContact}></TipsContact>}
-              >
-                <span
-                  className="UserContact"
-                  onClick={this.onUserContactClick.bind(this, UserContact)}
-                >
-                  查看
-                </span>
-              </Tooltip>
+              <div className="uc">
+                <div className="uc-float">
+                  <p className="uc-box uc-left">
+                    <span
+                      title={UserContact.QQ ? UserContact.QQ : "--"}
+                      className="uc-title uc-QQ"
+                    >
+                      {UserContact.QQ ? UserContact.QQ : "--"}
+                    </span>
+                    <span
+                      title={UserContact.Weibo ? UserContact.Weibo : "--"}
+                      className="uc-title uc-Weibo"
+                    >
+                      {UserContact.Weibo ? UserContact.Weibo : "--"}
+                    </span>
+                  </p>
+                </div>
+                <div className="uc-float">
+                  <p className="uc-box uc-right">
+                    <span
+                      title={UserContact.WeiXin ? UserContact.WeiXin : "--"}
+                      className="uc-title uc-WeiXin"
+                    >
+                      {UserContact.WeiXin ? UserContact.WeiXin : "--"}
+                    </span>
+                    <span
+                      title={
+                        UserContact.Telephone ? UserContact.Telephone : "--"
+                      }
+                      className="uc-title uc-Telephone"
+                    >
+                      {UserContact.Telephone ? UserContact.Telephone : "--"}
+                    </span>
+                  </p>
+                </div>
+              </div>
             );
           },
         },
@@ -628,6 +714,16 @@ class Admin extends React.Component {
 
       isFlase = true;
     }
+    if (
+      UIState.TipsVisible.TelphoneTipsVisible ||
+      UIState.TipsVisible.WeixinTipsVisible ||
+      UIState.TipsVisible.WeiboTipsVisible ||
+      UIState.TipsVisible.QQTipsVisible
+    ) {
+      // dispatch(actions.UpUIState.UserNameTipsVisibleOpen());
+
+      isFlase = true;
+    }
     if (isFlase) {
       return;
     }
@@ -663,6 +759,10 @@ class Admin extends React.Component {
           ModuleIDs: DataState.AdminPreview.TrasferData.ModuleIDs,
           PhotoPath: picObj.picUploader.getCurImgPath(),
           Pwd: "0",
+          Telephone: DataState.AdminPreview.TrasferData.Telephone,
+          QQ: DataState.AdminPreview.TrasferData.QQ,
+          Weixin: DataState.AdminPreview.TrasferData.Weixin,
+          Weibo: DataState.AdminPreview.TrasferData.Weibo,
         },
         2
       )
@@ -719,6 +819,29 @@ class Admin extends React.Component {
         });
     }
   };
+  //检测手机
+  UserComm_CheckPhoneNumber(strInput) {
+    return /^[0-9]{11}$/.test(strInput);
+  }
+  //检测电话
+  UserComm_CheckTelephone(strInput) {
+    return /^([0-9\/-]){1,40}$/.test(strInput);
+  }
+  //检测QQ
+  UserComm_CheckQQ(strInput) {
+    return /^[1-9]*[1-9][0-9]{4,18}$/.test(strInput); //QQ号
+  }
+  //检测邮箱
+  UserComm_CheckEmail(strInput) {
+    //\S表示非空字符
+    if (!/^(\S)+@(\S)+\.[a-zA-Z]{2,3}$/.test(strInput)) {
+      return false;
+    } else {
+      return /^([a-zA-Z0-9]+[_|\-|\.]*)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]*)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi.test(
+        strInput
+      );
+    }
+  }
   handleAddAdminModalCancel = (e) => {
     const { dispatch, DataState } = this.props;
     dispatch(
@@ -768,6 +891,17 @@ class Admin extends React.Component {
 
       return;
     }
+
+    if (
+      UIState.TipsVisible.TelphoneTipsVisible ||
+      UIState.TipsVisible.WeixinTipsVisible ||
+      UIState.TipsVisible.WeiboTipsVisible ||
+      UIState.TipsVisible.QQTipsVisible
+    ) {
+      // dispatch(actions.UpUIState.UserNameTipsVisibleOpen());
+
+      return;
+    }
     let {
       isChange,
       UserID,
@@ -805,27 +939,27 @@ class Admin extends React.Component {
     }
     // console.log(Modules.length,len)
      
-    if (
-      !ModulesIsChange &&
-      UserID === DataState.AdminPreview.InitData.UserID&&
-      UserName === DataState.AdminPreview.InitData.UserName&&
-      // PhotoPath === DataState.AdminPreview.InitData.PhotoPath&&
-      // UserID === DataState.AdminPreview.InitData.UserID&&
-      // !DataState.AdminPreview.TrasferData.isChange &&
-      !picObj.picUploader.isChanged()
-    ) {
-      dispatch(
-        actions.UpUIState.showErrorAlert({
-          type: "warn",
-          title: "管理员信息没有发生改变",
-          ok: this.onAlertWarnOk.bind(this),
-          cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this),
-        })
-      );
-      return;
-    }
+    // if (
+    //   !ModulesIsChange &&
+    //   UserID === DataState.AdminPreview.InitData.UserID&&
+    //   UserName === DataState.AdminPreview.InitData.UserName&&
+    //   // PhotoPath === DataState.AdminPreview.InitData.PhotoPath&&
+    //   // UserID === DataState.AdminPreview.InitData.UserID&&
+    //   // !DataState.AdminPreview.TrasferData.isChange &&
+    //   !picObj.picUploader.isChanged()
+    // ) {
+    //   dispatch(
+    //     actions.UpUIState.showErrorAlert({
+    //       type: "warn",
+    //       title: "管理员信息没有发生改变",
+    //       ok: this.onAlertWarnOk.bind(this),
+    //       cancel: this.onAlertWarnClose.bind(this),
+    //       close: this.onAlertWarnClose.bind(this),
+    //       onHide: this.onAlertWarnHide.bind(this),
+    //     })
+    //   );
+    //   return;
+    // }
     let url = "/EditAdmin_univ";
     // let ModulesID = []
     // DataState.AdminPreview.TrasferData.ModuleIDs.map((child) => {
@@ -847,7 +981,11 @@ class Admin extends React.Component {
           PhotoPath: picObj.picUploader.getCurImgPath(),
           Pwd: "0",
           PhotoEdit: PhotoEdit,
-          EditPower:ModulesIsChange?1:0
+          EditPower:ModulesIsChange?1:0,
+          Telephone: DataState.AdminPreview.TrasferData.Telephone,
+          QQ: DataState.AdminPreview.TrasferData.QQ,
+          Weixin: DataState.AdminPreview.TrasferData.Weixin,
+          Weibo: DataState.AdminPreview.TrasferData.Weibo,
         },
         2
       )
@@ -1347,8 +1485,8 @@ class Admin extends React.Component {
                 </Modal> */}
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0,height: '350px' }}
-          width={530}
+          bodyStyle={{ padding: 0,height: '370px' }}
+          width={750}
           type="1"
           title={"添加管理员"}
           visible={this.state.addAdminModalVisible}
@@ -1368,8 +1506,8 @@ class Admin extends React.Component {
         </Modal>
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0 ,height: '350px'}}
-          width={530}
+          bodyStyle={{ padding: 0 ,height: '370px'}}
+          width={750}
           type="1"
           title={"编辑管理员"}
           visible={this.state.changeAdminModalVisible}

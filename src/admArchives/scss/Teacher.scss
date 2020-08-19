@@ -2,14 +2,14 @@ $image-url: "../images";
 @import "./images.scss";
 .Teacher {
     position: relative;
-    padding: 22px 36px;
+    // padding: 22px 36px;
     text-align: center;
     //公用
     .Teacher-box {
         position: relative;
         text-align: left;
         margin: 0 auto;
-        width: 870px;
+        // width: 870px;
         .Teacher-top {
             position: relative;
             // margin: 0;
@@ -37,27 +37,36 @@ $image-url: "../images";
                     &:hover {
                         color: #ff6600;
                         .add {
-                            background: url(../images/icon-add-active.png)no-repeat left center;
+                            background: url(../images/icon-add-active.png) no-repeat left center;
                             background-size: 12px 12px;
                         }
                         .RegisterExamine {
-                            background: url(../images/icon-register-active.png)no-repeat left center;
+                            background: url(../images/icon-register-active.png) no-repeat left center;
                             background-size: 14px 16px;
                         }
                         .ImportFile {
-                            background: url(../images/icon-import-active.png)no-repeat left center;
+                            background: url(../images/icon-import-active.png) no-repeat left center;
+                            background-size: 16px 16px;
+                        }
+                        .addGroup {
+                            background: url(../images/设置-荀婷.png) no-repeat left center;
                             background-size: 16px 16px;
                         }
                     }
                     .add {
                         padding-left: 16px;
-                        background: url(../images/icon-add.png)no-repeat left center;
+                        background: url(../images/icon-add.png) no-repeat left center;
                         background-size: 12px 12px;
+                    }
+                    .addGroup {
+                        padding-left: 20px;
+                        background: url(../images/设置.png) no-repeat left center;
+                        background-size: 16px 16px;
                     }
                     .RegisterExamine {
                         position: relative;
                         padding-left: 18px;
-                        background: url(../images/icon-register.png)no-repeat left center;
+                        background: url(../images/icon-register.png) no-repeat left center;
                         background-size: 14px 16px;
                         .have-red {
                             background-color: red;
@@ -76,7 +85,7 @@ $image-url: "../images";
                     }
                     .ImportFile {
                         padding-left: 20px;
-                        background: url(../images/icon-import.png)no-repeat left center;
+                        background: url(../images/icon-import.png) no-repeat left center;
                         background-size: 16px 16px;
                     }
                 }
@@ -92,18 +101,19 @@ $image-url: "../images";
         .Teacher-hr {
             position: relative;
             border-top: 1px dashed #ccc;
-            width: 855px;
+            // width: 855px;
             margin-left: 15px;
             // margin: 0 auto;
         }
         .Teacher-content {
             margin: 18px auto 0;
             position: relative;
-            width: 870px;
+            // width: 870px;
             .content-top {
                 position: relative;
-                margin-left: 15px;
+                // margin-left: 15px;
                 height: 28px;
+                border: none;
                 .dropdown_select_ul {
                     z-index: 2;
                 }

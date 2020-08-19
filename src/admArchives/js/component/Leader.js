@@ -25,6 +25,8 @@ import Public from "../../../common/js/public";
 import IconLocation from "../../images/icon-location.png";
 import StudentChangeRecord from "./StudentChangeRecord";
 import actions from "../actions";
+let { checkUrlAndPostMsg } = Public;
+
 class Leader extends React.Component {
   constructor(props) {
     super(props);
@@ -250,7 +252,7 @@ class Leader extends React.Component {
       } else {
         firstSelect = { value: -1, title: "全部领导" };
         // firstSelect = { value: 7, title: "学校领导" };
-        
+
         collegeSelect = { value: 0, title: "全部学院" };
       }
       // console.log(College, firstSelect, collegeSelect);
@@ -885,6 +887,12 @@ class Leader extends React.Component {
     );
     dispatch(actions.UpDataState.setDropLeaderMsg({ CollegeSelect: e }));
   };
+  onLinkClick = (btnName, route) => {
+    let url = window.location.href.split(window.location.hash).join(route);
+
+    // console.log(url);
+    checkUrlAndPostMsg({ btnName, url });
+  };
   render() {
     const { UIState, DataState } = this.props;
 
@@ -906,21 +914,29 @@ class Leader extends React.Component {
                 <span className="add">添加领导</span>
               </span>
               <span className="divide">|</span>
-              <Link
+              <a
                 className="link"
-                target="_blank"
-                to="/ImportFile/Leader"
-                replace
+                // target="_blank"
+                // to="/ImportFile/Leader"
+                // replace
+                onClick={this.onLinkClick.bind(
+                  this,
+                  "导入领导",
+                  "#/ImportFile/Leader"
+                )}
               >
                 <span className="ImportFile">导入领导</span>
-              </Link>
+              </a>
             </div>
           </div>
           <div className="Leader-hr"></div>
           <div className="Leader-content">
-            <div style={{
-                  display:  "none",
-                }} className="content-top">
+            <div
+              style={{
+                display: "none",
+              }}
+              className="content-top"
+            >
               <DropDown
                 ref="dropMenuFirst"
                 // title="学科："
@@ -1024,7 +1040,7 @@ class Leader extends React.Component {
         {/* 模态框 */}
         <Modal
           ref="handleLeaderMadal"
-          bodyStyle={{ padding: 0,    height: '400px' }}
+          bodyStyle={{ padding: 0, height: "400px" }}
           type="1"
           title="编辑领导"
           visible={UIState.AppModal.handleLeaderModalVisible}
@@ -1039,7 +1055,7 @@ class Leader extends React.Component {
         </Modal>
         <Modal
           ref="handleLeaderMadal"
-          bodyStyle={{ padding: 0,    height: '400px' }}
+          bodyStyle={{ padding: 0, height: "400px" }}
           type="1"
           title={"添加领导"}
           visible={UIState.AppModal.addLeaderModalVisible}

@@ -30,6 +30,9 @@ import actions from "../actions";
 import EditGroupModal from "./EditGroupModal";
 import StudentChangeRecord from "./StudentChangeRecord";
 import "../../scss/Teacher.scss";
+
+let { checkUrlAndPostMsg } = Public;
+
 class Teacher extends React.Component {
   constructor(props) {
     super(props);
@@ -205,14 +208,19 @@ class Teacher extends React.Component {
                 >
                   编辑
                 </Button>
-                {props.DataState.LoginUser.UserType==='7'&&props.DataState.LoginUser.UserClass==='2'?'':<Button
-                  color="blue"
-                  type="default"
-                  onClick={this.TeacherChange.bind(this, handleMsg)}
-                  className="check-btn"
-                >
-                  查看变更记录
-                </Button>}
+                {props.DataState.LoginUser.UserType === "7" &&
+                props.DataState.LoginUser.UserClass === "2" ? (
+                  ""
+                ) : (
+                  <Button
+                    color="blue"
+                    type="default"
+                    onClick={this.TeacherChange.bind(this, handleMsg)}
+                    className="check-btn"
+                  >
+                    查看变更记录
+                  </Button>
+                )}
               </div>
             );
           },
@@ -347,9 +355,8 @@ class Teacher extends React.Component {
     ) {
       if (ID !== "all") {
         College.map((child) => {
-          if(child.value === ID){
-        college = child
-
+          if (child.value === ID) {
+            college = child;
           }
         });
         // console.log(College,ID,college)
@@ -367,16 +374,13 @@ class Teacher extends React.Component {
       if (college.value !== 0) {
         this.setState({
           firstSelect: college,
-          secondList:
-           
-             Group[college.value]
-             
+          secondList: Group[college.value],
         });
       }
       // console.log(college, College);
       this.setState({
         firstList: College,
-        
+
         // secondSelect: group,
       });
     }
@@ -1138,6 +1142,12 @@ class Teacher extends React.Component {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   };
+  onLinkClick = (btnName, route) => {
+    let url = window.location.href.split(window.location.hash).join(route);
+
+    // console.log(url);
+    checkUrlAndPostMsg({ btnName, url });
+  };
   onAlertQueryOk = () => {
     const { dispatch, DataState } = this.props;
     let url = "/DeleteTeacher_univ";
@@ -1529,7 +1539,7 @@ class Teacher extends React.Component {
                     false
                   )
                 );
-        dispatch({ type: UpUIState.EDIT_GROUP_TIPS_VISIBLE_CLOSE });
+                dispatch({ type: UpUIState.EDIT_GROUP_TIPS_VISIBLE_CLOSE });
 
                 dispatch({ type: actions.UpUIState.EDIT_GROUP_MODAL_CLOSE });
               }
@@ -1628,7 +1638,7 @@ class Teacher extends React.Component {
                     false
                   )
                 );
-        dispatch({ type: UpUIState.EDIT_GROUP_TIPS_VISIBLE_CLOSE });
+                dispatch({ type: UpUIState.EDIT_GROUP_TIPS_VISIBLE_CLOSE });
 
                 dispatch({ type: actions.UpUIState.ADD_GROUP_MODAL_CLOSE });
               }
@@ -1683,13 +1693,32 @@ class Teacher extends React.Component {
               <span className="tips menu33 ">教师档案管理</span>
             </span>
             <div className="top-nav">
-              <Link
+            {!this.state.userType ? (
+                <span
+                  className="link"
+                  style={{ cursor: "pointer" }}
+                  onClick={this.onAddGroup}
+                >
+                  <span className="addGroup">教研室管理</span>
+                </span>
+              ) : (
+                ""
+              )}
+              {!this.state.userType ? <span className="divide">|</span> : ""}
+              <a
                 className="link"
-                target="_blank"
-                to="/TeacherRegisterExamine"
-                replace
+                // target="_blank"
+                // to="/TeacherRegisterExamine"
+                // replace
               >
-                <span className="RegisterExamine">
+                <span
+                  onClick={this.onLinkClick.bind(
+                    this,
+                    "教师注册审核",
+                    "#/TeacherRegisterExamine/TeacherRegisterWillExamine"
+                  )}
+                  className="RegisterExamine"
+                >
                   教师注册审核
                   <i
                     style={{
@@ -1700,20 +1729,9 @@ class Teacher extends React.Component {
                     className="have-red"
                   ></i>
                 </span>
-              </Link>
+              </a>
               <span className="divide">|</span>
-              {!this.state.userType ? (
-                <span
-                  className="link"
-                  style={{ cursor: "pointer" }}
-                  onClick={this.onAddGroup}
-                >
-                  <span className="add">教研室管理</span>
-                </span>
-              ) : (
-                ""
-              )}
-              {!this.state.userType ? <span className="divide">|</span> : ""}
+              
               <span
                 className="link"
                 style={{ cursor: "pointer" }}
@@ -1722,14 +1740,18 @@ class Teacher extends React.Component {
                 <span className="add">添加教师</span>
               </span>
               <span className="divide">|</span>
-              <Link
+              <a
                 className="link"
-                target="_blank"
-                to="/ImportFile/Teacher"
-                replace
+                // target="_blank"
+                // to="/ImportFile/Teacher"
+                // replace
               >
-                <span className="ImportFile">导入教师</span>
-              </Link>
+                <span onClick={this.onLinkClick.bind(
+                  this,
+                  "导入教师",
+                  "#/ImportFile/Teacher"
+                )} className="ImportFile">导入教师</span>
+              </a>
             </div>
           </div>
           <div className="Teacher-hr"></div>

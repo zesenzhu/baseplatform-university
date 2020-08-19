@@ -1,9 +1,9 @@
 //教师弹窗
-import AppAlertActions from '../../actions/AppAlertActions';
+import AppAlertActions from '../AppAlertActions';
 
-import ApiActions from '../../actions/ApiActions';
+import ApiActions from '../ApiActions';
 
-import CCActions from '../../actions/Teacher/ClassChargeActions';
+import CCActions from './ClassChargeActions';
 
 import AppAlertSuccess from "../AppAlertSuccess";
 

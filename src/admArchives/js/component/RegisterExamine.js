@@ -575,7 +575,7 @@ class RegisterExamine extends React.Component {
                     this.state.handleClick ? "active" : ""
                   } `}
                 >
-                  待审核
+                  待审核({DataState.GetSignUpLog.WillData.Total?DataState.GetSignUpLog.WillData.Total:0})
                 </Link>
                 <Link
                   to="/RegisterExamine/RegisterDidExamine"

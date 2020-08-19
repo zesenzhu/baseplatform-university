@@ -20,6 +20,7 @@ import history from "./history";
 
 import logo from "../../images/admAccoHeadImg-1.png";
 //import TimeBanner from '../component/TimeBanner'
+import TimeBanner from "../component/newEdition/TimeBanner";
 
 import Student from "../component/Student";
 import Parents from "../component/Parents";
@@ -82,6 +83,7 @@ class App extends Component {
             onTitleClick: this.handleClick,
           },
         ],
+
         userType:
           props.DataState.LoginUser.UserType === "0" &&
           (props.DataState.LoginUser.UserClass === "3" ||
@@ -89,6 +91,14 @@ class App extends Component {
             ? true
             : false, //0为学院，6为学校
       },
+      List: [
+        // { value: "All", title: "用户档案总览", icon: "All" },
+        { value: "Student", title: "学生账号管理", icon: "Student" },
+        { value: "Parents", title: "家长账号管理", icon: "Parents" },
+        { value: "Teacher", title: "教师账号管理", icon: "Teacher" },
+        { value: "Leader", title: "领导账号管理", icon: "Leader" },
+        { value: "Admin", title: "管理员账号管理 ", icon: "Admin" },
+      ],
     };
     let route = history.location.pathname;
     // TokenCheck()
@@ -197,21 +207,40 @@ class App extends Component {
       : JSON.parse(sessionStorage.getItem("UserInfo"));
     let AdminPower = true;
     let Menu = this.state.MenuParams;
+    let List = this.state.List;
 
     if (
       userMsg.UserType !== "6" &&
       (userMsg.UserType !== "0" || userMsg.UserClass !== "2")
     ) {
-      let children = Menu.children;
-      if (children[children.length - 1].key === "Admin") {
-        children.pop();
+      let Menu = this.state.List;
+      List = [];
+      if (Menu instanceof Array) {
+        Menu.forEach((child) => {
+          if (child.value !== "Admin") {
+            if (userMsg.UserType === "7") {
+              if (child.value !== "Leader") {
+                List.push(child);
+              }
+            } else {
+              List.push(child);
+            }
+          }
+        });
+      } else {
+        List = Menu;
       }
-      Menu.children = children;
-      this.setState({
-        MenuParams: Menu,
-      });
-      AdminPower = false;
+      // let children = Menu.children;
+      // if (children[children.length - 1].key === "Admin") {
+      //   children.pop();
+      // }
+      // Menu.children = children;
+      // this.setState({
+      //   MenuParams: Menu,
+      // });
+      // AdminPower = false;
     }
+
     let ConfigPower = QueryConfigPower({ SchoolID: userMsg.SchoolID });
     // console.log(Data.ParentsShow);
     // if (Data.ParentsShow !== 1) {
@@ -230,18 +259,33 @@ class App extends Component {
     // }
     ConfigPower.then((Data) => {
       if (Data.ParentsShow !== 1) {
-        let children = [];
-        ParentsPower = false;
-        Menu.children instanceof Array &&
-          Menu.children.map((child) => {
-            if (child.key !== "Parents") {
-              children.push(child);
+        let Menu = List;
+        // let List = [];
+        List = [];
+        if (Menu instanceof Array) {
+          Menu.forEach((child) => {
+            if (child.value !== "Parents") {
+              List.push(child);
             }
           });
-        Menu.children = children;
+        } else {
+          List = Menu;
+        }
         this.setState({
-          MenuParams: Menu,
+          List,
         });
+        // let children = [];
+        // ParentsPower = false;
+        // Menu.children instanceof Array &&
+        //   Menu.children.map((child) => {
+        //     if (child.key !== "Parents") {
+        //       children.push(child);
+        //     }
+        //   });
+        // Menu.children = children;
+        // this.setState({
+        //   MenuParams: Menu,
+        // });
       }
       let havePower = QueryPower({
         UserInfo: userMsg,
@@ -250,6 +294,8 @@ class App extends Component {
       havePower.then((res) => {
         if (res) {
           if (route === "/") {
+            history.push("/Student");
+
             //dispatch(actions.UpDataState.getAllUserPreview('/ArchivesAll'));
             dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });
           } else if (handleRoute === "Student") {
@@ -282,7 +328,9 @@ class App extends Component {
             }
           } else if (handleRoute === "Parents") {
             if (!ParentsPower) {
-              history.push("/");
+              // history.push("/");
+              history.push("/Student");
+
               return;
             }
             //dispatch(actions.UpDataState.getAllUserPreview('/Archives' + handleRoute));
@@ -366,7 +414,9 @@ class App extends Component {
             }
           } else if (handleRoute === "Admin") {
             if (!AdminPower) {
-              history.push("/");
+              // history.push("/");
+              history.push("/Student");
+
               return;
             }
             dispatch({ type: actions.UpUIState.APP_LOADING_CLOSE });
@@ -378,7 +428,7 @@ class App extends Component {
               )
             );
           } else {
-            history.push("/");
+            history.push("/Student");
           }
         }
       });
@@ -453,13 +503,15 @@ class App extends Component {
               image: logo,
             }}
             type="triangle"
-            showBarner={false}
-            showLeftMenu={true}
+            showBarner={true}
+            showLeftMenu={false}
           >
-            {/* <div ref="frame-time-barner"><TimeBanner /></div> */}
-            <div ref="frame-left-menu">
-              <Menu params={this.state.MenuParams}></Menu>
+            <div ref="frame-time-barner">
+              <TimeBanner List={this.state.List} />
             </div>
+            {/* <div ref="frame-left-menu">
+              <Menu params={this.state.MenuParams}></Menu>
+            </div> */}
 
             <div ref="frame-right-content">
               <Loading
@@ -469,12 +521,12 @@ class App extends Component {
               >
                 {UserID ? (
                   <Router>
-                    <Route
+                    {/* <Route
                       path="/"
                       history={history}
                       exact
                       component={Introduce}
-                    ></Route>
+                    ></Route> */}
                     <Route
                       path="/Student"
                       history={history}

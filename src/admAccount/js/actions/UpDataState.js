@@ -314,7 +314,28 @@ const GetCollege_Univ = url => {
       });
   };
 };
+// 设置是否禁用
+const DisableAccount = ({ UserID, UserType, Flag, func = () => {} }) => {
+    return (dispatch, getState) => {
+      postData(
+        CONFIG.UserAccountProxy + "/DisableAccount",
+        {
+          UserID,
+          UserType,
+          Flag,
+        },
+        2
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.StatusCode === 200) {
+            func(getState());
+          }
+        });
+    };
+  };
 export default {
+    DisableAccount,
     getGradeParentsPreview,
     GET_GRADE_PARENTS_PREVIEW,
     

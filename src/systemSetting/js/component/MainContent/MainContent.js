@@ -12,7 +12,7 @@ import config from "../../../../common/js/config";
 import history from "../../containers/history";
 import { QueryPower } from "../../../../common/js/power";
 import versionChenck from "../../../../common/js/public";
-
+import TimeBanner from '../newEdition/TimeBanner'
 import { connect } from "react-redux";
 
 import DataChange from "../../action/data/DataChange";
@@ -61,6 +61,12 @@ class MainContent extends Component {
       },
       route: false,
       havePower: false,
+      List: [
+        { value: "Semester", title: "学年学期设置", icon: "Semester" },
+        { value: "School", title: "学校基础资料设置", icon: "School" },
+        { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
+        
+      ],
     };
     const { dispatch } = props;
     const Hash = location.hash;
@@ -200,8 +206,8 @@ class MainContent extends Component {
     return (
       <Loading opacity={false} size="large" spinning={!this.state.havePower}>
         <Frame
-          showLeftMenu={!isImport}
-          showBarner={false}
+          showLeftMenu={false}
+          showBarner={!isImport}
           type={"triangle"}
           module={{
             image: setting,
@@ -210,8 +216,8 @@ class MainContent extends Component {
           }}
           userInfo={{ name: UserName, image: PhotoPath }}
         >
-          <div ref="frame-left-menu">
-            <Menu params={this.state.MenuParams}></Menu>
+          <div ref="frame-time-barner">
+            <TimeBanner path={path} List={this.state.List} />
           </div>
 
           <div ref="frame-right-content">

@@ -337,6 +337,29 @@ const IEVersion = () => {
         return true
     }
 }
+// 给教务系统，处理url，改变布局，设置跳转逻辑
+export function checkUrlAndPostMsg(
+  { sysid= "000", btnName= "", url= "" },
+ useDefault = true,
+ func = () => {}
+) {
+ let iFrame = getQueryVariable("iFrame");
+ let isIFrame = false;
+ // let { sysid, btnName, url } = params;
+ // console.log(iFrame, sysid, btnName, url, arguments);
+ if (iFrame === "true") {
+   isIFrame = true;
+
+   window.parent.postMessage({ sysid, btnName, url }, "*");
+ } else if (useDefault) {
+   window.open(url)
+ }
+ if(typeof arguments[arguments.length-1] === 'function'){
+   arguments[arguments.length-1](isIFrame);
+ }
+ // (isIFrame);
+ return isIFrame;
+}
 export default {
     deepCompare,
     getQueryVariable,
@@ -345,6 +368,7 @@ export default {
     getLg_tk,
     UrlGetIcon,
     IEVersion,
-    requestNextAnimationFrame
+    requestNextAnimationFrame,
+    checkUrlAndPostMsg
 
 }

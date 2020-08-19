@@ -2,14 +2,14 @@ $image-url: "../images";
 @import "./images.scss";
 .Leader {
     position: relative;
-    padding: 22px 36px;
+    // padding: 22px 36px;
     text-align: center;
     //公用
     .Leader-box {
         position: relative;
         text-align: left;
         margin: 0 auto;
-        width: 870px;
+        // width: 870px;
         .Leader-top {
             position: relative;
             // margin: 0;
@@ -68,18 +68,19 @@ $image-url: "../images";
         .Leader-hr {
             position: relative;
             border-top: 1px dashed #ccc;
-            width: 855px;
+            // width: 855px;
             margin-left: 15px;
             // margin: 0 auto;
         }
         .Leader-content {
             margin: 18px auto 0;
             position: relative;
-            width: 870px;
+            // width: 870px;
             .content-top {
                 position: relative;
                 margin-left: 15px;
                 height: 28px;
+                border: none;
                 .dropdown_select_ul {
                     z-index: 2;
                 }

@@ -87,27 +87,27 @@ const SET_TEACHER_REGISTER_GRADE_CLASS_MSG =
 // 获取变更记录
 const GET_USER_LOG = "GET_USER_LOG";
 //设置下拉选择的年级
-const SET_GRADE_CLASS_MSG = 'SET_GRADE_CLASS_MSG'
+const SET_GRADE_CLASS_MSG = "SET_GRADE_CLASS_MSG";
 //教研室管理
-const EDIT_GROUP_SELECT_CHANGE = 'EDIT_GROUP_SELECT_CHANGE';
+const EDIT_GROUP_SELECT_CHANGE = "EDIT_GROUP_SELECT_CHANGE";
 
 //操作的执行
 //获取登录用户信息
-const getLoginUser = data => {
-  return dispatch => {
+const getLoginUser = (data) => {
+  return (dispatch) => {
     dispatch({ type: GET_LOGIN_USER_INFO, data: data });
   };
 };
 //获取所有用户总览信息/改  已改为3.1
-const getAllUserPreview = url => {
-  return dispatch => {
+const getAllUserPreview = (url) => {
+  return (dispatch) => {
     // console.log(CONFIG.proxy+url);
     dispatch(actions.UpUIState.RightLoadingOpen());
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_ALL_USER_PREVIEW, data: json.Data });
         }
@@ -132,13 +132,13 @@ const getGradeStudentPreview = (
   // console.log(GradeID, ClassID)
   let pageIndex = Public.getUrlQueryVariable(url, "PageIndex");
   let pageSize = Public.getUrlQueryVariable(url, "PageSize");
-  return dispatch => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_GRADE_STUDENT_PREVIEW,
@@ -146,7 +146,7 @@ const getGradeStudentPreview = (
             GradeID: GradeID,
             ClassID: ClassID,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
         }
       })
@@ -166,7 +166,7 @@ const getSubjectTeacherPreview = (
   url,
   SubjectID = {
     value: "all",
-    title: "全部学科"
+    title: "全部学科",
   }
 ) => {
   // console.log(url);
@@ -175,16 +175,16 @@ const getSubjectTeacherPreview = (
   return (dispatch, getState) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_SUBJECT_TEACHER_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           if (SubjectID instanceof Object) {
             dispatch({ type: SET_SUBJECTID, SubjectID: SubjectID });
@@ -213,15 +213,15 @@ const getSubjectTeacherPreview = (
   };
 };
 //获取领导档案信息
-const getSchoolLeaderPreview = url => {
-  return dispatch => {
+const getSchoolLeaderPreview = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     // console.log(CONFIG.UserInfoProxy + url);
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SCHOOL_LEADER_PREVIEW, data: json.Data });
         }
@@ -237,13 +237,13 @@ const getSchoolLeaderPreview = url => {
   };
 };
 //获取年级班级信息/改  已改3.1
-const getGradeClassMsg = url => {
-  return dispatch => {
+const getGradeClassMsg = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_GRADE_CLASS_MSG, data: json.Data });
         }
@@ -254,10 +254,10 @@ const getGradeClassMsg = url => {
 const getSubjectTeacherMsg = (url, SubjectID = "all") => {
   return (dispatch, getState) => {
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SUBJECT_TEACHER_MSG, data: json.Data });
           // if (SubjectID !== false) {
@@ -288,13 +288,13 @@ const getSubjectTeacherMsg = (url, SubjectID = "all") => {
   };
 };
 //获取职称信息/改
-const getTeacherTitleMsg = url => {
-  return dispatch => {
+const getTeacherTitleMsg = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TEACHER_TITLE_MSG, data: json.Data });
         }
@@ -302,54 +302,54 @@ const getTeacherTitleMsg = url => {
   };
 };
 //学生信息编辑/添加
-const setStudentMsg = data => {
-  return dispatch => {
+const setStudentMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_STUDENT_MSG, data: data });
   };
 };
 //学生信息编辑/添加：默认
-const setInitStudentMsg = data => {
-  return dispatch => {
+const setInitStudentMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_INIT_STUDENT_MSG, data: data });
   };
 };
 //教师信息编辑/添加
-const setTeacherMsg = data => {
-  return dispatch => {
+const setTeacherMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_TEACHER_MSG, data: data });
   };
 };
 //教师信息编辑/添加：默认
-const setInitTeacherMsg = data => {
-  return dispatch => {
+const setInitTeacherMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_INIT_TEACHER_MSG, data: data });
   };
 };
 
 //领导信息编辑/添加
-const setLeaderMsg = data => {
+const setLeaderMsg = (data) => {
   // console.log(data)
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: SET_LEADER_MSG, data: data });
   };
 };
 //领导信息编辑/添加：默认
-const setInitLeaderMsg = data => {
-  return dispatch => {
+const setInitLeaderMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_INIT_LEADER_MSG, data: data });
   };
 };
 
 //获取学生注册记录-已审核
-const getDidSignUpLog = url => {
-  return dispatch => {
+const getDidSignUpLog = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_DID_SIGN_UP_LOG_MSG, data: json.Data });
           dispatch(actions.UpUIState.TableLoadingClose());
@@ -359,15 +359,15 @@ const getDidSignUpLog = url => {
   };
 };
 //获取学生注册记录-未审核
-const getWillSignUpLog = url => {
-  return dispatch => {
+const getWillSignUpLog = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_WILL_SIGN_UP_LOG_MSG, data: json.Data });
           dispatch(actions.UpUIState.TableLoadingClose());
@@ -377,21 +377,21 @@ const getWillSignUpLog = url => {
   };
 };
 //获取学生注册记录-修改审核次数
-const setSignUpLogCountMsg = data => {
-  return dispatch => {
+const setSignUpLogCountMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_SIGN_UP_LOG_STATUS_MSG, data: data });
   };
 };
 //获取教师注册记录-已审核
-const getTeacherDidSignUpLog = url => {
-  return dispatch => {
+const getTeacherDidSignUpLog = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TEACHER_DID_SIGN_UP_LOG_MSG, data: json.Data });
           dispatch(actions.UpUIState.TableLoadingClose());
@@ -401,15 +401,15 @@ const getTeacherDidSignUpLog = url => {
   };
 };
 //获取教师注册记录-未审核
-const getTeacherWillSignUpLog = url => {
-  return dispatch => {
+const getTeacherWillSignUpLog = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TEACHER_WILL_SIGN_UP_LOG_MSG, data: json.Data });
           dispatch(actions.UpUIState.TableLoadingClose());
@@ -419,21 +419,21 @@ const getTeacherWillSignUpLog = url => {
   };
 };
 //获取教师注册记录-修改审核次数
-const setTeacherSignUpLogCountMsg = data => {
-  return dispatch => {
+const setTeacherSignUpLogCountMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_TEACHER_SIGN_UP_LOG_STATUS_MSG, data: data });
   };
 };
 // 毕业生档案管理-获取年级班级信息
-const getGraduateGradeClassMsg = url => {
-  return dispatch => {
+const getGraduateGradeClassMsg = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.RightLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_GRADUATE_GRADE_CLASS_MSG, data: json.Data });
           dispatch(actions.UpUIState.RightLoadingClose());
@@ -442,23 +442,23 @@ const getGraduateGradeClassMsg = url => {
   };
 };
 // 分页获取毕业生信息
-const getGraduatePreview = url => {
+const getGraduatePreview = (url) => {
   let pageIndex = Public.getUrlQueryVariable(url, "PageIndex");
   let pageSize = Public.getUrlQueryVariable(url, "PageSize");
-  return dispatch => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_GRADUATE_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           dispatch(actions.UpUIState.TableLoadingClose());
         }
@@ -472,15 +472,15 @@ const getGraduateMsg = (
     UserName: "",
     UserID: "",
     JobType: "",
-    Discription: ""
+    Discription: "",
   }
 ) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: GET_GRADUATE_MSG, data: data });
   };
 };
-const setGraduateMsg = data => {
-  return dispatch => {
+const setGraduateMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_GRADUATE_MSG, data: data });
   };
 };
@@ -490,15 +490,15 @@ const getGraduateContactMsg = (
     UserID: "",
     Email: "",
     Telephone: "",
-    HomeAddress: ""
+    HomeAddress: "",
   }
 ) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: GET_GRADUATE_CONTACT_MSG, data: data });
   };
 };
-const setGraduateContactMsg = data => {
-  return dispatch => {
+const setGraduateContactMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_GRADUATE_CONTACT_MSG, data: data });
   };
 };
@@ -510,25 +510,25 @@ const getUnreadLogCountPreview = (
   return (dispatch, getState) => {
     // console.log(getState())
     url += getState().DataState.LoginUser.UserID;
-    let {UserType,UserClass} = getState().DataState.LoginUser
-    if(UserType==='7'&&UserClass==='2'){
+    let { UserType, UserClass } = getState().DataState.LoginUser;
+    if (UserType === "7" && UserClass === "2") {
       func();
-      // return 
-    }else
-    getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        if (json.StatusCode === 200) {
-          dispatch({ type: GET_UNREAD_LOG_COUNT_PREVIEW, data: json.Data });
-        }
-        func();
-      });
+      // return
+    } else
+      getData(CONFIG.UserInfoProxy + url, 2)
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          if (json.StatusCode === 200) {
+            dispatch({ type: GET_UNREAD_LOG_COUNT_PREVIEW, data: json.Data });
+          }
+          func();
+        });
   };
 };
 // 分页获取最近档案动态
-const getUnreadLogPreview = url => {
+const getUnreadLogPreview = (url) => {
   let pageIndex = Public.getUrlQueryVariable(url, "PageIndex");
   let pageSize = Public.getUrlQueryVariable(url, "PageSize");
   return (dispatch, getState) => {
@@ -536,16 +536,16 @@ const getUnreadLogPreview = url => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     //url += getState().DataState.LoginUser.UserID
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_UNREAD_LOG_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           dispatch(actions.UpUIState.TableLoadingClose());
           dispatch(actions.UpUIState.RightLoadingClose());
@@ -554,7 +554,7 @@ const getUnreadLogPreview = url => {
   };
 };
 // 分页获取所有档案变更记录
-const getLogRecordPreview = url => {
+const getLogRecordPreview = (url) => {
   let pageIndex = Public.getUrlQueryVariable(url, "PageIndex");
   let pageSize = Public.getUrlQueryVariable(url, "PageSize");
   return (dispatch, getState) => {
@@ -563,16 +563,16 @@ const getLogRecordPreview = url => {
     dispatch(actions.UpUIState.TableLoadingOpen());
 
     getData(CONFIG.UserInfoProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_LOG_RECORD_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           dispatch(actions.UpUIState.TableLoadingClose());
           dispatch(actions.UpUIState.RightLoadingClose());
@@ -581,13 +581,13 @@ const getLogRecordPreview = url => {
   };
 };
 //获取用户信息
-const getUserMsg = url => {
+const getUserMsg = (url) => {
   return (dispatch, getState) => {
     getData(CONFIG.Xproxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_USER_MSG, data: json.Data });
           let state = getState();
@@ -599,7 +599,7 @@ const getUserMsg = url => {
                 title: "该用户已删除",
                 onHide: () => {
                   dispatch(actions.UpUIState.hideErrorAlert());
-                }
+                },
               })
             );
           } else {
@@ -610,14 +610,14 @@ const getUserMsg = url => {
   };
 };
 //关闭
-const onAlertWarnHide = dispatch => {
+const onAlertWarnHide = (dispatch) => {
   // const { dispatch } = this.props;
   //console.log('ddd')
   dispatch(actions.UpUIState.hideErrorAlert());
 };
 // 获取照片上传链接
-const getPicObject = data => {
-  return dispatch => {
+const getPicObject = (data) => {
+  return (dispatch) => {
     dispatch({ type: GET_PIC_OBJECT, data: data });
   };
 };
@@ -625,7 +625,7 @@ const getPicObject = data => {
 // 获取用户变更记录
 const getUserLog = (url, type = "student") => {
   let modal = "";
-  return dispatch => {
+  return (dispatch) => {
     if (type === "student") {
       modal = actions.UpUIState.STUDENT_CHANGE_MODAL_OPEN;
     } else if (type === "teacher") {
@@ -634,10 +634,10 @@ const getUserLog = (url, type = "student") => {
       modal = actions.UpUIState.LEADER_CHANGE_MODAL_OPEN;
     }
     getData(CONFIG.Xproxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_USER_LOG, data: json.Data });
           dispatch({ type: modal });
@@ -652,10 +652,10 @@ const getTeacherClassMsg = (url, route = "0") => {
     dispatch({ type: actions.UpUIState.APP_LOADING_OPEN });
 
     getData(CONFIG.AdmClassProxy + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TEACHER_CLASS_DATA, data: json.Data });
           let { DataState } = getState();
@@ -687,15 +687,15 @@ const getTeacherClassMsg = (url, route = "0") => {
 const GET_SCHOOL_ALL_USER_PREVIEW = "GET_SCHOOL_ALL_USER_PREVIEW";
 const GET_COLLEGE_ALL_USER_PREVIEW = "GET_COLLEGE_ALL_USER_PREVIEW";
 //获取学校所有用户总览信息/改
-const getSchoolAllUserPreview = url => {
-  return dispatch => {
+const getSchoolAllUserPreview = (url) => {
+  return (dispatch) => {
     // console.log(CONFIG.proxy+url);
     dispatch(actions.UpUIState.RightLoadingOpen());
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SCHOOL_ALL_USER_PREVIEW, data: json.Data });
         }
@@ -711,15 +711,15 @@ const getSchoolAllUserPreview = url => {
   };
 };
 //获取学院所有用户总览信息/改
-const getCollegeAllUserPreview = url => {
-  return dispatch => {
+const getCollegeAllUserPreview = (url) => {
+  return (dispatch) => {
     // console.log(CONFIG.proxy+url);
     dispatch(actions.UpUIState.RightLoadingOpen());
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_COLLEGE_ALL_USER_PREVIEW, data: json.Data });
         }
@@ -737,13 +737,13 @@ const getCollegeAllUserPreview = url => {
 
 //获取学生档案-获取学院、专业、年级、班级信息/改
 const GET_TREE_UNIV_MSG = "GET_TREE_UNIV_MSG";
-const getTree_Univ = url => {
-  return dispatch => {
+const getTree_Univ = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TREE_UNIV_MSG, data: json.Data });
         }
@@ -754,10 +754,10 @@ const getTree_Univ = url => {
 const getSubjectTeacherMsg_univ = (url, SubjectID = "all") => {
   return (dispatch, getState) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SUBJECT_TEACHER_MSG, data: json.Data });
           // if (SubjectID !== false) {
@@ -796,17 +796,22 @@ const getUnivStudentPreview = (
   Grade = { value: 0, title: "全部年级" },
   CLass = { value: 0, title: "全部班级" }
 ) => {
-  // console.log(GradeID, ClassID)
+  // console.log(College)
 
   let pageIndex = Public.getUrlQueryVariable(url, "PageIndex");
   let pageSize = Public.getUrlQueryVariable(url, "PageSize");
-  return dispatch => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
+    dispatch(
+       SetEditMajorSelectChange({
+        StudentLoading:true
+      })
+    );
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_UNIV_STUDENT_PREVIEW,
@@ -816,7 +821,7 @@ const getUnivStudentPreview = (
             Grade: Grade,
             Class: CLass,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
         }
       })
@@ -825,6 +830,11 @@ const getUnivStudentPreview = (
           getUnreadLogCountPreview(() => {
             dispatch(actions.UpUIState.RightLoadingClose());
             dispatch(actions.UpUIState.TableLoadingClose());
+            dispatch(
+               SetEditMajorSelectChange({
+                StudentLoading:false
+              })
+            );
           })
         );
       });
@@ -836,10 +846,10 @@ const GET_UNIV_COLLEGE_GROUP_MSG = "GET_UNIV_COLLEGE_GROUP_MSG";
 const GetCollegeGroup_Univ = (url, SubjectID = "all") => {
   return (dispatch, getState) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_UNIV_COLLEGE_GROUP_MSG, data: json.Data });
           if (SubjectID !== false) {
@@ -857,7 +867,15 @@ const GetCollegeGroup_Univ = (url, SubjectID = "all") => {
                     subject = child;
                   }
                 });
-                dispatch({ type: SET_SUBJECTID, College: subject?subject:{value:0,title:'全部学院'},Group:subject?subject.value?GroupList[subject.value]:{value:0,title:'全部教研室'}:{value:0,title:'全部教研室'} });
+                dispatch({
+                  type: SET_SUBJECTID,
+                  College: subject ? subject : { value: 0, title: "全部学院" },
+                  Group: subject
+                    ? subject.value
+                      ? GroupList[subject.value]
+                      : { value: 0, title: "全部教研室" }
+                    : { value: 0, title: "全部教研室" },
+                });
               } else {
                 let CollegeList = state.DataState.SubjectTeacherMsg.Group;
                 let subject = {};
@@ -874,9 +892,9 @@ const GetCollegeGroup_Univ = (url, SubjectID = "all") => {
                   type: SET_SUBJECTID,
                   College: {
                     value: state.DataState.LoginUser.CollegeID,
-                    title: state.DataState.LoginUser.CollegeName
+                    title: state.DataState.LoginUser.CollegeName,
                   },
-                  Group: subject
+                  Group: subject,
                 });
               }
               // console.log(subject, SubjectID);
@@ -885,12 +903,12 @@ const GetCollegeGroup_Univ = (url, SubjectID = "all") => {
                 type: SET_SUBJECTID,
                 College: {
                   value: 0,
-                  title: "全部学院"
+                  title: "全部学院",
                 },
                 Group: {
                   value: 0,
-                  title: "全部教研室"
-                }
+                  title: "全部教研室",
+                },
               });
             }
           }
@@ -905,7 +923,7 @@ const GetUnivTeacherToPagePreview = (
   url,
   SubjectID = {
     value: "all",
-    title: "全部学科"
+    title: "全部学科",
   }
 ) => {
   // console.log(url);
@@ -914,16 +932,16 @@ const GetUnivTeacherToPagePreview = (
   return (dispatch, getState) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_UNIV_TEACHER_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           if (SubjectID instanceof Object) {
             dispatch({ type: SET_SUBJECTID, SubjectID: SubjectID });
@@ -957,11 +975,11 @@ const GetTeacherToPage_univ = (
   url,
   College = {
     value: 0,
-    title: "全部学院"
+    title: "全部学院",
   },
   Group = {
     value: 0,
-    title: "全部教研室"
+    title: "全部教研室",
   }
 ) => {
   console.log(url);
@@ -970,16 +988,16 @@ const GetTeacherToPage_univ = (
   return (dispatch, getState) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({
             type: GET_UNIV_SUBJECT_TEACHER_PREVIEW,
             data: json.Data,
             pageIndex: pageIndex,
-            pageSize: pageSize
+            pageSize: pageSize,
           });
           if (College instanceof Object) {
             dispatch({ type: SET_SUBJECTID, College: College, Group: Group });
@@ -1009,13 +1027,13 @@ const GetTeacherToPage_univ = (
 };
 //获取学生档案-获取学院、专业、年级、班级信息/改
 const GET_COLLEGE_UNIV = "GET_COLLEGE_UNIV";
-const GetCollege_Univ = url => {
-  return dispatch => {
+const GetCollege_Univ = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_COLLEGE_UNIV, data: json.Data });
         }
@@ -1024,15 +1042,15 @@ const GetCollege_Univ = url => {
 };
 //获取领导档案信息
 const GET_UNIV_SCHOOL_LEADER_PREVIEW = "GET_UNIV_SCHOOL_LEADER_PREVIEW";
-const GetSchoolLeader_univ = url => {
-  return dispatch => {
+const GetSchoolLeader_univ = (url) => {
+  return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     // console.log(CONFIG.UserInfoProxy + url);
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_UNIV_SCHOOL_LEADER_PREVIEW, data: json.Data });
         }
@@ -1049,13 +1067,13 @@ const GetSchoolLeader_univ = url => {
 };
 //获取职称信息/改
 const GET_TITLE_UNIV_MSG = "GET_TITLE_UNIV_MSG";
-const GetTitle_univ = url => {
-  return dispatch => {
+const GetTitle_univ = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TITLE_UNIV_MSG, data: json.Data });
         }
@@ -1064,27 +1082,90 @@ const GetTitle_univ = url => {
 };
 //控制领导下拉
 const SET_DROP_LEADER_MSG = "SET_DROP_LEADER_MSG";
-const setDropLeaderMsg = data => {
-  return dispatch => {
+const setDropLeaderMsg = (data) => {
+  return (dispatch) => {
     dispatch({ type: SET_DROP_LEADER_MSG, data: data });
   };
 };
 //获取学生档案-获取学院、专业、年级、班级信息/改
 const GET_TREE_OF_GRADUATE_UNIV = "GET_TREE_OF_GRADUATE_UNIV";
-const GetTreeOfGraduate_univ = url => {
-  return dispatch => {
+const GetTreeOfGraduate_univ = (url) => {
+  return (dispatch) => {
     getData(CONFIG.UserInfoProxy_univ + url, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_TREE_OF_GRADUATE_UNIV, data: json.Data });
         }
       });
   };
 };
+
+//教研室管理
+const EDIT_MAJOR_SELECT_CHANGE = "EDIT_MAJOR_SELECT_CHANGE";
+const SetEditMajorSelectChange = (data) => {
+  return (dispatch) => {
+    dispatch({ type: EDIT_MAJOR_SELECT_CHANGE, data: data });
+  };
+};
+
+const delMajor = ({ func = () => {}, data }) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let { DataState } = State;
+    let url = CONFIG.AdmClassProxy_univ + "/DeleteMajor_Univ";
+     
+    postData(url, data, 2)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          func(getState());
+        }
+      });
+  };
+};
+//编辑专业
+
+const editMajor = ({ func = () => {}, data }) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let { DataState } = State;
+    let url = CONFIG.AdmClassProxy_univ + "/EditMajor_Univ";
+     
+    postData(url, data, 2)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          func(getState());
+        }
+      });
+  };
+};
+//添加专业
+
+const addMajor = ({ func = () => {}, data }) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let { DataState } = State;
+    let url = CONFIG.AdmClassProxy_univ + "/AddMajor_Univ";
+    
+    postData(url, data, 2)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          func(getState());
+        }
+      });
+  };
+};
 export default {
+  addMajor,
+  editMajor,
+  delMajor,
+  EDIT_MAJOR_SELECT_CHANGE,
+  SetEditMajorSelectChange,
   // v3.1
   GET_TREE_OF_GRADUATE_UNIV,
   GetTreeOfGraduate_univ,
@@ -1197,5 +1278,5 @@ export default {
   getTeacherDidSignUpLog,
   getTeacherWillSignUpLog,
   setTeacherSignUpLogCountMsg,
-  EDIT_GROUP_SELECT_CHANGE
+  EDIT_GROUP_SELECT_CHANGE,
 };
