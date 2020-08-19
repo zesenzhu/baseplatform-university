@@ -263,7 +263,9 @@ const InitState = ({props,type}) => {
 
                 Unique:0,
 
-                DownLoadPath:''
+                DownLoadPath:'',
+
+                ImportDBAllowExistsError:true
 
             }
 
