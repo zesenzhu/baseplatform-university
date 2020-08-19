@@ -1,0 +1,716 @@
+.header_wrapper{
+
+  min-width: 1200px;
+
+}
+
+
+.left_icon_wrapper{
+
+  float: left;
+
+  width:450px;
+
+  height: 60px;
+
+  margin:42px 0 0 42px;
+
+  &>*{
+
+    float: left;
+
+    cursor: pointer;
+
+  }
+
+  .product-describe{
+
+    margin-left:14px;
+
+  }
+
+  .product-explain{
+
+    color: #cee7ff;
+
+    letter-spacing:9px;
+
+  }
+
+  &.dark_blue{
+
+    .product-icon{
+
+      width: 90px;
+
+      height: 60px;
+
+      background:url("#{$darkBlueUrl}/dark-blue-icon.png") no-repeat center;
+
+    }
+
+    .product-title{
+
+      display: block;
+
+      width: 242px;
+
+      height: 32px;
+
+      background:url("#{$darkBlueUrl}/dark-blue-title.png") no-repeat left center;
+
+    }
+
+  }
+
+  &.dark_tech{
+
+    width: 600px;
+
+    .product-icon{
+
+      width: 80px;
+
+      height: 68px;
+
+      background:url("#{$darkTechUrl}/dark-tech-icon.png") no-repeat center;
+
+    }
+
+    .product-title{
+
+      display: block;
+
+      width: 410px;
+
+      height: 40px;
+
+      background:url("#{$darkTechUrl}/dark-tech-title.png") no-repeat left center;
+
+      margin-top: 6px;
+
+    }
+
+    .product-explain{
+
+      font-size: 18px;
+
+    }
+
+  }
+
+  &.cloud_schoolroom{
+
+    width: 600px;
+
+    .product-icon{
+
+      width: 326px;
+
+      height: 68px;
+
+      background:url("#{$cloudSchoolRoomUrl}/cloud-schoolroom-icon.png") no-repeat center;
+
+    }
+
+  }
+
+  &.ai_school{
+
+    width: 600px;
+
+    margin-top: 16px;
+
+    .product-icon{
+
+      width: 400px;
+
+      height: 84px;
+
+      background:url("#{$aiSchoolRoomUrl}/ai-school-icon.png") no-repeat center;
+
+    }
+
+  }
+
+  &.ai_exam{
+
+    width:600px;
+
+    .product-icon{
+
+      width: 320px;
+
+      height: 68px;
+
+      background:url("#{$aiExamUrl}/ai-exam-logo.png") no-repeat left center;
+
+    }
+
+  }
+
+  &.ai_practice{
+
+    .product-icon{
+
+      width: 346px;
+
+      height: 60px;
+
+      background: url("../images/ai-practice/ai-practice-logo.png") no-repeat center;
+
+    }
+
+  }
+
+}
+
+.right_download_wrapper{
+
+  position: relative;
+
+  float: right;
+
+  margin-top: 42px;
+
+  margin-right: 54px;
+
+  z-index: 100;
+
+  height:30px;
+
+  .dark_blue_top_right{
+
+    .down_load_icon{
+
+      font-size: 14px;
+
+      color:$darkBlueFontColor;
+
+      cursor: pointer;
+
+      padding-left: 16px;
+
+      background: url("#{$darkBlueUrl}/down-mobile.png") no-repeat left center;
+
+    }
+
+    .code-wrapper{
+
+      position: absolute;
+
+      display: none;
+
+      -ms-flex-pack:center;
+
+      @include justifyContent(center);
+
+      top:30px;
+
+      right: 0;
+
+      width:260px;
+
+      height:164px;
+
+      @include box-shadow(6px 10px 24px 0 rgba(0,19,142,0.42));
+
+      @include border-radius(8px);
+
+      background-color: #fff;
+
+      .code-inner{
+
+        @include flex;
+
+        -ms-flex-direction:column;
+
+        @include flexDirection(column);
+
+        -ms-flex-align: center;
+
+        -ms-flex-pack: center;
+
+        margin-top: 20px;
+
+        &:not(:first-child){
+
+          margin-left: 20px;
+
+        }
+
+      }
+
+      .code{
+
+        display: block;
+
+        width:100px;
+
+        height: 100px;
+
+        @include background-size(cover);
+
+        background-repeat: no-repeat;
+
+        background-position: center;
+
+        &.ios{
+
+          background-image: url("#{$darkBlueUrl}/dark-blue-ios.jpg");
+
+        }
+
+        &.android{
+
+          background-image: url("#{$darkBlueUrl}/dark-blue-android.jpg");
+
+        }
+
+      }
+
+      .code-title{
+
+        text-align:center;
+
+        margin-top:8px;
+
+        line-height:1;
+
+      }
+
+    }
+
+    &:hover{
+
+      .code-wrapper{
+
+        @include flex;
+
+      }
+
+    }
+
+  }
+
+  .dark_tech_top_right{
+
+    &>div{
+
+      float: left;
+
+      &:not(:last-child){
+
+        margin-right: 58px;
+
+      }
+
+    }
+
+    .app_down_load{
+
+      position: relative;
+
+      height: 30px;
+
+       .down_load_icon{
+
+         background: url("#{$darkTechUrl}/dark-tech-app.png") no-repeat left center;
+
+         opacity:0.8;
+
+         &:hover{
+
+           opacity:1;
+
+         }
+
+       }
+
+      .code-wrapper{
+
+        position: absolute;
+
+        display: none;
+
+        -ms-flex-pack:center;
+
+        @include justifyContent(center);
+
+        top:30px;
+
+        left: -20px;
+
+        width:150px;
+
+        height:150px;
+
+        @include box-shadow(6px 10px 24px 0 rgba(0,19,142,0.42));
+
+        @include border-radius(8px);
+
+        background-color: #fff;
+
+        .code-inner{
+
+          @include flex;
+
+          -ms-flex-direction:column;
+
+          @include flexDirection(column);
+
+          -ms-flex-align: center;
+
+          -ms-flex-align: center;
+
+          margin-top: 20px;
+
+          &:not(:first-child){
+
+            margin-left: 20px;
+
+          }
+
+        }
+
+        .code{
+
+          display: block;
+
+          width:100px;
+
+          height: 100px;
+
+          @include background-size(cover);
+
+          background-repeat: no-repeat;
+
+          background-position: center;
+
+          &.ios{
+
+            background-image: url("#{$darkTechUrl}/app-code.png");
+
+          }
+
+          /*&.android{
+
+            background-image: url("#{$darkBlueUrl}/dark-blue-android.jpg");
+
+          }*/
+
+        }
+
+        .code-title{
+
+          text-align:center;
+
+          margin-top:8px;
+
+          line-height:1;
+
+        }
+
+      }
+
+      &:hover{
+
+        .code-wrapper{
+
+          @include flex;
+
+        }
+
+      }
+
+    }
+
+    .win_down_load{
+
+      .down_load_icon{
+
+        background: url("#{$darkTechUrl}/dark-teach-win.png") no-repeat left center;
+
+        opacity:0.8;
+
+        &:hover{
+
+          opacity: 1;
+
+        }
+
+      }
+
+    }
+
+    .down_load_icon{
+
+      font-size: 14px;
+
+      color:$darkBlueFontColor;
+
+      cursor: pointer;
+
+      padding-left: 20px;
+
+    }
+
+    .options_introduce{
+
+      .down_load_icon{
+
+        background: url("#{$darkTechUrl}/dark-tech-operate-introduce.png") no-repeat left center;
+
+        opacity: 0.8;
+
+        &:hover{
+
+         opacity: 1;
+
+        }
+
+      }
+
+    }
+
+    .pc_client{
+
+      .down_load_icon{
+
+        background: url("#{$darkTechUrl}/dark-tech-pc-download.png") no-repeat left center;
+
+        opacity:0.8;
+
+        &:hover{
+
+          background-image: url("#{$darkTechUrl}/dark-tech-pc-download-hover.png");
+
+          opacity:1;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  .ai_school_top_right{
+
+    &>div{
+
+      float: left;
+
+      &:not(:last-child){
+
+        margin-right:24px;
+
+      }
+
+      &>a{
+
+        color: #ffffff;
+
+        &:hover{
+
+          opacity: 0.8;
+
+        }
+
+      }
+
+    }
+
+    .down_load_icon{
+
+      font-size: 14px;
+
+      color:$darkBlueFontColor;
+
+      cursor: pointer;
+
+      padding-left: 16px;
+
+      background: url("#{$darkBlueUrl}/down-mobile.png") no-repeat left center;
+
+    }
+
+    .code-wrapper{
+
+      position: absolute;
+
+      display: none;
+
+      -ms-flex-pack:center;
+
+      @include justifyContent(center);
+
+      top:30px;
+
+      right:-6px;
+
+      width:140px;
+
+      height:164px;
+
+      @include box-shadow(6px 10px 24px 0 rgba(0,19,142,0.42));
+
+      @include border-radius(8px);
+
+      background-color: #fff;
+
+      .code-inner{
+
+        @include flex;
+
+        -ms-flex-direction:column;
+
+        @include flexDirection(column);
+
+        align-items: center;
+
+        -ms-flex-pack:center;
+
+        -ms-flex-align: center;
+
+        margin-top: 20px;
+
+        &:not(:first-child){
+
+          margin-left: 20px;
+
+        }
+
+      }
+
+      .code{
+
+        display: block;
+
+        width:100px;
+
+        height: 100px;
+
+        margin-left: 6px;
+
+        @include background-size(cover);
+
+        background-repeat: no-repeat;
+
+        background-position: center;
+
+        background-image: url("#{$aiSchoolRoomUrl}/ai-school-mini-code.png");
+
+      }
+
+      .code-title{
+
+        text-align:center;
+
+        margin-top:8px;
+
+        line-height:1;
+
+      }
+
+    }
+
+
+
+
+
+    .app_down_load{
+
+      padding-bottom: 10px;
+
+      &:hover{
+
+        .code-wrapper{
+
+          @include flex;
+
+        }
+
+      }
+
+    }
+
+    .pc_download{
+
+      &>a{
+
+        padding-left:20px;
+
+        background: url("#{$aiSchoolRoomUrl}/ai-school-pc-icon.png") no-repeat left center;
+
+      }
+
+    }
+
+    .official_wrapper{
+
+      margin-right: 20px;
+
+      position: relative;
+
+      &:after{
+
+        position: absolute;
+
+        content: '';
+
+        width: 1px;
+
+        height: 12px;
+
+        right: 0;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        background-color:rgba(255,255,255,0.8);
+
+      }
+
+      &>a{
+
+        margin-right: 20px;
+
+      }
+
+    }
+
+  }
+
+  .ai_exam_top_right{
+
+    &>div{
+
+      float: left;
+
+    }
+
+    .down_load_icon {
+
+      font-size: 14px;
+
+      color: $darkBlueFontColor;
+
+      cursor: pointer;
+
+      padding-left: 16px;
+
+      background: url("#{$aiExamUrl}/ai-exam-pc.png") no-repeat left center;
+
+      &:hover{
+
+        opacity: 0.7;
+
+      }
+
+    }
+
+  }
+
+}

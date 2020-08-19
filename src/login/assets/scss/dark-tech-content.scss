@@ -1,0 +1,405 @@
+.dark_tech_left_introduce{
+
+  position: relative;
+
+  width: 646px;
+
+  height: 484px;
+
+  .introduce-wrapper{
+
+    position: absolute;
+
+    width: 100%;
+
+    left:0;
+
+    top:450px;
+
+    text-align: center;
+
+    line-height: 48px;
+
+    height: 50px;
+
+    opacity:0;
+
+    &.introduce1,&.introduce2,&.introduce3,&.introduce4{
+
+      @include animation(techIntroduceAnimation 0.5s forwards);
+
+    }
+
+  }
+
+  .introduce-title{
+
+    font-size: 24px;
+
+    color: #6c90f4;
+
+    @include text-shadow(2px 2px 8px #000000);
+
+  }
+
+  .introduce-describe{
+
+    font-size: 16px;
+
+    color: rgba(125,165,155,0.72);
+
+    padding-left:12px;
+
+  }
+
+  .pic-wrapper{
+
+    position: relative;
+
+  }
+
+  #dark_tech_pic{
+
+    margin-top: 20px;
+
+  }
+
+  .animation-before-pic{
+
+    position: absolute;
+
+    top:20px;
+
+    left:-3px;
+
+    width: 640px;
+
+    height: 400px;
+
+    background-size:634px 400px;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+  }
+
+}
+
+.dark_tech_sign_wrapper,.cloud_schoolroom_sign_wrapper,.ai_practice_sign_wrapper{
+
+  position: relative;
+
+  width: 428px;
+
+  margin-left:28px;
+
+  padding:24px 64px;
+
+  //@include box-shadow(0 0 24px 0 rgba(0, 0, 0, 0.42));
+
+  //@include border-radius(20px);
+
+  background: url("#{$darkTechUrl}/dark-tech-login-wrapper.png") no-repeat center;
+
+  @include background-size(100% 100%);
+
+  .normal-wrapper{
+
+    .title{
+
+      font-size: 20px;
+
+      text-align: center;
+
+      padding:14px 0 28px 0;
+
+      line-height:1;
+
+      color: #ffffff;
+
+    }
+
+    input{
+
+      width: 300px;
+
+      height: 48px;
+
+      padding-left: 44px;
+
+      padding-right: 42px;
+
+      background-repeat: no-repeat;
+
+      background-position: 16px center;
+
+      background-color:transparent;
+
+      border:0;
+
+      border-bottom: 1px solid rgba(255,255,255,0.6);
+
+      @include border-radius(0);
+
+      color: #fff;
+
+      &:focus{
+
+        @include box-shadow(0 0 0 0);
+
+      }
+
+      &.account{
+
+        background-image: url('#{$darkTechUrl}/dark-tech-account.png');
+
+      }
+
+      &.pwd{
+
+        background-image: url('#{$darkTechUrl}/dark-tech-pwd.png');
+
+        margin-top:16px;
+
+      }
+
+    }
+
+    .forget_pwd_wrapper{
+
+      text-align: right;
+
+      margin:16px 0 6px 0;
+
+      font-size: 14px;
+
+    }
+
+    .account_wrapper,.pwd_wrapper{
+
+      position: relative;
+
+    }
+
+    .input_clear{
+
+      position: absolute;
+
+      right:20px;
+
+      top:18px;
+
+      width: 14px;
+
+      height: 14px;
+
+      background: url("#{$darkTechUrl}/dark-tech-del.png") no-repeat center;
+
+      @include background-size(cover);
+
+      cursor: pointer;
+
+      &:hover{
+
+        background-image: url("#{$darkTechUrl}/dark-tech-del-hover.png");
+
+      }
+
+    }
+
+    .pwd_clear{
+
+      top:33px;
+
+    }
+
+    .forget_pwd{
+
+      text-decoration: underline;
+
+      color:rgba(255,255,255,0.8);
+
+      &:hover{
+
+        color:rgba(255,255,255,0.6);
+
+      }
+
+    }
+
+    .download_client{
+
+      color:rgba(255,255,255,0.8);
+
+      &:hover{
+
+        color:rgba(255,255,255,0.6);
+
+      }
+
+      &.sparkle{
+
+        background-image: url("../images/download-icon2.png");
+
+        &:hover{
+
+          background-image: url("../images/download-icon2-hover.png");
+
+        }
+
+      }
+
+    }
+
+    .to-login{
+
+      width:328px;
+
+      height:76px;
+
+      font-size: 16px;
+
+      margin-left: -14px;
+
+      color:rgb(255,255,255);
+
+      @include text-shadow(0 0 5px rgba(0, 28, 101, 0.69));
+
+      background: url("#{$darkTechUrl}/dark-tech-btn.png") no-repeat;
+
+      border:0;
+
+      outline: none;
+
+      &:hover{
+
+        background-image: url("#{$darkTechUrl}/dark-tech-btn-hover.png");
+
+        color:rgba(255,255,255,0.8);
+
+      }
+
+    }
+
+    .split_wrapper{
+
+      @include flex;
+
+      @include justifyContent(center);
+
+      @include alignItems(center);
+
+      margin:10px 0 24px 0;
+
+      color:rgba(255,255,255,0.7);
+
+      font-size: 12px;
+
+    }
+
+    .split_line{
+
+      width:88px;
+
+      height: 1px;
+
+      &.left_line{
+
+        background:linear-gradient(to right,rgba(204,204,204,0),rgba(204,204,204,1));
+
+      }
+
+      &.right_line{
+
+        background:linear-gradient(to left,rgba(204,204,204,0),rgba(204,204,204,1));
+
+      }
+
+    }
+
+    .split_text{
+
+      margin:0 4px;
+
+    }
+
+    .author_wrapper{
+
+      @include flex;
+
+      @include justifyContent(center);
+
+      -ms-flex-pack: center;
+
+      &>div{
+
+        outline: none;
+
+        border:0;
+
+        width: 30px;
+
+        height: 30px;
+
+        background-color:transparent;
+
+        background-repeat: no-repeat;
+
+        cursor: pointer;
+
+      }
+
+    }
+
+    .author_wrapper{
+
+      &>div:not(:first-child){
+
+        margin-left: 24px;
+
+      }
+
+    }
+
+    .wechat{
+
+      background-image:url("#{$darkBlueUrl}/dark-blue-wechat.png");
+
+    }
+
+    .qq{
+
+      background-image:url("#{$darkBlueUrl}/dark-blue-qq.png");
+
+    }
+
+    .weibo{
+
+      background-image:url("#{$darkBlueUrl}/dark-blue-weibo.png");
+
+    }
+
+    .sign_up_wrapper{
+
+      margin-top: 28px;
+
+      text-align: center;
+
+      color:rgba(255,255,255,0.8);
+
+    }
+
+    .sign_up_link{
+
+      text-decoration: underline;
+
+      color:rgb(255,255,255);
+
+    }
+
+  }
+
+}
+
+
