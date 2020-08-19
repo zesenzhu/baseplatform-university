@@ -98,7 +98,11 @@ function CourseTotal(props) {
     const subjectRef = useRef(subject);
 
 
+    console.log(555);
+
     useEffect(()=>{
+
+        let isUnmount = false;
 
         if (SchoolID) {
 
@@ -110,89 +114,99 @@ function CourseTotal(props) {
 
             Promise.all([GetAllTeachInfo,GetCourseClass]).then(res=>{
 
-                if (res[0]){
+                if (!isUnmount){
 
-                    const data = res[0];
+                    if (res[0]){
 
-                    const list = data.SubjectItem&&data.SubjectItem.length>0?data.SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName})):[];
+                        const data = res[0];
 
-                    list.unshift({value:'',title:'全部学科'});
+                        const list = data.SubjectItem&&data.SubjectItem.length>0?data.SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName})):[];
 
-                    setSubject(d=>{
+                        list.unshift({value:'',title:'全部学科'});
 
-                        subjectRef.current = {...d,dropList:list};
+                        setSubject(d=>{
 
-                        return {...d,dropList:list}
+                            subjectRef.current = {...d,dropList:list};
 
-                    });
+                            return {...d,dropList:list}
 
-                }
-
-                if (res[1]){
-
-                    const data = res[1];
-
-                    const CourseCount = data.CourseCount?data.CourseCount:0;
-
-                    const CourseClassCount = data.CourseClassCount?data.CourseClassCount:0;
-
-                    const TeacherCount = data.TeacherCount?data.TeacherCount:0;
-
-                    const StudentCount = data.StudentCount?data.StudentCount:0;
-
-                    const LogCount = data.LastLogCount?data.LastLogCount:0;
-
-                    let list = [],chartData = [],chartXAis = [];
-
-                    if(data.Item&&data.Item.length>0){
-
-                        data.Item.map(i=>{
-
-                            const CardItemList = [
-
-                                {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
-
-                                {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
-
-                                {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
-
-                                {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
-
-                            ];
-
-                            list.push({
-
-                                CardID:i.ObjectID,
-
-                                CardName:i.ObjectName,
-
-                                CardItemList
-
-                            });
-
-                            chartData.push({value:i.CourseClassCount,id:i.ObjectID});
-
-                            chartXAis.push(i.ObjectName);
-
-                        })
+                        });
 
                     }
 
-                    setStatics(d=>({...d,course:CourseCount,courseClass:CourseClassCount,teacher:TeacherCount,student:StudentCount}));
+                    if (res[1]){
 
-                    setCharts(d=>({...d,xAxis:{...d.xAxis,value:chartXAis},data:chartData}));
+                        const data = res[1];
 
-                    setCardList(list);
+                        const CourseCount = data.CourseCount?data.CourseCount:0;
 
-                    dispatch(logCountUpdate(LogCount));
+                        const CourseClassCount = data.CourseClassCount?data.CourseClassCount:0;
+
+                        const TeacherCount = data.TeacherCount?data.TeacherCount:0;
+
+                        const StudentCount = data.StudentCount?data.StudentCount:0;
+
+                        const LogCount = data.LastLogCount?data.LastLogCount:0;
+
+                        let list = [],chartData = [],chartXAis = [];
+
+                        if(data.Item&&data.Item.length>0){
+
+                            data.Item.map(i=>{
+
+                                const CardItemList = [
+
+                                    {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
+
+                                    {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
+
+                                    {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
+
+                                    {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
+
+                                ];
+
+                                list.push({
+
+                                    CardID:i.ObjectID,
+
+                                    CardName:i.ObjectName,
+
+                                    CardItemList
+
+                                });
+
+                                chartData.push({value:i.CourseClassCount,id:i.ObjectID});
+
+                                chartXAis.push(i.ObjectName);
+
+                            })
+
+                        }
+
+                        setStatics(d=>({...d,course:CourseCount,courseClass:CourseClassCount,teacher:TeacherCount,student:StudentCount}));
+
+                        setCharts(d=>({...d,xAxis:{...d.xAxis,value:chartXAis},data:chartData}));
+
+                        setCardList(list);
+
+                        dispatch(logCountUpdate(LogCount));
+
+                    }
+
+                    setLoading(false);
+
+                    dispatch(appLoadingHide());
 
                 }
 
-                setLoading(false);
-
-                dispatch(appLoadingHide());
-
             })
+
+        }
+
+        return ()=>{
+
+            isUnmount = true;
 
         }
 

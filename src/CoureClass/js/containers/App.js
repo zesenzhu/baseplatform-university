@@ -40,6 +40,9 @@ import {loginUserUpdate} from "../reducers/LoginUser";
 
 const COURECLASS_MODULEID = "000-2-0-17"; //教学班管理
 
+
+let listenHistory = null;
+
 class App extends Component {
 
     constructor(props){
@@ -94,6 +97,9 @@ class App extends Component {
       that.requestData(route);
 
       history.listen(() => {
+
+          console.log(888);
+
           //路由监听
           let route = history.location.pathname;
 
@@ -225,14 +231,18 @@ class App extends Component {
     dispatch(actions.UpUIState.hideErrorAlert());
 
   }
+
   onAppAlertCancel() {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   }
+
   onAppAlertClose() {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   }
+
+
 
 
 
