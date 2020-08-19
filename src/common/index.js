@@ -2953,6 +2953,8 @@ class Frame extends React.Component {
         beyondAnimateDom = "";
     }
 
+      const token = localStorage.getItem("token");
+
     return (
       <div className={`frame-drag-flag   ${this.state.isWorkPlantform?'in-work-plant-form':''}`}   {...reset}>
 
@@ -2972,7 +2974,7 @@ class Frame extends React.Component {
                                 className="frame-home-logo"
                                 style={{ backgroundImage: `url(${CONFIG.logo})` }}
                             >
-                                <a href={WebIndexUrl}>{ProductName}</a>
+                                <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
                             </div>
 
               {!register ? (
@@ -2986,23 +2988,26 @@ class Frame extends React.Component {
                       value=""
                     />
                     <a
-                      href={`${WebRootUrl}/html/personalMgr`}
+                      href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
                       target="_blank"
                       className="frame-home-username"
                       title={userInfo && userInfo.name ? userInfo.name : ""}
                     >
                       {userInfo && userInfo.name ? userInfo.name : ""}
                     </a>
+
                     <a
-                      href={`${WebRootUrl}/html/personalMgr`}
+                      href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
                       target="_blank"
                       className="frame-home-userpic"
                       style={{
                         backgroundImage: `url(${
                           userInfo && userInfo.image ? userInfo.image : ""
                         })`,
-                      }}
-                    ></a>
+                      }}>
+
+                    </a>
+
                   </div>
 
                                     {MessageShow ? (
