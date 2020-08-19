@@ -73,7 +73,11 @@ function CollegeTotal(props) {
     const paginationRef = useRef(pagination);
 
 
+    console.log(333);
+
     useEffect(()=>{
+
+        let isUnmount = false;
 
         if (SchoolID) {
 
@@ -85,87 +89,97 @@ function CollegeTotal(props) {
 
             Promise.all([GetSumarry,GetCourseClass]).then(res=>{
 
-                if (res[0]){
+                if (!isUnmount){
 
-                    const data = res[0];
+                    if (res[0]){
 
-                    const CollegeCount = data.CollegeCount?data.CollegeCount:0;
+                        const data = res[0];
 
-                    const CourseClassCount = data.CourseClassCount?data.CourseClassCount:0;
+                        const CollegeCount = data.CollegeCount?data.CollegeCount:0;
 
-                    const TeacherCount = data.TeacherCount?data.TeacherCount:0;
+                        const CourseClassCount = data.CourseClassCount?data.CourseClassCount:0;
 
-                    const StudentCount = data.StudentCount?data.StudentCount:0;
+                        const TeacherCount = data.TeacherCount?data.TeacherCount:0;
 
-                    const LogCount = data.LastLogCount?data.LastLogCount:0;
+                        const StudentCount = data.StudentCount?data.StudentCount:0;
 
-                    const list = [
+                        const LogCount = data.LastLogCount?data.LastLogCount:0;
 
-                        {id:'college',value:CollegeCount,title:'院系数量'},
+                        const list = [
 
-                        {id:'courseClass',value:CourseClassCount,title:'教学班数量'},
+                            {id:'college',value:CollegeCount,title:'院系数量'},
 
-                        {id:'teacher',value:TeacherCount,title:'任课教师数量'},
+                            {id:'courseClass',value:CourseClassCount,title:'教学班数量'},
 
-                        {id:'student',value:StudentCount,title:'学生数量'}
+                            {id:'teacher',value:TeacherCount,title:'任课教师数量'},
 
-                    ];
+                            {id:'student',value:StudentCount,title:'学生数量'}
 
-                    setStaticsList(list);
+                        ];
 
-                    dispatch(logCountUpdate(LogCount));
+                        setStaticsList(list);
+
+                        dispatch(logCountUpdate(LogCount));
+
+                    }
+
+                    if (res[1]){
+
+                        const data = res[1];
+
+                        const total = data.CollegeCount?data.CollegeCount:0;
+
+                        setPagination(d=>{
+
+                            paginationRef.current = {...d,total};
+
+                            return {...d,total};
+
+                        });
+
+                        const list = data.Item&&data.Item.length>0?data.Item.map(i=>{
+
+                            const CardItemList = [
+
+                                {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
+
+                                {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
+
+                                {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
+
+                                {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
+
+                            ];
+
+                            return {
+
+                                CardID:i.ObjectID,
+
+                                CardName:i.ObjectName,
+
+                                CardItemList
+
+                            }
+
+                        }):[];
+
+                        setCardList(list);
+
+                    }
+
+                    setLoading(false);
+
+                    dispatch(appLoadingHide());
 
                 }
-
-                if (res[1]){
-
-                    const data = res[1];
-
-                    const total = data.CollegeCount?data.CollegeCount:0;
-
-                   setPagination(d=>{
-
-                       paginationRef.current = {...d,total};
-
-                       return {...d,total};
-
-                   });
-
-                   const list = data.Item&&data.Item.length>0?data.Item.map(i=>{
-
-                       const CardItemList = [
-
-                           {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
-
-                           {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
-
-                           {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
-
-                           {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
-
-                       ];
-
-                       return {
-
-                           CardID:i.ObjectID,
-
-                           CardName:i.ObjectName,
-
-                           CardItemList
-
-                       }
-
-                   }):[];
-
-                   setCardList(list);
-
-                }
-
-                setLoading(false);
-
-                dispatch(appLoadingHide());
 
             })
+
+        }
+
+        return ()=>{
+
+            isUnmount = true;
 
         }
 

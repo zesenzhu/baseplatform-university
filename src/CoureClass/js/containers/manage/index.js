@@ -35,7 +35,7 @@ import './index.scss';
 import actions from "../../actions";
 
 
-
+let isUnmount = false;
 
 
 function Index(props) {
@@ -215,6 +215,8 @@ function Index(props) {
 
     useEffect(()=>{
 
+        isUnmount = false;
+
         if (SchoolID){
 
             if (collegeID&&collegeName&&gradeID&&gradeName){
@@ -250,6 +252,12 @@ function Index(props) {
             }
 
             pageInit();
+
+        }
+
+        return ()=>{
+
+            isUnmount = true;
 
         }
 
@@ -295,130 +303,133 @@ function Index(props) {
 
         Promise.all([GetAllInfo,GetCourseClassInfoForPage]).then(res=>{
 
-           let LogCount = 0;
+           if (!isUnmount){
 
-           if (res[0]){
+               let LogCount = 0;
 
-               //数据源留存
-               setDataSource(d=>{
+               if (res[0]){
 
-                   dataSourceRef.current = {...d,dropsInfo:{...res[0]}};
+                   //数据源留存
+                   setDataSource(d=>{
 
-                   return {...d,dropsInfo:{...res[0]}}
+                       dataSourceRef.current = {...d,dropsInfo:{...res[0]}};
 
-               });
+                       return {...d,dropsInfo:{...res[0]}}
 
-               const data = res[0];
+                   });
 
-               let subjectList = [],collegeList = [],gradeList=[],courseList = [],courseDisabled=true;
+                   const data = res[0];
 
-               if(data.SubjectItem&&data.SubjectItem.length>0){
+                   let subjectList = [],collegeList = [],gradeList=[],courseList = [],courseDisabled=true;
 
-                 subjectList = data.SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName}));
+                   if(data.SubjectItem&&data.SubjectItem.length>0){
 
-               }
-
-               subjectList.unshift({value:'',title:'全部学科'});
-
-               if(data.CollegeItem&&data.CollegeItem.length>0){
-
-                   collegeList = data.CollegeItem.map(i=>({value:i.CollegeID,title:i.CollegeName}));
-
-               }
-
-               collegeList.unshift({value:'',title:'全部学院'});
-
-               if(data.GradeItem&&data.GradeItem.length>0){
-
-                   gradeList = data.GradeItem.map(i=>({value:i.GradeID,title:i.GradeName}));
-
-               }
-
-               gradeList.unshift({value:'',title:'全部年级'});
-
-
-               if (courseID&&subjectID){
-
-                   if(data.CourseItem&&data.CourseItem.length>0){
-
-                       courseList = data.CourseItem.filter(i=>i.SubjectID===subjectID).map(i=>({value:i.CourseNO,title:i.CourseName}));
+                       subjectList = data.SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName}));
 
                    }
 
-                   courseList.unshift({value:'',title:'全部课程'});
+                   subjectList.unshift({value:'',title:'全部学科'});
 
-                   courseDisabled = false;
+                   if(data.CollegeItem&&data.CollegeItem.length>0){
+
+                       collegeList = data.CollegeItem.map(i=>({value:i.CollegeID,title:i.CollegeName}));
+
+                   }
+
+                   collegeList.unshift({value:'',title:'全部学院'});
+
+                   if(data.GradeItem&&data.GradeItem.length>0){
+
+                       gradeList = data.GradeItem.map(i=>({value:i.GradeID,title:i.GradeName}));
+
+                   }
+
+                   gradeList.unshift({value:'',title:'全部年级'});
+
+
+                   if (courseID&&subjectID){
+
+                       if(data.CourseItem&&data.CourseItem.length>0){
+
+                           courseList = data.CourseItem.filter(i=>i.SubjectID===subjectID).map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                       }
+
+                       courseList.unshift({value:'',title:'全部课程'});
+
+                       courseDisabled = false;
+
+                   }
+
+                   setCourses(d=>({...d,dropList:courseList,disabled:courseDisabled}));
+
+                   setSubjects(d=>{
+
+                       subjectsRef.current = {...d,dropList:subjectList};
+
+                       return {...d,dropList:subjectList};
+
+                   });
+
+                   setColleges(d=>{
+
+                       collegeRef.current = {...d,dropList:collegeList};
+
+                       return {...d,dropList:collegeList};
+
+                   });
+
+                   setGrades(d=>{
+
+                       gradesRef.current = {...d,dropList:gradeList};
+
+                       return {...d,dropList:gradeList};
+
+                   });
 
                }
 
-               setCourses(d=>({...d,dropList:courseList,disabled:courseDisabled}));
+               if (res[1]){
 
-               setSubjects(d=>{
+                   let tableList = res[1].Item&&res[1].Item.length>0?res[1].Item.map((i,k)=>{
 
-                   subjectsRef.current = {...d,dropList:subjectList};
+                       const NO = createNO(k);
 
-                   return {...d,dropList:subjectList};
+                       return {...i,key:i.CourseClassID,NO};
 
-               });
+                   }):[];
 
-               setColleges(d=>{
+                   const total = res[1].CourseClassCount?res[1].CourseClassCount:0;
 
-                   collegeRef.current = {...d,dropList:collegeList};
+                   const current = res[1].PageIndex?res[1].PageIndex:1;
 
-                   return {...d,dropList:collegeList};
+                   setPagination(d=>{
 
-               });
+                       paginationRef.current = {...d,total:total,current};
 
-               setGrades(d=>{
+                       return {...d,total:total,current};
 
-                   gradesRef.current = {...d,dropList:gradeList};
+                   });
 
-                   return {...d,dropList:gradeList};
+                   setDataSource(d=>{
 
-               });
+                       dataSourceRef.current = {...d,courseClass:tableList};
 
-           }
+                       return {...d,courseClass:tableList}
 
-           if (res[1]){
+                   });
 
-               let tableList = res[1].Item&&res[1].Item.length>0?res[1].Item.map((i,k)=>{
+                   LogCount = res[1].LastLogCount?res[1].LastLogCount:0;
 
-                    const NO = createNO(k);
+               }
 
-                    return {...i,key:i.CourseClassID,NO};
+               dispatch(logCountUpdate(LogCount));
 
-               }):[];
+               setLoading(false);
 
-               const total = res[1].CourseClassCount?res[1].CourseClassCount:0;
-
-               const current = res[1].PageIndex?res[1].PageIndex:1;
-
-                setPagination(d=>{
-
-                    paginationRef.current = {...d,total:total,current};
-
-                    return {...d,total:total,current};
-
-                });
-
-                setDataSource(d=>{
-
-                    dataSourceRef.current = {...d,courseClass:tableList};
-
-                    return {...d,courseClass:tableList}
-
-                });
-
-                LogCount = res[1].LastLogCount?res[1].LastLogCount:0;
+               dispatch(appLoadingHide());
 
            }
-
-
-            dispatch(logCountUpdate(LogCount));
-
-            setLoading(false);
-
-            dispatch(appLoadingHide());
 
         });
 
@@ -1256,6 +1267,8 @@ function Index(props) {
 
     };
 
+
+    console.log(111);
 
 
     return(

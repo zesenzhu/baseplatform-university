@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{memo,useState,useEffect,useMemo} from 'react';
 
 import ChangeTab from '../../component/ChangeTab';
 
@@ -8,23 +8,39 @@ import Subject from './Subject';
 
 import Teacher from './Teacher'
 
-import {connect} from 'react-redux';
+import {getQueryVariable} from "../../../../common/js/disconnect";
 
-class SubjectTeacher extends Component{
+function SubjectTeacher(props){
 
-    render() {
+    const [isWorkPlantform,setIsWorkPlantform] = useState(false);
 
-        const TabLinkList = [
+    useEffect(()=>{
+
+        if (getQueryVariable('isWorkPlantform')){
+
+            setIsWorkPlantform(true);
+
+        }
+
+    },[]);
+
+
+
+    const TabLinkList = useMemo(()=>{
+
+        return [
 
             {link:"/teacher/subject-teacher/subject",name:"学科总课表"},
 
             {link:"/teacher/subject-teacher/teacher",name:"教师课表"}
 
-        ];
+        ]
+
+    },[]);
 
         return (
 
-            <div className="subject-teacher-wrapper">
+            <div className={`subject-teacher-wrapper ${isWorkPlantform?'in-work-plant-form':''}`}>
 
                 <ChangeTab TabLinkList = {TabLinkList}></ChangeTab>
 
@@ -44,15 +60,8 @@ class SubjectTeacher extends Component{
 
         );
 
-    }
 
 }
-const mapStateToProps = (state) =>{
 
-    return{
-        state
-    }
 
-};
-
-export default connect(mapStateToProps)(SubjectTeacher);
+export default memo(SubjectTeacher);

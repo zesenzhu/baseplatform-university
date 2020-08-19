@@ -15,7 +15,11 @@ import {InsertOrEditCourseClass_University} from '../actions/apiActions';
 
 import {subNameReg,showSuccessAlert} from "../actions/utils";
 
+import {getQueryVariable } from '../../../common/js/disconnect';
+
 import actions from "../actions";
+
+import $ from 'jquery';
 
 function Teacher(props){
 
@@ -27,6 +31,8 @@ function Teacher(props){
 
     });
 
+    const [aiPractice,setAiPractice] = useState(false);
+
     //props
     const { DataState,UIState,dispatch } = props;
 
@@ -37,9 +43,23 @@ function Teacher(props){
     const { UserID,UserType,SchoolID } = LoginUser;
 
 
+
+
     useEffect(()=>{
 
         window.updateTeacherCourseClass = updateTeacherCourseClass;
+
+        if (getQueryVariable('aiPractice')){
+
+            $('.frame-time-bar').css({marginBottom:'0px'});
+
+            $('.frame-content-rightside').css({borderRadius:'0px',minHeight:'auto'});
+
+            $('.Teacher').css({paddingTop:'0px'});
+
+            $('.handle-content .content').css({borderRadius:'0px',boxShadow:'none',textShadow:'0px 1px 1px #333333'});
+
+        }
 
     },[]);
 

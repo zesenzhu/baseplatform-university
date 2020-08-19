@@ -67,6 +67,9 @@ import ChangeScheduleModal from '../component/ChangeScheduleModal';
 import SDActions from "../actions/ScheduleDetailActions";
 
 import config from "../../../common/js/config";
+
+import {productTypeChange} from "../reducers/productType";
+
 import {getQueryVariable} from "../../../common/js/disconnect";
 
 
@@ -82,13 +85,15 @@ class App extends Component{
 
         const {dispatch} = this.props;
 
+        let { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        dispatch(productTypeChange(parseInt(ProductType)));
+
         const Hash = location.hash;
 
         let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
 
         let { UserType,UserClass } = UserInfo;
-
-
 
         //判断权限
 
@@ -565,7 +570,7 @@ class App extends Component{
 
         const {state} = this.props;
 
-        const { LoginUser,ScheduleDetail,AppLoading,ModuleSetting,Manager,PeriodWeekTerm,AppAlert,RouterSet } = state;
+        const { productType,LoginUser,ScheduleDetail,AppLoading,ModuleSetting,Manager,PeriodWeekTerm,AppAlert,RouterSet } = state;
 
         const { AdjustBtns } = Manager;
 
@@ -575,7 +580,7 @@ class App extends Component{
 
                 <React.Fragment>
 
-                   <DocumentTitle title={ModuleSetting.moduleCnName}>
+                   <DocumentTitle title={productType===6?'课表管理':ModuleSetting.moduleCnName}>
 
                        <React.Fragment>
 
@@ -596,10 +601,7 @@ class App extends Component{
                                 enname:ModuleSetting.moduleEnName,
                                 image:ModuleSetting.logo
                             }}
-                           /* userInfo={{
-                                name:LoginUser.UserName,
-                                image:LoginUser.PhotoPath
-                            }}*/
+
 
                             showBarner={RouterSet.router==='/'?ModuleSetting.timeBar:false}
 

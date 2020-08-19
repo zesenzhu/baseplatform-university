@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{useEffect,useMemo,memo,useState} from 'react';
 
 import {HashRouter as Router,Route,Switch,Redirect} from  'react-router-dom';
 
@@ -10,61 +10,68 @@ import SubjectTeacher from './SubjectTeacher';
 
 import ClassTotalStudent from "../Teacher/ClassTotalStudent";
 
-import { connect } from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+
+
+
+function Index(){
+
+    const [HeaderLinkList,setHeaderLinkList] = useState();
+
+    const {LoginUser,productType} = useSelector(state=>state);
+
+    const {UserType,UserClass,UserID } = LoginUser;
+
+    const dispatch = useDispatch();
 
 
 
 
-class Index extends Component{
+    useEffect(()=>{
 
+        if (UserID){
 
+             if (productType!==6){
 
+                if (parseInt(UserType)===1){
 
-    render() {
+                    let UserClassType = UserClass[2];
 
-        let HeaderLinkList = [];
+                    if (UserClassType==='1'){
 
-        const { LoginUser,dispatch } = this.props;
+                        setHeaderLinkList([
 
-        const { UserType,UserClass,UserID } = LoginUser;
+                            {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
 
-        if (Object.keys(LoginUser).length>0){
+                            {link:"/teacher/mine",name:"我的课表",logo:"mine"},
 
-            if (UserType==='1'){
+                            {link:"/teacher/class/student",name:"学生课表",logo:"class"},
 
-                let UserClassType = UserClass[2];
+                        ]);
 
-                if (UserClassType==='1'){
+                    }else{
 
-                    HeaderLinkList = [
+                        setHeaderLinkList([
 
-                                {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
+                            {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
 
-                                {link:"/teacher/mine",name:"我的课表",logo:"mine"},
+                            {link:"/teacher/mine",name:"我的课表",logo:"mine"}
 
-                                {link:"/teacher/class/student",name:"学生课表",logo:"class"},
+                        ]);
 
-                            ];
+                    }
 
-                }else{
+                }else {
 
-                    HeaderLinkList = [
-
-                        {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
-
-                        {link:"/teacher/mine",name:"我的课表",logo:"mine"}
-
-                    ];
+                    window.location.href='/Error.aspx?errcode=E011';
 
                 }
-
-            }else {
-
-                window.location.href='/Error.aspx?errcode=E011';
 
             }
 
         }
+
+    },[UserID]);
 
 
         return (
@@ -99,16 +106,8 @@ class Index extends Component{
 
         );
 
-    }
-
 }
 
-const mapStateToProps = (state) => {
 
-    const { LoginUser } = state;
 
-    return { LoginUser };
-
-};
-
-export default connect(mapStateToProps)(Index);
+export default memo(Index);

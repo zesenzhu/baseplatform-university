@@ -28,7 +28,11 @@ import * as subActions from "../actions/subPassActions";
 
 import {getQueryVariable} from "../../../common/js/disconnect";
 
+import {productTypeChange} from "../reducers/productType";
+import productType from "../reducers/productType";
+
 const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
+
 
 class App extends Component {
 
@@ -36,6 +40,20 @@ class App extends Component {
     pageInit(){
 
         const { dispatch } = this.props;
+
+        const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        if (parseInt(ProductType)===6){
+
+            document.title='课程管理';
+
+        }else{
+
+            document.title='学科管理';
+
+        }
+
+        dispatch(productTypeChange(parseInt(ProductType)));
 
         dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
 
@@ -57,7 +75,7 @@ class App extends Component {
     // 请求每个组件主要渲染的数据
     requestData = () => {
 
-        const { dispatch,DataState } = this.props;
+        const { dispatch,DataState,productType } = this.props;
 
         const { LoginUser,PeriodMsd } = DataState;
 
@@ -65,11 +83,12 @@ class App extends Component {
 
 
 
+
         if (UserType==='7'||UserType==='10'){
 
             const isCourse = getQueryVariable('isCourse');
 
-            if (isCourse){
+            if (isCourse||productType===6){
 
                 dispatch(menuActions.leftMenuChange('course'));
 
@@ -96,7 +115,7 @@ class App extends Component {
 
                     const isCourse = getQueryVariable('isCourse');
 
-                    if (isCourse){
+                    if (isCourse||productType===6){
 
                         dispatch(menuActions.leftMenuChange('course'));
 
@@ -135,7 +154,7 @@ class App extends Component {
 
     render() {
 
-        const { UIState, DataState,menu } = this.props;
+        const { UIState, DataState,menu,productType } = this.props;
 
         const { LoginUser } = DataState;
 
@@ -153,14 +172,17 @@ class App extends Component {
                     <Frame
 
                         pageInit={this.pageInit.bind(this)}
-                           module={{
-                               cnname: "学科管理",
-                               enname: "Subject Management",
-                               image: logo
-                           }}
-                           className='myFrame'
-                           type="triangle"
-                           showLeftMenu={false}>
+                        module={{
+                            cnname: productType===6?'课程管理':'学科管理',
+                            enname: "Subject Management",
+                            image: logo
+                        }}
+                        className='myFrame'
+                        type="triangle"
+                        showLeftMenu={false}
+                        showBarner={productType!==6}
+
+                    >
 
                         <div ref={"frame-time-barner"}>
 

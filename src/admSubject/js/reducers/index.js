@@ -6,6 +6,8 @@ import menu from "./menu";
 
 import subjectProps from './subjectProps';
 
+import productType from './productType';
+
 export let initialState = {};
 
 let rootReducers = combineReducers({
@@ -16,7 +18,9 @@ let rootReducers = combineReducers({
 
     menu,
 
-    subjectProps
+    subjectProps,
+
+    productType
 
 });
 export default rootReducers;

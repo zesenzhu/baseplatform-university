@@ -20,6 +20,8 @@ import Charts from '../../../../component/plugins/charts';
 
 import './index.scss';
 
+
+
 function TheCollege(props) {
 
     //loading
@@ -84,7 +86,11 @@ function TheCollege(props) {
     const {history} = props;
 
 
+    console.log(222);
+
     useEffect(()=>{
+
+        let isUnmount = false;
 
         if (!collegeName){
 
@@ -94,73 +100,83 @@ function TheCollege(props) {
 
             GetCollegeGradeCouseclassSumarry_University({schoolID:SchoolID,userID:UserID,userType:UserType,collegeID,dispatch}).then(data=>{
 
-                if (data){
+                if (!isUnmount){
 
-                    const course = data.CourseCount? data.CourseCount:0;
+                    if (data){
 
-                    const courseClass = data.CourseClassCount?data.CourseClassCount:0;
+                        const course = data.CourseCount? data.CourseCount:0;
 
-                    const teacher = data.TeacherCount?data.TeacherCount:0;
+                        const courseClass = data.CourseClassCount?data.CourseClassCount:0;
 
-                    const student = data.StudentCount?data.StudentCount:0;
+                        const teacher = data.TeacherCount?data.TeacherCount:0;
 
-                    const LogCount = data.LastLogCount?data.LastLogCount:0;
+                        const student = data.StudentCount?data.StudentCount:0;
 
-                    dispatch(logCountUpdate(LogCount));
+                        const LogCount = data.LastLogCount?data.LastLogCount:0;
 
-                    const list = [],chartData = [],chartAxis = [];
+                        dispatch(logCountUpdate(LogCount));
 
-                    if(data.Item&&data.Item.length>0){
+                        const list = [],chartData = [],chartAxis = [];
 
-                        data.Item.map(i=>{
+                        if(data.Item&&data.Item.length>0){
 
-                            const CardItemList = [
+                            data.Item.map(i=>{
 
-                                {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
+                                const CardItemList = [
 
-                                {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
+                                    {CardProps:'课程数量:',CardValue:`${i.CourseCount}个`},
 
-                                {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
+                                    {CardProps:'教学班数量:',CardValue:`${i.CourseClassCount}个`},
 
-                                {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
+                                    {CardProps:'任课教师数量:',CardValue:`${i.TeacherCount}人`},
 
-                            ];
+                                    {CardProps:'学生数量:',CardValue:`${i.StudentCount}人`},
 
-                            list.push({
+                                ];
 
-                                 CardID:i.ObjectID,
+                                list.push({
 
-                                 CardName:i.ObjectName,
+                                    CardID:i.ObjectID,
 
-                                 CardItemList
+                                    CardName:i.ObjectName,
 
-                             });
+                                    CardItemList
 
-                            chartAxis.push(i.ObjectName);
+                                });
 
-                            chartData.push({
+                                chartAxis.push(i.ObjectName);
 
-                                value:i.CourseClassCount,
+                                chartData.push({
 
-                                id:i.ObjectID
+                                    value:i.CourseClassCount,
 
-                            });
+                                    id:i.ObjectID
 
-                        })
+                                });
+
+                            })
+
+                        }
+
+                        setCharts(d=>({...d,xAxis:{...d.xAxis,value:chartAxis},data:chartData}));
+
+                        setStatics(d=>({courseClass,course,teacher,student}));
+
+                        setCardList(list);
 
                     }
 
-                    setCharts(d=>({...d,xAxis:{...d.xAxis,value:chartAxis},data:chartData}));
-
-                    setStatics(d=>({courseClass,course,teacher,student}));
-
-                    setCardList(list);
+                    setLoading(false);
 
                 }
 
-                setLoading(false);
-
             })
+
+        }
+
+        return ()=>{
+
+            isUnmount = true;
 
         }
 

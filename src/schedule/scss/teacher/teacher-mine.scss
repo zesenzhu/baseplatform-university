@@ -10,6 +10,24 @@
 
       border-bottom: 1px dashed #cccccc;
 
+      &.aiPractice{
+
+        .teacher-btn.ant-btn{
+
+          border-radius:0;
+
+          box-shadow:none;
+
+          color: #ffffff;
+
+          text-shadow: 0 1px 1px #333333;
+
+          border-bottom:0;
+
+        }
+
+      }
+
     }
 
     .teacher-btn.ant-btn{
@@ -53,6 +71,10 @@
 
 
   &.work-plant-form{
+
+    width: 1200px;
+
+    margin: 0 auto;
 
     .teacher-top-btns{
 

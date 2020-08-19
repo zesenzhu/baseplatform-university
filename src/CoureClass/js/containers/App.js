@@ -40,6 +40,9 @@ import {loginUserUpdate} from "../reducers/LoginUser";
 
 const COURECLASS_MODULEID = "000-2-0-17"; //教学班管理
 
+
+let listenHistory = null;
+
 class App extends Component {
 
     constructor(props){
@@ -71,8 +74,6 @@ class App extends Component {
 
       const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:UserInfo.UserClass};
 
-
-
       /*let UserType = UserInfo.UserType;
 
       if (parseInt(UserType)===7||parseInt(UserType)===10){
@@ -96,6 +97,9 @@ class App extends Component {
       that.requestData(route);
 
       history.listen(() => {
+
+          console.log(888);
+
           //路由监听
           let route = history.location.pathname;
 
@@ -227,14 +231,18 @@ class App extends Component {
     dispatch(actions.UpUIState.hideErrorAlert());
 
   }
+
   onAppAlertCancel() {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   }
+
   onAppAlertClose() {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   }
+
+
 
 
 
@@ -271,6 +279,8 @@ class App extends Component {
               (UserMsg.UserType === "0" || UserMsg.UserType === "7") &&
               handleRoute === "Log"
           ) {
+
+
 
               if (routeID === "Record") {
                   dispatch(
@@ -335,7 +345,7 @@ class App extends Component {
                   ) {
 
                       if (routeID === "Record") {
-                         /* dispatch(
+                          dispatch(
                               actions.UpDataState.getCourseClassRecordMsg(
                                   "/GetGourseClassLogForPage?userID=" +
                                   UserMsg.UserID +
@@ -349,10 +359,10 @@ class App extends Component {
 
                                   "&operateType=0"
                               )
-                          );*/
+                          );
                       } else {
 
-                          /*dispatch(
+                          dispatch(
                               actions.UpDataState.getCourseClassDynamicMsg(
                                   "/GetGourseClassLogNew?userID=" +
                                   UserMsg.UserID +
@@ -364,7 +374,7 @@ class App extends Component {
                                   "&endDate=" +
                                   "&operateType=0"
                               )
-                          );*/
+                          );
                       }
 
 
