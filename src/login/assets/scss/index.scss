@@ -1,383 +1,208 @@
 @import "base";
-
-
 //loading
-
 @import "./loading";
-
 //头部
 @import "./header";
-
-
 //中间内容区域
-@import "./content";
-
-
+// @import "./content";
 //darkblue的内容区域
-@import "./dark-blue-content";
-
-
+// @import "./dark-blue-content";
 //darktech的内容区域
-
 @import "./dark-tech-content";
-
 //网上课程
 @import "./cloud-schoolroom-content";
-
 //智慧校园
-@import "./ai-school-content";
-
+// @import "./ai-school-content";
 //智能考试
-@import "./ai-exam-content";
-
+// @import "./ai-exam-content";
 //ai实训
 @import "./ai-practice-content";
-
 //脚部
 @import "./footer";
-
 //alert
 @import "./alert";
-
-
 //底部背景轮播
 @import "./bottom";
-
-.top_wrapper{
-
-  position: absolute;
-
-  height: 100%;
-
-  width: 100%;
-
-  z-index: 100;
-
-  .top_content_wrapper{
-
-    position: relative;
-
-    min-height: 100%;
-
-    padding-bottom:84px;
-
-    @include box-sizing(border-box);
-
-    .introduce-modal{
-
-      opacity:0;
-
-      display: none;
-
-      &.dark_tech{
-
-        position: fixed;
-
-        z-index: 1000;
-
-        width:900px;
-
-        height: 566px;
-
-        left:calc(50% - 450px);
-
-        top:calc(50% - 282px);
-
-        @include box-shadow(1px 1px 50px rgba(0,0,0,.3));
-
-        iframe{
-
-          display: block;
-
-          width: 100%;
-
-          height: 100%;
-
-          overflow: hidden;
-
+.top_wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    .top_content_wrapper {
+        position: relative;
+        min-height: 100%;
+        padding-bottom: 84px;
+        @include box-sizing(border-box);
+        .introduce-modal {
+            opacity: 0;
+            display: none;
+            &.dark_tech {
+                position: fixed;
+                z-index: 1000;
+                width: 900px;
+                height: 566px;
+                left: calc(50% - 450px);
+                top: calc(50% - 282px);
+                @include box-shadow(1px 1px 50px rgba(0, 0, 0, .3));
+                iframe {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                }
+                .close-icon {
+                    position: absolute;
+                    cursor: pointer;
+                    right: 44px;
+                    top: 30px;
+                    width: 16px;
+                    height: 16px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    @include background-size(contain);
+                    background-image: url("#{$darkTechUrl}/modal-close.png");
+                    &:hover {
+                        background-image: url("#{$darkTechUrl}/modal-close-hover.png");
+                    }
+                }
+            }
+            &.introduce-modal-enter {
+                display: block;
+                opacity: 0;
+                transform: scale(1);
+            }
+            &.introduce-modal-enter-active {
+                opacity: 1;
+                transform: scale(1);
+                transition: opacity 300ms, transform 300ms;
+            }
+            &.introduce-modal-enter-done {
+                display: block;
+                opacity: 1;
+                transform: scale(1);
+            }
+            &.introduce-modal-exit {
+                opacity: 1;
+                transform: scale(1);
+            }
+            &.introduce-modal-exit-active {
+                opacity: 0;
+                transform: scale(0.7);
+                transition: opacity 300ms, transform 300ms;
+            }
+            &.introduce-modal-exit-done {
+                display: none;
+                opacity: 0;
+                transform: scale(0.7);
+            }
         }
-
-        .close-icon{
-
-          position: absolute;
-
-          cursor: pointer;
-
-          right: 44px;
-
-          top: 30px;
-
-          width: 16px;
-
-          height: 16px;
-
-          background-repeat:no-repeat;
-
-          background-position: center;
-
-          @include background-size(contain);
-
-          background-image: url("#{$darkTechUrl}/modal-close.png");
-
-          &:hover{
-
-            background-image: url("#{$darkTechUrl}/modal-close-hover.png");
-
-          }
-
+        .ai-download-mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 101;
+            display: none;
+            &.ai-download-enter,
+            &.ai-download-enter-active,
+            &.ai-download-enter-done {
+                display: block;
+            }
         }
-
-      }
-
-      &.introduce-modal-enter {
-        display: block;
-        opacity: 0;
-        transform: scale(1);
-      }
-      &.introduce-modal-enter-active {
-
-        opacity: 1;
-        transform:scale(1);
-        transition: opacity 300ms, transform 300ms;
-      }
-
-      &.introduce-modal-enter-done {
-        display: block;
-        opacity: 1;
-        transform:scale(1);
-      }
-
-      &.introduce-modal-exit{
-
-        opacity: 1;
-        transform:scale(1);
-      }
-      &.introduce-modal-exit-active {
-
-        opacity: 0;
-        transform: scale(0.7);
-        transition: opacity 300ms, transform 300ms;
-      }
-
-      &.introduce-modal-exit-done {
-        display: none;
-        opacity: 0;
-        transform: scale(0.7);
-      }
-
-    }
-
-    .ai-download-mask{
-
-      position: fixed;
-
-      width: 100%;
-
-      height: 100%;
-
-      left: 0;
-
-      top: 0;
-
-      background-color: rgba(0,0,0,0.5);
-
-      z-index: 101;
-
-      display:none;
-
-      &.ai-download-enter,&.ai-download-enter-active,
-
-      &.ai-download-enter-done{
-
-        display: block;
-
-      }
-
-    }
-
-    .ai-pc-down-modal{
-
-     /* opacity:0;
+        .ai-pc-down-modal {
+            /* opacity:0;
 
       transform: scale(0.7);*/
-
-      position: absolute;
-
-      left:calc(50% - 236px);
-
-      top:calc(50% - 140px);
-
-      width: 472px;
-
-      height:280px;
-
-      background: url("#{$darkTechUrl}/dark-tech-pc-download-bg.png") no-repeat center;
-
-      background-size: cover;
-
-      .close-icon{
-
-        position: absolute;
-
-        cursor: pointer;
-
-        width: 14px;
-
-        height: 14px;
-
-        right:16px;
-
-        top: 14px;
-
-        background: url("#{$darkTechUrl}/dark-tech-pc-download-close.png") no-repeat center;
-
-        background-size:cover;
-
-        &:hover{
-
-          background-image: url("#{$darkTechUrl}/dark-tech-pc-download-close-hover.png");
-
-        }
-
-      }
-
-      .download-icon{
-
-        margin-top: 14px;
-        
-        margin-left: 20px;
-
-        color: #ffffff;
-
-        line-height:1;
-
-        padding-left: 22px;
-
-        background: url("#{$darkTechUrl}/dark-tech-pc-download-hover.png") no-repeat left center;
-
-      }
-
-      .content{
-
-        @include flex;
-
-        justify-content: center;
-
-        -ms-flex-pack: center;
-
-        margin-top: 32px;
-
-      }
-
-      .test{
-
-        .icon{
-
-          display: block;
-
-          width: 100px;
-
-          height: 98px;
-
-          background-size: cover;
-
-          background-repeat: no-repeat;
-
-          background-position: center;
-
-        }
-        
-        .title{
-
-          color: #ffffff;
-
-          margin-top: 13px;
-
-          text-align: center;
-
-          line-height: 1;
-          
-        }
-
-        .down-btn{
-
-          margin-left:13px;
-
-          width: 74px;
-
-          height: 30px;
-
-          outline: none;
-
-          border:0;
-
-          cursor: pointer;
-
-          margin-top: 28px;
-
-          background: url("#{$darkTechUrl}/dark-tech-download-btn.png") no-repeat center;
-
-          &:hover{
-
-            background-image:url("#{$darkTechUrl}/dark-tech-download-btn-hover.png");
-
-          }
-
-
-          &.disabled{
-
-            cursor: not-allowed;
-
-            background-image: url("#{$darkTechUrl}/dark-tech-download-disabled.png");
-
-            &:hover{
-
-              background-image: url("#{$darkTechUrl}/dark-tech-download-disabled.png");
-
+            position: absolute;
+            left: calc(50% - 236px);
+            top: calc(50% - 140px);
+            width: 472px;
+            height: 280px;
+            background: url("#{$darkTechUrl}/dark-tech-pc-download-bg.png") no-repeat center;
+            background-size: cover;
+            .close-icon {
+                position: absolute;
+                cursor: pointer;
+                width: 14px;
+                height: 14px;
+                right: 16px;
+                top: 14px;
+                background: url("#{$darkTechUrl}/dark-tech-pc-download-close.png") no-repeat center;
+                background-size: cover;
+                &:hover {
+                    background-image: url("#{$darkTechUrl}/dark-tech-pc-download-close-hover.png");
+                }
             }
-
-          }
-
+            .download-icon {
+                margin-top: 14px;
+                margin-left: 20px;
+                color: #ffffff;
+                line-height: 1;
+                padding-left: 22px;
+                background: url("#{$darkTechUrl}/dark-tech-pc-download-hover.png") no-repeat left center;
+            }
+            .content {
+                @include flex;
+                justify-content: center;
+                -ms-flex-pack: center;
+                margin-top: 32px;
+            }
+            .test {
+                .icon {
+                    display: block;
+                    width: 100px;
+                    height: 98px;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                .title {
+                    color: #ffffff;
+                    margin-top: 13px;
+                    text-align: center;
+                    line-height: 1;
+                }
+                .down-btn {
+                    margin-left: 13px;
+                    width: 74px;
+                    height: 30px;
+                    outline: none;
+                    border: 0;
+                    cursor: pointer;
+                    margin-top: 28px;
+                    background: url("#{$darkTechUrl}/dark-tech-download-btn.png") no-repeat center;
+                    &:hover {
+                        background-image:url("#{$darkTechUrl}/dark-tech-download-btn-hover.png");
+                    }
+                    &.disabled {
+                        cursor: not-allowed;
+                        background-image: url("#{$darkTechUrl}/dark-tech-download-disabled.png");
+                        &:hover {
+                            background-image: url("#{$darkTechUrl}/dark-tech-download-disabled.png");
+                        }
+                    }
+                }
+                &.manage {
+                    .icon {
+                        background-image: url("#{$darkTechUrl}/dark-tech-download-manage.png");
+                    }
+                }
+                &.stu {
+                    margin-left: 60px;
+                    .icon {
+                        background-image: url("#{$darkTechUrl}/dark-tech-download-stu.png");
+                    }
+                }
+            }
         }
-
-
-        &.manage{
-
-          .icon{
-
-            background-image: url("#{$darkTechUrl}/dark-tech-download-manage.png");
-
-          }
-
+        .ai-download-enter-active {
+            .ai-pc-down-modal {
+                animation: aiDownLoadModalShow 500ms ease forwards;
+            }
         }
-
-        &.stu{
-
-          margin-left: 60px;
-
-          .icon{
-
-            background-image: url("#{$darkTechUrl}/dark-tech-download-stu.png");
-
-          }
-
-        }
-
-      }
-
-    }
-
-    .ai-download-enter-active{
-
-      .ai-pc-down-modal{
-
-        animation: aiDownLoadModalShow 500ms ease forwards;
-
-      }
-
-    }
-
-    /*.ai-download-enter-done{
+        /*.ai-download-enter-done{
 
       .ai-pc-down-modal{
 
@@ -388,8 +213,7 @@
       }
 
     }*/
-
-    /*.ai-download-exit-active{
+        /*.ai-download-exit-active{
 
       .ai-pc-down-modal{
 
@@ -398,8 +222,7 @@
       }
 
     }*/
-
-    /*.ai-download-exit-done{
+        /*.ai-download-exit-done{
 
       .ai-pc-down-modal{
 
@@ -410,51 +233,29 @@
       }
 
     }*/
-
-  }
-
+    }
 }
 
-
 //弹窗出现
-
 @keyframes aiDownLoadModalShow {
-
-  from{
-
-    opacity:0;
-
-    transform: scale(0.7);
-
-  }
-
-  to{
-
-    opacity: 1;
-
-    transform: scale(1);
-
-  }
-
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 //弹窗消失
 @keyframes aiDownLoadModalHided {
-
-  from{
-
-    opacity: 1;
-
-    transform: scale(1);
-
-  }
-
-  to{
-
-    opacity:0;
-
-    transform: scale(0.7);
-
-  }
-
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.7);
+    }
 }
