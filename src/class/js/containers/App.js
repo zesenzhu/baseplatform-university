@@ -51,7 +51,8 @@ import ApiActions from "../actions/ApiActions";
 import AppAlertActions from "../actions/AppAlertActions";
 
 import EditMajorModal from "../component/EditMajorModal";
-
+import logo2 from "../../images/icon-logo.png";
+import logo3 from "../../images/logo.png";
 class App extends Component {
   constructor(props) {
     super(props);

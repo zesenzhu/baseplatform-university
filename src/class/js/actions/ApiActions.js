@@ -52,7 +52,7 @@ const GetClassTeacher = async ({ClassID,dispatch}) => {
 //获取某班级学生列表
 const GetStudentToPage = async ({ClassID,Keyword='',PageIndex=0,PageSize,dispatch}) => {
 
-    let res = await Method.getGetData(`/UserMgr/UserInfoMgr/GetStudentToPage?ClassID=${ClassID}&Keyword=${Keyword}&PageIndex=${PageIndex}&PageSize=${PageSize}`,2);
+    let res = await Method.getGetData(`/UserMgr/UserInfoMgr/GetStudentToPage_univ?ClassID=${ClassID}&Keyword=${Keyword}&PageIndex=${PageIndex}&PageSize=${PageSize}`,2);
 
     if (res.StatusCode === 200){
 
@@ -173,7 +173,7 @@ const GetUserDetail = async ({UserID,dispatch}) => {
 
 const SetMonitor = async ({UserID,ClassID,dispatch}) => {
 
-    let res = await Method.getPostData(`/UserMgr/ClassMgr/SetMonitor`,{
+    let res = await Method.getPostData(`/UserMgr/ClassMgr/SetMonitor_univ`,{
 
         UserID,ClassID
 
@@ -197,7 +197,7 @@ const SetMonitor = async ({UserID,ClassID,dispatch}) => {
 
 const SetCourseClassTeacher =  async ({ClassID,SubjectID,UserID='',dispatch}) => {
 
-    let res = await Method.getPostData(`/UserMgr/ClassMgr/SetCourseClassTeacher`,{
+    let res = await Method.getPostData(`/UserMgr/ClassMgr/SetCourseClassTeacher_univ`,{
 
         ClassID,UserID,SubjectID
 
@@ -220,7 +220,7 @@ const SetCourseClassTeacher =  async ({ClassID,SubjectID,UserID='',dispatch}) =>
 
 const DeleteStudent =  async ({SchoolID,UserIDs,dispatch}) => {
 
-    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/DeleteStudent`,{
+    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/DeleteStudent_univ`,{
 
         SchoolID,UserIDs,
 
@@ -243,7 +243,7 @@ const DeleteStudent =  async ({SchoolID,UserIDs,dispatch}) => {
 
 const AddStudent =  async ({UserID,UserName,Gender,classID,PhotoPath,IDCardNo='',Email='',Telephone='',HomeAddress='',dispatch}) => {
 
-    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/AddStudent`,{
+    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/AddStudent_univ`,{
 
         UserID,UserName,Gender,classID,PhotoPath,IDCardNo,Email,Telephone,HomeAddress
 
@@ -266,7 +266,7 @@ const AddStudent =  async ({UserID,UserName,Gender,classID,PhotoPath,IDCardNo=''
 
 const EditStudent =  async ({PhotoEdit,UserID,UserName,Gender,classID,PhotoPath,IDCardNo='',Email='',Telephone='',HomeAddress='',dispatch}) => {
 
-    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/EditStudent`,{
+    let res = await Method.getPostData(`/UserMgr/UserInfoMgr/EditStudent_univ`,{
 
         PhotoEdit,UserID,UserName,Gender,classID,PhotoPath,IDCardNo,Email,Telephone,HomeAddress
 
