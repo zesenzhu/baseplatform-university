@@ -294,6 +294,8 @@ class Student extends React.Component {
       keyword: "",
       CancelBtnShow: "n",
       searchValue: "",
+      pageSize: 10,
+
       sortType: "",
       sortFiled: "",
       searchWord: "",
@@ -563,7 +565,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           e
@@ -593,7 +597,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType
         )
@@ -632,7 +638,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect
@@ -668,13 +676,14 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
           e,
           this.state.thirdSelect
-
         )
       );
     }
@@ -707,7 +716,9 @@ class Student extends React.Component {
             this.state.firstSelect.value +
             "&majorID=" +
             this.state.secondSelect.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -742,7 +753,9 @@ class Student extends React.Component {
               : "") +
             "&gradeID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -779,7 +792,9 @@ class Student extends React.Component {
             this.state.secondSelect.value +
             "&gradeID=" +
             this.state.thirdSelect.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -809,7 +824,9 @@ class Student extends React.Component {
             this.state.thirdSelect.value +
             "&classID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -883,7 +900,9 @@ class Student extends React.Component {
             : "") +
           "&keyword=" +
           e.value +
-          "&PageIndex=0&PageSize=10" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "" +
           this.state.sortFiled +
           this.state.sortType,
         this.state.firstSelect,
@@ -1070,7 +1089,8 @@ class Student extends React.Component {
                     : "") +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10" +
+                  "&PageSize=" +
+                  this.state.pageSize +
                   this.state.sortFiled +
                   this.state.sortType +
                   this.state.keyword,
@@ -1210,7 +1230,8 @@ class Student extends React.Component {
                   : "") +
                 "&PageIndex=" +
                 pagination +
-                "&PageSize=10" +
+                "&PageSize=" +
+                this.state.pageSize +
                 this.state.sortFiled +
                 this.state.sortType +
                 this.state.keyword,
@@ -1264,7 +1285,50 @@ class Student extends React.Component {
             : "") +
           "&PageIndex=" +
           (e - 1) +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
+          this.state.sortType +
+          this.state.sortFiled +
+          this.state.keyword,
+        this.state.firstSelect,
+        this.state.secondSelect,
+        this.state.thirdSelect,
+        this.state.fourthSelect
+      )
+    );
+  };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
+
+    this.setState({
+      pageSize,
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,
+    });
+
+    dispatch(
+      actions.UpDataState.getUnivStudentPreview(
+        "/GetStudentToPage_Univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          (this.state.firstSelect.value !== 0
+            ? "&collegeID=" + this.state.firstSelect.value
+            : "") +
+          (this.state.secondSelect.value !== 0
+            ? "&majorID=" + this.state.secondSelect.value
+            : "") +
+          (this.state.thirdSelect.value !== 0
+            ? "&gradeID=" + this.state.thirdSelect.value
+            : "") +
+          (this.state.fourthSelect.value !== 0
+            ? "&classID=" + this.state.fourthSelect.value
+            : "") +
+          "&PageIndex=0" +
+          // (this.state.pagination - 1) +
+          "&PageSize=" +
+          pageSize +
           this.state.sortType +
           this.state.sortFiled +
           this.state.keyword,
@@ -1479,7 +1543,8 @@ class Student extends React.Component {
                       : "") +
                     "&PageIndex=" +
                     (this.state.pagination - 1) +
-                    "&PageSize=10" +
+                    "&PageSize=" +
+                    this.state.pageSize +
                     this.state.sortFiled +
                     this.state.sortType +
                     this.state.keyword,
@@ -1550,7 +1615,9 @@ class Student extends React.Component {
             sorter.columnKey +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&" +
             sortType +
             this.state.keyword,
           this.state.firstSelect,
@@ -1584,7 +1651,8 @@ class Student extends React.Component {
               : "") +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10" +
+            "&PageSize=" +
+            this.state.pageSize +
             this.state.keyword,
           this.state.firstSelect,
           this.state.secondSelect,
@@ -1630,7 +1698,8 @@ class Student extends React.Component {
             : "") +
           "&PageIndex=" +
           0 +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           this.state.sortType +
           this.state.sortFiled,
         this.state.firstSelect,
@@ -1802,7 +1871,7 @@ class Student extends React.Component {
                 //       (GradeStudentPreview.Class.value
                 //         ? "&classID=" + GradeStudentPreview.Class.value
                 //         : "") +
-                //       "&PageIndex=0&PageSize=10"
+                //       "&PageIndex=0&PageSize=" + this.state.pageSize + ""
                 //     // { value: CollegeSelect.value, title: CollegeSelect.title }
                 //   )
                 // );
@@ -1841,6 +1910,7 @@ class Student extends React.Component {
       })
     );
   };
+
   render() {
     const { UIState, DataState } = this.props;
     // const data = {
@@ -1986,7 +2056,7 @@ class Student extends React.Component {
                 ref="dropMenuThird"
                 width={120}
                 height={240}
-                style={{marginLeft:'70px'}}
+                style={{ marginLeft: "70px" }}
                 title={"年级班级:"}
                 // style={{
                 //   display:
@@ -2103,8 +2173,14 @@ class Student extends React.Component {
                   <div className="pagination-box">
                     <PagiNation
                       showQuickJumper
+                      showSizeChanger
+                      onShowSizeChange={this.onShowSizeChange}
+                      pageSize={this.state.pageSize}
                       current={this.state.pagination}
-                      hideOnSinglepage={true}
+                      // hideOnSinglepage={true}
+                      hideOnSinglePage={
+                        DataState.GradeStudentPreview.Total === 0 ? true : false
+                      }
                       total={DataState.GradeStudentPreview.Total}
                       onChange={this.onPagiNationChange}
                     ></PagiNation>
@@ -2137,10 +2213,17 @@ class Student extends React.Component {
           bodyStyle={{ padding: 0 }}
           type="2"
           width={650}
+          footer={null}
           visible={UIState.AppModal.StudentChangeMadalVisible}
           onOk={this.StudentChangeMadalOk}
           onCancel={this.StudentChangeMadalCancel}
         >
+          <Loading
+            // tip="加载中..."
+            opacity={false}
+            size="small"
+            spinning={UIState.AppLoading.modalLoading}
+          >
           {DataState.GetUserLog.UserLog instanceof Array &&
           DataState.GetUserLog.UserLog.length > 0 ? (
             <div className="modal-studentChange">
@@ -2171,9 +2254,10 @@ class Student extends React.Component {
             <Empty
               type="4"
               title="该用户暂无档案变更记录"
-              style={{ top: "150px", position: "relative" }}
+              style={{ top: "150px", position: "relative",height:'411px' }}
             ></Empty>
           )}
+          </Loading>
         </Modal>
         <Modal
           ref="handleTeacherMadal"

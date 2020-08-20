@@ -626,6 +626,8 @@ const getPicObject = (data) => {
 const getUserLog = (url, type = "student") => {
   let modal = "";
   return (dispatch) => {
+    dispatch(actions.UpUIState.ModalLoadingOpen());
+
     if (type === "student") {
       modal = actions.UpUIState.STUDENT_CHANGE_MODAL_OPEN;
     } else if (type === "teacher") {
@@ -633,6 +635,8 @@ const getUserLog = (url, type = "student") => {
     } else if (type === "leader") {
       modal = actions.UpUIState.LEADER_CHANGE_MODAL_OPEN;
     }
+    dispatch({ type: modal });
+
     getData(CONFIG.Xproxy + url, 2)
       .then((res) => {
         return res.json();
@@ -640,8 +644,8 @@ const getUserLog = (url, type = "student") => {
       .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_USER_LOG, data: json.Data });
-          dispatch({ type: modal });
         }
+        dispatch(actions.UpUIState.ModalLoadingClose());
       });
   };
 };
@@ -803,8 +807,8 @@ const getUnivStudentPreview = (
   return (dispatch) => {
     dispatch(actions.UpUIState.TableLoadingOpen());
     dispatch(
-       SetEditMajorSelectChange({
-        StudentLoading:true
+      SetEditMajorSelectChange({
+        StudentLoading: true,
       })
     );
     getData(CONFIG.UserInfoProxy_univ + url, 2)
@@ -831,8 +835,8 @@ const getUnivStudentPreview = (
             dispatch(actions.UpUIState.RightLoadingClose());
             dispatch(actions.UpUIState.TableLoadingClose());
             dispatch(
-               SetEditMajorSelectChange({
-                StudentLoading:false
+              SetEditMajorSelectChange({
+                StudentLoading: false,
               })
             );
           })
@@ -1116,7 +1120,7 @@ const delMajor = ({ func = () => {}, data }) => {
     let State = getState();
     let { DataState } = State;
     let url = CONFIG.AdmClassProxy_univ + "/DeleteMajor_Univ";
-     
+
     postData(url, data, 2)
       .then((res) => res.json())
       .then((json) => {
@@ -1133,7 +1137,7 @@ const editMajor = ({ func = () => {}, data }) => {
     let State = getState();
     let { DataState } = State;
     let url = CONFIG.AdmClassProxy_univ + "/EditMajor_Univ";
-     
+
     postData(url, data, 2)
       .then((res) => res.json())
       .then((json) => {
@@ -1150,7 +1154,7 @@ const addMajor = ({ func = () => {}, data }) => {
     let State = getState();
     let { DataState } = State;
     let url = CONFIG.AdmClassProxy_univ + "/AddMajor_Univ";
-    
+
     postData(url, data, 2)
       .then((res) => res.json())
       .then((json) => {

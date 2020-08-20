@@ -105,7 +105,7 @@ class App extends Component {
           dispatch({ type: actions.UpDataState.GET_PIC_URL, data: json.Data });
         }
       });
-    this.requestData(route);
+    // this.requestData(route);
     if (
       history.location.pathname === "/" ||
       history.location.pathname === "/UserArchives"

@@ -1072,44 +1072,52 @@ class Leader extends React.Component {
           ref="StudentChangeMadal"
           bodyStyle={{ padding: 0 }}
           type="2"
+          footer={null}
           width={650}
           visible={UIState.AppModal.LeaderChangeMadalVisible}
           onOk={this.LeaderChangeMadalOk}
           onCancel={this.LeaderChangeMadalCancel}
         >
-          {DataState.GetUserLog.UserLog instanceof Array &&
-          DataState.GetUserLog.UserLog.length > 0 ? (
-            <div className="modal-studentChange">
-              <div className="content-top">
-                <img
-                  src={IconLocation}
-                  width="30"
-                  height="40"
-                  alt="icon-location"
-                />
-                <span className="top-text">
-                  {this.state.leaderChangeUserLog.UserName}的档案变更记录
-                </span>
+          <Loading
+            // tip="加载中..."
+            opacity={false}
+            size="small"
+            spinning={UIState.AppLoading.modalLoading}
+          >
+            {DataState.GetUserLog.UserLog instanceof Array &&
+            DataState.GetUserLog.UserLog.length > 0 ? (
+              <div className="modal-studentChange">
+                <div className="content-top">
+                  <img
+                    src={IconLocation}
+                    width="30"
+                    height="40"
+                    alt="icon-location"
+                  />
+                  <span className="top-text">
+                    {this.state.leaderChangeUserLog.UserName}的档案变更记录
+                  </span>
+                </div>
+                <div className="content">
+                  <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
+                    {UIState.AppModal.LeaderChangeMadalVisible ? (
+                      <StudentChangeRecord
+                        data={DataState.GetUserLog.UserLog}
+                      ></StudentChangeRecord>
+                    ) : (
+                      ""
+                    )}
+                  </Scrollbars>
+                </div>
               </div>
-              <div className="content">
-                <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
-                  {UIState.AppModal.LeaderChangeMadalVisible ? (
-                    <StudentChangeRecord
-                      data={DataState.GetUserLog.UserLog}
-                    ></StudentChangeRecord>
-                  ) : (
-                    ""
-                  )}
-                </Scrollbars>
-              </div>
-            </div>
-          ) : (
-            <Empty
-              type="4"
-              title="该用户暂无档案变更记录"
-              style={{ top: "150px", position: "relative" }}
-            ></Empty>
-          )}
+            ) : (
+              <Empty
+                type="4"
+                title="该用户暂无档案变更记录"
+                style={{ top: "150px", position: "relative",height:'411px' }}
+              ></Empty>
+            )}
+          </Loading>
         </Modal>
       </div>
     );

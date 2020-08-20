@@ -243,6 +243,7 @@ class Graduate extends React.Component {
       searchValue: "",
       columnKey: "",
       order: "",
+      pageSize:10,
       detailData: "",
       searchWord: "",
       GraduateDetailsMsgModalVisible: false,
@@ -349,7 +350,7 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -378,7 +379,7 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -417,7 +418,7 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -452,7 +453,7 @@ class Graduate extends React.Component {
               : "") +
             "&majorID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -489,7 +490,7 @@ class Graduate extends React.Component {
             (this.state.secondSelect.value
               ? "&majorID=" + this.state.secondSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -509,10 +510,10 @@ class Graduate extends React.Component {
         CancelBtnShow: "n",
         fourthSelect: { value: 0, title: "全部班级" },
         fourthList: this.state.secondSelect.value
-        ? DataState.GetGraduateGradeClassMsg.Classes[this.state.secondSelect.value][
-            e.value
-          ]
-        : [],
+          ? DataState.GetGraduateGradeClassMsg.Classes[
+              this.state.secondSelect.value
+            ][e.value]
+          : [],
         // fourthList:
         //   DataState.GetGraduateGradeClassMsg.Classes[
         //     this.state.secondSelect.value
@@ -531,7 +532,7 @@ class Graduate extends React.Component {
               : "") +
             "&gradeID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -565,7 +566,7 @@ class Graduate extends React.Component {
             this.state.secondSelect.value +
             "&gradeID=" +
             this.state.thirdSelect.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -592,7 +593,7 @@ class Graduate extends React.Component {
             this.state.thirdSelect.value +
             "&classID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -620,7 +621,7 @@ class Graduate extends React.Component {
   //       "/GetGraduate_Univ?SchoolID=" +
   //         this.state.userMsg.SchoolID +
   //         (e.value !== 0 ? "&gradeID=" + e.value : "") +
-  //         "&PageIndex=0&PageSize=10" +
+  //         "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
   //         (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
   //         (this.state.order ? "&SortType=" + this.state.order : "")
   //     )
@@ -643,7 +644,7 @@ class Graduate extends React.Component {
   //           ? "&gradeID=" + this.state.firstSelect.value
   //           : "") +
   //         (e.value !== 0 ? "&classID=" + e.value : "") +
-  //         "&PageIndex=0&PageSize=10" +
+  //         "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
   //         (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
   //         (this.state.order ? "&SortType=" + this.state.order : "")
   //     )
@@ -690,7 +691,7 @@ class Graduate extends React.Component {
       actions.UpDataState.getGraduatePreview(
         "/GetGraduate_Univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&keyword=" +
+          "&PageIndex=0&PageSize=" + this.state.pageSize + "&keyword=" +
           e.value +
           (this.state.firstSelect.value !== 0
             ? "&collegeID=" + this.state.firstSelect.value
@@ -731,7 +732,8 @@ class Graduate extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           (this.state.firstSelect.value !== 0
             ? "&collegeID=" + this.state.firstSelect.value
             : "") +
@@ -810,7 +812,9 @@ class Graduate extends React.Component {
             sorter.columnKey +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&" +
             sortType
         )
       );
@@ -842,7 +846,9 @@ class Graduate extends React.Component {
             (this.state.fourthSelect.value !== 0
               ? "&classID=" + this.state.fourthSelect.value
               : "") +
-            "&PageSize=10&schoolID=" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&schoolID=" +
             this.state.userMsg.SchoolID +
             (this.state.keyword ? "&keyword=" + this.state.keyword : "")
         )
@@ -877,7 +883,8 @@ class Graduate extends React.Component {
             : "") +
           "&PageIndex=" +
           (e - 1) +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
           (this.state.order ? "&SortType=" + this.state.order : "")
       )
@@ -887,6 +894,42 @@ class Graduate extends React.Component {
       checkAll: false,
       pagination: e,
     });
+  };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
+
+    this.setState({
+      pageSize,
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,
+    });
+    dispatch(
+      actions.UpDataState.getGraduatePreview(
+        "/GetGraduate_Univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          (this.state.keyword ? "&keyword=" + this.state.keyword : "") +
+          (this.state.firstSelect.value !== 0
+            ? "&collegeID=" + this.state.firstSelect.value
+            : "") +
+          (this.state.secondSelect.value !== 0
+            ? "&majorID=" + this.state.secondSelect.value
+            : "") +
+          (this.state.thirdSelect.value !== 0
+            ? "&gradeID=" + this.state.thirdSelect.value
+            : "") +
+          (this.state.fourthSelect.value !== 0
+            ? "&classID=" + this.state.fourthSelect.value
+            : "") +
+          "&PageIndex=0" +
+          "&PageSize=" +
+          pageSize +
+          (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
+          (this.state.order ? "&SortType=" + this.state.order : "")
+      )
+    );
   };
   // colunm 事件
   onUserNameClick = (key) => {
@@ -1021,7 +1064,8 @@ class Graduate extends React.Component {
                   : "") +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10" +
+                "&PageSize=" +
+                this.state.pageSize +
                 (this.state.columnKey
                   ? "&sortFiled=" + this.state.columnKey
                   : "") +
@@ -1119,7 +1163,8 @@ class Graduate extends React.Component {
                   : "") +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10" +
+                "&PageSize=" +
+                this.state.pageSize +
                 (this.state.columnKey
                   ? "&sortFiled=" + this.state.columnKey
                   : "") +
@@ -1224,7 +1269,7 @@ class Graduate extends React.Component {
                   onChange={this.StudentDropMenu}
                   width={120}
                   height={240}
-                  title="班级："
+                  title="班级:"
                   disabled={this.state.userType}
                   dropSelectd={this.state.firstSelect}
                   dropList={DataState.GetGraduateGradeClassMsg.College}
@@ -1233,8 +1278,7 @@ class Graduate extends React.Component {
                   ref="dropMenuSecond"
                   width={120}
                   height={240}
-                disabled={this.state.firstSelect.value !== 0 ? false : true}
-
+                  disabled={this.state.firstSelect.value !== 0 ? false : true}
                   // style={{
                   //   display:
                   //     this.state.firstSelect.value !== 0 ? "block" : "none",
@@ -1248,7 +1292,7 @@ class Graduate extends React.Component {
                   width={120}
                   height={240}
                   title={"年级班级:"}
-                style={{ marginLeft: "70px" }}
+                  style={{ marginLeft: "70px" }}
                   // style={{
                   //   display:
                   //     this.state.secondSelect.value !== 0 ? "block" : "none",
@@ -1353,7 +1397,12 @@ class Graduate extends React.Component {
                 <div className="pagination-box">
                   <PagiNation
                     showQuickJumper
-                    hideOnSinglepage={true}
+                    showSizeChanger
+                    hideOnSinglePage={
+                      DataState.GetGraduatePreview.Total === 0 ? true : false
+                    }
+                    pageSize={this.state.pageSize}
+                    onShowSizeChange={this.onShowSizeChange}
                     current={this.state.pagination}
                     total={DataState.GetGraduatePreview.Total}
                     onChange={this.onPagiNationChange}

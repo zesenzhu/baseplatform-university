@@ -11,14 +11,14 @@ import {
   CheckBoxGroup,
   Modal,
   Loading,
-  Empty
+  Empty,
 } from "../../../common/index";
 //import '../../../common/scss/_left_menu.scss'
 import {
   HashRouter as Router,
   Route,
   Link,
-  BrowserRouter
+  BrowserRouter,
 } from "react-router-dom";
 import { Tooltip } from "antd";
 import CONFIG from "../../../common/js/config";
@@ -41,7 +41,7 @@ class LogDynamic extends React.Component {
           key: "OrderNo",
           width: 68,
           align: "left",
-          render: key => {
+          render: (key) => {
             return (
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
@@ -58,7 +58,7 @@ class LogDynamic extends React.Component {
                 </label>
               </div>
             );
-          }
+          },
         },
         {
           title: "",
@@ -67,7 +67,7 @@ class LogDynamic extends React.Component {
           colSpan: 0,
           width: 50,
           dataIndex: "UserName",
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 {/* <img
@@ -86,12 +86,12 @@ class LogDynamic extends React.Component {
                     width: "47px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`
+                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`,
                   }}
                 ></i>
               </div>
             );
-          }
+          },
         },
         {
           title: "用户档案",
@@ -101,7 +101,7 @@ class LogDynamic extends React.Component {
           key: "UserName",
           dataIndex: "UserName",
           sorter: true,
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 <span
@@ -116,7 +116,7 @@ class LogDynamic extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "档案类型",
@@ -124,13 +124,13 @@ class LogDynamic extends React.Component {
           dataIndex: "UserType_Txt",
           key: "UserType_Txt",
           width: 120,
-          render: UserType_Txt => {
+          render: (UserType_Txt) => {
             return (
               <span title={UserType_Txt} className="UserType_Txt">
                 {UserType_Txt ? UserType_Txt : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作类型",
@@ -138,13 +138,13 @@ class LogDynamic extends React.Component {
           dataIndex: "OperationType_Txt",
           width: 120,
           key: "OperationType_Txt",
-          render: OperationType_Txt => {
+          render: (OperationType_Txt) => {
             return (
               <span title={OperationType_Txt} className="OperationType_Txt">
                 {OperationType_Txt ? OperationType_Txt : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作次数",
@@ -152,13 +152,13 @@ class LogDynamic extends React.Component {
           align: "center",
           key: "OperationCount",
           dataIndex: "OperationCount",
-          render: OperationCount => {
+          render: (OperationCount) => {
             return (
               <span title={OperationCount} className="OperationCount">
                 {OperationCount ? OperationCount : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作内容",
@@ -166,7 +166,7 @@ class LogDynamic extends React.Component {
           align: "left",
           key: "Logs",
           dataIndex: "Logs",
-          render: Logs => {
+          render: (Logs) => {
             if (!Logs[0]) {
               return;
             }
@@ -184,7 +184,7 @@ class LogDynamic extends React.Component {
                   <span
                     className="Logs-more"
                     style={{
-                      display: Logs.length > 1 ? "inline-block" : "none"
+                      display: Logs.length > 1 ? "inline-block" : "none",
                     }}
                   >
                     查看更多
@@ -192,7 +192,7 @@ class LogDynamic extends React.Component {
                 </Tooltip>
               </div>
             );
-          }
+          },
         },
         {
           title: "操作",
@@ -200,7 +200,7 @@ class LogDynamic extends React.Component {
           width: 120,
           key: "handle",
           dataIndex: "key",
-          render: key => {
+          render: (key) => {
             // //console.log(key)
             return (
               <div className="handle-content">
@@ -213,8 +213,8 @@ class LogDynamic extends React.Component {
                 </Button>
               </div>
             );
-          }
-        }
+          },
+        },
       ],
       FileTypeSelect: { value: -1, title: "全部" },
       HandleTypeSelect: { value: -1, title: "全部" },
@@ -223,38 +223,47 @@ class LogDynamic extends React.Component {
         { value: -1, title: "全部" },
         { value: 1, title: "教师" },
         { value: 2, title: "学生" },
-        { value: 7, title: "领导" }
+        { value: 7, title: "领导" },
       ],
       HandleTypeList: [
         { value: -1, title: "全部" },
         { value: 1, title: "录入" },
         { value: 2, title: "删除" },
-        { value: 3, title: "更新" }
+        { value: 3, title: "更新" },
       ],
       checkedList: [],
       checkAll: false,
       userMsg: props.DataState.LoginUser,
       pagination: 1,
       SortType: "",
+      pageSize: 10,
       UserType: "",
       UserTypeList: { 1: "teacher", 2: "student", 7: "leader" },
-      userType: props.DataState.LoginUser.UserType === '0' &&(props.DataState.LoginUser.UserClass === '3'||props.DataState.LoginUser.UserClass === '4') ? true : false //0为学院，6为学校
+      userType:
+        props.DataState.LoginUser.UserType === "0" &&
+        (props.DataState.LoginUser.UserClass === "3" ||
+          props.DataState.LoginUser.UserClass === "4")
+          ? true
+          : false, //0为学院，6为学校
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { DataState } = nextProps;
     this.setState({
-      pagination: DataState.LogPreview.unreadLog.PageIndex + 1
+      pagination: DataState.LogPreview.unreadLog.PageIndex + 1,
     });
-    if(this.state.userType){
+    if (this.state.userType) {
       this.setState({
-        CollegeSelect:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName}
-      })
+        CollegeSelect: {
+          value: DataState.LoginUser.CollegeID,
+          title: DataState.LoginUser.CollegeName,
+        },
+      });
     }
   }
-// 学院选择
-  CollegeDropMenu = e => {
+  // 学院选择
+  CollegeDropMenu = (e) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -265,20 +274,23 @@ class LogDynamic extends React.Component {
           this.state.FileTypeSelect.value +
           "&PageIndex=0" +
           // (this.state.pagination - 1) +
-          "&PageSize=10&OnlineUserID=" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&OnlineUserID=" +
           this.state.userMsg.UserID +
-          this.state.SortType
-          + '&collegeID='+(e.value===0?'':e.value)
+          this.state.SortType +
+          "&collegeID=" +
+          (e.value === 0 ? "" : e.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
       // pagination: 1,
-      CollegeSelect: e
+      CollegeSelect: e,
     });
   };
-  FileTypeDropMenu = e => {
+  FileTypeDropMenu = (e) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -289,20 +301,25 @@ class LogDynamic extends React.Component {
           e.value +
           "&PageIndex=0" +
           // (this.state.pagination - 1) +
-          "&PageSize=10&OnlineUserID=" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&OnlineUserID=" +
           this.state.userMsg.UserID +
-          this.state.SortType
-          +'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.SortType +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
       // pagination: 1,
-      FileTypeSelect: e
+      FileTypeSelect: e,
     });
   };
-  HandleTypeDropMenu = e => {
+  HandleTypeDropMenu = (e) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -313,16 +330,22 @@ class LogDynamic extends React.Component {
           this.state.FileTypeSelect.value +
           "&PageIndex=0" +
           // (this.state.pagination - 1) +
-          "&PageSize=10&OnlineUserID=" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&OnlineUserID=" +
           this.state.userMsg.UserID +
-          this.state.SortType+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.SortType +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
       // pagination: 1,
-      HandleTypeSelect: e
+      HandleTypeSelect: e,
     });
   };
   // 档案动态全部标记已读
@@ -338,22 +361,22 @@ class LogDynamic extends React.Component {
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
           close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
     }
     postData(CONFIG.XTestProxy + url, {}, 2)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
             // pagination: 1
           });
           dispatch(actions.UpUIState.hideErrorAlert());
@@ -361,7 +384,7 @@ class LogDynamic extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -370,8 +393,12 @@ class LogDynamic extends React.Component {
                 this.state.HandleTypeSelect.value +
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
-                "&PageIndex=0&PageSize=10&OnlineUserID=" +
-                this.state.userMsg.UserID+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageIndex=0&PageSize=" + this.state.pageSize + "&OnlineUserID=" +
+                this.state.userMsg.UserID +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
@@ -379,13 +406,13 @@ class LogDynamic extends React.Component {
             checkAll: false,
             // pagination: 1,
             FileTypeSelect: { value: -1, title: "全部" },
-            HandleTypeSelect: { value: -1, title: "全部" }
+            HandleTypeSelect: { value: -1, title: "全部" },
           });
         }
       });
   };
   // 档案动态标记已读
-  LogSignReaded = key => {
+  LogSignReaded = (key) => {
     // //console.log(key)
     const { DataState, dispatch } = this.props;
     let userInfo = DataState.LogPreview.unreadLog.List.newList[key];
@@ -399,27 +426,27 @@ class LogDynamic extends React.Component {
     postData(
       CONFIG.XTestProxy + url,
       {
-        LogIDs: LogIDs
+        LogIDs: LogIDs,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
           dispatch(actions.UpUIState.hideErrorAlert());
           dispatch(
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -430,24 +457,30 @@ class LogDynamic extends React.Component {
                 this.state.FileTypeSelect.value +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&OnlineUserID=" +
-                this.state.userMsg.UserID+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageSize=" +
+                this.state.pageSize +
+                "&OnlineUserID=" +
+                this.state.userMsg.UserID +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
             // pagination: 1
           });
         }
       });
   };
   // 显示用户详情
-  onUserNameClick = key => {
+  onUserNameClick = (key) => {
     const { DataState, dispatch } = this.props;
     let userInfo = DataState.LogPreview.unreadLog.List.newList[key];
     this.setState({
-      UserType: userInfo.UserType
+      UserType: userInfo.UserType,
     });
     if (!userInfo.Deleted) {
       dispatch(
@@ -467,7 +500,7 @@ class LogDynamic extends React.Component {
         actions.UpUIState.showErrorAlert({
           type: "error",
           title: "该用户已删除",
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
     }
@@ -485,22 +518,22 @@ class LogDynamic extends React.Component {
     dispatch(actions.UpUIState.UserInfoModalClose());
   };
   // 点击全选
-  OnCheckAllChange = e => {
+  OnCheckAllChange = (e) => {
     //console.log(e)
     if (e.target.checked) {
       this.setState({
         checkedList: this.props.DataState.LogPreview.unreadLog.List.keyList,
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     } else {
       this.setState({
         checkedList: [],
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     }
   };
   // 点击多选组
-  onCheckBoxGroupChange = checkedList => {
+  onCheckBoxGroupChange = (checkedList) => {
     const { DataState } = this.props;
     //console.log(checkedList)
     this.setState({
@@ -509,7 +542,7 @@ class LogDynamic extends React.Component {
         checkedList.length ===
         DataState.LogPreview.unreadLog.List.keyList.length
           ? true
-          : false
+          : false,
     });
   };
   // 点击标记全部
@@ -524,7 +557,7 @@ class LogDynamic extends React.Component {
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
           close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
     } else {
@@ -535,7 +568,7 @@ class LogDynamic extends React.Component {
           ok: this.onAlertQueryOk.bind(this),
           cancel: this.onAlertQueryClose.bind(this),
           close: this.onAlertQueryClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
     }
@@ -591,14 +624,14 @@ class LogDynamic extends React.Component {
     postData(
       CONFIG.XTestProxy + url,
       {
-        LogIDs: LogIDListString
+        LogIDs: LogIDListString,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
@@ -606,12 +639,12 @@ class LogDynamic extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
           dispatch(actions.UpUIState.hideErrorAlert());
           dispatch(
@@ -622,13 +655,19 @@ class LogDynamic extends React.Component {
                 this.state.FileTypeSelect.value +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&OnlineUserID=" +
-                this.state.userMsg.UserID+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageSize=" +
+                this.state.pageSize +
+                "&OnlineUserID=" +
+                this.state.userMsg.UserID +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
             // pagination: 1
           });
         }
@@ -653,16 +692,21 @@ class LogDynamic extends React.Component {
             this.state.FileTypeSelect.value +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&OnlineUserID=" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&OnlineUserID=" +
             this.state.userMsg.UserID +
-            sortType
-            +'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            sortType +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
         checkedList: [],
         checkAll: false,
-        SortType: sortType
+        SortType: sortType,
       });
     } else if (sorter && !sorter.columnKey) {
       dispatch(
@@ -673,19 +717,25 @@ class LogDynamic extends React.Component {
             this.state.FileTypeSelect.value +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&OnlineUserID=" +
-            this.state.userMsg.UserID+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            "&PageSize=" +
+            this.state.pageSize +
+            "&OnlineUserID=" +
+            this.state.userMsg.UserID +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
         checkedList: [],
         checkAll: false,
-        SortType: ""
+        SortType: "",
       });
     }
   };
   // 分页
-  onPagiNationChange = value => {
+  onPagiNationChange = (value) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -696,18 +746,54 @@ class LogDynamic extends React.Component {
           this.state.FileTypeSelect.value +
           "&PageIndex=" +
           (value - 1) +
-          "&PageSize=10&OnlineUserID=" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&OnlineUserID=" +
           this.state.userMsg.UserID +
-          this.state.SortType+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.SortType +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
-      checkAll: false
+      checkAll: false,
       // pagination: value
     });
   };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
 
+    this.setState({
+      pageSize,
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,
+    });
+    dispatch(
+      actions.UpDataState.getUnreadLogPreview(
+        "/GetUnreadLogToPage_univ?OperationType=" +
+          this.state.HandleTypeSelect.value +
+          "&UserType=" +
+          this.state.FileTypeSelect.value +
+          "&PageIndex=0" +
+          // (value - 1) +
+          "&PageSize=" +
+          pageSize +
+          "&OnlineUserID=" +
+          this.state.userMsg.UserID +
+          this.state.SortType +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
+      )
+    );
+  };
   render() {
     const { DataState, UIState } = this.props;
     let data = DataState.LogPreview.unreadLog;
@@ -740,7 +826,7 @@ class LogDynamic extends React.Component {
                 <span className="Delete">{data.Delete}</span>份
               </p>
               <div className="dropMenu-box">
-              <DropDown
+                <DropDown
                   ref="dropMenu"
                   className="firstDropMenu"
                   onChange={this.CollegeDropMenu}
@@ -837,7 +923,10 @@ class LogDynamic extends React.Component {
                 <div className="pagination-box">
                   <PagiNation
                     showQuickJumper
-                    hideOnSinglepage={true}
+                    showSizeChanger
+                    pageSize={this.state.pageSize}
+                    onShowSizeChange={this.onShowSizeChange}
+                    hideOnSinglePage={data.Total === 0 ? true : false}
                     current={this.state.pagination}
                     total={data.Total}
                     onChange={this.onPagiNationChange}
@@ -864,11 +953,11 @@ class LogDynamic extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(LogDynamic);

@@ -11,7 +11,7 @@ import {
   CheckBoxGroup,
   Modal,
   Loading,
-  Empty
+  Empty,
 } from "../../../common/index";
 //import '../../../common/scss/_left_menu.scss'
 import locale from "antd/es/date-picker/locale/zh_CN";
@@ -19,7 +19,7 @@ import {
   HashRouter as Router,
   Route,
   Link,
-  BrowserRouter
+  BrowserRouter,
 } from "react-router-dom";
 import { Tooltip, DatePicker, Input } from "antd";
 import CONFIG from "../../../common/js/config";
@@ -44,7 +44,7 @@ class LogRecord extends React.Component {
           width: 150,
           sorter: true,
           align: "center",
-          render: LogID => {
+          render: (LogID) => {
             return (
               <div className="registerTime-content">
                 {/* <CheckBox value={key.key} onChange={this.onCheckChange}></CheckBox> */}
@@ -53,16 +53,16 @@ class LogRecord extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "",
           align: "right",
           key: "UserImg",
-          colSpan:0,
+          colSpan: 0,
           width: 50,
           dataIndex: "UserName",
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 {/* <img
@@ -73,25 +73,30 @@ class LogRecord extends React.Component {
                   height="47"
                   src={arr.PhotoPath}
                 ></img> */}
-                 <i
+                <i
                   alt={arr.UserName}
                   onClick={this.onUserNameClick.bind(this, arr.key)}
                   className="name-img"
-                  style={{width:'47px',height:'47px',display:'inline-block',background:`url(${arr.PhotoPath}) no-repeat center center / 47px`}}
+                  style={{
+                    width: "47px",
+                    height: "47px",
+                    display: "inline-block",
+                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`,
+                  }}
                 ></i>
               </div>
             );
-          }
+          },
         },
         {
           title: "用户档案",
           align: "left",
-          colSpan:2,
+          colSpan: 2,
           width: 110,
           key: "UserName",
           dataIndex: "UserName",
           sorter: true,
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 <span
@@ -106,7 +111,7 @@ class LogRecord extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "档案类型",
@@ -114,13 +119,13 @@ class LogRecord extends React.Component {
           dataIndex: "UserType_Txt",
           key: "UserType_Txt",
           width: 110,
-          render: UserType_Txt => {
+          render: (UserType_Txt) => {
             return (
               <span title={UserType_Txt} className="UserType_Txt">
                 {UserType_Txt ? UserType_Txt : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作类型",
@@ -128,13 +133,13 @@ class LogRecord extends React.Component {
           dataIndex: "OperationType_Txt",
           width: 120,
           key: "OperationType_Txt",
-          render: OperationType_Txt => {
+          render: (OperationType_Txt) => {
             return (
               <span title={OperationType_Txt} className="OperationType_Txt">
                 {OperationType_Txt ? OperationType_Txt : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "变更内容",
@@ -142,7 +147,7 @@ class LogRecord extends React.Component {
           align: "center",
           key: "OperatorDetail",
           dataIndex: "OperatorDetail",
-          render: OperatorDetail => {
+          render: (OperatorDetail) => {
             return (
               <Tooltip
                 placement="top"
@@ -151,13 +156,13 @@ class LogRecord extends React.Component {
                 title={<TipsLog data={OperatorDetail}></TipsLog>}
               >
                 {OperatorDetail.length > 0 ? (
-                  <span className="OperatorDetail">>></span>
+                  <span className="OperatorDetail">{">>"}</span>
                 ) : (
                   <span className="OperatorDetail-null">{"--"}</span>
                 )}
               </Tooltip>
             );
-          }
+          },
         },
         {
           title: (
@@ -169,7 +174,7 @@ class LogRecord extends React.Component {
           align: "center",
           key: "Operator",
           dataIndex: "Operator",
-          render: Operator => {
+          render: (Operator) => {
             return (
               <span className="Operator">
                 <span title={Operator.OperatorName} className="OperatorName">
@@ -181,7 +186,7 @@ class LogRecord extends React.Component {
                 </span>
               </span>
             );
-          }
+          },
         },
         {
           title: "操作时间",
@@ -189,14 +194,14 @@ class LogRecord extends React.Component {
           width: 170,
           key: "LogTime",
           dataIndex: "LogTime",
-          render: LogTime => {
+          render: (LogTime) => {
             // //console.log(key)
             return (
               <span title={LogTime} className="LogTime">
                 {LogTime ? LogTime : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作者IP",
@@ -204,15 +209,15 @@ class LogRecord extends React.Component {
           width: 150,
           key: "OperatorIP",
           dataIndex: "OperatorIP",
-          render: OperatorIP => {
+          render: (OperatorIP) => {
             // //console.log(key)
             return (
               <span title={OperatorIP} className="OperatorIP">
                 {OperatorIP ? OperatorIP : "--"}
               </span>
             );
-          }
-        }
+          },
+        },
       ],
       FileTypeSelect: { value: -1, title: "全部" },
       HandleTypeSelect: { value: -1, title: "全部" },
@@ -220,13 +225,13 @@ class LogRecord extends React.Component {
         { value: -1, title: "全部" },
         { value: 1, title: "教师" },
         { value: 2, title: "学生" },
-        { value: 7, title: "领导" }
+        { value: 7, title: "领导" },
       ],
       HandleTypeList: [
         { value: -1, title: "全部" },
         { value: 1, title: "录入" },
         { value: 2, title: "删除" },
-        { value: 3, title: "更新" }
+        { value: 3, title: "更新" },
       ],
       checkedList: [],
       checkAll: false,
@@ -242,10 +247,15 @@ class LogRecord extends React.Component {
       endOpen: false,
       CollegeSelect: { value: 0, title: "全部学院" },
       sortFiled: "",
-      userType: props.DataState.LoginUser.UserType === '0' &&(props.DataState.LoginUser.UserClass === '3'||props.DataState.LoginUser.UserClass === '4') ? true : false //0为学院，6为学校
+      userType:
+        props.DataState.LoginUser.UserType === "0" &&
+        (props.DataState.LoginUser.UserClass === "3" ||
+          props.DataState.LoginUser.UserClass === "4")
+          ? true
+          : false, //0为学院，6为学校
     };
   }
-  FileTypeDropMenu = e => {
+  FileTypeDropMenu = (e) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -260,49 +270,25 @@ class LogRecord extends React.Component {
           e.value +
           "&PageIndex=" +
           (this.state.pagination - 1) +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           this.state.SortType +
-          this.state.sortFiled+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.sortFiled +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
       pagination: 1,
-      FileTypeSelect: e
+      FileTypeSelect: e,
     });
   };
   // 学院选择
-  CollegeDropMenu = e => {
-    const { DataState, dispatch } = this.props;
-
-    dispatch(
-      actions.UpDataState.getLogRecordPreview(
-        "/GetAllLogToPage_univ?SchoolID=" +
-        this.state.userMsg.SchoolID +
-        (this.state.startTime ? "&beginTime=" + this.state.startTime : "") +
-        (this.state.endTime ? "&endTime=" + this.state.endTime : "") +
-        "&OperationType=" +
-        this.state.HandleTypeSelect.value +
-        "&UserType=" +
-        this.state.FileTypeSelect.value +
-        "&PageIndex=" +
-        (this.state.pagination - 1) +
-        "&PageSize=10" +
-        this.state.SortType +
-        this.state.sortFiled
-          + '&collegeID='+(e.value===0?'':e.value)
-      )
-    );
-    this.setState({
-      checkedList: [],
-      checkAll: false,
-      // pagination: 1,
-      pagination: 1,
-      CollegeSelect: e
-    });
-  };
-  HandleTypeDropMenu = e => {
+  CollegeDropMenu = (e) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -312,21 +298,57 @@ class LogRecord extends React.Component {
           (this.state.startTime ? "&beginTime=" + this.state.startTime : "") +
           (this.state.endTime ? "&endTime=" + this.state.endTime : "") +
           "&OperationType=" +
-         e.value +
+          this.state.HandleTypeSelect.value +
           "&UserType=" +
           this.state.FileTypeSelect.value +
           "&PageIndex=" +
           (this.state.pagination - 1) +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           this.state.SortType +
-          this.state.sortFiled+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.sortFiled +
+          "&collegeID=" +
+          (e.value === 0 ? "" : e.value)
+      )
+    );
+    this.setState({
+      checkedList: [],
+      checkAll: false,
+      // pagination: 1,
+      pagination: 1,
+      CollegeSelect: e,
+    });
+  };
+  HandleTypeDropMenu = (e) => {
+    const { DataState, dispatch } = this.props;
+
+    dispatch(
+      actions.UpDataState.getLogRecordPreview(
+        "/GetAllLogToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          (this.state.startTime ? "&beginTime=" + this.state.startTime : "") +
+          (this.state.endTime ? "&endTime=" + this.state.endTime : "") +
+          "&OperationType=" +
+          e.value +
+          "&UserType=" +
+          this.state.FileTypeSelect.value +
+          "&PageIndex=" +
+          (this.state.pagination - 1) +
+          "&PageSize=" +
+          this.state.pageSize +
+          this.state.SortType +
+          this.state.sortFiled +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
       pagination: 1,
-      HandleTypeSelect: e
+      HandleTypeSelect: e,
     });
   };
   // 档案动态全部标记已读
@@ -338,28 +360,28 @@ class LogRecord extends React.Component {
     postData(
       CONFIG.proxy + url,
       {
-        UserID: this.state.userMsg.UserID
+        UserID: this.state.userMsg.UserID,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
           this.setState({
             checkedList: [],
             checkAll: false,
-            pagination: 1
+            pagination: 1,
           });
           dispatch(actions.UpUIState.hideErrorAlert());
           dispatch(
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -374,19 +396,24 @@ class LogRecord extends React.Component {
                 this.state.HandleTypeSelect.value +
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
-                "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
             checkedList: [],
             checkAll: false,
-            pagination: 1
+            pagination: 1,
           });
         }
       });
   };
   // 档案动态标记已读
-  LogSignReaded = key => {
+  LogSignReaded = (key) => {
     // //console.log(key)
     const { DataState, dispatch } = this.props;
     let userInfo = DataState.LogRecordPreview.LogRecord.List.newList[key];
@@ -400,27 +427,27 @@ class LogRecord extends React.Component {
       CONFIG.proxy + url,
       {
         LogIDs: LogIDs,
-        UserID: this.state.userMsg.UserID
+        UserID: this.state.userMsg.UserID,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
           dispatch(actions.UpUIState.hideErrorAlert());
           dispatch(
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -435,24 +462,29 @@ class LogRecord extends React.Component {
                 this.state.HandleTypeSelect.value +
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
-                "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
             checkedList: [],
             checkAll: false,
-            pagination: 1
+            pagination: 1,
           });
         }
       });
   };
   // 显示用户详情
-  onUserNameClick = key => {
+  onUserNameClick = (key) => {
     const { DataState, dispatch } = this.props;
     let userInfo = DataState.LogRecordPreview.LogRecord.List.newList[key];
     //console.log(key,userInfo)
     this.setState({
-      UserType: userInfo.UserType
+      UserType: userInfo.UserType,
     });
     if (!userInfo.Deleted) {
       dispatch(
@@ -472,13 +504,13 @@ class LogRecord extends React.Component {
         actions.UpUIState.showErrorAlert({
           type: "error",
           title: "该用户已删除",
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
     }
   };
-   //关闭
-   onAlertWarnHide = () => {
+  //关闭
+  onAlertWarnHide = () => {
     const { dispatch } = this.props;
     //console.log('ddd')
     dispatch(actions.UpUIState.hideErrorAlert());
@@ -490,23 +522,23 @@ class LogRecord extends React.Component {
     dispatch(actions.UpUIState.UserInfoModalClose());
   };
   // 点击全选
-  OnCheckAllChange = e => {
+  OnCheckAllChange = (e) => {
     //console.log(e)
     if (e.target.checked) {
       this.setState({
         checkedList: this.props.DataState.LogRecordPreview.LogRecord.List
           .keyList,
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     } else {
       this.setState({
         checkedList: [],
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     }
   };
   // 点击多选组
-  onCheckBoxGroupChange = checkedList => {
+  onCheckBoxGroupChange = (checkedList) => {
     const { DataState } = this.props;
     //console.log(checkedList)
     this.setState({
@@ -515,7 +547,7 @@ class LogRecord extends React.Component {
         checkedList.length ===
         DataState.LogRecordPreview.LogRecord.List.keyList.length
           ? true
-          : false
+          : false,
     });
   };
   // 点击删除全部
@@ -529,7 +561,7 @@ class LogRecord extends React.Component {
           title: "你还没有选择哦~",
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this)
+          close: this.onAlertWarnClose.bind(this),
         })
       );
     } else {
@@ -539,7 +571,7 @@ class LogRecord extends React.Component {
           title: "确定全部标记？",
           ok: this.onAlertQueryOk.bind(this),
           cancel: this.onAlertQueryClose.bind(this),
-          close: this.onAlertQueryClose.bind(this)
+          close: this.onAlertQueryClose.bind(this),
         })
       );
     }
@@ -596,20 +628,20 @@ class LogRecord extends React.Component {
       CONFIG.proxy + url,
       {
         LogIDs: LogIDListString,
-        UserID: this.state.userMsg.UserID
+        UserID: this.state.userMsg.UserID,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 400) {
           //console.log('错误码：400' + json)
         } else if (json.StatusCode === 200) {
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
           dispatch(actions.UpUIState.hideErrorAlert());
           dispatch(
@@ -624,13 +656,18 @@ class LogRecord extends React.Component {
                 this.state.HandleTypeSelect.value +
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
-                "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+                "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+                "&collegeID=" +
+                (this.state.CollegeSelect.value === 0
+                  ? ""
+                  : this.state.CollegeSelect.value)
             )
           );
           this.setState({
             checkedList: [],
             checkAll: false,
-            pagination: 1
+            pagination: 1,
           });
         }
       });
@@ -665,16 +702,21 @@ class LogRecord extends React.Component {
             this.state.FileTypeSelect.value +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10" +
+            "&PageSize=" +
+            this.state.pageSize +
             sortType +
-            sortFiled+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            sortFiled +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
         checkedList: [],
         checkAll: false,
         SortType: sortType,
-        sortFiled: sortFiled
+        sortFiled: sortFiled,
       });
     } else if (sorter && !sorter.columnKey) {
       dispatch(
@@ -689,19 +731,24 @@ class LogRecord extends React.Component {
             this.state.FileTypeSelect.value +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            "&PageSize=" +
+            this.state.pageSize +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
         checkedList: [],
         checkAll: false,
         SortType: "",
-        sortFiled: ""
+        sortFiled: "",
       });
     }
   };
   // 分页
-  onPagiNationChange = value => {
+  onPagiNationChange = (value) => {
     const { DataState, dispatch } = this.props;
 
     dispatch(
@@ -716,19 +763,59 @@ class LogRecord extends React.Component {
           this.state.FileTypeSelect.value +
           "&PageIndex=" +
           (value - 1) +
-          "&PageSize=10&" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&" +
           this.state.SortType +
-          this.state.sortFiled+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          this.state.sortFiled +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
       checkedList: [],
       checkAll: false,
-      pagination: value
+      pagination: value,
     });
   };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
+
+    this.setState({
+      pageSize,
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,
+    });
+    dispatch(
+      actions.UpDataState.getLogRecordPreview(
+        "/GetAllLogToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          (this.state.startTime ? "&beginTime=" + this.state.startTime : "") +
+          (this.state.endTime ? "&endTime=" + this.state.endTime : "") +
+          "&OperationType=" +
+          this.state.HandleTypeSelect.value +
+          "&UserType=" +
+          this.state.FileTypeSelect.value +
+          "&PageIndex=0" +
+          "&PageSize=" +
+          pageSize +
+          "&" +
+          this.state.SortType +
+          this.state.sortFiled +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
+      )
+    );
+  };
   //操作时间
-  disabledStartDate = current => {
+  disabledStartDate = (current) => {
     const { endMomentTime } = this.state;
     if (!current || !endMomentTime) {
       return current && current > moment().endOf("day");
@@ -739,7 +826,7 @@ class LogRecord extends React.Component {
         current > moment().endOf("day"))
     );
   };
-  disabledEndDate = current => {
+  disabledEndDate = (current) => {
     const { startMomentTime } = this.state;
     if (!startMomentTime || !current) {
       return current && current > moment().endOf("day");
@@ -766,38 +853,46 @@ class LogRecord extends React.Component {
           this.state.HandleTypeSelect.value +
           "&UserType=" +
           this.state.FileTypeSelect.value +
-          "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
-      pagination: 1
+      pagination: 1,
     });
   };
   onStartTimeSelectChange = (Moment, time) => {
     const { DataState, dispatch } = this.props;
 
-    if(Moment===null){
+    if (Moment === null) {
       dispatch(
         actions.UpDataState.getLogRecordPreview(
           "/GetAllLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            
             (this.state.endTime ? "&endTime=" + this.state.endTime : "") +
-
             "&OperationType=" +
             this.state.HandleTypeSelect.value +
             "&UserType=" +
             this.state.FileTypeSelect.value +
-            "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
-        pagination: 1
+        pagination: 1,
       });
     }
     this.setState({
       startTime: time,
-      startMomentTime: Moment
+      startMomentTime: Moment,
     });
   };
   onEndTimeSelectOk = (Moment, time) => {
@@ -813,18 +908,23 @@ class LogRecord extends React.Component {
           this.state.HandleTypeSelect.value +
           "&UserType=" +
           this.state.FileTypeSelect.value +
-          "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+          "&collegeID=" +
+          (this.state.CollegeSelect.value === 0
+            ? ""
+            : this.state.CollegeSelect.value)
       )
     );
     this.setState({
-      pagination: 1
+      pagination: 1,
     });
   };
   onEndTimeSelectChange = (Moment, time) => {
     const { DataState, dispatch } = this.props;
 
     // console.log(Moment, time)
-    if(Moment===null){
+    if (Moment === null) {
       dispatch(
         actions.UpDataState.getLogRecordPreview(
           "/GetAllLogToPage_univ?SchoolID=" +
@@ -834,26 +934,31 @@ class LogRecord extends React.Component {
             this.state.HandleTypeSelect.value +
             "&UserType=" +
             this.state.FileTypeSelect.value +
-            "&PageIndex=0&PageSize=10"+'&collegeID='+(this.state.CollegeSelect.value===0?'':this.state.CollegeSelect.value)
+            "&PageIndex=0&PageSize=" +
+          this.state.pageSize + "" +
+            "&collegeID=" +
+            (this.state.CollegeSelect.value === 0
+              ? ""
+              : this.state.CollegeSelect.value)
         )
       );
       this.setState({
-        pagination: 1
+        pagination: 1,
       });
     }
     this.setState({
       endMomentTime: Moment,
-      endTime: time
+      endTime: time,
     });
   };
   //时间面板打开，开始的选择结束控制结束的面板打开
-  handleStartOpenChange = open => {
+  handleStartOpenChange = (open) => {
     if (!open) {
       this.setState({ endOpen: true });
     }
   };
 
-  handleEndOpenChange = open => {
+  handleEndOpenChange = (open) => {
     this.setState({ endOpen: open });
   };
   render() {
@@ -868,11 +973,11 @@ class LogRecord extends React.Component {
             </span>
             {/* <Link to='/UserArchives/LogRecord' target='_blank' className='link-record'>查看全部变更记录</Link> */}
           </div>
-          <div className="Graduate-hr" ></div>
+          <div className="Graduate-hr"></div>
           <div className="Graduate-content">
             <div className="content-top ">
               <div className="dropMenu-box">
-              <DropDown
+                <DropDown
                   ref="dropMenu"
                   className="firstDropMenu"
                   onChange={this.CollegeDropMenu}
@@ -934,30 +1039,48 @@ class LogRecord extends React.Component {
               </div>
             </div>
             <div className="content-render">
-            <Loading
-            tip="加载中..."
-            opacity={false}
-            size="large"
-            spinning={UIState.AppLoading.TableLoading}
-          >
-
-              {data.List.newList instanceof Array && data.List.newList.length !== 0?<Table
-                className="table"
-                loading={UIState.AppLoading.TableLoading}
-                columns={this.state.columns}
-                pagination={false}
-                onChange={this.onTableChange.bind(this)}
-                dataSource={data.List.newList}
-              ></Table>:<Empty title={this.state.FileTypeSelect.value!==0||this.state.HandleTypeSelect.value!==0||!this.state.startMomentTime||!this.state.endMomentTime?'暂无符合条件的用户档案':'暂无用户档案'} type='3' style={{marginTop: '150px'}}></Empty>}
-              <div className="pagination-box">
-                <PagiNation
-                  showQuickJumper
-                  hideOnSinglepage={true}
-                  current={this.state.pagination}
-                  total={data.Total}
-                  onChange={this.onPagiNationChange}
-                ></PagiNation>
-              </div>
+              <Loading
+                tip="加载中..."
+                opacity={false}
+                size="large"
+                spinning={UIState.AppLoading.TableLoading}
+              >
+                {data.List.newList instanceof Array &&
+                data.List.newList.length !== 0 ? (
+                  <Table
+                    className="table"
+                    loading={UIState.AppLoading.TableLoading}
+                    columns={this.state.columns}
+                    pagination={false}
+                    onChange={this.onTableChange.bind(this)}
+                    dataSource={data.List.newList}
+                  ></Table>
+                ) : (
+                  <Empty
+                    title={
+                      this.state.FileTypeSelect.value !== 0 ||
+                      this.state.HandleTypeSelect.value !== 0 ||
+                      !this.state.startMomentTime ||
+                      !this.state.endMomentTime
+                        ? "暂无符合条件的用户档案"
+                        : "暂无用户档案"
+                    }
+                    type="3"
+                    style={{ marginTop: "150px" }}
+                  ></Empty>
+                )}
+                <div className="pagination-box">
+                  <PagiNation
+                    showQuickJumper
+                    showSizeChanger
+                    pageSize={this.state.pageSize}
+                    onShowSizeChange={this.onShowSizeChange}
+                    hideOnSinglePage={data.Total === 0 ? true : false}
+                    current={this.state.pagination}
+                    total={data.Total}
+                    onChange={this.onPagiNationChange}
+                  ></PagiNation>
+                </div>
               </Loading>
             </div>
           </div>
@@ -967,7 +1090,6 @@ class LogRecord extends React.Component {
           visible={UIState.AppModal.userInfoModalVisible}
           onOk={this.UserDetailsMsgModalOk}
           module={1}
-
           onCancel={this.UserDetailsMsgModalCancel}
           data={DataState.UserMsg}
           type={this.state.UserTypeList[this.state.UserType || 1]}
@@ -976,11 +1098,11 @@ class LogRecord extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(LogRecord);

@@ -334,9 +334,9 @@ class Class extends Component {
 
         child.Majors instanceof Array &&
           child.Majors.forEach((child1) => {
-            MajorData[child1.CollegeID].push({
-              value: child.MajorID,
-              title: child.MajorName,
+            MajorData[child.CollegeID].push({
+              value: child1.MajorID,
+              title: child1.MajorName,
             });
           });
       });
@@ -358,25 +358,33 @@ class Class extends Component {
               style={{ zIndex: 10 }}
               width={120}
               height={240}
-              title="院系专业:"
+              title="院系专业："
               dropSelectd={selectCollege}
               dropList={CollegeList}
               onChange={this.onCollegeChange}
             ></DropDown>
-            {selectCollege.value ? (
-              <DropDown
-                ref="Major"
-                style={{ zIndex: 10 }}
-                width={120}
-                height={240}
-                // title="年级："
-                dropSelectd={selectMajor}
-                dropList={MajorData[selectCollege.value]}
-                onChange={this.onMajorChange}
-              ></DropDown>
-            ) : (
+            {/* {selectCollege.value ? ( */}
+            <DropDown
+              ref="Major"
+              style={{ zIndex: 10 }}
+              width={120}
+              height={240}
+              // title="年级："
+              disabled={selectCollege.value ? false : true}
+              dropSelectd={
+                // selectCollege.value
+                //   ? MajorData[selectCollege.value].le
+                //     ? selectMajor
+                //     : { value: "-1", title: "暂无专业" }
+                  // : 
+                  selectMajor
+              }
+              dropList={MajorData[selectCollege.value]}
+              onChange={this.onMajorChange}
+            ></DropDown>
+            {/* ) : (
               ""
-            )}
+            )} */}
 
             <DropDown
               ref="Grade"

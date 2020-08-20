@@ -171,7 +171,7 @@ class App extends Component {
           UpDataState.SetTopLeftData({
             cnname: (
               <span>
-                年级班级管理<span className="tl-title">-班级详情</span>
+                行政班管理<span className="tl-title">-班级详情</span>
               </span>
             ),
           })

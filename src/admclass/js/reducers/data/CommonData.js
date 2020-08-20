@@ -123,7 +123,7 @@ const CommonData = (
       Class: { value: "", title: "请选择班级" },
     },
     TopLeftData: {
-      cnname: "年级班级管理",
+      cnname: "行政班管理",
       enname: "Grade & Class Management",
       image: logo,
     },
