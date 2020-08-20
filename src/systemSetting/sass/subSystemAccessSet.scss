@@ -89,7 +89,7 @@
         .Empty {
             @include Center();
         }
-        padding: 0 54px;
+        // padding: 0 54px;
         .subsystem-wall {
             position: relative;
             width: 258px;
@@ -107,17 +107,17 @@
                     box-shadow: 0px 6px 6px 0px #abbfd1;
                 }
             }
-            &:nth-child(3n+1) {
+            &:nth-child(4n+1) {
                 margin-left: 0;
             }
-            &:nth-child(3n+2) {
+            &:nth-child(4n+2) {
                 .subsystem-content {
                     .pic-bg {
                         background: url("../images/tomato_bg.png");
                     }
                 }
             }
-            &:nth-child(3n+3) {
+            &:nth-child(4n+3) {
                 .subsystem-content {
                     .pic-bg {
                         background: url("../images/green_bg.png");
