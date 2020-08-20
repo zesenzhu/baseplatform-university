@@ -229,13 +229,13 @@ class EditGroupModal extends Component {
                               onClick={this.onEditClick.bind(this, child)}
                               className="edit"
                             >
-                              编辑
+                              {/* 编辑 */}
                             </span>
                             <span
                               onClick={this.onDeleteClick.bind(this, child)}
                               className="delete"
                             >
-                              删除
+                              {/* 删除 */}
                             </span>
                           </div>
                         ) : (

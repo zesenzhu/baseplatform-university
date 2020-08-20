@@ -1,6 +1,17 @@
 import UpDataState from "../../actions/UpDataState";
 
-const GradeStudentPreview = (state = { pageIndex: 0 }, actions) => {
+const GradeStudentPreview = (
+  state = {
+    College: {},
+
+    Major: {},
+
+    Grade: {},
+    Class: {},
+    pageIndex: 0,
+  },
+  actions
+) => {
   switch (actions.type) {
     case UpDataState.GET_GRADE_STUDENT_PREVIEW:
       let { Total, ...list } = actions.data;
@@ -12,12 +23,12 @@ const GradeStudentPreview = (state = { pageIndex: 0 }, actions) => {
         ...List,
         GradeID: actions.GradeID || {
           value: List.newList[0].child.GradeID,
-          title: List.newList[0].child.GradeName
+          title: List.newList[0].child.GradeName,
         },
         ClassID: actions.ClassID || {
           value: List.newList[0].child.ClassID,
-          title: List.newList[0].child.ClassName
-        }
+          title: List.newList[0].child.ClassName,
+        },
       });
     case UpDataState.GET_UNIV_STUDENT_PREVIEW:
       List = handleUnivData(actions.data, actions.pageIndex, actions.pageSize);
@@ -25,17 +36,16 @@ const GradeStudentPreview = (state = { pageIndex: 0 }, actions) => {
       return Object.assign({}, state, {
         ...List,
         College: actions.College,
-      
+
         Major: actions.Major,
-       
+
         Grade: actions.Grade,
-        Class: actions.Class
+        Class: actions.Class,
       });
-      case UpDataState.SET_GRADE_CLASS_MSG:
-     
-        return Object.assign({}, state, {
-        ...actions.data
-        });
+    case UpDataState.SET_GRADE_CLASS_MSG:
+      return Object.assign({}, state, {
+        ...actions.data,
+      });
     default:
       return state;
   }
@@ -51,7 +61,7 @@ function handleUnivData(data, pageIndex, pageSize) {
     list.UserName = {
       key: index,
       PhotoPath: child.PhotoPath_NoCache || child.PhotoPath,
-      UserName: child.UserName
+      UserName: child.UserName,
     };
     list.UserID = child.UserID;
     list.Gender = child.Gender;
@@ -65,7 +75,7 @@ function handleUnivData(data, pageIndex, pageSize) {
       Major: child.MajorName,
       College: child.CollegeName,
       Grade: child.GradeName,
-      Class: child.ClassName
+      Class: child.ClassName,
     };
     list.Major = { value: child.MajorID, title: child.MajorName };
     list.College = { value: child.CollegeID, title: child.CollegeName };
@@ -94,7 +104,7 @@ function handleUnivData(data, pageIndex, pageSize) {
       userMail: child.Email,
       userAddress: child.HomeAddress,
       userCollege: child.CollegeName,
-      userMajor: child.MajorName
+      userMajor: child.MajorName,
     };
     pensonalList.push(person);
     return { ...list, child };
@@ -106,7 +116,7 @@ function handleUnivData(data, pageIndex, pageSize) {
     keyList,
     pensonalList,
     pageIndex: PageIndex,
-    pageSize
+    pageSize,
   };
 }
 function handleData(data, pageIndex, pageSize) {
@@ -120,7 +130,7 @@ function handleData(data, pageIndex, pageSize) {
     list.UserName = {
       key: index,
       PhotoPath: child.PhotoPath_NoCache || child.PhotoPath,
-      UserName: child.UserName
+      UserName: child.UserName,
     };
     list.UserID = child.UserID;
     list.Gender = child.Gender;
@@ -150,7 +160,7 @@ function handleData(data, pageIndex, pageSize) {
       userIDCard: child.IDCardNo,
       userPhone: child.Telephone,
       userMail: child.Email,
-      userAddress: child.HomeAddress
+      userAddress: child.HomeAddress,
     };
     pensonalList.push(person);
     return { ...list, child };

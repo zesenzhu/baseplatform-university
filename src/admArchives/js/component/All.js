@@ -99,7 +99,7 @@ class All extends React.Component {
             type: "pie",
             radius: ["23.5%", "70.6%"],
             avoidLabelOverlap: false,
-            center: ["276", "50%"],
+            center: ["476", "50%"],
             cursor:'auto',
             label: {
               normal: {
@@ -392,6 +392,10 @@ class All extends React.Component {
             }
           }
         },
+        grid: {
+          width: "90%",
+          left:'5%'
+        },
         series: [
           {
             data: userData.FirstArray,
@@ -567,6 +571,10 @@ class All extends React.Component {
           //   axisTick:{
           //     lineStyle:{type:'dotted'}
           //   } ,
+        },
+        grid: {
+          width: "90%",//图像宽度
+          left:'5%'//图像容器左偏移
         },
         series: [
           {

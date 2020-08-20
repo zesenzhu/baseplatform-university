@@ -11,7 +11,7 @@ import {
   CheckBoxGroup,
   Modal,
   Empty,
-  Loading
+  Loading,
 } from "../../../common/index";
 //import '../../../common/scss/_left_menu.scss'
 import { Link } from "react-router-dom";
@@ -20,12 +20,16 @@ import CONFIG from "../../../common/js/config";
 import { postData, getData } from "../../../common/js/fetch";
 import Public from "../../../common/js/public";
 import { Scrollbars } from "react-custom-scrollbars";
-import UIState from '../reducers/UIState'
+import UIState from "../reducers/UIState";
 import history from "../containers/history";
 import EditModal from "./EditModal";
 import IconLocation from "../../images/icon-location.png";
 import actions from "../actions";
 import StudentChangeRecord from "./StudentChangeRecord";
+import EditMajorModal from "./EditMajorModal";
+import HandleMajorModal from "./HandleMajorModal";
+let { checkUrlAndPostMsg } = Public;
+let { UpDataState } = actions;
 class Student extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +45,7 @@ class Student extends React.Component {
           key: "OrderNo",
           width: 68,
           align: "left",
-          render: key => {
+          render: (key) => {
             return (
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
@@ -58,7 +62,7 @@ class Student extends React.Component {
                 </label>
               </div>
             );
-          }
+          },
         },
         {
           title: "",
@@ -67,7 +71,7 @@ class Student extends React.Component {
           width: 50,
           colSpan: 0,
           dataIndex: "UserName",
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 <i
@@ -78,12 +82,12 @@ class Student extends React.Component {
                     width: "47px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`
+                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`,
                   }}
                 ></i>
               </div>
             );
-          }
+          },
         },
         {
           title: "姓名",
@@ -93,7 +97,7 @@ class Student extends React.Component {
           key: "UserName",
           dataIndex: "UserName",
           sorter: true,
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 <span
@@ -105,7 +109,7 @@ class Student extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "学号",
@@ -114,13 +118,13 @@ class Student extends React.Component {
           dataIndex: "UserID",
           key: "UserID",
           sorter: true,
-          render: UserID => {
+          render: (UserID) => {
             return (
               <span title={UserID} className="UserID">
                 {UserID ? UserID : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "性别",
@@ -128,13 +132,13 @@ class Student extends React.Component {
           width: 80,
           dataIndex: "Gender",
           key: "Gender",
-          render: Gender => {
+          render: (Gender) => {
             return (
               <span title={Gender} className="Gender">
                 {Gender ? Gender : "--"}
               </span>
             );
-          }
+          },
         },
         // {
         //   title: "年级",
@@ -151,12 +155,12 @@ class Student extends React.Component {
         //   }
         // },
         {
-          title: "班级",
+          title: "院系专业",
           align: "center",
           width: 220,
-          key: "MyClass",
+          key: "MyCollege",
           dataIndex: "MyClass",
-          render: MyClass => {
+          render: (MyClass) => {
             return MyClass.College ||
               MyClass.Major ||
               MyClass.Grade ||
@@ -168,7 +172,38 @@ class Student extends React.Component {
                 >
                   {MyClass.College + ">" + MyClass.Major}
                 </span>{" "}
-                <br></br>
+                {/* <br></br>
+                <span
+                  className="GradeClass"
+                  title={MyClass.Grade + ">" + MyClass.Class}
+                >
+                  {MyClass.Grade + ">" + MyClass.Class}
+                </span> */}
+              </span>
+            ) : (
+              "--"
+            );
+          },
+        },
+        {
+          title: "年级班级",
+          align: "center",
+          width: 220,
+          key: "MyClass",
+          dataIndex: "MyClass",
+          render: (MyClass) => {
+            return MyClass.College ||
+              MyClass.Major ||
+              MyClass.Grade ||
+              MyClass.Grade ? (
+              <span className="MyClass">
+                {/* <span
+                  className="CollegeMajor"
+                  title={MyClass.College + ">" + MyClass.Major}
+                >
+                  {MyClass.College + ">" + MyClass.Major}
+                </span>{" "}
+                <br></br> */}
                 <span
                   className="GradeClass"
                   title={MyClass.Grade + ">" + MyClass.Class}
@@ -179,7 +214,7 @@ class Student extends React.Component {
             ) : (
               "--"
             );
-          }
+          },
         },
         {
           title: "操作",
@@ -187,7 +222,7 @@ class Student extends React.Component {
           key: "handle",
           width: 232,
           dataIndex: "key",
-          render: key => {
+          render: (key) => {
             return (
               <div className="handle-content">
                 <Button
@@ -198,18 +233,23 @@ class Student extends React.Component {
                 >
                   编辑
                 </Button>
-                {(props.DataState.LoginUser.UserType==='7'&&props.DataState.LoginUser.UserClass==='2')?'':<Button
-                  color="blue"
-                  type="default"
-                  onClick={this.StudentChange.bind(this, key)}
-                  className="check-btn"
-                >
-                  查看变更记录
-                </Button>}
+                {props.DataState.LoginUser.UserType === "7" &&
+                props.DataState.LoginUser.UserClass === "2" ? (
+                  ""
+                ) : (
+                  <Button
+                    color="blue"
+                    type="default"
+                    onClick={this.StudentChange.bind(this, key)}
+                    className="check-btn"
+                  >
+                    查看变更记录
+                  </Button>
+                )}
               </div>
             );
-          }
-        }
+          },
+        },
       ],
       data: [
         {
@@ -218,14 +258,14 @@ class Student extends React.Component {
             key: "01",
             PhotoPath:
               "http://192.168.129.1:10101/LgTTFtp/UserInfo/Photo/Default/Nopic001.jpg",
-            UserName: "祝泽森"
+            UserName: "祝泽森",
           },
           UserID: "S00001",
           Grader: "男",
           GradeName: "一年级",
           ClassName: "一年1班",
-          Others: {}
-        }
+          Others: {},
+        },
       ],
       pagination: 1,
       loading: false,
@@ -258,9 +298,17 @@ class Student extends React.Component {
       sortFiled: "",
       searchWord: "",
       studentChangeUserLog: {},
-      userType: props.DataState.LoginUser.UserType === '0' &&(props.DataState.LoginUser.UserClass === '3'||props.DataState.LoginUser.UserClass === '4') ? true : false //0为学院，6为学校
+      userType:
+        props.DataState.LoginUser.UserType === "0" &&
+        (props.DataState.LoginUser.UserClass === "3" ||
+          props.DataState.LoginUser.UserClass === "4")
+          ? true
+          : false, //0为学院，6为学校
     };
-    window.StudentCancelSearch = this.StudentDropMenu.bind(this,{value:0,title:'全部学院'});
+    window.StudentCancelSearch = this.StudentDropMenu.bind(this, {
+      value: 0,
+      title: "全部学院",
+    });
   }
   StudentCancelSearch = () => {
     this.setState({
@@ -269,11 +317,11 @@ class Student extends React.Component {
       searchValue: "",
       checkAll: false,
       checkedList: [],
-      pagination: 1
+      pagination: 1,
     });
   };
   componentWillReceiveProps(nextProps) {
-    let { DataState,dispatch } = nextProps;
+    let { DataState, dispatch } = nextProps;
 
     let College = DataState.GradeClassMsg.College;
     let OldCollege = this.props.DataState.GradeClassMsg.College;
@@ -290,7 +338,8 @@ class Student extends React.Component {
 
     // console.log(secondList, College);
     if (
-      (College.length>1&&!Public.comparisonObject(College , OldCollege)) &&
+      College.length > 1 &&
+      !Public.comparisonObject(College, OldCollege) &&
       secondList instanceof Array &&
       secondList.length <= 1 &&
       userType &&
@@ -299,61 +348,107 @@ class Student extends React.Component {
       let major = { value: 0, title: "全部专业" };
       if (ID !== "all") {
         Majors[DataState.LoginUser.CollegeID] instanceof Array &&
-          Majors[DataState.LoginUser.CollegeID].map(child => {
+          Majors[DataState.LoginUser.CollegeID].map((child) => {
             if (child.value === ID) {
               major = child;
             }
           });
-          dispatch({type:actions.UpDataState.SET_GRADE_CLASS_MSG,data:{
-            College:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName},
-            Major:major
-           }})
+        dispatch({
+          type: actions.UpDataState.SET_GRADE_CLASS_MSG,
+          data: {
+            College: {
+              value: DataState.LoginUser.CollegeID,
+              title: DataState.LoginUser.CollegeName,
+            },
+            Major: major,
+          },
+        });
       }
       // console.log(major, Majors[DataState.LoginUser.CollegeID]);
 
       this.setState({
         secondList: Majors[DataState.LoginUser.CollegeID],
         secondSelect: major,
-        firstList:College,
-        firstSelect:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName}
+        firstList: College,
+        firstSelect: {
+          value: DataState.LoginUser.CollegeID,
+          title: DataState.LoginUser.CollegeName,
+        },
       });
-    } else if ((College instanceof Array &&College.length>1&&!Public.comparisonObject(College , OldCollege)) && !userType) {
+    } else if (
+      College instanceof Array &&
+      College.length > 1 &&
+      !Public.comparisonObject(College, OldCollege) &&
+      !userType
+    ) {
       let college = this.state.firstSelect;
       if (ID !== "all") {
-        if(DataState.GradeStudentPreview.College&&DataState.GradeStudentPreview.College.value!==0){
-          college = DataState.GradeStudentPreview.College
-        }else{
+        if (
+          DataState.GradeStudentPreview.College &&
+          DataState.GradeStudentPreview.College.value !== 0
+        ) {
+          college = DataState.GradeStudentPreview.College;
+        } else {
           for (let key in College) {
-
             if (College[key].value === ID) {
               college = College[key];
             }
           }
         }
-        dispatch({type:actions.UpDataState.SET_GRADE_CLASS_MSG,data:{
-          College:college
-         }})
+        dispatch({
+          type: actions.UpDataState.SET_GRADE_CLASS_MSG,
+          data: {
+            College: college,
+          },
+        });
       }
       // console.log(ID,college, College);
       this.setState({
         firstList: College,
         firstSelect: college,
-        secondList:college.value!==0&&Majors[college.value]?Majors[college.value]:this.state.secondList
+        secondList:
+          college.value !== 0 && Majors[college.value]
+            ? Majors[college.value]
+            : this.state.secondList,
       });
     }
-    if(!userType&&this.state.secondList&&this.state.secondList.length<=1&&this.state.firstSelect.value!==0){
+    if (
+      !userType &&
+      this.state.secondList &&
+      this.state.secondList.length <= 1 &&
+      this.state.firstSelect.value !== 0
+    ) {
       this.setState({
- 
-        secondList:Majors[this.state.firstSelect.value]
+        secondList: Majors[this.state.firstSelect.value],
       });
     }
     this.setState({
-      pagination:DataState.GradeStudentPreview.pageIndex+1
-    })
-    
+      pagination: DataState.GradeStudentPreview.pageIndex + 1,
+    });
+    // 做修改转业后对下拉的修改
+    let {
+      GradeClassMsg: { Majors: OldMajor },
+    } = this.props.DataState;
+    let {
+      GradeClassMsg: { Majors: NewMajors },
+      CommonData: { EditMajor },
+      GradeStudentPreview: { College: NowCollege },
+    } = nextProps.DataState;
+    if (
+      // !Public.comparisonObject(Major, OldMajor)
+      NowCollege &&
+      NowCollege.value &&
+      NewMajors[NowCollege.value] !== OldMajor[NowCollege.value]
+      // &&
+      // this.state.firstSelect.value === NowCollege.value
+    ) {
+      this.setState({
+        secondSelect: { value: 0, title: "全部专业" },
+      });
+    }
   }
   componentWillMount() {
-    let { DataState ,dispatch} = this.props;
+    let { DataState, dispatch } = this.props;
 
     let College = DataState.GradeClassMsg.College;
     let Majors = DataState.GradeClassMsg.Majors;
@@ -372,57 +467,71 @@ class Student extends React.Component {
       userType &&
       secondList instanceof Array &&
       secondList.length <= 1 &&
-      
       DataState.LoginUser.CollegeID
     ) {
       let major = { value: 0, title: "全部专业" };
       if (ID !== "all") {
         Majors[DataState.LoginUser.CollegeID] instanceof Array &&
-          Majors[DataState.LoginUser.CollegeID].map(child => {
+          Majors[DataState.LoginUser.CollegeID].map((child) => {
             if (child.value === ID) {
               major = child;
             }
           });
-          dispatch({type:actions.UpDataState.SET_GRADE_CLASS_MSG,data:{
-            College:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName},
-            Major:major
-           }})
+        dispatch({
+          type: actions.UpDataState.SET_GRADE_CLASS_MSG,
+          data: {
+            College: {
+              value: DataState.LoginUser.CollegeID,
+              title: DataState.LoginUser.CollegeName,
+            },
+            Major: major,
+          },
+        });
       }
       // console.log(major, Majors[DataState.LoginUser.CollegeID]);
 
       this.setState({
         secondList: Majors[DataState.LoginUser.CollegeID],
         secondSelect: major,
-        firstList:College,
-        firstSelect:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName}
+        firstList: College,
+        firstSelect: {
+          value: DataState.LoginUser.CollegeID,
+          title: DataState.LoginUser.CollegeName,
+        },
       });
     } else if (!userType) {
       let college = { value: 0, title: "全部学院" };
       if (ID !== "all") {
-        if(DataState.GradeStudentPreview.College&&DataState.GradeStudentPreview.College.value!==0){
-          college = DataState.GradeStudentPreview.College
-        }else{
+        if (
+          DataState.GradeStudentPreview.College &&
+          DataState.GradeStudentPreview.College.value !== 0
+        ) {
+          college = DataState.GradeStudentPreview.College;
+        } else {
           for (let key in College) {
             if (College[key].value === ID) {
               college = College[key];
             }
           }
         }
-       dispatch({type:actions.UpDataState.SET_GRADE_CLASS_MSG,data:{
-        College:college
-       }})
+        dispatch({
+          type: actions.UpDataState.SET_GRADE_CLASS_MSG,
+          data: {
+            College: college,
+          },
+        });
       }
 
       // console.log(ID,college, College);
       this.setState({
         firstList: College,
-        firstSelect: college
+        firstSelect: college,
       });
     }
   }
   // 第一级：学院
 
-  StudentDropMenu = e => {
+  StudentDropMenu = (e) => {
     const { dispatch, DataState } = this.props;
 
     let Classes = [{ value: 0, title: "全部班级" }];
@@ -439,11 +548,11 @@ class Student extends React.Component {
         // pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondList: DataState.GradeClassMsg.Majors[e.value],
         thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
       });
       dispatch(
         actions.UpDataState.getUnivStudentPreview(
@@ -451,6 +560,9 @@ class Student extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
@@ -467,17 +579,20 @@ class Student extends React.Component {
         // pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
 
         secondList: [{ value: 0, title: "全部专业" }],
         thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
       });
       dispatch(
         actions.UpDataState.getUnivStudentPreview(
           "/GetStudentToPage_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType
@@ -487,7 +602,7 @@ class Student extends React.Component {
   };
   // 第二级：专业
 
-  StudentDropMenuSecond = e => {
+  StudentDropMenuSecond = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -501,11 +616,11 @@ class Student extends React.Component {
         CancelBtnShow: "n",
         searchValue: "",
         keyword: "",
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
 
         thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
         // pagination: 1
       });
       dispatch(
@@ -514,6 +629,9 @@ class Student extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
@@ -527,11 +645,16 @@ class Student extends React.Component {
         secondSelect: e,
         searchValue: "",
         CancelBtnShow: "n",
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         keyword: "",
         thirdList: DataState.GradeClassMsg.Grades[e.value],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        // fourthList: [{ value: 0, title: "全部班级" }],
+        fourthList: this.state.thirdSelect.value
+          ? DataState.GradeClassMsg.Classes[e.value][
+              this.state.thirdSelect.value
+            ]
+          : [],
         // pagination: 1
       });
       dispatch(
@@ -542,17 +665,22 @@ class Student extends React.Component {
             this.state.firstSelect.value +
             "&majorID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
-          e
+          e,
+          this.state.thirdSelect
+
         )
       );
     }
   };
   // 第三级：年级
-  StudentDropMenuThird = e => {
+  StudentDropMenuThird = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -568,7 +696,7 @@ class Student extends React.Component {
         keyword: "",
         fourthSelect: { value: 0, title: "全部班级" },
 
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
         // pagination: 1
       });
       dispatch(
@@ -595,30 +723,37 @@ class Student extends React.Component {
         CancelBtnShow: "n",
         fourthSelect: { value: 0, title: "全部班级" },
         keyword: "",
-        fourthList: DataState.GradeClassMsg.Classes[this.state.secondSelect.value][e.value]
+        fourthList: this.state.secondSelect.value
+          ? DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
+              e.value
+            ]
+          : [],
         // pagination: 1
       });
       dispatch(
         actions.UpDataState.getUnivStudentPreview(
           "/GetStudentToPage_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&gradeID=" +
             e.value +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
-          this.state.secondSelect,e
+          this.state.secondSelect,
+          e
         )
       );
     }
   };
   // 第四级：班级
-  StudentDropMenuFourth = e => {
+  StudentDropMenuFourth = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -679,13 +814,13 @@ class Student extends React.Component {
             this.state.sortType,
           this.state.firstSelect,
           this.state.secondSelect,
-          this.state.thirdSelect
-          ,e
+          this.state.thirdSelect,
+          e
         )
       );
     }
   };
-  StudentSearch = e => {
+  StudentSearch = (e) => {
     const { dispatch, DataState } = this.props;
     // this.setState({
     //     keyword: '&keyword='+e.value,
@@ -701,7 +836,7 @@ class Student extends React.Component {
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
           close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
@@ -716,7 +851,7 @@ class Student extends React.Component {
           title: "输入的学号或姓名格式不正确",
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
-          close: this.onAppAlertClose.bind(this)
+          close: this.onAppAlertClose.bind(this),
         })
       );
       return;
@@ -726,7 +861,7 @@ class Student extends React.Component {
       checkAll: false,
       keyword: "&keyword=" + e.value,
       searchWord: e.value,
-      CancelBtnShow: "y"
+      CancelBtnShow: "y",
       // pagination: 1
     });
     // //  console.log(e)
@@ -751,15 +886,15 @@ class Student extends React.Component {
           "&PageIndex=0&PageSize=10" +
           this.state.sortFiled +
           this.state.sortType,
-          this.state.firstSelect,
-          this.state.secondSelect,
-          this.state.thirdSelect
-          ,this.state.fourthSelect
+        this.state.firstSelect,
+        this.state.secondSelect,
+        this.state.thirdSelect,
+        this.state.fourthSelect
       )
     );
   };
 
-  onSelectChange = e => {
+  onSelectChange = (e) => {
     // //  console.log(e)
     //this.setState({ selectedRowKeys });
   };
@@ -776,11 +911,11 @@ class Student extends React.Component {
     );
     this.setState({
       studentModalVisible: true,
-      userKey: e
+      userKey: e,
     });
   };
 
-  StudentChange = key => {
+  StudentChange = (key) => {
     //  console.log(e, key)
     const { dispatch, DataState } = this.props;
 
@@ -789,26 +924,26 @@ class Student extends React.Component {
     // console.log(innerID)
     dispatch(actions.UpDataState.getUserLog(url, "student"));
     this.setState({
-      studentChangeUserLog: DataState.GradeStudentPreview.newList[key].Others
+      studentChangeUserLog: DataState.GradeStudentPreview.newList[key].Others,
     });
   };
 
   onMouseEnterName = () => {};
-  OnCheckAllChange = e => {
+  OnCheckAllChange = (e) => {
     //  console.log(e)
     if (e.target.checked) {
       this.setState({
         checkedList: this.props.DataState.GradeStudentPreview.keyList,
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     } else {
       this.setState({
         checkedList: [],
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     }
   };
-  onCheckBoxGroupChange = checkedList => {
+  onCheckBoxGroupChange = (checkedList) => {
     //  console.log(checkedList)
     this.setState({
       checkedList,
@@ -816,10 +951,10 @@ class Student extends React.Component {
         checkedList.length ===
         this.props.DataState.GradeStudentPreview.keyList.length
           ? true
-          : false
+          : false,
     });
   };
-  handleStudentModalOk = e => {
+  handleStudentModalOk = (e) => {
     let url = "/EditStudent_Univ";
 
     const { DataState, dispatch, UIState } = this.props;
@@ -838,21 +973,21 @@ class Student extends React.Component {
     if (!changeStudentMsg.classID) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: true
+          ClassTipsVisible: true,
         })
       );
       return;
     } else if (changeStudentMsg.classID === -1) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: false
+          ClassTipsVisible: false,
         })
       );
       return;
     } else {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: false
+          ClassTipsVisible: false,
         })
       );
     }
@@ -867,7 +1002,7 @@ class Student extends React.Component {
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
           close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
@@ -883,14 +1018,14 @@ class Student extends React.Component {
           {
             ...changeStudentMsg,
             photoPath: picObj.picUploader.getCurImgPath(),
-            PhotoEdit: PhotoEdit
+            PhotoEdit: PhotoEdit,
           },
           2
         )
-          .then(res => {
+          .then((res) => {
             return res.json();
           })
-          .then(json => {
+          .then((json) => {
             // if (json.StatusCode !== 200) {
             //     dispatch(actions.UpUIState.showErrorAlert({
             //         type: 'btn-error',
@@ -906,15 +1041,15 @@ class Student extends React.Component {
                 actions.UpUIState.showErrorAlert({
                   type: "success",
                   title: "操作成功",
-                  onHide: this.onAlertWarnHide.bind(this)
+                  onHide: this.onAlertWarnHide.bind(this),
                 })
               );
               this.setState({
-                studentModalVisible: false
+                studentModalVisible: false,
               });
               this.setState({
                 checkedList: [],
-                checkAll: false
+                checkAll: false,
               });
             }
             dispatch(
@@ -931,7 +1066,7 @@ class Student extends React.Component {
                     ? "&gradeID=" + this.state.thirdSelect.value
                     : "") +
                   (this.state.fourthSelect.value !== 0
-                    ? "&classID=" + this.state.fourthSelect.value 
+                    ? "&classID=" + this.state.fourthSelect.value
                     : "") +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
@@ -939,10 +1074,10 @@ class Student extends React.Component {
                   this.state.sortFiled +
                   this.state.sortType +
                   this.state.keyword,
-                  this.state.firstSelect,
-                  this.state.secondSelect,
-                  this.state.thirdSelect
-                  ,this.state.fourthSelect
+                this.state.firstSelect,
+                this.state.secondSelect,
+                this.state.thirdSelect,
+                this.state.fourthSelect
               )
             );
             dispatch(actions.UpUIState.editAlltModalTipsVisible());
@@ -950,20 +1085,20 @@ class Student extends React.Component {
       }
     }
   };
-  handleStudentModalCancel = e => {
+  handleStudentModalCancel = (e) => {
     //  console.log(e)
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.editAlltModalTipsVisible());
     this.setState({
-      studentModalVisible: false
+      studentModalVisible: false,
     });
   };
-  StudentChangeMadalOk = e => {
+  StudentChangeMadalOk = (e) => {
     const { dispatch } = this.props;
 
     dispatch({ type: actions.UpUIState.STUDENT_CHANGE_MODAL_CLOSE });
   };
-  StudentChangeMadalCancel = e => {
+  StudentChangeMadalCancel = (e) => {
     //  console.log(e)
     const { dispatch } = this.props;
 
@@ -981,7 +1116,7 @@ class Student extends React.Component {
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
           close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
     } else {
@@ -991,7 +1126,7 @@ class Student extends React.Component {
           title: "确定删除勾选的学生吗？",
           ok: this.onAlertQueryOk.bind(this),
           cancel: this.onAlertQueryClose.bind(this),
-          close: this.onAlertQueryClose.bind(this)
+          close: this.onAlertQueryClose.bind(this),
         })
       );
     }
@@ -1025,14 +1160,14 @@ class Student extends React.Component {
       CONFIG.UserInfoProxy_univ + url,
       {
         userIDs: UserIDListString,
-        schoolID: this.state.userMsg.SchoolID
+        schoolID: this.state.userMsg.SchoolID,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           // if((Total-len)%(this.state.pagination-1)===0){
           //   pagination = this.state.pagination - 2;
@@ -1042,7 +1177,7 @@ class Student extends React.Component {
           // }
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
 
           dispatch(actions.UpUIState.hideErrorAlert());
@@ -1050,12 +1185,12 @@ class Student extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "操作成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           this.setState({
             checkedList: [],
-            checkAll: false
+            checkAll: false,
           });
           dispatch(
             actions.UpDataState.getUnivStudentPreview(
@@ -1070,7 +1205,7 @@ class Student extends React.Component {
                 (this.state.thirdSelect.value !== 0
                   ? "&gradeID=" + this.state.thirdSelect.value
                   : "") +
-                (this.state.fourthSelect.value!== 0
+                (this.state.fourthSelect.value !== 0
                   ? "&classID=" + this.state.fourthSelect.value
                   : "") +
                 "&PageIndex=" +
@@ -1079,10 +1214,10 @@ class Student extends React.Component {
                 this.state.sortFiled +
                 this.state.sortType +
                 this.state.keyword,
-                this.state.firstSelect,
-                this.state.secondSelect,
-                this.state.thirdSelect
-                ,this.state.fourthSelect
+              this.state.firstSelect,
+              this.state.secondSelect,
+              this.state.thirdSelect,
+              this.state.fourthSelect
             )
           );
         }
@@ -1103,12 +1238,12 @@ class Student extends React.Component {
   }
 
   // 分页
-  onPagiNationChange = e => {
+  onPagiNationChange = (e) => {
     const { dispatch, DataState } = this.props;
 
     this.setState({
       checkedList: [],
-      checkAll: false
+      checkAll: false,
       // pagination: e
     });
     dispatch(
@@ -1133,31 +1268,31 @@ class Student extends React.Component {
           this.state.sortType +
           this.state.sortFiled +
           this.state.keyword,
-          this.state.firstSelect,
-          this.state.secondSelect,
-          this.state.thirdSelect
-          ,this.state.fourthSelect
+        this.state.firstSelect,
+        this.state.secondSelect,
+        this.state.thirdSelect,
+        this.state.fourthSelect
       )
     );
   };
-  onUserNameClick = key => {
+  onUserNameClick = (key) => {
     const { DataState } = this.props;
     this.setState({
       StudentDetailsMsgModalVisible: true,
-      detailData: DataState.GradeStudentPreview.pensonalList[key]
+      detailData: DataState.GradeStudentPreview.pensonalList[key],
     });
   };
   StudentDetailsMsgModalOk = () => {
     this.setState({
-      StudentDetailsMsgModalVisible: false
+      StudentDetailsMsgModalVisible: false,
     });
   };
   StudentDetailsMsgModalCancel = () => {
     this.setState({
-      StudentDetailsMsgModalVisible: false
+      StudentDetailsMsgModalVisible: false,
     });
   };
-  onAddStudent = e => {
+  onAddStudent = (e) => {
     //  console.log(e)
     const { dispatch, DataState } = this.props;
 
@@ -1168,10 +1303,10 @@ class Student extends React.Component {
     );
     this.setState({
       addStudentModalVisible: true,
-      userKey: "add"
+      userKey: "add",
     });
   };
-  handleAddStudentModalOk = e => {
+  handleAddStudentModalOk = (e) => {
     //  console.log(e)
     let url = "/AddStudent_Univ";
 
@@ -1181,9 +1316,8 @@ class Student extends React.Component {
     let visible = UIState.EditModalTipsVisible;
     let haveMistake = false;
     for (let visi in visible) {
-
       if (visible[visi]) {
-        console.log(visi)
+        console.log(visi);
         haveMistake = true;
       }
     }
@@ -1193,7 +1327,7 @@ class Student extends React.Component {
     if (changeStudentMsg.userID === "") {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          UserIDTipsVisible: true
+          UserIDTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1202,7 +1336,7 @@ class Student extends React.Component {
     if (changeStudentMsg.userName === "") {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          UserNameTipsVisible: true
+          UserNameTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1211,7 +1345,7 @@ class Student extends React.Component {
     if (!changeStudentMsg.gender) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          GenderTipsVisible: true
+          GenderTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1220,7 +1354,7 @@ class Student extends React.Component {
     if (!changeStudentMsg.collegeID) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          CollegeTipsVisible: true
+          CollegeTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1229,7 +1363,7 @@ class Student extends React.Component {
     if (!changeStudentMsg.majorID) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          MajorTipsVisible: true
+          MajorTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1238,7 +1372,7 @@ class Student extends React.Component {
     if (!changeStudentMsg.gradeID) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          GradeTipsVisible: true
+          GradeTipsVisible: true,
         })
       );
       haveMistake = true;
@@ -1247,21 +1381,21 @@ class Student extends React.Component {
     if (!changeStudentMsg.classID) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: true
+          ClassTipsVisible: true,
         })
       );
       haveMistake = true;
     } else if (changeStudentMsg.classID === -1) {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: false
+          ClassTipsVisible: false,
         })
       );
       haveMistake = true;
     } else {
       dispatch(
         actions.UpUIState.editModalTipsVisible({
-          ClassTipsVisible: false
+          ClassTipsVisible: false,
         })
       );
     }
@@ -1281,7 +1415,7 @@ class Student extends React.Component {
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
           close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
@@ -1291,14 +1425,14 @@ class Student extends React.Component {
           CONFIG.UserInfoProxy_univ + url,
           {
             ...changeStudentMsg,
-            photoPath: picObj.picUploader.getCurImgPath()
+            photoPath: picObj.picUploader.getCurImgPath(),
           },
           2
         )
-          .then(res => {
+          .then((res) => {
             return res.json();
           })
-          .then(json => {
+          .then((json) => {
             // if (json.StatusCode !== 200) {
             //     dispatch(actions.UpUIState.showErrorAlert({
             //         type: 'btn-error',
@@ -1314,18 +1448,18 @@ class Student extends React.Component {
                 actions.UpUIState.showErrorAlert({
                   type: "success",
                   title: "操作成功",
-                  onHide: this.onAlertWarnHide.bind(this)
+                  onHide: this.onAlertWarnHide.bind(this),
                 })
               );
               this.setState({
-                studentModalVisible: false
+                studentModalVisible: false,
               });
               this.setState({
-                addStudentModalVisible: false
+                addStudentModalVisible: false,
               });
               this.setState({
                 checkedList: [],
-                checkAll: false
+                checkAll: false,
               });
               dispatch(
                 actions.UpDataState.getUnivStudentPreview(
@@ -1349,10 +1483,10 @@ class Student extends React.Component {
                     this.state.sortFiled +
                     this.state.sortType +
                     this.state.keyword,
-                    this.state.firstSelect,
-                    this.state.secondSelect,
-                    this.state.thirdSelect
-                    ,this.state.fourthSelect
+                  this.state.firstSelect,
+                  this.state.secondSelect,
+                  this.state.thirdSelect,
+                  this.state.fourthSelect
                 )
               );
               dispatch(actions.UpUIState.editAlltModalTipsVisible());
@@ -1367,12 +1501,12 @@ class Student extends React.Component {
     //console.log('ddd')
     dispatch(actions.UpUIState.hideErrorAlert());
   };
-  handleAddStudentModalCancel = e => {
+  handleAddStudentModalCancel = (e) => {
     //  console.log(e)
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.editAlltModalTipsVisible());
     this.setState({
-      addStudentModalVisible: false
+      addStudentModalVisible: false,
     });
   };
 
@@ -1394,7 +1528,7 @@ class Student extends React.Component {
         checkedList: [],
         checkAll: false,
         sortType: "&" + sortType,
-        sortFiled: "&sortFiled=" + sorter.columnKey
+        sortFiled: "&sortFiled=" + sorter.columnKey,
       });
       dispatch(
         actions.UpDataState.getUnivStudentPreview(
@@ -1419,10 +1553,10 @@ class Student extends React.Component {
             "&PageSize=10&" +
             sortType +
             this.state.keyword,
-            this.state.firstSelect,
-            this.state.secondSelect,
-            this.state.thirdSelect
-            ,this.state.fourthSelect
+          this.state.firstSelect,
+          this.state.secondSelect,
+          this.state.thirdSelect,
+          this.state.fourthSelect
         )
       );
     } else if (sorter && !sorter.columnKey) {
@@ -1430,7 +1564,7 @@ class Student extends React.Component {
         checkedList: [],
         checkAll: false,
         sortType: "",
-        sortFiled: ""
+        sortFiled: "",
       });
       dispatch(
         actions.UpDataState.getUnivStudentPreview(
@@ -1452,22 +1586,22 @@ class Student extends React.Component {
             (this.state.pagination - 1) +
             "&PageSize=10" +
             this.state.keyword,
-            this.state.firstSelect,
-            this.state.secondSelect,
-            this.state.thirdSelect
-            ,this.state.fourthSelect
+          this.state.firstSelect,
+          this.state.secondSelect,
+          this.state.thirdSelect,
+          this.state.fourthSelect
         )
       );
     }
   };
   //搜索change
-  onChangeSearch = e => {
+  onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value.trim()
+      searchValue: e.target.value.trim(),
     });
   };
   // 取消搜索
-  onCancelSearch = e => {
+  onCancelSearch = (e) => {
     const { dispatch } = this.props;
 
     this.setState({
@@ -1475,7 +1609,7 @@ class Student extends React.Component {
       keyword: "",
       searchValue: "",
       checkAll: false,
-      checkedList: []
+      checkedList: [],
       // pagination: 1
     });
     dispatch(
@@ -1499,11 +1633,212 @@ class Student extends React.Component {
           "&PageSize=10" +
           this.state.sortType +
           this.state.sortFiled,
-          this.state.firstSelect,
-          this.state.secondSelect,
-          this.state.thirdSelect
-          ,this.state.fourthSelect
+        this.state.firstSelect,
+        this.state.secondSelect,
+        this.state.thirdSelect,
+        this.state.fourthSelect
       )
+    );
+  };
+  onLinkClick = (btnName, route) => {
+    let url = window.location.href.split(window.location.hash).join(route);
+
+    // console.log(url);
+    checkUrlAndPostMsg({ btnName, url });
+  };
+  editMajorOk = () => {
+    const { dispatch } = this.props;
+    dispatch(
+      UpDataState.SetEditMajorSelectChange({
+        ModalVisible: false,
+      })
+    );
+  };
+  editMajorCancel = () => {
+    const {
+      dispatch,
+      DataState: {
+        CommonData: {
+          EditMajor: { isChange },
+        },
+      },
+    } = this.props;
+    // history.
+    if (isChange) {
+      window.StudentCancelSearch && window.StudentCancelSearch();
+      history.push("/UserArchives/Student/all");
+    }
+
+    dispatch(
+      UpDataState.SetEditMajorSelectChange({
+        ModalVisible: false,
+      })
+    );
+  };
+  onEditMajor = () => {
+    const { dispatch } = this.props;
+    dispatch(
+      UpDataState.SetEditMajorSelectChange({
+        ModalVisible: true,
+      })
+    );
+  };
+  handleMajorOk = () => {
+    const { dispatch, DataState } = this.props;
+    let {
+      CommonData: {
+        EditMajor: { CollegeSelect, type, Collect, Name, Id },
+      },
+      GradeClassMsg: { College },
+      GradeStudentPreview,
+    } = DataState;
+    if (Collect.value === "") {
+      // dispatch({ type: UpUIState.ADD_CLASS_COLLEGE_TIPS_SHOW });
+      // isError = true;
+      return;
+    }
+
+    // if (isError) {
+    //   return;
+    // }
+    //输入为空
+    if (Name === "") {
+      dispatch(
+        UpDataState.SetEditMajorSelectChange({
+          TisTitleVisible: true,
+          TisTitle: "专业名称不能为空",
+        })
+      );
+    } else {
+      //输入合法和不合法的情况
+      if (this.UserComm_CheckGroupName(Name)) {
+        dispatch(
+          UpDataState.SetEditMajorSelectChange({
+            TisTitleVisible: false,
+            TisTitle: "专业名称不能为空",
+          })
+        );
+
+        let isChong = false;
+        for (let key in College) {
+          if (College[key].childred instanceof Array)
+            for (let index in College[key].childred) {
+              if (College[key].childred[index].title === Name) {
+                isChong = true;
+              }
+            }
+        }
+
+        if (isChong) {
+          //有同名
+          dispatch(
+            UpDataState.SetEditMajorSelectChange({
+              TisTitleVisible: true,
+              TisTitle: "该学校下已存在同名专业",
+            })
+          );
+          // dispatch({ type: UpUIState.EDIT_MAJOR_MODAL_MODAL_TIPS_SHOW });
+
+          // dispatch({
+          //   type: UpUIState.EDIT_MAJOR_INPUT_TIPS,
+          //   tips: "该学院下已存在同名专业",
+          // });
+        } else {
+          //向后台请求添加班级的接口
+          dispatch(
+            UpDataState.SetEditMajorSelectChange({
+              // TisTitle: "",
+              TisTitleVisible: false,
+            })
+          );
+          let func = "";
+          let data = {};
+
+          if (type === "add") {
+            func = UpDataState.addMajor;
+            data = { CollegeID: Collect.value, MajorName: Name };
+          } else if (type === "edit") {
+            func = UpDataState.editMajor;
+            data = { CollegeID: Collect.value, MajorName: Name, MajorID: Id };
+          } else {
+            return;
+          }
+          dispatch(
+            func({
+              data: data,
+              func: (data) => {
+                dispatch(
+                  UpDataState.SetEditMajorSelectChange({
+                    isChange: true,
+                  })
+                );
+                dispatch(
+                  actions.UpUIState.showErrorAlert({
+                    type: "success",
+                    title: "操作成功",
+                    onHide: this.onAlertWarnHide.bind(this),
+                  })
+                );
+                this.handleMajorCancel();
+
+                dispatch(
+                  actions.UpDataState.getTree_Univ(
+                    "/GetTree_Univ?schoolID=" + DataState.LoginUser.SchoolID
+                  )
+                );
+                // dispatch(
+                //   actions.UpDataState.getUnivStudentPreview(
+                //     "/GetStudentToPage_Univ?SchoolID=" +
+                //       DataState.LoginUser.SchoolID +
+                //       (GradeStudentPreview.College.value
+                //         ? "&collegeID=" + GradeStudentPreview.College.value
+                //         : "") +
+                //       (GradeStudentPreview.Major.value
+                //         ? "&majorID=" + GradeStudentPreview.Major.value
+                //         : "") +
+                //       (GradeStudentPreview.Grade.value
+                //         ? "&gradeID=" + GradeStudentPreview.Grade.value
+                //         : "") +
+                //       (GradeStudentPreview.Class.value
+                //         ? "&classID=" + GradeStudentPreview.Class.value
+                //         : "") +
+                //       "&PageIndex=0&PageSize=10"
+                //     // { value: CollegeSelect.value, title: CollegeSelect.title }
+                //   )
+                // );
+              },
+            })
+          );
+        }
+      } else {
+        dispatch(
+          UpDataState.SetEditMajorSelectChange({
+            TisTitleVisible: true,
+            TisTitle:
+              "专业名称应由1-20位的汉字、字母、数字以及括号组成，建议以学院为前缀",
+          })
+        );
+      }
+    }
+  };
+  UserComm_CheckGroupName(strInput) {
+    //用户群名称检测（学校、年级、班级、教师组、专家组）
+    return /^[0-9a-zA-Z()（）\u4E00-\u9FA5\uF900-\uFA2D-]{1,20}$/.test(
+      strInput
+    );
+  }
+
+  handleMajorCancel = () => {
+    const { dispatch } = this.props;
+
+    dispatch(
+      UpDataState.SetEditMajorSelectChange({
+        EditMajorModalVivsible: false,
+        Name: "",
+        Id: "",
+        TisTitle: "专业名称格式不正确",
+        TisTitleVisible: false,
+      })
     );
   };
   render() {
@@ -1522,6 +1857,27 @@ class Student extends React.Component {
     //     userAddress: '蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团'
     // };
     //  console.log(this.state.pagination)
+    let {
+      GradeClassMsg: { Grades },
+    } = DataState;
+    let GradeList = [{ value: 0, title: "全部年级" }];
+    for (let i in Grades) {
+      if (Grades[i] instanceof Array) {
+        GradeList = Grades[i];
+        break;
+      }
+    }
+
+    let {
+      CommonData: {
+        EditMajor: {
+          StudentLoading,
+          type,
+          ModalVisible,
+          EditMajorModalVivsible,
+        },
+      },
+    } = DataState;
     return (
       <div className="Student">
         <div className="Student-box">
@@ -1530,7 +1886,7 @@ class Student extends React.Component {
               <span className="tips menu39 ">学生档案管理</span>
             </span>
             <div className="top-nav">
-              <Link
+              {/* <Link
                 className="link"
                 to="/UserArchives/Graduate"
                 target="_blank"
@@ -1538,15 +1894,40 @@ class Student extends React.Component {
               >
                 <span className="Graduate">毕业生档案管理</span>
               </Link>
-              <span className="divide">|</span>
-              <Link
+              <span className="divide">|</span> */}
+              <span
                 className="link"
-                target="_blank"
-                to="/RegisterExamine"
-                replace
+                style={{ cursor: "pointer" }}
+                onClick={this.onEditMajor}
               >
-                <span className="RegisterExamine">学生注册审核<i style={{display:DataState.GetSignUpLog.WillData.Total?'inline-block':'none'}} className='have-red'></i></span>
-              </Link>
+                <span className="addMajor">专业管理</span>
+              </span>
+              <span className="divide">|</span>
+              <a
+                className="link"
+                // target="_blank"
+                // to="/RegisterExamine"
+                // replace
+              >
+                <span
+                  onClick={this.onLinkClick.bind(
+                    this,
+                    "学生注册审核",
+                    "#/RegisterExamine/RegisterWillExamine"
+                  )}
+                  className="RegisterExamine"
+                >
+                  学生注册审核
+                  <i
+                    style={{
+                      display: DataState.GetSignUpLog.WillData.Total
+                        ? "inline-block"
+                        : "none",
+                    }}
+                    className="have-red"
+                  ></i>
+                </span>
+              </a>
               <span className="divide">|</span>
               <span
                 className="link"
@@ -1556,14 +1937,23 @@ class Student extends React.Component {
                 <span className="add">添加学生</span>
               </span>
               <span className="divide">|</span>
-              <Link
+              <a
                 className="link"
-                target="_blank"
-                to="/ImportFile/Student"
-                replace
+                // target="_blank"
+                // to="/ImportFile/Student"
+                // replace
               >
-                <span className="ImportFile">导入学生</span>
-              </Link>
+                <span
+                  onClick={this.onLinkClick.bind(
+                    this,
+                    "导入学生",
+                    "#/ImportFile/Student"
+                  )}
+                  className="ImportFile"
+                >
+                  导入学生
+                </span>
+              </a>
             </div>
           </div>
           <div className="Student-hr"></div>
@@ -1574,7 +1964,7 @@ class Student extends React.Component {
                 onChange={this.StudentDropMenu}
                 width={120}
                 disabled={this.state.userType}
-                title="班级："
+                title="院系专业:"
                 height={240}
                 dropSelectd={this.state.firstSelect}
                 dropList={this.state.firstList}
@@ -1583,9 +1973,11 @@ class Student extends React.Component {
                 ref="dropMenuSecond"
                 width={120}
                 height={240}
-                style={{
-                  display: this.state.firstSelect.value !== 0 ? "block" : "none"
-                }}
+                // style={{
+                //   display:
+                //     this.state.firstSelect.value !== 0 ? "block" : "none",
+                // }}
+                disabled={this.state.firstSelect.value !== 0 ? false : true}
                 dropSelectd={this.state.secondSelect}
                 dropList={this.state.secondList}
                 onChange={this.StudentDropMenuSecond}
@@ -1594,27 +1986,36 @@ class Student extends React.Component {
                 ref="dropMenuThird"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.secondSelect.value !== 0 ? "block" : "none"
-                }}
+                style={{marginLeft:'70px'}}
+                title={"年级班级:"}
+                // style={{
+                //   display:
+                //     this.state.secondSelect.value !== 0 ? "block" : "none",
+                // }}
                 dropSelectd={this.state.thirdSelect}
-                dropList={this.state.thirdList}
+                dropList={GradeList}
                 onChange={this.StudentDropMenuThird}
               ></DropDown>
               <DropDown
                 ref="dropMenuFourth"
                 width={120}
                 height={240}
-                style={{
-                  display: this.state.thirdSelect.value !== 0 ? "block" : "none"
-                }}
+                // style={{
+                //   display:
+                //     this.state.thirdSelect.value !== 0 ? "block" : "none",
+                // }}
+                disabled={
+                  this.state.firstSelect.value !== 0 &&
+                  this.state.secondSelect.value !== 0 &&
+                  this.state.thirdSelect.value !== 0
+                    ? false
+                    : true
+                }
                 dropSelectd={this.state.fourthSelect}
                 dropList={this.state.fourthList}
                 onChange={this.StudentDropMenuFourth}
               ></DropDown>
               <div className="Search">
-                
                 <Search
                   placeHolder="请输入学号或姓名进行搜索..."
                   onClickSearch={this.StudentSearch.bind(this)}
@@ -1625,10 +2026,11 @@ class Student extends React.Component {
                   onChange={this.onChangeSearch.bind(this)}
                   CancelBtnShow={this.state.CancelBtnShow}
                 ></Search>
-                 <span
+                <span
                   className="search-tips"
                   style={{
-                    display: this.state.CancelBtnShow === "y" ? "block" : "none"
+                    display:
+                      this.state.CancelBtnShow === "y" ? "block" : "none",
                   }}
                 >
                   <span>
@@ -1640,14 +2042,13 @@ class Student extends React.Component {
                   人
                 </span>
               </div>
-             
             </div>
             <div className="content-render">
               <Loading
                 tip="加载中..."
                 opacity={false}
                 size="large"
-                spinning={UIState.AppLoading.TableLoading}
+                spinning={StudentLoading}
               >
                 <div>
                   <CheckBoxGroup
@@ -1719,6 +2120,7 @@ class Student extends React.Component {
           ref="handleStudentMadal"
           bodyStyle={{ padding: 0 }}
           type="1"
+          destroyOnClose
           title="编辑学生"
           visible={this.state.studentModalVisible}
           onOk={this.handleStudentModalOk}
@@ -1778,6 +2180,7 @@ class Student extends React.Component {
           bodyStyle={{ padding: 0 }}
           type="1"
           title={"添加学生"}
+          destroyOnClose
           visible={this.state.addStudentModalVisible}
           onOk={this.handleAddStudentModalOk}
           onCancel={this.handleAddStudentModalCancel}
@@ -1797,17 +2200,52 @@ class Student extends React.Component {
           data={this.state.detailData ? this.state.detailData : []}
           type="student"
         ></DetailsModal>
+        <Modal
+          type={1}
+          title="专业管理"
+          visible={ModalVisible}
+          mask={true}
+          width={810}
+          footer={null}
+          bodyStyle={{ height: 480, padding: 0 }}
+          className="editMajorModal"
+          onOk={this.editMajorOk.bind(this)}
+          onCancel={this.editMajorCancel.bind(this)}
+        >
+          {/*弹出层内容区域*/}
+
+          <div className="ModalContent">
+            <EditMajorModal></EditMajorModal>
+          </div>
+        </Modal>
+        <Modal
+          type={1}
+          title={type === "add" ? "添加专业" : "编辑专业"}
+          visible={EditMajorModalVivsible}
+          mask={true}
+          width={400}
+          bodyStyle={{ height: 130, padding: 0 }}
+          className="HandleMajorModal"
+          onOk={this.handleMajorOk.bind(this)}
+          onCancel={this.handleMajorCancel.bind(this)}
+        >
+          {/*弹出层内容区域*/}
+
+          <div className="ModalContent">
+            <HandleMajorModal></HandleMajorModal>
+          </div>
+        </Modal>
         {/* 提示框 */}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(Student);

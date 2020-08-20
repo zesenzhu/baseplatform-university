@@ -3,16 +3,17 @@
     position: relative;
     top: 0;
     right: 0;
-    width: 944px;
+    // width: 944px;
     height: 678px;
+    padding: 15px 30px;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.03);
     border-radius: 12px;
     box-sizing: border-box;
     padding-top: 30px;
     // background-color:#e68900;
     .guide {
-        width: 881px;
-        margin-left: 30px;
+        // width: 881px;
+        // margin-left: 30px;
         border-bottom: 1px dashed #ccc;
         padding-bottom: 10px;
         .subsystem-logo {
@@ -25,7 +26,8 @@
             margin-left: 8px;
             display: inline-block;
             width: 140px;
-            height: 17px;
+            // height: 17px;
+            line-height: 20px;
             font-family: MicrosoftYaHei;
             font-size: 18px;
             font-weight: normal;
@@ -38,7 +40,7 @@
     .subsystem-detail {
         margin-top: 16px;
         margin-bottom: 16px;
-        margin-left: 54px;
+        // margin-left: 54px;
         width: 255px;
         height: 20px;
         font-family: MicrosoftYaHei;
@@ -64,7 +66,7 @@
         width: 195px;
         height: 28px;
         margin-top: 12px;
-        margin-left: 54px;
+        // margin-left: 54px;
         select {
             margin-right: 8px;
         }
@@ -76,9 +78,10 @@
         }
     }
     .subsystem-search {
-        display: inline-block;
-        margin-left: 232px;
+        // display: inline-block;
+        // margin-left: 232px;
         margin-top: 12px;
+        float: right;
         width: 220px;
         height: 28px;
     }
@@ -86,7 +89,7 @@
         .Empty {
             @include Center();
         }
-        padding: 0 54px;
+        // padding: 0 54px;
         .subsystem-wall {
             position: relative;
             width: 258px;
@@ -104,17 +107,17 @@
                     box-shadow: 0px 6px 6px 0px #abbfd1;
                 }
             }
-            &:nth-child(3n+1) {
+            &:nth-child(4n+1) {
                 margin-left: 0;
             }
-            &:nth-child(3n+2) {
+            &:nth-child(4n+2) {
                 .subsystem-content {
                     .pic-bg {
                         background: url("../images/tomato_bg.png");
                     }
                 }
             }
-            &:nth-child(3n+3) {
+            &:nth-child(4n+3) {
                 .subsystem-content {
                     .pic-bg {
                         background: url("../images/green_bg.png");

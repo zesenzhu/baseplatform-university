@@ -1130,7 +1130,7 @@ class SchoolnfoSetting extends Component {
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
-          <div className="edite-info-box">
+          <div className="edite-info-box edit-info-box-2">
             <span className="top-tips">学校基础资料</span>
             <div
               className="edite-info"

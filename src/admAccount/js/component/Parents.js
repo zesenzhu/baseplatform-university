@@ -108,60 +108,154 @@ class Parents extends React.Component {
             );
           },
         },
+        // {
+        //   title: "个性签名",
+        //   align: "center",
+        //   width: 300,
+        //   dataIndex: "Sign",
+        //   key: "Sign",
+        //   render: (Sign) => {
+        //     return (
+        //       <span className="Sign" title={Sign}>
+        //         {Sign ? Sign : "--"}
+        //       </span>
+        //     );
+        //   },
+        // },
+        // {
+        //   title: "联系方式",
+        //   align: "center",
+        //   width: 120,
+        //   key: "UserContact",
+        //   dataIndex: "UserContact",
+        //   render: (UserContact) => {
+        //     return (
+        //       <Tooltip
+        //         placement="topLeft"
+        //         trigger="click"
+        //         arrowPointAtCenter={true}
+        //         title={<TipsContact data={UserContact}></TipsContact>}
+        //       >
+        //         <span
+        //           className="UserContact"
+        //           onClick={this.onUserContactClick.bind(this, UserContact)}
+        //         >
+        //           查看
+        //         </span>
+        //       </Tooltip>
+        //     );
+        //   },
+        // },
         {
-          title: "个性签名",
+          title: "最后一次登录",
           align: "center",
-          width: 300,
-          dataIndex: "Sign",
-          key: "Sign",
-          render: (Sign) => {
+          width: 200,
+          // dataIndex: "LastTime",
+          key: "LastTime",
+          render: (data) => {
             return (
-              <span className="Sign" title={Sign}>
-                {Sign ? Sign : "--"}
-              </span>
+              <div className="LastTime">
+                <p
+                  className="last"
+                  title={
+                    data.Others && data.Others.LastTimeLogin
+                      ? data.Others.LastTimeLogin
+                      : "--"
+                  }
+                >
+                  时间:
+                  {data.Others && data.Others.LastTimeLogin
+                    ? data.Others.LastTimeLogin
+                    : "--"}
+                </p>
+                <p
+                  className="last"
+                  title={
+                    data.Others && data.Others.LastTimeIP
+                      ? data.Others.LastTimeIP
+                      : "--"
+                  }
+                >
+                  IP:
+                  {data.Others && data.Others.LastTimeIP
+                    ? data.Others.LastTimeIP
+                    : "--"}
+                </p>
+              </div>
             );
           },
         },
         {
           title: "联系方式",
           align: "center",
-          width: 120,
+          width: 270,
           key: "UserContact",
           dataIndex: "UserContact",
           render: (UserContact) => {
             return (
-              <Tooltip
-                placement="topLeft"
-                trigger="click"
-                arrowPointAtCenter={true}
-                title={<TipsContact data={UserContact}></TipsContact>}
-              >
-                <span
-                  className="UserContact"
-                  onClick={this.onUserContactClick.bind(this, UserContact)}
-                >
-                  查看
-                </span>
-              </Tooltip>
+              <div className="uc">
+                <div className="uc-float">
+                  <p className="uc-box uc-left">
+                    <span
+                      title={UserContact.QQ ? UserContact.QQ : "--"}
+                      className="uc-title uc-QQ"
+                    >
+                      {UserContact.QQ ? UserContact.QQ : "--"}
+                    </span>
+                    <span
+                      title={UserContact.Weibo ? UserContact.Weibo : "--"}
+                      className="uc-title uc-Weibo"
+                    >
+                      {UserContact.Weibo ? UserContact.Weibo : "--"}
+                    </span>
+                  </p>
+                </div>
+                <div className="uc-float">
+                  <p className="uc-box uc-right">
+                    <span
+                      title={UserContact.WeiXin ? UserContact.WeiXin : "--"}
+                      className="uc-title uc-WeiXin"
+                    >
+                      {UserContact.WeiXin ? UserContact.WeiXin : "--"}
+                    </span>
+                    <span
+                      title={
+                        UserContact.Telephone ? UserContact.Telephone : "--"
+                      }
+                      className="uc-title uc-Telephone"
+                    >
+                      {UserContact.Telephone ? UserContact.Telephone : "--"}
+                    </span>
+                  </p>
+                </div>
+              </div>
             );
           },
         },
         {
           title: "操作",
-          width: 132,
+          width: 232,
           align: "center",
           key: "handle",
-          dataIndex: "key",
-          render: (key) => {
+          // dataIndex: "key",
+          render: (data) => {
             return (
               <div className="handle-content">
                 <Button
                   color="blue"
                   type="default"
-                  onClick={this.onChangePwdClick.bind(this, key)}
+                  onClick={this.onChangePwdClick.bind(this, data.key)}
                   className="handle-btn"
                 >
                   重置密码
+                </Button>
+                <Button
+                  color={data.Others.IsEnable ? "red" : "green"}
+                  type="default"
+                  onClick={this.onChangeEnableClick.bind(this, data.key)}
+                  className="handle-btn"
+                >
+                  {data.Others.IsEnable ? "禁用账号" : "启用账号"}
                 </Button>
               </div>
             );
@@ -204,7 +298,12 @@ class Parents extends React.Component {
         "密码应由8-20位字母、数字及特殊字符`~!@#$%^&*()_+-={}|[]:\";'<>?,./\\的任意两种及以上组成",
       ChangeAllPwdMadalVisible: false,
       PwdStrong: 0,
-      userType: props.DataState.LoginUser.UserType === '0' &&(props.DataState.LoginUser.UserClass === '3'||props.DataState.LoginUser.UserClass === '4') ? true : false //0为学院，6为学校
+      userType:
+        props.DataState.LoginUser.UserType === "0" &&
+        (props.DataState.LoginUser.UserClass === "3" ||
+          props.DataState.LoginUser.UserClass === "4")
+          ? true
+          : false, //0为学院，6为学校
     };
     window.ParentsCancelSearch = this.ParentsCancelSearch.bind(this);
   }
@@ -334,7 +433,7 @@ class Parents extends React.Component {
         firstSelect: college,
       });
     }
-  } 
+  }
 
   // 第一级：学院
 
@@ -356,7 +455,7 @@ class Parents extends React.Component {
         keyword: "",
         pagination: 1,
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondList: DataState.GradeClassMsg.Majors[e.value],
         thirdList: [{ value: 0, title: "全部年级" }],
@@ -368,6 +467,9 @@ class Parents extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
@@ -384,7 +486,7 @@ class Parents extends React.Component {
         // pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         // keyword: "",
         pagination: 1,
@@ -396,6 +498,9 @@ class Parents extends React.Component {
         actions.UpDataState.getGradeParentsPreview(
           "/GetParentsToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType
@@ -419,11 +524,11 @@ class Parents extends React.Component {
         CancelBtnShow: "n",
         searchValue: "",
 
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         keyword: "",
         pagination: 1,
-        thirdList: [{ value: 0, title: "全部年级" }],
+        // thirdList: [{ value: 0, title: "全部年级" }],
         fourthList: [{ value: 0, title: "全部班级" }],
         // pagination: 1
       });
@@ -433,6 +538,9 @@ class Parents extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
@@ -446,12 +554,16 @@ class Parents extends React.Component {
         secondSelect: e,
         searchValue: "",
         CancelBtnShow: "n",
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         keyword: "",
         pagination: 1,
         thirdList: DataState.GradeClassMsg.Grades[e.value],
-        fourthList: [{ value: 0, title: "全部班级" }],
+        fourthList: this.state.thirdSelect.value
+          ? DataState.GradeClassMsg.Classes[e.value][
+              this.state.thirdSelect.value
+            ]
+          : [],
         // pagination: 1
       });
       dispatch(
@@ -460,6 +572,9 @@ class Parents extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&majorID=" +
             e.value +
             "&PageIndex=0&PageSize=10" +
@@ -496,10 +611,12 @@ class Parents extends React.Component {
         actions.UpDataState.getGradeParentsPreview(
           "/GetParentsToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             this.state.sortFiled +
             this.state.sortType,
@@ -517,20 +634,23 @@ class Parents extends React.Component {
         fourthSelect: { value: 0, title: "全部班级" },
         keyword: "",
         pagination: 1,
-        fourthList:
-          DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
-            e.value
-          ],
+        fourthList: this.state.secondSelect.value
+          ? DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
+              e.value
+            ]
+          : [],
         // pagination: 1
       });
       dispatch(
         actions.UpDataState.getGradeParentsPreview(
           "/GetParentsToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&gradeID=" +
             e.value +
             "&PageIndex=0&PageSize=10" +
@@ -1271,7 +1391,81 @@ class Parents extends React.Component {
       )
     );
   };
+  onChangeEnableClick = (key, isEnable) => {
+    const {
+      dispatch,
+      DataState: {
+        GradeParentsPreview: { newList },
+      },
+    } = this.props;
+    let {
+      Others: { UserID, UserType, IsEnable },
+    } = newList[key];
+    // console.log(IsEnable);
+    let firstSelect = "";
+    let secondSelect = "";
+    let keyword = "";
+    if (this.state.firstSelect.value !== 0) {
+      firstSelect = "&collegeID=" + this.state.firstSelect.value;
+    }
+    if (this.state.secondSelect.value !== 0) {
+      secondSelect = "&majorID=" + this.state.secondSelect.value;
+    }
+    if (this.state.keyword !== "") {
+      keyword = "&keyword=" + this.state.keyword;
+    }
+    this.setState({
+      checkedList: [],
+      checkAll: false,
+      firstSelectStr: firstSelect,
+      secondSelectStr: secondSelect,
+      keywordStr: keyword,
+    });
+    dispatch(
+      actions.UpDataState.DisableAccount({
+        UserID,
+        UserType,
+        Flag: !IsEnable ? 1 : 0,
+        func: () => {
+          dispatch(
+            actions.UpUIState.showErrorAlert({
+              type: "success",
+              title: "操作成功",
+              onHide: this.onAlertWarnHide.bind(this),
+            })
+          );
+          this.setState({
+            ChangePwdMadalVisible: false,
+            defaultPwd: "pwd888888",
+            checkedList: [],
+            checkAll: false,
+            PwdStrong: 0,
+          });
 
+          dispatch(
+            actions.UpDataState.getGradeParentsPreview(
+              "/GetParentsToPage_univ?SchoolID=" +
+                this.state.userMsg.SchoolID +
+                "&PageIndex=" +
+                (this.state.pagination - 1) +
+                "&PageSize=10" +
+                keyword +
+                firstSelect +
+                secondSelect +
+                (this.state.thirdSelect.value
+                  ? "&gradeID=" + this.state.thirdSelect.value
+                  : "") +
+                (this.state.fourthSelect.value
+                  ? "&classID=" + this.state.fourthSelect.value
+                  : "") +
+                this.state.sortFiled +
+                this.state.sortType
+            )
+          );
+        },
+      })
+    );
+  };
   //table改变，进行排序操作
   onTableChange = (a, b, sorter) => {
     const { DataState, dispatch } = this.props;
@@ -1490,6 +1684,16 @@ class Parents extends React.Component {
       userMail: "1519406168@qq.com",
       userAddress: "蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团蓝鸽集团",
     };
+    let {
+      GradeClassMsg: { Grades },
+    } = DataState;
+    let GradeList = [{ value: 0, title: "全部年级" }];
+    for (let i in Grades) {
+      if (Grades[i] instanceof Array) {
+        GradeList = Grades[i];
+        break;
+      }
+    }
     return (
       <div className="Parents">
         <div className="Parents-box">
@@ -1524,10 +1728,11 @@ class Parents extends React.Component {
                 ref="dropMenuSecond"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.firstSelect.value !== 0 ? "block" : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.firstSelect.value !== 0 ? "block" : "none",
+                // }}
+                disabled={this.state.firstSelect.value !== 0 ? false : true}
                 dropSelectd={this.state.secondSelect}
                 dropList={this.state.secondList}
                 onChange={this.ParentsDropMenuSecond}
@@ -1536,22 +1741,31 @@ class Parents extends React.Component {
                 ref="dropMenuThird"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.secondSelect.value !== 0 ? "block" : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.secondSelect.value !== 0 ? "block" : "none",
+                // }}
+                title={"年级班级:"}
+                style={{ marginLeft: "70px" }}
                 dropSelectd={this.state.thirdSelect}
-                dropList={this.state.thirdList}
+                dropList={GradeList}
                 onChange={this.ParentsDropMenuThird}
               ></DropDown>
               <DropDown
                 ref="dropMenuFourth"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.thirdSelect.value !== 0 ? "block" : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.thirdSelect.value !== 0 ? "block" : "none",
+                // }}
+                disabled={
+                  this.state.firstSelect.value !== 0 &&
+                  this.state.secondSelect.value !== 0 &&
+                  this.state.thirdSelect.value !== 0
+                    ? false
+                    : true
+                }
                 dropSelectd={this.state.fourthSelect}
                 dropList={this.state.fourthList}
                 onChange={this.ParentsDropMenuFourth}

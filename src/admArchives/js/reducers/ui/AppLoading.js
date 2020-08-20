@@ -1,5 +1,5 @@
 import UpUIState from '../../actions/UpUIState';
-const AppLoading = (state = { modalLoading:false,appLoading: true, RightLoading: false, TableLoading: false }, actions) => {
+const AppLoading = (state = { modalLoading:false,appLoading: true, RightLoading: false, TableLoading: true }, actions) => {
     switch (actions.type) {
         case UpUIState.APP_LOADING_OPEN:
             return Object.assign({}, state, { appLoading: true });

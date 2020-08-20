@@ -55,7 +55,7 @@ class PowerContent extends React.Component {
       {
         PowerID: id,
         SchoolID: this.state.userMsg.SchoolID,
-        Status: value ? 1 : 0,
+        Status:id==='Student_SginUp'||id==='Teacher_SginUp' ?(value ? 2 : 1):(value ? 1 : 0),
       },
       2
     )
@@ -68,7 +68,9 @@ class PowerContent extends React.Component {
             disabled: false,
           });
           if (json.Data === null) {
-            Power = this.handlePower(Power, value ? 1 : 0, id);
+            // Power = this.handlePower(Power, value ? 1 : 0, id);
+            Power = this.handlePower(Power, id==='Student_SginUp'||id==='Teacher_SginUp' ?(value ? 2 : 1):(value ? 1 : 0), id);
+
             dispatch(actions.UpDataState.setUserPowerMsg(Power));
           } else if (json.Data === -2) {
             // console.log('参数错误')
@@ -145,7 +147,9 @@ class PowerContent extends React.Component {
   render() {
     const { DataState, UIState } = this.props;
     let Power = DataState.GetUserPowerMsg.Power;
-    let {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));//有部门要求不要班主任，ProductType为2就去掉班主任
+    let { ProductType } = JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    ); //有部门要求不要班主任，ProductType为2就去掉班主任
     // console.log(ProductType)
     // console.log(Power)
     return (
@@ -168,13 +172,27 @@ class PowerContent extends React.Component {
                     <div>
                       <Radio
                         value={Power.student[0].PowerID}
-                        checked={Power.student[0].Status !== 0 ? true : false}
+                        checked={Power.student[0].Status !== 1 ? true : false}
                         className="radio"
                         onChange={this.onRadioChange.bind(this)}
                       >
-                        {Power.student[0].PowerName}
+                        {/* {Power.student[0].PowerName}
+                         */}
+                        <span className="radio-tips-1">
+                          {Power.student[0].PowerName}
+                        </span>
+                        <span className="radio-tips-2">
+                          ({" "}
+                          {
+                            Power.student[0].Status === 1
+                              ? "需要经过学校管理员或班主任审核确认后，系统才会为学生创建用户账号"
+                              : "注册完成时，即可使用，不需要经过审核"
+                            // "在学生提交档案时系统便为其创建用户账号"
+                          }
+                          )
+                        </span>
                       </Radio>
-                      <div className="radio-box-2">
+                      {/* <div className="radio-box-2">
                         <RadioGroup
                           name="radioGroup"
                           value={Power.student[0].Status}
@@ -209,7 +227,7 @@ class PowerContent extends React.Component {
                             </span>
                           </div>
                         </RadioGroup>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -222,13 +240,26 @@ class PowerContent extends React.Component {
                   <div>
                     <Radio
                       value={Power.teacher[0].PowerID}
-                      checked={Power.teacher[0].Status !== 0 ? true : false}
+                      checked={Power.teacher[0].Status !== 1 ? true : false}
                       className="radio"
                       onChange={this.onRadioChange.bind(this)}
                     >
-                      {Power.teacher[0].PowerName}
+                      {/* {Power.teacher[0].PowerName} */}
+                      <span className="radio-tips-1">
+                        {Power.teacher[0].PowerName}
+                      </span>
+                      <span className="radio-tips-2">
+                        (
+                        {
+                          Power.teacher[0].Status === 1
+                            ? "需要经过学校管理员审核确认后，系统才会为教师创建用户账号"
+                            : "注册完成时，即可使用，不需要经过审核"
+                          // "在学生提交档案时系统便为其创建用户账号"
+                        }
+                        )
+                      </span>
                     </Radio>
-                    <div className="radio-box-2">
+                    {/* <div className="radio-box-2">
                       <RadioGroup
                         name="radioGroup"
                         value={Power.teacher[0].Status}
@@ -263,7 +294,7 @@ class PowerContent extends React.Component {
                           </span>
                         </div>
                       </RadioGroup>
-                    </div>
+                    </div> */}
                     {Power.teacher instanceof Array &&
                       Power.teacher.map((child, index) => {
                         if (index === 0) {
@@ -277,7 +308,22 @@ class PowerContent extends React.Component {
                               className="radio"
                               onChange={this.onRadioChange.bind(this)}
                             >
-                              {child.PowerName}
+                              {/* {child.PowerName} */}
+                              <span className="radio-tips-1">
+                                {child.PowerName}
+                              </span>
+                              <span className="radio-tips-2">
+                                {
+                                  child.PowerID === "Teacher_CourseClass_CURD"
+                                    ? "(可以自主添加、修改、删除教学班)"
+                                    : child.PowerID === "Teacher_Schedule_C"
+                                    ? "(可以自主录入课表安排)"
+                                    : child.PowerID === "Teacher_Schedule_U"
+                                    ? "(可以调整个人课表)"
+                                    : ""
+                                  // "在学生提交档案时系统便为其创建用户账号"
+                                }
+                              </span>
                             </Radio>
                           );
                       })}
@@ -318,7 +364,18 @@ class PowerContent extends React.Component {
                                 className="radio"
                                 onChange={this.onRadioChange.bind(this)}
                               >
-                                {child.PowerName}
+                                {/* {child.PowerName} */}
+                                <span className="radio-tips-1">
+                                  {child.PowerName}
+                                </span>
+                                <span className="radio-tips-2">
+                                  {
+                                    child.PowerID === "Ganger_Student_CURD"
+                                      ? "(可以自主添加、修改、删除班级学生档案)"
+                                      : ""
+                                    // "在学生提交档案时系统便为其创建用户账号"
+                                  }
+                                </span>
                               </Radio>
                             );
                           })
@@ -364,6 +421,39 @@ class PowerContent extends React.Component {
                   </div>
                 </div>
               </div> */}
+              <div className="content-row clearfix">
+                <div className="left">
+                  <img width={108} height={116} alt="director" src={director} />
+                </div>
+                <div className="right">
+                  <div>
+                    {Power.parents instanceof Array &&
+                      Power.parents.map((child, index) => {
+                        return (
+                          <Radio
+                            key={child.PowerID}
+                            value={child.PowerID}
+                            checked={child.Status !== 0 ? true : false}
+                            className="radio"
+                            onChange={this.onRadioChange.bind(this)}
+                          >
+                            <span className="radio-tips-1">
+                              {child.PowerName}
+                            </span>
+                            <span className="radio-tips-2">
+                              {
+                                child.PowerID === "Parents_Show"
+                                  ? "(可以登录平台访问相应功能)"
+                                  : ""
+                                // "在学生提交档案时系统便为其创建用户账号"
+                              }
+                            </span>
+                          </Radio>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             ""

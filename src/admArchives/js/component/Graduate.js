@@ -11,7 +11,7 @@ import {
   CheckBoxGroup,
   Modal,
   Loading,
-  Empty
+  Empty,
 } from "../../../common/index";
 //import '../../../common/scss/_left_menu.scss'
 import { Link } from "react-router-dom";
@@ -24,6 +24,7 @@ import "../../scss/Graduate.scss";
 import Public from "../../../common/js/public";
 import GraduateJobType from "./GraduateJobType";
 import GraduateContact from "./GraduateContact";
+let { checkUrlAndPostMsg } = Public;
 
 class Graduate extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Graduate extends React.Component {
           key: "OrderNo",
           width: 68,
           align: "center",
-          render: key => {
+          render: (key) => {
             return (
               <div className="registerTime-content">
                 {/* <CheckBox value={key.key} onChange={this.onCheckChange}></CheckBox> */}
@@ -47,7 +48,7 @@ class Graduate extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "",
@@ -56,7 +57,7 @@ class Graduate extends React.Component {
           colSpan: 0,
           width: 50,
           dataIndex: "UserImgs",
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 {/* <img
@@ -75,12 +76,12 @@ class Graduate extends React.Component {
                     width: "47px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.UserImg}) no-repeat center center / 47px`
+                    background: `url(${arr.UserImg}) no-repeat center center / 47px`,
                   }}
                 ></i>
               </div>
             );
-          }
+          },
         },
         {
           title: "姓名",
@@ -90,7 +91,7 @@ class Graduate extends React.Component {
           key: "UserName",
           dataIndex: "UserName",
           sorter: true,
-          render: arr => {
+          render: (arr) => {
             return (
               <div className="name-content">
                 <span
@@ -102,7 +103,7 @@ class Graduate extends React.Component {
                 </span>
               </div>
             );
-          }
+          },
         },
         {
           title: "学号",
@@ -111,13 +112,13 @@ class Graduate extends React.Component {
           key: "UserID",
           width: 120,
           sorter: true,
-          render: UserID => {
+          render: (UserID) => {
             return (
               <span title={UserID} className="UserID">
                 {UserID ? UserID : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "毕业年份",
@@ -125,13 +126,13 @@ class Graduate extends React.Component {
           dataIndex: "Grade",
           width: 110,
           key: "Grade",
-          render: Grade => {
+          render: (Grade) => {
             return (
               <span title={Grade.Year} className="GradeName">
                 {Grade.Year ? Grade.Year : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "班级",
@@ -139,13 +140,13 @@ class Graduate extends React.Component {
           align: "center",
           key: "Class",
           dataIndex: "Class",
-          render: arr => {
+          render: (arr) => {
             return (
               <span title={arr.ClassName} className="ClassName">
                 {arr.ClassName ? arr.ClassName : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "毕业去向",
@@ -153,14 +154,14 @@ class Graduate extends React.Component {
           align: "center",
           key: "JobType",
           dataIndex: "JobType",
-          render: JobType => {
+          render: (JobType) => {
             return JobType.HasTrack ? (
               <div className="JobType-box">
                 <span
                   title={JobType.JobType}
                   className="JobType"
                   style={{
-                    color: JobType.JobType === "升学" ? "#002871" : "#187100"
+                    color: JobType.JobType === "升学" ? "#002871" : "#187100",
                   }}
                 >
                   {JobType.JobType}
@@ -174,7 +175,7 @@ class Graduate extends React.Component {
                 不详
               </span>
             );
-          }
+          },
         },
         {
           title: "联系电话",
@@ -182,13 +183,13 @@ class Graduate extends React.Component {
           align: "center",
           key: "Telephone",
           dataIndex: "Telephone",
-          render: Telephone => {
+          render: (Telephone) => {
             return (
               <span title={Telephone} className="Telephone">
                 {Telephone ? Telephone : "--"}
               </span>
             );
-          }
+          },
         },
         {
           title: "操作",
@@ -218,8 +219,8 @@ class Graduate extends React.Component {
                 </Button>
               </div>
             );
-          }
-        }
+          },
+        },
       ],
       firstSelect: { value: 0, title: "全部学院" },
       secondSelect: { value: 0, title: "全部专业" },
@@ -246,7 +247,12 @@ class Graduate extends React.Component {
       searchWord: "",
       GraduateDetailsMsgModalVisible: false,
       EmptyTitle: "暂无毕业生档案数据",
-      userType: props.DataState.LoginUser.UserType === '0' &&(props.DataState.LoginUser.UserClass === '3'||props.DataState.LoginUser.UserClass === '4') ? true : false //0为学院，6为学校
+      userType:
+        props.DataState.LoginUser.UserType === "0" &&
+        (props.DataState.LoginUser.UserClass === "3" ||
+          props.DataState.LoginUser.UserClass === "4")
+          ? true
+          : false, //0为学院，6为学校
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -264,50 +270,54 @@ class Graduate extends React.Component {
     let pathArr = route.split("/");
     let handleRoute = pathArr[2];
     let ID = pathArr[3];
-    console.log({value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName})
+    console.log({
+      value: DataState.LoginUser.CollegeID,
+      title: DataState.LoginUser.CollegeName,
+    });
     // console.log(secondList, College);
     if (
-      College !== OldCollege && secondList instanceof Array &&
+      College !== OldCollege &&
+      secondList instanceof Array &&
       secondList.length <= 1 &&
       userType &&
       DataState.LoginUser.CollegeID
     ) {
-      let major = {value:0,title:'全部专业'}
-      if(ID!=='all'){
-        Majors[DataState.LoginUser.CollegeID] instanceof Array && Majors[DataState.LoginUser.CollegeID].map(child=>{
-          if(child.value===ID){
-            major = child
-          }
-        })
+      let major = { value: 0, title: "全部专业" };
+      if (ID !== "all") {
+        Majors[DataState.LoginUser.CollegeID] instanceof Array &&
+          Majors[DataState.LoginUser.CollegeID].map((child) => {
+            if (child.value === ID) {
+              major = child;
+            }
+          });
       }
       // console.log(major,Majors[DataState.LoginUser.CollegeID])
 
       this.setState({
         secondList: Majors[DataState.LoginUser.CollegeID],
-        secondSelect:major,
-        firstSelect:{value:DataState.LoginUser.CollegeID,title:DataState.LoginUser.CollegeName}
+        secondSelect: major,
+        firstSelect: {
+          value: DataState.LoginUser.CollegeID,
+          title: DataState.LoginUser.CollegeName,
+        },
       });
-      
-    }else if(College !== OldCollege &&!userType){
-      let college = {value:0,title:'全部学院'}
-      if(ID!=='all'){
-        for(let key in Majors){
-          if(key===ID){
-            college = key
-
+    } else if (College !== OldCollege && !userType) {
+      let college = { value: 0, title: "全部学院" };
+      if (ID !== "all") {
+        for (let key in Majors) {
+          if (key === ID) {
+            college = key;
           }
         }
-        
       }
-      console.log(college,College)
+      console.log(college, College);
       this.setState({
         firstList: College,
-        firstSelect:college
+        firstSelect: college,
       });
-
     }
   }
-  StudentDropMenu = e => {
+  StudentDropMenu = (e) => {
     const { dispatch, DataState } = this.props;
 
     let Classes = [{ value: 0, title: "全部班级" }];
@@ -324,11 +334,11 @@ class Graduate extends React.Component {
         // pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondList: DataState.GetGraduateGradeClassMsg.Majors[e.value],
-        thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        // thirdList: [{ value: 0, title: "全部年级" }],
+        fourthList: [{ value: 0, title: "全部班级" }],
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
@@ -336,9 +346,12 @@ class Graduate extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     } else {
@@ -351,27 +364,30 @@ class Graduate extends React.Component {
         // pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
 
         secondList: [{ value: 0, title: "全部专业" }],
-        thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        // thirdList: [{ value: 0, title: "全部年级" }],
+        fourthList: [{ value: 0, title: "全部班级" }],
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
           "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     }
   };
   // 第二级：专业
 
-  StudentDropMenuSecond = e => {
+  StudentDropMenuSecond = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -385,11 +401,11 @@ class Graduate extends React.Component {
         CancelBtnShow: "n",
         searchValue: "",
 
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
 
         thirdList: [{ value: 0, title: "全部年级" }],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
         // pagination: 1
       });
       dispatch(
@@ -398,9 +414,12 @@ class Graduate extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     } else {
@@ -410,11 +429,16 @@ class Graduate extends React.Component {
         secondSelect: e,
         searchValue: "",
         CancelBtnShow: "n",
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
 
         thirdList: DataState.GetGraduateGradeClassMsg.Grades[e.value],
-        fourthList: [{ value: 0, title: "全部班级" }]
+        // fourthList: [{ value: 0, title: "全部班级" }],
+        fourthList: this.state.thirdSelect.value
+          ? DataState.GetGraduateGradeClassMsg.Classes[e.value][
+              this.state.thirdSelect.value
+            ]
+          : [],
         // pagination: 1
       });
       dispatch(
@@ -423,17 +447,20 @@ class Graduate extends React.Component {
             this.state.userMsg.SchoolID +
             "&collegeID=" +
             this.state.firstSelect.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             "&majorID=" +
             e.value +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     }
   };
   // 第三级：年级
-  StudentDropMenuThird = e => {
+  StudentDropMenuThird = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -449,24 +476,31 @@ class Graduate extends React.Component {
 
         fourthSelect: { value: 0, title: "全部班级" },
 
-        fourthList: [{ value: 0, title: "全部班级" }]
+        fourthList: [{ value: 0, title: "全部班级" }],
         // pagination: 1
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
           "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     } else {
-      console.log(DataState.GetGraduateGradeClassMsg.Classes[this.state.secondSelect.value],e.value)
+      console.log(
+        DataState.GetGraduateGradeClassMsg.Classes[
+          this.state.secondSelect.value
+        ],
+        e.value
+      );
       this.setState({
         checkedList: [],
         checkAll: false,
@@ -474,18 +508,27 @@ class Graduate extends React.Component {
         searchValue: "",
         CancelBtnShow: "n",
         fourthSelect: { value: 0, title: "全部班级" },
-
-        fourthList: DataState.GetGraduateGradeClassMsg.Classes[this.state.secondSelect.value][e.value]
+        fourthList: this.state.secondSelect.value
+        ? DataState.GetGraduateGradeClassMsg.Classes[this.state.secondSelect.value][
+            e.value
+          ]
+        : [],
+        // fourthList:
+        //   DataState.GetGraduateGradeClassMsg.Classes[
+        //     this.state.secondSelect.value
+        //   ][e.value],
         // pagination: 1
       });
       dispatch(
         actions.UpDataState.getGraduatePreview(
           "/GetGraduate_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&gradeID=" +
             e.value +
             "&PageIndex=0&PageSize=10" +
@@ -496,7 +539,7 @@ class Graduate extends React.Component {
     }
   };
   // 第四级：班级
-  StudentDropMenuFourth = e => {
+  StudentDropMenuFourth = (e) => {
     const { dispatch, DataState } = this.props;
     //  console.log(e);
     // this.setState({
@@ -508,7 +551,7 @@ class Graduate extends React.Component {
         checkAll: false,
         fourthSelect: e,
         CancelBtnShow: "n",
-        searchValue: ""
+        searchValue: "",
 
         // pagination: 1
       });
@@ -524,7 +567,7 @@ class Graduate extends React.Component {
             this.state.thirdSelect.value +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     } else {
@@ -533,7 +576,7 @@ class Graduate extends React.Component {
         checkAll: false,
         fourthSelect: e,
         searchValue: "",
-        CancelBtnShow: "n"
+        CancelBtnShow: "n",
 
         // pagination: 1
       });
@@ -551,8 +594,7 @@ class Graduate extends React.Component {
             e.value +
             "&PageIndex=0&PageSize=10" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
-          (this.state.order ? "&SortType=" + this.state.order : "")
-         
+            (this.state.order ? "&SortType=" + this.state.order : "")
         )
       );
     }
@@ -608,7 +650,7 @@ class Graduate extends React.Component {
   //   );
   // };
   // 搜索 click
-  StudentSearch = e => {
+  StudentSearch = (e) => {
     const { dispatch, DataState } = this.props;
 
     if (e.value === "") {
@@ -618,7 +660,7 @@ class Graduate extends React.Component {
           title: "关键词不能为空",
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this)
+          close: this.onAlertWarnClose.bind(this),
         })
       );
       return;
@@ -633,7 +675,7 @@ class Graduate extends React.Component {
           title: "输入的学号或姓名格式不正确",
           ok: this.onAlertWarnOk.bind(this),
           cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this)
+          close: this.onAlertWarnClose.bind(this),
         })
       );
       return;
@@ -642,7 +684,7 @@ class Graduate extends React.Component {
       keyword: e.value,
       CancelBtnShow: "y",
       searchWord: e.value,
-      pagination: 1
+      pagination: 1,
     });
     dispatch(
       actions.UpDataState.getGraduatePreview(
@@ -651,37 +693,37 @@ class Graduate extends React.Component {
           "&PageIndex=0&PageSize=10&keyword=" +
           e.value +
           (this.state.firstSelect.value !== 0
-                    ? "&collegeID=" + this.state.firstSelect.value
-                    : "") +
-                  (this.state.secondSelect.value !== 0
-                    ? "&majorID=" + this.state.secondSelect.value
-                    : "") +
-                  (this.state.thirdSelect.value !== 0
-                    ? "&gradeID=" + this.state.thirdSelect.value
-                    : "") +
-                  (this.state.fourthSelect.value !== 0
-                    ? "&classID=" + this.state.fourthSelect.value
-                    : "") +
+            ? "&collegeID=" + this.state.firstSelect.value
+            : "") +
+          (this.state.secondSelect.value !== 0
+            ? "&majorID=" + this.state.secondSelect.value
+            : "") +
+          (this.state.thirdSelect.value !== 0
+            ? "&gradeID=" + this.state.thirdSelect.value
+            : "") +
+          (this.state.fourthSelect.value !== 0
+            ? "&classID=" + this.state.fourthSelect.value
+            : "") +
           (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
           (this.state.order ? "&SortType=" + this.state.order : "")
       )
     );
   };
   //搜索change
-  onChangeSearch = e => {
+  onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value.trim()
+      searchValue: e.target.value.trim(),
     });
   };
   // 取消搜索
-  onCancelSearch = e => {
+  onCancelSearch = (e) => {
     const { dispatch } = this.props;
 
     this.setState({
       CancelBtnShow: "n",
       keyword: "",
       searchValue: "",
-      pagination: 1
+      pagination: 1,
     });
     dispatch(
       actions.UpDataState.getGraduatePreview(
@@ -691,38 +733,38 @@ class Graduate extends React.Component {
           0 +
           "&PageSize=10" +
           (this.state.firstSelect.value !== 0
-                    ? "&collegeID=" + this.state.firstSelect.value
-                    : "") +
-                  (this.state.secondSelect.value !== 0
-                    ? "&majorID=" + this.state.secondSelect.value
-                    : "") +
-                  (this.state.thirdSelect.value !== 0
-                    ? "&gradeID=" + this.state.thirdSelect.value
-                    : "") +
-                  (this.state.fourthSelect.value !== 0
-                    ? "&classID=" + this.state.fourthSelect.value
-                    : "") +
+            ? "&collegeID=" + this.state.firstSelect.value
+            : "") +
+          (this.state.secondSelect.value !== 0
+            ? "&majorID=" + this.state.secondSelect.value
+            : "") +
+          (this.state.thirdSelect.value !== 0
+            ? "&gradeID=" + this.state.thirdSelect.value
+            : "") +
+          (this.state.fourthSelect.value !== 0
+            ? "&classID=" + this.state.fourthSelect.value
+            : "") +
           (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
           (this.state.order ? "&SortType=" + this.state.order : "")
       )
     );
   };
   //table 多选组
-  OnCheckAllChange = e => {
+  OnCheckAllChange = (e) => {
     //console.log(e)
     if (e.target.checked) {
       this.setState({
         checkedList: this.props.DataState.GradeStudentPreview.keyList,
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     } else {
       this.setState({
         checkedList: [],
-        checkAll: e.target.checked
+        checkAll: e.target.checked,
       });
     }
   };
-  onCheckBoxGroupChange = checkedList => {
+  onCheckBoxGroupChange = (checkedList) => {
     //console.log(checkedList)
     this.setState({
       checkedList,
@@ -730,7 +772,7 @@ class Graduate extends React.Component {
         checkedList.length ===
         this.props.DataState.GetGraduatePreview.keyList.length
           ? true
-          : false
+          : false,
     });
   };
   //监听table的change进行排序操作
@@ -781,7 +823,7 @@ class Graduate extends React.Component {
             ? "DESC"
             : sorter.order === "ascend"
             ? "ASC"
-            : ""
+            : "",
       });
     } else {
       dispatch(
@@ -807,12 +849,12 @@ class Graduate extends React.Component {
       );
       this.setState({
         columnKey: "",
-        order: ""
+        order: "",
       });
     }
   };
   // 分页
-  onPagiNationChange = e => {
+  onPagiNationChange = (e) => {
     const { dispatch, DataState } = this.props;
 
     //console.log(e)
@@ -843,19 +885,19 @@ class Graduate extends React.Component {
     this.setState({
       checkedList: [],
       checkAll: false,
-      pagination: e
+      pagination: e,
     });
   };
   // colunm 事件
-  onUserNameClick = key => {
+  onUserNameClick = (key) => {
     const { DataState } = this.props;
     this.setState({
       GraduateDetailsMsgModalVisible: true,
-      detailData: DataState.GetGraduatePreview.pensonalList[key]
+      detailData: DataState.GetGraduatePreview.pensonalList[key],
     });
   };
   // 编辑毕业去向
-  HandleJobType = key => {
+  HandleJobType = (key) => {
     // //console.log(key)
     const { dispatch, DataState } = this.props;
     let data = DataState.GetGraduatePreview.newList[key].handleMsg;
@@ -863,12 +905,12 @@ class Graduate extends React.Component {
       UserName: data.UserName,
       UserID: data.UserID,
       JobType: data.JobType,
-      Discription: data.Discription
+      Discription: data.Discription,
     };
     dispatch(actions.UpDataState.getGraduateMsg(GraduateMsg));
     dispatch(actions.UpUIState.HandleGraduateModalOpen());
   };
-  HandleContact = key => {
+  HandleContact = (key) => {
     // //console.log(key)
     const { dispatch, DataState } = this.props;
     let data = DataState.GetGraduatePreview.newList[key].handleMsg;
@@ -876,7 +918,7 @@ class Graduate extends React.Component {
       UserID: data.UserID,
       Email: data.Email,
       Telephone: data.Telephone,
-      HomeAddress: data.HomeAddress
+      HomeAddress: data.HomeAddress,
     };
     dispatch(actions.UpDataState.getGraduateContactMsg(GraduateMsg));
     dispatch(actions.UpUIState.HandleGraduateContactModalOpen());
@@ -884,12 +926,12 @@ class Graduate extends React.Component {
   // 用户信息弹窗
   GraduateDetailsMsgModalOk = () => {
     this.setState({
-      GraduateDetailsMsgModalVisible: false
+      GraduateDetailsMsgModalVisible: false,
     });
   };
   GraduateDetailsMsgModalCancel = () => {
     this.setState({
-      GraduateDetailsMsgModalVisible: false
+      GraduateDetailsMsgModalVisible: false,
     });
   };
   // 提示事件
@@ -925,7 +967,7 @@ class Graduate extends React.Component {
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
           close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
@@ -935,14 +977,14 @@ class Graduate extends React.Component {
       {
         userID: data.UserID,
         JobType: data.JobType || "升学",
-        Discription: data.Discription
+        Discription: data.Discription,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         // if (json.StatusCode !== 200) {
         //     dispatch(actions.UpUIState.showErrorAlert({
         //         type: 'btn-error',
@@ -957,7 +999,7 @@ class Graduate extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -1022,7 +1064,7 @@ class Graduate extends React.Component {
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
           close: this.onAppAlertClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this)
+          onHide: this.onAlertWarnHide.bind(this),
         })
       );
       return;
@@ -1033,14 +1075,14 @@ class Graduate extends React.Component {
         userID: data.UserID,
         Email: data.Email,
         Telephone: data.Telephone,
-        HomeAddress: data.HomeAddress
+        HomeAddress: data.HomeAddress,
       },
       2
     )
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         // if (json.StatusCode !== 200) {
         //     dispatch(actions.UpUIState.showErrorAlert({
         //         type: 'btn-error',
@@ -1055,7 +1097,7 @@ class Graduate extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(
@@ -1089,7 +1131,7 @@ class Graduate extends React.Component {
           actions.UpUIState.editModalTipsVisible({
             HomeAdressTipsVisible: false,
             EmailTipsVisible: false,
-            TelephoneTipsVisible: false
+            TelephoneTipsVisible: false,
           })
         );
         dispatch(actions.UpDataState.getGraduateMsg());
@@ -1103,7 +1145,7 @@ class Graduate extends React.Component {
       actions.UpUIState.editModalTipsVisible({
         HomeAdressTipsVisible: false,
         EmailTipsVisible: false,
-        TelephoneTipsVisible: false
+        TelephoneTipsVisible: false,
       })
     );
 
@@ -1129,12 +1171,28 @@ class Graduate extends React.Component {
     const { dispatch } = this.props;
     dispatch(actions.UpUIState.hideErrorAlert());
   }
-  onToGraduate =()=>{
-    window.open('/html/admArchives/#/ImportFile/Graduate')
-  }
+  onToGraduate = () => {
+    window.open("/html/admArchives/#/ImportFile/Graduate");
+  };
+  onLinkClick = (btnName, route) => {
+    let url = window.location.href.split(window.location.hash).join(route);
+
+    // console.log(url);
+    checkUrlAndPostMsg({ btnName, url });
+  };
   render() {
     const { DataState, UIState } = this.props;
     //console.log(DataState.GetGraduateGradeClassMsg, DataState.GetGraduateGradeClassMsg.Class[this.state.firstSelect.value])
+    let {
+      GetGraduateGradeClassMsg: { Grades },
+    } = DataState;
+    let GradeList = [{ value: 0, title: "全部年级" }];
+    for (let i in Grades) {
+      if (Grades[i] instanceof Array) {
+        GradeList = Grades[i];
+        break;
+      }
+    }
     return (
       <div id="Graduate" className="Graduate">
         <div className="Graduate-box">
@@ -1142,7 +1200,20 @@ class Graduate extends React.Component {
             <span className="top-tips">
               <span className="tips menu-location ">毕业生档案管理</span>
             </span>
-            <Button onClick={this.onToGraduate.bind(this)} className='btn-toGraduate' color='blue' shape='round'>导入毕业去向</Button>
+            <a
+              className="link"
+              // target="_blank"
+              // to="/ImportFile/Leader"
+              // replace
+              onClick={this.onLinkClick.bind(
+                this,
+                "导入毕业去向",
+                "#/ImportFile/Graduate"
+              )}
+            >
+              <span className="ImportFile">导入毕业去向</span>
+            </a>
+            {/* <Button onClick={this.onToGraduate.bind(this)} className='btn-toGraduate' color='blue' shape='round'>导入毕业去向</Button> */}
           </div>
           <div className="Graduate-hr"></div>
           <div className="Graduate-content">
@@ -1159,39 +1230,52 @@ class Graduate extends React.Component {
                   dropList={DataState.GetGraduateGradeClassMsg.College}
                 ></DropDown>
                 <DropDown
-                ref="dropMenuSecond"
-                width={120}
-                height={240}
-                style={{
-                  display: this.state.firstSelect.value !== 0 ? "block" : "none"
-                }}
-                dropSelectd={this.state.secondSelect}
-                dropList={this.state.secondList}
-                onChange={this.StudentDropMenuSecond}
-              ></DropDown>
-              <DropDown
-                ref="dropMenuThird"
-                width={120}
-                height={240}
-                style={{
-                  display:
-                    this.state.secondSelect.value !== 0 ? "block" : "none"
-                }}
-                dropSelectd={this.state.thirdSelect}
-                dropList={this.state.thirdList}
-                onChange={this.StudentDropMenuThird}
-              ></DropDown>
-              <DropDown
-                ref="dropMenuFourth"
-                width={120}
-                height={240}
-                style={{
-                  display: this.state.thirdSelect.value !== 0 ? "block" : "none"
-                }}
-                dropSelectd={this.state.fourthSelect}
-                dropList={this.state.fourthList}
-                onChange={this.StudentDropMenuFourth}
-              ></DropDown>
+                  ref="dropMenuSecond"
+                  width={120}
+                  height={240}
+                disabled={this.state.firstSelect.value !== 0 ? false : true}
+
+                  // style={{
+                  //   display:
+                  //     this.state.firstSelect.value !== 0 ? "block" : "none",
+                  // }}
+                  dropSelectd={this.state.secondSelect}
+                  dropList={this.state.secondList}
+                  onChange={this.StudentDropMenuSecond}
+                ></DropDown>
+                <DropDown
+                  ref="dropMenuThird"
+                  width={120}
+                  height={240}
+                  title={"年级班级:"}
+                style={{ marginLeft: "70px" }}
+                  // style={{
+                  //   display:
+                  //     this.state.secondSelect.value !== 0 ? "block" : "none",
+                  // }}
+                  dropSelectd={this.state.thirdSelect}
+                  dropList={GradeList}
+                  onChange={this.StudentDropMenuThird}
+                ></DropDown>
+                <DropDown
+                  ref="dropMenuFourth"
+                  width={120}
+                  height={240}
+                  // style={{
+                  //   display:
+                  //     this.state.thirdSelect.value !== 0 ? "block" : "none",
+                  // }}
+                  disabled={
+                    this.state.firstSelect.value !== 0 &&
+                    this.state.secondSelect.value !== 0 &&
+                    this.state.thirdSelect.value !== 0
+                      ? false
+                      : true
+                  }
+                  dropSelectd={this.state.fourthSelect}
+                  dropList={this.state.fourthList}
+                  onChange={this.StudentDropMenuFourth}
+                ></DropDown>
                 {/* <DropDown
                   ref="dropMenuSecond"
                   width={120}
@@ -1212,7 +1296,8 @@ class Graduate extends React.Component {
                 <span
                   className="search-tips"
                   style={{
-                    display: this.state.CancelBtnShow === "y" ? "block" : "none"
+                    display:
+                      this.state.CancelBtnShow === "y" ? "block" : "none",
                   }}
                 >
                   <span>
@@ -1236,44 +1321,44 @@ class Graduate extends React.Component {
               </div>
             </div>
             <div className="content-render">
-            <Loading
-            tip="加载中..."
-            opacity={false}
-            size="large"
-            spinning={UIState.AppLoading.TableLoading}
-          >
-              {DataState.GetGraduatePreview.newList instanceof Array &&
-              DataState.GetGraduatePreview.newList.length !== 0 ? (
-                <Table
-                  className="table"
-                  loading={UIState.AppLoading.TableLoading}
-                  columns={this.state.columns}
-                  pagination={false}
-                  onChange={this.onTableChange.bind(this)}
-                  dataSource={DataState.GetGraduatePreview.newList}
-                ></Table>
-              ) : (
-                <Empty
-                  title={
-                    this.state.CancelBtnShow === "y" ||
-                    this.state.firstSelect.value !== 0
-                      ? "暂无符合条件的毕业生档案"
-                      : "暂无毕业生档案"
-                  }
-                  type="3"
-                  style={{ marginTop: "150px" }}
-                ></Empty>
-              )}
+              <Loading
+                tip="加载中..."
+                opacity={false}
+                size="large"
+                spinning={UIState.AppLoading.TableLoading}
+              >
+                {DataState.GetGraduatePreview.newList instanceof Array &&
+                DataState.GetGraduatePreview.newList.length !== 0 ? (
+                  <Table
+                    className="table"
+                    loading={UIState.AppLoading.TableLoading}
+                    columns={this.state.columns}
+                    pagination={false}
+                    onChange={this.onTableChange.bind(this)}
+                    dataSource={DataState.GetGraduatePreview.newList}
+                  ></Table>
+                ) : (
+                  <Empty
+                    title={
+                      this.state.CancelBtnShow === "y" ||
+                      this.state.firstSelect.value !== 0
+                        ? "暂无符合条件的毕业生档案"
+                        : "暂无毕业生档案"
+                    }
+                    type="3"
+                    style={{ marginTop: "150px" }}
+                  ></Empty>
+                )}
 
-              <div className="pagination-box">
-                <PagiNation
-                  showQuickJumper
-                  hideOnSinglepage={true}
-                  current={this.state.pagination}
-                  total={DataState.GetGraduatePreview.Total}
-                  onChange={this.onPagiNationChange}
-                ></PagiNation>
-              </div>
+                <div className="pagination-box">
+                  <PagiNation
+                    showQuickJumper
+                    hideOnSinglepage={true}
+                    current={this.state.pagination}
+                    total={DataState.GetGraduatePreview.Total}
+                    onChange={this.onPagiNationChange}
+                  ></PagiNation>
+                </div>
               </Loading>
             </div>
           </div>
@@ -1340,11 +1425,11 @@ class Graduate extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(Graduate);

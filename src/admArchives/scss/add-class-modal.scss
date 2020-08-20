@@ -2,7 +2,7 @@
 // .HandleGroupModal{
 //     padding:25px 30px;
 // }
-.HandleGroupModal {
+.HandleMajorModal {
     .addclass-select-grade {
         position: relative;
         z-index: 5;
@@ -53,5 +53,17 @@
     }
     .dropdown_container {
         position: absolute;
+    }
+    .ant-tooltip .ant-tooltip-inner {
+        background-color: #d41414;
+        min-height: 0;
+        min-width: 0;
+        font-size: 12px;
+        line-height: 14px;
+        white-space: nowrap;
+        color: #fff;
+    }
+    .ant-tooltip .ant-tooltip-arrow:before {
+        background-color: #d41414;
     }
 }

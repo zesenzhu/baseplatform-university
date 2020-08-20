@@ -6,14 +6,14 @@ import {
   CheckBox,
   CheckBoxGroup,
   PagiNation,
-  Modal
+  Modal,
 } from "../../../common";
 import { connect } from "react-redux";
 import {
   HashRouter as Router,
   Route,
   Link,
-  BrowserRouter
+  BrowserRouter,
 } from "react-router-dom";
 import history from "../containers/history";
 import { postData, getData } from "../../../common/js/fetch";
@@ -43,17 +43,17 @@ class Main extends Component {
       SelfParam: "",
       PeriodID: "",
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     };
   }
   componentWillReceiveProps(nextProps) {
-    const {DataState} = nextProps;
+    const { DataState } = nextProps;
     this.setState({
-      pagination:DataState.GetWebsiteResourceData.CurrentIndex
-    })
+      pagination: DataState.GetWebsiteResourceData.CurrentIndex,
+    });
   }
   // 学段选择
-  PeriodDropMenu = e => {
+  PeriodDropMenu = (e) => {
     const { dispatch, DataState } = this.props;
     let PeriodID = "";
     let PeriodParam = "&Period=" + e.value;
@@ -99,11 +99,11 @@ class Main extends Component {
       TypeParam: "&SubTypeID=0",
       PeriodID: PeriodID,
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     });
   };
   // 学科选择
-  SubjectDropMenu = e => {
+  SubjectDropMenu = (e) => {
     const { dispatch, DataState } = this.props;
 
     let SubjectParam = "";
@@ -137,11 +137,11 @@ class Main extends Component {
       pageParam: "&pageSize=8&currentIndex=1",
       SubjectParam: SubjectParam,
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     });
   };
   // 分类选择
-  TypeDropMenu = e => {
+  TypeDropMenu = (e) => {
     const { dispatch, DataState } = this.props;
 
     let TypeParam = "&SubTypeID=" + e.value;
@@ -161,11 +161,11 @@ class Main extends Component {
       pageParam: "&pageSize=8&currentIndex=1",
       TypeParam: TypeParam,
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     });
   };
   // 只显示本学校
-  onSelfCheckChange = e => {
+  onSelfCheckChange = (e) => {
     const { dispatch, DataState } = this.props;
 
     let SelfParam = "&isFromOurSchool=" + e.target.checked;
@@ -185,40 +185,69 @@ class Main extends Component {
       pageParam: "&pageSize=8&currentIndex=1",
       SelfParam: SelfParam,
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     });
   };
   // 添加网站
-  onAddWebsiteClick = e => {
+  onAddWebsiteClick = (e) => {
     const { dispatch, DataState, UIState } = this.props;
-
+    if (!DataState.GetMenuData.SubjectList[1]) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "暂无学科，无法添加网站",
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
+    if (!DataState.GetMenuData.PeriodList[1]) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "暂无学段，无法添加网站",
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
+    if (!DataState.GetMenuData.TypeList[1]) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "暂无分类，无法添加网站",
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
     dispatch(
       actions.UpDataState.setInitWebsiteData({
         WebType: DataState.GetMenuData.TypeList[1],
         Subject: DataState.GetMenuData.SubjectList[1],
         Period: DataState.GetMenuData.PeriodList[1],
-        PeriodID: [DataState.GetMenuData.PeriodList[1].value]
+        PeriodID: [DataState.GetMenuData.PeriodList[1].value],
       })
     );
     dispatch({ type: actions.UpUIState.ADD_MODAL_OPEN });
   };
   // 多选change
-  onCheckBoxGroupChange = e => {
+  onCheckBoxGroupChange = (e) => {
     this.setState({
       checkList: e,
-      checkAll: e.length === this.state.plainOption.length ? true : false
+      checkAll: e.length === this.state.plainOption.length ? true : false,
     });
   };
 
   // 全选
-  onCheckAllChange = e => {
+  onCheckAllChange = (e) => {
     this.setState({
       checkAll: e.target.checked,
-      checkList: e.target.checked ? this.state.plainOption : []
+      checkList: e.target.checked ? this.state.plainOption : [],
     });
   };
   // 分页
-  onPagiNationChange = page => {
+  onPagiNationChange = (page) => {
     const { dispatch, DataState } = this.props;
 
     let pageParam = "&pageSize=8&currentIndex=" + page;
@@ -237,11 +266,11 @@ class Main extends Component {
       // pagination: page,
       pageParam: pageParam,
       ImgType: [true, true, true, true, true, true, true, true],
-      ImgDefault: [true, true, true, true, true, true, true, true]
+      ImgDefault: [true, true, true, true, true, true, true, true],
     });
   };
   // 图片加载失败
-  onImgError = key => {
+  onImgError = (key) => {
     let ImgType = this.state.ImgType;
     let ImgDefault = this.state.ImgDefault;
     ImgType[key] = false;
@@ -249,11 +278,11 @@ class Main extends Component {
     // console.log('error-'+ImgType[key],ImgType,key)
     this.setState({
       ImgType: ImgType,
-      ImgDefault: ImgDefault
+      ImgDefault: ImgDefault,
     });
   };
   // 图片加载成功
-  onImgSuccess = key => {
+  onImgSuccess = (key) => {
     let ImgType = this.state.ImgType;
     let ImgDefault = this.state.ImgDefault;
     ImgType[key] = true;
@@ -261,7 +290,7 @@ class Main extends Component {
     ImgDefault[key] = false;
     this.setState({
       ImgType: ImgType,
-      ImgDefault: ImgDefault
+      ImgDefault: ImgDefault,
     });
   };
 
@@ -276,7 +305,7 @@ class Main extends Component {
           title: "您还没有选择",
           ok: this.onAppAlertOK.bind(this),
           cancel: this.onAppAlertCancel.bind(this),
-          close: this.onAppAlertClose.bind(this)
+          close: this.onAppAlertClose.bind(this),
         })
       );
       return;
@@ -296,7 +325,7 @@ class Main extends Component {
         title: "您确定删除吗？",
         ok: this.onDeleteOK.bind(this, WebsiteIds),
         cancel: this.onAppAlertCancel.bind(this),
-        close: this.onAppAlertClose.bind(this)
+        close: this.onAppAlertClose.bind(this),
       })
     );
   };
@@ -330,24 +359,24 @@ class Main extends Component {
         WebAddress: DataState.GetWebsiteResourceData.List[index].Url,
         WebType: {
           value: DataState.GetWebsiteResourceData.List[index].SubTypeId,
-          title: DataState.GetWebsiteResourceData.List[index].SubTypeNamefield
+          title: DataState.GetWebsiteResourceData.List[index].SubTypeNamefield,
         },
         Subject: {
           value: DataState.GetWebsiteResourceData.List[index].SubjectId,
-          title: DataState.GetWebsiteResourceData.List[index].SubjectName
+          title: DataState.GetWebsiteResourceData.List[index].SubjectName,
         },
         // Period:{value:DataState.GetWebsiteResourceData.List[index].PeriodId,title:DataState.GetWebsiteResourceData.List[index].PeriodName},
         PeriodID: this.EditPeriod(
           DataState.GetWebsiteResourceData.List[index].Period
         ),
-        WebsiteId: DataState.GetWebsiteResourceData.List[index].ID
+        WebsiteId: DataState.GetWebsiteResourceData.List[index].ID,
       })
     );
     dispatch({ type: actions.UpUIState.EDIT_MODAL_OPEN });
   };
 
   // 处理学段
-  EditPeriod = Period => {
+  EditPeriod = (Period) => {
     let PeriodID = [];
     switch (Period) {
       case 1:
@@ -392,14 +421,14 @@ class Main extends Component {
         title: "您确定删除吗？",
         ok: this.onDeleteOK.bind(this, WebsiteIds),
         cancel: this.onAppAlertCancel.bind(this),
-        close: this.onAppAlertClose.bind(this)
+        close: this.onAppAlertClose.bind(this),
       })
     );
   };
   // 确认删除
-  onDeleteOK = WebsiteIds => {
+  onDeleteOK = (WebsiteIds) => {
     const { dispatch, DataState } = this.props;
-    let pageParam = "&pageSize=8&currentIndex="+this.state.pagination;
+    let pageParam = "&pageSize=8&currentIndex=" + this.state.pagination;
 
     let url = "/SubjectResMgr/WebSiteMgr/DeleteMultiWebsites";
     let Url =
@@ -413,18 +442,18 @@ class Main extends Component {
     postData(
       CONFIG.WebsiteProxy + url,
       {
-        WebsiteIds: WebsiteIds
+        WebsiteIds: WebsiteIds,
       },
       2
     )
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch(
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "操作成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           dispatch(actions.UpDataState.getWebsiteResourceData(Url));
@@ -432,9 +461,9 @@ class Main extends Component {
             checkList: [],
             checkAll: false,
             // pagination: 1,
-            pageParam: "&pageSize=8&currentIndex="+this.state.pagination,
+            pageParam: "&pageSize=8&currentIndex=" + this.state.pagination,
             ImgType: [true, true, true, true, true, true, true, true],
-            ImgDefault: [true, true, true, true, true, true, true, true]
+            ImgDefault: [true, true, true, true, true, true, true, true],
           });
         }
       });
@@ -444,7 +473,8 @@ class Main extends Component {
     const { dispatch, DataState, UIState } = this.props;
     const { WebName, WebAddress, Subject, WebType } = DataState.WebsiteData;
     let Url =
-      "/SubjectResMgr/WebSiteMgr/GetWebsiteInfoList?TypeID=1&pageSize=8&currentIndex="+this.state.pagination +
+      "/SubjectResMgr/WebSiteMgr/GetWebsiteInfoList?TypeID=1&pageSize=8&currentIndex=" +
+      this.state.pagination +
       this.state.SubjectParam +
       this.state.PeriodParam +
       this.state.SelfParam +
@@ -463,7 +493,7 @@ class Main extends Component {
       isHaveFalse = true;
       dispatch(
         actions.UpUIState.AppTipsVisible({
-          WebAddressTipsVisible: true
+          WebAddressTipsVisible: true,
         })
       );
     }
@@ -493,26 +523,26 @@ class Main extends Component {
         SubTypeID: WebsiteData.WebType.value,
         Type: 1,
         SubjectIDs: WebsiteData.Subject.value,
-        Period: Period
+        Period: Period,
       },
       2
     )
-      .then(data => data.json())
-      .then(json => {
+      .then((data) => data.json())
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch(
             actions.UpUIState.AppTipsVisible({
               WebAddressTipsVisible: false,
-              WebNameTipsVisible: false
+              WebNameTipsVisible: false,
             })
           );
           this.setState({
             checkList: [],
             checkAll: false,
             // pagination: 1,
-            pageParam: "&pageSize=8&currentIndex="+this.state.pagination,
+            pageParam: "&pageSize=8&currentIndex=" + this.state.pagination,
             ImgType: [true, true, true, true, true, true, true, true],
-            ImgDefault: [true, true, true, true, true, true, true, true]
+            ImgDefault: [true, true, true, true, true, true, true, true],
           });
           dispatch(actions.UpDataState.setInitWebsiteData({}));
           dispatch({ type: actions.UpUIState.ADD_MODAL_CLOSE });
@@ -537,7 +567,7 @@ class Main extends Component {
     dispatch(
       actions.UpUIState.AppTipsVisible({
         WebNameTipsVisible: false,
-        WebAddressTipsVisible: false
+        WebAddressTipsVisible: false,
       })
     );
     dispatch(actions.UpDataState.setInitWebsiteData({}));
@@ -548,7 +578,8 @@ class Main extends Component {
     const { dispatch, DataState, UIState } = this.props;
     const { WebName, WebAddress, Subject, WebType } = DataState.WebsiteData;
     let Url =
-      "/SubjectResMgr/WebSiteMgr/GetWebsiteInfoList?TypeID=1&pageSize=8&currentIndex="+this.state.pagination +
+      "/SubjectResMgr/WebSiteMgr/GetWebsiteInfoList?TypeID=1&pageSize=8&currentIndex=" +
+      this.state.pagination +
       this.state.SubjectParam +
       this.state.PeriodParam +
       this.state.SelfParam +
@@ -567,7 +598,7 @@ class Main extends Component {
       isHaveFalse = true;
       dispatch(
         actions.UpUIState.AppTipsVisible({
-          WebAddressTipsVisible: true
+          WebAddressTipsVisible: true,
         })
       );
     }
@@ -597,26 +628,26 @@ class Main extends Component {
         SubTypeID: WebsiteData.WebType.value,
 
         SubjectIDs: Subject.value ? Subject.value : "",
-        Period: Period
+        Period: Period,
       },
       2
     )
-      .then(data => data.json())
-      .then(json => {
+      .then((data) => data.json())
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch(
             actions.UpUIState.AppTipsVisible({
               WebAddressTipsVisible: false,
-              WebNameTipsVisible: false
+              WebNameTipsVisible: false,
             })
           );
           this.setState({
             checkList: [],
             checkAll: false,
             // pagination: 1,
-            pageParam: "&pageSize=8&currentIndex="+this.state.pagination,
+            pageParam: "&pageSize=8&currentIndex=" + this.state.pagination,
             ImgType: [true, true, true, true, true, true, true, true],
-            ImgDefault: [true, true, true, true, true, true, true, true]
+            ImgDefault: [true, true, true, true, true, true, true, true],
           });
           dispatch(actions.UpDataState.setInitWebsiteData({}));
           dispatch({ type: actions.UpUIState.EDIT_MODAL_CLOSE });
@@ -641,17 +672,17 @@ class Main extends Component {
     dispatch(
       actions.UpUIState.AppTipsVisible({
         WebNameTipsVisible: false,
-        WebAddressTipsVisible: false
+        WebAddressTipsVisible: false,
       })
     );
     dispatch(actions.UpDataState.setInitWebsiteData({}));
   };
   // 卡点击
-  onContentCardClick = url => {
+  onContentCardClick = (url) => {
     window.open(url);
   };
   // 复选
-  onCheckBoxClick = e => {
+  onCheckBoxClick = (e) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
   };
@@ -734,7 +765,7 @@ class Main extends Component {
                   >
                     <div className="card-left">
                       <CheckBox
-                        onClick={e => this.onCheckBoxClick(e)}
+                        onClick={(e) => this.onCheckBoxClick(e)}
                         // type="gray"
                         value={index}
                       ></CheckBox>
@@ -750,7 +781,7 @@ class Main extends Component {
                             style={{
                               display: !this.state.ImgDefault[index]
                                 ? "inline-block"
-                                : "none"
+                                : "none",
                             }}
                             className={`left-img `}
                             onError={this.onImgError.bind(this, index)}
@@ -763,7 +794,7 @@ class Main extends Component {
                             style={{
                               display: this.state.ImgDefault[index]
                                 ? "inline-block"
-                                : "none"
+                                : "none",
                             }}
                             width={42}
                             height={42}
@@ -773,8 +804,9 @@ class Main extends Component {
                         </div>
                       ) : (
                         <span
-                          className={`ImgError ${"ImgError_" +
-                            child.TypeColor}`}
+                          className={`ImgError ${
+                            "ImgError_" + child.TypeColor
+                          }`}
                         >
                           {child.Name.slice(0, 1)}
                         </span>
@@ -810,11 +842,11 @@ class Main extends Component {
                     </div>
                     <div className="Edit-content">
                       <span
-                        onClick={e => this.onDeleteClick(e, index)}
+                        onClick={(e) => this.onDeleteClick(e, index)}
                         className="card-btn btn-delete"
                       ></span>
                       <span
-                        onClick={e => this.onEditClick(e, index)}
+                        onClick={(e) => this.onEditClick(e, index)}
                         className="card-btn btn-edit"
                       ></span>
                     </div>
@@ -826,11 +858,23 @@ class Main extends Component {
             <Empty
               type="4"
               className="Empty"
-              title={this.state.PeriodSelect.value!==0||this.state.SubjectSelect.value!==0||this.state.TypeSelect.value!==0?"暂无符合条件的网站资源":"暂无网站资源"}
+              title={
+                this.state.PeriodSelect.value !== 0 ||
+                this.state.SubjectSelect.value !== 0 ||
+                this.state.TypeSelect.value !== 0
+                  ? "暂无符合条件的网站资源"
+                  : "暂无网站资源"
+              }
             ></Empty>
           )}
         </div>
-        <div style={{display:List instanceof Array && List.length > 0 ?'block':'none'}} className="Main-hr-2"></div>
+        <div
+          style={{
+            display:
+              List instanceof Array && List.length > 0 ? "block" : "none",
+          }}
+          className="Main-hr-2"
+        ></div>
         <div className="Main-event-box">
           {List instanceof Array && List.length > 0 ? (
             <div>
@@ -898,11 +942,11 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(Main);

@@ -69,19 +69,24 @@
         min-height: 100px;
         overflow: auto;
         // margin-top: 10px;
-        padding: 0 10px;
+        padding: 0 35px;
         position: relative;
         .major-content {
             float: left;
-            width: 150px;
-            height: 50px;
-            line-height: 50px;
-            margin: 10px 20px;
+            // width: 150px;
+            max-width: calc(100% - 16px);
+            height: 36px;
+            background-color: rgba($color: #009900, $alpha: 0.3);
+            border-radius: 3px;
+            line-height: 36px;
+            padding: 0 50px 0 12px;
+            margin: 8px;
             position: relative;
-            border: 1px solid #000;
+            // border: 1px solid #000;
             .major-name {
-                font-size: 15px;
-                color: #000;
+                font-size: 14px;
+                font-weight: bold;
+                color: #009900;
                 display: inline-block;
                 width: 100%;
                 line-height: inherit;
@@ -95,21 +100,36 @@
                 position: absolute;
                 right: 0;
                 top: 0;
-                height: 48px;
-                line-height: 50px;
-                width: 75px;
-                .edit,
+                // height: 48px;
+                // line-height: 50px;
+                // width: 75px;
                 .delete {
+                    position: absolute;
+                    top: -4px;
+                    right: 6px;
+                    width: 16px;
+                    height: 16px;
                     cursor: pointer;
-                    font-size: 14px;
-                    display: inline-block;
-                    border-left: 1px solid #000;
-                    width: 50%;
-                    height: 100%;
-                    color: #fff;
-                    background-color: #000;
-                    line-height: 50px;
-                    text-align: center;
+                    background-color: #ff0000;
+                    border-radius: 8px;
+                    background: url(../images/关闭.png) no-repeat center center / contain;
+                    &:hover {
+                        background: url(../images/关闭-悬停.png) no-repeat center center / contain;
+                    }
+                }
+                .edit {
+                    position: absolute;
+                    top: -4px;
+                    right: 28px;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                    // background-color: #0099ff;
+                    border-radius: 8px;
+                    background: url(../images/编辑.png) no-repeat center center / contain;
+                    &:hover {
+                        background: url(../images/编辑-悬停.png) no-repeat center center / contain;
+                    }
                 }
             }
             &:hover {
@@ -118,5 +138,203 @@
                 }
             }
         }
+    }
+}
+
+//添加班级模态框
+.editMajorModal {
+    .addclass-select-grade {
+        position: relative;
+        z-index: 5;
+        margin-left: 38px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        height: 28px;
+        line-height: 28px;
+        .error-tips:nth-child(3) {
+            float: right;
+            margin-right: 64px;
+            margin-top: 2px;
+        }
+    }
+    .props {
+        color: #999999;
+        font-size: 14px;
+    }
+    .ant-input {
+        padding: 1px;
+        width: 265px;
+        margin-left: 8px;
+        text-indent: 12px;
+    }
+    .addclass-classname-wrapper {
+        position: relative;
+        z-index: 3;
+        margin-top: 20px;
+        margin-left: 38px;
+    }
+    // .error-tips {
+    //     color: #ff0000;
+    //     padding-left: 17px;
+    //     background: url("#{$image-url}/error-tips.png") no-repeat left center;
+    //     margin-left: 8px;
+    // }
+    .addclass-classname-wrapper {
+        .error-tips {
+            margin-left: 68px;
+            margin-top: 7px;
+        }
+    }
+    .reset-classname-wrapper {
+        .error-tips {
+            position: absolute;
+            bottom: 8px;
+            left: 94px;
+        }
+    }
+    .dropdown_container {
+        position: absolute;
+    }
+    .addGroup {
+        float: right;
+        margin-right: 50px;
+        color: #0099ff;
+        font-size: 14px;
+        text-decoration: underline;
+        cursor: pointer;
+        &:hover {
+            color: #ff6600;
+        }
+    }
+    .major-box {
+        width: 100%;
+        max-height: 360px;
+        min-height: 100px;
+        overflow: auto;
+        // margin-top: 10px;
+        padding: 0 10px;
+        position: relative;
+        .major-content {
+            float: left;
+            // width: 150px;
+            max-width: calc(100% - 16px);
+            height: 36px;
+            background-color: rgba($color: #009900, $alpha: 0.3);
+            border-radius: 3px;
+            line-height: 36px;
+            padding: 0 50px 0 12px;
+            margin: 8px;
+            position: relative;
+            // border: 1px solid #000;
+            .major-name {
+                font-size: 14px;
+                font-weight: bold;
+                color: #009900;
+                display: inline-block;
+                width: 100%;
+                line-height: inherit;
+                text-align: center;
+                overflow: hidden; //超出一行文字自动隐藏
+                text-overflow: ellipsis; //文字隐藏后添加省略号
+                white-space: nowrap; //强制不换行
+            }
+            .edit-box {
+                display: none;
+                position: absolute;
+                right: 0;
+                top: 0;
+                // height: 48px;
+                // line-height: 50px;
+                // width: 75px;
+                .delete {
+                    position: absolute;
+                    top: -4px;
+                    right: 6px;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                    background-color: #ff0000;
+                    border-radius: 8px;
+                    background: url(../images/关闭.png) no-repeat center center / contain;
+                    &:hover {
+                        background: url(../images/关闭-悬停.png) no-repeat center center / contain;
+                    }
+                }
+                .edit {
+                    position: absolute;
+                    top: -4px;
+                    right: 28px;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                    // background-color: #0099ff;
+                    border-radius: 8px;
+                    background: url(../images/编辑.png) no-repeat center center / contain;
+                    &:hover {
+                        background: url(../images/编辑-悬停.png) no-repeat center center / contain;
+                    }
+                }
+            }
+            &:hover {
+                .edit-box {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
+//添加班级模态框
+.addClassModal {
+    .addclass-select-grade {
+        position: relative;
+        z-index: 5;
+        margin-left: 38px;
+        margin-top: 20px;
+        height: 28px;
+        line-height: 28px;
+        .error-tips:nth-child(3) {
+            float: right;
+            margin-right: 64px;
+            margin-top: 2px;
+        }
+    }
+    .props {
+        color: #999999;
+        font-size: 14px;
+    }
+    .ant-input {
+        padding: 1px;
+        width: 265px;
+        margin-left: 8px;
+        text-indent: 12px;
+    }
+    .addclass-classname-wrapper {
+        position: relative;
+        z-index: 3;
+        margin-top: 20px;
+        margin-left: 38px;
+    }
+    // .error-tips {
+    //     color: #ff0000;
+    //     padding-left: 17px;
+    //     background: url("#{$image-url}/error-tips.png") no-repeat left center;
+    //     margin-left: 8px;
+    // }
+    .addclass-classname-wrapper {
+        .error-tips {
+            margin-left: 68px;
+            margin-top: 7px;
+        }
+    }
+    .reset-classname-wrapper {
+        .error-tips {
+            position: absolute;
+            bottom: 8px;
+            left: 94px;
+        }
+    }
+    .dropdown_container {
+        position: absolute;
     }
 }

@@ -1308,10 +1308,11 @@ class EditModal extends React.Component {
       DataState.SubjectTeacherMsg.returnData.SubjectListChange;
     let TeacherChangeMsg = {};
     let Options = [];
-    SubjectListChange instanceof Array&&SubjectListChange.map((child, index) => {
-      TeacherChangeMsg[child.value] = child.title;
-      Options.push(child.value) ;
-    });
+    SubjectListChange instanceof Array &&
+      SubjectListChange.map((child, index) => {
+        TeacherChangeMsg[child.value] = child.title;
+        Options.push(child.value);
+      });
     let a = [];
     let map =
       Options.length > 0 ? (
@@ -1519,12 +1520,10 @@ class EditModal extends React.Component {
             className="row clearfix"
             style={{
               display:
-                this.state.type === "student" 
-                ||
-                this.state.type === "teacher" 
-                // ||
-                // !this.state.userType
-                  ? "block"
+                this.state.type === "student" || this.state.type === "teacher"
+                  ? // ||
+                    // !this.state.userType
+                    "block"
                   : "none",
             }}
           >
@@ -1621,10 +1620,11 @@ class EditModal extends React.Component {
               <Tips
                 overlayClassName="tips"
                 visible={
-                  this.state.CollegeChange.value !== 0 &&
-                  this.state.MajorList.length > 0
-                    ? EditModalTipsVisible.MajorTipsVisible
-                    : false
+                  // this.state.CollegeChange.value !== 0 &&
+                  // this.state.MajorList.length > 0
+                  //   ?
+                  EditModalTipsVisible.MajorTipsVisible
+                  // : false
                 }
                 getPopupContainer={(e) => e.parentNode}
                 title={this.state.MajorTipsTitle}
@@ -1649,7 +1649,7 @@ class EditModal extends React.Component {
                   onChange={this.onEditMajorChange}
                 ></DropDown>
               </Tips>
-              <span
+              {/* <span
                 className="goAdmClass"
                 style={{
                   display:
@@ -1664,7 +1664,7 @@ class EditModal extends React.Component {
                   行政班管理
                 </span>
                 添加专业
-              </span>
+              </span> */}
             </div>
           </div>
           <div
@@ -1700,8 +1700,9 @@ class EditModal extends React.Component {
                       : false
                   }
                   dropSelectd={
-                    this.state.MajorChange.value === 0 ||
-                    this.state.Grades.length > 0
+                    this.state.MajorChange.value === 0
+                      ? { value: 0, title: "请选择年级" }
+                      : this.state.Grades.length > 0
                       ? this.state.GradeChange
                       : { value: -1, title: "暂无创建年级" }
                   }
@@ -1773,7 +1774,7 @@ class EditModal extends React.Component {
                   // disabled={this.state.ClassChange.value===-1?false:true}
                   dropSelectd={
                     this.state.Classes.length !== 0 ||
-                    this.state.ClassChange.value !== 0
+                    this.state.GradeChange.value === 0
                       ? this.state.ClassChange
                       : { value: -1, title: "暂未创建班级" }
                   }

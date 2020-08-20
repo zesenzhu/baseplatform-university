@@ -529,7 +529,148 @@ class EditModal extends React.Component {
       PowerChildLen: PowerChildLen
     });
   };
+  onEditTelChange = (e) => {
+    const { dispatch } = this.props;
 
+    this.setState({
+      defaultTelephone: e.target.value.trim(),
+    });
+  };
+  onEditTelBlur = (e) => {
+    const { dispatch } = this.props;
+    //用户姓名检测
+    //用户姓名由1-20位的汉字、字母、数字、下划线组成。
+    let value = e.target.value;
+    let Test = /^([0-9\/-]){1,40}$/.test(value);
+
+    if (value!==''&&!Test) {
+      dispatch(actions.UpUIState.SetTipsVisible({ TelphoneTipsVisible: true }));
+    } else {
+      dispatch(
+        actions.UpDataState.setAdminPreview({
+          isChange: true,
+          Telephone: value,
+        })
+      );
+      dispatch(
+        actions.UpUIState.SetTipsVisible({ TelphoneTipsVisible: false })
+      );
+    }
+  };
+  onEditQQChange = (e) => {
+    const { dispatch } = this.props;
+
+    this.setState({
+      defaultQQ: e.target.value.trim(),
+    });
+  };
+  onEditQQBlur = (e) => {
+    const { dispatch } = this.props;
+    //用户姓名检测
+    //用户姓名由1-20位的汉字、字母、数字、下划线组成。
+    let value = e.target.value;
+    let Test = /^[1-9]*[1-9][0-9]{4,18}$/.test(value);
+
+    if (value!==''&&!Test) {
+      dispatch(actions.UpUIState.SetTipsVisible({ QQTipsVisible: true }));
+    } else {
+      dispatch(
+        actions.UpDataState.setAdminPreview({
+          isChange: true,
+          QQ: value,
+        })
+      );
+      dispatch(actions.UpUIState.SetTipsVisible({ QQTipsVisible: false }));
+    }
+  };
+  onEditWeixinChange = (e) => {
+    const { dispatch } = this.props;
+
+    this.setState({
+      defaultWeixin: e.target.value.trim(),
+    });
+  };
+  onEditWeixinBlur = (e) => {
+    const { dispatch } = this.props;
+    //用户姓名检测
+    //用户姓名由1-20位的汉字、字母、数字、下划线组成。
+    let value = e.target.value;
+    let Test = false;
+    Test = Test || this.UserComm_CheckPhoneNumber(value); //手机号码
+
+    Test = Test || /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,20}$/.test(value); //微信ID（微信账号仅支持6-20个字母、数字、下划线或减号，以字母开头。）
+
+    Test = Test || this.UserComm_CheckQQ(value); //QQ号
+
+    Test = Test || this.UserComm_CheckEmail(value); //邮箱
+    if (value !== "" && !Test) {
+      dispatch(actions.UpUIState.SetTipsVisible({ WeixinTipsVisible: true }));
+    } else {
+      dispatch(
+        actions.UpDataState.setAdminPreview({
+          isChange: true,
+          Weixin: value,
+        })
+      );
+      dispatch(actions.UpUIState.SetTipsVisible({ WeixinTipsVisible: false }));
+    }
+  };
+  onEditWeiboChange = (e) => {
+    const { dispatch } = this.props;
+
+    this.setState({
+      defaultWeibo: e.target.value.trim(),
+    });
+  };
+  onEditWeiboBlur = (e) => {
+    const { dispatch } = this.props;
+    //用户姓名检测
+    //用户姓名由1-20位的汉字、字母、数字、下划线组成。
+    let value = e.target.value;
+
+    let Test = false;
+    Test = Test || this.UserComm_CheckPhoneNumber(value); //手机号码
+
+    Test = Test || /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,20}$/.test(value); //微信ID（微信账号仅支持6-20个字母、数字、下划线或减号，以字母开头。）
+
+    // Test = Test || this.UserComm_CheckQQ(value); //QQ号
+
+    Test = Test || this.UserComm_CheckEmail(value); //邮箱
+    if (value !== "" && !Test) {
+      dispatch(actions.UpUIState.SetTipsVisible({ WeiboTipsVisible: true }));
+    } else {
+      dispatch(
+        actions.UpDataState.setAdminPreview({
+          isChange: true,
+          Weibo: value,
+        })
+      );
+      dispatch(actions.UpUIState.SetTipsVisible({ WeiboTipsVisible: false }));
+    }
+  };
+  //检测手机
+  UserComm_CheckPhoneNumber(strInput) {
+    return /^[0-9]{11}$/.test(strInput);
+  }
+  //检测电话
+  UserComm_CheckTelephone(strInput) {
+    return /^([0-9\/-]){1,40}$/.test(strInput);
+  }
+  //检测QQ
+  UserComm_CheckQQ(strInput) {
+    return /^[1-9]*[1-9][0-9]{4,18}$/.test(strInput); //QQ号
+  }
+  //检测邮箱
+  UserComm_CheckEmail(strInput) {
+    //\S表示非空字符
+    if (!/^(\S)+@(\S)+\.[a-zA-Z]{2,3}$/.test(strInput)) {
+      return false;
+    } else {
+      return /^([a-zA-Z0-9]+[_|\-|\.]*)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]*)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi.test(
+        strInput
+      );
+    }
+  }
   render() {
     const { UIState, DataState } = this.props;
 
@@ -593,6 +734,110 @@ class EditModal extends React.Component {
                 onChange={this.onEditNameChange}
                 onBlur={this.onEditNameBlur}
               />
+              </Tips>
+            </div>
+          </div>
+          <div className="row clearfix">
+            <span className="culonm-1">联系电话：</span>
+            <div className="culonm-2 ">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-tel"}
+                visible={UIState.TipsVisible.TelphoneTipsVisible}
+                title={"应由数字及-/组成"}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {/* </div> */}
+                <Input
+                  className="More-input"
+                  maxLength={20}
+                  type="text"
+                  name="Telephone"
+                  value={this.state.defaultTelephone}
+                  onChange={this.onEditTelChange}
+                  onBlur={this.onEditTelBlur}
+                />
+              </Tips>
+            </div>
+          </div>
+          <div className="row clearfix">
+            <span className="culonm-1">QQ：</span>
+            <div className="culonm-2 ">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-QQ"}
+                visible={UIState.TipsVisible.QQTipsVisible}
+                title={"应由数字组成"}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {/* </div> */}
+                <Input
+                  className="More-input"
+                  maxLength={20}
+                  type="text"
+                  name="QQ"
+                  value={this.state.defaultQQ}
+                  onChange={this.onEditQQChange}
+                  onBlur={this.onEditQQBlur}
+                />
+              </Tips>
+            </div>
+          </div>
+          <div className="row clearfix">
+            <span className="culonm-1">微信：</span>
+            <div className="culonm-2 ">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-Weixin"}
+                visible={UIState.TipsVisible.WeixinTipsVisible}
+                title={"应为手机号/QQ号/邮箱地址或微信ID"}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {/* </div> */}
+                <Input
+                  className="More-input"
+                  maxLength={40}
+                  type="text"
+                  name="Weixin"
+                  value={this.state.defaultWeixin}
+                  onChange={this.onEditWeixinChange}
+                  onBlur={this.onEditWeixinBlur}
+                />
+              </Tips>
+            </div>
+          </div>
+          <div className="row clearfix">
+            <span className="culonm-1">微博：</span>
+            <div className="culonm-2 ">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-Weibo"}
+                visible={UIState.TipsVisible.WeiboTipsVisible}
+                title={"应为手机号或邮箱地址"}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {/* </div> */}
+                <Input
+                  className="More-input"
+                  maxLength={40}
+                  type="text"
+                  name="Weibo"
+                  value={this.state.defaultWeibo}
+                  onChange={this.onEditWeiboChange}
+                  onBlur={this.onEditWeiboBlur}
+                />
               </Tips>
             </div>
           </div>
