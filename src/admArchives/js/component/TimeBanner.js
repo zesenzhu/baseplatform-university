@@ -55,7 +55,9 @@ class TimeBanner extends React.Component {
     // console.log(handleRoute);
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
-    );
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
     let List = [];
     if (userMsg.UserType === "7") {
       this.state.List.map((child, index) => {
@@ -63,7 +65,8 @@ class TimeBanner extends React.Component {
           List.push(child);
         }
       });
-    } else if (ProductType === 6) {//适配人工智能实训室，不要领导
+    } else if (ProductType === 6) {
+      //适配人工智能实训室，不要领导
       this.state.List.map((child, index) => {
         if (child.value !== "Leader") {
           List.push(child);

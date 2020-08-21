@@ -32,7 +32,7 @@ class TopMenu extends React.Component {
     // } else {
     //   history.push("/UserArchives/" + key);
     // }
-    history.push('/'+key)
+    history.push("/" + key);
   };
 
   render() {
@@ -44,10 +44,12 @@ class TopMenu extends React.Component {
     // console.log(handleRoute)
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
-    );
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
     let newList = List;
     if (ProductType === 6) {
-      newList =[]
+      newList = [];
       //适配人工智能实训室，不要领导
       List.map((child, index) => {
         if (child.value !== "Leader") {
@@ -60,12 +62,13 @@ class TopMenu extends React.Component {
       <div className="top-menu">
         {List instanceof Array &&
           List.map((child, index) => {
-
             return (
               <span
-              key={index}
+                key={index}
                 onClick={this.onSelectMenu.bind(this, child.value)}
-                className={`menu-bar ${handleRoute === child.value?'active':''}`}
+                className={`menu-bar ${
+                  handleRoute === child.value ? "active" : ""
+                }`}
               >
                 <span className={`bar-content ${"bar-icon-" + child.icon}`}>
                   {child.title}

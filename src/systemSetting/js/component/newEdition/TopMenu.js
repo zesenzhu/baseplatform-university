@@ -46,7 +46,9 @@ class TopMenu extends React.Component {
     // console.log(handleRoute,history)
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
-    );
+    )?JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    ):{};
     return (
       <div className="top-menu">
         {List instanceof Array &&

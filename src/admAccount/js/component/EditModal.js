@@ -62,20 +62,32 @@ class EditModal extends React.Component {
       userID = this.state.data.UserName.UserID
       this.setState({
         UserIDChange: this.state.data.UserName.UserID,
-        defaultUserName: this.state.data.UserName.Name
+        defaultUserName: this.state.data.UserName.Name,
+        defaultTelephone: this.state.data.Others.Telephone,
+        defaultQQ: this.state.data.Others.QQ,
+        defaultWeixin: this.state.data.Others.Weixin,
+        defaultWeibo: this.state.data.Others.Weibo,
       });
       dispatch(
         actions.UpDataState.setAdminPreview({
           UserID: this.state.data.UserName.UserID,
           UserName: this.state.data.UserName.Name,
-          PhotoPath: this.state.data.UserImg
+          PhotoPath: this.state.data.UserImg,
+          Telephone: this.state.data.Others.Telephone,
+          QQ: this.state.data.Others.QQ,
+          Weixin: this.state.data.Others.Weixin,
+          Weibo: this.state.data.Others.Weibo,
         })
       );
       dispatch(
         actions.UpDataState.setAdminInitPreview({
           UserID: this.state.data.UserName.UserID,
           UserName: this.state.data.UserName.Name,
-          PhotoPath: this.state.data.UserImg
+          PhotoPath: this.state.data.UserImg,
+          Telephone: this.state.data.Others.Telephone,
+          QQ: this.state.data.Others.QQ,
+          Weixin: this.state.data.Others.Weixin,
+          Weibo: this.state.data.Others.Weibo,
         })
       );
       this.state.PowerList.map((power, index) => {

@@ -12,7 +12,9 @@ class TopHandle extends React.Component {
     let { onAddClassClick, onImportClick, userPower, handleRoute } = this.props;
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
-    );
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
     return (
       <div className="top-handle">
         {userPower === "Admin" && handleRoute !== "ClassDetails" ? (
@@ -27,21 +29,26 @@ class TopHandle extends React.Component {
             >
               添加班级
             </Button>
-           {ProductType!==6? <Button
-              className="btn-handle"
-              height={"24"}
-              color={"blue"}
-              shape={"round"}
-              width={"142"}
-              onClick={() => onImportClick()}
-            >
-              导入班主任及班长
-            </Button>:''}
+            {ProductType !== 6 ? (
+              <Button
+                className="btn-handle"
+                height={"24"}
+                color={"blue"}
+                shape={"round"}
+                width={"142"}
+                onClick={() => onImportClick()}
+              >
+                导入班主任及班长
+              </Button>
+            ) : (
+              ""
+            )}
           </React.Fragment>
         ) : (
           ""
         )}
-        {(userPower === "Admin"||userPower === "MainTeacher") && handleRoute === "ClassDetails" ? (
+        {(userPower === "Admin" || userPower === "MainTeacher") &&
+        handleRoute === "ClassDetails" ? (
           <React.Fragment>
             <Button
               className="btn-handle"

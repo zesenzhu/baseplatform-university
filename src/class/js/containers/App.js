@@ -261,8 +261,8 @@ class App extends Component {
               } else {
                 //非导入界面
                 //非导入界面
-                window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
-                return;
+                // window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
+                // return;
                 dispatch({ type: RouterSetActions.ROUTER_SET_TO_DEFAULT });
 
                 let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
