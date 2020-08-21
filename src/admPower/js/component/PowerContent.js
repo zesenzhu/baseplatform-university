@@ -365,58 +365,42 @@ class PowerContent extends React.Component {
                   </div>
                 </div>
               </div>
-              {ProductType !== 2 ? (
-                <div className="content-row clearfix">
-                  <div className="left">
-                    <img width={108} height={116} alt="master" src={master} />
-                  </div>
-                  <div className="right">
-                    <div>
-                      {
-                        Power.ganger instanceof Array &&
-                          Power.ganger.map((child, index) => {
-                            return (
-                              <Radio
-                                key={child.PowerID}
-                                value={child.PowerID}
-                                checked={child.Status !== 0 ? true : false}
-                                className="radio"
-                                onChange={this.onRadioChange.bind(this)}
-                              >
-                                {/* {child.PowerName} */}
-                                <span className="radio-tips-1">
-                                  {child.PowerName}
-                                </span>
-                                <span className="radio-tips-2">
-                                  {
-                                    child.PowerID === "Ganger_Student_CURD"
-                                      ? "(可以自主添加、修改、删除班级学生档案)"
-                                      : ""
-                                    // "在学生提交档案时系统便为其创建用户账号"
-                                  }
-                                </span>
-                              </Radio>
-                            );
-                          })
-                        // <Radio
-                        //     value={Power.ganger[0].PowerID}
-                        //     checked={Power.ganger[0].Status !== 0 ? true : false}
-                        //     className='radio'
-                        //     onChange={this.onRadioChange.bind(this)}
-                        // >{Power.ganger[0].PowerName}</Radio>
-                        // <Radio
-                        //     value={Power.ganger[1].PowerID}
-                        //     checked={Power.ganger[1].Status !== 0 ? true : false}
-                        //     className='radio'
-                        //     onChange={this.onRadioChange.bind(this)}
-                        // >{Power.ganger[1].PowerName}</Radio>
-                      }
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
+              {
+                // <div className="content-row clearfix">
+                //   <div className="left">
+                //     <img width={108} height={116} alt="master" src={master} />
+                //   </div>
+                //   <div className="right">
+                //     <div>
+                //       {Power.ganger instanceof Array &&
+                //         Power.ganger.map((child, index) => {
+                //           return (
+                //             <Radio
+                //               key={child.PowerID}
+                //               value={child.PowerID}
+                //               checked={child.Status !== 0 ? true : false}
+                //               className="radio"
+                //               onChange={this.onRadioChange.bind(this)}
+                //             >
+                //               {/* {child.PowerName} */}
+                //               <span className="radio-tips-1">
+                //                 {child.PowerName}
+                //               </span>
+                //               <span className="radio-tips-2">
+                //                 {
+                //                   child.PowerID === "Ganger_Student_CURD"
+                //                     ? "(可以自主添加、修改、删除班级学生档案)"
+                //                     : ""
+                //                   // "在学生提交档案时系统便为其创建用户账号"
+                //                 }
+                //               </span>
+                //             </Radio>
+                //           );
+                //         })}
+                //     </div>
+                //   </div>
+                // </div>
+              }
               {/* <div className="content-row clearfix">
                 <div className="left">
                   <img width={108} height={116} alt="director" src={director} />
@@ -440,39 +424,48 @@ class PowerContent extends React.Component {
                   </div>
                 </div>
               </div> */}
-              <div className="content-row clearfix">
-                <div className="left">
-                  <img width={108} height={116} alt="director" src={director} />
-                </div>
-                <div className="right">
-                  <div>
-                    {Power.parents instanceof Array &&
-                      Power.parents.map((child, index) => {
-                        return (
-                          <Radio
-                            key={child.PowerID}
-                            value={child.PowerID}
-                            checked={child.Status !== 0 ? true : false}
-                            className="radio"
-                            onChange={this.onRadioChange.bind(this)}
-                          >
-                            <span className="radio-tips-1">
-                              {child.PowerName}
-                            </span>
-                            <span className="radio-tips-2">
-                              {
-                                child.PowerID === "Parents_Show"
-                                  ? "(可以登录平台访问相应功能)"
-                                  : ""
-                                // "在学生提交档案时系统便为其创建用户账号"
-                              }
-                            </span>
-                          </Radio>
-                        );
-                      })}
+              {ProductType !== 2 ? (
+                <div className="content-row clearfix">
+                  <div className="left">
+                    <img
+                      width={108}
+                      height={116}
+                      alt="director"
+                      src={director}
+                    />
+                  </div>
+                  <div className="right">
+                    <div>
+                      {Power.parents instanceof Array &&
+                        Power.parents.map((child, index) => {
+                          return (
+                            <Radio
+                              key={child.PowerID}
+                              value={child.PowerID}
+                              checked={child.Status !== 0 ? true : false}
+                              className="radio"
+                              onChange={this.onRadioChange.bind(this)}
+                            >
+                              <span className="radio-tips-1">
+                                {child.PowerName}
+                              </span>
+                              <span className="radio-tips-2">
+                                {
+                                  child.PowerID === "Parents_Show"
+                                    ? "(可以登录平台访问相应功能)"
+                                    : ""
+                                  // "在学生提交档案时系统便为其创建用户账号"
+                                }
+                              </span>
+                            </Radio>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}{" "}
             </div>
           ) : (
             ""
