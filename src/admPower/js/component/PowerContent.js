@@ -55,7 +55,14 @@ class PowerContent extends React.Component {
       {
         PowerID: id,
         SchoolID: this.state.userMsg.SchoolID,
-        Status:id==='Student_SginUp'||id==='Teacher_SginUp' ?(value ? 2 : 1):(value ? 1 : 0),
+        Status:
+          id === "Student_SginUp" || id === "Teacher_SginUp"
+            ? value
+              ? 2
+              : 1
+            : value
+            ? 1
+            : 0,
       },
       2
     )
@@ -69,7 +76,17 @@ class PowerContent extends React.Component {
           });
           if (json.Data === null) {
             // Power = this.handlePower(Power, value ? 1 : 0, id);
-            Power = this.handlePower(Power, id==='Student_SginUp'||id==='Teacher_SginUp' ?(value ? 2 : 1):(value ? 1 : 0), id);
+            Power = this.handlePower(
+              Power,
+              id === "Student_SginUp" || id === "Teacher_SginUp"
+                ? value
+                  ? 2
+                  : 1
+                : value
+                ? 1
+                : 0,
+              id
+            );
 
             dispatch(actions.UpDataState.setUserPowerMsg(Power));
           } else if (json.Data === -2) {
@@ -149,7 +166,9 @@ class PowerContent extends React.Component {
     let Power = DataState.GetUserPowerMsg.Power;
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
-    ); //有部门要求不要班主任，ProductType为2就去掉班主任
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {}; //有部门要求不要班主任，ProductType为2就去掉班主任
     // console.log(ProductType)
     // console.log(Power)
     return (

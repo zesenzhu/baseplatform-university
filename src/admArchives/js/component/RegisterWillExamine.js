@@ -266,7 +266,7 @@ class RegisterWillExamine extends React.Component {
       secondParam: "",
       thirdParam: "",
       fourthParam: "",
-
+      pageSize: 10,
       handleUserMsg: [],
       pageindex: 0,
       pagination: 1,
@@ -581,7 +581,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             "&collegeID=" +
             e.value +
             this.state.sortType +
@@ -613,7 +615,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -646,7 +650,6 @@ class RegisterWillExamine extends React.Component {
 
         thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
-       
 
         thirdList: [{ value: 0, title: "全部年级" }],
         fourthList: [{ value: 0, title: "全部班级" }],
@@ -659,7 +662,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.sortType +
             this.state.sortFiled
@@ -686,7 +691,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             "&majorID=" +
             e.value +
@@ -725,7 +732,7 @@ class RegisterWillExamine extends React.Component {
 
         fourthSelect: { value: 0, title: "全部班级" },
         thirdParam: "",
- 
+
         fourthParam: "",
         fourthList: [{ value: 0, title: "全部班级" }],
         pagination: 1,
@@ -734,7 +741,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.sortType +
@@ -761,7 +770,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.secondParam +
             "&gradeID=" +
@@ -799,7 +810,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.thirdParam +
@@ -821,7 +834,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.thirdParam +
@@ -876,7 +891,8 @@ class RegisterWillExamine extends React.Component {
   //       actions.UpDataState.getWillSignUpLog(
   //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&status=0&gradeID=" +
+  //           "&PageIndex=0&PageSize=" +
+  // this.state.pageSize + "&status=0&gradeID=" +
   //           e.value +
   //           this.state.sortType +
   //           this.state.sortFiled
@@ -891,7 +907,8 @@ class RegisterWillExamine extends React.Component {
   //       actions.UpDataState.getWillSignUpLog(
   //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&status=0" +
+  //           "&PageIndex=0&PageSize=" +
+  // this.state.pageSize + "&status=0" +
   //           this.state.sortType +
   //           this.state.sortFiled
   //       )
@@ -936,7 +953,8 @@ class RegisterWillExamine extends React.Component {
   //       actions.UpDataState.getWillSignUpLog(
   //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&status=0" +
+  //           "&PageIndex=0&PageSize=" +
+  // this.state.pageSize + "&status=0" +
   //           this.state.firstParam +
   //           this.state.sortType +
   //           this.state.sortFiled
@@ -950,7 +968,8 @@ class RegisterWillExamine extends React.Component {
   //       actions.UpDataState.getWillSignUpLog(
   //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&status=0" +
+  //           "&PageIndex=0&PageSize=" +
+  // this.state.pageSize + "&status=0" +
   //           this.state.firstParam +
   //           "&classID=" +
   //           e.value +
@@ -960,7 +979,8 @@ class RegisterWillExamine extends React.Component {
   //     );
   //   }
 
-  //   //dispatch(actions.UpDataState.getGradeStudentPreview('/ArchivesStudent?SchoolID=schoolID&GradeID=gradeID&ClassID=ClassID&PageIndex=0&PageSize=10&SortFiled=UserID&SortType=ASC'));
+  //   //dispatch(actions.UpDataState.getGradeStudentPreview('/ArchivesStudent?SchoolID=schoolID&GradeID=gradeID&ClassID=ClassID&PageIndex=0&PageSize=" +
+  // this.state.pageSize + "&SortFiled=UserID&SortType=ASC'));
   // };
   TeacherDropMenuSecond = (e) => {
     const { dispatch } = this.props;
@@ -986,7 +1006,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             this.state.sortType +
             this.state.sortFiled
@@ -1000,7 +1022,9 @@ class RegisterWillExamine extends React.Component {
         actions.UpDataState.getWillSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10&status=0" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             this.state.firstParam +
             "&classID=" +
             e.value +
@@ -1010,7 +1034,8 @@ class RegisterWillExamine extends React.Component {
       );
     }
 
-    //dispatch(actions.UpDataState.getGradeStudentPreview('/ArchivesStudent?SchoolID=schoolID&GradeID=gradeID&ClassID=ClassID&PageIndex=0&PageSize=10&SortFiled=UserID&SortType=ASC'));
+    //dispatch(actions.UpDataState.getGradeStudentPreview('/ArchivesStudent?SchoolID=schoolID&GradeID=gradeID&ClassID=ClassID&PageIndex=0&PageSize=" +
+    // this.state.pageSize + "&SortFiled=UserID&SortType=ASC'));
   };
   OnCheckAllChange = (e) => {
     //console.log(e.target.checked, this.state.keyList)
@@ -1061,7 +1086,9 @@ class RegisterWillExamine extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           (e - 1) +
-          "&PageSize=10&status=0" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "&status=0" +
           (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
           this.state.firstParam +
           this.state.secondParam +
@@ -1072,7 +1099,36 @@ class RegisterWillExamine extends React.Component {
       )
     );
   };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
 
+    this.setState({
+      pageSize,
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,
+    });
+    dispatch(
+      actions.UpDataState.getWillSignUpLog(
+        "/GetSignUpLogToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          "&PageIndex=0" +
+          // (e - 1) +
+          "&PageSize=" +
+          pageSize +
+          "&status=0" +
+          (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
+          this.state.firstParam +
+          this.state.secondParam +
+          this.state.thirdParam +
+          this.state.fourthParam +
+          this.state.sortType +
+          this.state.sortFiled
+      )
+    );
+  };
   onUserNameClick = (key) => {
     const { DataState } = this.props;
     this.setState({
@@ -1185,7 +1241,9 @@ class RegisterWillExamine extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&status=0" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&status=0" +
                 (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
                 this.state.firstParam +
                 this.state.secondParam +
@@ -1206,7 +1264,8 @@ class RegisterWillExamine extends React.Component {
           //       actions.UpDataState.getWillSignUpLog(
           //         "/GetSignUpLogToPage_univ?SchoolID=" +
           //           this.state.userMsg.SchoolID +
-          //           "&PageIndex=0&PageSize=10&status=0&gradeID=" +
+          //           "&PageIndex=0&PageSize=" +
+          // this.state.pageSize + "&status=0&gradeID=" +
           //           this.state.firstSelect.value
           //       )
           //     );
@@ -1215,7 +1274,8 @@ class RegisterWillExamine extends React.Component {
           //       actions.UpDataState.getWillSignUpLog(
           //         "/GetSignUpLogToPage_univ?SchoolID=" +
           //           this.state.userMsg.SchoolID +
-          //           "&PageIndex=0&PageSize=10&status=0&gradeID=" +
+          //           "&PageIndex=0&PageSize=" +
+          // this.state.pageSize + "&status=0&gradeID=" +
           //           this.state.firstSelect.value +
           //           "&classID=" +
           //           this.state.secondSelect.value
@@ -1269,7 +1329,9 @@ class RegisterWillExamine extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&status=0" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&status=0" +
                 (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
                 this.state.firstParam +
                 this.state.secondParam +
@@ -1342,7 +1404,9 @@ class RegisterWillExamine extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&status=0" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&status=0" +
                 (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
                 this.state.firstParam +
                 this.state.secondParam +
@@ -1394,7 +1458,9 @@ class RegisterWillExamine extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&status=0" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&status=0" +
                 (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
                 this.state.firstParam +
                 this.state.secondParam +
@@ -1456,7 +1522,9 @@ class RegisterWillExamine extends React.Component {
       actions.UpDataState.getWillSignUpLog(
         "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&status=0&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&status=0&keyword=" +
           e.value +
           this.state.secondParam +
           this.state.thirdParam +
@@ -1494,7 +1562,9 @@ class RegisterWillExamine extends React.Component {
             this.state.userMsg.SchoolID +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&status=0&sortFiled=" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&status=0&sortFiled=" +
             sorter.columnKey +
             sortType +
             (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
@@ -1515,7 +1585,9 @@ class RegisterWillExamine extends React.Component {
             this.state.userMsg.SchoolID +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10&status=0" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&status=0" +
             (this.state.keyword ? "&Keyword=" + this.state.keyword : "") +
             this.state.firstParam +
             this.state.secondParam +
@@ -1559,7 +1631,9 @@ class RegisterWillExamine extends React.Component {
       actions.UpDataState.getWillSignUpLog(
         "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&status=0" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&status=0" +
           this.state.sortType +
           this.state.sortFiled +
           this.state.firstParam +
@@ -1757,8 +1831,14 @@ class RegisterWillExamine extends React.Component {
             <div className="pagination-box">
               <PagiNation
                 showQuickJumper
+                showSizeChanger
+                pageSize={this.state.pageSize}
+                onShowSizeChange={this.onShowSizeChange}
+                hideOnSinglePage={
+                  DataState.GetSignUpLog.WillData.Total === 0 ? true : false
+                }
                 current={this.state.pagination}
-                hideOnSinglepage={true}
+                // hideOnSinglepage={true}
                 total={DataState.GetSignUpLog.WillData.Total}
                 onChange={this.onPagiNationChange}
               ></PagiNation>

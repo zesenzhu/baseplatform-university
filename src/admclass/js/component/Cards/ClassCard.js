@@ -63,7 +63,7 @@ class ClassCard extends React.Component {
                 {GangerName ? GangerName : "--"}
               </span>
             </p>
-            <p className="card-msg-row">
+            {/* <p className="card-msg-row">
               <span className="card-msg-row-left">任课教师:</span>
               <span
                 title={CourseTecher ? CourseTecher + "人" : "0人"}
@@ -71,7 +71,7 @@ class ClassCard extends React.Component {
               >
                 {CourseTecher ? CourseTecher + "人" : "0人"}
               </span>
-            </p>
+            </p> */}
             <p className="card-msg-row">
               <span className="card-msg-row-left">班长:</span>
               <span

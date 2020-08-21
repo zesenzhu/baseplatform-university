@@ -51,7 +51,8 @@ import ApiActions from "../actions/ApiActions";
 import AppAlertActions from "../actions/AppAlertActions";
 
 import EditMajorModal from "../component/EditMajorModal";
-
+import logo2 from "../../images/icon-logo.png";
+import logo3 from "../../images/logo.png";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -87,7 +88,7 @@ class App extends Component {
                 if (data) {
                   if (hash.includes("Import")) {
                     //导入界面
-                    if (hash.includes("Student")) {
+                    if (!hash.includes("Student")) {
                       window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
                       return;
                     }
@@ -260,8 +261,8 @@ class App extends Component {
               } else {
                 //非导入界面
                 //非导入界面
-                window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
-                return;
+                // window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
+                // return;
                 dispatch({ type: RouterSetActions.ROUTER_SET_TO_DEFAULT });
 
                 let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));

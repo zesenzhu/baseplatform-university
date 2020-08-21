@@ -44,11 +44,18 @@ class TopMenu extends React.Component {
     // let pathArr = pathname.split("/");
     // let handleRoute = pathArr[2];
     // console.log(handleRoute,history)
+    let { ProductType } = JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    )?JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    ):{};
     return (
       <div className="top-menu">
         {List instanceof Array &&
           List.map((child, index) => {
-
+            if(ProductType===6&&child.value==='Subsystem'){
+              return ''
+            }
             return (
               <span
               key={index}

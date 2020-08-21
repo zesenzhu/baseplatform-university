@@ -30,7 +30,7 @@ class TeacherBtnBanner extends Component{
 
                     <React.Fragment>
 
-                        <Button color="blue" className="import-class" onClick={e=>{ window.open('/html/admclass/#/Import/Student');}}>导入学生</Button>
+                        <Button color="blue" className="import-class" onClick={e=>{ window.open('/html/class/#/Import/Student');}}>导入学生</Button>
 
                         <Button color="blue" className="import-class" onClick={e=>AddStudentShow(e)}>添加学生</Button>
 

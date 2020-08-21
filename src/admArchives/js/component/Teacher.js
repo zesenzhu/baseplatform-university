@@ -268,6 +268,7 @@ class Teacher extends React.Component {
       searchValue: "",
       sortType: "",
       sortFiled: "",
+      pageSize: 10,
       searchWord: "",
       teacherChangeUserLog: {},
       userType:
@@ -413,7 +414,9 @@ class Teacher extends React.Component {
           actions.UpDataState.GetTeacherToPage_univ(
             "/GetTeacherToPage_univ?SchoolID=" +
               this.state.userMsg.SchoolID +
-              "&PageIndex=0&PageSize=10" +
+              "&PageIndex=0&PageSize=" +
+              this.state.pageSize +
+              "" +
               this.state.sortType +
               this.state.sortFiled +
               (this.state.firstSelect.value !== 0
@@ -442,7 +445,7 @@ class Teacher extends React.Component {
     //       this.state.userMsg.SchoolID +
     //       "&SubjectIDs=" +
     //       selectSubject.value +
-    //       "&PageIndex=0&PageSize=10" +
+    //       "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
     //       this.state.sortType +
     //       this.state.sortFiled,
     //       selectSubject
@@ -470,7 +473,9 @@ class Teacher extends React.Component {
         actions.UpDataState.GetTeacherToPage_univ(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -484,7 +489,7 @@ class Teacher extends React.Component {
       //       this.state.userMsg.SchoolID +
       //       "&SubjectIDs=" +
       //       e.value +
-      //       "&PageIndex=0&PageSize=10" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
       //       this.state.sortType +
       //       this.state.sortFiled,
       //     e
@@ -506,7 +511,9 @@ class Teacher extends React.Component {
         actions.UpDataState.GetTeacherToPage_univ(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -530,7 +537,9 @@ class Teacher extends React.Component {
         actions.UpDataState.GetTeacherToPage_univ(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -547,7 +556,7 @@ class Teacher extends React.Component {
       //       this.state.userMsg.SchoolID +
       //       "&SubjectIDs=" +
       //       e.value +
-      //       "&PageIndex=0&PageSize=10" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
       //       this.state.sortType +
       //       this.state.sortFiled,
       //     e
@@ -567,7 +576,9 @@ class Teacher extends React.Component {
         actions.UpDataState.GetTeacherToPage_univ(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -620,7 +631,9 @@ class Teacher extends React.Component {
       actions.UpDataState.GetTeacherToPage_univ(
         "/GetTeacherToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           this.state.sortType +
           this.state.sortFiled +
@@ -707,7 +720,7 @@ class Teacher extends React.Component {
     //         this.setState({
     //             TeacherModalVisible: false
     //         })
-    //         dispatch(actions.UpDataState.GetTeacherToPage_univ('/GetTeacherToPage_univ?SchoolID=school1&SubjectIDs=all&PageIndex=0&PageSize=10&SortFiled=UserID&SortType=ASC'));
+    //         dispatch(actions.UpDataState.GetTeacherToPage_univ('/GetTeacherToPage_univ?SchoolID=school1&SubjectIDs=all&PageIndex=0&PageSize=" + this.state.pageSize + "&SortFiled=UserID&SortType=ASC'));
 
     //     }
     // });
@@ -862,7 +875,8 @@ class Teacher extends React.Component {
                     this.state.userMsg.SchoolID +
                     "&PageIndex=" +
                     (this.state.pagination - 1) +
-                    "&PageSize=10" +
+                    "&PageSize=" +
+                    this.state.pageSize +
                     this.state.keyword +
                     this.state.sortType +
                     this.state.sortFiled +
@@ -1064,7 +1078,8 @@ class Teacher extends React.Component {
                     this.state.userMsg.SchoolID +
                     "&PageIndex=" +
                     (this.state.pagination - 1) +
-                    "&PageSize=10" +
+                    "&PageSize=" +
+                    this.state.pageSize +
                     this.state.keyword +
                     this.state.sortType +
                     this.state.sortFiled +
@@ -1244,7 +1259,8 @@ class Teacher extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 pagination +
-                "&PageSize=10" +
+                "&PageSize=" +
+                this.state.pageSize +
                 this.state.keyword +
                 this.state.sortType +
                 this.state.sortFiled +
@@ -1280,7 +1296,8 @@ class Teacher extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           (e - 1) +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           this.state.sortType +
           this.state.sortFiled +
           this.state.keyword +
@@ -1299,6 +1316,35 @@ class Teacher extends React.Component {
     //   checkAll: false,
     //   // pagination: e
     // });
+  };
+  onShowSizeChange = (current, pageSize) => {
+    const { dispatch } = this.props;
+    this.setState({
+      checkAll: false,
+      checkedList: [],
+      pagination: 1,
+      pageSize: pageSize,
+    });
+    dispatch(
+      actions.UpDataState.GetTeacherToPage_univ(
+        "/GetTeacherToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          "&PageIndex=0" +
+          "&PageSize=" +
+          pageSize +
+          this.state.sortType +
+          this.state.sortFiled +
+          this.state.keyword +
+          (this.state.firstSelect.value !== 0
+            ? "&collegeID=" + this.state.firstSelect.value
+            : "") +
+          (this.state.secondSelect.value
+            ? "&GroupID=" + this.state.secondSelect.value
+            : ""),
+        this.state.firstSelect,
+        this.state.secondSelect
+      )
+    );
   };
   onUserNameClick = (key) => {
     const { DataState } = this.props;
@@ -1371,7 +1417,9 @@ class Teacher extends React.Component {
             (this.state.pagination - 1) +
             "&sortFiled=" +
             sorter.columnKey +
-            "&PageSize=10&" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&" +
             sortType +
             this.state.keyword +
             (this.state.firstSelect.value !== 0
@@ -1397,7 +1445,8 @@ class Teacher extends React.Component {
             this.state.userMsg.SchoolID +
             "&PageIndex=" +
             (this.state.pagination - 1) +
-            "&PageSize=10" +
+            "&PageSize=" +
+            this.state.pageSize +
             this.state.keyword +
             (this.state.firstSelect.value !== 0
               ? "&collegeID=" + this.state.firstSelect.value
@@ -1435,7 +1484,8 @@ class Teacher extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
           this.state.sortType +
           this.state.sortFiled +
           (this.state.firstSelect.value !== 0
@@ -1693,7 +1743,7 @@ class Teacher extends React.Component {
               <span className="tips menu33 ">教师档案管理</span>
             </span>
             <div className="top-nav">
-            {!this.state.userType ? (
+              {!this.state.userType ? (
                 <span
                   className="link"
                   style={{ cursor: "pointer" }}
@@ -1731,7 +1781,7 @@ class Teacher extends React.Component {
                 </span>
               </a>
               <span className="divide">|</span>
-              
+
               <span
                 className="link"
                 style={{ cursor: "pointer" }}
@@ -1746,11 +1796,16 @@ class Teacher extends React.Component {
                 // to="/ImportFile/Teacher"
                 // replace
               >
-                <span onClick={this.onLinkClick.bind(
-                  this,
-                  "导入教师",
-                  "#/ImportFile/Teacher"
-                )} className="ImportFile">导入教师</span>
+                <span
+                  onClick={this.onLinkClick.bind(
+                    this,
+                    "导入教师",
+                    "#/ImportFile/Teacher"
+                  )}
+                  className="ImportFile"
+                >
+                  导入教师
+                </span>
               </a>
             </div>
           </div>
@@ -1759,7 +1814,7 @@ class Teacher extends React.Component {
             <div className="content-top">
               <DropDown
                 ref="dropMenuFirst"
-                title="教研室："
+                title="教研室:"
                 onChange={this.TeacherDropMenu.bind(this)}
                 width={120}
                 disabled={this.state.userType}
@@ -1867,8 +1922,13 @@ class Teacher extends React.Component {
                   <div className="pagination-box">
                     <PagiNation
                       showQuickJumper
+                      showSizeChanger
+                      pageSize={this.state.pageSize}
                       current={this.state.pagination}
-                      hideOnSinglepage={true}
+                      hideOnSinglePage={
+                        DataState.SubjectTeacherPreview.Total ? false : true
+                      }
+                      onShowSizeChange={this.onShowSizeChange}
                       total={DataState.SubjectTeacherPreview.Total}
                       onChange={this.onPagiNationChange}
                     ></PagiNation>
@@ -1939,43 +1999,51 @@ class Teacher extends React.Component {
           bodyStyle={{ padding: 0 }}
           type="2"
           width={650}
+          footer={null}
           visible={UIState.AppModal.TeacherChangeMadalVisible}
           onOk={this.TeacherChangeMadalOk}
           onCancel={this.TeacherChangeMadalCancel}
         >
-          {DataState.GetUserLog.UserLog instanceof Array &&
-          DataState.GetUserLog.UserLog.length > 0 ? (
-            <div className="modal-studentChange">
-              <div className="content-top">
-                <img
-                  src={IconLocation}
-                  width="30"
-                  height="40"
-                  alt="icon-location"
-                />
-                <span className="top-text">
-                  {this.state.teacherChangeUserLog.UserName}的档案变更记录
-                </span>
+          <Loading
+            // tip="加载中..."
+            opacity={false}
+            size="small"
+            spinning={UIState.AppLoading.modalLoading}
+          >
+            {DataState.GetUserLog.UserLog instanceof Array &&
+            DataState.GetUserLog.UserLog.length > 0 ? (
+              <div className="modal-studentChange">
+                <div className="content-top">
+                  <img
+                    src={IconLocation}
+                    width="30"
+                    height="40"
+                    alt="icon-location"
+                  />
+                  <span className="top-text">
+                    {this.state.teacherChangeUserLog.UserName}的档案变更记录
+                  </span>
+                </div>
+                <div className="content">
+                  <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
+                    {UIState.AppModal.TeacherChangeMadalVisible ? (
+                      <StudentChangeRecord
+                        data={DataState.GetUserLog.UserLog}
+                      ></StudentChangeRecord>
+                    ) : (
+                      ""
+                    )}
+                  </Scrollbars>
+                </div>
               </div>
-              <div className="content">
-                <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
-                  {UIState.AppModal.TeacherChangeMadalVisible ? (
-                    <StudentChangeRecord
-                      data={DataState.GetUserLog.UserLog}
-                    ></StudentChangeRecord>
-                  ) : (
-                    ""
-                  )}
-                </Scrollbars>
-              </div>
-            </div>
-          ) : (
-            <Empty
-              type="4"
-              title="该用户暂无档案变更记录"
-              style={{ top: "150px", position: "relative" }}
-            ></Empty>
-          )}
+            ) : (
+              <Empty
+                type="4"
+                title="该用户暂无档案变更记录"
+                style={{ top: "150px", position: "relative", height: "411px" }}
+              ></Empty>
+            )}
+          </Loading>
         </Modal>
         <DetailsModal
           ref="TeacherDetailsMsgModal"

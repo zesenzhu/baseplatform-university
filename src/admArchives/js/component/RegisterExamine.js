@@ -7,7 +7,7 @@ import {
   HashRouter as Router,
   Route,
   Link,
-  BrowserRouter
+  BrowserRouter,
 } from "react-router-dom";
 import history from "../containers/history";
 import TimeBanner from "./TimeBanner";
@@ -31,7 +31,7 @@ import {
   Button,
   CheckBox,
   CheckBoxGroup,
-  Modal
+  Modal,
 } from "../../../common/index";
 import TeacherLogo from "../../images/teacher-logo.png";
 import { getData } from "../../../common/js/fetch";
@@ -47,7 +47,7 @@ class RegisterExamine extends React.Component {
       logo: logo,
       cnname: "用户档案管理",
       enname: "User profile management",
-      Admin: true
+      Admin: true,
     };
     const { dispatch, DataState } = this.props;
 
@@ -58,7 +58,7 @@ class RegisterExamine extends React.Component {
     ) {
       dispatch(
         actions.UpDataState.getTree_Univ(
-          "/GetTree_Univ?schoolID=" +this.state.userMsg.SchoolID
+          "/GetTree_Univ?schoolID=" + this.state.userMsg.SchoolID
           // + (userMsg.UserType||userMsg.UserType===6?"":'&collegeID='+userMsg.CollegeID)
         )
       );
@@ -109,7 +109,7 @@ class RegisterExamine extends React.Component {
         logo: logo,
         cnname: "用户档案管理",
         enname: "User profile management",
-        Admin: true
+        Admin: true,
       });
       document.title = "用户档案管理";
     } else if (userMsg.UserType === "1" && userMsg.UserClass[2] === "1") {
@@ -117,7 +117,7 @@ class RegisterExamine extends React.Component {
         logo: TeacherLogo,
         cnname: "班级管理",
         enname: "Class management",
-        Admin: false
+        Admin: false,
       });
       document.title = "班级管理";
     }
@@ -125,7 +125,7 @@ class RegisterExamine extends React.Component {
     // console.log("554");
     if (pathname.split("/")[2] === "RegisterDidExamine") {
       this.setState({
-        handleClick: false
+        handleClick: false,
       });
       // console.log("554");
 
@@ -139,7 +139,7 @@ class RegisterExamine extends React.Component {
           actions.UpDataState.getDidSignUpLog(
             "/GetSignUpLogToPage_univ?SchoolID=" +
               this.state.userMsg.SchoolID +
-              "&PageIndex=0&PageSize=10&status=1" +
+              "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1" +
               (DataState.GetSignUpLog.Grade.value !== 0
                 ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
                 : "") +
@@ -157,7 +157,7 @@ class RegisterExamine extends React.Component {
       }
     } else if (pathname.split("/")[2] === "RegisterWillExamine") {
       this.setState({
-        handleClick: true
+        handleClick: true,
       });
       // console.log(
       //   "554",
@@ -175,7 +175,7 @@ class RegisterExamine extends React.Component {
           actions.UpDataState.getWillSignUpLog(
             "/GetSignUpLogToPage_univ?SchoolID=" +
               this.state.userMsg.SchoolID +
-              "&PageIndex=0&PageSize=10&status=0" +
+              "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0" +
               (DataState.GetSignUpLog.Grade.value !== 0
                 ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
                 : "") +
@@ -207,7 +207,7 @@ class RegisterExamine extends React.Component {
     //       //   actions.UpDataState.getDidSignUpLog(
     //       //     "/GetSignUpLogToPage_univ?SchoolID=" +
     //       //       this.state.userMsg.SchoolID +
-    //       //       "&PageIndex=0&PageSize=10&status=1"+
+    //       //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1"+
     //       //       (DataState.GetSignUpLog.Grade.value!==0?'&gradeID='+DataState.GetSignUpLog.Grade.value:'') +
     //       //       (DataState.GetSignUpLog.Class.value!==0?'&classID='+DataState.GetSignUpLog.Class.value:'')
     //       //   )
@@ -220,7 +220,7 @@ class RegisterExamine extends React.Component {
     //       //   actions.UpDataState.getWillSignUpLog(
     //       //     "/GetSignUpLogToPage_univ?SchoolID=" +
     //       //       this.state.userMsg.SchoolID +
-    //       //       "&PageIndex=0&PageSize=10&status=0"+
+    //       //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0"+
     //       //       (DataState.GetSignUpLog.Grade.value!==0?'&gradeID='+DataState.GetSignUpLog.Grade.value:'') +
     //       //       (DataState.GetSignUpLog.Class.value!==0?'&classID='+DataState.GetSignUpLog.Class.value:'')
     //       //   )
@@ -241,7 +241,7 @@ class RegisterExamine extends React.Component {
         TeacherClasses = DataState.GetSignUpLog.Class;
       }
       this.setState({
-        TeacherClass: TeacherClass
+        TeacherClass: TeacherClass,
       });
       // history.listen(() => {
       let userMsg = DataState.LoginUser;
@@ -262,12 +262,11 @@ class RegisterExamine extends React.Component {
         //     handleClick: false
         //   });
         //   dispatch(actions.UpDataState.setSignUpLogCountMsg(0));
-
         //   dispatch(
         //     actions.UpDataState.getDidSignUpLog(
         //       "/GetSignUpLogToPage_univ?SchoolID=" +
         //         this.state.userMsg.SchoolID +
-        //         "&PageIndex=0&PageSize=10&status=1" +
+        //         "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1" +
         //         (DataState.GetSignUpLog.Grade.value !== 0
         //           ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
         //           : "") +
@@ -290,7 +289,7 @@ class RegisterExamine extends React.Component {
         //     actions.UpDataState.getWillSignUpLog(
         //       "/GetSignUpLogToPage_univ?SchoolID=" +
         //         this.state.userMsg.SchoolID +
-        //         "&PageIndex=0&PageSize=10&status=0" +
+        //         "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0" +
         //         (DataState.GetSignUpLog.Grade.value !== 0
         //           ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
         //           : "") +
@@ -314,7 +313,7 @@ class RegisterExamine extends React.Component {
         // console.log("11");
         if (pathname.split("/")[2] === "RegisterDidExamine") {
           this.setState({
-            handleClick: false
+            handleClick: false,
           });
           dispatch(actions.UpDataState.setSignUpLogCountMsg(0));
 
@@ -322,19 +321,19 @@ class RegisterExamine extends React.Component {
             actions.UpDataState.getDidSignUpLog(
               "/GetSignUpLogToPage_univ?SchoolID=" +
                 this.state.userMsg.SchoolID +
-                "&PageIndex=0&PageSize=10&status=1&classID=" +
+                "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1&classID=" +
                 TeacherClasses.value
             )
           );
         } else if (pathname.split("/")[2] === "RegisterWillExamine") {
           this.setState({
-            handleClick: true
+            handleClick: true,
           });
           dispatch(
             actions.UpDataState.getWillSignUpLog(
               "/GetSignUpLogToPage_univ?SchoolID=" +
                 this.state.userMsg.SchoolID +
-                "&PageIndex=0&PageSize=10&status=0&classID=" +
+                "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0&classID=" +
                 TeacherClasses.value
             )
           );
@@ -344,29 +343,29 @@ class RegisterExamine extends React.Component {
     }
   }
 
-  UserExamineMadalOk = e => {
+  UserExamineMadalOk = (e) => {
     // console.log(e)
     this.setState({
       UserExamineModalVisible: false,
-      loading: true
+      loading: true,
     });
     setTimeout(() => {
       this.setState({
-        loading: false
+        loading: false,
       });
     }, 3000);
   };
-  UserExamineMadalCancel = e => {
+  UserExamineMadalCancel = (e) => {
     // console.log(e)
     this.setState({
-      UserExamineModalVisible: false
+      UserExamineModalVisible: false,
     });
   };
 
   onExaminedClick = () => {
     const { UIState, DataState, dispatch } = this.props;
     let userMsg = DataState.LoginUser;
-   
+
     let TeacherClass = DataState.GradeClassMsg.TeacherClass;
 
     // console.log('11',DataState.GradeClassMsg.TeacherClass)
@@ -380,14 +379,14 @@ class RegisterExamine extends React.Component {
     if (userMsg.UserType === "0" || userMsg.UserType === "7") {
       // if (pathname.split("/")[2] === "RegisterDidExamine") {
       this.setState({
-        handleClick: false
+        handleClick: false,
       });
       dispatch(actions.UpDataState.setSignUpLogCountMsg(0));
       // dispatch(
       //   actions.UpDataState.getDidSignUpLog(
       //     "/GetSignUpLogToPage_univ?SchoolID=" +
       //       this.state.userMsg.SchoolID +
-      //       "&PageIndex=0&PageSize=10&status=1" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1" +
       //       (DataState.GetSignUpLog.Grade.value !== 0
       //         ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
       //         : "") +
@@ -402,15 +401,14 @@ class RegisterExamine extends React.Component {
       //         : "")
       //   )
       // );
-    
     } else if (userMsg.UserType === "1" || userMsg.UserClass[2] === "1") {
       let TeacherClass = DataState.GradeClassMsg.TeacherClass;
       if (!(TeacherClass instanceof Array) || !TeacherClass[0]) {
         return;
       }
-       
+
       this.setState({
-        handleClick: false
+        handleClick: false,
       });
       dispatch(actions.UpDataState.setSignUpLogCountMsg(0));
 
@@ -418,11 +416,10 @@ class RegisterExamine extends React.Component {
       //   actions.UpDataState.getDidSignUpLog(
       //     "/GetSignUpLogToPage_univ?SchoolID=" +
       //       this.state.userMsg.SchoolID +
-      //       "&PageIndex=0&PageSize=10&status=1&classID=" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1&classID=" +
       //       TeacherClasses.value
       //   )
       // );
-     
     }
   };
   onExaminingClick = () => {
@@ -440,7 +437,7 @@ class RegisterExamine extends React.Component {
     //     actions.UpDataState.getWillSignUpLog(
     //       "/GetSignUpLogToPage_univ?SchoolID=" +
     //         this.state.userMsg.SchoolID +
-    //         "&PageIndex=0&PageSize=10&status=0&classID=" +
+    //         "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0&classID=" +
     //         TeacherClass[0].value
     //     )
     //   );
@@ -459,7 +456,7 @@ class RegisterExamine extends React.Component {
       //   actions.UpDataState.getWillSignUpLog(
       //     "/GetSignUpLogToPage_univ?SchoolID=" +
       //       this.state.userMsg.SchoolID +
-      //       "&PageIndex=0&PageSize=10&status=0" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0" +
       //       (DataState.GetSignUpLog.Grade.value !== 0
       //         ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
       //         : "") +
@@ -475,13 +472,13 @@ class RegisterExamine extends React.Component {
       //   )
       // );
       this.setState({
-        handleClick: true
+        handleClick: true,
       });
       // dispatch(
       //   actions.UpDataState.getWillSignUpLog(
       //     "/GetSignUpLogToPage_univ?SchoolID=" +
       //       this.state.userMsg.SchoolID +
-      //       "&PageIndex=0&PageSize=10&status=0"+
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0"+
       //       (DataState.GetSignUpLog.Grade.value!==0?'&gradeID='+DataState.GetSignUpLog.Grade.value:'') +
       //       (DataState.GetSignUpLog.Class.value!==0?'&classID='+DataState.GetSignUpLog.Class.value:'')
       //   )
@@ -499,23 +496,23 @@ class RegisterExamine extends React.Component {
       //   });
       //   dispatch(actions.UpDataState.setSignUpLogCountMsg(0));
 
-        // dispatch(
-        //   actions.UpDataState.getDidSignUpLog(
-        //     "/GetSignUpLogToPage_univ?SchoolID=" +
-        //       this.state.userMsg.SchoolID +
-        //       "&PageIndex=0&PageSize=10&status=1&classID=" +
-        //       TeacherClasses.value
-        //   )
-        // );
+      // dispatch(
+      //   actions.UpDataState.getDidSignUpLog(
+      //     "/GetSignUpLogToPage_univ?SchoolID=" +
+      //       this.state.userMsg.SchoolID +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=1&classID=" +
+      //       TeacherClasses.value
+      //   )
+      // );
       // } else if (pathname.split("/")[2] === "RegisterWillExamine") {
       this.setState({
-        handleClick: true
+        handleClick: true,
       });
       // dispatch(
       //   actions.UpDataState.getWillSignUpLog(
       //     "/GetSignUpLogToPage_univ?SchoolID=" +
       //       this.state.userMsg.SchoolID +
-      //       "&PageIndex=0&PageSize=10&status=0&classID=" +
+      //       "&PageIndex=0&PageSize=" + this.state.pageSize + "&status=0&classID=" +
       //       TeacherClasses.value
       //   )
       // );
@@ -546,12 +543,12 @@ class RegisterExamine extends React.Component {
         <Frame
           userInfo={{
             name: DataState.LoginUser.UserName,
-            image: DataState.LoginUser.PhotoPath
+            image: DataState.LoginUser.PhotoPath,
           }}
           module={{
             cnname: this.state.cnname,
             enname: this.state.enname,
-            image: this.state.logo
+            image: this.state.logo,
           }}
           type="circle"
           showLeftMenu={false}
@@ -575,7 +572,12 @@ class RegisterExamine extends React.Component {
                     this.state.handleClick ? "active" : ""
                   } `}
                 >
-                  待审核({DataState.GetSignUpLog.WillData.Total?DataState.GetSignUpLog.WillData.Total:0})
+                  待审核
+                  {/* (
+                  {DataState.GetSignUpLog.WillData.Total
+                    ? DataState.GetSignUpLog.WillData.Total
+                    : 0}
+                  ) */}
                 </Link>
                 <Link
                   to="/RegisterExamine/RegisterDidExamine"
@@ -591,7 +593,7 @@ class RegisterExamine extends React.Component {
                       display:
                         DataState.GetSignUpLog.newStatus === 0
                           ? "none"
-                          : "inline-block"
+                          : "inline-block",
                     }}
                   >
                     {"+" + DataState.GetSignUpLog.newStatus}
@@ -628,11 +630,11 @@ class RegisterExamine extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 

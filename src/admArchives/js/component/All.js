@@ -208,35 +208,35 @@ class All extends React.Component {
                   }
                 }
               },
-              {
-                value: userData.CollegeLeader,
-                name: "学院领导",
-                itemStyle: {
-                  normal: {
-                    borderColor: "#fff",
-                    borderWidth: 1,
-                    color: new echarts.graphic.LinearGradient(
-                      1,
-                      0,
-                      0,
-                      1,
-                      [
-                        {
-                          // 0% 处的颜色
-                          offset: 0,
-                          color: "#90b915"
-                        },
-                        {
-                          // 100% 处的颜色
-                          offset: 1,
-                          color: "#d9ff81"
-                        }
-                      ],
-                      false
-                    )
-                  }
-                }
-              },
+              // {
+              //   value: userData.CollegeLeader,
+              //   name: "学院领导",
+              //   itemStyle: {
+              //     normal: {
+              //       borderColor: "#fff",
+              //       borderWidth: 1,
+              //       color: new echarts.graphic.LinearGradient(
+              //         1,
+              //         0,
+              //         0,
+              //         1,
+              //         [
+              //           {
+              //             // 0% 处的颜色
+              //             offset: 0,
+              //             color: "#90b915"
+              //           },
+              //           {
+              //             // 100% 处的颜色
+              //             offset: 1,
+              //             color: "#d9ff81"
+              //           }
+              //         ],
+              //         false
+              //       )
+              //     }
+              //   }
+              // },
               {
                 value: userData.SchoolLeader,
                 name: "学校领导",
@@ -710,10 +710,10 @@ class All extends React.Component {
                 <span className="tips-icon-2"></span>
                 {"教师人数：" + DataState.AllUserPreview.Teacher}
               </p>
-              <p className="tips-2">
+              {/* <p className="tips-2">
                 <span className="tips-icon-3"></span>
                 {"学院领导：" + DataState.AllUserPreview.CollegeLeader}
-              </p>
+              </p> */}
               <p style={{display:this.state.userMsg.UserClass!==2&&this.state.userMsg.UserClass!==1?false:true}} className="tips-2">
                 <span className="tips-icon-4"></span>
                 {"学校领导：" + DataState.AllUserPreview.SchoolLeader}

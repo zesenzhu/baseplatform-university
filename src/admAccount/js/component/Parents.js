@@ -298,6 +298,8 @@ class Parents extends React.Component {
         "密码应由8-20位字母、数字及特殊字符`~!@#$%^&*()_+-={}|[]:\";'<>?,./\\的任意两种及以上组成",
       ChangeAllPwdMadalVisible: false,
       PwdStrong: 0,
+      pageSize: 10,
+
       userType:
         props.DataState.LoginUser.UserType === "0" &&
         (props.DataState.LoginUser.UserClass === "3" ||
@@ -470,7 +472,9 @@ class Parents extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           e
@@ -501,7 +505,9 @@ class Parents extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType
         )
@@ -541,7 +547,9 @@ class Parents extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect
@@ -577,7 +585,9 @@ class Parents extends React.Component {
               : "") +
             "&majorID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -617,7 +627,9 @@ class Parents extends React.Component {
             (this.state.secondSelect.value
               ? "&majorID=" + this.state.secondSelect.value
               : "") +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -653,7 +665,9 @@ class Parents extends React.Component {
               : "") +
             "&gradeID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -690,7 +704,9 @@ class Parents extends React.Component {
             this.state.secondSelect.value +
             "&gradeID=" +
             this.state.thirdSelect.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -720,7 +736,9 @@ class Parents extends React.Component {
             this.state.thirdSelect.value +
             "&classID=" +
             e.value +
-            "&PageIndex=0&PageSize=10" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -749,7 +767,7 @@ class Parents extends React.Component {
   //       actions.UpDataState.getGradeParentsPreview(
   //         "/GetParentsToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&gradeID=" +
+  //           "&PageIndex=0&PageSize=" + this.state.pageSize + "&gradeID=" +
   //           e.value +
   //           this.state.sortFiled +
   //           this.state.sortType
@@ -772,7 +790,7 @@ class Parents extends React.Component {
   //       actions.UpDataState.getGradeParentsPreview(
   //         "/GetParentsToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10" +
+  //           "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
   //           this.state.sortFiled +
   //           this.state.sortType
   //       )
@@ -807,7 +825,7 @@ class Parents extends React.Component {
   //       actions.UpDataState.getGradeParentsPreview(
   //         "/GetParentsToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&gradeID=" +
+  //           "&PageIndex=0&PageSize=" + this.state.pageSize + "&gradeID=" +
   //           this.state.firstSelect.value +
   //           "&classID=" +
   //           e.value +
@@ -820,7 +838,7 @@ class Parents extends React.Component {
   //       actions.UpDataState.getGradeParentsPreview(
   //         "/GetParentsToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
-  //           "&PageIndex=0&PageSize=10&gradeID=" +
+  //           "&PageIndex=0&PageSize=" + this.state.pageSize + "&gradeID=" +
   //           this.state.firstSelect.value +
   //           this.state.sortFiled +
   //           this.state.sortType
@@ -863,7 +881,9 @@ class Parents extends React.Component {
       actions.UpDataState.getGradeParentsPreview(
         "/GetParentsToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           (this.state.firstSelect.value
             ? "&collegeID=" + this.state.firstSelect.value
@@ -913,7 +933,9 @@ class Parents extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           (this.state.firstSelect.value
             ? "&collegeID=" + this.state.firstSelect.value
             : "") +
@@ -1137,7 +1159,9 @@ class Parents extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10&keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&keyword=" +
                   this.state.keyword +
                   (this.state.firstSelect.value
                     ? "&collegeID=" + this.state.firstSelect.value
@@ -1209,7 +1233,9 @@ class Parents extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10&keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&keyword=" +
                   this.state.keyword +
                   (this.state.firstSelect.value
                     ? "&collegeID=" + this.state.firstSelect.value
@@ -1324,7 +1350,9 @@ class Parents extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10&keyword=" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&keyword=" +
                 this.state.keyword +
                 (this.state.firstSelect.value
                   ? "&collegeID=" + this.state.firstSelect.value
@@ -1376,7 +1404,9 @@ class Parents extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           --value +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           keyword +
           firstSelect +
           secondSelect +
@@ -1390,6 +1420,53 @@ class Parents extends React.Component {
           this.state.sortType
       )
     );
+  };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
+    let firstSelect = "";
+    let secondSelect = "";
+    let keyword = "";
+    if (this.state.firstSelect.value !== 0) {
+      firstSelect = "&gradeID=" + this.state.firstSelect.value;
+    }
+    if (this.state.secondSelect.value !== 0) {
+      secondSelect = "&classID=" + this.state.secondSelect.value;
+    }
+    if (this.state.keyword !== "") {
+      keyword = "&keyword=" + this.state.keyword;
+    }
+    this.setState({
+      checkedList: [],
+      checkAll: false,
+      pageSize,
+      pagination: 1,
+      firstSelectStr: firstSelect,
+      secondSelectStr: secondSelect,
+      keywordStr: keyword,
+    });
+    dispatch(
+      actions.UpDataState.getGradeParentsPreview(
+        "/GetParentsToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          "&PageIndex=0" +
+          "&PageSize=" +
+          pageSize +
+          keyword +
+          firstSelect +
+          secondSelect +
+          (this.state.thirdSelect.value
+            ? "&gradeID=" + this.state.thirdSelect.value
+            : "") +
+          (this.state.fourthSelect.value
+            ? "&classID=" + this.state.fourthSelect.value
+            : "") +
+          this.state.sortFiled +
+          this.state.sortType
+      )
+    );
+    
   };
   onChangeEnableClick = (key, isEnable) => {
     const {
@@ -1448,7 +1525,9 @@ class Parents extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=10" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "" +
                 keyword +
                 firstSelect +
                 secondSelect +
@@ -1504,7 +1583,9 @@ class Parents extends React.Component {
             this.state.userMsg.SchoolID +
             "&sortFiled=" +
             sorter.columnKey +
-            "&PageSize=10&" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&" +
             sortType +
             "&PageIndex=" +
             (this.state.pagination - 1) +
@@ -1535,7 +1616,9 @@ class Parents extends React.Component {
         actions.UpDataState.getGradeParentsPreview(
           "/GetParentsToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageSize=10" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "" +
             "&PageIndex=" +
             (this.state.pagination - 1) +
             keyword +
@@ -1719,7 +1802,7 @@ class Parents extends React.Component {
                 onChange={this.ParentsDropMenu}
                 width={120}
                 disabled={this.state.userType}
-                title="班级："
+                title="班级:"
                 height={240}
                 dropSelectd={this.state.firstSelect}
                 dropList={this.state.firstList}
@@ -1870,8 +1953,14 @@ class Parents extends React.Component {
                   <div className="pagination-box">
                     <PagiNation
                       showQuickJumper
+                      pageSize={this.state.pageSize}
+                      showSizeChanger
+                      onShowSizeChange={this.onShowSizeChange}
+                      hideOnSinglePage={
+                        DataState.GradeParentsPreview.Total === 0 ? true : false
+                      }
                       current={this.state.pagination}
-                      hideOnSinglepage={true}
+                      // hideOnSinglepage={true}
                       total={DataState.GradeParentsPreview.Total}
                       onChange={this.onPagiNationChange}
                       // showTotal={(total, range) => `共${DataState.GradeParentsPreview.Total/10} 页 `}

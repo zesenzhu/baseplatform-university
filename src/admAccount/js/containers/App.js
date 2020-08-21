@@ -505,9 +505,14 @@ class App extends Component {
             type="triangle"
             showBarner={true}
             showLeftMenu={false}
+            // pageInit={() => {
+            //   let route = history.location.pathname;
+
+            //   this.requestData(route);
+            // }}
           >
             <div ref="frame-time-barner">
-              <TimeBanner List={this.state.List} />
+              {UserID ? <TimeBanner List={this.state.List} /> : ""}
             </div>
             {/* <div ref="frame-left-menu">
               <Menu params={this.state.MenuParams}></Menu>

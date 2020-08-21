@@ -171,7 +171,7 @@ class App extends Component {
           UpDataState.SetTopLeftData({
             cnname: (
               <span>
-                年级班级管理<span className="tl-title">-班级详情</span>
+                行政班管理<span className="tl-title">-班级详情</span>
               </span>
             ),
           })
@@ -242,7 +242,9 @@ class App extends Component {
         UserType = UserType.toString();
         UserClass = UserClass.toString();
         let UserPower = "";
-        if (UserType === "7" && UserClass === "2") {
+        if (UserType === "7"||UserType==='10'
+        //  && UserClass === "2"
+         ) {
           //教务主任
           UserPower = "TeachingLeader";
         } else if (UserType === "0") {

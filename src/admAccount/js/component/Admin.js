@@ -304,6 +304,7 @@ class Admin extends React.Component {
       userMsg: props.DataState.LoginUser,
       sortType: "",
       sortFiled: "",
+      pageSize: 10,
       PwdStrong: 0,
     };
     window.AdminCancelSearch = this.AdminCancelSearch.bind(this);
@@ -392,7 +393,9 @@ class Admin extends React.Component {
       actions.UpDataState.getAdminPreview(
         "/GetAdminToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=10&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           this.state.sortFiled +
           this.state.sortType
@@ -602,7 +605,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   pagination +
-                  "&PageSize=10&Keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&Keyword=" +
                   this.state.keyword +
                   this.state.sortFiled +
                   this.state.sortType
@@ -615,7 +620,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "" +
                   this.state.sortFiled +
                   this.state.sortType
               )
@@ -643,13 +650,42 @@ class Admin extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           --value +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           this.state.sortFiled +
           this.state.sortType
       )
     );
   };
+  // 改变显示条目数
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
 
+    this.setState({
+      checkedList: [],
+      checkAll: false,
+      pageSize,
+      pagination: 1,
+    });
+    let keyword = "";
+
+    if (this.state.keyword !== "") {
+      keyword = "&keyword=" + this.state.keyword;
+    }
+    dispatch(
+      actions.UpDataState.getAdminPreview(
+        "/GetAdminToPage_univ?SchoolID=" +
+          this.state.userMsg.SchoolID +
+          "&PageIndex=0" +
+          "&PageSize=" +
+          pageSize +
+          this.state.sortFiled +
+          this.state.sortType
+      )
+    );
+  };
   onUserNameClick = (UserID) => {
     const { dispatch } = this.props;
 
@@ -808,7 +844,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "" +
                   (this.state.keyword ? "&Keyword" + this.state.keyword : "") +
                   this.state.sortFiled +
                   this.state.sortType
@@ -911,34 +949,32 @@ class Admin extends React.Component {
     } = DataState.AdminPreview.TrasferData;
     let InitPower = DataState.AdminPreview.InitData.ModuleIDs.split(",");
     let len = InitPower.length;
-    
+
     // let CopyPower = InitPower.slice()
-    let Modules= ModuleIDs.split(',')
+    let Modules = ModuleIDs.split(",");
     // console.log(Modules.length,len)
-     
-    let ModulesIsChange = false
-    if(Modules.length!==len){
-      ModulesIsChange = true
-    }else {
+
+    let ModulesIsChange = false;
+    if (Modules.length !== len) {
+      ModulesIsChange = true;
+    } else {
       Modules.map((child) => {
         //console.log(child.length)
-         
-            InitPower instanceof Array &&
-              InitPower.map((power) => {
-                // console.log(power,child)
-                if (power === child) {
-                  len--;
-                }
-              });
-           
-      });
-      if(len !== 0 ){
-      ModulesIsChange = true
 
+        InitPower instanceof Array &&
+          InitPower.map((power) => {
+            // console.log(power,child)
+            if (power === child) {
+              len--;
+            }
+          });
+      });
+      if (len !== 0) {
+        ModulesIsChange = true;
       }
     }
     // console.log(Modules.length,len)
-     
+
     // if (
     //   !ModulesIsChange &&
     //   UserID === DataState.AdminPreview.InitData.UserID&&
@@ -981,7 +1017,7 @@ class Admin extends React.Component {
           PhotoPath: picObj.picUploader.getCurImgPath(),
           Pwd: "0",
           PhotoEdit: PhotoEdit,
-          EditPower:ModulesIsChange?1:0,
+          EditPower: ModulesIsChange ? 1 : 0,
           Telephone: DataState.AdminPreview.TrasferData.Telephone,
           QQ: DataState.AdminPreview.TrasferData.QQ,
           Weixin: DataState.AdminPreview.TrasferData.Weixin,
@@ -1022,7 +1058,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "" +
                   (this.state.keyword ? "&Keyword" + this.state.keyword : "") +
                   this.state.sortFiled +
                   this.state.sortType
@@ -1099,7 +1137,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10&Keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&Keyword=" +
                   this.state.keyword +
                   this.state.sortFiled +
                   this.state.sortType
@@ -1112,7 +1152,9 @@ class Admin extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=10" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "" +
                   this.state.sortFiled +
                   this.state.sortType
               )
@@ -1171,7 +1213,9 @@ class Admin extends React.Component {
         actions.UpDataState.getAdminPreview(
           "/GetAdminToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageSize=10&sortFiled=" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&sortFiled=" +
             sorter.columnKey +
             sortType +
             "&PageIndex=" +
@@ -1190,7 +1234,9 @@ class Admin extends React.Component {
         actions.UpDataState.getAdminPreview(
           "/GetAdminToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageSize=10" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "" +
             "&PageIndex=" +
             (this.state.pagination - 1) +
             keyword
@@ -1216,7 +1262,9 @@ class Admin extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
-          "&PageSize=10" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           this.state.sortFiled +
           this.state.sortType
       )
@@ -1439,10 +1487,16 @@ class Admin extends React.Component {
                   <div className="pagination-box">
                     <PagiNation
                       showQuickJumper
-                      hideOnSinglepage={true}
+                      // hideOnSinglepage={true}
                       current={this.state.pagination}
                       total={DataState.AdminPreview.Total}
                       onChange={this.onPagiNationChange}
+                      showSizeChanger
+                      pageSize={this.state.pageSize}
+                      onShowSizeChange={this.onShowSizeChange}
+                      hideOnSinglePage={
+                        DataState.AdminPreview.Total === 0 ? true : false
+                      }
                     ></PagiNation>
                   </div>
                 </div>
@@ -1485,7 +1539,7 @@ class Admin extends React.Component {
                 </Modal> */}
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0,height: '370px' }}
+          bodyStyle={{ padding: 0, height: "370px" }}
           width={750}
           type="1"
           title={"添加管理员"}
@@ -1506,7 +1560,7 @@ class Admin extends React.Component {
         </Modal>
         <Modal
           ref="handleAdminMadal"
-          bodyStyle={{ padding: 0 ,height: '370px'}}
+          bodyStyle={{ padding: 0, height: "370px" }}
           width={750}
           type="1"
           title={"编辑管理员"}
