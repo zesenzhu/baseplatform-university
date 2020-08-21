@@ -48,7 +48,9 @@ class FrameContainer extends Component{
 
                 image:''
 
-            }
+            },
+
+            childrenLoad:false
 
         }
 
@@ -68,7 +70,7 @@ class FrameContainer extends Component{
 
                         sessionStorage.setItem("LgBasePlatformInfo",JSON.stringify(data));
 
-                        this.setState({WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName});
+                        this.setState({childrenLoad:true,WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName});
 
                     }
 
@@ -90,7 +92,7 @@ class FrameContainer extends Component{
 
                         const { UserName,PhotoPath } = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                        this.setState({UserInfo:{name:UserName,image:PhotoPath}});
+                        this.setState({UserInfo:{name:UserName,image:PhotoPath},childrenLoad:true});
 
                         if (pageInit){
 
@@ -119,7 +121,7 @@ class FrameContainer extends Component{
 
                                 const { UserName,PhotoPath } = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                                this.setState({UserInfo:{name:UserName,image:PhotoPath}});
+                                this.setState({UserInfo:{name:UserName,image:PhotoPath},childrenLoad:true});
 
                                 if (pageInit){
 
@@ -302,7 +304,7 @@ class FrameContainer extends Component{
 
                 >
 
-                    { children }
+                    { this.state.childrenLoad?children:null }
 
                 </Frame>
 
