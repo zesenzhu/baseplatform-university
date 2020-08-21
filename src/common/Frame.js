@@ -92,7 +92,7 @@ class FrameContainer extends Component{
 
                         const { UserName,PhotoPath } = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                        this.setState({UserInfo:{name:UserName,image:PhotoPath,childrenLoad:true}});
+                        this.setState({UserInfo:{name:UserName,image:PhotoPath},childrenLoad:true});
 
                         if (pageInit){
 
@@ -121,7 +121,7 @@ class FrameContainer extends Component{
 
                                 const { UserName,PhotoPath } = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                                this.setState({UserInfo:{name:UserName,image:PhotoPath,childrenLoad:true}});
+                                this.setState({UserInfo:{name:UserName,image:PhotoPath},childrenLoad:true});
 
                                 if (pageInit){
 
