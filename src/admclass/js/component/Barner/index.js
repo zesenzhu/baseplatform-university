@@ -54,7 +54,7 @@ class TimeBanner extends React.Component {
         CommonData: { selectGrade,selectCollege ,selectMajor},
       },
     } = this.props;
-    dispatch(UpDataState.GetSummary({}));
+    dispatch(UpDataState.GetSummary({isFirst :false}));
 
     dispatch(
       UpDataState.SetAddClassParams({

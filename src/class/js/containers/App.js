@@ -88,10 +88,10 @@ class App extends Component {
                 if (data) {
                   if (hash.includes("Import")) {
                     //导入界面
-                    if (!hash.includes("Student")) {
-                      window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
-                      return;
-                    }
+                    // if (!hash.includes("Student")) {
+                    //   window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
+                    //   return;
+                    // }
 
                     dispatch({ type: RouterSetActions.ROUTER_SET_TO_IMPORT });
 
@@ -522,10 +522,10 @@ class App extends Component {
                     if (data) {
                       if (hash.includes("Import")) {
                         //导入界面
-                        if (hash.includes("Student")) {
-                          window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
-                          return;
-                        }
+                        // if (hash.includes("Student")) {
+                        //   window.location.href = "/html/admclass#/Class"; //直接去到最新的版本
+                        //   return;
+                        // }
                         dispatch({
                           type: RouterSetActions.ROUTER_SET_TO_IMPORT,
                         });
