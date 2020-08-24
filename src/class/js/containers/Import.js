@@ -63,13 +63,21 @@ class Import extends Component{
 
 
     }
+componentDidMount(){
+    const {ModuleSetting, UIState,dispatch} = this.props;
 
+        const {AppLoading} = UIState;
+        if (AppLoading.show&&(!ModuleSetting.ShowLeftMenu)&&(!ModuleSetting.ShowBarner)) {
+
+            dispatch(AppLoadingActions.hide());
+
+        }
+}
     componentWillReceiveProps(props) {
 
         const {ModuleSetting, UIState,dispatch} = props;
 
         const {AppLoading} = UIState;
-
         if (AppLoading.show&&(!ModuleSetting.ShowLeftMenu)&&(!ModuleSetting.ShowBarner)) {
 
             dispatch(AppLoadingActions.hide());
@@ -82,7 +90,6 @@ class Import extends Component{
 
 
     render(){
-
         const { LoginUser } = this.props;
 
         return <div id="import-wrapper">

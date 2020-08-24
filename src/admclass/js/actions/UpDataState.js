@@ -20,9 +20,11 @@ const getLoginUser = (data) => {
 };
 // 获取年级总览
 const MAIN_GET_GRADE_DATA = "MAIN_GET_GRADE_DATA";
-const GetSummary = ({ schoolID, func = () => {} }) => {
+const GetSummary = ({ isFirst = true, schoolID, func = () => {} }) => {
   return (dispatch, getState) => {
-    dispatch(PublicAction.TableLoadingOpen());
+    if (isFirst) {
+      dispatch(PublicAction.TableLoadingOpen());
+    }
 
     if (schoolID === undefined) {
       schoolID = getState().PublicState.LoginMsg.SchoolID;
@@ -586,19 +588,17 @@ const GetTeacherToPage = ({
     if (GroupID === undefined) {
       GroupID = SubjectTeacherParams.SubjectIDs;
     }
-    getTeacherToPage({ SchoolID, CollegeID, Keyword, GroupID }).then(
-      (data) => {
-        if (data !== false) {
-          dispatch({ type: MAIN_GET_TEACHER_TO_PAGE, data });
-          dispatch(
-            SetLoadingVisible({
-              SubjectTeacherLoadingVisible: false,
-            })
-          );
-          func(getState());
-        }
+    getTeacherToPage({ SchoolID, CollegeID, Keyword, GroupID }).then((data) => {
+      if (data !== false) {
+        dispatch({ type: MAIN_GET_TEACHER_TO_PAGE, data });
+        dispatch(
+          SetLoadingVisible({
+            SubjectTeacherLoadingVisible: false,
+          })
+        );
+        func(getState());
       }
-    );
+    });
   };
 };
 const getTeacherToPage = async ({ CollegeID, Keyword, GroupID, SchoolID }) => {
