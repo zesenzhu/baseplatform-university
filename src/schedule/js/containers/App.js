@@ -167,6 +167,12 @@ class App extends Component{
 
             document.getElementsByClassName("frame-content-rightside")[0].style.borderTop = '1px solid #f2f2f2';
 
+            $(document).on('click',()=>{
+
+                window.parent.postMessage("schedule");
+
+            });
+
         }
     }
 

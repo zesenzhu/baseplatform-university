@@ -396,26 +396,7 @@ class Dynamic extends React.Component {
   onCheckClick = () => {
     const { dispatch, DataState } = this.props;
 
-    // if (!this.state.startTime) {
-    //     dispatch(actions.UpUIState.showErrorAlert({
-    //         type: 'btn-error',
-    //         title: "您还没有选择开始时间哦~",
-    //         ok: this.onAppAlertOK.bind(this),
-    //         cancel: this.onAppAlertCancel.bind(this),
-    //         close: this.onAppAlertClose.bind(this)
-    //     }));
-    //     return;
-    // }
-    // if (!this.state.endTime) {
-    //     dispatch(actions.UpUIState.showErrorAlert({
-    //         type: 'btn-error',
-    //         title: "您还没有选择结束时间哦~",
-    //         ok: this.onAppAlertOK.bind(this),
-    //         cancel: this.onAppAlertCancel.bind(this),
-    //         close: this.onAppAlertClose.bind(this)
-    //     }));
-    //     return;
-    // }
+
     let userMsg = DataState.LoginUser;
     let handleTypeSelected = this.state.handleTypeSelected;
     dispatch(
@@ -537,18 +518,7 @@ class Dynamic extends React.Component {
               onHide: this.onAlertWarnHide.bind(this)
             })
           );
-          //   let { pagination, pageSize, dataSource } = this.state;
-          //   let defaultPageSize = pageSize;
-          //   if (dataSource.length < pagination * defaultPageSize) {
-          //     pageSize = dataSource.length - (pagination - 1) * defaultPageSize;
-          //   }
-          //   for (let index = 0; index < pageSize; index++) {
-          //     plainOptions.push(index + defaultPageSize * (pagination - 1));
-          //   }
-          //   // console.log(plainOptions, pageSize, dataSource)
-          //   this.setState({
-          //     plainOptions: plainOptions
-          //   });
+
           let userMsg = DataState.LoginUser;
           let handleTypeSelected = this.state.handleTypeSelected;
           dispatch(
@@ -568,32 +538,10 @@ class Dynamic extends React.Component {
                 handleTypeSelected.value
             )
           );
-          //   let { pagination, pageSize, dataSource } = this.state;
-          //   let plainOptions = [];
-          //   let defaultPageSize = pageSize;
-          //   if (dataSource.length < pagination * defaultPageSize) {
-          //     pageSize = dataSource.length - (pagination - 1) * defaultPageSize;
-          //   }
-          //   for (let index = 0; index < pageSize; index++) {
-          //     plainOptions.push(index + defaultPageSize * (pagination - 1));
-          //   }
-          //   this.setState({
-          //     pagination: 1,
-          //     checkAll: false,
-          //     checkedList: [],
-          //     plainOptions: plainOptions
-          //   });
+
         }
       });
-    //  else {
-    //     dispatch(actions.UpUIState.showErrorAlert({
-    //         type: 'btn-warn',
-    //         title: "您确定删除？",
-    //         ok: this.onAppAlertDeleteAllOK.bind(this, courseClassID),
-    //         cancel: this.onAppAlertCancel.bind(this),
-    //         close: this.onAppAlertClose.bind(this)
-    //     }));
-    // }
+
   };
   //关闭
   onAlertWarnHide = () => {
@@ -633,7 +581,13 @@ class Dynamic extends React.Component {
     let { pagination, pageSize, dataSource } = this.state;
     let defaultPageSize = size;
     if (dataSource.length <  defaultPageSize) {
+
       pageSize = dataSource.length ;
+
+    }else{
+
+      pageSize = defaultPageSize;
+
     }
     for (let index = 0; index < pageSize; index++) {
       plainOptions.push(index );
@@ -731,6 +685,7 @@ class Dynamic extends React.Component {
                       hideOnSinglepage: true,
                       pageSize: this.state.pageSize,
                       current: this.state.pagination,
+                      pageSizeOptions:['10','20','50','100'],
                       showQuickJumper: {
                         goButton: (
                           <Button className="go-btn" color="blue" size="small">
@@ -741,8 +696,11 @@ class Dynamic extends React.Component {
                       showSizeChanger: true,
                       onShowSizeChange: this.onPagiSizeChange.bind(this),
                       onChange: this.onPaginationChange
-                    }}
-                  ></Table>
+                    }}>
+
+
+                  </Table>
+
                 ) : (
                   <Empty
                     title={

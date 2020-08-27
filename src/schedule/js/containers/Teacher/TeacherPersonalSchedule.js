@@ -174,10 +174,15 @@ class TeacherPersonalSchedule extends Component{
 
                 borderTop:'0px',
 
-                minHeight:'auto'
+                minHeight:'auto',
+
+                boxShadow:'none'
 
             });
 
+            $('body').css('cssText','background-color:#ffffff!important');
+
+            $('.frame-drag-flag').css({'background-color':'#ffffff'});
 
         }
 
