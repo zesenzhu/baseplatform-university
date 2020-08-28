@@ -18,7 +18,7 @@ import MCIActions from '../actions/ModuleCommonInfoActions';
 
 import LoginUserActions from '../actions/LoginUserActions';
 
-import logo from "../../images/logo.png";
+import logo from "../../images/个人账号管理.png";
 
 import {getBaseInfo} from '../actions/BaseActions';
 

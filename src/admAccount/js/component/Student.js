@@ -22,6 +22,7 @@ import "../../scss/Student.scss";
 import { postData, getData } from "../../../common/js/fetch";
 import md5 from "md5";
 import { Tooltip, Input } from "antd";
+import Config from "../../../common/js/config";
 import TipsContact from "./TipsContact";
 import Public from "../../../common/js/public";
 import history from "../containers/history";
@@ -65,9 +66,35 @@ class Student extends React.Component {
           },
         },
         {
+          title: "",
+          align: "right",
+          key: "UserImg",
+          width: 70,
+          colSpan: 0,
+          // dataIndex: "UserName",
+          render: (arr) => {
+            return (
+              <div className="name-content">
+                <i
+                  alt={arr.UserName.UserName}
+                  onClick={this.onUserNameClick.bind(this, arr.UserName.key)}
+                  className="name-img"
+                  style={{
+                    width: "47px",
+                    height: "47px",
+                    display: "inline-block",
+                    background: `url(${arr.Others.AvatarPath}) no-repeat center center / 47px`,
+                  }}
+                ></i>
+              </div>
+            );
+          },
+        },
+        {
           title: "姓名",
-          align: "center",
+          align: "left",
           key: "UserName",
+          colSpan: 2,
           width: 130,
           dataIndex: "UserName",
           sorter: true,
@@ -546,7 +573,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           e
@@ -577,7 +606,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType
         )
@@ -617,7 +648,9 @@ class Student extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect
@@ -653,7 +686,9 @@ class Student extends React.Component {
               : "") +
             "&majorID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -691,7 +726,9 @@ class Student extends React.Component {
             this.state.firstSelect.value +
             "&majorID=" +
             this.state.secondSelect.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -727,7 +764,9 @@ class Student extends React.Component {
               : "") +
             "&gradeID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -764,7 +803,9 @@ class Student extends React.Component {
             this.state.secondSelect.value +
             "&gradeID=" +
             this.state.thirdSelect.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -794,7 +835,9 @@ class Student extends React.Component {
             this.state.thirdSelect.value +
             "&classID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortFiled +
             this.state.sortType,
           this.state.firstSelect,
@@ -937,7 +980,9 @@ class Student extends React.Component {
       actions.UpDataState.getGradeStudentPreview(
         "/GetStudentToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=" + this.state.pageSize + "&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           (this.state.firstSelect.value
             ? "&collegeID=" + this.state.firstSelect.value
@@ -1767,15 +1812,38 @@ class Student extends React.Component {
             <span className="top-tips">
               <span className="tips menu39 ">学生账号管理</span>
             </span>
-            {/* <div className='top-nav'>
-                            <Link className='link'  to='/GraduteArchives' replace>查看毕业生档案</Link>
-                            <span className='divide'>|</span>
-                            <Link className='link' target='_blank' to='/RegisterExamine' replace>学生注册审核</Link>
-                            <span className='divide'>|</span>
-                            <span className='link' style={{cursor:'pointer'}}  onClick={this.onAddStudent}>添加学生</span>
-                            <span className='divide'>|</span>
-                            <Link className='link' to='/ImportStudent' replace>导入学生</Link>
-                        </div> */}
+            <div className="top-nav">
+              {/* <Link className="link" to="/GraduteArchives" replace>
+                查看毕业生档案
+              </Link>
+              <span className="divide">|</span>
+              <Link
+                className="link"
+                target="_blank"
+                to="/RegisterExamine"
+                replace
+              >
+                学生注册审核
+              </Link>
+              <span className="divide">|</span>
+              <span
+                className="link"
+                style={{ cursor: "pointer" }}
+                onClick={this.onAddStudent}
+              >
+                添加学生
+              </span>
+              <span className="divide">|</span>
+              <Link className="link" to="/ImportStudent" replace>
+                导入学生
+              </Link> */}
+               <span className="goto">
+                如需添加学生，请前往
+                <a target="_black" href={Config.BasicProxy+'/html/admArchives/index.html#/UserArchives/Student/all'} className="link">
+                  学生档案管理
+                </a>
+              </span>
+            </div>
           </div>
           <div className="Student-hr"></div>
           <div className="Student-content">

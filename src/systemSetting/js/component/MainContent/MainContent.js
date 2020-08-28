@@ -62,8 +62,9 @@ class MainContent extends Component {
       route: false,
       havePower: false,
       List: [
-        { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "School", title: "学校基础资料设置", icon: "School" },
+
+        { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
         
       ],
@@ -148,7 +149,7 @@ class MainContent extends Component {
   //操作左侧菜单，响应路由变化
   handleMenu = (path) => {
     if (history.location.pathname === "/MainContent") {
-      history.push("/MainContent/Semester");
+      history.push("/MainContent/School");
     }
     path = path || history.location.pathname.split("/")[2];
     // console.log(path);
@@ -201,7 +202,7 @@ class MainContent extends Component {
       path !== "Subsystem" &&
       path !== "Import"
     ) {
-      history.push("/MainContent/Semester");
+      history.push("/MainContent/School");
     }
     return (
       <Loading opacity={false} size="large" spinning={!this.state.havePower}>

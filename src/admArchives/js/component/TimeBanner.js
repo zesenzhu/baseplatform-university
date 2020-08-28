@@ -46,6 +46,10 @@ class TimeBanner extends React.Component {
   };
   render() {
     const { DataState, UIState } = this.props;
+    let {
+      MainData: { SysUrl },
+ 
+    } = DataState;
     let userMsg = DataState.LoginUser;
     let AdminPower = true;
     // let pathname = history.location.pathname;
@@ -53,11 +57,13 @@ class TimeBanner extends React.Component {
     // let pathArr = pathname.split("/");
     // let handleRoute = pathArr[2];
     // console.log(handleRoute);
-    let { ProductType } = JSON.parse(
+    let { ProductType,LockerVersion } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
     )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
+      let token =  
+      sessionStorage.getItem("token")
     let List = [];
     if (userMsg.UserType === "7") {
       this.state.List.map((child, index) => {
@@ -74,6 +80,28 @@ class TimeBanner extends React.Component {
       });
     } else {
       List = this.state.List;
+    }
+    if (LockerVersion === "1") {
+      //校园基础信息管理 XG5.2-免费版,1为基础版
+      let CopyList = List;
+      List = [];
+      CopyList.map((child, index) => {
+        if (child.value !== "Graduate") {
+          List.push(child);
+        }
+      });
+    }
+    if (SysUrl instanceof Array && SysUrl.length > 0&&userMsg.UserType === "0") {
+      let CopyList = List;
+      List = [];
+      CopyList.map((child, index) => {
+          List.push(child);
+      });
+      List.push({
+        value: SysUrl[0].WebSvrAddr+'?lg_tk='+token,
+        title: "人脸库 ",
+        icon: "Face",
+      });
     }
     return (
       <Router>

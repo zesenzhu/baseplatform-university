@@ -1164,7 +1164,27 @@ const addMajor = ({ func = () => {}, data }) => {
       });
   };
 };
+//获取子系统的服务器地址信息
+let GET_SUB_SYSTEMS_MAIN_SERVER = "GET_SUB_SYSTEMS_MAIN_SERVER";
+const GetSubSystemsMainServerBySubjectID = () => {
+  return (dispatch) => {
+    dispatch(actions.UpUIState.TableLoadingOpen());
+    let url =
+      "/BaseApi/Global/GetSubSystemsMainServerBySubjectID?appid=000&access_token=4d39af1bff534514e24948568b750f6c&sysIDs=E27&subjectID=";
+    getData(CONFIG.BasicProxy + url, 2)
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          dispatch({ type: GET_SUB_SYSTEMS_MAIN_SERVER, data: json.Data });
+        }
+      });
+  };
+};
 export default {
+  GetSubSystemsMainServerBySubjectID,
+  GET_SUB_SYSTEMS_MAIN_SERVER,
   addMajor,
   editMajor,
   delMajor,

@@ -20,6 +20,7 @@ import { postData, getData } from "../../../common/js/fetch";
 import CONFIG from "../../../common/js/config";
 import { Link } from "react-router-dom";
 import "../../scss/Teacher.scss";
+import Config from "../../../common/js/config";
 import md5 from "md5";
 import { Tooltip, Input } from "antd";
 import TipsContact from "./TipsContact";
@@ -64,10 +65,36 @@ class Teacher extends React.Component {
           },
         },
         {
+          title: "",
+          align: "right",
+          key: "UserImg",
+          width: 70,
+          colSpan: 0,
+          // dataIndex: "UserName",
+          render: (arr) => {
+            return (
+              <div className="name-content">
+                <i
+                  alt={arr.UserName.UserName}
+                  onClick={this.onUserNameClick.bind(this, arr.UserName.key)}
+                  className="name-img"
+                  style={{
+                    width: "47px",
+                    height: "47px",
+                    display: "inline-block",
+                    background: `url(${arr.Others.AvatarPath}) no-repeat center center / 47px`,
+                  }}
+                ></i>
+              </div>
+            );
+          },
+        },
+        {
           title: "姓名",
-          align: "center",
+          align: "left",
           key: "UserName",
           dataIndex: "UserName",
+          colSpan: 2,
           width: 130,
           sorter: true,
           render: (arr) => {
@@ -292,7 +319,7 @@ class Teacher extends React.Component {
       keyword: "",
       CancelBtnShow: "n",
       searchValue: "",
-      pageSize:10,
+      pageSize: 10,
       userMsg: props.DataState.LoginUser,
       sortType: "",
       sortFiled: "",
@@ -393,7 +420,9 @@ class Teacher extends React.Component {
         actions.UpDataState.getSubjectTeacherPreview(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -429,7 +458,9 @@ class Teacher extends React.Component {
         actions.UpDataState.getSubjectTeacherPreview(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -453,7 +484,9 @@ class Teacher extends React.Component {
         actions.UpDataState.getSubjectTeacherPreview(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -490,7 +523,9 @@ class Teacher extends React.Component {
         actions.UpDataState.getSubjectTeacherPreview(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             this.state.sortType +
             this.state.sortFiled +
             "&collegeID=" +
@@ -578,7 +613,9 @@ class Teacher extends React.Component {
       actions.UpDataState.getSubjectTeacherPreview(
         "/GetTeacherToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=" + this.state.pageSize + "&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           "&collegeID=" +
           (this.state.firstSelect.value ? this.state.firstSelect.value : "") +
@@ -613,7 +650,9 @@ class Teacher extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
-          "&PageSize=" + this.state.pageSize + "" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           "&collegeID=" +
           (this.state.firstSelect.value ? this.state.firstSelect.value : "") +
           "&GroupID=" +
@@ -841,7 +880,9 @@ class Teacher extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=" + this.state.pageSize + "&keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&keyword=" +
                   this.state.keyword +
                   "&collegeID=" +
                   (this.state.firstSelect.value
@@ -914,7 +955,9 @@ class Teacher extends React.Component {
                   this.state.userMsg.SchoolID +
                   "&PageIndex=" +
                   (this.state.pagination - 1) +
-                  "&PageSize=" + this.state.pageSize + "&keyword=" +
+                  "&PageSize=" +
+                  this.state.pageSize +
+                  "&keyword=" +
                   this.state.keyword +
                   "&collegeID=" +
                   (this.state.firstSelect.value
@@ -1032,7 +1075,9 @@ class Teacher extends React.Component {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=" + this.state.pageSize + "&keyword=" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "&keyword=" +
                 this.state.keyword +
                 "&collegeID=" +
                 (this.state.firstSelect.value
@@ -1073,7 +1118,9 @@ class Teacher extends React.Component {
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           (value - 1) +
-          "&PageSize=" + this.state.pageSize + "" +
+          "&PageSize=" +
+          this.state.pageSize +
+          "" +
           keyword +
           SubjectIDs +
           "&GroupID=" +
@@ -1084,17 +1131,15 @@ class Teacher extends React.Component {
     );
   };
   // 改变显示条目数
-onShowSizeChange = (current, pageSize) => {
-  // console.log(current, pageSize);
-  const { dispatch } = this.props;
- 
+  onShowSizeChange = (current, pageSize) => {
+    // console.log(current, pageSize);
+    const { dispatch } = this.props;
+
     this.setState({
       checkedList: [],
-    checkAll: false,
-    pageSize,
-    pagination:1,
- 
- 
+      checkAll: false,
+      pageSize,
+      pagination: 1,
     });
     let SubjectIDs = "";
     let keyword = "";
@@ -1110,7 +1155,8 @@ onShowSizeChange = (current, pageSize) => {
         "/GetTeacherToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=0" +
-          "&PageSize="+ pageSize+
+          "&PageSize=" +
+          pageSize +
           keyword +
           SubjectIDs +
           "&GroupID=" +
@@ -1119,9 +1165,7 @@ onShowSizeChange = (current, pageSize) => {
           this.state.sortType
       )
     );
-    
-  
-};
+  };
   onChangeEnableClick = (key, isEnable) => {
     const {
       dispatch,
@@ -1169,7 +1213,9 @@ onShowSizeChange = (current, pageSize) => {
                 this.state.userMsg.SchoolID +
                 "&PageIndex=" +
                 (this.state.pagination - 1) +
-                "&PageSize=" + this.state.pageSize + "" +
+                "&PageSize=" +
+                this.state.pageSize +
+                "" +
                 keyword +
                 SubjectIDs +
                 "&GroupID=" +
@@ -1258,7 +1304,9 @@ onShowSizeChange = (current, pageSize) => {
             this.state.userMsg.SchoolID +
             "&sortFiled=" +
             sorter.columnKey +
-            "&PageSize=" + this.state.pageSize + "&" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "&" +
             sortType +
             "&PageIndex=" +
             (this.state.pagination - 1) +
@@ -1279,7 +1327,9 @@ onShowSizeChange = (current, pageSize) => {
         actions.UpDataState.getSubjectTeacherPreview(
           "/GetTeacherToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&PageSize=" + this.state.pageSize + "" +
+            "&PageSize=" +
+            this.state.pageSize +
+            "" +
             "&PageIndex=" +
             (this.state.pagination - 1) +
             keyword +
@@ -1407,15 +1457,45 @@ onShowSizeChange = (current, pageSize) => {
             <span className="top-tips">
               <span className="tips menu33 ">教师账号管理</span>
             </span>
-            {/* <div className='top-nav'>
-                            <Link className='link'  to='/GraduteArchives' replace>查看毕业生档案</Link>
-                            <span className='divide'>|</span>
-                            <Link className='link' target='_blank' to='/RegisterExamine' replace>学生注册审核</Link>
-                            <span className='divide'>|</span>
-                            <span className='link' style={{cursor:'pointer'}}  onClick={this.onAddTeacher}>添加学生</span>
-                            <span className='divide'>|</span>
-                            <Link className='link' to='/ImportTeacher' replace>导入学生</Link>
-                        </div> */}
+            <div className="top-nav">
+              {/* <Link className="link" to="/GraduteArchives" replace>
+                查看毕业生档案
+              </Link>
+              <span className="divide">|</span>
+              <Link
+                className="link"
+                target="_blank"
+                to="/RegisterExamine"
+                replace
+              >
+                学生注册审核
+              </Link>
+              <span className="divide">|</span>
+              <span
+                className="link"
+                style={{ cursor: "pointer" }}
+                onClick={this.onAddTeacher}
+              >
+                添加学生
+              </span>
+              <span className="divide">|</span>
+              <Link className="link" to="/ImportTeacher" replace>
+                导入学生
+              </Link> */}
+              <span className="goto">
+                如需添加教师，请前往
+                <a
+                  target="_black"
+                  href={
+                    Config.BasicProxy +
+                    "/html/admArchives/index.html#/UserArchives/Teacher/all"
+                  }
+                  className="link"
+                >
+                  教师档案管理
+                </a>
+              </span>
+            </div>
           </div>
           <div className="Teacher-hr"></div>
           <div className="Teacher-content">

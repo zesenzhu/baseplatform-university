@@ -82,6 +82,17 @@ class App extends Component {
 
     TokenCheck_Connect(false, () => {
       let token = sessionStorage.getItem("token");
+      let { LockerVersion } = JSON.parse(
+        //校园基础信息管理 XG5.2-免费版,1为基础版
+        sessionStorage.getItem("LgBasePlatformInfo")
+      )?JSON.parse(
+        //校园基础信息管理 XG5.2-免费版,1为基础版
+        sessionStorage.getItem("LgBasePlatformInfo")
+      ):{};
+      if (LockerVersion === "1") {
+        window.location.href =
+          config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
+      }
       // sessionStorage.setItem('UserInfo', '')
       if (sessionStorage.getItem("UserInfo")) {
         dispatch(

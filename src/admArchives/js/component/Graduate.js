@@ -73,10 +73,10 @@ class Graduate extends React.Component {
                   onClick={this.onUserNameClick.bind(this, arr.key)}
                   className="name-img"
                   style={{
-                    width: "47px",
+                    width: "37.5px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.UserImg}) no-repeat center center / 47px`,
+                    background: `url(${arr.UserImg}) no-repeat center center / 100% auto`,
                   }}
                 ></i>
               </div>
@@ -243,7 +243,7 @@ class Graduate extends React.Component {
       searchValue: "",
       columnKey: "",
       order: "",
-      pageSize:10,
+      pageSize: 10,
       detailData: "",
       searchWord: "",
       GraduateDetailsMsgModalVisible: false,
@@ -350,7 +350,9 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -379,7 +381,9 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -418,7 +422,9 @@ class Graduate extends React.Component {
             (this.state.thirdSelect.value
               ? "&gradeID=" + this.state.thirdSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -453,7 +459,9 @@ class Graduate extends React.Component {
               : "") +
             "&majorID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -490,7 +498,9 @@ class Graduate extends React.Component {
             (this.state.secondSelect.value
               ? "&majorID=" + this.state.secondSelect.value
               : "") +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -532,7 +542,9 @@ class Graduate extends React.Component {
               : "") +
             "&gradeID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -566,7 +578,9 @@ class Graduate extends React.Component {
             this.state.secondSelect.value +
             "&gradeID=" +
             this.state.thirdSelect.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -593,7 +607,9 @@ class Graduate extends React.Component {
             this.state.thirdSelect.value +
             "&classID=" +
             e.value +
-            "&PageIndex=0&PageSize=" + this.state.pageSize + "" +
+            "&PageIndex=0&PageSize=" +
+            this.state.pageSize +
+            "" +
             (this.state.columnKey ? "&sortFiled=" + this.state.columnKey : "") +
             (this.state.order ? "&SortType=" + this.state.order : "")
         )
@@ -691,7 +707,9 @@ class Graduate extends React.Component {
       actions.UpDataState.getGraduatePreview(
         "/GetGraduate_Univ?SchoolID=" +
           this.state.userMsg.SchoolID +
-          "&PageIndex=0&PageSize=" + this.state.pageSize + "&keyword=" +
+          "&PageIndex=0&PageSize=" +
+          this.state.pageSize +
+          "&keyword=" +
           e.value +
           (this.state.firstSelect.value !== 0
             ? "&collegeID=" + this.state.firstSelect.value

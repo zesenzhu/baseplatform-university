@@ -23,6 +23,7 @@ import md5 from "md5";
 import "../../scss/Leader.scss";
 import { Tooltip, Input } from "antd";
 import TipsContact from "./TipsContact";
+import Config from "../../../common/js/config";
 import history from "../containers/history";
 //import EditModal from './EditModal'
 //import IconLocation from '../../images/icon-location.png'
@@ -58,10 +59,36 @@ class Leader extends React.Component {
           },
         },
         {
+          title: "",
+          align: "right",
+          key: "UserImg",
+          width: 70,
+          colSpan: 0,
+          // dataIndex: "UserName",
+          render: (arr) => {
+            return (
+              <div className="name-content">
+                <i
+                  alt={arr.UserName.UserName}
+                  onClick={this.onUserNameClick.bind(this, arr.UserName.key)}
+                  className="name-img"
+                  style={{
+                    width: "47px",
+                    height: "47px",
+                    display: "inline-block",
+                    background: `url(${arr.Others.AvatarPath}) no-repeat center center / 47px`,
+                  }}
+                ></i>
+              </div>
+            );
+          },
+        },
+        {
           title: "姓名",
-          align: "center",
+          align: "left",
           key: "UserName",
           dataIndex: "UserName",
+          colSpan: 2,
           width: 130,
           sorter: true,
           render: (arr) => {
@@ -1093,6 +1120,21 @@ class Leader extends React.Component {
             <span className="top-tips">
               <span className="tips menu35 ">领导账号管理</span>
             </span>
+            <div className="top-nav">
+              <span className="goto">
+                如需添加领导，请前往
+                <a
+                  target="_black"
+                  href={
+                    Config.BasicProxy +
+                    "/html/admArchives/index.html#/UserArchives/Leader/all"
+                  }
+                  className="link"
+                >
+                  领导档案管理
+                </a>
+              </span>
+            </div>
           </div>
           <div className="Leader-hr"></div>
           <div className="Leader-content">
