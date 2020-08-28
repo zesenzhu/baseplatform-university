@@ -65,9 +65,35 @@ class Parents extends React.Component {
           },
         },
         {
+          title: "",
+          align: "right",
+          key: "UserImg",
+          width: 70,
+          colSpan: 0,
+          // dataIndex: "UserName",
+          render: (arr) => {
+            return (
+              <div className="name-content">
+                <i
+                  alt={arr.UserName.UserName}
+                  onClick={this.onUserNameClick.bind(this, arr.UserName.key)}
+                  className="name-img"
+                  style={{
+                    width: "47px",
+                    height: "47px",
+                    display: "inline-block",
+                    background: `url(${arr.Others.AvatarPath}) no-repeat center center / 47px`,
+                  }}
+                ></i>
+              </div>
+            );
+          },
+        },
+        {
           title: "姓名",
-          align: "center",
+          align: "left",
           key: "UserName",
+          colSpan: 2,
           width: 130,
           dataIndex: "UserName",
           sorter: true,

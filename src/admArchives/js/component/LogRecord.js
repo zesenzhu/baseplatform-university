@@ -78,10 +78,10 @@ class LogRecord extends React.Component {
                   onClick={this.onUserNameClick.bind(this, arr.key)}
                   className="name-img"
                   style={{
-                    width: "47px",
+                    width: "37.5px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`,
+                    background: `url(${arr.PhotoPath}) no-repeat center center / 100% auto`,
                   }}
                 ></i>
               </div>
@@ -245,6 +245,7 @@ class LogRecord extends React.Component {
       startMomentTime: null,
       endtMomentTime: null,
       endOpen: false,
+      pageSize:10,
       CollegeSelect: { value: 0, title: "全部学院" },
       sortFiled: "",
       userType:

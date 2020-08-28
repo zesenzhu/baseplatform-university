@@ -22,6 +22,7 @@ import GetUserLog from './data/GetUserLog';
 import CollegeMsg from './data/CollegeMsg';
 import GetTeacherSignUpLog from './data/GetTeacherSignUpLog';
 import EditGroupMsg from './data/EditGroupMsg';
+import MainData from './data/MainData'
 import CommonData from './data/CommonData';
 const DataState=combineReducers(
     {
@@ -46,6 +47,6 @@ const DataState=combineReducers(
         GetPicUrl,
         GetUserLog,CollegeMsg,GetTeacherSignUpLog,
         EditGroupMsg,
-        CommonData
+        CommonData,MainData
     });
 export default DataState;

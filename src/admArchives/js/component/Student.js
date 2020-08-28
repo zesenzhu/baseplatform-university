@@ -79,10 +79,10 @@ class Student extends React.Component {
                   onClick={this.onUserNameClick.bind(this, arr.key)}
                   className="name-img"
                   style={{
-                    width: "47px",
+                    width: "37.5px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.PhotoPath}) no-repeat center center / 47px`,
+                    background: `url(${arr.PhotoPath}) no-repeat center center / 100% auto`,
                   }}
                 ></i>
               </div>
@@ -1948,6 +1948,15 @@ class Student extends React.Component {
         },
       },
     } = DataState;
+    let { LockerVersion } = JSON.parse(
+      //校园基础信息管理 XG5.2-免费版,1为基础版
+      sessionStorage.getItem("LgBasePlatformInfo")
+    )
+      ? JSON.parse(
+          //校园基础信息管理 XG5.2-免费版,1为基础版
+          sessionStorage.getItem("LgBasePlatformInfo")
+        )
+      : {};
     return (
       <div className="Student">
         <div className="Student-box">
@@ -1973,32 +1982,38 @@ class Student extends React.Component {
                 <span className="addMajor">专业管理</span>
               </span>
               <span className="divide">|</span>
-              <a
-                className="link"
-                // target="_blank"
-                // to="/RegisterExamine"
-                // replace
-              >
-                <span
-                  onClick={this.onLinkClick.bind(
-                    this,
-                    "学生注册审核",
-                    "#/RegisterExamine/RegisterWillExamine"
-                  )}
-                  className="RegisterExamine"
-                >
-                  学生注册审核
-                  <i
-                    style={{
-                      display: DataState.GetSignUpLog.WillData.Total
-                        ? "inline-block"
-                        : "none",
-                    }}
-                    className="have-red"
-                  ></i>
-                </span>
-              </a>
-              <span className="divide">|</span>
+              {LockerVersion !== "1" ? (
+                <>
+                  <a
+                    className="link"
+                    // target="_blank"
+                    // to="/RegisterExamine"
+                    // replace
+                  >
+                    <span
+                      onClick={this.onLinkClick.bind(
+                        this,
+                        "学生注册审核",
+                        "#/RegisterExamine/RegisterWillExamine"
+                      )}
+                      className="RegisterExamine"
+                    >
+                      学生注册审核
+                      <i
+                        style={{
+                          display: DataState.GetSignUpLog.WillData.Total
+                            ? "inline-block"
+                            : "none",
+                        }}
+                        className="have-red"
+                      ></i>
+                    </span>
+                  </a>
+                  <span className="divide">|</span>{" "}
+                </>
+              ) : (
+                ""
+              )}
               <span
                 className="link"
                 style={{ cursor: "pointer" }}
@@ -2224,39 +2239,39 @@ class Student extends React.Component {
             size="small"
             spinning={UIState.AppLoading.modalLoading}
           >
-          {DataState.GetUserLog.UserLog instanceof Array &&
-          DataState.GetUserLog.UserLog.length > 0 ? (
-            <div className="modal-studentChange">
-              <div className="content-top">
-                <img
-                  src={IconLocation}
-                  width="30"
-                  height="40"
-                  alt="icon-location"
-                />
-                <span className="top-text">
-                  {this.state.studentChangeUserLog.UserName}的档案变更记录
-                </span>
+            {DataState.GetUserLog.UserLog instanceof Array &&
+            DataState.GetUserLog.UserLog.length > 0 ? (
+              <div className="modal-studentChange">
+                <div className="content-top">
+                  <img
+                    src={IconLocation}
+                    width="30"
+                    height="40"
+                    alt="icon-location"
+                  />
+                  <span className="top-text">
+                    {this.state.studentChangeUserLog.UserName}的档案变更记录
+                  </span>
+                </div>
+                <div className="content">
+                  <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
+                    {UIState.AppModal.StudentChangeMadalVisible ? (
+                      <StudentChangeRecord
+                        data={DataState.GetUserLog.UserLog}
+                      ></StudentChangeRecord>
+                    ) : (
+                      ""
+                    )}
+                  </Scrollbars>
+                </div>
               </div>
-              <div className="content">
-                <Scrollbars style={{ width: 100 + "%", height: 280 + "px" }}>
-                  {UIState.AppModal.StudentChangeMadalVisible ? (
-                    <StudentChangeRecord
-                      data={DataState.GetUserLog.UserLog}
-                    ></StudentChangeRecord>
-                  ) : (
-                    ""
-                  )}
-                </Scrollbars>
-              </div>
-            </div>
-          ) : (
-            <Empty
-              type="4"
-              title="该用户暂无档案变更记录"
-              style={{ top: "150px", position: "relative",height:'411px' }}
-            ></Empty>
-          )}
+            ) : (
+              <Empty
+                type="4"
+                title="该用户暂无档案变更记录"
+                style={{ top: "150px", position: "relative", height: "411px" }}
+              ></Empty>
+            )}
           </Loading>
         </Modal>
         <Modal
