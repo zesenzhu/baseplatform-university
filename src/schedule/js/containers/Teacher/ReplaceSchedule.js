@@ -16,6 +16,8 @@ import 'moment/locale/zh-cn';
 
 import utils from "../../actions/utils";
 
+import {Scrollbars} from 'react-custom-scrollbars';
+
 moment.locale('zh-cn');
 
 class ReplaceSchedule extends Component{
@@ -297,7 +299,9 @@ class ReplaceSchedule extends Component{
 
     return (
 
-                <div className="replace-schedule-wrapper">
+        <Scrollbars style={{width:840,height:300}}>
+
+            <div className="replace-schedule-wrapper">
 
                     <div className="subject-wrapper clearfix">
 
@@ -680,6 +684,8 @@ class ReplaceSchedule extends Component{
                     }
 
                 </div>
+
+        </Scrollbars>
 
         );
     }

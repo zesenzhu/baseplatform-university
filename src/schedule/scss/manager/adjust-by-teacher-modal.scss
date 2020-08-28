@@ -139,8 +139,8 @@
         }
         .props {
             float: left;
-            font-size: 16px;
-            color: #666666;
+            font-size: 14px;
+            color: #999999;
             width: 78px;
             text-align: right;
             margin-right: 20px;
@@ -332,7 +332,7 @@
     //与人换课
     .change-schedule-wrapper {
         position: relative;
-        padding: 32px 45px;
+        padding: 36px 45px;
         .change-wrapper {
             width: 300px;
             height: 210px;
@@ -370,9 +370,9 @@
             }
         }
         .props {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 12px;
-            color: #666666;
+            color: #999999;
         }
         .ant-calendar-picker-input {
             height: 28px;
@@ -403,7 +403,8 @@
     }
     //调整时间
     .change-time-wrapper {
-        padding: 36px 44px 0 44px;
+        position: relative;
+        padding: 50px 44px 0 44px;
         &>* {
             float: left;
         }
@@ -422,8 +423,8 @@
             }
         }
         .props {
-            color: #666666;
-            font-size: 16px;
+            color: #999999;
+            font-size: 14px;
             margin-right: 14px;
             &:first-child {
                 margin-left: 30px;
@@ -546,10 +547,10 @@
 
     }
     .change-class-room-wrapper {
-        padding: 40px 50px;
+        padding:70px 50px;
         .props {
-            font-size: 16px;
-            color: #666666;
+            font-size: 14px;
+            color: #999999;
             margin-right: 12px;
             float: left;
         }
@@ -640,10 +641,10 @@
         }
     }
     .stop-schedule-by-teacher-wrapper {
-        padding: 40px 50px;
+        padding: 70px 50px;
         .props {
-            font-size: 16px;
-            color: #666666;
+            font-size: 14px;
+            color: #999999;
             margin-right: 12px;
             float: left;
         }

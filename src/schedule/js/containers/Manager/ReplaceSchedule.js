@@ -16,6 +16,8 @@ import 'moment/locale/zh-cn';
 
 import utils from "../../actions/utils";
 
+import {Scrollbars} from 'react-custom-scrollbars';
+
 moment.locale('zh-cn');
 
 class ReplaceSchedule extends Component{
@@ -302,17 +304,19 @@ class ReplaceSchedule extends Component{
 
     if (teacherOptions.dropSelectd.value==='none'){
 
-        TeacherSubjectTip = '请选择教师';
+        TeacherSubjectTip = '请先选择任课教师';
 
     }else {
 
-        TeacherSubjectTip = '该教师暂无可调整课程';
+        TeacherSubjectTip = '该教师暂无可调整的课程';
 
     }
 
     return (
 
-                <div className="replace-schedule-wrapper">
+        <Scrollbars style={{width:840,height:300}}>
+
+            <div className="replace-schedule-wrapper">
 
                     <div className="teacher-wrapper clearfix">
 
@@ -321,12 +325,13 @@ class ReplaceSchedule extends Component{
                             <Tooltip placement="right" getPopupContainer={triggerNode =>triggerNode.parentNode} title={originTeacherTipsTitle} visible={originTeacherTips}>
 
                                 <DropDown
-                                    width={160}
+                                    width={200}
                                     dropSelectd={teacherOptions.dropSelectd}
                                     type="multiple"
                                     style={{zIndex:21,left:98,top:0}}
                                     mutipleOptions={{
                                         range:2,
+                                        width:640,
                                         dropMultipleList:teacherList,
                                         dropMultipleChange:this.teacherDropChange.bind(this),
                                         dropClickSearch:this.teacherClickSearch.bind(this),
@@ -434,7 +439,7 @@ class ReplaceSchedule extends Component{
                         <Tooltip placement="right" autoAdjustOverflow={false} getPopupContainer={triggerNode =>triggerNode.parentNode} title={replaceTeacherTipsTitle} visible={replaceTeacherTips}>
 
                             <DropDown
-                                width={160}
+                                width={200}
                                 height={200}
                                 dropSelectd={replaceTeacherOptions.dropSelectd?replaceTeacherOptions.dropSelectd:{value:"none",title:"请选择任课教师"}}
                                 onChange={this.replaceTeacherDropChange.bind(this)}
@@ -737,6 +742,8 @@ class ReplaceSchedule extends Component{
                     }
 
                 </div>
+
+        </Scrollbars>
 
         );
     }

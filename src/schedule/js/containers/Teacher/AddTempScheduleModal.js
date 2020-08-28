@@ -885,6 +885,18 @@ function AddTempScheduleModal(props){
 
                         <tr>
 
+                            <td className="props">上课老师:</td>
+
+                            <td>
+
+                                <div className="teacher-name" >{UserName}</div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
                             <td className="props">课程:</td>
 
                             <td style={{position:'relative',zIndex:4,width:160}}>
@@ -1053,18 +1065,6 @@ function AddTempScheduleModal(props){
                                     </>
 
                             }
-
-                        </tr>
-
-                        <tr>
-
-                            <td className="props">上课老师:</td>
-
-                            <td>
-
-                               <div className="teacher-name" >{UserName}</div>
-
-                            </td>
 
                         </tr>
 
