@@ -51,13 +51,17 @@ function Teacher(props){
 
         if (getQueryVariable('aiPractice')){
 
-            $('.frame-time-bar').css({marginBottom:'0px'});
+            $('.frame-time-bar').css({marginBottom:'0px',boxShadow:'none'});
 
-            $('.frame-content-rightside').css({borderRadius:'0px',minHeight:'auto'});
+            $('.frame-content-rightside').css({borderRadius:'0px',minHeight:'auto',boxShadow:'none'});
 
             $('.Teacher').css({paddingTop:'0px'});
 
             $('.handle-content .content').css({borderRadius:'0px',boxShadow:'none',textShadow:'0px 1px 1px #333333'});
+
+            $('body').css('cssText','background-color:#ffffff!important');
+
+            $('.frame-drag-flag').css({backgroundColor:'#ffffff'});
 
         }
 

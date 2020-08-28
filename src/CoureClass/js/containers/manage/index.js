@@ -1268,8 +1268,6 @@ function Index(props) {
     };
 
 
-    console.log(111);
-
 
     return(
 
