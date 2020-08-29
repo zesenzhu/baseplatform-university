@@ -29,6 +29,7 @@ import * as subActions from "../actions/subPassActions";
 import {getQueryVariable} from "../../../common/js/disconnect";
 
 import {productTypeChange} from "../reducers/productType";
+
 import productType from "../reducers/productType";
 
 const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
