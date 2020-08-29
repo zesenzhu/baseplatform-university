@@ -602,6 +602,7 @@ function CourseModal(props,ref) {
                         type="1"
                         title={"选择专业"}
                         visible={major.modalShow}
+                        maskClosable={true}
                         // onOk={majorOk}
                         onCancel={majorOk}
                         footer={null}
