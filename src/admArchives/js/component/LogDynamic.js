@@ -393,7 +393,9 @@ class LogDynamic extends React.Component {
                 this.state.HandleTypeSelect.value +
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
-                "&PageIndex=0&PageSize=" + this.state.pageSize + "&OnlineUserID=" +
+                "&PageIndex=0&PageSize=" +
+                this.state.pageSize +
+                "&OnlineUserID=" +
                 this.state.userMsg.UserID +
                 "&collegeID=" +
                 (this.state.CollegeSelect.value === 0
@@ -483,11 +485,24 @@ class LogDynamic extends React.Component {
       UserType: userInfo.UserType,
     });
     if (!userInfo.Deleted) {
-      dispatch(
-        actions.UpDataState.getUserMsg(
-          "/GetUserDetail?userid=" + userInfo.UserName.UserID
-        )
-      );
+      if (userInfo.UserType === 1 || userInfo.UserType === 2) {
+        //学生教师调到个人画像
+        let token = sessionStorage.getItem("token");
+        window.open(
+          "/html/userPersona#/?userType=" +
+            userInfo.UserType +
+            "&userID=" +
+            userInfo.UserName.UserID +
+            "&lg_tk=" +
+            token
+        );
+      } else {
+        dispatch(
+          actions.UpDataState.getUserMsg(
+            "/GetUserDetail?userid=" + userInfo.UserName.UserID
+          )
+        );
+      }
     } else {
       // dispatch(actions.UpUIState.showErrorAlert({
       //     type: 'btn-warn',

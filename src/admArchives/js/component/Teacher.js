@@ -1347,11 +1347,27 @@ class Teacher extends React.Component {
     );
   };
   onUserNameClick = (key) => {
-    const { DataState } = this.props;
-    this.setState({
-      TeacherDetailsMsgModalVisible: true,
-      detailData: DataState.SubjectTeacherPreview.pensonalList[key],
-    });
+    const {
+      DataState: {
+        SubjectTeacherPreview: { pensonalList },
+      },
+    } = this.props;
+    if (pensonalList[key]) {
+      let token = sessionStorage.getItem("token");
+      window.open(
+        "/html/userPersona#/?userType=" +
+          1 +
+          "&userID=" +
+          pensonalList[key].userID +
+          "&lg_tk=" +
+          token
+      );
+    }
+    // const { DataState } = this.props;
+    // this.setState({
+    //   TeacherDetailsMsgModalVisible: true,
+    //   detailData: DataState.SubjectTeacherPreview.pensonalList[key],
+    // });
   };
   TeacherDetailsMsgModalOk = () => {
     this.setState({
