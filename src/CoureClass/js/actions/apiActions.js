@@ -525,7 +525,15 @@ export const CombineCourseClass_University = async ({SchoolID,UserID,UserType,Co
 
     }else if (res.StatusCode===400){
 
-        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+        if (parseInt(res.ErrCode)===-4){
+
+            dispatch(showErrorAlert({title:'合并后的教学班名称和同课程同年级下已有教学班名称重复'}));
+
+        }else{
+
+            dispatch(showErrorAlert({title:res.Msg?res.Msg:'合班失败'}));
+
+        }
 
     }
 

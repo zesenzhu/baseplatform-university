@@ -181,7 +181,15 @@ export const UpdateSubjectInfo_University = async ({SchoolID,UserID,UserType,Sub
 
     }else if (res.StatusCode===400){
 
-        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+        if (parseInt(res.ErrCode)===-4){
+
+            dispatch(showErrorAlert({title:'学科名称或编号与已有学科重复'}));
+
+        }else{
+
+            dispatch(showErrorAlert({title:res.Msg?res.Msg:'修改学科失败'}));
+
+        }
 
     }
 

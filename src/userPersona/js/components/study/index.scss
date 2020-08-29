@@ -1,0 +1,140 @@
+@import "../../../scss/base";
+
+.study-wrapper{
+
+  .study-header{
+
+    padding: 80px 0 20px 0;
+
+    color: #666666;
+
+    .course-count,.schedule-count{
+
+      font-size: 18px;
+
+    }
+
+  }
+
+  .study-item{
+
+    float: left;
+
+    width: 254px;
+
+    height: 184px;
+
+    margin-bottom: 20px;
+
+    background: url("./images/study-item-bg.png") no-repeat center;
+
+    background-size: cover;
+
+    padding:26px;
+
+    &:not(:nth-child(4n+1)){
+
+      margin-left: 24px;
+
+    }
+
+    .title{
+
+      text-align: center;
+
+      height: 40px;
+
+      .subject-name{
+
+        display: inline-block;
+
+        max-width: 120px;
+
+        @include textOverflow;
+
+        vertical-align: middle;
+
+        text-align: center;
+
+        color: #5587aa;
+
+        font-size: 18px;
+
+        font-weight: bold;
+
+      }
+
+      .isCourseClass{
+
+          display: inline-block;
+
+          width: 30px;
+
+          height: 16px;
+
+          line-height: 16px;
+
+          margin-left: 4px;
+
+          font-size: 12px;
+
+          color: #ce7545;
+
+          text-align: center;
+
+          background-color: #f5e3da;
+
+          border-radius: 3px;
+
+          vertical-align: bottom;
+
+      }
+
+      border-bottom: 1px dashed rgba(85,175,130,0.32);
+
+    }
+
+
+    .study-table{
+
+      margin:20px 4px 0 4px;
+
+      td{
+
+        height: 24px;
+
+      }
+
+    }
+
+    .col1{
+
+      color: #999999;
+
+      padding-right:2px;
+
+    }
+
+    .col2{
+
+      color: #333333;
+
+    }
+
+    .teacher-name,.class-name{
+
+      max-width: 132px;
+
+      @include textOverflow;
+
+    }
+
+  }
+
+  .emptyBox{
+
+    padding-bottom: 60px;
+
+  }
+
+}

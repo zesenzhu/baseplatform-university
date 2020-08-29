@@ -49,7 +49,7 @@ class App extends Component {
 
         }else{
 
-            document.title='学科管理';
+            document.title='学科课程管理';
 
         }
 
@@ -173,8 +173,8 @@ class App extends Component {
 
                         pageInit={this.pageInit.bind(this)}
                         module={{
-                            cnname: productType===6?'课程管理':'学科管理',
-                            enname: "Subject Management",
+                            cnname: productType===6?'课程管理':'学科课程管理',
+                            enname:  productType===6?"Course Management":'Subject&Course Management',
                             image: logo
                         }}
                         className='myFrame'

@@ -1029,8 +1029,6 @@ function Index(props) {
 
         }
 
-        console.log(TeacherID);
-
         if (TeacherID){
 
             teacherOk = true;
@@ -1062,7 +1060,7 @@ function Index(props) {
 
                     setAddEditCourse(d=>({...d,show:false}));
 
-                    successAlertShow('添加教学班成功');
+                    successAlertShow('成功');
 
                     updateTable()
 

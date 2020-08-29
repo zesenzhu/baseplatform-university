@@ -206,7 +206,7 @@ function SetSubjectLeader (props,ref){
 
           <div  className="row clearfix">
 
-                  <span className="culonm-1">学科主管：</span>
+                  <span className="culonm-1">学科主任：</span>
 
                   <div className="culonm-2 culonm-3">
 
