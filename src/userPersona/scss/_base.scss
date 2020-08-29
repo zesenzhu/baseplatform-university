@@ -1,0 +1,49 @@
+@mixin textOverflow{
+
+  text-overflow: ellipsis;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+}
+
+
+body{
+
+  color: #333333;
+  
+}
+
+
+#root{
+
+  &>.ant-spin-nested-loading{
+
+    min-height: 600px;
+
+    .ant-spin-blur{
+
+      &:after{
+
+        z-index: 1081;
+
+      }
+
+    }
+
+  }
+
+}
+
+.red{
+
+  color: #ff6600;
+
+}
+
+.gray{
+
+  color: #999999;
+
+}

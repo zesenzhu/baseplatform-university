@@ -110,6 +110,13 @@ if (process.env.NODE_ENV === "development") {
     //新版的教学班
 
     NewCourseClass: "http://192.168.2.207:10108",
+
+    UserPersonaProxy:'http://192.168.129.182:10102',
+
+    UserScheduleProxy:'http://192.168.129.64:10102/Schedule/api/',
+
+
+
   };
 }
 
@@ -173,6 +180,11 @@ if (process.env.NODE_ENV === "production") {
     ClassProxy: "/UserMgr/ClassMgr",
 
     NewCourseClass: RootUrl,
+
+    UserPersonaProxy:RootUrl,
+
+    UserScheduleProxy:RootUrl+'/Schedule/api/',
+
   };
 }
 
