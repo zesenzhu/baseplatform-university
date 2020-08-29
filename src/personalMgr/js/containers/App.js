@@ -107,7 +107,7 @@ class App extends Component{
 
                     delete data.PhotoPath;
 
-                    delete data.PhotoPath_NoCache;
+                    delete data.AvatarPath;
 
                 }
 
@@ -176,7 +176,7 @@ class App extends Component{
                 }}
                 /*userInfo={{
                     name:LoginUser.UserName,
-                    image:BaseSettings.PhotoPath_NoCache?BaseSettings.PhotoPath_NoCache:LoginUser.PhotoPath_NoCache
+                    image:BaseSettings.AvatarPath?BaseSettings.AvatarPath:LoginUser.AvatarPath
                 }}*/
 
                 pageInit={this.pageInit.bind(this)}
@@ -190,7 +190,7 @@ class App extends Component{
 
                     <div className="frame_left_menu_pic clearfix">
 
-                        <div className="header-pic" style={{backgroundImage:`url(${BaseSettings.PhotoPath_NoCache?BaseSettings.PhotoPath_NoCache:LoginUser.PhotoPath_NoCache})`}}></div>
+                        <div className="header-pic" style={{backgroundImage:`url(${BaseSettings.AvatarPath?BaseSettings.AvatarPath:LoginUser.AvatarPath})`}}></div>
 
                         <div className="user-name">{LoginUser.UserName}</div>
 

@@ -245,7 +245,7 @@ class LogRecord extends React.Component {
       startMomentTime: null,
       endtMomentTime: null,
       endOpen: false,
-      pageSize:10,
+      pageSize: 10,
       CollegeSelect: { value: 0, title: "全部学院" },
       sortFiled: "",
       userType:
@@ -398,7 +398,8 @@ class LogRecord extends React.Component {
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
                 "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+                this.state.pageSize +
+                "" +
                 "&collegeID=" +
                 (this.state.CollegeSelect.value === 0
                   ? ""
@@ -464,7 +465,8 @@ class LogRecord extends React.Component {
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
                 "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+                this.state.pageSize +
+                "" +
                 "&collegeID=" +
                 (this.state.CollegeSelect.value === 0
                   ? ""
@@ -488,11 +490,24 @@ class LogRecord extends React.Component {
       UserType: userInfo.UserType,
     });
     if (!userInfo.Deleted) {
-      dispatch(
-        actions.UpDataState.getUserMsg(
-          "/GetUserDetail?userid=" + userInfo.UserName.UserID
-        )
-      );
+      if (userInfo.UserType === 1 || userInfo.UserType === 2) {
+        //学生教师调到个人画像
+        let token = sessionStorage.getItem("token");
+        window.open(
+          "/html/userPersona#/?userType=" +
+            userInfo.UserType +
+            "&userID=" +
+            userInfo.UserName.UserID +
+            "&lg_tk=" +
+            token
+        );
+      } else {
+        dispatch(
+          actions.UpDataState.getUserMsg(
+            "/GetUserDetail?userid=" + userInfo.UserName.UserID
+          )
+        );
+      }
     } else {
       // dispatch(actions.UpUIState.showErrorAlert({
       //     type: 'btn-warn',
@@ -658,7 +673,8 @@ class LogRecord extends React.Component {
                 "&UserType=" +
                 this.state.FileTypeSelect.value +
                 "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+                this.state.pageSize +
+                "" +
                 "&collegeID=" +
                 (this.state.CollegeSelect.value === 0
                   ? ""
@@ -855,7 +871,8 @@ class LogRecord extends React.Component {
           "&UserType=" +
           this.state.FileTypeSelect.value +
           "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+          this.state.pageSize +
+          "" +
           "&collegeID=" +
           (this.state.CollegeSelect.value === 0
             ? ""
@@ -880,7 +897,8 @@ class LogRecord extends React.Component {
             "&UserType=" +
             this.state.FileTypeSelect.value +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+            this.state.pageSize +
+            "" +
             "&collegeID=" +
             (this.state.CollegeSelect.value === 0
               ? ""
@@ -910,7 +928,8 @@ class LogRecord extends React.Component {
           "&UserType=" +
           this.state.FileTypeSelect.value +
           "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+          this.state.pageSize +
+          "" +
           "&collegeID=" +
           (this.state.CollegeSelect.value === 0
             ? ""
@@ -936,7 +955,8 @@ class LogRecord extends React.Component {
             "&UserType=" +
             this.state.FileTypeSelect.value +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "" +
+            this.state.pageSize +
+            "" +
             "&collegeID=" +
             (this.state.CollegeSelect.value === 0
               ? ""

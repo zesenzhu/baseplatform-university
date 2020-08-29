@@ -84,13 +84,13 @@ const Init = () => {
 
     let { BaseSetting } = getState();
 
-    const { PhotoPath_NoCache } = BaseSetting;
+    const { AvatarPath } = BaseSetting;
 
     let userType = "";
 
     let gender = "";
 
-    switch (UserType) {
+    switch (Number(UserType)) {
       case 0:
         userType = "Admin";
 
@@ -130,17 +130,17 @@ const Init = () => {
             if (data){
 
 
-                if (data.PhotoPath===BaseSetting.PhotoPath) {//不需要刷新photo头像
+                if (data.AvatarPath===BaseSetting.AvatarPath) {//不需要刷新photo头像
 
-                    delete data.PhotoPath;
+                    delete data.AvatarPath;
 
-                    delete data.PhotoPath_NoCache;
+                    delete data.AvatarPath;
 
                 }
 
                 dispatch({type:BASE_INFO_UPDATE,data:data});
 
-                const { PhotoPath_NoCache } = data;
+                const { AvatarPath } = data;
 
                 let userType = '';
 
@@ -206,7 +206,7 @@ const Init = () => {
 
                             userID:UserID, //新增时传空字符串、编辑时传相应UserID
 
-                            curImgPath:PhotoPath_NoCache?PhotoPath_NoCache:BaseSetting.PhotoPath_NoCache, //用户当前头像，新增时可不传
+                            curImgPath:AvatarPath?AvatarPath:BaseSetting.AvatarPath, //用户当前头像，新增时可不传
 
                             size:"small",
 
@@ -244,9 +244,9 @@ const Init = () => {
 
           userID: UserID, //新增时传空字符串、编辑时传相应UserID
 
-          curImgPath: PhotoPath_NoCache
-            ? PhotoPath_NoCache
-            : BaseSetting.PhotoPath_NoCache, //用户当前头像，新增时可不传
+          curImgPath: AvatarPath
+            ? AvatarPath
+            : BaseSetting.AvatarPath, //用户当前头像，新增时可不传
 
           size: "small",
 
@@ -294,7 +294,7 @@ const Commit = (dom) => {
       !TelephoneTipsShow
     ) {
       if ($(dom).picUploader.uploadSubmit()) {
-        let PhotoPath = $(dom).picUploader.getCurImgPath();
+        let AvatarPath = $(dom).picUploader.getCurImgPath();
 
         let PhotoEdit = $("#picUpload").picUploader.isChanged() ? 1 : 0;
 
@@ -308,7 +308,7 @@ const Commit = (dom) => {
           Weibo: WeiboValue ? WeiboValue : "",
           Telephone: TelephoneValue ? TelephoneValue : "",
           Sign: SignValue ? SignValue : "",
-          PhotoPath,
+          AvatarPath,
           dispatch,
 
           PhotoEdit,
@@ -326,7 +326,7 @@ const Commit = (dom) => {
 
                 let option = getState().BaseSetting.PicUploader;
 
-                option.curImgPath = data.PhotoPath_NoCache;
+                option.curImgPath = data.AvatarPath;
 
                 dispatch({ type: PICUPLOADER_OPTIONS_UPDATE, data: option });
 
@@ -366,7 +366,7 @@ const UpdateSesstionStorage = () => {
       let UserInfo = {};
 
       Object.keys(loginInfo).forEach((key) => {
-        if (key === "PhotoPath") {
+        if (key === "AvatarPath") {
           let date = new Date();
 
           let time = date.getTime();
@@ -379,7 +379,7 @@ const UpdateSesstionStorage = () => {
 
       /* for (let [key, value] of Object.entries(loginInfo)) {
 
-                if (key === "PhotoPath") {
+                if (key === "AvatarPath") {
 
                     let date = new Date();
 
@@ -429,7 +429,7 @@ let UpdateBasicInfo = async ({
   UserID,
   UserType,
   ShortName,
-  PhotoPath,
+  AvatarPath,
   QQ,
   Weixin,
   Telephone,
@@ -449,7 +449,7 @@ let UpdateBasicInfo = async ({
       Weibo,
       Telephone,
       Sign,
-      PhotoPath,
+      AvatarPath,
       PhotoEdit,
     },
     2,

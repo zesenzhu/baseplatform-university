@@ -1340,11 +1340,27 @@ class Student extends React.Component {
     );
   };
   onUserNameClick = (key) => {
-    const { DataState } = this.props;
-    this.setState({
-      StudentDetailsMsgModalVisible: true,
-      detailData: DataState.GradeStudentPreview.pensonalList[key],
-    });
+    const {
+      DataState: {
+        GradeStudentPreview: { pensonalList },
+      },
+    } = this.props;
+    if (pensonalList[key]) {
+      let token = sessionStorage.getItem("token");
+      window.open(
+        "/html/userPersona#/?userType=" +
+          2 +
+          "&userID=" +
+          pensonalList[key].userID +
+          "&lg_tk=" +
+          token
+      );
+    }
+    // const { DataState } = this.props;
+    // this.setState({
+    //   StudentDetailsMsgModalVisible: true,
+    //   detailData: DataState.GradeStudentPreview.pensonalList[key],
+    // });
   };
   StudentDetailsMsgModalOk = () => {
     this.setState({
