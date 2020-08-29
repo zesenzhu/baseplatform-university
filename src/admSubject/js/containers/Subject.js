@@ -457,6 +457,8 @@ function Subject(props){
 
                   }
 
+                  setLoading(false);
+
               });
 
           }
