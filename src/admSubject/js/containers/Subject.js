@@ -106,7 +106,7 @@ function Subject(props){
                }
            },
            {
-               title: "学科主管",
+               title: "学科主任",
                align: "center",
                width:180,
                dataIndex: "LeaderName",
@@ -156,7 +156,7 @@ function Subject(props){
                                }}
                                className="handle-btn"
                            >
-                               设置学科主管
+                               设置学科主任
                            </Button>
 
                            {
@@ -344,7 +344,11 @@ function Subject(props){
 
     const { LeaderID } = key;
 
-    dispatch(actions.UpDataState.getTeacherMsg("/GetUserDetail?userID=" + LeaderID));
+    const token = sessionStorage.getItem("token");
+
+    window.open(`/html/userPersona?userID=${LeaderID}&userType=1&lg_tk=${token}`);
+
+    // dispatch(actions.UpDataState.getTeacherMsg("/GetUserDetail?userID=" + LeaderID));
 
   };
 
@@ -852,7 +856,7 @@ function Subject(props){
           type="1"
           width={580}
 
-          title={"设置学科主管"}
+          title={"设置学科主任"}
           visible={subLeader.show}
           onOk={SetSubjectTeacherModalOk}
           onCancel={SetSubjectTeacherModalCancel}
