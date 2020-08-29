@@ -87,8 +87,7 @@ function DoubleSingleTable(props){
 
             $('#tb').find('.ant-table-scroll>.ant-table-header').css('overflow','scroll');
 
-
-        }else {
+        }else{
 
             $('#tb').find('.ant-table-body').css('overflow','auto');
 
@@ -296,6 +295,13 @@ function DoubleSingleTable(props){
                 "margin":"0 auto"
 
             });
+
+        }
+
+
+        if ($('.double-single-table-wrapper #tb>.ant-table-content >.ant-table-scroll >.ant-table-header th').length>9){
+
+            $('.ant-table-fixed-header>.ant-table-content>.ant-table-scroll>.ant-table-body').css({"marginTop":'-17px'});
 
         }
 
@@ -571,8 +577,6 @@ function DoubleSingleTable(props){
             <div className={"double-single-table-wrapper work-plant-form"}>
 
                 <Table id="tb"  columns={columns} bordered dataSource={dataSource} pagination={false} scroll={{x:1120,y:window.innerHeight-200}} onRow={record=>{return { onClick:onClickRow(record) } }}>
-
-
 
             </Table>
 
