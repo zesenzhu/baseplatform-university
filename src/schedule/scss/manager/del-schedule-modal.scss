@@ -8,8 +8,6 @@
 
   .props{
 
-    float: left;
-    
     font-size: 14px;
 
     color: #999999;
@@ -77,8 +75,6 @@
   .check-item{
 
     float: left;
-
-
 
     position: relative;
 
@@ -170,7 +166,7 @@
 
   .grade-selected-container{
 
-    float: left;
+    margin-top: 10px;
 
     width: 550px;
 
@@ -181,6 +177,12 @@
       margin-bottom:10px;
 
       margin-left: 10px;
+
+      &:first-child{
+
+        margin-left: 0;
+
+      }
 
     }
 
