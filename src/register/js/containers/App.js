@@ -20,7 +20,7 @@ class App extends Component {
     super(props);
     const { dispatch } = props;
     this.state = {
-      role:'Student'
+      role: "Student",
     };
   }
 
@@ -29,9 +29,16 @@ class App extends Component {
     // dispatch(actions.UpUIState.AppLoadingClose());
     let route = history.location.pathname;
     // console.log(route)
-    
-    dispatch(actions.UpDataState.getSchoolInfo());
-    this.requestData(route)
+    dispatch(
+      actions.UpDataState.GetBaseInfoForPages({
+        //先获取基础信息来显示头部
+        func: () => {
+          dispatch(actions.UpDataState.getSchoolInfo()); //里面是获取该平台联网的学校
+        },
+      })
+    );
+    // dispatch(actions.UpDataState.getSchoolInfo());
+    this.requestData(route);
     let that = this;
     history.listen(() => {
       //路由监听
@@ -39,31 +46,27 @@ class App extends Component {
       // 获取接口数据
       // console.log(route)
       that.requestData(route);
-    })
+    });
   }
 
-  requestData = route => {
+  requestData = (route) => {
     const { dispatch, DataState } = this.props;
-    
+
     let pathArr = route.split("/");
     let handleRoute = pathArr[1];
     // let ID = pathArr[3];
-    if (
-      
-      handleRoute !== "Student" &&
-      handleRoute !== "Teacher"
-    ) {
+    if (handleRoute !== "Student" && handleRoute !== "Teacher") {
       dispatch(actions.UpUIState.AppLoadingOpen());
 
       history.push("/Student");
       this.setState({
-        role:'Student'
-      })
+        role: "Student",
+      });
       return;
     }
-      this.setState({
-        role:handleRoute
-      })
+    this.setState({
+      role: handleRoute,
+    });
     // console.log(handleRoute)
 
     dispatch(actions.UpUIState.AppLoadingClose());
@@ -91,6 +94,11 @@ class App extends Component {
   render() {
     const { UIState, DataState } = this.props;
     let UserID = DataState.LoginUser.UserID;
+    let {
+      getReisterData: {
+        BaseInfoForPages: { ProductName },
+      },
+    } = DataState;
     return (
       <React.Fragment>
         <Loading
@@ -99,26 +107,43 @@ class App extends Component {
           size="large"
           spinning={UIState.AppLoading.appLoading}
         >
-          <Frame
+          {/* <Frame
             module={{
               cnname: "注册",
               enname: "Register",
-              image: logo
+              image: logo,
             }}
             className="myFrame"
             type="circle"
             register={true}
             showBarner={false}
             showLeftMenu={false}
-          >
-            {/* <div ref="frame-time-barner"><TimeBanner /></div> */}
+          > */}
+          {/* <div ref="frame-time-barner"><TimeBanner /></div> */}
 
-            <div className="box" ref="frame-right-content">
-              <Loading spinning={UIState.AppLoading.rightLoading}>
-                <Register role={this.state.role}></Register>
-              </Loading>
-            </div>
-          </Frame>
+          <div className="box" ref="frame-right-content">
+            <Loading spinning={UIState.AppLoading.rightLoading}>
+              <div className="box-top">
+                <div className="bt-msg">
+                  <p className="tb-name">
+                    <i></i>
+                    {ProductName ? ProductName : "--"}
+                  </p>
+                  <div className="tb-hr"></div>
+                  <p className="bt-title">
+                    欢迎来到{ProductName}，请填写资料完成注册
+                  </p>
+                </div>
+                <div className="ball-1"></div>
+                <div className="ball-2"></div>
+                <div className="ball-3"></div>
+                <div className="ball-4"></div>
+                <div className="ball-5"></div>
+              </div>
+              <Register role={this.state.role}></Register>
+            </Loading>
+          </div>
+          {/* </Frame> */}
         </Loading>
         <Alert
           show={UIState.AppAlert.appAlert}
@@ -134,11 +159,11 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(App);

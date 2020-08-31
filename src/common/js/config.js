@@ -115,6 +115,7 @@ if (process.env.NODE_ENV === "development") {
 
     UserScheduleProxy:'http://192.168.129.64:10102/Schedule/api/',
 
+    GlobalProxy:'http://192.168.2.207:10108/Global',
 
 
   };
@@ -184,6 +185,9 @@ if (process.env.NODE_ENV === "production") {
     UserPersonaProxy:RootUrl,
 
     UserScheduleProxy:RootUrl+'/Schedule/api/',
+
+    GlobalProxy:'/Global',
+
 
   };
 }

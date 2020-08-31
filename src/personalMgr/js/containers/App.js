@@ -107,7 +107,7 @@ class App extends Component{
 
                     delete data.PhotoPath;
 
-                    delete data.AvatarPath;
+                    // delete data.AvatarPath;
 
                 }
 
