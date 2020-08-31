@@ -7,13 +7,14 @@ const AppTipsVisible = (
     GenderTipsVisible: false,
     GradeIDTipsVisible: false,
     MajorIDTipsVisible: false,
-   CollegeIDTipsVisible: false,
+    CollegeIDTipsVisible: false,
     ClassIDTipsVisible: false,
     SubjectIDsTipsVisible: false,
     GroupIDTipsVisible: false,
-    SchoolIDTipsVisible: false
-    ,ComfirmPwdTipsVisible:false
-
+    SchoolIDTipsVisible: false,
+    ComfirmPwdTipsVisible: false,
+    ShortNameTipsVisible: false,
+    TestCodeTipsVisible: false,
   },
   actions
 ) => {

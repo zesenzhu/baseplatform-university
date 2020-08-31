@@ -119,30 +119,30 @@ class App extends Component {
             showBarner={false}
             showLeftMenu={false}
           > */}
-            {/* <div ref="frame-time-barner"><TimeBanner /></div> */}
+          {/* <div ref="frame-time-barner"><TimeBanner /></div> */}
 
-            <div className="box" ref="frame-right-content">
-              <Loading spinning={UIState.AppLoading.rightLoading}>
-                <div className="box-top">
-                  <div className="bt-msg">
-                    <p className="tb-name">
-                      <i></i>
-                      {ProductName ? ProductName : "--"}
-                    </p>
-                    <div className="tb-hr"></div>
-                    <p className="bt-title">
-                      欢迎来到智慧校园一体化平台，请填写资料完成注册
-                    </p>
-                  </div>
-                  <div className="ball-1"></div>
-                  <div className="ball-2"></div>
-                  <div className="ball-3"></div>
-                  <div className="ball-4"></div>
-                  <div className="ball-5"></div>
+          <div className="box" ref="frame-right-content">
+            <Loading spinning={UIState.AppLoading.rightLoading}>
+              <div className="box-top">
+                <div className="bt-msg">
+                  <p className="tb-name">
+                    <i></i>
+                    {ProductName ? ProductName : "--"}
+                  </p>
+                  <div className="tb-hr"></div>
+                  <p className="bt-title">
+                    欢迎来到{ProductName}，请填写资料完成注册
+                  </p>
                 </div>
-                <Register role={this.state.role}></Register>
-              </Loading>
-            </div>
+                <div className="ball-1"></div>
+                <div className="ball-2"></div>
+                <div className="ball-3"></div>
+                <div className="ball-4"></div>
+                <div className="ball-5"></div>
+              </div>
+              <Register role={this.state.role}></Register>
+            </Loading>
+          </div>
           {/* </Frame> */}
         </Loading>
         <Alert
