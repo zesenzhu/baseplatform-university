@@ -14,7 +14,9 @@ const getReisterData = (
     SchoolList: [
       // { value: "S27-511-AF57", title: "一体化教育云    平台sadasda" },
       { value: "0", title: "暂无学校" }
-    ]
+    ],
+    BaseInfoForPages: { ProductName: "" },
+
     // SubjectList:[{value:0,title:'暂无学科'}]
   },
   actions
@@ -24,6 +26,8 @@ const getReisterData = (
   switch (actions.type) {
     // case UpDataState.SET_USER_MSG:
     //   return Object.assign({}, state, { ...actions.data });
+    case UpDataState.GET_BASE_INFO_FOR_PAGES:
+      return Object.assign({}, state, { BaseInfoForPages: actions.data });
     case UpDataState.GET_GRADE_CLASS_DATA:
       data = handleGradeInfo(actions.data);
       return Object.assign({}, state, { ...data });

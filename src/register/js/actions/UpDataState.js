@@ -12,7 +12,7 @@ const GET_GRADE_CLASS_DATA = "GET_GRADE_CLASS_DATA";
 // 获取学科信息
 const GET_SUBJECT_DATA = "GET_SUBJECT_DATA";
 //获取教研室信息
-const GET_GROUP_DATA = 'GET_GROUP_DATA'
+const GET_GROUP_DATA = "GET_GROUP_DATA";
 // 获取学校信息
 const GET_SCHOOL_INFO = "GET_SCHOOL_INFO";
 //获取网站资源数据
@@ -32,19 +32,19 @@ const GET_SCHOOL_INFO = "GET_SCHOOL_INFO";
 //   };
 // };
 
-const setUserMsg = data => {
+const setUserMsg = (data) => {
   //data:{userMsg:userMsg}
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: SET_USER_MSG, data: data });
   };
 };
 const getGradeClassData = ({ SchoolID = "" }) => {
-  return dispatch => {
+  return (dispatch) => {
     getData(CONFIG.RegisterProxy + "/GetTree_Univ?SchoolID=" + SchoolID)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_GRADE_CLASS_DATA, data: json.Data });
         }
@@ -54,10 +54,10 @@ const getGradeClassData = ({ SchoolID = "" }) => {
 const getSubjectData = ({ SchoolID = "" }) => {
   return (dispatch, getState) => {
     getData(CONFIG.RegisterProxy + "/GetSubject_univ?SchoolID=" + SchoolID)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SUBJECT_DATA, data: json.Data });
         }
@@ -67,10 +67,10 @@ const getSubjectData = ({ SchoolID = "" }) => {
 const getGroupData = ({ SchoolID = "" }) => {
   return (dispatch, getState) => {
     getData(CONFIG.RegisterProxy + "/GetCollegeGroup_Univ?SchoolID=" + SchoolID)
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_GROUP_DATA, data: json.Data });
         }
@@ -82,10 +82,10 @@ const getSchoolInfo = () => {
   return (dispatch, getState) => {
     dispatch(UpUIState.AppLoadingOpen());
     getData(CONFIG.RegisterProxy + "/GeSchoolInfo_univ")
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(json => {
+      .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SCHOOL_INFO, data: json.Data });
           let { DataState } = getState();
@@ -95,22 +95,24 @@ const getSchoolInfo = () => {
           ) {
             dispatch(
               getGradeClassData({
-                SchoolID: DataState.getReisterData.SchoolList[0].value
+                SchoolID: DataState.getReisterData.SchoolList[0].value,
               })
             );
             dispatch(
               getGroupData({
-                SchoolID: DataState.getReisterData.SchoolList[0].value
+                SchoolID: DataState.getReisterData.SchoolList[0].value,
               })
             );
             dispatch(
               getSubjectData({
-                SchoolID: DataState.getReisterData.SchoolList[0].value
+                SchoolID: DataState.getReisterData.SchoolList[0].value,
               })
             );
-            dispatch(setUserMsg({
-              SchoolID: DataState.getReisterData.SchoolList[0].value
-            }))
+            dispatch(
+              setUserMsg({
+                SchoolID: DataState.getReisterData.SchoolList[0].value,
+              })
+            );
             dispatch(UpUIState.AppLoadingClose());
           } else {
             dispatch(UpUIState.AppLoadingClose());
@@ -119,7 +121,25 @@ const getSchoolInfo = () => {
       });
   };
 };
+const GET_BASE_INFO_FOR_PAGES = "GET_BASE_INFO_FOR_PAGES";
+const GetBaseInfoForPages = ({ func = () => {} }) => {
+  return (dispatch, getState) => {
+    getData(CONFIG.GlobalProxy + "/GetBaseInfoForPages")
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          dispatch({ type: GET_BASE_INFO_FOR_PAGES, data: json.Data });
+          func(getState());
+        }
+      });
+  };
+};
 export default {
+  GET_BASE_INFO_FOR_PAGES,
+  GetBaseInfoForPages,
+
   SET_USER_MSG,
   setUserMsg,
   GET_GRADE_CLASS_DATA,
@@ -129,5 +149,5 @@ export default {
   getSchoolInfo,
   GET_SCHOOL_INFO,
   GET_GROUP_DATA,
-  getGroupData
+  getGroupData,
 };

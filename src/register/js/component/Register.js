@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Input } from "antd";
+import Code from "./Code";
 
 import {
   Loading,
@@ -10,6 +11,8 @@ import {
   PagiNation,
   Modal,
   Button,
+  RadioGroup,
+  Radio,
   // Input,
   Tips,
 } from "../../../common";
@@ -35,7 +38,8 @@ class Register extends Component {
       UserIDTipsTitle: "由1-24位字母与数字组成",
       PwdTipsTitle: `密码应由8-20位字母、数字及特殊字符的任意两种及以上组成`, //密码应由8-20位字母、数字及特殊字符\`~!@#$%^&*()_+-={}|[]:\";'<>?,./\\的任意两种及以上组成
       ComfirmPwdTipsTitle: `请输入确认密码并确认与登录密码相同`, //密码应由8-20位字母、数字及特殊字符\`~!@#$%^&*()_+-={}|[]:\";'<>?,./\\的任意两种及以上组成
-      UserNameTipsTitle: "姓名由1-20位的汉字、字母、数字、下划线、空格组成（首尾不允许空格）",
+      UserNameTipsTitle:
+        "姓名由1-20位的汉字、字母、数字、下划线、空格组成（首尾不允许空格）",
       GenderTipsTitle: "请选择性别",
       SubjectTipsTitle: "请选择所教学科",
       GradeTipsTitle: "请选择年级",
@@ -46,7 +50,7 @@ class Register extends Component {
       GroupTipsTitle: "请选择教研室",
       UserName: "",
       password: "",
-      ComfirmPassword:'',
+      ComfirmPassword: "",
       PwdStrong: 0,
       GenderSelect: { value: 0, title: "请选择性别" },
       GradeSelect: { value: 0, title: "请选择年级" },
@@ -73,6 +77,10 @@ class Register extends Component {
       ],
       Agreement: false,
       Read: false,
+      VCCodeImg: CONFIG.RegisterProxy + "/VCCode?ramdon=" + Math.random(),
+      VCCode: "",
+      TestCodeTest: false,
+      code: "",
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -199,20 +207,20 @@ class Register extends Component {
     }
   };
   // 确认密码 change
-  onComfirmPwdChange = e => {
+  onComfirmPwdChange = (e) => {
     this.setState({
-      ComfirmPassword: e.target.value.trim()
+      ComfirmPassword: e.target.value.trim(),
     });
   };
   // 确认密码 blur
-  onComfirmPwdBlur = e => {
+  onComfirmPwdBlur = (e) => {
     const { dispatch } = this.props;
     let value = e.target.value;
 
-    if (e.target.value!==this.state.password) {
+    if (e.target.value !== this.state.password) {
       dispatch(
         actions.UpUIState.AppTipsVisible({
-          ComfirmPwdTipsVisible: true
+          ComfirmPwdTipsVisible: true,
         })
       );
     } else {
@@ -223,7 +231,7 @@ class Register extends Component {
       // );
       dispatch(
         actions.UpUIState.AppTipsVisible({
-          ComfirmPwdTipsVisible: false
+          ComfirmPwdTipsVisible: false,
         })
       );
     }
@@ -314,7 +322,7 @@ class Register extends Component {
   onGenderChange = (e) => {
     const { dispatch } = this.props;
     this.setState({
-      GenderSelect: e,
+      GenderSelect: e.target.value,
     });
     dispatch(
       actions.UpUIState.AppTipsVisible({
@@ -322,7 +330,7 @@ class Register extends Component {
       })
     );
     //改变reduce学生中转数据
-    dispatch(actions.UpDataState.setUserMsg({ Gender: e.value }));
+    dispatch(actions.UpDataState.setUserMsg({ Gender: e.target.value }));
   };
   // 学校选择
   onSchoolChange = (e) => {
@@ -493,7 +501,45 @@ class Register extends Component {
       );
       return;
     }
-
+    if (!this.state.TestCode) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "请输入验证码",
+          ok: this.onAppAlertOK.bind(this),
+          cancel: this.onAppAlertCancel.bind(this),
+          close: this.onAppAlertClose.bind(this),
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
+    if (this.state.TestCode.length < 5) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "请输入完整的验证码",
+          ok: this.onAppAlertOK.bind(this),
+          cancel: this.onAppAlertCancel.bind(this),
+          close: this.onAppAlertClose.bind(this),
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
+    if (this.state.TestCodeTest === false) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "验证码错误",
+          ok: this.onAppAlertOK.bind(this),
+          cancel: this.onAppAlertCancel.bind(this),
+          close: this.onAppAlertClose.bind(this),
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return;
+    }
     let VisibleIsFalse = false;
 
     let MsgIsFalse = false;
@@ -502,17 +548,20 @@ class Register extends Component {
     let url = "";
     let StudentSignUp = "/StudentSignUp_univ";
     let TeacherSignUp = "/TeacherSignUp_univ";
-    if(UIState.AppTipsVisible.ComfirmPwdTipsVisible){
+    if (UIState.AppTipsVisible.ComfirmPwdTipsVisible) {
       VisibleIsFalse = true;
 
       // return;
     }
-    if(md5(this.state.ComfirmPassword)!==DataState.RegisterMsg.Pwd){
-      dispatch(actions.UpUIState.AppTipsVisible({ComfirmPwdTipsVisible:true}));
+    if (md5(this.state.ComfirmPassword) !== DataState.RegisterMsg.Pwd) {
+      dispatch(
+        actions.UpUIState.AppTipsVisible({ ComfirmPwdTipsVisible: true })
+      );
       VisibleIsFalse = true;
-    }else{
-      dispatch(actions.UpUIState.AppTipsVisible({ComfirmPwdTipsVisible:false}));
-
+    } else {
+      dispatch(
+        actions.UpUIState.AppTipsVisible({ ComfirmPwdTipsVisible: false })
+      );
     }
     for (let child in DataState.RegisterMsg) {
       // console.log(child);
@@ -631,7 +680,116 @@ class Register extends Component {
 
     // console.log(DataState.RegisterMsg);
   };
-
+  // 验证码 change
+  onTestCodeChange = (e) => {
+    this.setState({
+      TestCode: e.target.value.trim(),
+    });
+  };
+  // 验证码 blur
+  onTestCodeBlur = (e) => {
+    const { dispatch } = this.props;
+    let value = e.target.value;
+    let Test = /^[a-zA-Z0-9]{5}$/.test(value);
+    if (value === "") {
+      return;
+    }
+    if (!Test) {
+      dispatch(
+        actions.UpUIState.AppTipsVisible({
+          TestCodeTipsVisible: true,
+        })
+      );
+      this.setState({
+        TestCodeTest: false,
+      });
+    } else {
+      // dispatch(
+      //   actions.UpDataState.VCCodeEquals({
+      //     VCCode: this.state.TestCode,
+      //     func: (data, state) => {
+      let data =
+        this.state.TestCode.toLowerCase() === this.state.code.toLowerCase();
+      console.log(data);
+      if (data) {
+        dispatch(
+          actions.UpUIState.AppTipsVisible({
+            TestCodeTipsVisible: true,
+          })
+        );
+        this.setState({
+          TestCodeTest: true,
+        });
+      } else {
+        dispatch(
+          actions.UpUIState.AppTipsVisible({
+            TestCodeTipsVisible: true,
+          })
+        );
+        this.setState({
+          TestCodeTest: false,
+        });
+        // dispatch(
+        //   actions.UpUIState.showErrorAlert({
+        //     type: "warn",
+        //     title: "验证码输入错误，请重试",
+        //     ok: this.onAppAlertOK.bind(this),
+        //     cancel: this.onAppAlertCancel.bind(this),
+        //     close: this.onAppAlertClose.bind(this),
+        //     onHide: this.onAlertWarnHide.bind(this),
+        //   })
+        // );
+        // this.onGetTestCodeClick();
+        //     }
+      }
+      // })
+      // );
+      // this.setState({
+      //   TestCode: value,
+      // });
+    }
+  };
+  onGetTestCodeClick = () => {
+    let code = this.reloadPic();
+    this.setState({
+      code,
+    });
+    // this.setState({
+    //   VCCodeImg: CONFIG.RegisterProxy + "/VCCode?ramdon=" + Math.random(),
+    // });
+  };
+  // 用户别名 change
+  onShortNameChange = (e) => {
+    this.setState({
+      ShortName: e.target.value.trim(),
+    });
+  };
+  // 用户别名 blur
+  onShortNameBlur = (e) => {
+    const { dispatch } = this.props;
+    let value = e.target.value;
+    let Test = /^[a-zA-Z0-9_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5 ]{0,20}[a-zA-Z0-9_\u4e00-\u9fa5]$|^[a-zA-Z0-9_\u4e00-\u9fa5]{1,20}$/.test(
+      value
+    );
+    if (value !== "" && !Test) {
+      dispatch(
+        actions.UpUIState.AppTipsVisible({
+          ShortNameTipsVisible: true,
+        })
+      );
+    } else {
+      dispatch(
+        actions.UpDataState.setUserMsg({
+          ShortName: value,
+        })
+      );
+      dispatch(
+        actions.UpUIState.AppTipsVisible({
+          ShortNameTipsVisible: false,
+        })
+      );
+    }
+  };
   // 注册成功跳转至登陆页
   //自动关闭
   onRegisterSuccess = () => {
@@ -673,7 +831,7 @@ class Register extends Component {
     let Subjects = SubjectList.map((child, index) => {
       return (
         <CheckBox
-          // type="gray"
+          type="gray"
           className={"checkedBoxMap"}
           key={child.value}
           value={child.value}
@@ -693,11 +851,15 @@ class Register extends Component {
   };
   render() {
     const { DataState, UIState } = this.props;
-    console.log(this.props.role);
+    // console.log(this.props.role);
     return (
       <div id="Register" className="Register">
-        <p className="top-tips">账号注册</p>
-        <div className="select-role-box">
+        {/* <p className="top-tips">账号注册</p> */}
+        <div
+          className={`select-role-box  ${
+            this.props.role === "Teacher" ? "select-t" : "select-s"
+          }`}
+        >
           <span
             onClick={this.onRoleSelect.bind(this, "Student")}
             className={`no-select ${
@@ -734,7 +896,7 @@ class Register extends Component {
                   maxLength={24}
                   width={200}
                   type="text"
-                  name="UserName"
+                  name="UserID"
                   onChange={this.onUserIDChange.bind(this)}
                   onBlur={this.onUserIDBlur.bind(this)}
                   value={this.state.UserID}
@@ -743,7 +905,34 @@ class Register extends Component {
               </Tips>
             </span>
           </div>
-          <div className="clearfix row pwd-row">
+          <div className="clearfix row userName-row">
+            <span className="left">
+              <span className="must">*</span>
+              {"姓名"}：
+            </span>
+            <span className="right">
+              <Tips
+                overlayClassName={"tips"}
+                visible={UIState.AppTipsVisible.UserNameTipsVisible}
+                title={this.state.UserNameTipsTitle}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                <Input
+                  className="input UserName-input"
+                  width={200}
+                  maxLength={24}
+                  type="text"
+                  name="UserName"
+                  onChange={this.onUserNameChange.bind(this)}
+                  onBlur={this.onUserNameBlur.bind(this)}
+                  value={this.state.UserName}
+                  placeholder={"请输入真实姓名"}
+                ></Input>
+              </Tips>
+            </span>
+          </div>
+          <div className={`clearfix row ${this.state.PwdStrong ? "pwd-row" : ""}`}>
             <span className="left">
               <span className="must">*</span>
               {"登录密码"}：
@@ -768,38 +957,35 @@ class Register extends Component {
                   placeholder={"请输入密码"}
                 ></Input>
               </Tips>
-              
             </span>
           </div>
           <div
-                className="PwdStrong"
-                style={{ display: this.state.PwdStrong ? "block" : "none" }}
-              >
-                <span className="strongTips">密码强度：</span>
-                <span className="pwd-box">
-                  <span
-                    className={`color-first-${this.state.PwdStrong} box-first `}
-                  ></span>
-                  <span
-                    className={`color-second-${this.state.PwdStrong} box-second`}
-                  ></span>
-                  <span
-                    className={`color-third-${this.state.PwdStrong} box-third`}
-                  ></span>
-                </span>
-                <span
-                  className={`strongTips tips-color-${this.state.PwdStrong} `}
-                >
-                  {this.state.PwdStrong === 1
-                    ? "弱"
-                    : this.state.PwdStrong === 2
-                    ? "中"
-                    : this.state.PwdStrong === 3
-                    ? "强"
-                    : ""}
-                </span>
-              </div>
-              <div className="clearfix row pwd-row">
+            className="PwdStrong"
+            style={{ display: this.state.PwdStrong ? "block" : "none" }}
+          >
+            <span className="strongTips">密码强度：</span>
+            <span className="pwd-box">
+              <span
+                className={`color-first-${this.state.PwdStrong} box-first `}
+              ></span>
+              <span
+                className={`color-second-${this.state.PwdStrong} box-second`}
+              ></span>
+              <span
+                className={`color-third-${this.state.PwdStrong} box-third`}
+              ></span>
+            </span>
+            <span className={`strongTips tips-color-${this.state.PwdStrong} `}>
+              {this.state.PwdStrong === 1
+                ? "弱"
+                : this.state.PwdStrong === 2
+                ? "中"
+                : this.state.PwdStrong === 3
+                ? "强"
+                : ""}
+            </span>
+          </div>
+          <div className="clearfix row pwd-row">
             <span className="left">
               <span className="must">*</span>
               {"确认密码"}：
@@ -809,7 +995,7 @@ class Register extends Component {
                 overlayClassName={"tips"}
                 visible={UIState.AppTipsVisible.ComfirmPwdTipsVisible}
                 title={this.state.ComfirmPwdTipsTitle}
-                getPopupContainer={e => e.parentNode}
+                getPopupContainer={(e) => e.parentNode}
                 autoAdjustOverflow={false}
               >
                 <Input
@@ -824,32 +1010,58 @@ class Register extends Component {
                   placeholder={"请输入密码"}
                 ></Input>
               </Tips>
-              
             </span>
           </div>
-          <div className="clearfix row userName-row">
+          {/* <div className="clearfix row pwd-row">
             <span className="left">
               <span className="must">*</span>
-              {"姓名"}：
+              {"确认密码"}：
             </span>
             <span className="right">
               <Tips
                 overlayClassName={"tips"}
-                visible={UIState.AppTipsVisible.UserNameTipsVisible}
-                title={this.state.UserNameTipsTitle}
+                visible={UIState.AppTipsVisible.ComfirmPwdTipsVisible}
+                title={this.state.ComfirmPwdTipsTitle}
                 getPopupContainer={(e) => e.parentNode}
                 autoAdjustOverflow={false}
               >
                 <Input
-                  className="input UserName-input"
+                  className="input password-input"
+                  maxLength={24}
+                  width={200}
+                  type="password"
+                  name="ComfirmPassWord"
+                  onChange={this.onComfirmPwdChange.bind(this)}
+                  onBlur={this.onComfirmPwdBlur.bind(this)}
+                  value={this.state.ComfirmPassword}
+                  placeholder={"请重复输入一次登录密码"}
+                ></Input>
+              </Tips>
+            </span>
+          </div> */}
+          <div className="clearfix row userName-row">
+            <span className="left">
+              {/* <span className="must">*</span> */}
+              {"登录别名"}：
+            </span>
+            <span className="right">
+              <Tips
+                overlayClassName={"tips"}
+                visible={UIState.AppTipsVisible.ShortNameTipsVisible}
+                title={this.state.ShortNameTipsTitle}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                <Input
+                  className="input ShortName-input"
                   width={200}
                   maxLength={24}
                   type="text"
                   name="User-Name"
-                  onChange={this.onUserNameChange.bind(this)}
-                  onBlur={this.onUserNameBlur.bind(this)}
-                  value={this.state.UserName}
-                  placeholder={"请输入姓名"}
+                  onChange={this.onShortNameChange.bind(this)}
+                  onBlur={this.onShortNameBlur.bind(this)}
+                  value={this.state.ShortName}
+                  placeholder={"可输入便于记忆登录用户名（选填）"}
                 ></Input>
               </Tips>
             </span>
@@ -867,14 +1079,24 @@ class Register extends Component {
                 getPopupContainer={(e) => e.parentNode}
                 autoAdjustOverflow={false}
               >
-                <DropDown
+                {/* <DropDown
                   style={{ zIndex: 10 }}
                   dropSelectd={this.state.GenderSelect}
                   dropList={this.state.GenderList}
                   width={200}
                   height={96}
                   onChange={this.onGenderChange.bind(this)}
-                ></DropDown>
+                ></DropDown> */}
+                <RadioGroup
+                  onChange={this.onGenderChange.bind(this)}
+                  value={this.state.GenderSelect}
+                  name={"gender"}
+                  className="radio-box"
+                >
+                  <Radio value={"保密"}>保密</Radio>
+                  <Radio value={"男"}>男</Radio>
+                  <Radio value={"女"}>女</Radio>
+                </RadioGroup>
               </Tips>
             </span>
           </div>
@@ -1138,9 +1360,65 @@ class Register extends Component {
               </Tips>
             </span>
           </div>
-          <div className="row">
+          <div className="clearfix row test-row">
+            <span className="left">
+              <span className="must">*</span>
+              {"验证码"}：
+            </span>
+            <span className="right">
+              {/* <Tips
+                overlayClassName={"tips"}
+                visible={UIState.AppTipsVisible.TestCodeTipsVisible}
+                title={this.state.TestCodeTipsTitle}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              > */}
+              <Input
+                className="input testCode-input"
+                maxLength={5}
+                width={100}
+                type="text"
+                name="testCode"
+                onChange={this.onTestCodeChange.bind(this)}
+                onBlur={this.onTestCodeBlur.bind(this)}
+                value={this.state.TestCode}
+                placeholder={"请输入验证码"}
+              ></Input>
+              <i
+                className={`TestCodeTest ${
+                  this.state.TestCodeTest ? "isSuccess" : "isError"
+                }`}
+                style={{
+                  display: UIState.AppTipsVisible.TestCodeTipsVisible
+                    ? "inline-block"
+                    : "none",
+                }}
+              ></i>
+              {/* <img
+                alt="vccode"
+                src={this.state.VCCodeImg}
+                onClick={this.onGetTestCodeClick}
+                className="testCodeImg"
+              ></img> */}
+              <Code
+                className={"testCodeImg"}
+                getCode={(reloadPic, code) => {
+                  this.reloadPic = reloadPic;
+                  this.setState({
+                    code,
+                  });
+                  // console.log(code);
+                }}
+              ></Code>
+              <span onClick={this.onGetTestCodeClick} className="testCodeTips">
+                看不清，换一张
+              </span>
+              {/* </Tips> */}
+            </span>
+          </div>
+          <div className="row row-Agreement">
             <CheckBox
-              // type="gray"
+              type="gray"
               className={"checkedBox"}
               value={this.state.Agreement}
               onChange={this.onCheckBoxChange.bind(this)}
@@ -1158,6 +1436,7 @@ class Register extends Component {
               className="btn-submit"
               type="primary"
               color="blue"
+              shape={'round'}
               onClick={(e) => this.onSubmit(this.props.role)}
             >
               注册
@@ -1174,6 +1453,7 @@ class Register extends Component {
           visible={UIState.AppModal.AgreementModal}
           type="2"
           height={600}
+          footer={null}
           onClose={this.onAgreementClose.bind(this)}
           onCancel={this.onAgreementClose.bind(this)}
         >

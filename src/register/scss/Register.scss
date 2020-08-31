@@ -1,8 +1,9 @@
 .Register {
     position: relative;
     left: 50%;
+    padding-bottom: 100px;
     overflow: visible;
-    width: 450px;
+    // width: calc(50vw + 150px);
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
@@ -27,11 +28,40 @@
         -o-transform: translateX(-50%);
         height: 40px;
         line-height: 40px;
-        font-size: 16px;
+        font-size: 18px;
         color: #000;
         position: relative;
         // font-weight: bold;
         margin: 10px 0 30px;
+        &.select-s {
+            &::after {
+                left: 25%;
+            }
+        }
+        &.select-t {
+            &::after {
+                left: 75%;
+            }
+        }
+        &::after {
+            content: "";
+            width: 50px;
+            position: absolute;
+            height: 0;
+            border-bottom: 2px solid #0099ff;
+            bottom: 0;
+            left: 25%;
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transition: left 0.1s linear;
+            -webkit-transition: left 0.1s linear;
+            -moz-transition: left 0.1s linear;
+            -ms-transition: left 0.1s linear;
+            -o-transition: left 0.1s linear;
+        }
         .no-select {
             width: 50%;
             text-align: center;
@@ -41,10 +71,20 @@
             cursor: pointer;
         }
         .select {
-            background-color: #ddd;
+            color: #0099ff;
+            // background-color: #ddd;
         }
     }
     .isRegister {
+        // position: relative;
+        // font-size: 14px;
+        // color: #000;
+        // line-height: 20px;
+        // height: 20px;
+        // display: inline-block;
+        // width: 100%;
+        // text-align: center;
+        // margin-bottom: 10px;
         position: relative;
         font-size: 14px;
         color: #000;
@@ -52,7 +92,8 @@
         height: 20px;
         display: inline-block;
         width: 100%;
-        text-align: center;
+        padding-left: 140px;
+        text-align: left;
         margin-bottom: 10px;
         .LoginIn {
             color: #0099ff;
@@ -64,17 +105,30 @@
     }
     .input-content {
         position: relative;
+        left: 50%;
+        width: 740px;
+        ////left: 150px;
+        //width: 200px;
+        transform: translateX(-35%);
+        -webkit-transform: translateX(-35%);
+        -moz-transform: translateX(-35%);
+        -ms-transform: translateX(-35%);
+        -o-transform: translateX(-35%);
         .row {
             width: 100%;
             //   height: 30px;
-            margin: 5px 0;
+            margin: 12px 0;
             position: relative;
             min-height: 35px;
+            &.pwd-row {
+                margin: 0;
+            }
             .left {
                 // position: relative;
                 float: left;
                 // display: inline-block;
-                width: 30%;
+                // width: 30%;
+                width: 120px;
                 height: 30px;
                 line-height: 30px;
                 text-align: right;
@@ -88,11 +142,15 @@
             }
             .right {
                 float: right;
-                width: 69%;
+                // width: 69%;
+                position: relative;
+                width: calc(100% - 120px);
+                padding-left: 10px;
+                white-space: nowrap;
                 min-height: 30px;
                 line-height: 30px;
                 .input {
-                    width: 200px;
+                    width: 300px;
                 }
                 .dropdown_wrapper {
                     margin-left: 0;
@@ -125,7 +183,9 @@
                 }
             }
             .checkedBox {
-                margin-left: 125px;
+                // margin-left: 125px;
+                margin-left: 130px;
+                vertical-align: text-bottom;
             }
             .checkedBox-title {
                 font-size: 14px;
@@ -141,11 +201,14 @@
             }
             .subject-right {
                 // min-height: 30px;
-                max-height: 95px;
+                max-height: 100px;
                 .checkedBoxMap {
-                    height: 30px;
-                    width: 100px;
+                    // height: 30px;
+                    // width: 100px;
                     // vertical-align: text-bottom;
+                    height: 33px;
+                    width: 100px;
+                    vertical-align: bottom;
                     .checkedBoxMap-title {
                         width: 68px;
                         overflow: hidden; //超出一行文字自动隐藏
@@ -166,7 +229,7 @@
         }
         .PwdStrong {
             position: relative;
-            left: 140px;
+            left: 125px;
             // top: 95px;
             height: 20px;
             line-height: 16px;
@@ -235,21 +298,51 @@
         .pwd-row {
             // height: 60px;
         }
+        .row-Agreement {
+            margin-top: 20px;
+        }
+        .test-row {
+            .right {
+                .testCode-input {
+                    width: 120px;
+                }
+            }
+            .testCodeImg {
+                display: inline-block;
+                width: 94px;
+                height: 32px;
+                vertical-align: top;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+            .testCodeTips {
+                color: #0099ff;
+                font-size: 14px;
+                padding-left: 10px;
+                &:hover {
+                    color: #ff6600;
+                    cursor: pointer;
+                }
+            }
+        }
         .submitBox {
-            line-height: 45px;
+            // line-height: 45px;
+            margin-top: 35px;
             .btn-submit {
-                left: 50%;
+                left: 125px;
                 color: #fff;
-                width: 200px;
-                transform: translateX(-50%);
-                -webkit-transform: translateX(-50%);
-                -moz-transform: translateX(-50%);
-                -ms-transform: translateX(-50%);
-                -o-transform: translateX(-50%);
+                width: 250px;
+                // transform: translateX(-50%);
+                // -webkit-transform: translateX(-50%);
+                // -moz-transform: translateX(-50%);
+                // -ms-transform: translateX(-50%);
+                // -o-transform: translateX(-50%);
+                background-image: linear-gradient(-90deg, #04caf4 0%, #23a1fa 100%), linear-gradient(#018eed, #018eed);
+                background-blend-mode: normal;
             }
         }
         .subject-row {
-            max-height: 95px;
+            max-height: 100px;
         }
     }
 }
@@ -264,4 +357,18 @@ p {
 
 .ant-modal-body {
     height: 600px !important;
+}
+
+.TestCodeTest {
+    display: inline-block;
+    width: 16px;
+    height: 100%;
+    position: absolute;
+    left: 110px;
+    &.isSuccess {
+        background: url(../images/对号.png)no-repeat center center /16px 16px;
+    }
+    &.isError {
+        background: url(../images/叉号.png)no-repeat center center /16px 16px;
+    }
 }
