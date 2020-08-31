@@ -166,7 +166,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         ScheduleType!==1?
 
@@ -210,7 +210,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver===0&&ScheduleType!==1?
 
@@ -253,7 +253,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    NowTeacherID?
+                                    NowTeacherName?
 
                                         <span className="teacher-name">{NowTeacherName}<span style={{color:'#999'}}>({NowTeacherID})</span></span>
 
@@ -265,7 +265,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver === 0&&ScheduleType!==1?
 
@@ -301,7 +301,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver===0&&ScheduleType!==1?
 
