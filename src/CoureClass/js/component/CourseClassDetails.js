@@ -98,7 +98,7 @@ class CourseClassDetails extends React.Component {
 
       const token = sessionStorage.getItem("token");
 
-      window.open(`/html/userPersona?userID=${id}&userType=1&lg_tk=${token}`);
+      window.open(`/html/userPersona/index.html?userID=${id}&userType=1&lg_tk=${token}`);
 
     // dispatch(actions.UpDataState.getTeacherMsg("/GetUserDetail?userID=" + id));
   };
