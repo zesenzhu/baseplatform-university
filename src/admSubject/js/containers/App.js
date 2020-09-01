@@ -42,7 +42,9 @@ class App extends Component {
 
         const { dispatch } = this.props;
 
-        const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+        let { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        ProductType = 6;
 
         if (parseInt(ProductType)===6){
 

@@ -420,7 +420,7 @@ function CourseModal(props,ref) {
 
                                     :
 
-                                    <span className={"course-no"}>{courseNumInput}</span>
+                                    <span className={"course-no"}>{courseNumInput?courseNumInput:'--'}</span>
 
                             }
 
@@ -440,7 +440,7 @@ function CourseModal(props,ref) {
 
                                 productType===6?
 
-                                    <span className={"subject"}>{subjects.dropSelectd.value}</span>
+                                    <span className={"subject"}>{subjects.dropSelectd.title}</span>
 
                                     :
 
