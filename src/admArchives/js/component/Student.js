@@ -1348,7 +1348,7 @@ class Student extends React.Component {
     if (pensonalList[key]) {
       let token = sessionStorage.getItem("token");
       window.open(
-        "/html/userPersona#/?userType=" +
+        "/html/userPersona/index.html?userType=" +
           2 +
           "&userID=" +
           pensonalList[key].userID +
