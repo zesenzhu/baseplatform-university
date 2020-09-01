@@ -166,7 +166,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         ScheduleType!==1?
 
@@ -210,7 +210,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver===0&&ScheduleType!==1?
 
@@ -250,17 +250,28 @@ class ScheduleDetailModal extends Component{
 
                             <div className={`content-wrapper ${CanOperate?(ScheduleType!==1&&IsOver!==1&&ReplaceTeacherID?'red':''):''}`}>
 
-                                <span className="teacher-name">{NowTeacherName}<span style={{color:'#999'}}>({NowTeacherID})</span></span>
 
                                 {
 
-                                    CanOperate?
+                                    NowTeacherName?
+
+                                        <span className="teacher-name">{NowTeacherName}<span style={{color:'#999'}}>({NowTeacherID})</span></span>
+
+                                        :
+
+                                        <span className="teacher-name"><span style={{color:'#999'}}>暂无教师</span></span>
+
+                                }
+
+                                {
+
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver === 0&&ScheduleType!==1?
 
                                             ReplaceTeacherID!==UserID?
 
-                                                ReplaceTeacherID?
+                                                ReplaceTeacherID&&NowTeacherID?
 
                                                     <button className="reback adjust-btn" onClick={e=>RebackReplaceSchedule({ClassDate:NowClassDate,ClassHourNO:NowClassHourNO,TeacherID:NowTeacherID,ScheduleID})}>恢复教师</button>
 
@@ -290,7 +301,7 @@ class ScheduleDetailModal extends Component{
 
                                 {
 
-                                    CanOperate?
+                                    CanOperate&&NowTeacherName?
 
                                         IsOver===0&&ScheduleType!==1?
 
