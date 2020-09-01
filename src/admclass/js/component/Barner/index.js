@@ -245,6 +245,8 @@ class TimeBanner extends React.Component {
       UpDataState.SetAddClassParams({
         CollegeName: e.title,
         CollegeID: e.value,
+        // MajorName: e.title,
+        MajorID: '',
       })
     );
     // dispatch(UpDataState.GetGradeSummary({}));

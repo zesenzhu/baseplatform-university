@@ -215,6 +215,7 @@ class Class extends Component {
         ...e,
       })
     );
+    dispatch(UpDataState.SetSelectMajorData({ value: "", title: "全部专业" }));
     dispatch(UpDataState.GetGradeSummary({}));
   };
 
@@ -376,8 +377,8 @@ class Class extends Component {
                 //   ? MajorData[selectCollege.value].le
                 //     ? selectMajor
                 //     : { value: "-1", title: "暂无专业" }
-                  // : 
-                  selectMajor
+                // :
+                selectMajor
               }
               dropList={MajorData[selectCollege.value]}
               onChange={this.onMajorChange}
