@@ -346,7 +346,7 @@ function Subject(props){
 
     const token = sessionStorage.getItem("token");
 
-    window.open(`/html/userPersona?userID=${LeaderID}&userType=1&lg_tk=${token}`);
+    window.open(`/html/userPersona/index.html?userID=${LeaderID}&userType=1&lg_tk=${token}`);
 
     // dispatch(actions.UpDataState.getTeacherMsg("/GetUserDetail?userID=" + LeaderID));
 
