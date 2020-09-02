@@ -1,13 +1,5 @@
 .class-total-student-wrapper{
 
-  .subject-teacher-teacher-content{
-
-    margin-top: 50px;
-
-    border-top:0;
-
-  }
-
   .class-name{
 
     float: left;
@@ -32,12 +24,20 @@
 
   }
 
-
   &.in-work-plant-form{
 
-    width: 1200px;
+    margin: 0 60px;
 
-    margin: 0 auto;
+  }
+
+
+  .subject-teacher-teacher-content{
+
+    .single-double-table{
+
+      width:calc(100% - 276px);
+
+    }
 
   }
 
