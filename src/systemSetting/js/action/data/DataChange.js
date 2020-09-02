@@ -360,8 +360,9 @@ const getCurrentSbusystemInfo = ({ UserType, IsOpened, keyword }) => {
           userTypeString = item.UserType.replace(/\,/g, "、")
             .replace("0", "管理员")
             .replace("1", "教师")
+            .replace("3", "家长")
             .replace("2", "学生")
-            .replace("7", ";领导");
+            .replace("7", "领导");
 
           tempitem = {
             ...tempitem,

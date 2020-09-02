@@ -712,10 +712,16 @@ class Student extends React.Component {
         actions.UpDataState.getUnivStudentPreview(
           "/GetStudentToPage_Univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            // "&collegeID=" +
+            // this.state.firstSelect.value +
+            // "&majorID=" +
+            // this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&PageIndex=0&PageSize=" +
             this.state.pageSize +
             "" +

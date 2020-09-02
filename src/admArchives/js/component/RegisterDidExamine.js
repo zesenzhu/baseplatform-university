@@ -294,7 +294,11 @@ class RegisterDidExamine extends React.Component {
           fourthParam: "&classID=" + DataState.GetSignUpLog.Class.value,
         });
       }
-      if (DataState.GetSignUpLog.Grade.value !== 0) {
+      if (
+        DataState.GetSignUpLog.Grade.value !== 0 &&
+        DataState.GetSignUpLog.Major.value !== 0 &&
+        DataState.GetSignUpLog.College.value !== 0
+      ) {
         let Classes = [];
 
         let ClassArr = this.props.DataState.GradeClassMsg.Classes[
@@ -306,6 +310,14 @@ class RegisterDidExamine extends React.Component {
         this.setState({
           DropMenuShow: true,
           fourthList: Classes,
+          // thirdSelect: DataState.GetSignUpLog.Grade,
+          // thirdParam: "&gradeID=" + DataState.GetSignUpLog.Grade.value,
+        });
+      }
+      if (DataState.GetSignUpLog.Grade.value !== 0) {
+        this.setState({
+          DropMenuShow: true,
+
           thirdSelect: DataState.GetSignUpLog.Grade,
           thirdParam: "&gradeID=" + DataState.GetSignUpLog.Grade.value,
         });
@@ -345,36 +357,42 @@ class RegisterDidExamine extends React.Component {
         });
       }
 
-      this.setState({
-        firstList: this.props.DataState.GradeClassMsg.College,
-        thirdSelect: DataState.GetSignUpLog.Grade,
-        fourthSelect: DataState.GetSignUpLog.Class,
-        firstSelect: DataState.GetSignUpLog.College,
-        secondSelect: DataState.GetSignUpLog.Major,
-        firstParam: DataState.GetSignUpLog.College.value
-          ? "&collegeID=" + DataState.GetSignUpLog.College.value
-          : "",
-        secondParam: DataState.GetSignUpLog.Major.value
-          ? "&majorID=" + DataState.GetSignUpLog.Major.value
-          : "",
-        thirdParam: DataState.GetSignUpLog.Grade.value
-          ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
-          : "",
-        fourthParam: DataState.GetSignUpLog.Class.value
-          ? "&classID=" + DataState.GetSignUpLog.Class.value
-          : "",
-      });
-      if (DataState.GetSignUpLog.Class.value !== 0) {
-        this.StudentDropMenuFourth(DataState.GetSignUpLog.Class);
-      } else if (DataState.GetSignUpLog.Grade.value !== 0) {
-        this.StudentDropMenuThird(DataState.GetSignUpLog.Grade);
-      } else if (DataState.GetSignUpLog.Major.value !== 0) {
-        this.StudentDropMenuSecond(DataState.GetSignUpLog.Major);
-      } else if (DataState.GetSignUpLog.College.value !== 0) {
-        this.StudentDropMenu(DataState.GetSignUpLog.College);
-      } else {
-        this.StudentDropMenu(DataState.GetSignUpLog.College);
-      }
+      this.setState(
+        {
+          firstList: this.props.DataState.GradeClassMsg.College,
+          thirdSelect: DataState.GetSignUpLog.Grade,
+          fourthSelect: DataState.GetSignUpLog.Class,
+          firstSelect: DataState.GetSignUpLog.College,
+          secondSelect: DataState.GetSignUpLog.Major,
+          firstParam: DataState.GetSignUpLog.College.value
+            ? "&collegeID=" + DataState.GetSignUpLog.College.value
+            : "",
+          secondParam: DataState.GetSignUpLog.Major.value
+            ? "&majorID=" + DataState.GetSignUpLog.Major.value
+            : "",
+          thirdParam: DataState.GetSignUpLog.Grade.value
+            ? "&gradeID=" + DataState.GetSignUpLog.Grade.value
+            : "",
+          fourthParam: DataState.GetSignUpLog.Class.value
+            ? "&classID=" + DataState.GetSignUpLog.Class.value
+            : "",
+        },
+        () => {
+          // console.log(DataState.GetSignUpLog.College);
+          if (DataState.GetSignUpLog.Class.value !== 0) {
+            this.StudentDropMenuFourth(DataState.GetSignUpLog.Class);
+          } else if (DataState.GetSignUpLog.Grade.value !== 0) {
+            this.StudentDropMenuThird(DataState.GetSignUpLog.Grade);
+          } else if (DataState.GetSignUpLog.Major.value !== 0) {
+            this.StudentDropMenuSecond(DataState.GetSignUpLog.Major);
+          } else if (DataState.GetSignUpLog.College.value !== 0) {
+            this.StudentDropMenu(DataState.GetSignUpLog.College);
+          } else {
+            this.StudentDropMenu(DataState.GetSignUpLog.College);
+          }
+        }
+      );
+
       // if (DataState.GetSignUpLog.College.value !== 0) {
       //   let Majors = [{ value: 0, title: "全部专业" }];
       //   let Grades = [{ value: 0, title: "全部年级" }];
@@ -643,10 +661,10 @@ class RegisterDidExamine extends React.Component {
   //     });
   //     dispatch(
   //       actions.UpDataState.getDidSignUpLog(
-  //         "/GetSignUpLogToPage?SchoolID=" +
+  //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
   //           "&PageIndex=0&PageSize=" +
-          // this.state.pageSize + "&status=1&gradeID=" +
+  // this.state.pageSize + "&status=1&gradeID=" +
   //           e.value +
   //           this.state.sortType +
   //           this.state.sortFiled
@@ -659,10 +677,10 @@ class RegisterDidExamine extends React.Component {
   //   } else {
   //     dispatch(
   //       actions.UpDataState.getDidSignUpLog(
-  //         "/GetSignUpLogToPage?SchoolID=" +
+  //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
   //           "&PageIndex=0&PageSize=" +
-          // this.state.pageSize + "&status=1" +
+  // this.state.pageSize + "&status=1" +
   //           this.state.sortType +
   //           this.state.sortFiled
   //       )
@@ -701,10 +719,10 @@ class RegisterDidExamine extends React.Component {
   //     });
   //     dispatch(
   //       actions.UpDataState.getDidSignUpLog(
-  //         "/GetSignUpLogToPage?SchoolID=" +
+  //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
   //           "&PageIndex=0&PageSize=" +
-          // this.state.pageSize + "&status=1" +
+  // this.state.pageSize + "&status=1" +
   //           this.state.firstParam +
   //           this.state.sortType +
   //           this.state.sortFiled
@@ -716,10 +734,10 @@ class RegisterDidExamine extends React.Component {
   //     });
   //     dispatch(
   //       actions.UpDataState.getDidSignUpLog(
-  //         "/GetSignUpLogToPage?SchoolID=" +
+  //         "/GetSignUpLogToPage_univ?SchoolID=" +
   //           this.state.userMsg.SchoolID +
   //           "&PageIndex=0&PageSize=" +
-          // this.state.pageSize + "&status=1" +
+  // this.state.pageSize + "&status=1" +
   //           this.state.firstParam +
   //           "&classID=" +
   //           e.value +
@@ -741,7 +759,7 @@ class RegisterDidExamine extends React.Component {
       data: {
         College: e,
         Major: { value: 0, title: "全部专业" },
-        Grade: { value: 0, title: "全部年级" },
+        // Grade: { value: 0, title: "全部年级" },
         Class: { value: 0, title: "全部班级" },
       },
     });
@@ -757,15 +775,15 @@ class RegisterDidExamine extends React.Component {
         pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondList: DataState.GradeClassMsg.Majors[e.value],
-        thirdList: [{ value: 0, title: "全部年级" }],
+        // thirdList: [{ value: 0, title: "全部年级" }],
         fourthList: [{ value: 0, title: "全部班级" }],
         firstParam: "&collegeID=" + e.value,
 
         secondParam: "",
-        thirdParam: "",
+        // thirdParam: "",
         fourthParam: "",
       });
       dispatch(
@@ -773,9 +791,13 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             "&collegeID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -790,13 +812,13 @@ class RegisterDidExamine extends React.Component {
         pagination: 1,
         keyword: "",
         secondSelect: { value: 0, title: "全部专业" },
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondParam: "",
-        thirdParam: "",
+        // thirdParam: "",
         fourthParam: "",
         secondList: [{ value: 0, title: "全部专业" }],
-        thirdList: [{ value: 0, title: "全部年级" }],
+        // thirdList: [{ value: 0, title: "全部年级" }],
         fourthList: [{ value: 0, title: "全部班级" }],
         firstParam: "",
       });
@@ -805,7 +827,11 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -824,7 +850,7 @@ class RegisterDidExamine extends React.Component {
       type: actions.UpDataState.SET_REGISTER_GRADE_CLASS_MSG,
       data: {
         Major: e,
-        Grade: { value: 0, title: "全部年级" },
+        // Grade: { value: 0, title: "全部年级" },
         Class: { value: 0, title: "全部班级" },
       },
     });
@@ -835,13 +861,14 @@ class RegisterDidExamine extends React.Component {
         secondSelect: e,
         CancelBtnShow: "n",
         searchValue: "",
+        keyword: "",
 
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondParam: "",
-        thirdParam: "",
+        // thirdParam: "",
         fourthParam: "",
-        thirdList: [{ value: 0, title: "全部年级" }],
+        // thirdList: [{ value: 0, title: "全部年级" }],
         fourthList: [{ value: 0, title: "全部班级" }],
         pagination: 1,
       });
@@ -850,8 +877,12 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -863,25 +894,35 @@ class RegisterDidExamine extends React.Component {
         secondSelect: e,
         searchValue: "",
         CancelBtnShow: "n",
-        thirdSelect: { value: 0, title: "全部年级" },
+        // thirdSelect: { value: 0, title: "全部年级" },
         fourthSelect: { value: 0, title: "全部班级" },
         secondParam: "&majorID=" + e.value,
-        thirdParam: "",
+        // thirdParam: "",
+        keyword: "",
         fourthParam: "",
-        thirdList: DataState.GradeClassMsg.Grades[e.value],
-        fourthList: [{ value: 0, title: "全部班级" }],
+        // thirdList: DataState.GradeClassMsg.Grades[e.value],
+        // fourthList: [{ value: 0, title: "全部班级" }],
         // 差年级班级
         pagination: 1,
+        fourthList: this.state.thirdSelect.value
+          ? DataState.GradeClassMsg.Classes[e.value][
+              this.state.thirdSelect.value
+            ]
+          : [],
       });
       dispatch(
         actions.UpDataState.getDidSignUpLog(
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             "&majorID=" +
             e.value +
+            (this.state.thirdSelect.value
+              ? "&gradeID=" + this.state.thirdSelect.value
+              : "") +
             this.state.sortType +
             this.state.sortFiled
         )
@@ -891,7 +932,7 @@ class RegisterDidExamine extends React.Component {
   // 第三级：年级
   StudentDropMenuThird = (e) => {
     const { dispatch, DataState } = this.props;
-    //  console.log(e);
+    console.log(e, this.state.firstParam);
     // this.setState({
     //     secondSelect:e
     // })
@@ -909,6 +950,7 @@ class RegisterDidExamine extends React.Component {
         thirdSelect: e,
         CancelBtnShow: "n",
         searchValue: "",
+        keyword: "",
 
         fourthSelect: { value: 0, title: "全部班级" },
         thirdParam: "",
@@ -921,7 +963,8 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.sortType +
@@ -933,16 +976,22 @@ class RegisterDidExamine extends React.Component {
         checkedList: [],
         checkAll: false,
         thirdSelect: e,
+        keyword: "",
         searchValue: "",
         CancelBtnShow: "n",
         fourthSelect: { value: 0, title: "全部班级" },
         thirdParam: "&gradeID=" + e.value,
 
         fourthParam: "",
-        fourthList:
-          DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
-            e.value
-          ],
+        // fourthList:
+        //   DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
+        //     e.value
+        //   ],
+        fourthList: this.state.secondSelect.value
+          ? DataState.GradeClassMsg.Classes[this.state.secondSelect.value][
+              e.value
+            ]
+          : [],
         pagination: 1,
       });
       dispatch(
@@ -950,7 +999,8 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             this.state.secondParam +
             "&gradeID=" +
@@ -979,6 +1029,7 @@ class RegisterDidExamine extends React.Component {
         checkedList: [],
         checkAll: false,
         fourthSelect: e,
+        keyword: "",
         CancelBtnShow: "n",
         fourthParam: "",
         searchValue: "",
@@ -989,7 +1040,8 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.thirdParam +
@@ -1002,6 +1054,7 @@ class RegisterDidExamine extends React.Component {
         checkedList: [],
         checkAll: false,
         fourthSelect: e,
+        keyword: "",
         searchValue: "",
         CancelBtnShow: "n",
         fourthParam: "&classID=" + e.value,
@@ -1012,7 +1065,8 @@ class RegisterDidExamine extends React.Component {
           "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             this.state.secondParam +
             this.state.thirdParam +
@@ -1046,10 +1100,11 @@ class RegisterDidExamine extends React.Component {
       });
       dispatch(
         actions.UpDataState.getDidSignUpLog(
-          "/GetSignUpLogToPage?SchoolID=" +
+          "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             this.state.sortType +
             this.state.sortFiled
@@ -1061,10 +1116,11 @@ class RegisterDidExamine extends React.Component {
       });
       dispatch(
         actions.UpDataState.getDidSignUpLog(
-          "/GetSignUpLogToPage?SchoolID=" +
+          "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=0&PageSize=" +
-          this.state.pageSize + "&status=1" +
+            this.state.pageSize +
+            "&status=1" +
             this.state.firstParam +
             "&classID=" +
             e.value +
@@ -1075,7 +1131,7 @@ class RegisterDidExamine extends React.Component {
     }
 
     //dispatch(actions.UpDataState.getGradeStudentPreview('/ArchivesStudent?SchoolID=schoolID&GradeID=gradeID&ClassID=ClassID&PageIndex=0&PageSize=" +
-          // this.state.pageSize + "&SortFiled=UserID&SortType=ASC'));
+    // this.state.pageSize + "&SortFiled=UserID&SortType=ASC'));
   };
   OnCheckAllChange = (e) => {
     //console.log(e.target.checked, this.state.keyList)
@@ -1114,7 +1170,7 @@ class RegisterDidExamine extends React.Component {
 
     dispatch(
       actions.UpDataState.getDidSignUpLog(
-        "/GetSignUpLogToPage?SchoolID=" +
+        "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           (e - 1) +
@@ -1144,7 +1200,7 @@ class RegisterDidExamine extends React.Component {
     });
     dispatch(
       actions.UpDataState.getDidSignUpLog(
-        "/GetSignUpLogToPage?SchoolID=" +
+        "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=0" +
           // (e - 1) +
@@ -1283,7 +1339,7 @@ class RegisterDidExamine extends React.Component {
       });
       dispatch(
         actions.UpDataState.getDidSignUpLog(
-          "/GetSignUpLogToPage?SchoolID=" +
+          "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=" +
             (this.state.pagination - 1) +
@@ -1307,7 +1363,7 @@ class RegisterDidExamine extends React.Component {
       });
       dispatch(
         actions.UpDataState.getDidSignUpLog(
-          "/GetSignUpLogToPage?SchoolID=" +
+          "/GetSignUpLogToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
             "&PageIndex=" +
             (this.state.pagination - 1) +
@@ -1362,7 +1418,7 @@ class RegisterDidExamine extends React.Component {
     });
     dispatch(
       actions.UpDataState.getDidSignUpLog(
-        "/GetSignUpLogToPage?SchoolID=" +
+        "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
@@ -1410,7 +1466,7 @@ class RegisterDidExamine extends React.Component {
 
     dispatch(
       actions.UpDataState.getDidSignUpLog(
-        "/GetSignUpLogToPage?SchoolID=" +
+        "/GetSignUpLogToPage_univ?SchoolID=" +
           this.state.userMsg.SchoolID +
           "&PageIndex=" +
           0 +
@@ -1429,7 +1485,17 @@ class RegisterDidExamine extends React.Component {
   render() {
     const { UIState, DataState } = this.props;
     let TeacherClass = DataState.GradeClassMsg.TeacherClass;
-    console.log(this.state.userType);
+    // console.log(this.state.userType);
+    let {
+      GradeClassMsg: { Grades },
+    } = DataState;
+    let GradeList = [{ value: 0, title: "全部年级" }];
+    for (let i in Grades) {
+      if (Grades[i] instanceof Array) {
+        GradeList = Grades[i];
+        break;
+      }
+    }
     // const data = {
     //     userName: '康欣',
     //     userImg: 'http://192.168.129.1:10101/LgTTFtp/UserInfo/Photo/Default/Nopic001.jpg',
@@ -1455,7 +1521,7 @@ class RegisterDidExamine extends React.Component {
                 onChange={this.StudentDropMenu}
                 width={120}
                 disabled={this.state.userType}
-                title="班级："
+                title="院系专业:"
                 height={240}
                 dropSelectd={this.state.firstSelect}
                 dropList={this.state.firstList}
@@ -1464,12 +1530,13 @@ class RegisterDidExamine extends React.Component {
                 ref="dropMenuSecond"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.userType || this.state.firstSelect.value !== 0
-                      ? "block"
-                      : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.userType || this.state.firstSelect.value !== 0
+                //       ? "block"
+                //       : "none",
+                // }}
+                disabled={this.state.firstSelect.value !== 0 ? false : true}
                 dropSelectd={this.state.secondSelect}
                 dropList={this.state.secondList}
                 onChange={this.StudentDropMenuSecond}
@@ -1478,22 +1545,31 @@ class RegisterDidExamine extends React.Component {
                 ref="dropMenuThird"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.secondSelect.value !== 0 ? "block" : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.secondSelect.value !== 0 ? "block" : "none",
+                // }}
+                style={{ marginLeft: "70px" }}
+                title={"年级班级:"}
                 dropSelectd={this.state.thirdSelect}
-                dropList={this.state.thirdList}
+                dropList={GradeList}
                 onChange={this.StudentDropMenuThird}
               ></DropDown>
               <DropDown
                 ref="dropMenuFourth"
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.thirdSelect.value !== 0 ? "block" : "none",
-                }}
+                // style={{
+                //   display:
+                //     this.state.thirdSelect.value !== 0 ? "block" : "none",
+                // }}
+                disabled={
+                  this.state.firstSelect.value !== 0 &&
+                  this.state.secondSelect.value !== 0 &&
+                  this.state.thirdSelect.value !== 0
+                    ? false
+                    : true
+                }
                 dropSelectd={this.state.fourthSelect}
                 dropList={this.state.fourthList}
                 onChange={this.StudentDropMenuFourth}

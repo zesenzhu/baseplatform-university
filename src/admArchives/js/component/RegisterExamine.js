@@ -48,6 +48,7 @@ class RegisterExamine extends React.Component {
       cnname: "用户档案管理",
       enname: "User Profile Management",
       Admin: true,
+      pageSize:10
     };
     const { dispatch, DataState } = this.props;
 

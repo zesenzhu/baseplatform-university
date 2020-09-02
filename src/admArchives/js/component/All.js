@@ -708,14 +708,59 @@ class All extends React.Component {
           <p className="All-tips">
             <span
               className="tips "
-              style={{ paddingLeft: 0, fontSize: "14px", fontWeight: "blod" }}
+              style={{
+                paddingLeft: 0,
+                fontSize: "14px",
+                fontWeight: "blod",
+                color: "#999",
+              }}
             >
-              用户总人数：{DataState.AllUserPreview.Total}，其中，学生人数：
-              {DataState.AllUserPreview.Student}，教师人数：
-              {DataState.AllUserPreview.Teacher}
-              {LockerVersion !== "1"
-                ? "，领导人数：" + DataState.AllUserPreview.CollegeLeader
-                : ""}
+              用户总人数:
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "blod",
+                  color: "#ff6600",
+                }}
+              >
+                {DataState.AllUserPreview.Total}
+              </span>
+              ，其中学生人数:
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "blod",
+                  color: "#ff6600",
+                }}
+              >
+                {DataState.AllUserPreview.Student}
+              </span>
+              ，教师人数:
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "blod",
+                  color: "#ff6600",
+                }}
+              >
+                {DataState.AllUserPreview.Teacher}
+              </span>
+              {LockerVersion !== "1" ? (
+                <>
+                  ，领导人数:
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "blod",
+                      color: "#ff6600",
+                    }}
+                  >
+                    {DataState.AllUserPreview.CollegeLeader}
+                  </span>
+                </>
+              ) : (
+                ""
+              )}
             </span>
           </p>
           {/* <div className="All-hr" ></div>

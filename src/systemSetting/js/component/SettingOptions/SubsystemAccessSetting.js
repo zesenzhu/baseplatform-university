@@ -363,6 +363,10 @@ class SubsystemAccessSetting extends Component {
                                     title: `学生`
                                 },
                                 {
+                                    value: `3`,
+                                    title: `家长`
+                                },
+                                {
                                     value: `7`,
                                     title: `校领导`
                                 },
