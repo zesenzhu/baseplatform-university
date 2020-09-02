@@ -22,26 +22,24 @@ class TopMenu extends React.Component {
     let handleRoute = pathArr[2];
     if (key !== "All") {
       // console.log(key)
-      if (handleRoute === "Student") {
+      if (icon === "Face") {
+        window.open(key);
+      } else if (handleRoute === "Student" && key === handleRoute) {
         window.StudentCancelSearch && window.StudentCancelSearch();
-      history.push("/UserArchives/" + key + "/all");
-    } else if (handleRoute === "Teacher") {
+        history.push("/UserArchives/" + key + "/all");
+      } else if (handleRoute === "Teacher" && key === handleRoute) {
         window.TeacherCancelSearch && window.TeacherCancelSearch();
-      history.push("/UserArchives/" + key + "/all");
-    } else if (handleRoute === "Leader") {
+        history.push("/UserArchives/" + key + "/all");
+      } else if (handleRoute === "Leader" && key === handleRoute) {
         window.LeaderCancelSearch && window.LeaderCancelSearch();
-      history.push("/UserArchives/" + key + "/all");
-    } else if (icon === "Face") {
-      window.open(key) ;
-    } else {
-      history.push("/UserArchives/" + key + "/all");
-    }
+        history.push("/UserArchives/" + key + "/all");
+      } else {
+        history.push("/UserArchives/" + key + "/all");
+      }
     } else {
       history.push("/UserArchives/" + key);
     }
     // history.push('/'+key)
-
-   
   };
 
   render() {
@@ -55,12 +53,13 @@ class TopMenu extends React.Component {
       <div className="top-menu">
         {List instanceof Array &&
           List.map((child, index) => {
-
             return (
               <span
-              key={index}
+                key={index}
                 onClick={this.onSelectMenu.bind(this, child)}
-                className={`menu-bar ${handleRoute === child.value?'active':''}`}
+                className={`menu-bar ${
+                  handleRoute === child.value ? "active" : ""
+                }`}
               >
                 <span className={`bar-content ${"bar-icon-" + child.icon}`}>
                   {child.title}
