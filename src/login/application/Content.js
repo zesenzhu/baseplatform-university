@@ -891,6 +891,9 @@ function Content(props) {
 
     },[]);
 
+
+    console.log(commSetting);
+
     return(
 
         <div className={"content_wrapper"} style={{marginTop:(window.innerHeight-634)>0?(window.innerHeight-634)/2:20}}>
@@ -1568,7 +1571,7 @@ function Content(props) {
 
                             {
 
-                                !commSetting.LockerVersion||parseInt(commSetting.LockerVersion)===1?
+                                !commSetting.LockerVersion||parseInt(commSetting.LockerVersion)!==1?
 
                                     <div className={"sign_up_wrapper"}>
 
