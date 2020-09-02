@@ -3009,17 +3009,21 @@ class Frame extends React.Component {
                       {userInfo && userInfo.name ? userInfo.name : ""}
                     </a>
 
-                    <a
-                      href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
-                      target="_blank"
-                      className="frame-home-userpic"
-                      style={{
-                        backgroundImage: `url(${
-                          userInfo && userInfo.image ? userInfo.image : ""
-                        })`,
-                      }}>
+                      {
 
-                    </a>
+                          userInfo && userInfo.image?
+
+                              <a
+                                  href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
+                                  target="_blank"
+                                  className="frame-home-userpic"
+                                  style={{backgroundImage: `url(${userInfo.image})`}}>
+
+                              </a>
+
+                              :null
+
+                      }
 
                   </div>
 
