@@ -49,7 +49,11 @@ class Subject extends Component{
 
         dispatch({type:STSAction.TEACHER_STS_NOW_CLASS_DATE_CHANGE,data:date});
 
-        this.tableRef.scrollToTop();
+        if (this.tableRef){
+
+            this.tableRef.scrollToTop();
+
+        }
 
         dispatch(STSAction.STSPageUpdate());
 
