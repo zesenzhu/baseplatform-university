@@ -8,18 +8,14 @@ import TeacherIndexActions from "../../actions/Teacher/TeacherIndexActions";
 
 import {DropDown, Empty, Loading} from "../../../../common";
 
-import DoubleSingleTable from "../../component/DoubleSingleTable";
-
 import SelfDoubleSingleTable from "../../component/selfDoubleSingleTable";
 
 import $ from 'jquery';
 
 import ComPageRefresh from "../../actions/ComPageRefresh";
 
-
 import SDActions from "../../actions/ScheduleDetailActions";
 
-import {CSSTransition} from 'react-transition-group';
 import WeekDayPick from "../../component/WeekDayPick";
 
 class Subject extends Component{
@@ -53,7 +49,7 @@ class Subject extends Component{
 
         dispatch({type:STSAction.TEACHER_STS_NOW_CLASS_DATE_CHANGE,data:date});
 
-        $('#tb').find('div.ant-table-body').scrollTop(0);
+        this.tableRef.scrollToTop();
 
         dispatch(STSAction.STSPageUpdate());
 
@@ -232,6 +228,7 @@ class Subject extends Component{
                             SubjectTeacherSubjectSchedule.schedule.length>0?
 
                                 <SelfDoubleSingleTable
+                                    ref={ref=>this.tableRef=ref}
                                     ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
                                     schedule={SubjectTeacherSubjectSchedule.schedule}
                                     scrollToBottom={this.scrollToBottom.bind(this)}

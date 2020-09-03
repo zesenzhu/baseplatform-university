@@ -76,7 +76,9 @@ class ClassTotal extends Component{
 
         dispatch({type:CTActions.MANAGER_CT_NOW_CLASS_DATE_CHANGE,data:date});
 
-        $('#tb').find('div.ant-table-body').scrollTop(0);
+        // $('#tb').find('div.ant-table-body').scrollTop(0);
+
+        this.tableRef.scrollToTop();
 
         dispatch(CTActions.ClassTotalPageUpdate());
 
@@ -234,6 +236,7 @@ class ClassTotal extends Component{
                                 ClassTotal.Schedule.length>0?
 
                                     <SelfDoubleSingleTable
+                                        ref={ref=>this.tableRef=ref}
                                         ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
                                         schedule={ClassTotal.Schedule}
                                         scrollToBottom={this.scrollToBottom.bind(this)}

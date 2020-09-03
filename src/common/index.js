@@ -32,6 +32,8 @@ import "moment/locale/zh-cn";
 
 import {getQueryVariable} from './js/disconnect/index';
 
+import CloseIcon from './images/frame/close.png';
+
 const $ = require("jquery");
 
 const history = require("history");
@@ -667,6 +669,9 @@ class Modal extends React.Component {
         });*/
   }
 
+
+
+
   render() {
     return (
       <AntdModal
@@ -688,6 +693,7 @@ class Modal extends React.Component {
         visible={this.props.visible}
         centered={this.props.centered ? this.props.centered : true}
         width={this.state.width}
+        // closeIcon={<i className={"modal-close-icon"}></i>}
         footer={
           this.state.footer === null
             ? null

@@ -12,6 +12,10 @@ import ClassTotalStudent from "../Teacher/ClassTotalStudent";
 
 import {useSelector,useDispatch} from 'react-redux';
 
+import $ from 'jquery';
+
+import {getQueryVariable} from "../../../../common/js/disconnect";
+
 
 
 function Index(){
@@ -31,43 +35,50 @@ function Index(){
 
         if (UserID){
 
-             if (productType!==6){
+             if (productType!==6) {
 
-                if (parseInt(UserType)===1){
+                 if (parseInt(UserType) === 1) {
 
-                    let UserClassType = UserClass[2];
+                     let UserClassType = UserClass[2];
 
-                    if (UserClassType==='1'){
+                     if (UserClassType === '1') {
 
-                        setHeaderLinkList([
+                         setHeaderLinkList([
 
-                            {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
+                             {link: "/teacher/mine", name: "我的课表", logo: "mine"},
 
-                            {link:"/teacher/mine",name:"我的课表",logo:"mine"},
+                             {link: "/teacher/subject-teacher", name: "学科教师课表", logo: "subject"},
 
-                            {link:"/teacher/class/student",name:"学生课表",logo:"class"},
+                             {link: "/teacher/class/student", name: "学生课表", logo: "class"},
 
-                        ]);
+                         ]);
 
-                    }else{
+                     } else {
 
-                        setHeaderLinkList([
+                         setHeaderLinkList([
 
-                            {link:"/teacher/subject-teacher",name:"学科教师课表",logo:"subject"},
+                             {link: "/teacher/mine", name: "我的课表", logo: "mine"},
 
-                            {link:"/teacher/mine",name:"我的课表",logo:"mine"}
+                             {link: "/teacher/subject-teacher", name: "学科教师课表", logo: "subject"},
 
-                        ]);
 
-                    }
+                         ]);
 
-                }else {
+                     }
 
-                    window.location.href='/Error.aspx?errcode=E011';
+                 } else {
+
+                     window.location.href = '/Error.aspx?errcode=E011';
+
+                 }
+
+                if (getQueryVariable('isWorkPlantform')){
+
+                    $('.frame-content-wrapper').css({marginTop:0});
 
                 }
 
-            }
+             }
 
         }
 
