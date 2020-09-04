@@ -12,7 +12,7 @@ import ComPageRefresh from '../../actions/ComPageRefresh';
 
 import $ from "jquery";
 
-import DoubleSingleTable from "../../component/DoubleSingleTable";
+import SelfDoubleSingleTable from "../../component/selfDoubleSingleTable";
 
 import SDActions from "../../actions/ScheduleDetailActions";
 
@@ -76,7 +76,13 @@ class ClassTotal extends Component{
 
         dispatch({type:CTActions.MANAGER_CT_NOW_CLASS_DATE_CHANGE,data:date});
 
-        $('#tb').find('div.ant-table-body').scrollTop(0);
+        // $('#tb').find('div.ant-table-body').scrollTop(0);
+
+        if (this.tableRef){
+
+            this.tableRef.scrollToTop();
+
+        }
 
         dispatch(CTActions.ClassTotalPageUpdate());
 
@@ -229,53 +235,25 @@ class ClassTotal extends Component{
 
                         </WeekDayPick>
 
-                       {/* <TermPick
+                             {
 
-                            ItemTermName={PeriodWeekTerm.ItemTerm?PeriodWeekTerm.ItemTerm.TermName:''}
+                                ClassTotal.Schedule.length>0?
 
-                            NowWeekNo={ClassTotal.WeekNO}
+                                    <SelfDoubleSingleTable
+                                        ref={ref=>this.tableRef=ref}
+                                        ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
+                                        schedule={ClassTotal.Schedule}
+                                        scrollToBottom={this.scrollToBottom.bind(this)}
+                                        ScheduleDetailShow={this.ScheduleDetailShow.bind(this)}
+                                    >
 
-                            ItemWeek ={ClassTotal.WeekList}
+                                    </SelfDoubleSingleTable>
 
-                            weekPickEvent = {this.weekPickEvent.bind(this)}
+                                    :
 
-                            weekNextEvent = {this.weekNextEvent.bind(this)}
+                                    <Empty type="3" title="暂无班级课表数据"></Empty>
 
-                            weekPrevEvent = {this.weekPrevEvent.bind(this)}
-
-                            WeekNO={PeriodWeekTerm.WeekNO?PeriodWeekTerm.WeekNO:''}
-                        >
-
-                        </TermPick>*/}
-
-
-                         {
-
-                            ClassTotal.Schedule.length>0?
-
-                                <DoubleSingleTable
-                                    ItemClassHourCount={SubjectCourseGradeClassRoom.ItemClassHourCount}
-                                    ItemClassHour={SubjectCourseGradeClassRoom.ItemClassHour}
-                                    ItemWeek = {PeriodWeekTerm.ItemWeek}
-                                    NowWeekNo={PeriodWeekTerm.NowWeekNo}
-                                    leftColWidth={136}
-                                    commonColWidth={128}
-                                    rowOneHeight={46}
-                                    rowTowHeight={64}
-                                    commonRowHeight={90}
-                                    schedule={ClassTotal.Schedule}
-                                    onClickRow={(record) => this.clickRow.bind(this,record)}
-                                    scrollToBottom={this.scrollToBottom.bind(this)}
-                                    ScheduleDetailShow={this.ScheduleDetailShow.bind(this)}
-                                >
-
-                                </DoubleSingleTable>
-
-                                :
-
-                                <Empty type="3" title="暂无班级课表数据"></Empty>
-
-                         }
+                             }
 
 
                     </Loading>

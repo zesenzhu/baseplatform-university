@@ -63,7 +63,7 @@ const ModuleSetting = (state={
 
                 logo:logoTeacher,
 
-                timeBar:true
+                timeBar:false
 
             };
 

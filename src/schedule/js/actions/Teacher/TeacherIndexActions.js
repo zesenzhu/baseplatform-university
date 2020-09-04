@@ -33,7 +33,7 @@ const STSPageInit = () => {
 
         const {WeekNO,NowWeekDay,NowDate} = PeriodWeekTerm;
 
-        let {SchoolID,UserID,UserType} =LoginUser;//需要的参数后期加入
+        let {SchoolID,UserID,UserType} = LoginUser;//需要的参数后期加入
 
         let CollegeID = PeriodWeekTerm.dropShow?PeriodWeekTerm.dropSelectd.value:PeriodWeekTerm.dropObj.id;
 
@@ -50,6 +50,8 @@ const STSPageInit = () => {
             const SubjectList = Teacher.SubjectCourseGradeClassRoom.ItemSubject;
 
             let SubjectID = '';
+
+            console.log(SubjectList);
 
             if (SubjectList.length>1){
 
@@ -168,7 +170,7 @@ const STSPageInit = () => {
 
             });*/
 
-            ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
+            ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,SubjectID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
 
                 if (json){
 
@@ -374,7 +376,7 @@ const STSPageInit = () => {
 
                     });
 */
-                    ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
+                    ApiActions.GetAllScheduleOfTeachersOneDayForPage({SchoolID,SubjectID,CollegeID,ClassDate:NowDate,dispatch}).then(json=>{
 
                         if (json){
 
