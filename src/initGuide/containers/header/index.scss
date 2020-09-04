@@ -34,7 +34,7 @@ body{
 
       height: 80px;
 
-      background:url("images/logo.png") no-repeat center;
+      background:url("../../../common/images/frame/logo.png") no-repeat center;
 
     }
 
@@ -118,13 +118,11 @@ body{
 
       color: #bcd9fb;
 
-      cursor: pointer;
-
-      &:hover{
+      /*&:hover{
 
         opacity: 0.8;
 
-      }
+      }*/
 
     }
 
