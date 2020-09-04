@@ -20,6 +20,8 @@ import ApiActions from "../../actions/ApiActions";
 
 import HolidayModal from '../../component/holiday-modal';
 
+import {getQueryVariable} from "../../../../common/js/disconnect";
+
 import moment from 'moment';
 
 
@@ -97,6 +99,14 @@ function ScheduleSetting(props){
                     const list = data.HolidayItem&&data.HolidayItem.length>0?data.HolidayItem:[];
 
                     setHoliday(d=>({...d,start,end,allDays,holidays,list}));
+
+                   if (getQueryVariable('isInitGuide')){
+
+                       window.parent.postMessage({height:document.body.scrollHeight},'*');
+
+                       $('.frame-content-wrapper').css({marginTop:'0px'});
+
+                   }
 
                 }
 
