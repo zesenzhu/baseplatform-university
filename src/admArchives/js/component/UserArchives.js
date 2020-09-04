@@ -73,6 +73,7 @@ class UserArchives extends React.Component {
     let userMsg = DataState.LoginUser;
     this.handleMenu();
     let route = history.location.pathname;
+    // console.log(history)
     // 获取接口数据
     //this.requestData(route)
     //let route = history.location.pathname;
