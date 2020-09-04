@@ -802,7 +802,7 @@ const GetScheduleDetailByUserID = async ({SchoolID,TeacherID,ScheduleID,ClassDat
 
     let res = await Method.getGetData(`/ScheduleTea/api/GetScheduleDetailByUserID?SchoolID=${SchoolID}&TeacherID=${TeacherID}&ScheduleID=${ScheduleID}&ClassDate=${ClassDate}&ClassHourNO=${ClassHourNO}`,
 
-        2,);
+        2);
 
     //'http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev');
 

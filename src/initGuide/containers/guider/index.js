@@ -24,7 +24,6 @@ function Guider(props) {
 
         if (UserID){
 
-
             const {ProductUseRange,ProductType,LockerVersion} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
             if (schoolType==='university'){

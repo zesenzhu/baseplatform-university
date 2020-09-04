@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === "development") {
     CustomProxy: "http://192.168.2.207:10108",
     // WebsiteProxy:"http://192.168.2.114:8090",
     WebsiteProxy: "http://192.168.2.207:10108",
-    ScheduleProxy: "http://192.168.2.207:10108",
+    ScheduleProxy: "http://192.168.129.3:30103",
     // ScheduleProxy:"http://47.115.20.102:10102",
     Xproxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
     PowerProxy: "http://192.168.2.207:10108/UserMgr/PowerMgr",
@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === "development") {
     proxy:
       "http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev",
     BasicProxy: "http://192.168.2.207:10108",
-    LoginProxy: "http://192.168.129.2:10102",
+    LoginProxy: "http://192.168.2.207:10108",
     MockLoginProxy:
       "http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev",
     PersonalProxy: "http://192.168.2.207:10108",
@@ -70,6 +70,7 @@ if (process.env.NODE_ENV === "development") {
     tempSubsystemProxy:
       "http://192.168.2.202:7300/mock/5db974a3a1aded10689632eb/example",
     DataCollectorProxy: "http://192.168.2.207:10108",
+
     // DataCollectorProxy:"http://192.168.2.114:8090",
 
     // v3.1
