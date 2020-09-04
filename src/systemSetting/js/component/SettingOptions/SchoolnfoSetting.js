@@ -131,20 +131,20 @@ class SchoolnfoSetting extends Component {
             );
           },
         },
-        {
-          title: "领导人数",
-          align: "center",
-          width: 80,
-          dataIndex: "LeaderCount",
-          key: "LeaderCount",
-          render: (LeaderCount) => {
-            return (
-              <span title={LeaderCount} className="LeaderCount">
-                {LeaderCount ? LeaderCount : "0"}
-              </span>
-            );
-          },
-        },
+        // {
+        //   title: "领导人数",
+        //   align: "center",
+        //   width: 80,
+        //   dataIndex: "LeaderCount",
+        //   key: "LeaderCount",
+        //   render: (LeaderCount) => {
+        //     return (
+        //       <span title={LeaderCount} className="LeaderCount">
+        //         {LeaderCount ? LeaderCount : "0"}
+        //       </span>
+        //     );
+        //   },
+        // },
         {
           title: "操作",
           align: "center",

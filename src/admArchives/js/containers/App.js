@@ -492,7 +492,7 @@ class App extends Component {
                   config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
               }
             } else if (handleRoute === "LogDynamic") {
-              if (LockerVersion !== "1") {
+              // if (LockerVersion !== "1") {
                 if (!AdminPower) {
                   history.push("/UserArchives/All");
                   return;
@@ -510,12 +510,12 @@ class App extends Component {
                       userMsg.UserID
                   )
                 );
-              } else {
-                window.location.href =
-                  config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
-              }
+              // } else {
+              //   window.location.href =
+              //     config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
+              // }
             } else if (handleRoute === "LogRecord") {
-              if (LockerVersion !== "1") {
+              // if (LockerVersion !== "1") {
                 if (!AdminPower) {
                   history.push("/UserArchives/All");
                   return;
@@ -533,10 +533,10 @@ class App extends Component {
                       "&UserType=-1&CollegeID=&OperationType=-1&PageIndex=0&PageSize=10"
                   )
                 );
-              } else {
-                window.location.href =
-                  config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
-              }
+              // } else {
+              //   window.location.href =
+              //     config.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
+              // }
             } else if (handleRoute === "All") {
               if (
                 userMsg.UserType === "0" &&

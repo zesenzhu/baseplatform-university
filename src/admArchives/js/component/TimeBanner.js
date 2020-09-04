@@ -63,7 +63,7 @@ class TimeBanner extends React.Component {
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
       let token =  
-      sessionStorage.getItem("token")
+      sessionStorage.getItem("token");
     let List = [];
     if (userMsg.UserType === "7") {
       this.state.List.map((child, index) => {
