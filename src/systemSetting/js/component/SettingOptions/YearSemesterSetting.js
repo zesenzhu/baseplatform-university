@@ -295,6 +295,7 @@ class YearSemesterSetting extends Component {
       TermList,
       NextTermEndDate,
       NextTermStartDate,
+      IsMultiSchool,
     } = semesterInfo;
 
     return (
@@ -342,18 +343,30 @@ class YearSemesterSetting extends Component {
               <span>学期</span>
             </div>
 
-            <Button
-              className={`btn create-newTerm ${
-                semesterInfo.TermStatus === 2 ? "" : "disabled bander"
-              }`}
-              // onClick={semesterInfo.TermStatus===2?() => this.createNewTerm():()=>this.nothing()}
-              disabled={semesterInfo.TermStatus === 2 ? false : true}
-              onClick={this.createNewTerm}
-            >
-              {" "}
-              启用新学期
-            </Button>
-            <i className="btn-shadow"></i>
+            {!IsMultiSchool ? (
+              <>
+                {" "}
+                <Button
+                  className={`btn create-newTerm ${
+                    semesterInfo.TermStatus === 2 ? "" : "disabled bander"
+                  }`}
+                  // onClick={semesterInfo.TermStatus===2?() => this.createNewTerm():()=>this.nothing()}
+                  disabled={semesterInfo.TermStatus === 2 ? false : true}
+                  onClick={this.createNewTerm}
+                >
+                  {" "}
+                  启用新学期
+                </Button>
+                <i className="btn-shadow"></i>
+                {semesterInfo.TermStatus === 2 ? (
+                  ""
+                ) : (
+                  <p className="tips">学期结束后才能启用新学期</p>
+                )}
+              </>
+            ) : (
+              <p className="tips">如需要更改学期，请联系系统管理员</p>
+            )}
             <Modal
               type="1"
               title="启用新学年"
@@ -429,11 +442,6 @@ class YearSemesterSetting extends Component {
                 </div>
               </div>
             </Modal>
-            {semesterInfo.TermStatus === 2 ? (
-              ""
-            ) : (
-              <p className="tips">学期结束后才能启用新学期</p>
-            )}
           </div>
           <i className="btn-greenshadow"></i>
 

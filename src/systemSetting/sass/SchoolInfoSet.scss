@@ -29,7 +29,7 @@
         background: url(../images/menu-icon27-hover.png) no-repeat left center / 20px 20px;
     }
     .edite-info-box-2 {
-        margin-top: 70px;
+        // margin-top: 70px;
     }
     .edite-info {
         position: absolute;
@@ -117,19 +117,20 @@
     }
     .school-msg-box {
         position: relative;
-        margin-top: 50px;
+        margin-top: 60px;
         width: 100%;
-        height: 124px;
+        height: 280px;
         display: block;
         overflow: hidden;
+        background: url(../images/201f8da06807ebc48827f77d6e4697fe11.png) no-repeat center 36px/720px 200px;
         .school-msg-box-2 {
             float: left;
             margin-left: 50px;
             // @include Vcenter();
-            margin-top: 62px;
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
+            // margin-top: 62px;
+            // -webkit-transform: translateY(-50%);
+            // -ms-transform: translateY(-50%);
+            // transform: translateY(-50%);
         }
     }
     .school-logo {
@@ -139,6 +140,7 @@
         margin-left: 250px;
         // top: 100px;
         // top: 111px;
+        margin-top: 38px;
         width: 124px;
         height: 124px;
         // background-color: red;
@@ -160,18 +162,39 @@
         // top: 256px;
         width: 100%;
         float: left;
-        height: 30px;
-        font-family: MicrosoftYaHei-Bold;
-        font-size: 20px;
-        font-weight: bold;
-        font-stretch: normal;
-        letter-spacing: 0px;
-        color: #006499;
-        text-align: left;
+        color: #999999;
+        height: 32px;
+        line-height: 32px;
+        // font-family: MicrosoftYaHei-Bold;
+        font-size: 14px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
         cursor: default;
+        span {
+            font-size: 20px;
+            font-weight: bold;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #006499;
+            text-align: left;
+            padding-left: 12px;
+            font-family: MicrosoftYaHei-Bold;
+        }
+    }
+    .school-badge {
+        line-height: 40px;
+        margin: 6px 0;
+        .SchoolLogoUrl_Long {
+            display: inline-block;
+            vertical-align: top;
+            width: 280px;
+            height: 40px;
+            margin-left: 12px;
+            // background-color: #ffffff;
+            border-radius: 3px;
+            border: solid 1px #e5e5e5;
+        }
     }
     .school-info {
         // position: absolute;
@@ -180,19 +203,21 @@
         float: left;
         width: 100%;
         // height: 47px;
-        font-family: MicrosoftYaHei;
-        font-size: 16px;
+        // font-family: MicrosoftYaHei;
+        font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
-        line-height: 30px;
+        line-height: 32px;
         letter-spacing: 0px;
         color: #999999;
         .school-code,
         .school-type {
+            line-height: 32px;
             cursor: default;
             span {
+                padding-left: 12px;
                 color: #000;
-                margin-left: 5px;
+                // margin-left: 5px;
             }
         }
     }
@@ -395,8 +420,9 @@
         left: 0;
         top: 0;
         width: 192px;
-        height: 348px;
-        background: url("../images/conten_left_bg.png") no-repeat;
+        height: 100%;
+        background-color: #f5f5f5;
+        // background: url("../images/conten_left_bg.png") no-repeat;
         .school-logo {
             @include Hcenter();
             top: 36px;
@@ -457,19 +483,21 @@
         position: absolute;
         top: 0;
         right: 0;
-        width: 532px;
-        height: 348px;
+        // width: 532px;
+        width: calc(100% - 192px);
+        height: 100%;
+        padding-top: 38px;
         .win-shcool-name {
-            position: absolute;
-            left: 31px;
-            top: 64px;
-            width: 400px;
-            height: 28px;
-            line-height: 28px;
+            // position: absolute;
+            // left: 31px;
+            // top: 64px;
+            // width: 400px;
+            // height: 28px;
+            // line-height: 28px;
             input {
                 width: 320px;
                 height: 28px;
-                margin-left: 8px;
+                // margin-left: 8px;
                 background-color: #ffffff;
                 border-radius: 4px;
                 border: solid 1px #bac7d9;
@@ -478,38 +506,38 @@
             }
         }
         .win-school-code {
-            position: absolute;
-            top: 108px;
-            left: 31px;
-            width: 260px;
-            height: 28px;
-            // background: blue;
+            // position: absolute;
+            // top: 108px;
+            // left: 31px;
+            // width: 260px;
+            // height: 28px;
+            // // background: blue;
             input {
-                margin-left: 8px;
+                margin-right: 4px;
                 border: none;
                 width: 180px;
                 height: 28px;
                 background-color: #ffffff;
                 border-radius: 4px;
                 border: solid 1px #bac7d9;
-                padding-left: 10px;
+                // padding-left: 10px;
                 color: #000;
             }
         }
         .win-school-type {
-            width: 350px;
-            height: 108px;
-            margin-left: 31px;
-            margin-top: 140px;
-            position: relative;
+            // width: 350px;
+            // height: 40px;
+            // margin-left: 31px;
+            // margin-top: 140px;
+            // position: relative;
             .primary-school,
             .middle-school,
             .high-school {
-                height: 28px;
-                position: absolute;
-                left: 67px;
-                top: 0;
-                line-height: 28px;
+                // height: 28px;
+                // position: absolute;
+                // left: 67px;
+                // top: 0;
+                // line-height: 28px;
                 span {
                     display: inline-block;
                     width: 60px;
@@ -539,7 +567,8 @@
                     margin: 0 8px 0 9px;
                 }
                 input {
-                    margin-left: 10px;
+                    margin-right: 5px;
+                    margin-top: -2px;
                     color: #2ba500;
                      :nth-child(2) {
                         margin-left: 20px;
@@ -561,7 +590,9 @@
             top: 50px;
             left: 0px;
             width: 438px;
+            margin-left: 31px;
             height: 22px;
+            line-height: 22px;
             // line-height: 22px;
             color: red;
             font-size: 14px;
@@ -575,6 +606,47 @@
                 background: url("../images/light_but.png");
                 //  background: url('http://img.lancoo.cn/test/123');
                 margin-right: 8px;
+            }
+        }
+        .row {
+            line-height: 36px;
+            position: relative;
+            .left {
+                float: left;
+                width: 18%;
+                text-align: right;
+                padding-right: 10px;
+                // line-height: 28px;
+            }
+            .right {
+                float: left;
+                width: 82%;
+                .radio {
+                    margin-right: 8px;
+                    vertical-align: top;
+                }
+                .dropdown_container {
+                    vertical-align: top;
+                }
+                .area-check-wrapper {
+                    position: relative;
+                    z-index: 10;
+                    .dropdown_wrapper {
+                        width: 110px !important;
+                        .dropdown_default_span {
+                            width: 110px !important;
+                        }
+                        .dropdown_select_ul {
+                            width: 110px !important;
+                        }
+                    }
+                }
+            }
+        }
+        .row-SchoolBadge {
+            margin: 12px 0;
+            .left {
+                line-height: 40px;
             }
         }
     }

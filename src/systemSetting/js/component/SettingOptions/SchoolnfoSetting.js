@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef, createRef } from "react";
 import "../../../sass/SchoolInfoSet.scss";
 import { connect } from "react-redux";
 import {
@@ -22,7 +22,11 @@ import CropperModal from "../../../../common/js/CropperModal";
 // import default_schoolPic from "../../../images/boom_school_logo.png"; //默认图标的网络地址
 import HandleCollegeModal from "../Modal/HandleCollegeModal";
 import default_schoolPic from "../../../images/boom_school_logo.png"; //默认图标的网络地址
-
+import AreaCheck from "../../../../initGuide/components/areaCheck";
+import SchoolBadge from "../SchoolBadge";
+let { ResHttpRootUrl } = JSON.parse(
+  sessionStorage.getItem("LgBasePlatformInfo")
+);
 // import UIState from '../../reducers/UIState'
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 文件最大限制为2M
 // const default_schoolPic = config.SystemSettingProxy_univ+'Base/SysIcon/defaultSchoolIcon.png'
@@ -200,6 +204,8 @@ class SchoolnfoSetting extends Component {
     const { SchoolID } = JSON.parse(sessionStorage.getItem("UserInfo"));
     dispatch(DataChange.getCurrentSchoolInfo(SchoolID));
     dispatch(DataChange.getCollegePreview());
+    this.AreaCheck = createRef();
+    this.SchoolBadge = createRef();
   }
 
   //切换年级的选中状态
@@ -231,7 +237,7 @@ class SchoolnfoSetting extends Component {
   //导入院系
   onImportCollegeClick = () => {
     // dconsole.log("import");
-    window.open("/html/systemSetting/#/MainContent/Import"  );
+    window.open("/html/systemSetting/#/MainContent/Import");
   };
   //确认保存编辑好的信息
   editComfirm = () => {
@@ -250,7 +256,18 @@ class SchoolnfoSetting extends Component {
     let SchoolType = ""; //学制的代码数字
     // let SchoolSessionType = ""; //学制类型对应的参数（7=>3/6/3 或者5/4/3）
     // console.log(primaryNum, middleNum, SchoolCode, SchoolName, SchoolLogoUrl);
-
+    let {
+      provinceID,
+      showProvinceTip,
+      hideProvinceTip,
+      cityID,
+      hideCityTip,
+      showCityTip,
+      countyID,
+      showCountyTip,
+      hideCountyTip,
+    } = this.AreaCheck.current;
+    let { ImgUrl } = this.SchoolBadge.current;
     highNum = highNum ? highNum : "3";
     // if (
     //   periodInfo[0].checked === true &&
@@ -301,8 +318,9 @@ class SchoolnfoSetting extends Component {
     // console.log(SchoolType);
     //如果学校名称或者学校代码为空则显示错误信息
     if (
-      // SchoolCode === "" || 
-    SchoolName === "") {
+      // SchoolCode === "" ||
+      SchoolName === ""
+    ) {
       dispatch(AppAlertAction.alertError({ title: "学校代码或名称不能为空!" }));
       console.log(SchoolName);
     } else {
@@ -343,6 +361,34 @@ class SchoolnfoSetting extends Component {
       // else {
       //     SchoolSessionType = "6/3"
       // }
+      //判断省市县
+      if (provinceID) {
+        // provinceOk = true;
+
+        hideProvinceTip();
+      } else {
+        showProvinceTip();
+        return;
+      }
+
+      if (cityID) {
+        // cityOk = true;
+
+        hideCityTip();
+      } else {
+        showCityTip();
+        return;
+      }
+
+      if (countyID) {
+        // countyOk = true;
+
+        hideCountyTip();
+      } else {
+        showCountyTip();
+        return;
+      }
+
       this.setState(
         {
           edit_visible: false,
@@ -371,6 +417,8 @@ class SchoolnfoSetting extends Component {
               this.state.onlineImg === ""
                 ? SchoolLogoUrl
                 : this.state.onlineImg,
+            CountyID: countyID,
+            SchoolImgUrl_Long: ImgUrl,
           }).then((data) => {
             console.log(data);
             if (data === 0) {
@@ -1066,6 +1114,14 @@ class SchoolnfoSetting extends Component {
     } = this.props;
     let { collegePreview } = DataUpdate;
     let {
+      CityID,
+      CityName,
+      CountyID,
+      CountyName,
+      ProvinceID,
+      ProvinceName,
+    } = schoolInfo;
+    let {
       currentIndex,
       totalCount,
       List,
@@ -1160,29 +1216,52 @@ class SchoolnfoSetting extends Component {
             </div>
             <div className="school-msg-box-2">
               <div className="school-name" title={schoolInfo.SchoolName}>
-                {schoolInfo.SchoolName}
+                学校名称:
+                <span>{schoolInfo.SchoolName}</span>
               </div>
               <div className="school-info">
+                
+                <div className="school-badge">
+                长条校徽:
+                  <i
+                    className="SchoolLogoUrl_Long"
+                    style={{
+                      background: `url(${
+                         schoolInfo.SchoolLogoUrl_Long
+                      }) no-repeat center center/280px 40px`,
+                    }}
+                  ></i>
+                </div>
                 <div className="school-code">
-                  学校代码:<span>{schoolInfo.SchoolCode}</span>
+                学校代码: <span>{schoolInfo.SchoolCode}</span>
                 </div>
                 <div className="school-type">
                   学校类型:
                   <span>{schoolLength}</span>
                   {/* ({schoolSys}) */}
                 </div>
+                {CountyID ? (
+                  <div className="school-type">
+                    学校区域:
+                    <span>
+                      {ProvinceName + ">" + CityName + ">" + CountyName}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
-          <div className="edite-info-box edite-info-box-2">
+          <div className="edite-info-box edit-info-box-2">
             <span className="top-tips">院系基础资料</span>
-            {/* <div
+            <div
               className="add-info"
               onClick={this.onImportCollegeClick.bind(this)}
               title="批量导入院系"
             >
               <span></span>批量导入院系
-            </div> */}
+            </div>
             <div
               className="import-info"
               onClick={this.onAddCollegeClick.bind(this)}
@@ -1284,7 +1363,7 @@ class SchoolnfoSetting extends Component {
           <Modal
             type="1"
             title="编辑学院"
-            className='Modal-HandleCollegeModal'
+            className="Modal-HandleCollegeModal"
             onOk={this.onEditCollegeOk.bind(this)}
             onCancel={this.onEditCollegeCancel}
             width={"400px"}
@@ -1301,8 +1380,7 @@ class SchoolnfoSetting extends Component {
             onOk={this.onAddCollegeOk.bind(this)}
             onCancel={this.onAddCollegeCancel.bind(this)}
             width={"400px"}
-            className='Modal-HandleCollegeModal'
-
+            className="Modal-HandleCollegeModal"
             bodyStyle={{ height: "150px" }}
             visible={UIState.AppModal.AddCollegeVisible}
             okText="保存"
@@ -1316,8 +1394,8 @@ class SchoolnfoSetting extends Component {
             title="编辑学校基础资料"
             onOk={this.editComfirm}
             onCancel={this.editCancel}
-            width={"724px"}
-            bodyStyle={{ height: "348px" }}
+            width={"784px"}
+            bodyStyle={{ height: "372px" }}
             visible={this.state.edit_visible}
             okText="保存"
             destroyOnClose={true}
@@ -1360,31 +1438,40 @@ class SchoolnfoSetting extends Component {
               </div>
 
               <div className="content-right">
-                <div className="win-shcool-name">
-                  学校名称:
-                  <Tooltip
-                    visible={this.state.emptyNameTipsShow}
-                    placement="right"
-                    title={this.state.tipsTitle}
-                  >
-                    <input
-                      type="text"
-                      maxLength="20"
-                      width={200}
-                      value={schoolInfo.SchoolName}
-                      onChange={this.getSchoolName}
-                      onBlur={this.visibleName}
-                    />
-                  </Tooltip>
+                <div className="row clearfix win-shcool-name">
+                  <span className="left">学校名称:</span>
+                  <span className="right">
+                    <Tooltip
+                      visible={this.state.emptyNameTipsShow}
+                      placement="right"
+                      title={this.state.tipsTitle}
+                    >
+                      <input
+                        type="text"
+                        maxLength="20"
+                        width={200}
+                        value={schoolInfo.SchoolName}
+                        onChange={this.getSchoolName}
+                        onBlur={this.visibleName}
+                      />
+                    </Tooltip>
+                  </span>
                 </div>
-                <div className="win-school-code">
-                  学校代码:
-                  <Tooltip
-                    visible={this.state.emptyCodeTipsShow}
-                    placement="right"
-                    title={this.state.codeTipsTitle}
-                  >
-                    {/* <input
+                <div className={"row clearfix row-SchoolBadge"}>
+                  <span className="left">长条校徽:</span>
+                  <span className="right">
+                    <SchoolBadge ref={this.SchoolBadge}></SchoolBadge>
+                  </span>
+                </div>
+                <div className="row clearfix win-school-code">
+                  <span className="left">学校代码:</span>
+                  <span className="right">
+                    <Tooltip
+                      visible={this.state.emptyCodeTipsShow}
+                      placement="right"
+                      title={this.state.codeTipsTitle}
+                    >
+                      {/* <input
                       type="text"
                       maxLength="20"
                       disabled={true}
@@ -1392,57 +1479,75 @@ class SchoolnfoSetting extends Component {
                       onChange={this.getSchoolCode}
                       onBlur={this.visibleCode}
                     /> */}
-                    <span
-                      style={{
-                        lineHeight: "20px",
-                        height: "20px",
-                        paddingLeft: "10px",
-                        display: "inline-block",
-                        fontSize: "16px",
-                      }}
-                    >
-                      {schoolInfo.SchoolCode}
-                    </span>
-                  </Tooltip>
+                      <span
+                        style={{
+                          lineHeight: "20px",
+                          height: "20px",
+                          // paddingLeft: "10px",
+                          display: "inline-block",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          color: "#ff6600",
+                        }}
+                      >
+                        {schoolInfo.SchoolCode}
+                      </span>
+                    </Tooltip>
+                  </span>
                 </div>
 
-                <div className="win-school-type">
-                  <div style={{lineHeight: '28px'}}>学校学制:</div>
-                  <div className="primary-school">
-                    <input
-                      type="radio"
-                      value="3" /* checked={schoolInfo.primaryNum==="5"}  */
-                      checked={schoolInfo.SchoolSessionType === "3"}
-                      onChange={this.tempFunction}
-                      onClick={this.handelSchoolSystem}
-                      style={{verticalAlign: 'middle'}}
-                    />
-                    <div
-                      style={{display: 'inline-block'}}
-                      >&nbsp; 三年制</div>
-                    <input
-                      type="radio"
-                      value="4" /* checked={schoolInfo.primaryNum==="5"}  */
-                      checked={schoolInfo.SchoolSessionType === "4"}
-                      onChange={this.tempFunction}
-                      style={{verticalAlign: 'middle'}}
-                      onClick={this.handelSchoolSystem}
-                    />
-                    <div
-                      style={{display: 'inline-block'}}
-                      >&nbsp; 四年制</div>
-                    <input
-                      type="radio"
-                      value="5" /* checked={schoolInfo.primaryNum==="6"}  */
-                      checked={schoolInfo.SchoolSessionType === "5"}
-                      onChange={this.tempFunction}
-                      style={{verticalAlign: 'middle'}}
-                      onClick={this.handelSchoolSystem}
-                    />
-                    <div
-                      style={{display: 'inline-block'}}
-                      >&nbsp;五年制</div>
+                <div className="  row clearfix win-school-type">
+                  {/* <div style={{ lineHeight: "28px" }}>学校学制:</div> */}
+                  <span className="left">学校学制:</span>
+
+                  <div className="primary-school right">
+                    <div className="radio" style={{ display: "inline-block" }}>
+                      <input
+                        type="radio"
+                        value="3" /* checked={schoolInfo.primaryNum==="5"}  */
+                        checked={schoolInfo.SchoolSessionType === "3"}
+                        onChange={this.tempFunction}
+                        onClick={this.handelSchoolSystem}
+                        style={{ verticalAlign: "middle" }}
+                      />
+                      三年制
+                    </div>
+
+                    <div className="radio" style={{ display: "inline-block" }}>
+                      <input
+                        type="radio"
+                        value="4" /* checked={schoolInfo.primaryNum==="5"}  */
+                        checked={schoolInfo.SchoolSessionType === "4"}
+                        onChange={this.tempFunction}
+                        style={{ verticalAlign: "middle" }}
+                        onClick={this.handelSchoolSystem}
+                      />
+                      四年制
+                    </div>
+
+                    <div className="radio" style={{ display: "inline-block" }}>
+                      <input
+                        type="radio"
+                        value="5" /* checked={schoolInfo.primaryNum==="6"}  */
+                        checked={schoolInfo.SchoolSessionType === "5"}
+                        onChange={this.tempFunction}
+                        style={{ verticalAlign: "middle" }}
+                        onClick={this.handelSchoolSystem}
+                      />
+                      五年制
+                    </div>
                   </div>
+                </div>
+                <div className={"row clearfix"}>
+                  <span className="left">所在区域:</span>
+                  <span className="right">
+                    <AreaCheck
+                      ProvinceID={ProvinceID}
+                      CityID={CityID}
+                      CountyID={CountyID}
+                      ref={this.AreaCheck}
+                    ></AreaCheck>
+                  </span>
                   <div className="edit-tips">
                     <span></span>
                     修改学校类型会引起基础数据重新初始化，请谨慎操作
