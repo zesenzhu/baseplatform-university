@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "development") {
     name: "中小学一体化学科教育云",
     logo: logo,
     footer: "蓝鸽科技 版权所有",
-    TokenProxy: "http://192.168.2.207:10108",
+    TokenProxy: "http://192.168.129.3:30103",
     // TokenProxy:'http://47.115.20.102:10102',
     SubjectProxy: "http://192.168.2.207:10108/Subject/api",
     CourseClassProxy: "http://192.168.2.207:10108/CourseClass/api",
@@ -50,27 +50,26 @@ if (process.env.NODE_ENV === "development") {
     WebsiteProxy: "http://192.168.2.207:10108",
     ScheduleProxy: "http://192.168.129.3:30103",
     // ScheduleProxy:"http://47.115.20.102:10102",
-    Xproxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
-    PowerProxy: "http://192.168.2.207:10108/UserMgr/PowerMgr",
+    Xproxy: "http://192.168.129.3:30103/UserMgr/UserInfoMgr",
+    PowerProxy: "http://192.168.129.3:30103/UserMgr/PowerMgr",
     // PowerProxy:'http://47.115.20.102:10102/UserMgr/PowerMgr',
-    UserInfoProxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
+    UserInfoProxy: "http://192.168.129.3:30103/UserMgr/UserInfoMgr",
     proxy:
       "http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev",
-    BasicProxy: "http://192.168.2.207:10108",
-    LoginProxy: "http://192.168.2.207:10108",
+    BasicProxy: "http://192.168.129.3:30103",
+    LoginProxy: "http://192.168.129.3:30103",
     MockLoginProxy:
       "http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev",
     PersonalProxy: "http://192.168.2.207:10108",
     ErrorProxy: "http://192.168.2.207:10108",
     XTestProxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
-    Import: "http://192.168.2.207:10108",
+    Import: "http://192.168.129.3:30103",
     SysSettingProxy: "http://192.168.2.207:10108",
     ImgUrlProxy: "http://192.168.2.207:10108",
     // SysSettingProxy:'http://192.168.2.114:8090',
     tempSubsystemProxy:
       "http://192.168.2.202:7300/mock/5db974a3a1aded10689632eb/example",
     DataCollectorProxy: "http://192.168.2.207:10108",
-
     // DataCollectorProxy:"http://192.168.2.114:8090",
 
     // v3.1
@@ -85,7 +84,7 @@ if (process.env.NODE_ENV === "development") {
     //学科
     SubjectManageProxy_univ: "http://192.168.2.207:10108",
 
-    ScheduleManagerProxy_univ: "http://192.168.2.207:10108",
+    ScheduleManagerProxy_univ: "http://192.168.129.3:30103",
 
     ScheduleForAssiant_univ:
       " http://192.168.2.202:7300/mock/5e7c57cc778fda11ec0febc9/web3.1/schedule",

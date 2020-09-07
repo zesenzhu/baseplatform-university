@@ -232,6 +232,8 @@ function App(props){
 
                         localStorage.setItem('token',token);
 
+                        sessionStorage.setItem('token',token);
+
                         loginApi({token,method:'GetUserInfo',params:lg_sysid?lg_sysid:'000'}).then(result=>{
 
                             //如果成功获取到用户信息

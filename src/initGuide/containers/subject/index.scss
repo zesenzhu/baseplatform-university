@@ -1,45 +1,57 @@
-.year-and-term-setting{
+@import "../base";
 
-  margin-top: 50px;
+.subject-wrapper{
 
-  .col1{
+  margin: 40px 40px 100px 40px;
 
-    width: 160px;
+  .total-wrapper{
 
-    text-align: right;
+    margin-bottom: 16px;
 
-    font-size: 14px;
+    .title{
+
+      float: left;
+
+      margin-left: 20px;
+
+    }
+
+    .add-subject{
+      float: right;
+      margin-right:20px;
+      width: 90px;
+      height: 28px;
+      background-color: #77a5d8;
+      border-radius: 14px;
+      font-size: 14px;
+      color: #ffffff;
+      border: 0;
+      outline: none;
+    }
+
+  }
+
+  .emptyBox{
+
+    margin-top: 40px;
+
+  }
+
+  .no{
+
+    color: #999999;
+
+    font-size: 12px;
+
+  }
+
+  .subject-name{
 
     color: #333333;
 
-  }
+    font-size: 14px;
 
-  td{
-
-    padding-bottom: 16px;
-
-  }
-
-  .dropdown_container{
-
-    z-index: 3;
-
-  }
-
-  .dropdown_wrapper{
-
-    margin-left: 12px;
-  }
-
-  .ant-calendar-picker{
-
-    margin-left: 12px;
-
-  }
-
-  .guide-footer{
-
-    margin-top:108px;
+    font-weight: bold;
 
   }
 
