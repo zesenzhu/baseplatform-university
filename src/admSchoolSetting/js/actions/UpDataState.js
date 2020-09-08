@@ -4,6 +4,8 @@ import CONFIG from "../../../common/js/config";
 import "whatwg-fetch";
 import actions from "./index";
 import Public from "../../../common/js/public";
+import moment from "moment";
+let { SchoolSettingProxy_univ } = CONFIG;
 
 //操作常量
 //获取登录用户信息
@@ -49,7 +51,8 @@ const QuerySchoolInfo = ({ Status, keyword, currentIndex, pageSize }) => {
       keyword = DataState.CommonData.QuerySchoolParams.keyWord;
     }
     // console.log(pageSize);
-    dispatch(UpUIState.TableLoadingOpen());
+    dispatch(UpUIState.ContentLoadingOpen());
+
     querySchoolInfo({
       Status,
       keyword,
@@ -66,8 +69,7 @@ const QuerySchoolInfo = ({ Status, keyword, currentIndex, pageSize }) => {
           data: res.Data,
           pageSize: DataState.CommonData.QuerySchoolParams.pageSize,
         });
-        dispatch(UpUIState.TableLoadingClose());
-        dispatch({ type: UpUIState.APP_LOADING_CLOSE });
+        dispatch(UpUIState.ContentLoadingClose());
       }
     });
   };
@@ -326,10 +328,12 @@ const checkAllData = (
       SchoolSessionType,
       SchoolImgUrl,
     } = DataState.CommonData.SchoolModalData;
- 
+
     let InitSchoolLevel = DataState.CommonData.SchoolModalInitData.SchoolLevel;
-    let InitSchoolSessionType = DataState.CommonData.SchoolModalInitData.SchoolSessionType;
-    let InitSchoolImgUrl = DataState.CommonData.SchoolModalInitData.SchoolImgUrl;
+    let InitSchoolSessionType =
+      DataState.CommonData.SchoolModalInitData.SchoolSessionType;
+    let InitSchoolImgUrl =
+      DataState.CommonData.SchoolModalInitData.SchoolImgUrl;
     dispatch(
       checkSchoolTel((error, Error2) => {
         SchoolTelError = error;
@@ -354,7 +358,6 @@ const checkAllData = (
         SchoolNameError2 = Error2;
       })
     );
-   
 
     if (
       SchoolImgUrl === InitSchoolImgUrl &&
@@ -379,7 +382,6 @@ const checkAllData = (
     ) {
       error();
     } else {
-      
       success();
     }
   };
@@ -470,7 +472,7 @@ const UpdateSchoolState = (State, SchoolID, func = () => {}) => {
           );
           dispatch(SetMainEditInitData());
           func();
-        } 
+        }
       });
   };
 };
@@ -497,7 +499,7 @@ const DeleteSchoolInfo = (SchoolID, func = () => {}) => {
           );
           dispatch(SetMainEditInitData());
           func();
-        } 
+        }
       });
   };
 };
@@ -524,7 +526,7 @@ const DeleteSchoolInfoPatch = (SchoolIDs, func = () => {}) => {
           );
           dispatch(SetMainEditInitData());
           func();
-        } 
+        }
       });
   };
 };
@@ -580,7 +582,170 @@ const querySchoolInfo = async ({
     return false;
   }
 };
+
+// 获取总览信息
+const MAIN_GET_CURRENT_TERM_INFO_FOR_MULTI_DATA =
+  "MAIN_GET_CURRENT_TERM_INFO_FOR_MULTI_DATA";
+// 获取学校总览--大学
+const GetCurrentTermInfoForMulti = ({ func = () => {}, schoolID }) => {
+  return (dispatch, getState) => {
+    // dispatch(PublicAction.ContentLoadingOpen());
+    dispatch(UpUIState.ContentLoadingOpen());
+
+    let State = getState();
+
+    getCurrentTermInfoForMulti({
+      schoolID,
+    }).then((res) => {
+      if (res) {
+        let { Term, TermStartDate, TermEndDate } = res.Data;
+        let TermDetails = {};
+
+        let TermStartYear = (TermDetails.TermStartYear = Term.slice(
+          0,
+          Term.length - 2
+        ).split("-")[0]);
+        let TermEndYear = (TermDetails.TermEndYear = Term.slice(
+          0,
+          Term.length - 2
+        ).split("-")[1]);
+        let TermYearStatus = (TermDetails.TermYearStatus = Term.slice(
+          Term.length - 1
+        ));
+        TermStartDate = moment(TermStartDate);
+        TermEndDate = moment(TermEndDate);
+        TermDetails.MomentStartDate = {
+          Day: TermStartDate.format("DD"),
+          Month: TermStartDate.format("MM"),
+          Year: TermStartDate.format("YYYY"),
+        };
+        TermDetails.MomentEndDate = {
+          Day: TermEndDate.format("DD"),
+          Month: TermEndDate.format("MM"),
+          Year: TermEndDate.format("YYYY"),
+        };
+        let TermList = [];
+        let NextTermEndDate = "";
+        let NextTermStartDate = "";
+        TermStartYear = parseInt(TermStartYear);
+        TermEndYear = parseInt(TermEndYear);
+        if (parseInt(TermYearStatus) === 1) {
+          NextTermEndDate = TermEndYear + "-07-01 00:00:00";
+          NextTermStartDate = TermEndYear + "-03-01 00:00:00";
+          TermList.push({
+            value: TermStartYear + "-" + TermEndYear + "02",
+            title: TermStartYear + "-" + TermEndYear + "  第二学期",
+          });
+          TermList.push({
+            value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "01",
+            title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第一学期",
+          });
+        } else if (parseInt(TermYearStatus) === 2) {
+          NextTermEndDate = TermEndYear + 1 + "-02-01 00:00:00";
+          NextTermStartDate = TermStartYear + 1 + "-09-01 00:00:00";
+          TermList.push({
+            value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "01",
+            title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第一学期",
+          });
+          TermList.push({
+            value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "02",
+            title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第二学期",
+          });
+        }
+        dispatch({
+          type: MAIN_GET_CURRENT_TERM_INFO_FOR_MULTI_DATA,
+          data: {
+            ...res.Data,
+            ...TermDetails,
+            NextTermEndDate,
+            NextTermStartDate,
+            TermList,
+          },
+        });
+
+        func(getState());
+        // dispatch(PublicAction.ContentLoadingOpen());
+        dispatch(UpUIState.ContentLoadingClose());
+      }
+    });
+  };
+};
+const getCurrentTermInfoForMulti = async ({ schoolID = "" }) => {
+  let url = SchoolSettingProxy_univ + "/GetCurrentTermInfoForMulti";
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+const COMMON_SET_YEAR_PARAMS = "COMMON_SET_YEAR_PARAMS";
+const SetYearParams = (data) => {
+  return (dispatch, getState) => {
+    dispatch({ type: COMMON_SET_YEAR_PARAMS, data: data });
+  };
+};
+//  启用新学期（仅多学校环境）
+const SetNewTermInfoForMulti = ({
+  StartDate,
+  EndDate,
+  TermName,
+  func = () => {},
+}) => {
+  return (dispatch, getState) => {
+    dispatch({ type: UpUIState.MODAL_LOADING_OPEN });
+
+    let {
+      DataState: {
+        CommonData: {
+          SetYearParams: { NextTermEndDate, NextTermStartDate, Term },
+        },
+        LoginUser: { UserID },
+      },
+    } = getState();
+
+    if (StartDate === undefined) {
+      StartDate = NextTermStartDate;
+    }
+    if (EndDate === undefined) {
+      EndDate = NextTermEndDate;
+    }
+    if (TermName === undefined) {
+      TermName = Term.value;
+    }
+
+    postData(
+      SchoolSettingProxy_univ + "/SetNewTermInfoForMulti",
+      {
+        StartDate,
+        EndDate,
+        UserID,
+        TermName,
+      },
+      2
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          func(getState());
+        }
+        dispatch({ type: UpUIState.MODAL_LOADING_CLOSE });
+
+      });
+  };
+};
 export default {
+  SetNewTermInfoForMulti,
+  SetYearParams,
+  COMMON_SET_YEAR_PARAMS,
+
+  MAIN_GET_CURRENT_TERM_INFO_FOR_MULTI_DATA,
+  getCurrentTermInfoForMulti,
+  GetCurrentTermInfoForMulti,
+
   getLoginUser,
   GET_LOGIN_USER_INFO,
 

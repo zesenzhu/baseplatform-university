@@ -29,9 +29,9 @@ const EDIT_MODAL_CLOSE = "EDIT_MODAL_CLOSE";
 // 提示
 const APP_TIPS_VISIBLE = "APP_TIPS_VISIBLE";
 // 设置提示
-const SET_APP_TIPS = 'SET_APP_TIPS'
+const SET_APP_TIPS = "SET_APP_TIPS";
 // 提示全部关闭
-const APP_TIPS_ALL_CLOSE = 'APP_TIPS_ALL_CLOSE'
+const APP_TIPS_ALL_CLOSE = "APP_TIPS_ALL_CLOSE";
 //操作
 const showErrorAlert = ({
   type = "btn-error",
@@ -49,10 +49,10 @@ const showErrorAlert = ({
         type,
         title,
         littleTitle,
-        onOk:onOk?onOk: ()=>onAppAlertOK(dispatch),
-        onCancel:onCancel?onCancel:()=>onAppAlertCancel(dispatch),
-        onClose:onClose?onClose:()=>onAppAlertClose(dispatch),
-        onHide:onHide?onHide:()=>onAlertWarnHide(dispatch),
+        onOk: onOk ? onOk : () => onAppAlertOK(dispatch),
+        onCancel: onCancel ? onCancel : () => onAppAlertCancel(dispatch),
+        onClose: onClose ? onClose : () => onAppAlertClose(dispatch),
+        onHide: onHide ? onHide : () => onAlertWarnHide(dispatch),
       },
     });
   };
@@ -124,7 +124,22 @@ const onAppAlertCancel = (dispatch) => {
 const onAppAlertClose = (dispatch) => {
   dispatch(hideErrorAlert());
 };
+
+//loading
+let CONTENT_LOADING_OPEN = "CONTENT_LOADING_OPEN";
+let CONTENT_LOADING_CLOSE = "CONTENT_LOADING_CLOSE";
+const ContentLoadingOpen = () => {
+  return { type: CONTENT_LOADING_OPEN };
+};
+const ContentLoadingClose = () => {
+  return { type: CONTENT_LOADING_CLOSE };
+};
 export default {
+  ContentLoadingOpen,
+  ContentLoadingClose,
+  CONTENT_LOADING_OPEN,
+  CONTENT_LOADING_CLOSE,
+
   onAlertWarnHide,
   onAppAlertOK,
   onAppAlertCancel,
@@ -172,5 +187,5 @@ export default {
   TableLoadingOpen,
   TableLoadingClose,
   SET_APP_TIPS,
-  APP_TIPS_ALL_CLOSE
+  APP_TIPS_ALL_CLOSE,
 };

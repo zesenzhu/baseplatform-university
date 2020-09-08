@@ -1,5 +1,5 @@
 .Main {
-    width: 1200px;
+    // width: 1200px;
     min-height: 680px;
     background-color: #ffffff;
     border-radius: 12px;
@@ -361,6 +361,7 @@
     .Main-event-box {
         width: 1136px;
         height: 30px;
+        line-height: 30px;
         padding-left: 20px;
         margin: 10px auto;
         .checkBox-All {
