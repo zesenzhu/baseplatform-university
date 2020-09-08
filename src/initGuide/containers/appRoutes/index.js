@@ -37,6 +37,20 @@ function AppRoutes(props) {
 
             <Route path={'/import'} component={Import}></Route>
 
+            {/* <Route path={"/schoolSetting"} render={()=>{return <SchoolSetting></SchoolSetting>}}></Route>
+
+            <Route path={"/college"} render={()=>{return <College></College>}}></Route>
+
+            <Route path={"/yearAndTerm"} render={()=>{return <YearAndTerm></YearAndTerm>}}></Route>
+
+            <Route path={"/scheduleSetting"} render={()=>{return <ScheduleSetting></ScheduleSetting>}}></Route>
+
+            <Route path={'/subject'} render={()=>{return <Subject></Subject>}}></Route>
+
+            <Route path={'/power'} render={()=>{return <Power></Power>}}></Route>
+
+            <Route path={'/import'} render={()=>{return <Import></Import>}}></Route>*/}
+
             <Redirect path={"/*"} to={"/schoolSetting"}></Redirect>
 
         </Switch>

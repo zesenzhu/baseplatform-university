@@ -388,6 +388,8 @@ function YearAndTerm(props) {
 
             SetTermInfo({SchoolID,UserID,TermName,StartDate,EndDate,dispatch}).then(data=>{
 
+                setLoading(false);
+
                 if (data===0){
 
                     /*const url = getQueryVariable('lg_preurl');
@@ -404,7 +406,7 @@ function YearAndTerm(props) {
 
                 }
 
-                setLoading(false);
+                history.push('/scheduleSetting');
 
             })
 

@@ -1233,15 +1233,13 @@ function SchoolSetting(props) {
 
                     }).then(data=>{
 
-                        if (data===0){
+                        setLoading(false);
 
-                            console.log(1);
+                        if (data===0){
 
                             toNextPage();
 
                         }
-
-                        setLoading(false);
 
                     })
 
@@ -1277,9 +1275,6 @@ function SchoolSetting(props) {
             }
 
         }
-
-
-        //toNextPage();
 
     },[]);
 
