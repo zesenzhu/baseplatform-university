@@ -67,7 +67,7 @@
             // top: 50px;
             left: 0px;
             // width: 90%;
-            margin-left: 10px;
+            margin-left: 30px;
             // height: 22px;
             line-height: 22px;
             color: red;
@@ -118,7 +118,7 @@
                     max-height: 107px;
                     width: 104%;
                     // min-height: 33px;
-                    position: relative!important;
+                    position: relative !important;
                 }
             }
             .culonm-input {
@@ -222,6 +222,25 @@
                         cursor: pointer;
                     }
                 }
+                .area-check-wrapper {
+                    position: relative;
+                    z-index: 10;
+                    .dropdown_container:first-child {
+                        margin-left: 0;
+                    }
+                    .dropdown_container {
+                        margin-right: 8px;
+                    }
+                    .dropdown_wrapper {
+                        width: 110px !important;
+                        .dropdown_default_span {
+                            width: 110px !important;
+                        }
+                        .dropdown_select_ul {
+                            width: 110px !important;
+                        }
+                    }
+                }
             }
         }
     }
@@ -230,15 +249,15 @@
 .tips {
     max-width: 999px !important;
     .ant-tooltip-arrow:before {
-        background-color: #d41414!important;
+        background-color: #d41414 !important;
     }
     .ant-tooltip-inner {
-        background-color: #d41414!important;
+        background-color: #d41414 !important;
         min-height: 0;
         min-width: 0;
         font-size: 12px;
         line-height: 14px;
-        color: #fff!important;
+        color: #fff !important;
         white-space: nowrap;
     }
 }

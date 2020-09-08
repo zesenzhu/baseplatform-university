@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { connect } from "react-redux";
 import {
   CheckBox,
@@ -12,6 +12,7 @@ import actions from "../actions";
 import { postData, getData } from "../../../common/js/fetch";
 import CONFIG from "../../../common/js/config";
 import ClassCropperModal from "../../../common/js/CropperModal";
+import AreaCheck from "../../../initGuide/components/areaCheck";
 
 import "../../scss/SchoolModal.scss";
 import DefaultImg from "../../images/boom_school_logo.png";
@@ -36,16 +37,19 @@ class SchoolModal extends React.Component {
       picVisible: false,
       classResultImgUrl: "",
     };
+    this.AreaCheck = createRef();
   }
 
   componentWillMount() {
     const { dispatch, DataState, UIState } = this.props;
     let token = sessionStorage.getItem("token");
     dispatch(UpDataState.getImgUrlProxy());
-    if(this.props.type==='add'){
-      dispatch(UpDataState.SetSchoolModalData({
-        SchoolImgUrl:'SysSetting/Attach/default.png'
-      }))
+    if (this.props.type === "add") {
+      dispatch(
+        UpDataState.SetSchoolModalData({
+          SchoolImgUrl: "SysSetting/Attach/default.png",
+        })
+      );
     }
     let {
       SchoolName, //学校名字
@@ -247,24 +251,22 @@ class SchoolModal extends React.Component {
       picVisible: true,
     });
   };
-    //监听使用默认图片按钮
-    useDefault = (key) => {
-      let { dispatch,   DataState} = this.props;
-      let {ImgUrlProxy}= DataState.CommonData
-      this.setState({
-        [key]: `${ImgUrlProxy}SysSetting/Attach/default.png `,
-        // onlineImg: `/SysSetting/Attach/default.png`,
-      });
-  
-       
-      dispatch(
-        UpDataState.SetSchoolModalData({
-          SchoolImgUrl: 'SysSetting/Attach/default.png',
-        })
-      );
-      // d
-      
-    };
+  //监听使用默认图片按钮
+  useDefault = (key) => {
+    let { dispatch, DataState } = this.props;
+    let { ImgUrlProxy } = DataState.CommonData;
+    this.setState({
+      [key]: `${ImgUrlProxy}SysSetting/Attach/default.png `,
+      // onlineImg: `/SysSetting/Attach/default.png`,
+    });
+
+    dispatch(
+      UpDataState.SetSchoolModalData({
+        SchoolImgUrl: "SysSetting/Attach/default.png",
+      })
+    );
+    // d
+  };
   // 学校名称
   onSchoolNameChange = (e) => {
     const { dispatch, DataState } = this.props;
@@ -289,8 +291,8 @@ class SchoolModal extends React.Component {
   };
   // 学校代码
   onSchoolCodeChange = (e) => {
-    const { dispatch, DataState,type } = this.props;
-    if(type==='edit'){
+    const { dispatch, DataState, type } = this.props;
+    if (type === "edit") {
       return;
     }
     dispatch(
@@ -300,8 +302,8 @@ class SchoolModal extends React.Component {
     );
   };
   onSchoolCodeBlur = (e) => {
-    const { dispatch, DataState,type  } = this.props;
-    if(type==='edit'){
+    const { dispatch, DataState, type } = this.props;
+    if (type === "edit") {
       return;
     }
     dispatch(
@@ -317,8 +319,8 @@ class SchoolModal extends React.Component {
   };
   // 学校类型
   onSchoolLevelDropMenuChange = (e) => {
-    const { dispatch, DataState,type  } = this.props;
-    if(type==='edit'){
+    const { dispatch, DataState, type } = this.props;
+    if (type === "edit") {
       return;
     }
     dispatch(
@@ -381,7 +383,7 @@ class SchoolModal extends React.Component {
     // );
   };
   render() {
-    const { DataState, UIState } = this.props;
+    const { DataState, UIState, getAreaCheck } = this.props;
     const { CommonData, SchoolData, LoginUser } = DataState;
     const { ImgUrlProxy } = CommonData;
     const {
@@ -409,7 +411,14 @@ class SchoolModal extends React.Component {
       SchoolSessionType, //学校学制
       SchoolTel, //学校联系电话
       SchoolLinkman, //学校联系人
+      CityID,
+      CityName,
+      CountyID,
+      CountyName,
+      ProvinceID,
+      ProvinceName,
     } = CommonData.SchoolModalData;
+    getAreaCheck(this.AreaCheck.current);
     return (
       <div className="SchoolModal" id="SchoolModal">
         <div className="Left" id="picUpload">
@@ -445,7 +454,11 @@ class SchoolModal extends React.Component {
           >
             上传图标
           </Button>
-          <Button color='green' className="imgBtn" onClick={this.useDefault.bind(this,"classResultImgUrl")}>
+          <Button
+            color="green"
+            className="imgBtn"
+            onClick={this.useDefault.bind(this, "classResultImgUrl")}
+          >
             使用默认
           </Button>
           <p className="imgTips">
@@ -500,7 +513,7 @@ class SchoolModal extends React.Component {
                   className="culonm-input"
                   placeholder="请输入学校代码.."
                   maxLength={24}
-                  disabled={this.props.type==='edit'?true:false}
+                  disabled={this.props.type === "edit" ? true : false}
                   onChange={this.onSchoolCodeChange.bind(this)}
                   onBlur={this.onSchoolCodeBlur.bind(this)}
                   value={SchoolCode}
@@ -594,15 +607,27 @@ class SchoolModal extends React.Component {
               </Tips>
             </span>
           </div>
+          <div className="row clearfix">
+            <span className="culonm-1 left">所在区域:</span>
+            <span className="culonm-2 right ">
+              <AreaCheck
+                ProvinceID={ProvinceID}
+                CityID={CityID}
+                CountyID={CountyID}
+                ref={this.AreaCheck}
+              ></AreaCheck>
+            </span>
+          </div>
           <div className="edit-tips">
-                  <span></span>
-                  学校代码一旦确认，就不可以再更改，请认真核对。<br />
-                  &nbsp;&nbsp; 
-                  {/* {this.props.type==='edit'?'该':'所添加'} */}
-                  学校管理员账号为
-                  {/* ：admin_{this.props.type==='edit'?SchoolCode:SchoolCode?SchoolCode:'学校代码'} */}
-                  "admin_"+学校代码，如admin_123456
-                </div>
+            <span></span>
+            学校代码一旦确认，就不可以再更改，请认真核对。
+            <br />
+            &nbsp;&nbsp;
+            {/* {this.props.type==='edit'?'该':'所添加'} */}
+            学校管理员账号为
+            {/* ：admin_{this.props.type==='edit'?SchoolCode:SchoolCode?SchoolCode:'学校代码'} */}
+            "admin_"+学校代码，如admin_123456
+          </div>
         </div>
       </div>
     );
