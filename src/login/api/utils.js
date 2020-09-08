@@ -122,7 +122,7 @@ export const goToNextPage = ({dispatch,loadingHide}) =>{
 
     let nexUrl = '';
     
-    if (parseInt(UserType)===6){
+    /*if (parseInt(UserType)===6){
 
         window.location.href= '/html/admSchoolSetting/';
 
@@ -192,9 +192,47 @@ export const goToNextPage = ({dispatch,loadingHide}) =>{
 
         loadingHide(false);
 
+    }*/
+
+    if (parseInt(UserType)===6){
+
+            window.location.href= '/html/admSchoolSetting/';
+
+        }else if(SchoolID){
+
+            const urlObj = preUri?getNewTkUrl({preUrl:preUri,jointParam:`?lg_tk=${token}`}):getNewTkUrl({preUrl:WebIndexUrl,jointParam:`?lg_tk=${token}`});
+
+            switch (urlObj.type) {
+
+                case 1:
+
+                    nexUrl = urlObj.newUrl;
+
+                    break;
+
+                case 2:
+
+                    nexUrl = urlObj.newUrl + '&lg_tk=' + token;
+
+                    break;
+
+                case 3:
+
+                    nexUrl = urlObj.newUrl + '?lg_tk=' + token;
+
+                    break;
+
+            }
+
+            window.location.href = nexUrl;
+
+        }else{
+
+            dispatch(showErrorAlert({title:"登录异常,登录失败",cancelShow:'n',cancel:e=>logErr(dispatch),close:e=>logErr(dispatch),ok:e=>logErr(dispatch)}));
+
+            loadingHide(false);
+
     }
-
-
 
 };
 
