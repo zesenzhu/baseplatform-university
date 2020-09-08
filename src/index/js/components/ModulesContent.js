@@ -69,8 +69,6 @@ function ModulesContent(props){
 
                     {Url:'/html/admclass',Name:'我的行政班',ClassName:'admClass'},
 
-                    {Url:'/html/CoureClass',Name:'我的教学班',ClassName:'courseClass'},
-
                     {Url:'/html/schedule#/student/mine',Name:'我的课程安排',ClassName:'schedule'},
 
                 ]

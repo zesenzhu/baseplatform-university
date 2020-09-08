@@ -194,9 +194,11 @@ export const goToNextPage = ({dispatch,loadingHide}) =>{
 
     }*/
 
+    console.log(token);
+
     if (parseInt(UserType)===6){
 
-            window.location.href= '/html/admSchoolSetting/';
+            window.location.href= `/html/admSchoolSetting/index.html?lg_tk=${token}`;
 
         }else if(SchoolID){
 

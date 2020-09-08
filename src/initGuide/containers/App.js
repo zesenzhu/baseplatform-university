@@ -148,7 +148,15 @@ function App(props) {
 
                     <div className={"init-guide-content"}>
 
-                        <AppRoutes></AppRoutes>
+                        {
+
+                            LoginUser.UserID?
+
+                                <AppRoutes></AppRoutes>
+
+                                :null
+
+                        }
 
                     </div>
 

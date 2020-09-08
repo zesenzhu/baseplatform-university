@@ -541,11 +541,11 @@ class Modal extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
 
-    const { title,bodyStyle,className,footer } = nextProps;
+    const { title,bodyStyle,className,footer,mask } = nextProps;
 
     this.selectType(this.props.type);
 
-    this.setState({ title: title,bodyStyle,className,footer});
+    this.setState({ title: title,bodyStyle,className,footer,mask});
 
   }
 
@@ -2841,7 +2841,8 @@ class Frame extends React.Component {
     this.state = {
       fixed: false,
       isFrame:false,
-      isWorkPlantform:false
+      isWorkPlantform:false,
+      isInitGuide:false
     };
   }
 
@@ -2870,6 +2871,12 @@ class Frame extends React.Component {
         if(getQueryVariable('isWorkPlantform')){
 
             this.setState({isWorkPlantform:true});
+
+        }
+
+        if(getQueryVariable('isInitGuide')){
+
+            this.setState({isInitGuide:true});
 
         }
 
@@ -2979,7 +2986,8 @@ class Frame extends React.Component {
       const token = localStorage.getItem("token");
 
     return (
-      <div className={`frame-drag-flag   ${this.state.isWorkPlantform?'in-work-plant-form':''}`}   {...reset}>
+
+      <div className={`frame-drag-flag ${this.state.isInitGuide?'isInitGuide':''}  ${this.state.isWorkPlantform?'in-work-plant-form':''}`}   {...reset}>
 
           {
 
@@ -3093,7 +3101,11 @@ class Frame extends React.Component {
         <div
           className={`frame-content-wrapper clearfix ${
             showBarner ? "" : "barnerHide"
-          } ${this.state.isWorkPlantform?'in-work-plant-form':''} `}
+          } ${this.state.isWorkPlantform?'in-work-plant-form':''}
+
+          ${this.state.isInitGuide?'isInitGuide':''}
+
+          `}
         >
           <div
             className={`frame-content-leftside ${
