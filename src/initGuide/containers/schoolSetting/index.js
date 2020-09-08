@@ -1163,13 +1163,13 @@ function SchoolSetting(props) {
 
                         SchoolName,SchoolCode,SchoolLevel,SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
+                        setLoading(false);
+
                         if (data===0){
 
                             toNextPage();
 
                         }
-
-                        setLoading(false);
 
                     })
 
@@ -1180,6 +1180,8 @@ function SchoolSetting(props) {
                         dispatch,SchoolName,SchoolCode,SchoolLevel,
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
+
+                        setLoading(false);
 
                         if (data){
 
@@ -1194,8 +1196,6 @@ function SchoolSetting(props) {
                             toNextPage();
 
                         }
-
-                        setLoading(false);
 
                     })
 
@@ -1251,6 +1251,8 @@ function SchoolSetting(props) {
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
+                        setLoading(false);
+
                          if (data){
 
                              const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
@@ -1264,8 +1266,6 @@ function SchoolSetting(props) {
                              toNextPage();
 
                          }
-
-                         setLoading(false);
 
                     })
 
