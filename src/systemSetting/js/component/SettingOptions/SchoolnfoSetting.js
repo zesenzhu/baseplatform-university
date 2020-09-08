@@ -24,9 +24,7 @@ import HandleCollegeModal from "../Modal/HandleCollegeModal";
 import default_schoolPic from "../../../images/boom_school_logo.png"; //默认图标的网络地址
 import AreaCheck from "../../../../initGuide/components/areaCheck";
 import SchoolBadge from "../SchoolBadge";
-let { ResHttpRootUrl } = JSON.parse(
-  sessionStorage.getItem("LgBasePlatformInfo")
-);
+ 
 // import UIState from '../../reducers/UIState'
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 文件最大限制为2M
 // const default_schoolPic = config.SystemSettingProxy_univ+'Base/SysIcon/defaultSchoolIcon.png'

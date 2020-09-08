@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Loading,
   Empty,
@@ -64,7 +64,9 @@ class Main extends Component {
             return (
               <div
                 style={{
-                  background:SchoolImgUrl? `url(${SchoolImgUrl})no-repeat center/28px`:'',
+                  background: SchoolImgUrl
+                    ? `url(${SchoolImgUrl})no-repeat center/28px`
+                    : "",
                   // backgroundSize: "28px",
                   // backgroundPosition: "center",
                   // backgroundRepeat: "no-repeat",
@@ -320,6 +322,7 @@ class Main extends Component {
       ImgType: [true, true, true, true, true, true, true, true],
       ImgDefault: [true, true, true, true, true, true, true, true],
     };
+    this.AreaCheck = createRef();
   }
   componentWillReceiveProps(nextProps) {
     const { DataState } = nextProps;
@@ -409,14 +412,56 @@ class Main extends Component {
   // 添加弹窗成功-关闭
   AddModalOk = () => {
     const { dispatch, DataState, UIState } = this.props;
+    let {
+      provinceID,
+      showProvinceTip,
+      hideProvinceTip,
+      cityID,
+      hideCityTip,
+      showCityTip,
+      countyID,
+      showCountyTip,
+      hideCountyTip,
+    } = this.AreaCheck.current;
+    console.log(this.AreaCheckRef);
     dispatch(
       UpDataState.checkAllData(() => {
+        //判断省市县
+        if (provinceID) {
+          // provinceOk = true;
+
+          hideProvinceTip();
+        } else {
+          showProvinceTip();
+          return;
+        }
+
+        if (cityID) {
+          // cityOk = true;
+
+          hideCityTip();
+        } else {
+          showCityTip();
+          return;
+        }
+
+        if (countyID) {
+          // countyOk = true;
+
+          hideCountyTip();
+        } else {
+          showCountyTip();
+          return;
+        }
         dispatch(
-          UpDataState.AddSchoolInfo(() => {
-            dispatch({ type: UpUIState.ADD_MODAL_CLOSE });
-            this.ModalDataInit();
-            dispatch(UpDataState.QuerySchoolInfo({}));
-          })
+          UpDataState.AddSchoolInfo(
+            () => {
+              dispatch({ type: UpUIState.ADD_MODAL_CLOSE });
+              this.ModalDataInit();
+              dispatch(UpDataState.QuerySchoolInfo({}));
+            },
+            { CountyID: countyID }
+          )
         );
       })
     );
@@ -438,14 +483,58 @@ class Main extends Component {
   // 编辑弹窗成功-关闭
   EditModalOk = () => {
     const { dispatch, DataState, UIState } = this.props;
+    let {
+      provinceID,
+      showProvinceTip,
+      hideProvinceTip,
+      cityID,
+      hideCityTip,
+      showCityTip,
+      countyID,
+      showCountyTip,
+      hideCountyTip,
+    } = this.AreaCheck.current;
+
+    console.log(this.AreaCheckRef);
+
     dispatch(
       UpDataState.checkAllData(() => {
+        //判断省市县
+        if (provinceID) {
+          // provinceOk = true;
+
+          hideProvinceTip();
+        } else {
+          showProvinceTip();
+          return;
+        }
+
+        if (cityID) {
+          // cityOk = true;
+
+          hideCityTip();
+        } else {
+          showCityTip();
+          return;
+        }
+
+        if (countyID) {
+          // countyOk = true;
+
+          hideCountyTip();
+        } else {
+          showCountyTip();
+          return;
+        }
         dispatch(
-          UpDataState.EditSchoolInfo(() => {
-            dispatch({ type: UpUIState.EDIT_MODAL_CLOSE });
-            this.ModalDataInit();
-            dispatch(UpDataState.QuerySchoolInfo({}));
-          })
+          UpDataState.EditSchoolInfo(
+            () => {
+              dispatch({ type: UpUIState.EDIT_MODAL_CLOSE });
+              this.ModalDataInit();
+              dispatch(UpDataState.QuerySchoolInfo({}));
+            },
+            { CountyID: countyID }
+          )
         );
       })
     );
@@ -763,11 +852,10 @@ class Main extends Component {
         </div>
         {/* 模态框 */}
         <Modal
-          ref="AddMadal"
           bodyStyle={{ padding: 0, height: "320px" }}
           type="1"
           title={"创建学校"}
-          width={585}
+          width={700}
           visible={UIState.AppModal.AddModal}
           destroyOnClose={true}
           onOk={this.AddModalOk}
@@ -775,18 +863,23 @@ class Main extends Component {
         >
           {/* <Loading spinning={UIState.AppLoading.modalLoading}> */}
           {UIState.AppModal.AddModal ? (
-            <SchoolModal type="add"></SchoolModal>
+            <SchoolModal
+              getAreaCheck={(AreaCheck) => {
+                this.AreaCheck.current = AreaCheck;
+              }}
+              ref={ref=>this.AreaCheckRef=ref}
+              type="add"
+            ></SchoolModal>
           ) : (
             ""
           )}
           {/* </Loading> */}
         </Modal>
         <Modal
-          ref="EditMadal"
           bodyStyle={{ padding: 0, height: "320px" }}
           type="1"
           title={"编辑学校"}
-          width={585}
+          width={700}
           destroyOnClose={true}
           visible={UIState.AppModal.EditModal}
           onOk={this.EditModalOk}
@@ -794,7 +887,14 @@ class Main extends Component {
         >
           {/* <Loading spinning={UIState.AppLoading.modalLoading}> */}
           {UIState.AppModal.EditModal ? (
-            <SchoolModal type="edit"></SchoolModal>
+            <SchoolModal
+              getAreaCheck={(AreaCheck) => {
+                this.AreaCheck.current = AreaCheck;
+              }}
+              // ref={this.AreaCheck}
+
+              type="edit"
+            ></SchoolModal>
           ) : (
             ""
           )}

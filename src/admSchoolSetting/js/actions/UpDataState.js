@@ -359,22 +359,23 @@ const checkAllData = (
       })
     );
 
+    // if (
+    //   SchoolImgUrl === InitSchoolImgUrl &&
+    //   SchoolLevel.value === InitSchoolLevel.value &&
+    //   SchoolSessionType.value === InitSchoolSessionType.value &&
+    //   SchoolNameError2 &&
+    //   SchoolTelError2 &&
+    //   SchoolCodeError2 &&
+    //   SchoolLinkmanError2
+    // ) {
+    //   dispatch(
+    //     actions.UpUIState.showErrorAlert({
+    //       title: "学校信息未修改",
+    //     })
+    //   );
+    //   error2();
+    // } else 
     if (
-      SchoolImgUrl === InitSchoolImgUrl &&
-      SchoolLevel.value === InitSchoolLevel.value &&
-      SchoolSessionType.value === InitSchoolSessionType.value &&
-      SchoolNameError2 &&
-      SchoolTelError2 &&
-      SchoolCodeError2 &&
-      SchoolLinkmanError2
-    ) {
-      dispatch(
-        actions.UpUIState.showErrorAlert({
-          title: "学校信息未修改",
-        })
-      );
-      error2();
-    } else if (
       SchoolNameError ||
       SchoolTelError ||
       SchoolCodeError ||
@@ -386,7 +387,7 @@ const checkAllData = (
     }
   };
 };
-const AddSchoolInfo = (func = () => {}) => {
+const AddSchoolInfo = (func = () => {},data={}) => {
   return (dispatch, getState) => {
     // console.log(url)
     let url = "/AddSchoolInfo";
@@ -404,6 +405,8 @@ const AddSchoolInfo = (func = () => {}) => {
         SchoolLevel: SchoolLevel.value,
         SchoolType: 1,
         SchoolSessionType: SchoolSessionType.value,
+        ...data
+
       },
       2
     )
@@ -416,7 +419,7 @@ const AddSchoolInfo = (func = () => {}) => {
       });
   };
 };
-const EditSchoolInfo = (func = () => {}) => {
+const EditSchoolInfo = (func = () => {},data={}) => {
   return (dispatch, getState) => {
     // console.log(url)
     let url = "/EditSchoolInfo_Admin";
@@ -435,6 +438,7 @@ const EditSchoolInfo = (func = () => {}) => {
         SchoolType: 1,
         SchoolID,
         SchoolSessionType: SchoolSessionType.value,
+        ...data
       },
       2
     )
