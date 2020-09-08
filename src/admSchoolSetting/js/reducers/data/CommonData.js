@@ -16,8 +16,8 @@ const CommonData = (
       SchoolCode: "", //学校代码
       SchoolID: "", //学校id
       SchoolImgUrl: "", //学校图片
-      SchoolLevel: {value:1,title:'大学'}, //学校类型，大学，小学，中学
-      SchoolSessionType: {value:3,title:'三年制'}, //学校学制
+      SchoolLevel: { value: 1, title: "大学" }, //学校类型，大学，小学，中学
+      SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
       SchoolTel: "", //学校联系电话
       SchoolLinkman: "", //学校联系人
     },
@@ -26,8 +26,8 @@ const CommonData = (
       SchoolCode: "", //学校代码
       SchoolID: "", //学校id
       SchoolImgUrl: "", //学校图片
-      SchoolLevel: {value:1,title:'大学'}, //学校类型，大学，小学，中学
-      SchoolSessionType: {value:3,title:'三年制'}, //学校学制
+      SchoolLevel: { value: 1, title: "大学" }, //学校类型，大学，小学，中学
+      SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
       SchoolTel: "", //学校联系电话
       SchoolLinkman: "", //学校联系人
     },
@@ -43,7 +43,18 @@ const CommonData = (
       checkList: [],
       checkAll: false,
     },
-    ImgUrlProxy:''
+    ImgUrlProxy: "",
+    List: [
+      { value: "School", title: "学校信息管理" },
+      { value: "Term", title: "学年学期设置" },
+    ],
+    SetYearParams: {
+      Visible: false,
+      NextTermEndDate: "",
+      NextTermStartDate: "",
+      Term: { value: "", title: "" },
+    },
+    SetYearData: {},
   },
   actions
 ) => {
@@ -53,9 +64,12 @@ const CommonData = (
   let MainEditData = {};
   let SchoolStatusData = {};
   switch (actions.type) {
+    case UpDataState.COMMON_SET_YEAR_PARAMS:
+      return Object.assign({}, state, {
+        SetYearParams: { ...state.SetYearParams, ...actions.data },
+      });
     case UpDataState.GET_IMG_URL_PROXY:
-       
-      return Object.assign({}, state, { ImgUrlProxy:actions.data.ResHttp });
+      return Object.assign({}, state, { ImgUrlProxy: actions.data.ResHttp });
     case UpDataState.SET_QUERY_SCHOOL_PARAMS:
       QuerySchoolParams = Object.assign({}, state.QuerySchoolParams, {
         ...actions.data,
@@ -85,8 +99,8 @@ const CommonData = (
         SchoolCode: "", //学校代码
         SchoolID: "", //学校id
         SchoolImgUrl: "", //学校图片
-        SchoolLevel: {value:1,title:'大学'}, //学校类型，大学，小学，中学
-        SchoolSessionType: {value:3,title:'三年制'}, //学校学制
+        SchoolLevel: { value: 1, title: "大学" }, //学校类型，大学，小学，中学
+        SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
         SchoolTel: "", //学校联系电话
         SchoolLinkman: "", //学校联系人,
         ...actions.data,
@@ -96,8 +110,8 @@ const CommonData = (
         SchoolCode: "", //学校代码
         SchoolID: "", //学校id
         SchoolImgUrl: "", //学校图片
-        SchoolLevel:{value:1,title:'大学'}, //学校类型，大学，小学，中学
-        SchoolSessionType: {value:3,title:'三年制'}, //学校学制
+        SchoolLevel: { value: 1, title: "大学" }, //学校类型，大学，小学，中学
+        SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
         SchoolTel: "", //学校联系电话
         SchoolLinkman: "", //学校联系人,
         ...actions.data,

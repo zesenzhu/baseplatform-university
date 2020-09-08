@@ -23,7 +23,6 @@ import CONFIG from "../../../common/js/config";
 import actions from "../actions";
 import "../../scss/Main.scss";
 import SchoolModal from "./SchoolModal";
-
 import ImgDefault from "../../images/icon-common.png";
 import { Table } from "antd";
 const { UpDataState, UpUIState } = actions;
@@ -659,7 +658,7 @@ class Main extends Component {
       pageSize,
     } = CommonData.QuerySchoolParams;
     return (
-      <div id="Main" className="Main">
+      <div id="Main" className="Main Content">
         <div className="Main-top">
           <span className="top-name">学校信息管理</span>
           <div

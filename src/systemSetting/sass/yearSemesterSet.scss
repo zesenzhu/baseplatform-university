@@ -204,7 +204,9 @@
         }
         .tips {
             position: absolute;
-            left: 120px;
+            // left: 120px;
+            width: 100%;
+            text-align: center;
             top: 265px;
             font-family: MicrosoftYaHei;
             font-size: 14px;
@@ -324,7 +326,9 @@
         }
         .tips {
             position: absolute;
-            left: 120px;
+            // left: 120px;
+            width: 100%;
+            text-align: center;
             top: 265px;
             font-family: MicrosoftYaHei;
             font-size: 14px;
