@@ -15,21 +15,32 @@ import { ErrorAlert } from "../../../../common/js/fetch/util";
 import { postData } from "../../../../common/js/fetch";
 
 let DefaultBadge = "/SysSetting/Attach/default_280_40.png";
-let { ResHttpRootUrl } = JSON.parse(
-  sessionStorage.getItem("LgBasePlatformInfo")
-);
-let { UserID } = JSON.parse(sessionStorage.getItem("UserInfo"));
+
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 const IMG_WIDTH = 280;
 const IMG_HEIGHT = 40;
-const Url = `SubjectRes_UploadHandler.ashx?method=doUpload_WholeFile&userid=${UserID}`;
+// const Url = `SubjectRes_UploadHandler.ashx?method=doUpload_WholeFile&userid=${UserID}`;
 // 校徽-长方形
 function SchoolBadge(props, ref) {
   const { schoolBadge } = props;
 
   let [Badge, setBadge] = useState(schoolBadge ? schoolBadge : DefaultBadge);
+  let [ResHttpRootUrl, setResHttpRootUrl] = useState("");
+  let [Url, setUrl] = useState("");
 
-  useEffect(() => {}, [Badge]);
+  useEffect(() => {
+    let { ResHttpRootUrl } = JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    setResHttpRootUrl(ResHttpRootUrl);
+    let { UserID } = JSON.parse(sessionStorage.getItem("UserInfo"))
+      ? JSON.parse(sessionStorage.getItem("UserInfo"))
+      : {};
+    let Url = `SubjectRes_UploadHandler.ashx?method=doUpload_WholeFile&userid=${UserID}`;
+    setUrl(Url);
+  }, []);
 
   const onSelectBadgeChange = (e) => {
     let files = e.target.files;
@@ -101,9 +112,9 @@ function SchoolBadge(props, ref) {
   const onSelectDefaultImg = () => {
     setBadge(DefaultBadge);
   };
-  useImperativeHandle(ref,()=>({
-      ImgUrl:Badge
-  }))
+  useImperativeHandle(ref, () => ({
+    ImgUrl: Badge,
+  }));
   return (
     <div ref={ref} className="SchoolBadge">
       <div className="SB-Content">
