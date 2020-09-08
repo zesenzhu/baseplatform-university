@@ -12,7 +12,13 @@ import {guiderStepChange} from "../../store/guideStep";
 
 import {appLoadingHide} from "../../store/appLoading";
 
-import './index.scss'
+import {UpdateSchoolInitStatus} from '../../actions/apiActions';
+
+import './index.scss';
+
+import {getQueryVariable} from "../../../common/js/disconnect";
+
+import {getNewTkUrl} from "../../actions/utils";
 
 function Import(props) {
 
@@ -37,10 +43,44 @@ function Import(props) {
     const {history} = props;
 
 
-    //下一步
+    //完成
     const completeClick = useCallback(()=>{
 
+        const {UserType,SchoolID} = JSON.parse(sessionStorage.getItem("UserInfo"));
 
+        const { WebIndexUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        const token = sessionStorage.getItem("token");
+
+        const preUri = getQueryVariable('lg_preurl');
+
+        let nexUrl = '';
+
+        const urlObj = preUri?getNewTkUrl({preUrl:preUri,jointParam:`?lg_tk=${token}`}):getNewTkUrl({preUrl:WebIndexUrl,jointParam:`?lg_tk=${token}`});
+
+        switch (urlObj.type) {
+
+            case 1:
+
+                nexUrl = urlObj.newUrl;
+
+                break;
+
+            case 2:
+
+                nexUrl = urlObj.newUrl + '&lg_tk=' + token;
+
+                break;
+
+            case 3:
+
+                nexUrl = urlObj.newUrl + '?lg_tk=' + token;
+
+                break;
+
+        }
+
+        window.location.href = nexUrl;
 
     },[]);
 
@@ -75,37 +115,41 @@ function Import(props) {
 
         const { LockerVersion,ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
-        if (parseInt(LockerVersion)===1){
+        UpdateSchoolInitStatus({SchoolId:SchoolID,dispatch}).then(data=>{
 
-            if (schoolType==='university'){
+            if (parseInt(LockerVersion)===1){
 
-                step = parseInt(ProductType)===6?5:6;
+                if (schoolType==='university'){
 
-            }else{
+                    step = parseInt(ProductType)===6?5:6;
 
-                step = 5;
+                }else{
 
-            }
+                    step = 5;
 
-        }else{
-
-            if (schoolType==='university'){
-
-                step = parseInt(ProductType)===6?6:7;
+                }
 
             }else{
 
-                step = 6;
+                if (schoolType==='university'){
+
+                    step = parseInt(ProductType)===6?6:7;
+
+                }else{
+
+                    step = 6;
+
+                }
 
             }
 
-        }
+            dispatch(guiderStepChange(step));
 
-        dispatch(guiderStepChange(step));
+            setStep(step);
 
-        setStep(step);
+            setLoading(false);
 
-        setLoading(false);
+        });
 
     },[]);
 

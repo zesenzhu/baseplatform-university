@@ -107,6 +107,8 @@ function Subject(props) {
 
         if (e.data.module==='subject'&&e.origin===`${protocol}//${host}`){
 
+            
+
             setIframeHeight(e.data.height);
 
         }
@@ -126,9 +128,20 @@ function Subject(props) {
 
             <GuideTitle title={"设置学科"} step={step} tips={"(后续可通过“学科管理”模块进行管理)"}></GuideTitle>
 
-            <iframe onLoad={iframeLoad} src={url} frameBorder="0"  style={{width:'100%',height:iframeHeight}}></iframe>
+            <iframe id={'subjectIframe'} onLoad={iframeLoad} src={url} frameBorder="0"  style={{width:'100%',height:iframeHeight}}></iframe>
 
-            <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+            {
+
+                loading?
+
+                    null
+
+                    :
+
+                    <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+
+            }
+
 
         </Loading>
 

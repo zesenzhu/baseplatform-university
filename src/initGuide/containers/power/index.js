@@ -118,7 +118,7 @@ function Power(props) {
 
 
     //接受消息
-   /* window.addEventListener('message',(e)=>{
+    window.addEventListener('message',(e)=>{
 
         const host = window.location.host;
 
@@ -132,7 +132,7 @@ function Power(props) {
 
         }
 
-    });*/
+    });
 
 
    //iframe加载完成
@@ -144,15 +144,27 @@ function Power(props) {
     },[]);
 
 
+
+
     return(
 
         <Loading spinning={loading} tip={"加载中,请稍候..."}>
 
             <GuideTitle title={"设置角色权限"} step={step} tips={"(后续可通过“角色权限管理”模块进行管理)"}></GuideTitle>
 
-            <iframe onLoad={iframeLoad} src={url} frameBorder="0"  style={{width:'100%',height:640}}></iframe>
+            <iframe id={'powerIframe'} onLoad={iframeLoad} src={url} frameBorder="0"  style={{width:'100%',height:iframeHeight}}></iframe>
 
-            <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+            {
+
+                loading?
+
+                    null
+
+                    :
+
+                    <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+
+            }
 
         </Loading>
 

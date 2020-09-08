@@ -16,7 +16,7 @@ import SchoolSystemCheck from '../../components/schoolSystemCheck';
 
 import { schoolCodeReg,schoolNameReg } from '../../actions/utils';
 
-import {GetSchoolInfo,uploadSchoolLogo,AddSchoolInfo,EditSchoolInfo_Middle,EditSchoolInfo_University} from "../../actions/apiActions";
+import {GetSchoolInfo,uploadSchoolLogo,AddSchoolInfo,EditSchoolInfo_Middle,EditSchoolInfo_Univ} from "../../actions/apiActions";
 
 import {appLoadingHide} from "../../store/appLoading";
 
@@ -137,8 +137,6 @@ function SchoolSetting(props) {
     });
 
 
-
-
     const LoginUser = useSelector(state=>state.LoginUser);
 
     const {UserType,UserID,UserClass,SchoolID} = LoginUser;
@@ -209,7 +207,7 @@ function SchoolSetting(props) {
 
                         if (data){
 
-                            const {SchoolName,SchoolCode,SchoolLogoUrl,ProvinceID,CityID,CountyID,SchoolType,SchoolSessionType} = data;
+                            const {SchoolName,SchoolCode,SchoolLogoUrl,SchoolLogoUrl_Long,ProvinceID,CityID,CountyID,SchoolType,SchoolSessionType} = data;
 
                             if (schoolType==='middle'){ //中小学的时候判断学段信息
 
@@ -415,7 +413,7 @@ function SchoolSetting(props) {
 
                             });
 
-                            logoInit(SchoolLogoUrl);
+                            logoInit(SchoolLogoUrl,SchoolLogoUrl_Long);
 
                             setLoading(false);
 
@@ -638,7 +636,9 @@ function SchoolSetting(props) {
 
     },[]);
 
+
     //点击学段
+
     const periodClick = useCallback((type) =>{
 
         const {primary,middle,heigh} = periodRef.current;
@@ -808,13 +808,13 @@ function SchoolSetting(props) {
 
     //学校logo初始化
 
-    const logoInit = (SchoolLogoUrl) =>{
+    const logoInit = (SchoolLogoUrl,SchoolLogoUrl_Long) =>{
 
         const { ResHttpRootUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
         const logoUrl = SchoolLogoUrl?SchoolLogoUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default.png`;
 
-        const badgeUrl = `${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/custom_280_40.png?v=${new Date().getTime()}`;
+        const badgeUrl = SchoolLogoUrl_Long?SchoolLogoUrl_Long:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/custom_280_40.png?v=${new Date().getTime()}`;
 
         const actionUrl = `${removeSlashUrl(ResHttpRootUrl)}/SubjectRes_UploadHandler.ashx?method=doUpload_WholeFile&userid=${UserID}`;
 
@@ -852,12 +852,28 @@ function SchoolSetting(props) {
 
         setSchoolLogo(d=>{
 
-                schoolLogoRef.current = {...d,badgeUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`};
+            schoolLogoRef.current = {...d,badgeUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`};
 
-                return {...d,badgeUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`};
+            return {...d,badgeUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default_280_40.png`};
 
-            });
+        });
 
+    },[]);
+
+
+    //当学校logo初始化错误
+
+    const logoLoadErr = useCallback(()=>{
+
+        const { ResHttpRootUrl } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        setSchoolLogo(d=>{
+
+            schoolLogoRef.current = {...d,logoUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default.png`};
+
+            return {...d,logoUrl:`${removeSlashUrl(ResHttpRootUrl)}/SysSetting/Attach/default.png`};
+
+        });
 
     },[]);
 
@@ -900,7 +916,6 @@ function SchoolSetting(props) {
 
     },[]);
 
-
     //预览上传的图片，但是不展示
 
     const imgNotView = (e)=>{
@@ -920,15 +935,15 @@ function SchoolSetting(props) {
 
             //执行上传操作
 
-            uploadSchoolLogo(tmpFileRef.current,dispatch).then(data=>{
+            uploadSchoolLogo(tmpFileRef.current,UserID,dispatch).then(data=>{
 
-                if (data&&data.Status===200){
+                if (data){
 
                     setSchoolLogo(d=>{
 
-                        schoolLogoRef.current = {...d,badgeUrl:`${ResHttpRootUrl+data.Data}?v=${new Date().getTime()}`};
+                        schoolLogoRef.current = {...d,badgeUrl:`${ResHttpRootUrl+data}?v=${new Date().getTime()}`};
 
-                        return {...d,badgeUrl:`${ResHttpRootUrl+data.Data}?v=${new Date().getTime()}`}
+                        return {...d,badgeUrl:`${ResHttpRootUrl+data}?v=${new Date().getTime()}`}
 
                     });
 
@@ -980,42 +995,56 @@ function SchoolSetting(props) {
 
 
         //判断省市县
-        if (provinceID){
+
+        if (!provinceID&&!cityID&&!countyID){
 
             provinceOk = true;
 
-            hideProvinceTip();
-
-        }else{
-
-            showProvinceTip();
-
-        }
-
-        if (cityID){
-
             cityOk = true;
-
-            hideCityTip();
-
-        }else{
-
-            showCityTip();
-
-        }
-
-
-        if (countyID){
 
             countyOk = true;
 
-            hideCountyTip();
-
         }else{
 
-            showCountyTip();
+            if (provinceID){
+
+                provinceOk = true;
+
+                hideProvinceTip();
+
+            }else{
+
+                showProvinceTip();
+
+            }
+
+            if (cityID){
+
+                cityOk = true;
+
+                hideCityTip();
+
+            }else{
+
+                showCityTip();
+
+            }
+
+            if (countyID){
+
+                countyOk = true;
+
+                hideCountyTip();
+
+            }else{
+
+                showCountyTip();
+
+            }
 
         }
+
+
 
         //判断是大学还是中小学,设置学段和学制问题
 
@@ -1109,7 +1138,7 @@ function SchoolSetting(props) {
 
         }
 
-        let SchoolName='',SchoolCode='',SchoolLevel='',SchoolType='',SchoolSessionType='',SchoolImgUrl='',CountyID='';
+        let SchoolName='',SchoolImgUrl_Long='',SchoolCode='',SchoolLevel='',SchoolType='',SchoolSessionType='',SchoolImgUrl='',CountyID='';
 
         //在这里请求接口,成功后跳转到下一页
 
@@ -1153,11 +1182,13 @@ function SchoolSetting(props) {
 
                 SchoolImgUrl = schoolLogoRef.current.logoUrl;
 
+                SchoolImgUrl_Long = schoolLogoRef.current.badgeUrl;
+
                 CountyID = countyID;
 
                 if (loginUserRef.current.SchoolID){//修改学校信息
 
-                    EditSchoolInfo_Middle({UserID:loginUserRef.current.UserID,
+                    EditSchoolInfo_Middle({UserID:loginUserRef.current.UserID,SchoolImgUrl_Long,
 
                         dispatch,SchoolID:loginUserRef.current.SchoolID,
 
@@ -1177,7 +1208,7 @@ function SchoolSetting(props) {
 
                     AddSchoolInfo({UserID:loginUserRef.current.UserID,SchoolID:SchoolCode,
 
-                        dispatch,SchoolName,SchoolCode,SchoolLevel,
+                        dispatch,SchoolName,SchoolCode,SchoolLevel,SchoolImgUrl_Long,
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
@@ -1221,11 +1252,13 @@ function SchoolSetting(props) {
 
                 SchoolImgUrl = schoolLogoRef.current.logoUrl;
 
+                SchoolImgUrl_Long = schoolLogoRef.current.badgeUrl;
+
                 CountyID = countyID;
 
                 if (loginUserRef.current.SchoolID){
 
-                    EditSchoolInfo_University({dispatch,UserID:loginUserRef.current.UserID,
+                    EditSchoolInfo_Univ({dispatch,UserID:loginUserRef.current.UserID,SchoolImgUrl_Long,
 
                         SchoolType,SchoolID:loginUserRef.current.SchoolID,SchoolName,SchoolCode,SchoolLevel,SchoolSessionType,SchoolImgUrl,
 
@@ -1247,7 +1280,7 @@ function SchoolSetting(props) {
 
                     AddSchoolInfo({UserID:loginUserRef.current.UserID,SchoolID:SchoolCode,
 
-                        dispatch,SchoolName,SchoolCode,SchoolLevel,
+                        dispatch,SchoolName,SchoolCode,SchoolLevel,SchoolImgUrl_Long,
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
@@ -1314,7 +1347,7 @@ function SchoolSetting(props) {
 
                             <div className={"school-logo-wrapper clearfix"}>
 
-                                <img src={schoolLogo.logoUrl} alt={"图片"} className={"logo-img"} alt=""/>
+                                <img width={108} height={108} onError={logoLoadErr} src={schoolLogo.logoUrl} alt={"图片"} className={"logo-img"} />
 
                                 <div className={"btn-wrapper"}>
 
@@ -1332,7 +1365,7 @@ function SchoolSetting(props) {
 
                             <div className={"school-badge-wrapper clearfix"}>
 
-                                <img alt={"图片"} src={schoolLogo.badgeUrl} onError={badgeLoadErr}  className={"logo-img"} alt=""/>
+                                <img alt={"图片"} width={280} height={40} src={schoolLogo.badgeUrl} onError={badgeLoadErr}  className={"logo-img"} />
 
                                 <div className={"btn-wrapper"}>
 

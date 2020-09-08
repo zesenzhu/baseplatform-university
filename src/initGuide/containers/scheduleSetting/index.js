@@ -145,7 +145,7 @@ function ScheduleSettinng(props) {
 
         const protocol = window.location.protocol;
 
-        if (e.origin === `${protocol}//${host}`&&e.data.module==='schedule'){
+        if (e.data.module==='schedule'&&e.origin===`${protocol}//${host}`){
 
             setIframeHeight(e.data.height);
 
@@ -153,12 +153,8 @@ function ScheduleSettinng(props) {
 
     });
 
-    //iframe加载完毕
-    const iframeLoad = useCallback(()=>{
 
-        setLoading(false);
 
-    },[]);
 
 
     return(
@@ -167,9 +163,19 @@ function ScheduleSettinng(props) {
 
             <GuideTitle title={"设置上课时间"} step={step} tips={"(后续可通过“课程安排管理”模块进行管理)"}></GuideTitle>
 
-            <iframe onLoad={iframeLoad} width={'100%'} ref={iframeRef} frameBorder={0} src={iframeUrl} style={{height:iframeHeight}} onLoad={iframeLoaded}></iframe>
+            <iframe width={'100%'}  ref={iframeRef} frameBorder={0} src={iframeUrl} style={{height:iframeHeight}} onLoad={iframeLoaded}></iframe>
 
-            <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+            {
+
+                loading?
+
+                    null
+
+                    :
+
+                    <GuideFooter next={true} back={true} backStepClick={backStepClick} nextStepClick={nextStepClick}></GuideFooter>
+
+            }
 
         </Loading>
 

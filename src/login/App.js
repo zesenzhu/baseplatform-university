@@ -89,6 +89,8 @@ function App(props){
 
         GetBaseInfo({dispatch}).then(data=>{
 
+            console.log(data);
+
             if (data){
 
                 sessionStorage.setItem("LgBasePlatformInfo",JSON.stringify(data));
