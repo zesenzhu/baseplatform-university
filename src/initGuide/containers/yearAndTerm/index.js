@@ -386,8 +386,6 @@ function YearAndTerm(props) {
 
             setLoading(true);
 
-            history.push('/scheduleSetting');
-
             SetTermInfo({SchoolID,UserID,TermName,StartDate,EndDate,dispatch}).then(data=>{
 
                 if (data===0){
@@ -402,6 +400,8 @@ function YearAndTerm(props) {
 */
 
                     history.push('/scheduleSetting');
+
+
                 }
 
                 setLoading(false);

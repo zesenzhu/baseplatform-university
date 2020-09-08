@@ -12,6 +12,10 @@ import ScheduleSetting from '../scheduleSetting';
 
 import Subject from '../subject';
 
+import Power from '../power';
+
+import Import from '../import';
+
 
 function AppRoutes(props) {
 
@@ -28,6 +32,10 @@ function AppRoutes(props) {
             <Route path={"/scheduleSetting"} component={ScheduleSetting}></Route>
 
             <Route path={'/subject'} component={Subject}></Route>
+
+            <Route path={'/power'} component={Power}></Route>
+
+            <Route path={'/import'} component={Import}></Route>
 
             <Redirect path={"/*"} to={"/schoolSetting"}></Redirect>
 

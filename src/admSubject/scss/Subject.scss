@@ -121,6 +121,26 @@ $image-url: "../images";
                     -moz-transform: translateY(-9px);
                     -ms-transform: translateY(-9px);
                     -o-transform: translateY(-9px);
+
+                    &.isInitGuide{
+                        position: static;
+                        float: right;
+                        width: 90px;
+                        height: 28px;
+                        background-color: #77a5d8;
+                        border-radius: 14px;
+                        box-shadow:none;
+                        background-image: none;
+                        line-height: 28px;
+                        left:0;
+                        top:0;
+                        -webkit-transform: translateY(0);
+                        -moz-transform: translateY(0);
+                        -ms-transform: translateY(0);
+                        -o-transform: translateY(0);
+                        transform: translateY(0);
+                    }
+
                 }
 
                 .result_text_wrapper{
@@ -384,6 +404,122 @@ $image-url: "../images";
                     margin-top: 17px;
                 }
             }
+
+            .table{
+
+                &.isInitGuide{
+
+                    table{
+
+                        table-layout: fixed;
+
+                    }
+
+                    th{
+
+                        .ant-table-column-title{
+
+                            color: #b8b8b8;
+
+                        }
+                        
+                    }
+
+                    .subject-no{
+
+                        color: #999999;
+
+                        font-size: 12px;
+
+                    }
+
+                    .SubjectName-content{
+
+                        .SubjectName-name{
+
+                            max-width: none;
+
+                            padding:0 10px;
+
+                            text-align: left;
+
+                            @include textOverFlow;
+
+                            font-weight: bold;
+
+                            font-size: 14px;
+
+                            margin:0;
+
+                            color: #333333;
+
+                            text-indent:0;
+
+                        }
+
+                    }
+
+                    .subject-name-title{
+
+                        text-indent:0;
+
+                    }
+
+                    .subject_number{
+
+                        max-width: none;
+
+                        padding:0 10px;
+
+                        color: #999999;
+
+                        font-size: 12px;
+
+                    }
+
+                    .handle-content{
+
+                        button{
+
+                            padding-left: 18px;
+                            padding-right: 0;
+                            background-position: left center;
+                            background-repeat: no-repeat;
+                            border: 0!important;
+                            outline: none;
+                            background-color: transparent;
+                            font-size: 14px;
+                            text-decoration: underline;
+                            box-shadow:none;
+                        }
+
+                        .edit{
+                            color: #0249a5;
+                            background-image: url('../images/edit-initGuide.png');
+                            padding-right: 20px;
+                        }
+
+                        .del{
+                            color: #9a1601;
+                            background-image: url('../images/del-initGuide.png');
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
     }
+}
+
+.alert_dialog_mask{
+
+    &.isInitGuide{
+
+        display: none!important;
+
+    }
+
 }

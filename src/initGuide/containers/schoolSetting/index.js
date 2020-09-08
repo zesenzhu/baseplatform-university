@@ -171,8 +171,6 @@ function SchoolSetting(props) {
 
     const loginUserRef = useRef(LoginUser);
 
-    const unMount = useRef(false);
-
 
     //存放临时文件
     const tmpFileRef = useRef();
@@ -197,7 +195,7 @@ function SchoolSetting(props) {
 
     useEffect(()=>{
 
-        unMount.current  = false;
+        let unMount = false;
         
         if (UserID){
 
@@ -207,7 +205,7 @@ function SchoolSetting(props) {
 
                 GetSchoolInfo({dispatch,SchoolID}).then(data=>{
 
-                    if (!unMount.current){
+                    if (!unMount){
 
                         if (data){
 
@@ -443,7 +441,7 @@ function SchoolSetting(props) {
 
         return ()=>{
 
-            unMount.current = true;
+            unMount = true;
 
         }
         
@@ -1165,54 +1163,45 @@ function SchoolSetting(props) {
 
                         SchoolName,SchoolCode,SchoolLevel,SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
-                        if (!unMount.current){
+                        if (data===0){
 
-                            if (data===0){
-
-                                toNextPage();
-
-                            }
-
-                            setLoading(false);
+                            toNextPage();
 
                         }
+
+                        setLoading(false);
 
                     })
 
                 }else{
 
-                    AddSchoolInfo({UserID:loginUserRef.current.UserID,
+                    AddSchoolInfo({UserID:loginUserRef.current.UserID,SchoolID:SchoolCode,
 
                         dispatch,SchoolName,SchoolCode,SchoolLevel,
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
-                        if (!unMount.current){
+                        if (data){
 
-                            if (data){
+                            const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                                const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+                            UserInfo['SchoolID'] = data;
 
-                                UserInfo['SchoolID'] = data;
+                            sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
 
-                                sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
+                            dispatch(loginUserUpdate(UserInfo));
 
-                                dispatch(loginUserUpdate(UserInfo));
-
-                                toNextPage();
-
-                            }
-
-                            setLoading(false);
+                            toNextPage();
 
                         }
+
+                        setLoading(false);
 
                     })
 
                 }
 
             }
-
 
         }else{
 
@@ -1244,47 +1233,41 @@ function SchoolSetting(props) {
 
                     }).then(data=>{
 
-                        if (!unMount.current){
+                        if (data===0){
 
-                            if (data===0){
+                            console.log(1);
 
-                                toNextPage();
-
-                            }
-
-                            setLoading(false);
+                            toNextPage();
 
                         }
+
+                        setLoading(false);
 
                     })
 
                 }else{
 
-                    AddSchoolInfo({UserID:loginUserRef.current.UserID,
+                    AddSchoolInfo({UserID:loginUserRef.current.UserID,SchoolID:SchoolCode,
 
                         dispatch,SchoolName,SchoolCode,SchoolLevel,
 
                         SchoolType,SchoolSessionType,SchoolImgUrl,CountyID}).then(data=>{
 
-                         if (!unMount.current){
+                         if (data){
 
-                             if (data){
+                             const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-                                 const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+                             UserInfo['SchoolID'] = data;
 
-                                 UserInfo['SchoolID'] = data;
+                             sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
 
-                                 sessionStorage.setItem("UserInfo",JSON.stringify(UserInfo));
+                             dispatch(loginUserUpdate(UserInfo));
 
-                                 dispatch(loginUserUpdate(UserInfo));
-
-                                 toNextPage();
-
-                             }
-
-                             setLoading(false);
+                             toNextPage();
 
                          }
+
+                         setLoading(false);
 
                     })
 

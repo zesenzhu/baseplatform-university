@@ -1,6 +1,6 @@
 import "../../scss/Subject.scss";
 
-import React,{useEffect,useState,useRef,memo} from "react";
+import React,{useEffect,useState,useRef,memo,useCallback} from "react";
 
 import { connect } from "react-redux";
 
@@ -21,6 +21,8 @@ import * as subActions from '../actions/subPassActions';
 import actions from "../actions";
 
 import * as menuActions from '../actions/menuActions';
+
+import {getQueryVariable} from "../../../common/js/disconnect";
 
 import $ from 'jquery';
 
@@ -55,13 +57,7 @@ function Subject(props){
 
                    return (
                        <div className="SubjectName-content">
-                           {/*<img
-                               className="SubjectName-img"
-                               alt={arr.SubjectName}
-                               src={arr.SubjectImg}
-                               width={80}
-                               height={50}
-                           />*/}
+
                            <div title={item} className="SubjectName-name">{item}</div>
 
                        </div>
@@ -246,7 +242,7 @@ function Subject(props){
     });
 
 
-
+    const [isInitGuide,setIsInitGuide] = useState(false);
 
 
 
@@ -288,17 +284,15 @@ function Subject(props){
 
        Promise.all([GetBaseInfoForPages,GetSubjectInfo_University]).then(res=>{
 
-           if (res[0]){
-
-                let isAI = res[0].ProductType===2;
-
-                setIsAI(isAI);
-
-           }
-
            if (res[1]){
 
-               const tbData = res[1].Subjects?res[1].Subjects.map((i,k)=>({...i,index:k,key:k})):[];
+               const tbData = res[1].Subjects?res[1].Subjects.map((i,k)=>{
+
+                   const NO = createNO(k);
+
+                   return {...i,index:k,key:k,NO};
+
+               }):[];
 
                setTableData(tbData);
 
@@ -309,13 +303,150 @@ function Subject(props){
 
            }
 
+           if (res[0]){
+
+                let isAI = res[0].ProductType===2;
+
+                setIsAI(isAI);
+
+           }
+
            setTableLoading(false);
+
+           if (getQueryVariable('isInitGuide')){
+
+               const host = window.location.host;
+
+               const protocol = window.location.protocol;
+
+               $('.frame-content-rightside').css({minHeight:'400px'});
+
+               window.parent.postMessage({module:'subject',height:document.body.scrollHeight},`${protocol}//${host}`);
+
+               setIsInitGuide(true);
+
+           }
 
        });
 
 
     },[]);
 
+
+
+    //生成序号函数
+    const createNO = useCallback((key)=>{
+
+        const {current,pageSize} = pagination;
+
+        const num = (current - 1)*pageSize + (key+1);
+
+        const NO = num<10?`0${num}`:num;
+
+        return NO;
+
+    },[]);
+
+   useEffect(()=>{
+
+       if (isInitGuide){
+
+           setColumns([
+
+               {
+
+                   align:'center',
+
+                   dataIndex:'NO',
+
+                   width:100,
+
+                   render:(i)=>{
+
+                       return <div className={"subject-no"}>{i}</div>
+
+                   }
+
+               },
+
+               {
+                   title: "学科名称",
+                   align: "left",
+                   key: "SubjectName",
+                   width:270,
+                   dataIndex: "SubjectName",
+                   className:'subject-name-title',
+                   render: item => {
+
+                       return (
+                           <div className="SubjectName-content">
+
+                               <div title={item} className="SubjectName-name">{item}</div>
+
+                           </div>
+                       );
+                   }
+               },
+
+               {
+
+                   title:'学科编号',
+                   align:'center',
+                   key:'SubjectNumber',
+                   width:420,
+                   dataIndex:'SubjectNumber',
+                   render:item=>{
+
+                       return <div title={item} className={"subject_number"}>{item?item:'--'}</div>
+
+                   }
+
+               },
+
+               {
+                   title: "操作",
+                   align: "center",
+                   dataIndex:'index',
+                   key:'index',
+                   width:346,
+                   render: (key,item) => {
+
+                       return (
+
+                           <div className="handle-content">
+
+                               <Button
+                                   color="blue"
+                                   type="default"
+                                   onClick={e=>onHandleClick(key)}
+                                   className="edit"
+                               >
+                                   编辑
+                               </Button>
+
+                               {
+
+
+                                   !isAIRef.current?
+
+                                       <Button color="blue" type="default" onClick={e=>onDeleteSubjectClick(key)} className="del">删除</Button>
+
+                                       :
+
+                                       ''
+
+                               }
+
+                           </div>
+                       );
+                   }
+               }
+
+           ]);
+
+       }
+
+   },[isInitGuide]);
 
   //事件
 
@@ -435,8 +566,6 @@ function Subject(props){
       }
 
       if (nameTrue&&numTrue&&!nameEmp&&!numEmp){//判断是否符合提交条件
-
-          console.log(number,editSubRef.current.subNum);
 
           if ((name===editSubRef.current.subName)&&(number.toString()===(editSubRef.current.subNum?editSubRef.current.subNum.toString():''))){//判断是否发生了变化
 
@@ -715,26 +844,40 @@ function Subject(props){
           <Loading spinning={tableLoading}>
 
               <div className="Adm-box">
-                  <div className="Adm-top">
-              <span className="top-tips">
-                <span className="tips tips-subject">学科管理</span>
-              </span>
 
-                      {
+                  {
 
-                          !isAIProduct?
+                      !isInitGuide?
 
-                              <Button onClick={onAddSubjectClick} className="top-btn" color="blue" shape="round">+添加学科</Button>
+                          <>
 
-                              :
+                              <div className="Adm-top">
 
-                              null
+                              <span className="top-tips">
+                                <span className="tips tips-subject">学科管理</span>
+                              </span>
 
-                      }
+                                  {
 
-              </div>
+                                      !isAIProduct?
 
-                  <div className="Adm-hr" ></div>
+                                          <Button onClick={onAddSubjectClick} className="top-btn" color="blue" shape="round">+添加学科</Button>
+
+                                          :
+
+                                          null
+
+                                  }
+
+                              </div>
+
+                              <div className="Adm-hr" ></div>
+
+                           </>
+
+                          :null
+
+                  }
 
                   <div className="Adm-content">
 
@@ -745,6 +888,16 @@ function Subject(props){
                               <span className={"result_text"}>当前共有<span className={"color_red"}>{pagination.total}</span>门学科</span>
 
                           </div>
+
+                          {
+
+                              isInitGuide?
+
+                                  <Button onClick={onAddSubjectClick} className="top-btn isInitGuide" color="blue" shape="round">+添加学科</Button>
+
+                                  :null
+
+                          }
 
                       </div>
 
@@ -757,7 +910,7 @@ function Subject(props){
                                   <>
 
                                       <Table
-                                          className="table"
+                                          className={`table ${isInitGuide?'isInitGuide':''}`}
                                           columns={columns}
                                           pagination={false}
                                           dataSource={tableData}
@@ -804,11 +957,11 @@ function Subject(props){
         </DetailsModal>
 
         <Modal
-
           bodyStyle={{ height:220, padding:0}}
           width={600}
           type="1"
           title={"编辑学科"}
+          mask={!isInitGuide}
           visible={editSubModal.show}
           onOk={changeSubjectModalOk}
           onCancel={changeSubjectModalCancel}
@@ -827,14 +980,15 @@ function Subject(props){
         </Modal>
 
         <Modal
-
           bodyStyle={{height:220,padding: 0 }}
           type="1"
           width={600}
           title={"添加学科"}
+          mask={!isInitGuide}
           visible={addSubjectModalShow}
           onOk={AddSubjectModalOk}
           onCancel={AddSubjectModalCancel}
+
         >
           {
 

@@ -102,9 +102,11 @@ function ScheduleSetting(props){
 
                    if (getQueryVariable('isInitGuide')){
 
-                       window.parent.postMessage({height:document.body.scrollHeight},'*');
+                       const host = window.location.host;
 
-                       $('.frame-content-wrapper').css({marginTop:'0px'});
+                       const protocol = window.location.protocol;
+
+                       window.parent.postMessage({module:'schedule',height:document.body.scrollHeight},`${protocol}//${host}`);
 
                    }
 

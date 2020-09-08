@@ -4,8 +4,6 @@ import {  MenuLeftNoLink, Loading, Alert } from "../../../common";
 
 import { connect } from 'react-redux';
 
-import { TokenCheck_Connect } from '../../../common/js/disconnect';
-
 import Frame from '../../../common/Frame';
 
 import logo from '../../images/SubjectLogo.png'
@@ -35,7 +33,19 @@ import productType from "../reducers/productType";
 const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
 
 
+
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state={
+
+            isInitGuide:false
+
+        }
+
+    }
 
 
     pageInit(){
@@ -67,6 +77,12 @@ class App extends Component {
         }else{
 
             window.location.href = '/error.aspx?ErrCode=E011';
+
+        }
+
+        if (getQueryVariable('isInitGuide')){
+
+            this.setState({isInitGuide:true});
 
         }
 
@@ -218,7 +234,9 @@ class App extends Component {
 
                 </Loading>
 
-                <Alert show={AppAlert.appAlert}
+                <Alert
+                    className={`${this.state.isInitGuide?'isInitGuide':''}`}
+                    show={AppAlert.appAlert}
                        type={AppAlert.type}
                        abstract={AppAlert.littleTitle}
                        title={AppAlert.title}
