@@ -17,6 +17,8 @@ export const GetBaseInfo = async ({dispatch})=>{
 
     const res = await getGetData(`/Global/GetBaseInfo`,1,config.GetBaseInfo);
 
+
+
     if (parseInt(res.StatusCode) === 200){
 
         return res.Data;
