@@ -35,9 +35,6 @@ import './index.scss';
 import actions from "../../actions";
 
 
-let isUnmount = false;
-
-
 function Index(props) {
 
     //loading
@@ -172,6 +169,11 @@ function Index(props) {
     });
 
 
+    //是否是ai实训
+
+    const [isAiPractice,setIsAiPractice] = useState(false);
+
+
     const LoginUser = useSelector(state=>state.LoginUser);
 
     const { collegeID,collegeName,gradeID,gradeName,subjectID,subjectName,courseType,courseTypeName,courseName,courseID,teachingRoomID,teachingRoomName,teacherID,teacherName } = useSelector(state=>state.breadCrumb.manage);
@@ -179,6 +181,8 @@ function Index(props) {
     const {UserType,UserClass,SchoolID,UserID} = LoginUser;
 
     const dispatch = useDispatch();
+
+
 
 
     //ref
@@ -206,18 +210,17 @@ function Index(props) {
 
 
     //componentDidMount
-    useEffect(()=>{
 
-        dispatch(leftMemuHide());
 
-    },[]);
 
 
     useEffect(()=>{
 
-        isUnmount = false;
+        let isUnmount = false;
 
         if (SchoolID){
+
+            const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
             if (collegeID&&collegeName&&gradeID&&gradeName){
 
@@ -251,7 +254,176 @@ function Index(props) {
 
             }
 
-            pageInit();
+            if (parseInt(ProductType)===6){
+
+                setIsAiPractice(true);
+
+            }
+
+            const subjectIDValue = subjectsRef.current.dropSelectd.value;
+
+            const courseNOValue = coursesRef.current.dropSelectd.value;
+
+            const collegeIDValue = collegeRef.current.dropSelectd.value;
+
+            const gradeIDValue = gradesRef.current.dropSelectd.value;
+
+            const key = searchRef.current.CancelBtnShow==='n'?'':searchRef.current.value;
+
+            const pageSize = paginationRef.current.pageSize;
+
+            const pageIndex = paginationRef.current.current;
+
+            const GetAllInfo = GetAllTeachInfo_university({schoolID:SchoolID,dispatch});
+
+            const GetCourseClassInfoForPage = GetCourseClassInfoForPage_University({schoolID:SchoolID,subjectID:subjectIDValue,courseNO:courseNOValue,collegeID:collegeIDValue,gradeID:gradeIDValue,key,pageIndex,pageSize,userID:UserID,userType:UserType,dispatch});
+
+            Promise.all([GetAllInfo,GetCourseClassInfoForPage]).then(res=>{
+
+                if (!isUnmount){
+
+                    let LogCount = 0;
+
+                    if (res[0]){
+
+                        //数据源留存
+                        setDataSource(d=>{
+
+                            dataSourceRef.current = {...d,dropsInfo:{...res[0]}};
+
+                            return {...d,dropsInfo:{...res[0]}}
+
+                        });
+
+                        const data = res[0];
+
+                        let subjectList = [],collegeList = [],gradeList=[],courseList = [],courseDisabled=true;
+
+                        if(data.SubjectItem&&data.SubjectItem.length>0){
+
+                            subjectList = data.SubjectItem.map(i=>({value:i.SubjectID,title:i.SubjectName}));
+
+                        }
+
+                        subjectList.unshift({value:'',title:'全部学科'});
+
+                        if(data.CollegeItem&&data.CollegeItem.length>0){
+
+                            collegeList = data.CollegeItem.map(i=>({value:i.CollegeID,title:i.CollegeName}));
+
+                        }
+
+                        collegeList.unshift({value:'',title:'全部学院'});
+
+                        if(data.GradeItem&&data.GradeItem.length>0){
+
+                            gradeList = data.GradeItem.map(i=>({value:i.GradeID,title:i.GradeName}));
+
+                        }
+
+                        gradeList.unshift({value:'',title:'全部年级'});
+
+                        if (parseInt(ProductType)===6){
+
+                            courseList = data.CourseItem.map(i=>{
+
+                                return { value:i.CourseNO,title:i.CourseName };
+
+                            });
+
+                            setCourses(d=>({...d,dropList:courseList,disabled:false}));
+
+                        }else{
+
+                            if (courseID&&subjectID){
+
+                                if(data.CourseItem&&data.CourseItem.length>0){
+
+                                    courseList = data.CourseItem.filter(i=>i.SubjectID===subjectID).map(i=>({value:i.CourseNO,title:i.CourseName}));
+
+                                }
+
+                                courseList.unshift({value:'',title:'全部课程'});
+
+                                courseDisabled = false;
+
+                            }
+
+                            setCourses(d=>({...d,dropList:courseList,disabled:courseDisabled}));
+
+                        }
+
+                        setSubjects(d=>{
+
+                            subjectsRef.current = {...d,dropList:subjectList};
+
+                            return {...d,dropList:subjectList};
+
+                        });
+
+                        setColleges(d=>{
+
+                            collegeRef.current = {...d,dropList:collegeList};
+
+                            return {...d,dropList:collegeList};
+
+                        });
+
+                        setGrades(d=>{
+
+                            gradesRef.current = {...d,dropList:gradeList};
+
+                            return {...d,dropList:gradeList};
+
+                        });
+
+                    }
+
+                    if (res[1]){
+
+                        let tableList = res[1].Item&&res[1].Item.length>0?res[1].Item.map((i,k)=>{
+
+                            const NO = createNO(k);
+
+                            return {...i,key:i.CourseClassID,NO};
+
+                        }):[];
+
+                        const total = res[1].CourseClassCount?res[1].CourseClassCount:0;
+
+                        const current = res[1].PageIndex?res[1].PageIndex:1;
+
+                        setPagination(d=>{
+
+                            paginationRef.current = {...d,total:total,current};
+
+                            return {...d,total:total,current};
+
+                        });
+
+                        setDataSource(d=>{
+
+                            dataSourceRef.current = {...d,courseClass:tableList};
+
+                            return {...d,courseClass:tableList}
+
+                        });
+
+                        LogCount = res[1].LastLogCount?res[1].LastLogCount:0;
+
+                    }
+
+                    dispatch(logCountUpdate(LogCount));
+
+                    setLoading(false);
+
+                    dispatch(appLoadingHide());
+
+                    dispatch(leftMemuHide());
+
+                }
+
+            });
 
         }
 
@@ -261,7 +433,7 @@ function Index(props) {
 
         }
 
-    },[SchoolID]);
+    },[UserID]);
 
 
     //成功的出现函数
@@ -281,7 +453,7 @@ function Index(props) {
     },[]);
 
     //界面初始化函数
-    const pageInit = () =>{
+    const pageInit = (isUnmount) =>{
 
         const subjectID = subjectsRef.current.dropSelectd.value;
 
@@ -474,181 +646,362 @@ function Index(props) {
     //表格的table
     const columns = useMemo(()=>{
 
-        return [
 
-            {
+        if (isAiPractice){
 
-                dataIndex:'NO',
+            return [
 
-                align:'center',
+                {
 
-                width:80,
+                    dataIndex:'NO',
 
-                render:(i,data)=>{
+                    align:'center',
 
-                    return <div className={"no"}>
+                    width:80,
 
-                        <CheckBox value={data}>{i}</CheckBox>
+                    render:(i,data)=>{
 
-                    </div>
+                        return <div className={"no"}>
+
+                            <CheckBox value={data}>{i}</CheckBox>
+
+                        </div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'CourseClassName',
+
+                    width:210,
+
+                    title:'班级名称',
+
+                    render:(i,data)=>{
+
+                        return <Button type={"link"} onClick={e=>openClassDetail(data.CourseClassID)} className={"course-class-name"} title={i}>{i}</Button>
+
+                    }
+
+                },
+
+                {
+
+                    width:140,
+
+                    title:'任课教师',
+
+                    align:'left',
+
+                    render:(i)=>{
+
+                        return <div className={"teacher-info"}>
+
+                            {
+
+                                i.TeacherID?
+
+                                    <>
+
+                                        <i className={"teacher-pic"} style={{backgroundImage:`url(${i.PhotoPath})`}}></i>
+
+                                        <div className={"teacher-msg"}>
+
+                                            <div className={"name"} title={i.TeacherName}>{i.TeacherName}</div>
+
+                                            <div className={"id"} title={i.TeacherID}>{i.TeacherID}</div>
+
+                                        </div>
+
+                                    </>
+
+                                    :
+
+                                    <div className={"emp"}>--</div>
+
+                            }
+
+                        </div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'StudentCount',
+
+                    width:90,
+
+                    align:'center',
+
+                    title:'学生人数',
+
+                    render:(i)=>{
+
+                        return <div className={"stu-num"}>{i}人</div>
+
+                    }
+
+                },
+
+                {
+
+                    width:150,
+
+                    align:'center',
+
+                    title:'课程',
+
+                    render:(i)=>{
+
+                        return <div className={"sub-course"} title={i.CourseName}>{i.CourseName}</div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'GradeName',
+
+                    width:100,
+
+                    align:'center',
+
+                    title:'所属年级',
+
+                    render:(i)=>{
+
+                        return <div className={"grade"} title={i}>{i}</div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'CollegeName',
+
+                    width:170,
+
+                    align:'center',
+
+                    title:'所属院系',
+
+                    render:(i)=>{
+
+                        return <div className={"college"} title={i}>{i}</div>
+
+                    }
+
+                },
+
+                {
+
+                    width:170,
+
+                    align:'center',
+
+                    title:'操作',
+
+                    render:(i)=>{
+
+                        return <div className={"cooperate"}>
+
+                            <Button className={"edit btn-blue-default"} onClick={e=>editCourseClass(i.CourseClassID)}>编辑</Button>
+
+                            <Button className={"del btn-blue-default"} onClick={e=>delCourseClass(2,i.CourseClassID)}>删除</Button>
+
+                        </div>
+
+                    }
 
                 }
 
-            },
+            ]
 
-            {
+        }else{
 
-                dataIndex:'CourseClassName',
+            return [
 
-                width:210,
+                {
 
-                title:'班级名称',
+                    dataIndex:'NO',
 
-                render:(i,data)=>{
+                    align:'center',
 
-                    return <Button type={"link"} onClick={e=>openClassDetail(data.CourseClassID)} className={"course-class-name"} title={i}>{i}</Button>
+                    width:80,
+
+                    render:(i,data)=>{
+
+                        return <div className={"no"}>
+
+                            <CheckBox value={data}>{i}</CheckBox>
+
+                        </div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'CourseClassName',
+
+                    width:210,
+
+                    title:'班级名称',
+
+                    render:(i,data)=>{
+
+                        return <Button type={"link"} onClick={e=>openClassDetail(data.CourseClassID)} className={"course-class-name"} title={i}>{i}</Button>
+
+                    }
+
+                },
+
+                {
+
+                    width:140,
+
+                    title:'任课教师',
+
+                    align:'left',
+
+                    render:(i)=>{
+
+                        return <div className={"teacher-info"}>
+
+                            {
+
+                                i.TeacherID?
+
+                                    <>
+
+                                        <i className={"teacher-pic"} style={{backgroundImage:`url(${i.PhotoPath})`}}></i>
+
+                                        <div className={"teacher-msg"}>
+
+                                            <div className={"name"} title={i.TeacherName}>{i.TeacherName}</div>
+
+                                            <div className={"id"} title={i.TeacherID}>{i.TeacherID}</div>
+
+                                        </div>
+
+                                    </>
+
+                                    :
+
+                                    <div className={"emp"}>--</div>
+
+                            }
+
+                        </div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'StudentCount',
+
+                    width:90,
+
+                    align:'center',
+
+                    title:'学生人数',
+
+                    render:(i)=>{
+
+                        return <div className={"stu-num"}>{i}人</div>
+
+                    }
+
+                },
+
+                {
+
+                    width:150,
+
+                    align:'center',
+
+                    title:'学科课程',
+
+                    render:(i)=>{
+
+                        return <div className={"sub-course"} title={`${i.SubjectName}>${i.CourseName}`}>{i.SubjectName}>{i.CourseName}</div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'GradeName',
+
+                    width:100,
+
+                    align:'center',
+
+                    title:'所属年级',
+
+                    render:(i)=>{
+
+                        return <div className={"grade"} title={i}>{i}</div>
+
+                    }
+
+                },
+
+                {
+
+                    dataIndex:'CollegeName',
+
+                    width:170,
+
+                    align:'center',
+
+                    title:'所属院系',
+
+                    render:(i)=>{
+
+                        return <div className={"college"} title={i}>{i}</div>
+
+                    }
+
+                },
+
+                {
+
+                    width:170,
+
+                    align:'center',
+
+                    title:'操作',
+
+                    render:(i)=>{
+
+                        return <div className={"cooperate"}>
+
+                            <Button className={"edit btn-blue-default"} onClick={e=>editCourseClass(i.CourseClassID)}>编辑</Button>
+
+                            <Button className={"del btn-blue-default"} onClick={e=>delCourseClass(2,i.CourseClassID)}>删除</Button>
+
+                        </div>
+
+                    }
 
                 }
 
-            },
+            ]
 
-            {
+        }
 
-                width:140,
-
-                title:'任课教师',
-
-                align:'left',
-
-                render:(i)=>{
-
-                    return <div className={"teacher-info"}>
-
-                        {
-
-                            i.TeacherID?
-
-                                <>
-
-                                    <i className={"teacher-pic"} style={{backgroundImage:`url(${i.PhotoPath})`}}></i>
-
-                                    <div className={"teacher-msg"}>
-
-                                        <div className={"name"} title={i.TeacherName}>{i.TeacherName}</div>
-
-                                        <div className={"id"} title={i.TeacherID}>{i.TeacherID}</div>
-
-                                    </div>
-
-                                </>
-
-                                :
-
-                                <div className={"emp"}>--</div>
-
-                        }
-
-                    </div>
-
-                }
-
-            },
-
-            {
-
-                dataIndex:'StudentCount',
-
-                width:90,
-
-                align:'center',
-
-                title:'学生人数',
-
-                render:(i)=>{
-
-                    return <div className={"stu-num"}>{i}人</div>
-
-                }
-
-            },
-
-            {
-
-                width:150,
-
-                align:'center',
-
-                title:'学科课程',
-
-                render:(i)=>{
-
-                    return <div className={"sub-course"} title={`${i.SubjectName}>${i.CourseName}`}>{i.SubjectName}>{i.CourseName}</div>
-
-                }
-
-            },
-
-            {
-
-                dataIndex:'GradeName',
-
-                width:100,
-
-                align:'center',
-
-                title:'所属年级',
-
-                render:(i)=>{
-
-                    return <div className={"grade"} title={i}>{i}</div>
-
-                }
-
-            },
-
-            {
-
-                dataIndex:'CollegeName',
-
-                width:170,
-
-                align:'center',
-
-                title:'所属院系',
-
-                render:(i)=>{
-
-                    return <div className={"college"} title={i}>{i}</div>
-
-                }
-
-            },
-
-            {
-
-                width:170,
-
-                align:'center',
-
-                title:'操作',
-
-                render:(i)=>{
-
-                    return <div className={"cooperate"}>
-
-                        <Button className={"edit btn-blue-default"} onClick={e=>editCourseClass(i.CourseClassID)}>编辑</Button>
-
-                        <Button className={"del btn-blue-default"} onClick={e=>delCourseClass(2,i.CourseClassID)}>删除</Button>
-
-                    </div>
-
-                }
-
-            }
-
-        ]
-
-    },[]);
+    },[isAiPractice]);
 
     //学科变化
     const subjectChange = useCallback((data)=>{
@@ -1277,11 +1630,20 @@ function Index(props) {
 
                 <div className={"drops-search-wrapper"}>
 
-                    <span className={"props"}>学科课程:</span>
 
-                    <DropDown onChange={subjectChange} dropSelectd={subjects.dropSelectd} dropList={subjects.dropList}>
+                    <span className={"props"}>{`${isAiPractice?'':'学科'}课程:`}</span>
 
-                    </DropDown>
+                    {
+
+                        !isAiPractice?
+
+                            <DropDown onChange={subjectChange} dropSelectd={subjects.dropSelectd} dropList={subjects.dropList}>
+
+                            </DropDown>
+
+                            :null
+
+                    }
 
                     <DropDown onChange={courseChange} dropSelectd={courses.dropSelectd} dropList={courses.dropList} disabled={courses.disabled}>
 

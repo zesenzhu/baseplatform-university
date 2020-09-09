@@ -544,56 +544,56 @@ function CourseModal(props,ref) {
 
                     </div>
 
-                    {
+                    <div className={"row_wrapper major-container clearfix"}>
 
-                        college.dropSelectd.value!==0&&(courseType.dropSelectd.value===1||courseType.dropSelectd.value===3)?
+                        <div className={"major_text"}>面向专业:</div>
 
-                            <div className={"row_wrapper major-container clearfix"}>
+                        <Tips visible={major.tipShow} title={"请选择面向的专业"}>
 
-                                <div className={"major_text"}>面向专业:</div>
+                            <div className={"major_wrapper"}>
 
-                                <Tips visible={major.tipShow} title={"请选择面向的专业"}>
+                                <div className={"major_content"}>
 
-                                    <div className={"major_wrapper"}>
-
-                                        <div className={"major_content"}>
-
-                                            <Scroll style={{height:110}}>
+                                    <Scroll style={{height:110}}>
 
 
-                                                {
+                                        {
 
-                                                    major.majorPickList.length>0?
+                                            major.majorPickList.length>0?
 
-                                                        major.majorPickList.map((i,k)=>{
+                                                major.majorPickList.map((i,k)=>{
 
-                                                            return <span key={k} className={"major_item"}>{i.MajorName};</span>
+                                                    return <span key={k} className={"major_item"}>{i.MajorName};</span>
 
-                                                        })
+                                                })
 
-                                                        :
+                                                :
 
-                                                        <div className={"emp"}>暂无选中专业</div>
+                                                <div className={"emp"}>暂无选中专业</div>
 
-                                                }
+                                        }
 
 
 
-                                            </Scroll>
+                                    </Scroll>
 
-                                        </div>
+                                </div>
+
+                                {
+
+                                    college.dropSelectd.value!==0&&(courseType.dropSelectd.value===1||courseType.dropSelectd.value===3)?
 
                                         <button onClick={editMajorClick} className={"edit btn"}></button>
 
-                                    </div>
+                                        :null
 
-                                </Tips>
+                                }
 
                             </div>
 
-                            :''
+                        </Tips>
 
-                    }
+                    </div>
 
                     <Modal
                         className={"major_modal"}

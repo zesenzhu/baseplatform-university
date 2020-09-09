@@ -53,7 +53,7 @@ function Course(props) {
 
         dataSource:[],
 
-        culumns:[
+        columns:[
 
             {
 
@@ -63,7 +63,7 @@ function Course(props) {
 
                 dataIndex:'CourseName',
 
-                width:260,
+                width:240,
 
                 align:'left',
 
@@ -85,15 +85,33 @@ function Course(props) {
 
                 dataIndex:'CourseNumber',
 
-                // sorter:true,
-
-                width:150,
+                width:120,
 
                 align:'center',
 
                 render:(i,k)=>{
 
                     return <div title={i} className={"course_number"}>{i?i:'--'}</div>
+
+                }
+
+            },
+
+            {
+
+                title:"学分",
+
+                key:'CourseCredit',
+
+                dataIndex:'CourseCredit',
+
+                width:50,
+
+                align:'center',
+
+                render:(i)=>{
+
+                    return <div title={i} className={"credit"}>{i?i:'--'}</div>
 
                 }
 
@@ -248,7 +266,7 @@ function Course(props) {
 
                 }
 
-            },
+            }
 
         ]
 
@@ -302,6 +320,9 @@ function Course(props) {
 
     });
 
+    //是否是ai人工实训
+
+    const [isAIPractice,setIsAIPractice] = useState(false);
 
 
     //props
@@ -336,6 +357,216 @@ function Course(props) {
 
 
     useEffect(()=>{
+
+        const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+
+        if (parseInt(ProductType)===6){
+
+            setCourse(d=>{
+
+                return {...d,columns:[
+
+                        {
+
+                            title:"课程名称",
+
+                            key:'CourseName',
+
+                            dataIndex:'CourseName',
+
+                            width:240,
+
+                            align:'left',
+
+                            className:'course-name-title',
+
+                            render:(i,k)=>{
+
+                                return <div title={i} className={"course_name"}>{i?i:'--'}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"课程编号",
+
+                            key:'CourseNumber',
+
+                            dataIndex:'CourseNumber',
+
+                            width:140,
+
+                            align:'center',
+
+                            render:(i,k)=>{
+
+                                return <div title={i} className={"course_number"}>{i?i:'--'}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"学分",
+
+                            key:'CourseCredit',
+
+                            dataIndex:'CourseCredit',
+
+                            width:80,
+
+                            align:'center',
+
+                            render:(i)=>{
+
+                                return <div title={i} className={"credit"}>{i?i:'--'}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"开课学院",
+
+                            key:'CollegeName',
+
+                            dataIndex:'CollegeName',
+
+                            width:150,
+
+                            align:'center',
+
+                            render:(i,k)=>{
+
+                                return <div title={i} className={"college_name"}>{i?i:'--'}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"课程类型",
+
+                            key:'CourseType',
+
+                            dataIndex:'CourseType',
+
+                            width:100,
+
+                            align:'center',
+
+                            render:(i,k)=>{
+
+                                let type = '--';
+
+                                switch (parseInt(i)) {
+
+                                    case 1:
+
+                                        type = '专业必修';
+
+                                        break;
+
+                                    case 2:
+
+                                        type = '公共必修';
+
+                                        break;
+
+                                    case 3:
+
+                                        type = '专业选修';
+
+                                        break;
+
+                                    case 4:
+
+                                        type = '公共选修';
+
+                                        break;
+
+                                    case 5:
+
+                                        type = '其他';
+
+                                        break;
+
+                                    default:
+
+                                        type = '--';
+
+                                }
+
+                                return <div className={"course_type"}>{type}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"面向专业",
+
+                            key:'MajorNames',
+
+                            dataIndex:'MajorNames',
+
+                            width:210,
+
+                            align:'center',
+
+                            render:(i,k)=>{
+
+                                return <div title={i} className={"major_name"}>{i?i:'--'}</div>
+
+                            }
+
+                        },
+
+                        {
+
+                            title:"操作",
+
+                            align:'center',
+
+                            dataIndex:'index',
+
+                            key:'index',
+
+                            render:(k)=>{
+
+                                return <div className={"cooperate_wrapper"}>
+
+                                    <Button
+                                        color="blue"
+                                        type="default"
+                                        onClick={e=>modalOpen("edit",k)}
+                                        className="handle-btn"
+                                    >
+                                        编辑
+                                    </Button>
+
+                                    <Button color="blue" type="default" onClick={e=>delCourse(k)} className="handle-btn">删除</Button>
+
+                                </div>
+
+                            }
+
+                        }
+
+                ]}
+
+            });
+
+            setIsAIPractice(true);
+
+        }
 
          //先获取学科
          apiActions.GetSubjectInfo_University({schoolID:SchoolID,userID:UserID,userType:UserType,pageSize:0,pageIndex:1,dispatch}).then(data=>{
@@ -799,23 +1030,35 @@ function Course(props) {
 
                                 <div className={"subject_wrapper"}>
 
-                                    <span className={"drop_title"}>学科:</span>
+                                    {
 
-                                    <DropDown
+                                        !isAIPractice?
 
+                                            <>
 
-                                        dropSelectd={subjects.dropSelectd}
+                                                <span className={"drop_title"}>学科:</span>
 
-                                        dropList={subjects.dropList}
-
-                                        onChange={subDropChange}
-
-                                        height={300}
-
-                                    >
+                                                <DropDown
 
 
-                                    </DropDown>
+                                                    dropSelectd={subjects.dropSelectd}
+
+                                                    dropList={subjects.dropList}
+
+                                                    onChange={subDropChange}
+
+                                                    height={300}
+
+                                                >
+
+
+                                                </DropDown>
+
+                                            </>
+
+                                         :null
+
+                                    }
 
                                     <span className={"drop_title"}>学院:</span>
 
@@ -841,6 +1084,12 @@ function Course(props) {
                             <div className={"selectd_layout"}>
 
                                 {
+
+                                    isAIPractice?
+
+                                        college.dropSelectd.title
+
+                                    :
 
                                     subjects.dropSelectd.value!==0&&college.dropSelectd.value!==0?
 
@@ -882,7 +1131,7 @@ function Course(props) {
 
                             <>
 
-                                <Table onChange={tableChange} pagination={false} columns={course.culumns}  dataSource={course.dataSource}></Table>
+                                <Table className={"course-table"} onChange={tableChange} pagination={false} columns={course.columns}  dataSource={course.dataSource}></Table>
 
                                 <PagiNation current={pagination.current} onChange={pageChange} pageSize={pagination.pageSize} total={pagination.total}></PagiNation>
 
