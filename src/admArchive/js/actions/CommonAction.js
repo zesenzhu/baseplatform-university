@@ -37,7 +37,27 @@ const SetStudentParams = (data) => {
     dispatch({ type: COMMON_SET_STUDENT_PARAMS, data: data });
   };
 };
+// 设置Modal参数
+const COMMON_SET_MODAL_VISIBLE = "COMMON_SET_MODAL_VISIBLE";
+const SetModalVisible = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_MODAL_VISIBLE, data: data });
+  };
+};
+// 设置学生参数
+const COMMON_SET_USER_ARCHIVES_PARAMS  = "COMMON_SET_USER_ARCHIVES_PARAMS";
+const SetUserArchivesParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_USER_ARCHIVES_PARAMS, data: data });
+  };
+};
 export default {
+  COMMON_SET_USER_ARCHIVES_PARAMS,
+  SetUserArchivesParams,
+  
+  COMMON_SET_MODAL_VISIBLE,
+  SetModalVisible,
+
   COMMON_SET_STUDENT_PARAMS,
   SetStudentParams,
   

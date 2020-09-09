@@ -246,19 +246,29 @@ class Student extends Component {
   };
   //
   StudentChange = (data) => {
-    console.log(data);
+    // console.log(data);
+    let { dispatch } = this.props;
+    dispatch(CommonAction.SetUserArchivesParams({
+      TipsLogName:data.UserName
+    }))
+    dispatch(MainAction.GetUserLog({ innerID: data.InnerID }));
+    dispatch(
+      CommonAction.SetModalVisible({
+        UserLogModalVisible: true,
+      })
+    );
   };
   StudentEdit = (data) => {
     console.log(data);
   };
   // 点击姓名头像
   onUserNameClick = (UserID) => {
-    const {
-      DataState: {
-        // GradeStudentPreview: { pensonalList },
-      },
-    } = this.props;
-    console.log(UserID);
+    // const {
+    //   DataState: {
+    //     // GradeStudentPreview: { pensonalList },
+    //   },
+    // } = this.props;
+    // console.log(UserID);
     // if (pensonalList[key]) {
     let token = sessionStorage.getItem("token");
     window.open(
@@ -289,6 +299,8 @@ class Student extends Component {
         className: "",
         keyword: "",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
@@ -303,6 +315,8 @@ class Student extends Component {
         className: "",
         keyword: "",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
@@ -317,6 +331,8 @@ class Student extends Component {
         className: "",
         keyword: "",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
@@ -330,6 +346,8 @@ class Student extends Component {
 
         keyword: "",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
@@ -351,6 +369,8 @@ class Student extends Component {
         searchValue: "",
         cancelBtnShow: "n",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
@@ -370,11 +390,109 @@ class Student extends Component {
         searchValue: e.value,
         cancelBtnShow: "y",
         pageIndex: 0,
+        checkedList: [],
+        checkAll: false,
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
   };
-  onTableChange = (e) => {};
+  onTableChange = (page, filters, sorter) => {
+    let {
+      dispatch,
+      DataState: {
+        CommonData: {
+          StudentParams: { searchValue },
+        },
+      },
+    } = this.props;
+    dispatch(
+      CommonAction.SetStudentParams({
+        sortType: sorter.order,
+        sortFiled: sorter.columnKey,
+        checkedList: [],
+        checkAll: false,
+      })
+    );
+    dispatch(MainAction.GetStudentToPage({}));
+  };
+  onShowSizeChange = (current, pageSize) => {
+    let {
+      dispatch,
+      DataState: {
+        CommonData: {
+          StudentParams: { searchValue },
+        },
+      },
+    } = this.props;
+    dispatch(
+      CommonAction.SetStudentParams({
+        pageIndex: 0,
+        pageSize,
+        checkedList: [],
+        checkAll: false,
+      })
+    );
+    dispatch(MainAction.GetStudentToPage({}));
+  };
+  onPagiNationChange = (e) => {
+    let {
+      dispatch,
+      DataState: {
+        CommonData: {
+          StudentParams: { searchValue },
+        },
+      },
+    } = this.props;
+    dispatch(
+      CommonAction.SetStudentParams({
+        pageIndex: e - 1,
+        checkedList: [],
+        checkAll: false,
+      })
+    );
+    dispatch(MainAction.GetStudentToPage({}));
+  };
+  onCheckBoxGroupChange = (checkedList) => {
+    let {
+      dispatch,
+      DataState: {
+        CommonData: {
+          StudentParams: { searchValue },
+        },
+        MainData: {
+          StudentData: { List },
+        },
+      },
+    } = this.props;
+    dispatch(
+      CommonAction.SetStudentParams({
+        checkedList,
+        checkAll: List.length === checkedList.length ? true : false,
+      })
+    );
+  };
+  onCheckAllChange = (e) => {
+    let {
+      dispatch,
+      DataState: {
+        CommonData: {
+          StudentParams: { searchValue },
+        },
+        MainData: {
+          StudentData: { List },
+        },
+      },
+    } = this.props;
+
+    let checkAll = e.target.checked;
+    let keyList = List.map((child) => child.key);
+    dispatch(
+      CommonAction.SetStudentParams({
+        checkedList: checkAll ? keyList : [],
+        checkAll,
+      })
+    );
+  };
   render() {
     let {
       DataState: {
@@ -614,13 +732,13 @@ class Student extends Component {
               size="small"
               spinning={TableLoading}
             >
-              <CheckBoxGroup
-                style={{ width: "100%" }}
-                value={this.state.checkedList}
-                onChange={this.onCheckBoxGroupChange}
-              >
-                {List instanceof Array && List.length !== 0 ? (
-                  <>
+              {List instanceof Array && List.length !== 0 ? (
+                <>
+                  <CheckBoxGroup
+                    style={{ width: "100%" }}
+                    value={checkedList}
+                    onChange={this.onCheckBoxGroupChange}
+                  >
                     <Table
                       className="table"
                       // loading={TableLoading}
@@ -629,48 +747,49 @@ class Student extends Component {
                       onChange={this.onTableChange}
                       dataSource={List}
                     ></Table>
-                    <div style={{ display: "inline-block" }}>
-                      <CheckBox
-                        className="checkAll-box"
-                        // type="gray"
-                        onChange={this.OnCheckAllChange}
-                        checked={this.state.checkAll}
-                      >
-                        <span className="checkAll-title">全选</span>
-                      </CheckBox>
-                      <Button
-                        onClick={this.onDeleteAllClick}
-                        className="deleteAll"
-                        color="blue"
-                      >
-                        删除
-                      </Button>
-                    </div>
-                    <div className="pagination-box">
-                      <PagiNation
-                        showQuickJumper
-                        showSizeChanger
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageSize={pageSize}
-                        current={PageIndex}
-                        hideOnSinglePage={Total === 0 ? true : false}
-                        total={Total}
-                        onChange={this.onPagiNationChange}
-                      ></PagiNation>
-                    </div>
-                  </>
-                ) : (
-                  <Empty
-                    title={
-                      cancelBtnShow === "y" || cancelBtnShow !== 0
-                        ? "暂无符合条件的学生档案"
-                        : "暂无学生档案"
-                    }
-                    type="3"
-                    style={{ marginTop: "150px" }}
-                  ></Empty>
-                )}
-              </CheckBoxGroup>
+                  </CheckBoxGroup>
+
+                  <div style={{ display: "inline-block" }}>
+                    <CheckBox
+                      className="checkAll-box"
+                      // type="gray"
+                      onChange={this.onCheckAllChange}
+                      checked={checkAll}
+                    >
+                      <span className="checkAll-title">全选</span>
+                    </CheckBox>
+                    <Button
+                      onClick={this.onDeleteAllClick}
+                      className="deleteAll"
+                      color="blue"
+                    >
+                      删除
+                    </Button>
+                  </div>
+                  <div className="pagination-box">
+                    <PagiNation
+                      showQuickJumper
+                      showSizeChanger
+                      onShowSizeChange={this.onShowSizeChange}
+                      pageSize={pageSize}
+                      current={PageIndex + 1}
+                      hideOnSinglePage={Total === 0 ? true : false}
+                      total={Total}
+                      onChange={this.onPagiNationChange}
+                    ></PagiNation>
+                  </div>
+                </>
+              ) : (
+                <Empty
+                  title={
+                    cancelBtnShow === "y" || cancelBtnShow !== 0
+                      ? "暂无符合条件的学生档案"
+                      : "暂无学生档案"
+                  }
+                  type="3"
+                  style={{ marginTop: "150px" }}
+                ></Empty>
+              )}
             </Loading>
           </div>
         </div>

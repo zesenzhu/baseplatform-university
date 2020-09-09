@@ -73,11 +73,26 @@ const CommonData = (
       // searchValue:'',
       // checkedList:[]
 
+    },
+    ModalVisible:{
+      UserLogModalVisible:false
+    },
+    UserArchivesParams:{
+      TipsLogName:''
     }
+
   },
   actions
 ) => {
   switch (actions.type) {
+    case CommonAction.COMMON_SET_USER_ARCHIVES_PARAMS:
+      return Object.assign({}, state, {
+        UserArchivesParams: { ...state.UserArchivesParams, ...actions.data },
+      });
+    case CommonAction.COMMON_SET_MODAL_VISIBLE:
+      return Object.assign({}, state, {
+        ModalVisible: { ...state.ModalVisible, ...actions.data },
+      });
     case CommonAction.COMMON_SET_STUDENT_PARAMS:
       return Object.assign({}, state, {
         StudentParams: { ...state.StudentParams, ...actions.data },

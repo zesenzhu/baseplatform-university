@@ -20,7 +20,7 @@ import {
   // IndexRedirect ,
   BrowserRouter,
 } from "react-router-dom";
-import { IndexRedirect } from "react-router";
+import {  IndexRedirect } from "react-router";
 import Main from "../component/Main";
 import history from "./history";
 //import TimeBanner from '../component/TimeBanner'
@@ -525,33 +525,9 @@ class App extends Component {
                 size="small"
                 spinning={ContentLoading}
               >
-                <Router>
-                  <Route path="/UserArchives/*" component={UserArchives}>
-                    <Route
-                      path="/UserArchives/All"
-                      exact
-                      component={All}
-                    ></Route>
-                    <Route
-                      path="/UserArchives/Student*"
-                      component={Student}
-                      exact
-                    ></Route>
-                    <Route
-                      path="/UserArchives/Teacher/:id"
-                      component={Temple}
-                      exact
-                    ></Route>
-                    <Route
-                      path="/UserArchives/Leader/:id"
-                      component={Temple}
-                      exact
-                    ></Route>
-                    <Route
-                      path="/UserArchives/Graduate/:id"
-                      component={Temple}
-                      exact
-                    ></Route>
+                <Router >
+                  <Route path="/UserArchives"  component={UserArchives}>
+                    
                     {/* <Redirect from="/UserArchives*" to="/UserArchives/All" /> */}
                   </Route>
                   <Route
