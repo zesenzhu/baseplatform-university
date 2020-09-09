@@ -404,6 +404,7 @@ const AddSchoolInfo = (func = () => {},data={}) => {
         ...other,
         SchoolLevel: SchoolLevel.value,
         SchoolType: 1,
+        SchoolImgUrl_Long:'',
         SchoolSessionType: SchoolSessionType.value,
         ...data
 
@@ -437,6 +438,7 @@ const EditSchoolInfo = (func = () => {},data={}) => {
         SchoolLevel: SchoolLevel.value,
         SchoolType: 1,
         SchoolID,
+        SchoolImgUrl_Long:DataState.SchoolData.SchoolImgUrl_Long,
         SchoolSessionType: SchoolSessionType.value,
         ...data
       },

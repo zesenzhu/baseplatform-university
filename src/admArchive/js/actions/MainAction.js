@@ -9,7 +9,7 @@ import PublicAction from "./PublicAction";
 const { BasicProxy, UserInfoProxy } = CONFIG;
 //获取子系统的服务器地址信息
 let MAIN_GET_SUB_SYSTEMS_MAIN_SERVER = "MAIN_GET_SUB_SYSTEMS_MAIN_SERVER";
-const GetSubSystemsMainServerBySubjectID = ({ func = () => {} }) => {
+const GetSubSystemsMainServerBySubjectID = ({ fn = () => {} }) => {
   return (dispatch, getState) => {
     let url =
       "/BaseApi/Global/GetSubSystemsMainServerBySubjectID?appid=000&access_token=4d39af1bff534514e24948568b750f6c&sysIDs=E27&subjectID=";
@@ -21,14 +21,14 @@ const GetSubSystemsMainServerBySubjectID = ({ func = () => {} }) => {
         if (json.StatusCode === 200) {
           dispatch({ type: MAIN_GET_SUB_SYSTEMS_MAIN_SERVER, data: json.Data });
         }
-        func(getState());
+        fn(getState());
       });
   };
 };
 // 获取总览信息
 const MAIN_GET_SUMMARY_DATA = "MAIN_GET_SUMMARY_DATA";
 // 获取学校总览--大学
-const GetSchoolSummary = ({ func = () => {}, schoolID }) => {
+const GetSchoolSummary = ({ fn = () => {}, schoolID }) => {
   return (dispatch, getState) => {
     dispatch(PublicAction.ContentLoadingOpen());
 
@@ -84,7 +84,7 @@ const GetSchoolSummary = ({ func = () => {}, schoolID }) => {
             TeacherAcount,
           },
         });
-        func(getState());
+        fn(getState());
         dispatch(PublicAction.ContentLoadingClose());
       }
     });
@@ -103,7 +103,7 @@ const getSchoolSummary = async ({ schoolID = "" }) => {
   return data;
 };
 // 获取学院总览--大学
-const GetCollegeSummary = ({ func = () => {}, collegeID }) => {
+const GetCollegeSummary = ({ fn = () => {}, collegeID }) => {
   return (dispatch, getState) => {
     dispatch(PublicAction.ContentLoadingOpen());
     let State = getState();
@@ -162,7 +162,7 @@ const GetCollegeSummary = ({ func = () => {}, collegeID }) => {
             TeacherAcount,
           },
         });
-        func(getState());
+        fn(getState());
         dispatch(PublicAction.ContentLoadingClose());
       }
     });
@@ -183,7 +183,7 @@ const getCollegeSummary = async ({ collegeID = "" }) => {
 // 获取学院、专业、年级、班级信息（用于构建下拉列表）
 const MAIN_GET_TREE_DATA = "MAIN_GET_TREE_DATA";
 
-const GetTree = ({ func = () => {}, collegeID, schoolID }) => {
+const GetTree = ({ fn = () => {}, collegeID, schoolID }) => {
   return (dispatch, getState) => {
     dispatch(PublicAction.ContentLoadingOpen());
     let State = getState();
@@ -275,7 +275,7 @@ const GetTree = ({ func = () => {}, collegeID, schoolID }) => {
             ClassList,
           },
         });
-        func(getState());
+        fn(getState());
         dispatch(PublicAction.ContentLoadingClose());
       }
     });
@@ -302,7 +302,7 @@ const getTree = async ({ collegeID = "", schoolID = "" }) => {
 const MAIN_GET_STUDENT_TO_PAGE = "MAIN_GET_STUDENT_TO_PAGE";
 
 const GetStudentToPage = ({
-  func = () => {},
+  fn = () => {},
   collegeID,
   schoolID,
   majorID,
@@ -387,7 +387,7 @@ const GetStudentToPage = ({
           type: MAIN_GET_STUDENT_TO_PAGE,
           data: { ...res.Data, List },
         });
-        func(getState());
+        fn(getState());
         dispatch(PublicAction.TableLoadingClose());
       }
     });
@@ -430,10 +430,334 @@ const getStudentToPage = async ({
   }
   return data;
 };
-// 获取总览信息
+// 分页获取教师
+const MAIN_GET_TEACHER_TO_PAGE = "MAIN_GET_TEACHER_TO_PAGE";
+
+const GetTeacherToPage = ({
+  fn = () => {},
+  collegeID,
+  schoolID,
+  groupID,
+
+  keyword,
+  pageIndex,
+  pageSize,
+  sortFiled,
+  sortType,
+}) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.TableLoadingOpen());
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID, CollegeID },
+      },
+      DataState: {
+        CommonData: { TeacherParams },
+      },
+    } = State;
+
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+    if (collegeID === undefined) {
+      collegeID = TeacherParams.collegeID;
+    }
+    if (groupID === undefined) {
+      groupID = TeacherParams.groupID;
+    }
+
+    if (keyword === undefined) {
+      keyword = TeacherParams.keyword;
+    }
+    if (pageIndex === undefined) {
+      pageIndex = TeacherParams.pageIndex;
+    }
+    if (pageSize === undefined) {
+      pageSize = TeacherParams.pageSize;
+    }
+    if (sortFiled === undefined) {
+      sortFiled = TeacherParams.sortFiled;
+    }
+    if (sortType === undefined) {
+      sortType = TeacherParams.sortType;
+    }
+
+    getTeacherToPage({
+      collegeID,
+      schoolID,
+      groupID,
+
+      keyword,
+      pageIndex,
+      pageSize,
+      sortFiled,
+      sortType,
+    }).then((res) => {
+      if (res) {
+        let List = [];
+        res.Data &&
+          res.Data.List instanceof Array &&
+          res.Data.List.forEach((child, index) => {
+            List.push({
+              key: index,
+              OrderNo:
+                pageSize * res.Data.PageIndex + index + 1 >= 10
+                  ? pageSize * res.Data.PageIndex + index + 1
+                  : "0" + (pageSize * res.Data.PageIndex + index + 1),
+              ...child,
+            });
+          });
+        dispatch({
+          type: MAIN_GET_TEACHER_TO_PAGE,
+          data: { ...res.Data, List },
+        });
+        fn(getState());
+        dispatch(PublicAction.TableLoadingClose());
+      }
+    });
+  };
+};
+const getTeacherToPage = async ({
+  collegeID = "",
+  schoolID = "",
+  groupID = "",
+
+  keyword = "",
+  pageIndex = "",
+  pageSize = "",
+  sortFiled = "",
+  sortType = "",
+}) => {
+  let url =
+    UserInfoProxy +
+    "/GetTeacherToPage_univ?schoolID=" +
+    schoolID +
+    (collegeID !== "" ? "&collegeID=" + collegeID : "") +
+    (keyword !== "" ? "&keyword=" + keyword : "") +
+    "&pageIndex=" +
+    pageIndex +
+    "&pageSize=" +
+    pageSize +
+    (sortFiled !== "" ? "&sortFiled=" + sortFiled : "") +
+    (sortType !== "" ? "&sortType=" + sortType : "") +
+    (groupID !== "" ? "&groupID=" + groupID : "");
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 分页获取领导
+const MAIN_GET_LEADER_TO_PAGE = "MAIN_GET_LEADER_TO_PAGE";
+
+const GetLeaderToPage = ({
+  fn = () => {},
+  collegeID,
+  schoolID,
+  userType,
+  keyword,
+  pageIndex,
+  pageSize,
+  sortFiled,
+  sortType,
+}) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.TableLoadingOpen());
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID, CollegeID },
+      },
+      DataState: {
+        CommonData: { LeaderParams },
+      },
+    } = State;
+
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+    if (collegeID === undefined) {
+      collegeID = LeaderParams.collegeID;
+    }
+    if (userType === undefined) {
+      userType = LeaderParams.userType; //usertype==7为学校领导
+      //usertype==10为学院领导
+    }
+
+    if (keyword === undefined) {
+      keyword = LeaderParams.keyword;
+    }
+    if (pageIndex === undefined) {
+      pageIndex = LeaderParams.pageIndex;
+    }
+    if (pageSize === undefined) {
+      pageSize = LeaderParams.pageSize;
+    }
+    if (sortFiled === undefined) {
+      sortFiled = LeaderParams.sortFiled;
+    }
+    if (sortType === undefined) {
+      sortType = LeaderParams.sortType;
+    }
+
+    getLeaderToPage({
+      collegeID,
+      schoolID,
+      userType,
+
+      keyword,
+      pageIndex,
+      pageSize,
+      sortFiled,
+      sortType,
+    }).then((res) => {
+      if (res) {
+        let List = [];
+        res.Data &&
+          res.Data.List instanceof Array &&
+          res.Data.List.forEach((child, index) => {
+            List.push({
+              key: index,
+              OrderNo: index + 1 >= 10 ? index + 1 : "0" + (index + 1),
+              ...child,
+            });
+          });
+        dispatch({
+          type: MAIN_GET_LEADER_TO_PAGE,
+          data: { ...res.Data, List },
+        });
+        fn(getState());
+        dispatch(PublicAction.TableLoadingClose());
+      }
+    });
+  };
+};
+const getLeaderToPage = async ({
+  collegeID = "",
+  schoolID = "",
+  userType = "",
+
+  keyword = "",
+  pageIndex = "",
+  pageSize = "",
+  sortFiled = "",
+  sortType = "",
+}) => {
+  let url =
+    UserInfoProxy +
+    "/GetSchoolLeader_univ?schoolID=" +
+    schoolID +
+    (collegeID !== "" ? "&collegeID=" + collegeID : "") +
+    (keyword !== "" ? "&keyword=" + keyword : "") +
+    // "&pageIndex=" +
+    // pageIndex +
+    // "&pageSize=" +
+    // pageSize +
+    (sortFiled !== "" ? "&sortFiled=" + sortFiled : "") +
+    (sortType !== "" ? "&sortType=" + sortType : "") +
+    (userType !== "" ? "&userType=" + userType : 7);
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 获取教师档案-获取学院、教研室信息
+const MAIN_GET_TEACHER_TREE_DATA = "MAIN_GET_TEACHER_TREE_DATA";
+
+const GetTeacherTree = ({ fn = () => {}, collegeID, schoolID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ContentLoadingOpen());
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID, CollegeID },
+      },
+      DataState: {
+        CommonData: {
+          RolePower: { IsCollege, IsLeader },
+        },
+      },
+    } = State;
+    if (IsCollege) {
+      if (collegeID === undefined) {
+        collegeID = CollegeID;
+      }
+    } else {
+      collegeID = "";
+    }
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+
+    getTeacherTree({
+      collegeID,
+      schoolID,
+    }).then((res) => {
+      if (res) {
+        let CollegeList = [];
+        let GroupList = [];
+
+        res.Data instanceof Array &&
+          res.Data.forEach((college) => {
+            let { CollegeID, CollegeName } = college;
+            CollegeList.push({ value: CollegeID, title: CollegeName });
+            college.GroupList instanceof Array &&
+              college.GroupList.forEach((group) => {
+                let { GroupID, GroupName } = group;
+                GroupList.push({
+                  value: GroupID,
+                  title: GroupName,
+                  CollegeID,
+                  CollegeName,
+                });
+              });
+          });
+
+        dispatch({
+          type: MAIN_GET_TEACHER_TREE_DATA,
+          data: {
+            CollegeList,
+            GroupList,
+          },
+        });
+        fn(getState());
+        dispatch(PublicAction.ContentLoadingClose());
+      }
+    });
+  };
+};
+
+const getTeacherTree = async ({ collegeID = "", schoolID = "" }) => {
+  let url =
+    UserInfoProxy +
+    "/GetCollegeGroup_Univ?collegeID=" +
+    collegeID +
+    "&schoolID=" +
+    schoolID;
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 获取对象的修改历史
 const MAIN_GET_USER_LOG_DATA = "MAIN_GET_USER_LOG_DATA";
-// 获取学校总览--大学
-const GetUserLog = ({ func = () => {}, innerID }) => {
+// 获取对象的修改历史
+const GetUserLog = ({ fn = () => {}, innerID }) => {
   return (dispatch, getState) => {
     dispatch(PublicAction.ModalLoadingOpen());
 
@@ -455,7 +779,7 @@ const GetUserLog = ({ func = () => {}, innerID }) => {
           type: MAIN_GET_USER_LOG_DATA,
           data: res.Data,
         });
-        func(getState());
+        fn(getState());
         dispatch(PublicAction.ModalLoadingClose());
       }
     });
@@ -473,7 +797,120 @@ const getUserLog = async ({ innerID = "" }) => {
   }
   return data;
 };
+// 删除学生
+const DeleteStudent = ({ fn = () => {} }) => {
+  return (dispatch, getState) => {
+    // console.log(url)
+    let url = "/DeleteStudent_Univ";
+    let {
+      DataState: {
+        CommonData: {
+          StudentParams: { checkedList },
+        },
+      },
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = getState();
+
+    postData(
+      UserInfoProxy + url,
+      {
+        SchoolID,
+        UserIDs: checkedList.join(","),
+      },
+      2
+    )
+      .then((data) => data.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          // dispatch(SetMainEditInitData());
+          fn();
+        }
+      });
+  };
+};
+// 删除教师
+const DeleteTeacher = ({ fn = () => {} }) => {
+  return (dispatch, getState) => {
+    // console.log(url)
+    let url = "/DeleteTeacher_Univ";
+    let {
+      DataState: {
+        CommonData: {
+          TeacherParams: { checkedList },
+        },
+      },
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = getState();
+
+    postData(
+      UserInfoProxy + url,
+      {
+        SchoolID,
+        UserIDs: checkedList.join(","),
+      },
+      2
+    )
+      .then((data) => data.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          // dispatch(SetMainEditInitData());
+          fn();
+        }
+      });
+  };
+};
+// 删除领导
+const DeleteLeader = ({ fn = () => {} }) => {
+  return (dispatch, getState) => {
+    // console.log(url)
+    let url = "/DeleteSchoolLeader_Univ";
+    let {
+      DataState: {
+        CommonData: {
+          LeaderParams: { checkedList },
+        },
+      },
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = getState();
+
+    postData(
+      UserInfoProxy + url,
+      {
+        SchoolID,
+        UserIDs: checkedList.join(","),
+      },
+      2
+    )
+      .then((data) => data.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          // dispatch(SetMainEditInitData());
+          fn();
+        }
+      });
+  };
+};
 export default {
+  MAIN_GET_LEADER_TO_PAGE,
+  GetLeaderToPage,
+
+  DeleteLeader,
+  DeleteTeacher,
+
+  GetTeacherToPage,
+  MAIN_GET_TEACHER_TO_PAGE,
+
+  GetTeacherTree,
+  MAIN_GET_TEACHER_TREE_DATA,
+
+  DeleteStudent,
+
   MAIN_GET_USER_LOG_DATA,
   GetUserLog,
 

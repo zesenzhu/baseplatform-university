@@ -29,7 +29,7 @@ import $ from "jquery";
 const { MainAction, CommonAction, PublicAction } = actions;
 let { checkUrlAndPostMsg } = Public;
 
-class Student extends Component {
+class Teacher extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
@@ -103,7 +103,7 @@ class Student extends Component {
           },
         },
         {
-          title: "学号",
+          title: "工号",
           align: "center",
           width: 120,
           dataIndex: "UserID",
@@ -146,22 +146,17 @@ class Student extends Component {
         // //   }
         // // },
         {
-          title: "院系专业",
+          title: "所属教研室",
           align: "center",
           width: 220,
-          key: "MyCollege",
+          key: "MyGroup",
           render: (data) => {
-            return data.CollegeName ||
-              data.MajorName ||
-              data.GradeName ||
-              data.ClassName ? (
-              <span className="MyClass">
-                <span
-                  className="CollegeMajor"
-                  title={data.CollegeName + ">" + data.MajorName}
-                >
-                  {data.CollegeName + ">" + data.MajorName}
-                </span>
+            return data.CollegeName || data.GroupName ? (
+              <span
+                className="MyGroup"
+                title={data.CollegeName + ">" + data.GroupName}
+              >
+                {data.CollegeName + ">" + data.GroupName}
               </span>
             ) : (
               "--"
@@ -169,25 +164,15 @@ class Student extends Component {
           },
         },
         {
-          title: "年级班级",
+          title: "职称",
           align: "center",
           width: 220,
-          key: "GradeClass",
+          key: "Title",
           render: (data) => {
-            return data.CollegeName ||
-              data.MajorName ||
-              data.GradeName ||
-              data.ClassName ? (
-              <span className="MyClass">
-                <span
-                  className="GradeClass"
-                  title={data.GradeName + ">" + data.ClassName}
-                >
-                  {data.GradeName + ">" + data.ClassName}
-                </span>
+            return (
+              <span className="Title" title={data.Title}>
+                {data.Title?data.Title:'--'}
               </span>
-            ) : (
-              "--"
             );
           },
         },
@@ -210,7 +195,7 @@ class Student extends Component {
                 <Button
                   color="blue"
                   type="default"
-                  onClick={this.StudentEdit.bind(this, data)}
+                  onClick={this.TeacherEdit.bind(this, data)}
                   className="handle-btn"
                 >
                   编辑
@@ -221,7 +206,7 @@ class Student extends Component {
                   <Button
                     color="blue"
                     type="default"
-                    onClick={this.StudentChange.bind(this, data)}
+                    onClick={this.TeacherChange.bind(this, data)}
                     className="check-btn"
                   >
                     查看变更记录
@@ -245,7 +230,7 @@ class Student extends Component {
     checkUrlAndPostMsg({ btnName, url });
   };
   //
-  StudentChange = (data) => {
+  TeacherChange = (data) => {
     // console.log(data);
     let { dispatch } = this.props;
     dispatch(
@@ -260,13 +245,14 @@ class Student extends Component {
       })
     );
   };
-  StudentEdit = (data) => {
+  TeacherEdit = (data) => {
     let { dispatch } = this.props;
     dispatch(CommonAction.SetEditUserArchivesData(data));
     dispatch(
       CommonAction.SetUserArchivesParams({
-        UserArchivesModalRole: "Student",
-        UserArchivesModalType: "edit",
+        UserArchivesModalRole:'Teacher',
+        UserArchivesModalType:'edit'
+
       })
     );
     dispatch(
@@ -275,18 +261,18 @@ class Student extends Component {
       })
     );
   };
-  onAddStudent = () => {
+  onAddTeacher = () => {
     let {
       dispatch,
       DataState: {
-        CommonData: { InitEditStudent },
+        CommonData: { InitEditTeacher },
       },
     } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(InitEditStudent));
+    dispatch(CommonAction.SetEditUserArchivesData(InitEditTeacher));
 
     dispatch(
       CommonAction.SetUserArchivesParams({
-        UserArchivesModalRole: "Student",
+        UserArchivesModalRole: "Teacher",
         UserArchivesModalType: "add",
       })
     );
@@ -300,7 +286,7 @@ class Student extends Component {
   onUserNameClick = (UserID) => {
     // const {
     //   DataState: {
-    //     // GradeStudentPreview: { pensonalList },
+    //     // GradeTeacherPreview: { pensonalList },
     //   },
     // } = this.props;
     // console.log(UserID);
@@ -317,81 +303,49 @@ class Student extends Component {
     // }
     // const { DataState } = this.props;
     // this.setState({
-    //   StudentDetailsMsgModalVisible: true,
-    //   detailData: DataState.GradeStudentPreview.pensonalList[key],
+    //   TeacherDetailsMsgModalVisible: true,
+    //   detailData: DataState.GradeTeacherPreview.pensonalList[key],
     // });
   };
   //学院选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         collegeID: e.value,
         collegeName: e.title,
-        majorID: "",
-        majorName: "",
-        classID: "",
-        className: "",
+        groupID: "",
+        groupName: "",
+        
         keyword: "",
         pageIndex: 0,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
-  onMajorChange = (e) => {
+  onGroupChange = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
-        majorID: e.value,
-        majorName: e.title,
-        classID: "",
-        className: "",
+      CommonAction.SetTeacherParams({
+        groupID: e.value,
+        groupName: e.title,
+        
         keyword: "",
         pageIndex: 0,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
-  onGradeChange = (e) => {
-    let { dispatch } = this.props;
-    dispatch(
-      CommonAction.SetStudentParams({
-        gradeID: e.value,
-        gradeName: e.title,
-        classID: "",
-        className: "",
-        keyword: "",
-        pageIndex: 0,
-        checkedList: [],
-        checkAll: false,
-      })
-    );
-    dispatch(MainAction.GetStudentToPage({}));
-  };
-  onClassChange = (e) => {
-    let { dispatch } = this.props;
-    dispatch(
-      CommonAction.SetStudentParams({
-        classID: e.value,
-        className: e.title,
-
-        keyword: "",
-        pageIndex: 0,
-        checkedList: [],
-        checkAll: false,
-      })
-    );
-    dispatch(MainAction.GetStudentToPage({}));
-  };
+  
   // 搜索
   onChangeSearch = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         searchValue: e.target.value,
       })
     );
@@ -399,7 +353,7 @@ class Student extends Component {
   onCancelSearch = (value) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         keyword: "",
         searchValue: "",
         cancelBtnShow: "n",
@@ -408,19 +362,19 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
-  onStudentSearch = (e) => {
+  onTeacherSearch = (e) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         keyword: e.value,
         searchValue: e.value,
         cancelBtnShow: "y",
@@ -429,78 +383,78 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
   onTableChange = (page, filters, sorter) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         sortType: sorter.order,
         sortFiled: sorter.columnKey,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
   onShowSizeChange = (current, pageSize) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         pageIndex: 0,
         pageSize,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
   onPagiNationChange = (e) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         pageIndex: e - 1,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetTeacherToPage({}));
   };
   onCheckBoxGroupChange = (checkedList) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
         MainData: {
-          StudentData: { List },
+          TeacherData: { List },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         checkedList,
         checkAll: List.length === checkedList.length ? true : false,
       })
@@ -511,10 +465,10 @@ class Student extends Component {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          TeacherParams: { searchValue },
         },
         MainData: {
-          StudentData: { List },
+          TeacherData: { List },
         },
       },
     } = this.props;
@@ -522,7 +476,7 @@ class Student extends Component {
     let checkAll = e.target.checked;
     let keyList = List.map((child) => child.UserID);
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetTeacherParams({
         checkedList: checkAll ? keyList : [],
         checkAll,
       })
@@ -533,7 +487,7 @@ class Student extends Component {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { checkedList },
+          TeacherParams: { checkedList },
         },
       },
     } = this.props;
@@ -541,17 +495,17 @@ class Student extends Component {
       dispatch(
         PublicAction.showErrorAlert({
           type: "warn",
-          title: "请先勾选所要删除的学生",
+          title: "请先勾选所要删除的教师",
         })
       );
     } else {
       dispatch(
         PublicAction.showErrorAlert({
           type: "btn-query",
-          title: "确定删除所勾选的学生吗？",
+          title: "确定删除所勾选的教师吗？",
           onOk: () => {
             dispatch(
-              MainAction.DeleteStudent({
+              MainAction.DeleteTeacher({
                 fn: () => {
                   dispatch(
                     PublicAction.showErrorAlert({
@@ -560,35 +514,33 @@ class Student extends Component {
                     })
                   );
                   dispatch(
-                    CommonAction.SetStudentParams({
+                    CommonAction.SetTeacherParams({
                       checkedList: [],
                       checkAll: false,
                     })
                   );
-                  dispatch(MainAction.GetStudentToPage({}));
+                  dispatch(MainAction.GetTeacherToPage({}));
                 },
               })
             );
-          },
-        })
-      );
+          }}))
+      
     }
   };
-
   render() {
     let {
       DataState: {
         MainData: {
-          StudentTree: { CollegeList, MajorList, GradeList, ClassList },
-          StudentData: { Total, PageIndex, List },
+          TeacherTree: { CollegeList, GroupList,   },
+          TeacherData: { Total, PageIndex, List },
         },
         CommonData: {
           RolePower: { LockerVersion_1, IsCollege },
-          StudentParams: {
+          TeacherParams: {
             collegeID,
             collegeName,
-            majorID,
-            majorName,
+            groupID,
+            groupName,
             gradeName,
             gradeID,
             classID,
@@ -610,13 +562,13 @@ class Student extends Component {
     } = this.props;
 
     let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
-    let Major = [];
+    let Group = [];
     let Class = [];
     collegeID !== "" &&
-      MajorList instanceof Array &&
-      MajorList.forEach((child) => {
+      GroupList instanceof Array &&
+      GroupList.forEach((child) => {
         if (child.CollegeID === collegeID) {
-          Major.push(
+          Group.push(
             //   {
             //   value:child.value,title:child.title
             // }
@@ -624,38 +576,21 @@ class Student extends Component {
           );
         }
       });
-    collegeID !== "" &&
-      majorID !== "" &&
-      gradeID !== "" &&
-      ClassList instanceof Array &&
-      ClassList.forEach((child) => {
-        if (
-          child.CollegeID === collegeID &&
-          child.MajorID === majorID &&
-          child.GradeID === gradeID
-        ) {
-          Class.push(
-            //   {
-            //   value:child.value,title:child.title
-            // }
-            child
-          );
-        }
-      });
+     
     return (
-      <div id="Student" className="Content">
-        <div className="Student-box">
+      <div id="Teacher" className="Content">
+        <div className="Teacher-box">
           <div className="Content-top">
             <span className="top-tips">
-              <span className="tips menu39 ">学生档案管理</span>
+              <span className="tips menu39 ">教师档案管理</span>
             </span>
             <div className="top-nav">
               <span
                 className="link"
                 style={{ cursor: "pointer" }}
-                onClick={this.onEditMajor}
+                onClick={this.onEditGroup}
               >
-                <span className="addMajor">专业管理</span>
+                <span className="addMajor">教研室管理</span>
               </span>
               <span className="divide">|</span>
               {!LockerVersion_1 ? (
@@ -664,12 +599,12 @@ class Student extends Component {
                     <span
                       onClick={this.onLinkClick.bind(
                         this,
-                        "学生注册审核",
+                        "教师注册审核",
                         "#/RegisterExamine/RegisterWillExamine"
                       )}
                       className="RegisterExamine"
                     >
-                      学生注册审核
+                      教师注册审核
                       {/* <i
                         style={{
                           display: DataState.GetSignUpLog.WillData.Total
@@ -688,21 +623,21 @@ class Student extends Component {
               <span
                 className="link"
                 style={{ cursor: "pointer" }}
-                onClick={this.onAddStudent}
+                onClick={this.onAddTeacher}
               >
-                <span className="add">添加学生</span>
+                <span className="add">添加教师</span>
               </span>
               <span className="divide">|</span>
               <a className="link">
                 <span
                   onClick={this.onLinkClick.bind(
                     this,
-                    "导入学生",
-                    "#/ImportFile/Student"
+                    "导入教师",
+                    "#/ImportFile/Teacher"
                   )}
                   className="ImportFile"
                 >
-                  导入学生
+                  导入教师
                 </span>
               </a>
             </div>
@@ -714,7 +649,7 @@ class Student extends Component {
               onChange={this.onCollegeSelect}
               width={120}
               disabled={IsCollege}
-              title="院系专业:"
+              title="教研室:"
               height={240}
               dropSelectd={{
                 value: collegeID,
@@ -727,68 +662,25 @@ class Student extends Component {
               width={120}
               height={240}
               disabled={
-                collegeID !== "" ? (Major.length > 0 ? false : true) : true
+                collegeID !== "" ? (Group.length > 0 ? false : true) : true
               }
               dropSelectd={{
-                value: majorID,
+                value: groupID,
                 title:
-                  majorID !== ""
-                    ? majorName
-                    : collegeID !== "" && Major.length === 0
-                    ? "暂无专业"
-                    : "全部专业",
+                  groupID !== ""
+                    ? groupName
+                    : collegeID !== "" && Group.length === 0
+                    ? "暂无教研室"
+                    : "全部教研室",
               }}
-              dropList={Major}
-              onChange={this.onMajorChange}
+              dropList={Group}
+              onChange={this.onGroupChange}
             ></DropDown>
-            <DropDown
-              ref="dropMenuThird"
-              width={120}
-              height={240}
-              style={{ marginLeft: "50px" }}
-              title={"年级班级:"}
-              dropSelectd={{
-                value: gradeID,
-                title: gradeID !== "" ? gradeName : "全部年级",
-              }}
-              dropList={GradeList}
-              onChange={this.onGradeChange}
-            ></DropDown>
-            <DropDown
-              ref="dropMenuFourth"
-              width={120}
-              height={240}
-              // style={{
-              //   display:
-              //     this.state.thirdSelect.value !== 0 ? "block" : "none",
-              // }}
-              disabled={
-                collegeID !== "" &&
-                majorID !== "" &&
-                gradeID !== "" &&
-                Class.length > 0
-                  ? false
-                  : true
-              }
-              dropSelectd={{
-                value: classID,
-                title:
-                  classID !== ""
-                    ? className
-                    : collegeID !== "" &&
-                      majorID !== "" &&
-                      gradeID !== "" &&
-                      Class.length === 0
-                    ? "暂无班级"
-                    : "全部班级",
-              }}
-              dropList={Class}
-              onChange={this.onClassChange}
-            ></DropDown>
+             
             <div className="Search">
               <Search
                 placeHolder="请输入学号或姓名进行搜索..."
-                onClickSearch={this.onStudentSearch}
+                onClickSearch={this.onTeacherSearch}
                 height={30}
                 width={250}
                 Value={searchValue}
@@ -865,8 +757,8 @@ class Student extends Component {
                 <Empty
                   title={
                     cancelBtnShow === "y" || cancelBtnShow !== 0
-                      ? "暂无符合条件的学生档案"
-                      : "暂无学生档案"
+                      ? "暂无符合条件的教师档案"
+                      : "暂无教师档案"
                   }
                   type="3"
                   style={{ marginTop: "150px" }}
@@ -888,4 +780,4 @@ const mapStateToProps = (state) => {
     PublicState,
   };
 };
-export default connect(mapStateToProps)(Student);
+export default connect(mapStateToProps)(Teacher);

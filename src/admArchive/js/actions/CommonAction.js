@@ -44,14 +44,53 @@ const SetModalVisible = (data) => {
     dispatch({ type: COMMON_SET_MODAL_VISIBLE, data: data });
   };
 };
-// 设置学生参数
+// 设置用户档案的公共参数
 const COMMON_SET_USER_ARCHIVES_PARAMS  = "COMMON_SET_USER_ARCHIVES_PARAMS";
 const SetUserArchivesParams = (data) => {
   return (dispatch) => {
     dispatch({ type: COMMON_SET_USER_ARCHIVES_PARAMS, data: data });
   };
 };
+// 设置教师参数
+const COMMON_SET_TEACHER_PARAMS = "COMMON_SET_TEACHER_PARAMS";
+const SetTeacherParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_TEACHER_PARAMS, data: data });
+  };
+};
+// 设置领导参数
+const COMMON_SET_LEADER_PARAMS = "COMMON_SET_LEADER_PARAMS";
+const SetLeaderParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_LEADER_PARAMS, data: data });
+  };
+};
+// 设置编辑添加用户的数据
+const COMMON_SET_EDIT_USER_ARCHIVES_PARAMS  = "COMMON_SET_EDIT_USER_ARCHIVES_PARAMS";
+const SetEditUserArchivesData = (data) => {
+  return (dispatch,getState) => {
+    let {DataState:{
+      CommonData:{
+        EditUserArchivesData
+      }
+    }} = getState()
+    let Data = {...EditUserArchivesData,...data}
+    if(!data){
+      Data ={}
+    } 
+    dispatch({ type: COMMON_SET_EDIT_USER_ARCHIVES_PARAMS, data: Data });
+  };
+};
 export default {
+  COMMON_SET_EDIT_USER_ARCHIVES_PARAMS,
+  SetEditUserArchivesData,
+
+  COMMON_SET_LEADER_PARAMS,
+  SetLeaderParams,
+
+  COMMON_SET_TEACHER_PARAMS,
+  SetTeacherParams,
+
   COMMON_SET_USER_ARCHIVES_PARAMS,
   SetUserArchivesParams,
   

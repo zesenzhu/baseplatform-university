@@ -20,7 +20,7 @@ import {
   // IndexRedirect ,
   BrowserRouter,
 } from "react-router-dom";
-import {  IndexRedirect } from "react-router";
+import { IndexRedirect } from "react-router";
 import Main from "../component/Main";
 import history from "./history";
 //import TimeBanner from '../component/TimeBanner'
@@ -65,7 +65,7 @@ class App extends Component {
     // 获取人脸库地址
     dispatch(
       MainAction.GetSubSystemsMainServerBySubjectID({
-        func: () => {
+        fn: () => {
           this.SetBannerList(); //获取到后再次进行列表更新
         },
       })
@@ -108,10 +108,12 @@ class App extends Component {
     // console.log(userMsg.UserType,userMsg.UserClass,userMsg.UserType !== "6" || userMsg.UserClass !== "2")
   };
   // 路由监听
-  RouteListening = ({ func = () => {} }) => {
+  RouteListening = ({ fn = () => {} }) => {
     const { dispatch, DataState, PublicState } = this.props;
 
     let Route = this.ConstructRoute();
+    dispatch(CommonAction.SetRouteParams(Route));
+
     let FirstRoute = Route[0];
     let SecondRoute = Route[1];
     if (FirstRoute === "All") {
@@ -147,8 +149,7 @@ class App extends Component {
     } else {
       this.SetFirstDefaultRoute();
     }
-    dispatch(CommonAction.SetRouteParams(Route));
-    func();
+    fn();
     // history.push("11");
     console.log(history, Route);
   };
@@ -178,7 +179,7 @@ class App extends Component {
     // history.push('/'+key)
   };
   // 数据请求汇总
-  AllGetData = ({ type = "All", func = () => {} }) => {
+  AllGetData = ({ type = "All", fn = () => {} }) => {
     let {
       dispatch,
       PublicState: {
@@ -187,7 +188,7 @@ class App extends Component {
       DataState: {
         CommonData: {
           RolePower: { IsCollege },
-          RouteData,
+          RouteData,InitLeaderParams
         },
       },
     } = this.props;
@@ -199,7 +200,7 @@ class App extends Component {
         //如果有值，说明是要进行学院或专业筛选，需等待下拉数据回来
         dispatch(
           MainAction.GetTree({
-            func: (State) => {
+            fn: (State) => {
               this.GetStudentModuleData(RouteData[2]);
             },
           })
@@ -209,7 +210,24 @@ class App extends Component {
         this.GetStudentModuleData();
       }
     } else if (type === "Teacher") {
+      if (RouteData[2]) {
+        //如果有值，说明是要进行学院或专业筛选，需等待下拉数据回来
+        dispatch(
+          MainAction.GetTeacherTree({
+            fn: (State) => {
+              this.GetTeacherModuleData(RouteData[2]);
+            },
+          })
+        );
+      } else {
+        dispatch(MainAction.GetTeacherTree({}));
+        this.GetTeacherModuleData();
+      }
     } else if (type === "Leader") {
+      dispatch(
+        CommonAction.SetLeaderParams(InitLeaderParams)
+      );
+      dispatch(MainAction.GetLeaderToPage({}));
     } else if (type === "Graduate") {
     } else if (type === "All") {
       if (IsCollege) {
@@ -218,7 +236,7 @@ class App extends Component {
         dispatch(MainAction.GetSchoolSummary({}));
       }
     }
-    func();
+    fn();
   };
   GetStudentModuleData = (id) => {
     //id为链接上的
@@ -239,26 +257,37 @@ class App extends Component {
         },
       },
     } = this.props;
-    let data = InitStudentParams; //初始学生参数
+    let data = { ...InitStudentParams }; //初始学生参数
+    // console.log(id);
     if (IsCollege) {
       //是学院且参数没选择，第一次进来
       //学院的
       data.collegeID = ColegeID;
       data.collegeName = CollegeName;
       let major;
-      if (id && (major = MajorList.find((child) => child.value === id))) {
-        //专业
-        data.majorID = major.value;
-        data.majorName = major.title;
+      if (id) {
+        if ((major = MajorList.find((child) => child.value === id))) {
+          //专业
+          data.majorID = major.value;
+          data.majorName = major.title;
+        } else {
+          //不存在，说明有误
+          history.push("/UserArchives/Student");
+        }
       }
     } else {
       //学校
       let college;
 
-      if (id && (college = CollegeList.find((child) => child.value === id))) {
-        //学院
-        data.collegeID = college.value;
-        data.collegeName = college.title;
+      if (id) {
+        if ((college = CollegeList.find((child) => child.value === id))) {
+          //学院
+          data.collegeID = college.value;
+          data.collegeName = college.title;
+        } else {
+          //不存在，说明有误
+          history.push("/UserArchives/Student");
+        }
       }
     }
     dispatch(
@@ -267,6 +296,64 @@ class App extends Component {
       })
     );
     dispatch(MainAction.GetStudentToPage({}));
+  };
+  GetTeacherModuleData = (id) => {
+    //id为链接上的
+    let {
+      dispatch,
+      PublicState: {
+        LoginMsg: { Role, ColegeID, CollegeName },
+      },
+      DataState: {
+        CommonData: {
+          RolePower: { IsCollege },
+          RouteData,
+          TeacherParams: { collegeID },
+          InitTeacherParams,
+        },
+        MainData: {
+          TeacherTree: { CollegeList, GroupList },
+        },
+      },
+    } = this.props;
+    let data = { ...InitTeacherParams }; //初始学生参数
+    if (IsCollege) {
+      //是学院且参数没选择，第一次进来
+      //学院的
+      data.collegeID = ColegeID;
+      data.collegeName = CollegeName;
+      let group;
+      if (id) {
+        if ((group = GroupList.find((child) => child.value === id))) {
+          //专业
+          data.groupID = group.value;
+          data.groupName = group.title;
+        } else {
+          //不存在，说明有误
+          history.push("/UserArchives/Teacher");
+        }
+      }
+    } else {
+      //学校
+      let college;
+
+      if (id) {
+        if ((college = CollegeList.find((child) => child.value === id))) {
+          //学院
+          data.collegeID = college.value;
+          data.collegeName = college.title;
+        } else {
+          //不存在，说明有误
+          history.push("/UserArchives/Teacher");
+        }
+      }
+    }
+    dispatch(
+      CommonAction.SetTeacherParams({
+        ...data,
+      })
+    );
+    dispatch(MainAction.GetTeacherToPage({}));
   };
   // 设置教师注册默认路径
   SetTeacherRegisterExamineDefaultRoute = () => {
@@ -525,9 +612,8 @@ class App extends Component {
                 size="small"
                 spinning={ContentLoading}
               >
-                <Router >
-                  <Route path="/UserArchives"  component={UserArchives}>
-                    
+                <Router>
+                  <Route path="/UserArchives" component={UserArchives}>
                     {/* <Redirect from="/UserArchives*" to="/UserArchives/All" /> */}
                   </Route>
                   <Route

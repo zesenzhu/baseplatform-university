@@ -4,7 +4,7 @@ import AppAlertAction from "../UI/AppAlertAction";
 import UpUIState from "../UpUIState";
 import config from "../../../../common/js/config";
 import { init } from "echarts";
-import Public from '../../../../common/js/public'
+import Public from "../../../../common/js/public";
 import Api from "../data/Api";
 const GET_CURRENT_SEMESTER_INFO = "GET_CURRENT_SEMESTER_INFO"; //获取当前学年学期的信息
 const SEMESTER_LOADING_HIDE = "SEMESTER_LOADING_HIDE"; //loading界面的展示或消失
@@ -19,44 +19,64 @@ const GET_SERVER_ADDRESS = "GET_SERVER_ADDRESS"; //获取服务器地址
 
 const GET_COLLEGE_PREVIEW = "GET_COLLEGE_PREVIEW"; //获取学院信息
 
-const SET_COLLEGE_MSG = 'SET_COLLEGE_MSG';//设置修改学院的数据
-const SET_COLLEGE_INIT_MSG = 'SET_COLLEGE_INIT_MSG';//设置修改学院的数据
+const SET_COLLEGE_MSG = "SET_COLLEGE_MSG"; //设置修改学院的数据
+const SET_COLLEGE_INIT_MSG = "SET_COLLEGE_INIT_MSG"; //设置修改学院的数据
 ///////////////////////////////////////////////////////////////////////////
-const setCollegeMsg =(data={
-  CollegeCode:'',
-        CollegeName:'',
-        CollegeID:''
-})=>{
-    return (dispatch, getState) => {
-        dispatch({type:SET_COLLEGE_MSG,data})
-    }
-}
-const setCollegeInitMsg =(data={
-  CollegeCode:'',
-        CollegeName:'',
-        CollegeID:''
-})=>{
-  return (dispatch, getState) => {
-      dispatch({type:SET_COLLEGE_INIT_MSG,data})
+const setCollegeMsg = (
+  data = {
+    CollegeCode: "",
+    CollegeName: "",
+    CollegeID: "",
   }
-}
-const getCollegePreview = (keyword = "", index = 1, sortType= "",
-sortFiled="", pageSize = 4 ) => {
+) => {
   return (dispatch, getState) => {
-      
-    let Data = getState();
+    dispatch({ type: SET_COLLEGE_MSG, data });
+  };
+};
+const setCollegeInitMsg = (
+  data = {
+    CollegeCode: "",
+    CollegeName: "",
+    CollegeID: "",
+  }
+) => {
+  return (dispatch, getState) => {
+    dispatch({ type: SET_COLLEGE_INIT_MSG, data });
+  };
+};
+const getCollegePreview = (
+  keyword = "",
+  index = 1,
+  sortType = "",
+  sortFiled = "",
+  pageSize = 4
+) => {
+  return (dispatch, getState) => {
+    let {DataUpdate:{
+      schoolInfo:{
+        SchoolCode
+      }
+    }} = getState();
+    console.log(getState())
     let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
     let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/List?SchoolID=${SchoolID}&keyword=${keyword}&index=${index}&pageSize=${pageSize}&SortType=${sortType}&SortFiled=${sortFiled}`;
     ApiActions.getMethodUniv(url).then((json) => {
-        // console.log(json.StatusCode)
+      // console.log(json.StatusCode)
       if (json.StatusCode === 200) {
+        let Data = []
+        json.Data&& json.Data.List instanceof Array &&json.Data.List.forEach((child,index)=>{
+          child.SchoolCode = SchoolCode;
+          // child.key = index;
+          child.orderNO={Key:index,orderNO:(json.Data.currentIndex-1) * pageSize + index + 1}
+          Data.push(child)
+        })
         dispatch({
           type: GET_COLLEGE_PREVIEW,
-          data: json.Data,
+          data: {...json.Data,List:Data},
         });
       } else {
         dispatch(
-          AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
         );
       }
     });
@@ -74,7 +94,7 @@ const getCurrentSemester = (SchoolID) => {
     ApiActions.getMethod(url).then((json) => {
       let semesterInfo = json.Data;
 
-    //   console.log(semesterInfo);
+      //   console.log(semesterInfo);
 
       for (let item in semesterInfo) {
         if (item === "Term") {
@@ -82,35 +102,48 @@ const getCurrentSemester = (SchoolID) => {
           // console.log(semesterInfo[item]);
           let ChineseName = termNum === "1" ? "第一学期" : "第二学期";
           // console.log(termNum,semesterInfo[item][semesterInfo[item].length - 1])
-          let TermArr = semesterInfo[item].split('-');
-          let TermList =[];
-          let NextTermEndDate ='';
-          let NextTermStartDate ='';
-          let TermEndYear = parseInt(TermArr[1].slice(0,TermArr[1].length-2))
-          let TermStartYear = parseInt(TermArr[0])
-          if(parseInt(termNum)===1){
-            NextTermEndDate = TermEndYear +'-07-01 00:00:00'
-            NextTermStartDate = TermEndYear +'-03-01 00:00:00'
-            TermList.push({value:TermStartYear+'-'+TermEndYear+'02',title:TermStartYear+'-'+TermEndYear+'  第二学期'});
-            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'01',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第一学期'});
-
-          }else if(parseInt(termNum)===2){
-            NextTermEndDate = TermEndYear+1 +'-02-01 00:00:00'
-            NextTermStartDate = TermStartYear+1 +'-09-01 00:00:00'
-            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'01',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第一学期'});
-            TermList.push({value:(TermStartYear+1)+'-'+(TermEndYear+1)+'02',title:(TermStartYear+1)+'-'+(TermEndYear+1)+'  第二学期'});
+          let TermArr = semesterInfo[item].split("-");
+          let TermList = [];
+          let NextTermEndDate = "";
+          let NextTermStartDate = "";
+          let TermEndYear = parseInt(
+            TermArr[1].slice(0, TermArr[1].length - 2)
+          );
+          let TermStartYear = parseInt(TermArr[0]);
+          if (parseInt(termNum) === 1) {
+            NextTermEndDate = TermEndYear + "-07-01 00:00:00";
+            NextTermStartDate = TermEndYear + "-03-01 00:00:00";
+            TermList.push({
+              value: TermStartYear + "-" + TermEndYear + "02",
+              title: TermStartYear + "-" + TermEndYear + "  第二学期",
+            });
+            TermList.push({
+              value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "01",
+              title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第一学期",
+            });
+          } else if (parseInt(termNum) === 2) {
+            NextTermEndDate = TermEndYear + 1 + "-02-01 00:00:00";
+            NextTermStartDate = TermStartYear + 1 + "-09-01 00:00:00";
+            TermList.push({
+              value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "01",
+              title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第一学期",
+            });
+            TermList.push({
+              value: TermStartYear + 1 + "-" + (TermEndYear + 1) + "02",
+              title: TermStartYear + 1 + "-" + (TermEndYear + 1) + "  第二学期",
+            });
           }
           semesterInfo = {
             ...semesterInfo,
-            NextTerm:TermList[0],
+            NextTerm: TermList[0],
             termNum: termNum,
-            TermStartYear:TermArr[0],
-            TermEndYear:TermArr[1].slice(0,TermArr[1].length-2),
+            TermStartYear: TermArr[0],
+            TermEndYear: TermArr[1].slice(0, TermArr[1].length - 2),
             ChineseName: ChineseName,
             defaultTerm: item,
             TermList,
             NextTermEndDate,
-            NextTermStartDate
+            NextTermStartDate,
           };
         } else if (item === "TermStartDate") {
           semesterInfo = {
@@ -156,7 +189,7 @@ const getCurrentSemester = (SchoolID) => {
         });
       } else {
         dispatch(
-          AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
         );
         // console.log("错误提示: " + json.Msg)
         // console.log(json.StatusCode)
@@ -177,7 +210,7 @@ const getServerAdd = () => {
         });
       } else {
         dispatch(
-          AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
         );
       }
     });
@@ -311,7 +344,7 @@ const getCurrentSchoolInfo = (SchoolID) => {
         });
       } else {
         dispatch(
-          AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
         );
         console.log("错误提示: " + json.Msg);
         console.log(json.StatusCode);
@@ -394,83 +427,102 @@ const getCurrentSbusystemInfo = ({ UserType, IsOpened, keyword }) => {
   };
 };
 
- // 学院编辑：学院编号修改检查
- const checkCollegeCode =(func=(error,CollegeCodeError)=>{})=>{
-  return (dispatch,getState)=>{
-    let {DataUpdate, UIState} =  getState();
-    let Test = /^([a-zA-Z0-9]{1,24})$/ ;
-    let CollegeCodeError = false
+// 学院编辑：学院编号修改检查
+const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
+  return (dispatch, getState) => {
+    let { DataUpdate, UIState } = getState();
+    let Test = /^([a-zA-Z0-9]{1,24})$/;
+    let CollegeCodeError = false;
 
-    let CollegeCode = DataUpdate.handleCollegeMsg.CollegeCode
+    let CollegeCode = DataUpdate.handleCollegeMsg.CollegeCode;
     let InitCollegeCode = DataUpdate.handleCollegeInitMsg.CollegeCode;
-    let error =false;
+    let error = false;
 
-    if(CollegeCode===''){
-      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeCodeTips:'学院编号不能为空'}})
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeCodeTipsVisible:true
-      }))
-      error =true;
-
-    }else if(!Test.test(CollegeCode)){
-      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeCodeTips:'学院编号格式不正确'}})
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeCodeTipsVisible:true
-      }))
-      error =true;
-
-    }else{
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeCodeTipsVisible:false
-      }))
+    if (CollegeCode === "") {
+      dispatch({
+        type: UpUIState.SET_APP_TIPS,
+        data: { CollegeCodeTips: "学院编号不能为空" },
+      });
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeCodeTipsVisible: true,
+        })
+      );
+      error = true;
+    } else if (!Test.test(CollegeCode)) {
+      dispatch({
+        type: UpUIState.SET_APP_TIPS,
+        data: { CollegeCodeTips: "学院编号格式不正确" },
+      });
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeCodeTipsVisible: true,
+        })
+      );
+      error = true;
+    } else {
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeCodeTipsVisible: false,
+        })
+      );
       // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeCodeTips:'学院编号格式不正确'}});
       // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:''}});
-       if(Public.comparisonObject(InitCollegeCode,CollegeCode)){
-        CollegeCodeError= true
+      if (Public.comparisonObject(InitCollegeCode, CollegeCode)) {
+        CollegeCodeError = true;
       }
-      
     }
-    func(error,CollegeCodeError);
-  }
-}
+    func(error, CollegeCodeError);
+  };
+};
 
 // 学院编辑：学院名称修改检查
-const checkCollegeName =(func=(error,CollegeNameError)=>{})=>{
-  return (dispatch,getState)=>{
-    let {DataUpdate, UIState} =  getState();
-    let CollegeNameError = false
+const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
+  return (dispatch, getState) => {
+    let { DataUpdate, UIState } = getState();
+    let CollegeNameError = false;
 
-    let Test = /^[0-9a-zA-Z()（）\u4E00-\u9FA5\uF900-\uFA2D-]{1,20}$/ ;
+    let Test = /^[0-9a-zA-Z()（）\u4E00-\u9FA5\uF900-\uFA2D-]{1,20}$/;
     let CollegeName = DataUpdate.handleCollegeMsg.CollegeName;
     let InitCollegeName = DataUpdate.handleCollegeInitMsg.CollegeName;
-    let error = false
-    if(CollegeName===''){
-      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称不能为空'}})
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeNameTipsVisible:true
-      }))
-      error =true;
-    }else if(!Test.test(CollegeName)){
+    let error = false;
+    if (CollegeName === "") {
+      dispatch({
+        type: UpUIState.SET_APP_TIPS,
+        data: { CollegeNameTips: "学院名称不能为空" },
+      });
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeNameTipsVisible: true,
+        })
+      );
+      error = true;
+    } else if (!Test.test(CollegeName)) {
       // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称格式不正确'}})
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeNameTipsVisible:true
-      }))
-      error =true;
-
-    }else{
-      dispatch(UpUIState.editModalTipsVisible({
-        CollegeNameTipsVisible:false
-      }))
-      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称格式不正确'}});
-       if(Public.comparisonObject(InitCollegeName,CollegeName)){
-        CollegeNameError= true
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeNameTipsVisible: true,
+        })
+      );
+      error = true;
+    } else {
+      dispatch(
+        UpUIState.editModalTipsVisible({
+          CollegeNameTipsVisible: false,
+        })
+      );
+      dispatch({
+        type: UpUIState.SET_APP_TIPS,
+        data: { CollegeNameTips: "学院名称格式不正确" },
+      });
+      if (Public.comparisonObject(InitCollegeName, CollegeName)) {
+        CollegeNameError = true;
       }
       // console.log(error)
-      
     }
-    func(error,CollegeNameError);
-  }
-}
+    func(error, CollegeNameError);
+  };
+};
 //测试使用 无效
 // const getCurrentSbusystemInfo1 = () => {
 //     return dispatch => {
@@ -525,92 +577,86 @@ const EditCollege = ({
   CollegeID = "",
   CollegeName = "",
   CollegeCode = "",
-  success=()=>{},
-  error=()=>{}
+  success = () => {},
+  error = () => {},
 }) => {
   return (dispatch, getState) => {
     // let Data = getState();
     let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
     let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/EditCollege`;
-    ApiActions.postMethodUniv(url,{
-        SchoolID,CollegeID,CollegeCode,CollegeName
+    ApiActions.postMethodUniv(url, {
+      SchoolID,
+      CollegeID,
+      CollegeCode,
+      CollegeName,
     }).then((json) => {
       if (json.StatusCode === 200) {
-        dispatch(
-            AppAlertAction.alertSuccess({ title: `修改学院成功` })
-          );
-          success()
-
+        dispatch(AppAlertAction.alertSuccess({ title: `修改学院成功` }));
+        success();
       } else {
         dispatch(
-          AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
         );
-        error()
-
+        error();
       }
     });
   };
 };
 // 删除学院
 const DeleteCollege = ({
-    CollegeIDs = "",
-    success=()=>{},
-  error=()=>{}
-  }) => {
-    return (dispatch, getState) => {
-      // let Data = getState();
-      let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
-      let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/DeleteCollege`;
-      ApiActions.postMethodUniv(url,{
-        SchoolID,CollegeIDs
-      }).then((json) => {
-        if (json.StatusCode === 200) {
-          dispatch(
-              AppAlertAction.alertSuccess({ title: `删除学院成功` })
-            );
-            success()
-
-        } else {
-          dispatch(
-            AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
-          );
-          error()
-
-        }
-      });
-    };
+  CollegeIDs = "",
+  success = () => {},
+  error = () => {},
+}) => {
+  return (dispatch, getState) => {
+    // let Data = getState();
+    let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
+    let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/DeleteCollege`;
+    ApiActions.postMethodUniv(url, {
+      SchoolID,
+      CollegeIDs,
+    }).then((json) => {
+      if (json.StatusCode === 200) {
+        dispatch(AppAlertAction.alertSuccess({ title: `删除学院成功` }));
+        success();
+      } else {
+        dispatch(
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
+        );
+        error();
+      }
+    });
   };
-  // 添加学院
-const AddCollege =  ({
-    CollegeName = "",
-    CollegeCode = "",
-    success=()=>{},
-  error=()=>{}
-  }) => {
-    return (dispatch, getState) => {
-      // let Data = getState();
-      let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
-      let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/AddCollege`;
-      ApiActions.postMethodUniv(url,{
-        SchoolID, CollegeName,CollegeCode
-      }).then((json) => {
-          console.log(json)
-        if (json.StatusCode === 200) {
-          dispatch(
-              AppAlertAction.alertSuccess({ title: `添加学院成功` })
-            );
-            success()
-        } else {
-          dispatch(
-            AppAlertAction.alertError({ title: `数据加载发生错误：${json.Msg}` })
-          );
-          error()
-        }
-      });
-    };
+};
+// 添加学院
+const AddCollege = ({
+  CollegeName = "",
+  CollegeCode = "",
+  success = () => {},
+  error = () => {},
+}) => {
+  return (dispatch, getState) => {
+    // let Data = getState();
+    let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
+    let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/AddCollege`;
+    ApiActions.postMethodUniv(url, {
+      SchoolID,
+      CollegeName,
+      CollegeCode,
+    }).then((json) => {
+      console.log(json);
+      if (json.StatusCode === 200) {
+        dispatch(AppAlertAction.alertSuccess({ title: `添加学院成功` }));
+        success();
+      } else {
+        dispatch(
+          AppAlertAction.alertError({ title: `${json.Msg}`, cancelShow: "n" })
+        );
+        error();
+      }
+    });
   };
-
- 
+};
 
 export default {
   GET_CURRENT_SEMESTER_INFO,
@@ -634,9 +680,10 @@ export default {
   EditCollege,
   DeleteCollege,
   AddCollege,
-  SET_COLLEGE_MSG,setCollegeMsg,
-  setCollegeInitMsg,SET_COLLEGE_INIT_MSG,
+  SET_COLLEGE_MSG,
+  setCollegeMsg,
+  setCollegeInitMsg,
+  SET_COLLEGE_INIT_MSG,
   checkCollegeCode,
-  checkCollegeName
-
+  checkCollegeName,
 };

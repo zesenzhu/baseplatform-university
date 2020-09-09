@@ -89,7 +89,7 @@ class HandleCollegeModal extends Component {
             <Input
               type="text"
               value={CollegeCode}
-              maxLength={24}
+              maxLength={10}
               placeholder="请输入院系代码"
               onChange={e => this.onCollegeCodeChange(e)}
               onBlur={e => this.onCollegeCodeBlur(e)}

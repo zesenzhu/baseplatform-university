@@ -166,6 +166,7 @@
             height: 20px;
             line-height: 20px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             display: inline-block;
             text-align: left;
@@ -176,6 +177,19 @@
             white-space: nowrap; //强制不换行
             vertical-align: top;
             margin-right: 5px;
+        }
+        .addr {
+            font-size: 12px;
+            // line-height: 18px;
+            color: #999;
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-left: 3px;
         }
         .SchoolCode {
             font-size: 14px;
