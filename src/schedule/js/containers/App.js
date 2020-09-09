@@ -2,11 +2,7 @@ import React,{Component} from 'react';
 
 import {Loading,Alert,DropDown} from "../../../common";
 
-import publicJS from '../../../common/js/public';
-
 import Frame from '../../../common/Frame';
-
-import {TokenCheck_Connect} from "../../../common/js/disconnect";
 
 import { connect } from 'react-redux';
 
@@ -66,18 +62,34 @@ import ChangeScheduleModal from '../component/ChangeScheduleModal';
 
 import SDActions from "../actions/ScheduleDetailActions";
 
-import config from "../../../common/js/config";
-
 import {productTypeChange} from "../reducers/productType";
 
 import {getQueryVariable} from "../../../common/js/disconnect";
 
 
+
+
 class App extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state={
+
+            isInitGuide:false
+
+        }
+    }
+
 
     componentDidMount(){
 
         window.onerror=()=>{return true};
+
+        if (getQueryVariable('isInitGuide')){
+
+            this.setState({isInitGuide:true});
+
+        }
 
     }
 
@@ -714,7 +726,11 @@ class App extends Component{
                    <DelScheduleModal></DelScheduleModal>
 
 
-                   <Alert type={AppAlert.type}
+                   <Alert
+
+                       className={`${this.state.isInitGuide?'init-guide':''}`}
+
+                       type={AppAlert.type}
                           title={AppAlert.title}
                           abstract={AppAlert.abstract}
                           show={AppAlert.show}

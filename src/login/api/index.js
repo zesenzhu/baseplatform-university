@@ -17,8 +17,6 @@ export const GetBaseInfo = async ({dispatch})=>{
 
     const res = await getGetData(`/Global/GetBaseInfo`,1,config.GetBaseInfo);
 
-
-
     if (parseInt(res.StatusCode) === 200){
 
         return res.Data;
@@ -71,6 +69,21 @@ export const loginApi = ({token,method,params}) => {
 export const GetCurrentTermInfo = async ({SchoolId})=>{
 
     const res = await getData(`${config.GetBaseInfo}/SysMgr/Setting/GetCurrentTermInfo?SchoolId=${SchoolId}`,2,"cors",false,false);
+
+    const data = await res.json();
+
+    if (parseInt(data.StatusCode) === 200){
+
+        return data.Data;
+
+    }
+
+};
+
+//获取是否初始化完成
+export const GetSchoolInitStatus = async ({SchoolId})=>{
+
+    const res = await getData(`${config.GetBaseInfo}/SysMgr/Setting/GetSchoolInitStatus?SchoolId=${SchoolId}`,2,"cors",false,false);
 
     const data = await res.json();
 

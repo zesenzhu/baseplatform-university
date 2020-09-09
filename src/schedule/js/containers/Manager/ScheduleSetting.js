@@ -27,6 +27,8 @@ import moment from 'moment';
 
 function ScheduleSetting(props){
 
+    const [isInitGuide,setIsInitGuide] = useState(false);
+
     //假期
     const [holiday,setHoliday] = useState({
 
@@ -107,6 +109,8 @@ function ScheduleSetting(props){
                        const protocol = window.location.protocol;
 
                        window.parent.postMessage({module:'schedule',height:document.body.scrollHeight},`${protocol}//${host}`);
+
+                       setIsInitGuide(true);
 
                    }
 
@@ -543,7 +547,7 @@ function ScheduleSetting(props){
 
                    bodyStyle={{height:176}}
 
-                   mask={true}
+                   mask={!isInitGuide}
 
                    maskClosable={false}
 
@@ -601,7 +605,7 @@ function ScheduleSetting(props){
 
                    bodyStyle={{height:176}}
 
-                   mask={true}
+                   mask={!isInitGuide}
 
                    maskClosable={false}
 
@@ -654,7 +658,7 @@ function ScheduleSetting(props){
 
                    bodyStyle={{height:216}}
 
-                   mask={true}
+                   mask={!isInitGuide}
 
                    maskClosable={false}
 
