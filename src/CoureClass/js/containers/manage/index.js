@@ -212,7 +212,7 @@ function Index(props) {
     //componentDidMount
 
 
-    console.log(collegeID,collegeName,gradeID,gradeName);
+
 
     useEffect(()=>{
 
@@ -220,9 +220,7 @@ function Index(props) {
 
         if (SchoolID){
 
-            let {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
-
-            ProductType = 6;
+            const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
             if (collegeID&&collegeName&&gradeID&&gradeName){
 
