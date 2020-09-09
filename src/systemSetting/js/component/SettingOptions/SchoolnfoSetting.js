@@ -24,7 +24,7 @@ import HandleCollegeModal from "../Modal/HandleCollegeModal";
 import default_schoolPic from "../../../images/boom_school_logo.png"; //默认图标的网络地址
 import AreaCheck from "../../../../initGuide/components/areaCheck";
 import SchoolBadge from "../SchoolBadge";
- 
+
 // import UIState from '../../reducers/UIState'
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 文件最大限制为2M
 // const default_schoolPic = config.SystemSettingProxy_univ+'Base/SysIcon/defaultSchoolIcon.png'
@@ -78,7 +78,7 @@ class SchoolnfoSetting extends Component {
         {
           title: "代码",
           align: "center",
-          width: 140,
+          width: 100,
           dataIndex: "CollegeCode",
           key: "CollegeCode",
           sorter: true,
@@ -86,6 +86,30 @@ class SchoolnfoSetting extends Component {
             return (
               <span title={CollegeCode} className="CollegeCode">
                 {CollegeCode ? CollegeCode : "--"}
+              </span>
+            );
+          },
+        },
+        {
+          title: "管理员账号",
+          align: "center",
+          width: 240,
+          // dataIndex: "CollegeCode",
+          key: "CollegeAccount",
+          // sorter: true,
+          render: ({ CollegeCode, SchoolCode } = data) => {
+            return (
+              <span
+                title={
+                  CollegeCode && SchoolCode
+                    ? "cadimin" + "_" + CollegeCode + "_" + SchoolCode
+                    : ""
+                }
+                className="CollegeAccount"
+              >
+                {CollegeCode && SchoolCode
+                  ? "cadimin" + "_" + CollegeCode + "_" + SchoolCode
+                  : "--"}
               </span>
             );
           },
@@ -197,6 +221,7 @@ class SchoolnfoSetting extends Component {
       CancelBtnShow: "n",
       searchValue: "",
       type: "",
+      pageSize:4
     };
     const { dispatch } = props;
     const { SchoolID } = JSON.parse(sessionStorage.getItem("UserInfo"));
@@ -743,7 +768,8 @@ class SchoolnfoSetting extends Component {
         "",
         1,
         this.state.sortType,
-        this.state.sortFiled
+        this.state.sortFiled,
+        this.state.pageSize
       )
     );
   };
@@ -776,7 +802,8 @@ class SchoolnfoSetting extends Component {
         e.value,
         1,
         this.state.sortType,
-        this.state.sortFiled
+        this.state.sortFiled,
+        this.state.pageSize
       )
     );
     // //  console.log(e)
@@ -912,7 +939,8 @@ class SchoolnfoSetting extends Component {
               this.state.searchValue,
               pagination,
               this.state.sortType,
-              this.state.sortFiled
+              this.state.sortFiled,
+              this.state.pageSize
             )
           );
           this.setState({
@@ -965,7 +993,8 @@ class SchoolnfoSetting extends Component {
           this.state.searchValue,
           collegePreview.currentIndex,
           sortType,
-          sorter.columnKey === "College" ? "CollegeName" : "CollegeCode"
+          sorter.columnKey === "College" ? "CollegeName" : "CollegeCode",
+          this.state.pageSize
         )
       );
     } else if (sorter && !sorter.columnKey) {
@@ -978,7 +1007,8 @@ class SchoolnfoSetting extends Component {
       dispatch(
         DataChange.getCollegePreview(
           this.state.searchValue,
-          collegePreview.currentIndex
+          collegePreview.currentIndex,'','',
+          this.state.pageSize
         )
       );
     }
@@ -998,9 +1028,32 @@ class SchoolnfoSetting extends Component {
         this.state.searchValue,
         e,
         this.state.sortType,
-        this.state.sortFiled
+        this.state.sortFiled,
+        this.state.pageSize
       )
     );
+  };
+  onShowSizeChange = (current, pageSize) => {
+    let {
+      dispatch,
+       
+    } = this.props;
+
+    this.setState({
+      checkedList: [],
+      checkAll: false,
+      pagination: 1,pageSize
+    });
+    dispatch(
+      DataChange.getCollegePreview(
+        this.state.searchValue,
+        1,
+        this.state.sortType,
+        this.state.sortFiled,
+        pageSize
+      )
+    );
+    
   };
   onEditCollegeOk = () => {
     const { dispatch, DataUpdate, UIState } = this.props;
@@ -1040,7 +1093,8 @@ class SchoolnfoSetting extends Component {
               this.state.searchValue,
               DataUpdate.collegePreview.currentIndex,
               this.state.sortType,
-              this.state.sortFiled
+              this.state.sortFiled,
+              this.state.pageSize
             )
           );
         },
@@ -1090,7 +1144,8 @@ class SchoolnfoSetting extends Component {
               // DataUpdate.collegePreview.currentIndex,
               1,
               this.state.sortType,
-              this.state.sortFiled
+              this.state.sortFiled,
+              this.state.pageSize
             )
           );
         },
@@ -1118,6 +1173,7 @@ class SchoolnfoSetting extends Component {
       CountyName,
       ProvinceID,
       ProvinceName,
+      SchoolCode,
     } = schoolInfo;
     let {
       currentIndex,
@@ -1180,7 +1236,16 @@ class SchoolnfoSetting extends Component {
 
         schoolSys = "学制获取失败";
     }
+    let CollegeList2 = CollegeList;
+    if (CollegeList2 instanceof Array) {
+      CollegeList = [];
 
+      CollegeList2.forEach((child) => {
+
+        child.SchoolCode = SchoolCode;
+        CollegeList.push(child);
+      });
+    }
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
@@ -1218,20 +1283,17 @@ class SchoolnfoSetting extends Component {
                 <span>{schoolInfo.SchoolName}</span>
               </div>
               <div className="school-info">
-                
                 <div className="school-badge">
-                长条校徽:
+                  长条校徽:
                   <i
                     className="SchoolLogoUrl_Long"
                     style={{
-                      background: `url(${
-                         schoolInfo.SchoolLogoUrl_Long
-                      }) no-repeat center center/280px 40px`,
+                      background: `url(${schoolInfo.SchoolLogoUrl_Long}) no-repeat center center/280px 40px`,
                     }}
                   ></i>
                 </div>
                 <div className="school-code">
-                学校代码: <span>{schoolInfo.SchoolCode}</span>
+                  学校代码: <span>{schoolInfo.SchoolCode}</span>
                 </div>
                 <div className="school-type">
                   学校类型:
@@ -1346,11 +1408,14 @@ class SchoolnfoSetting extends Component {
                   )}
                   <div className="pagination-box">
                     <PagiNation
+                      showSizeChanger
                       showQuickJumper
+                      onShowSizeChange={this.onShowSizeChange}
+                      pageSize={this.state.pageSize}
                       current={currentIndex}
-                      hideOnSinglepage={true}
+                      hideOnSinglePage={totalCount === 0 ? true : false}
                       total={totalCount}
-                      pageSize={4}
+                      pageSizeOptions={[4,10,20,50]}
                       onChange={this.onPagiNationChange}
                     ></PagiNation>
                   </div>

@@ -418,8 +418,8 @@ class SchoolModal extends React.Component {
       ProvinceID,
       ProvinceName,
     } = CommonData.SchoolModalData;
-    getAreaCheck(this.AreaCheck.current);
-    console.log(this.AreaCheck.current)
+    // getAreaCheck(this.AreaCheck.current);
+    // console.log(this.AreaCheck.current)
     return (
       <div className="SchoolModal" id="SchoolModal">
         <div className="Left" id="picUpload">
@@ -513,7 +513,7 @@ class SchoolModal extends React.Component {
                 <Input
                   className="culonm-input"
                   placeholder="请输入学校代码.."
-                  maxLength={24}
+                  maxLength={10}
                   disabled={this.props.type === "edit" ? true : false}
                   onChange={this.onSchoolCodeChange.bind(this)}
                   onBlur={this.onSchoolCodeBlur.bind(this)}
@@ -615,7 +615,7 @@ class SchoolModal extends React.Component {
                 ProvinceID={ProvinceID}
                 CityID={CityID}
                 CountyID={CountyID}
-                ref={this.AreaCheck}
+                ref={this.props.AreaCheck}
               ></AreaCheck>
             </span>
           </div>

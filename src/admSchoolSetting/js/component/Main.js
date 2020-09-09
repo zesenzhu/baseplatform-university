@@ -83,7 +83,13 @@ class Main extends Component {
           key: "SchoolName",
           //dataIndex: "SchoolName",
           // sorter: true,
-          render: ({ SchoolName, SchoolState } = data) => {
+          render: ({
+            SchoolName,
+            SchoolState,
+            CityName,
+            CountyName,
+            ProvinceName,
+          } = data) => {
             return (
               <div className="name-content">
                 <span
@@ -100,6 +106,16 @@ class Main extends Component {
                 >
                   {SchoolState.title ? SchoolState.title : "--"}
                 </span>
+                {ProvinceName && CityName && CountyName ? (
+                  <p
+                    title={ProvinceName + ">" + CityName + ">" + CountyName}
+                    className="addr"
+                  >
+                    {ProvinceName + ">" + CityName + ">" + CountyName}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
             );
           },
@@ -693,6 +709,9 @@ class Main extends Component {
       SchoolLink,
       SchoolImgUrl,
       SchoolID,
+      CityID,
+      CountyID,
+      ProvinceID,
     } = SchoolList[key.key];
     let { SchoolLinkman, SchoolTel } = SchoolLink;
 
@@ -706,6 +725,9 @@ class Main extends Component {
         SchoolID,
         SchoolLinkman,
         SchoolTel,
+        CityID,
+        CountyID,
+        ProvinceID,
       })
     );
     dispatch({ type: UpUIState.EDIT_MODAL_OPEN });
@@ -864,10 +886,11 @@ class Main extends Component {
           {/* <Loading spinning={UIState.AppLoading.modalLoading}> */}
           {UIState.AppModal.AddModal ? (
             <SchoolModal
-              getAreaCheck={(AreaCheck) => {
-                this.AreaCheck.current = AreaCheck;
-              }}
-              ref={ref=>this.AreaCheckRef=ref}
+              // getAreaCheck={(AreaCheck) => {
+              //   this.AreaCheck.current = AreaCheck;
+              // }}
+              AreaCheck={this.AreaCheck}
+              ref={(ref) => (this.AreaCheckRef = ref)}
               type="add"
             ></SchoolModal>
           ) : (
@@ -888,11 +911,11 @@ class Main extends Component {
           {/* <Loading spinning={UIState.AppLoading.modalLoading}> */}
           {UIState.AppModal.EditModal ? (
             <SchoolModal
-              getAreaCheck={(AreaCheck) => {
-                this.AreaCheck.current = AreaCheck;
-              }}
+              // getAreaCheck={(AreaCheck) => {
+              //   this.AreaCheck.current = AreaCheck;
+              // }}
               // ref={this.AreaCheck}
-
+              AreaCheck={this.AreaCheck}
               type="edit"
             ></SchoolModal>
           ) : (

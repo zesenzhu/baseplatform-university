@@ -52,15 +52,27 @@ const getCollegePreview = (
   pageSize = 4
 ) => {
   return (dispatch, getState) => {
-    let Data = getState();
+    let {DataUpdate:{
+      schoolInfo:{
+        SchoolCode
+      }
+    }} = getState();
+    console.log(getState())
     let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
     let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/List?SchoolID=${SchoolID}&keyword=${keyword}&index=${index}&pageSize=${pageSize}&SortType=${sortType}&SortFiled=${sortFiled}`;
     ApiActions.getMethodUniv(url).then((json) => {
       // console.log(json.StatusCode)
       if (json.StatusCode === 200) {
+        let Data = []
+        json.Data&& json.Data.List instanceof Array &&json.Data.List.forEach((child,index)=>{
+          child.SchoolCode = SchoolCode;
+          // child.key = index;
+          child.orderNO={Key:index,orderNO:(json.Data.currentIndex-1) * pageSize + index + 1}
+          Data.push(child)
+        })
         dispatch({
           type: GET_COLLEGE_PREVIEW,
-          data: json.Data,
+          data: {...json.Data,List:Data},
         });
       } else {
         dispatch(

@@ -130,8 +130,8 @@ function editCollegePreview (data){
         List.map((college,index)=>{
             KeyList.push(index);
             CollegeList.push({
-                Key:index,
-                orderNO:{Key:index,orderNO:(currentIndex-1) * 4 + index + 1},
+                Key:index,orderNO:college.orderNO,
+                // orderNO:{Key:index,orderNO:(currentIndex-1) * 4 + index + 1},
                 College:{
                     CollegeID:college.CollegeID,
                     CollegeName:college.CollegeName,
