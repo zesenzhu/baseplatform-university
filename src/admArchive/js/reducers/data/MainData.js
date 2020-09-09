@@ -26,10 +26,15 @@ const MainData = (
       PageIndex: 0,
       List: [],
     },
+    UserLog: {},
   },
   actions
 ) => {
   switch (actions.type) {
+    case MainAction.MAIN_GET_USER_LOG_DATA:
+      return Object.assign({}, state, {
+        UserLog: actions.data,
+      });
     case MainAction.MAIN_GET_STUDENT_TO_PAGE:
       return Object.assign({}, state, {
         StudentData: actions.data,

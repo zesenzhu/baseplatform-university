@@ -377,7 +377,7 @@ const GetStudentToPage = ({
             List.push({
               key: index,
               OrderNo:
-                pageSize * res.Data.PageIndex + index + 1 > 10
+                pageSize * res.Data.PageIndex + index + 1 >= 10
                   ? pageSize * res.Data.PageIndex + index + 1
                   : "0" + (pageSize * res.Data.PageIndex + index + 1),
               ...child,
@@ -430,7 +430,53 @@ const getStudentToPage = async ({
   }
   return data;
 };
+// 获取总览信息
+const MAIN_GET_USER_LOG_DATA = "MAIN_GET_USER_LOG_DATA";
+// 获取学校总览--大学
+const GetUserLog = ({ func = () => {}, innerID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ModalLoadingOpen());
+
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = State;
+    // if (innerID === undefined) {
+    //   innerID = SchoolID;
+    // }
+
+    getUserLog({
+      innerID,
+    }).then((res) => {
+      if (res) {
+        dispatch({
+          type: MAIN_GET_USER_LOG_DATA,
+          data: res.Data,
+        });
+        func(getState());
+        dispatch(PublicAction.ModalLoadingClose());
+      }
+    });
+  };
+};
+const getUserLog = async ({ innerID = "" }) => {
+  let url = UserInfoProxy + "/GetUserLog?innerID=" + innerID;
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
 export default {
+  MAIN_GET_USER_LOG_DATA,
+  GetUserLog,
+
   GetStudentToPage,
   MAIN_GET_STUDENT_TO_PAGE,
 
