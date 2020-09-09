@@ -41,7 +41,7 @@ const alertTips = ({type= "btn-tips", title, ok, cancel, close, okTitle, cancelT
         })
     }
 }
-const alertError = ({ type= "btn-error",title, ok, cancel, close, okTitle, cancelTitle }) => {
+const alertError = ({ type= "btn-error",title, ok, cancel, close, okTitle, cancelTitle,cancelShow='y' }) => {
 
     return dispatch => {
         dispatch({
@@ -53,7 +53,8 @@ const alertError = ({ type= "btn-error",title, ok, cancel, close, okTitle, cance
                 cancel: (cancel ? cancel() : closeAlert(dispatch)),
                 close: (close ? close() : closeAlert(dispatch)),
                 okTitle: (okTitle ? okTitle : "确认"),
-                cancelTitle: (cancelTitle ? cancelTitle : "取消")
+                cancelTitle: (cancelTitle ? cancelTitle : "取消"),
+                cancelShow
             }
         })
     }

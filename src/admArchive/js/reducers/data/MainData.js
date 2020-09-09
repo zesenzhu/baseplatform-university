@@ -26,11 +26,37 @@ const MainData = (
       PageIndex: 0,
       List: [],
     },
+    TeacherTree: {
+      CollegeList: [],
+      GroupList: [],
+    },
+    TeacherData: {
+      Total: 0,
+      PageIndex: 0,
+      List: [],
+    },
+    LeaderData: {
+      Total: 0,
+      PageIndex: 0,
+      List: [],
+    },
     UserLog: {},
   },
   actions
 ) => {
   switch (actions.type) {
+    case MainAction.MAIN_GET_LEADER_TO_PAGE:
+      return Object.assign({}, state, {
+        LeaderData: actions.data,
+      });
+    case MainAction.MAIN_GET_TEACHER_TO_PAGE:
+      return Object.assign({}, state, {
+        TeacherData: actions.data,
+      });
+    case MainAction.MAIN_GET_TEACHER_TREE_DATA:
+      return Object.assign({}, state, {
+        TeacherTree: actions.data,
+      });
     case MainAction.MAIN_GET_USER_LOG_DATA:
       return Object.assign({}, state, {
         UserLog: actions.data,

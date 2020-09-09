@@ -14,9 +14,9 @@ const CommonData = (
     },
     RolePower: {
       //版本或角色权限，用于控制界面或数据的显示等
-      LockerVersion_1:false,
-      IsCollege:false,
-      IsLeader:false
+      LockerVersion_1: false,
+      IsCollege: false,
+      IsLeader: false,
     },
     BannerInitList: [
       { value: "All", title: "用户档案总览", icon: "All" },
@@ -28,63 +28,95 @@ const CommonData = (
     ], //头部所有选择
     BannerList: [], //进行筛选后的新选择列表
     RouteData: [],
-    StudentData:{
-      CollegeList:[],
-      MajorList:[],
-      GradeList:[],
-      ClassList:[],
+    StudentData: {
+      CollegeList: [],
+      MajorList: [],
+      GradeList: [],
+      ClassList: [],
     },
-    InitStudentParams:{
-      collegeID:'',
-      collegeName:'',
-      schoolID:'',
-      majorID:'',
-      majorName:'',
-      gradeID:'',
-      gradeName:'',
-      classID:'',
-      className:'',
-      keyword:'',
-      pageIndex:0,
-      pageSize:10,
-      sortFiled:'UserID',
-      sortType:'',
-      cancelBtnShow:'n',
-      searchValue:'',
-      checkedList:[],
-      checkAll:false
+    InitStudentParams: {
+      collegeID: "",
+      collegeName: "",
+      schoolID: "",
+      majorID: "",
+      majorName: "",
+      gradeID: "",
+      gradeName: "",
+      classID: "",
+      className: "",
+      keyword: "",
+      pageIndex: 0,
+      pageSize: 10,
+      sortFiled: "UserID",
+      sortType: "",
+      cancelBtnShow: "n",
+      searchValue: "",
+      checkedList: [],
+      checkAll: false,
     },
-    StudentParams:{
-      // collegeID:'',
-      // collegeName:'',
-      // schoolID:'',
-      // majorID:'',
-      // majorName:'',
-      // gradeID:'',
-      // gradeName:'',
-      // classID:'',
-      // className:'',
-      // keyword:'',
-      // pageIndex:0,
-      // pageSize:10,
-      // sortFiled:'UserID',
-      // sortType:'',
-      // cancelBtnShow:'n',
-      // searchValue:'',
-      // checkedList:[]
+    StudentParams: {},
+    TeacherData: {
+      CollegeList: [],
+      MajorList: [],
+      GradeList: [],
+      ClassList: [],
+    },
+    InitTeacherParams: {
+      collegeID: "",
+      collegeName: "",
+      schoolID: "",
+      groupID: "",
+      groupName: "",
 
+      keyword: "",
+      pageIndex: 0,
+      pageSize: 10,
+      sortFiled: "UserID",
+      sortType: "",
+      cancelBtnShow: "n",
+      searchValue: "",
+      checkedList: [],
+      checkAll: false,
     },
-    ModalVisible:{
-      UserLogModalVisible:false
-    },
-    UserArchivesParams:{
-      TipsLogName:''
-    }
+    TeacherParams: {},
+    InitLeaderParams: {
+      collegeID: "",
+      collegeName: "",
+      schoolID: "",
 
+      keyword: "",
+      userType: 7,
+      pageIndex: 0,
+      pageSize: 10,
+      sortFiled: "UserID",
+      sortType: "",
+      cancelBtnShow: "n",
+      searchValue: "",
+      checkedList: [],
+      checkAll: false,
+    },
+    LeaderParams: {},
+    ModalVisible: {
+      UserLogModalVisible: false,
+      UserArchivesModalVisible: false,
+    },
+    UserArchivesParams: {
+      TipsLogName: "",
+      UserArchivesModalType: "add", //add,edit
+      UserArchivesModalRole: "Student", //Student,Teacher,Leader,
+    },
+    InitEditStudent: {},
+    InitEditTeacher: {},
+    InitEditLeader: {},
+    EditUserArchivesData: {},
   },
   actions
 ) => {
   switch (actions.type) {
+    case CommonAction.COMMON_SET_EDIT_USER_ARCHIVES_PARAMS:
+      return Object.assign({}, state, {
+        EditUserArchivesData: actions.data,
+      });
     case CommonAction.COMMON_SET_USER_ARCHIVES_PARAMS:
       return Object.assign({}, state, {
         UserArchivesParams: { ...state.UserArchivesParams, ...actions.data },
@@ -96,6 +128,14 @@ const CommonData = (
     case CommonAction.COMMON_SET_STUDENT_PARAMS:
       return Object.assign({}, state, {
         StudentParams: { ...state.StudentParams, ...actions.data },
+      });
+    case CommonAction.COMMON_SET_TEACHER_PARAMS:
+      return Object.assign({}, state, {
+        TeacherParams: { ...state.TeacherParams, ...actions.data },
+      });
+    case CommonAction.COMMON_SET_LEADER_PARAMS:
+      return Object.assign({}, state, {
+        LeaderParams: { ...state.LeaderParams, ...actions.data },
       });
     case CommonAction.COMMON_SET_ROLE_POWER_PARAMS:
       return Object.assign({}, state, {

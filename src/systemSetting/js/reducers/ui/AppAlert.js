@@ -1,8 +1,8 @@
 import UpUIState from '../../action/UpUIState';
-const AppAlert = (state = { appAlert: false,title: '', type: 0 }, action) => {
+const AppAlert = (state = { appAlert: false,title: '', type: 0,cancelShow:'y' }, action) => {
     switch (action.type) {
         case UpUIState.SHOW_ERROR_ALERT:
-            return { appAlert: true, title: action.msg.title, type: action.msg.type, onOk: action.msg.ok, onCancel: action.msg.cancel, onClose: action.msg.close,onHide:action.msg.onHide };
+            return { appAlert: true, title: action.msg.title,cancelShow:action.cancelShow, type: action.msg.type, onOk: action.msg.ok, onCancel: action.msg.cancel, onClose: action.msg.close,onHide:action.msg.onHide };
             break;
         case UpUIState.CLOSE_ERROR_ALERT:
             return { ...state, appAlert: false };

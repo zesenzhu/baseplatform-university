@@ -423,7 +423,7 @@ class Main extends Component {
       showCountyTip,
       hideCountyTip,
     } = this.AreaCheck.current;
-    console.log(this.AreaCheckRef);
+    console.log(this.AreaCheck.current);
     dispatch(
       UpDataState.checkAllData(() => {
         //判断省市县
@@ -495,7 +495,7 @@ class Main extends Component {
       hideCountyTip,
     } = this.AreaCheck.current;
 
-    console.log(this.AreaCheckRef);
+    console.log(this.AreaCheck.current);
 
     dispatch(
       UpDataState.checkAllData(() => {

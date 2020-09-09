@@ -4,7 +4,7 @@ import actions from "../../actions";
 import { Tabs, DatePicker, Tooltip } from "antd";
 import Public from "../../../../common/js/public";
 import "./scss/index.scss";
-import { Loading } from "../../../../common";
+import { Loading, Empty } from "../../../../common";
 import ContentItem from "../contentItem";
 import LinkBtn from "../linkBtn";
 import NearExam from "./NearExam";
@@ -90,6 +90,9 @@ class StuQuality extends Component {
         CommonData: {
           StuResultParams: { SelectBar, TabLoadingVisible },
         },
+        MainData: {
+          StuNearExamData: { PubName },
+        },
       },
       systemUrl: {
         Urls: { E34 },
@@ -156,7 +159,15 @@ class StuQuality extends Component {
                 }}
               >
                 <TabPane key="NearExam">
-                  <NearExam></NearExam>
+                  {PubName ? (
+                    <NearExam></NearExam>
+                  ) : (
+                    <Empty
+                      style={{ margin: "20px 0" }}
+                      type={"4"}
+                      title={"最近暂无考试"}
+                    ></Empty>
+                  )}
                 </TabPane>
                 <TabPane key="TermReport">
                   <TermReport></TermReport>

@@ -419,6 +419,7 @@ class SchoolModal extends React.Component {
       ProvinceName,
     } = CommonData.SchoolModalData;
     getAreaCheck(this.AreaCheck.current);
+    console.log(this.AreaCheck.current)
     return (
       <div className="SchoolModal" id="SchoolModal">
         <div className="Left" id="picUpload">

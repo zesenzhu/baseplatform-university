@@ -36,7 +36,7 @@ class App extends Component {
                     okTitle={AppAlert.okTitle}
                     cancelTitle={AppAlert.cancelTitle}
                     onHide={AppAlert.hide}
-
+                    cancelShow={AppAlert.cancelShow}
                 >
                 </Alert>
             </div>

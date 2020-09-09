@@ -23,8 +23,11 @@ import { postData, getData } from "../../../../common/js/fetch";
 import CONFIG from "../../../../common/js/config";
 import actions from "../../actions";
 import TipsLog from "./TipsLog";
+import UserArchivesModal from "./UserArchivesModal";
 import All from "./All";
 import Student from "./Student";
+import Teacher from "./Teacher";
+import Leader from "./Leader";
 import Temple from "../Temple";
 
 // import "../../scss/Main.scss";
@@ -67,13 +70,13 @@ class UserArchives extends Component {
       <div id="UserArchives" className="UserArchives">
         {/* {this.props.children} */}
         <Route path="/UserArchives/All" exact component={All}></Route>
-        <Route path="/UserArchives/Student" component={Student} exact></Route>
+        <Route path="/UserArchives/Student*" component={Student} exact></Route>
         <Route
-          path="/UserArchives/Teacher/:id"
-          component={Temple}
+          path="/UserArchives/Teacher*"
+          component={Teacher}
           exact
         ></Route>
-        <Route path="/UserArchives/Leader/:id" component={Temple} exact></Route>
+        <Route path="/UserArchives/Leader" component={Leader} exact></Route>
         <Route
           path="/UserArchives/Graduate/:id"
           component={Temple}
@@ -96,6 +99,7 @@ class UserArchives extends Component {
             <TipsLog userName={TipsLogName} data={UserLog}></TipsLog>
           </Loading>
         </Modal>
+        <UserArchivesModal></UserArchivesModal>
       </div>
     );
   }
