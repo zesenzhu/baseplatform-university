@@ -196,6 +196,12 @@
 
   .table_wrapper{
 
+    table{
+
+      table-layout: fixed;
+
+    }
+
     .ant-table-tbody>tr>td{
 
       padding:4px;
@@ -214,15 +220,11 @@
 
     .course_number{
 
-      max-width: 130px;
-
       color: #999999;
 
     }
 
     .course_name{
-
-      max-width: 240px;
 
       text-align: left;
 
@@ -236,15 +238,11 @@
 
     .subject_name,.college_name{
 
-      max-width: 130px;
-
       color: #999999;
 
     }
 
     .major_name{
-
-      max-width: 192px;
 
       color: #333333;
 
