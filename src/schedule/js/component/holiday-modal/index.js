@@ -17,8 +17,11 @@ import moment from 'moment';
 import './index.scss';
 
 import AppAlertActions from "../../actions/AppAlertActions";
+import {getQueryVariable} from "../../../../common/js/disconnect";
 
 function Holiday(props) {
+
+    const [isInitGuide,setIsInitGuide] = useState(false);
 
     //月份列表
     const [monthList,setMonthList] = useState([]);
@@ -102,6 +105,17 @@ function Holiday(props) {
         SchoolIDRef.current = SchoolID;
 
     },[SchoolID]);
+
+
+    useEffect(()=>{
+
+        if (getQueryVariable('isInitGuide')){
+
+            setIsInitGuide(true);
+
+        }
+
+    },[]);
 
 
     //渲染头部
@@ -260,6 +274,8 @@ function Holiday(props) {
             bodyStyle={{height:600,padding:0}}
 
             visible={show}
+
+            mask={!isInitGuide}
 
             className={"set-holiday-modal"}
 

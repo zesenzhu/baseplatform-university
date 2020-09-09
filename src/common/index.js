@@ -1583,7 +1583,6 @@ class DropComponent extends React.Component {
             spinning={dropLoadingShow}
           >
             <Scrollbars
-              style={{ width:width - 2}}
               autoHeight
               autoHeightMin={0}
               autoHeightMax={288}
