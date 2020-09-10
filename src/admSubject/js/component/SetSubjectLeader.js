@@ -245,7 +245,7 @@ function SetSubjectLeader (props,ref){
 
                           leader.selectd&&originLeaderName?
 
-                              <span className="TeacherChange">{`原教研组长:${originLeaderName}`}</span>
+                              <span className="TeacherChange">{`原学科主任:${originLeaderName}`}</span>
 
                               :''
 
