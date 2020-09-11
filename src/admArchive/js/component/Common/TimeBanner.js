@@ -45,6 +45,7 @@ class TimeBanner extends Component {
       SelectMenu,
     } = this.props;
     let handleRoute = RouteData[1];
+    
     return (
       <div className="TimeBanner">
         {BannerList instanceof Array &&

@@ -217,9 +217,57 @@
                 font-size: 14px;
                 color: #999;
             }
+            .Year {
+                font-size: 14px;
+                color: #999;
+            }
             .GradeName {
                 font-size: 14px;
                 color: #333;
+            }
+            .Class {
+                font-size: 14px;
+                color: #666;
+                width: 100%;
+                overflow: hidden; //超出一行文字自动隐藏
+                text-overflow: ellipsis; //文字隐藏后添加省略号
+                white-space: nowrap; //强制不换行
+            }
+            .JobType-box {
+                // display: flex;
+                // flex-flow: column nowrap;
+                // justify-content: flex-start;
+                span {
+                    text-align: center;
+                    font-size: 14px;
+                    line-height: 16px;
+                    color: #999;
+                }
+                .JobType {
+                    color: #002871;
+                    display: inline-block;
+                    width: 100%;
+                    overflow: hidden; //超出一行文字自动隐藏
+                    text-overflow: ellipsis; //文字隐藏后添加省略号
+                    white-space: nowrap; //强制不换行
+                }
+                .Discription {
+                    display: inline-block;
+                    width: 100%;
+                    overflow: hidden; //超出一行文字自动隐藏
+                    text-overflow: ellipsis; //文字隐藏后添加省略号
+                    white-space: nowrap; //强制不换行
+                }
+                .HasTrack {
+                    color: #999;
+                }
+            }
+            .Telephone {
+                color: #333;
+                width: 100%;
+                overflow: hidden; //超出一行文字自动隐藏
+                text-overflow: ellipsis; //文字隐藏后添加省略号
+                white-space: nowrap; //强制不换行
             }
             .MyClass {
                 font-size: 14px;
@@ -276,6 +324,7 @@
                 height: 24px;
                 width: 56px;
                 line-height: 24px;
+                // padding-left: 0 14px;
                 font-size: 14px;
                 padding: 0;
                 text-align: center;

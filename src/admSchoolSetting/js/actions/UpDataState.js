@@ -428,7 +428,7 @@ const EditSchoolInfo = (func = () => {},data={}) => {
     let {
       SchoolLevel,
       SchoolSessionType,
-      SchoolID,
+      SchoolID,SchoolImgUrl_Long,
       ...other
     } = DataState.CommonData.SchoolModalData;
     postData(
@@ -438,7 +438,7 @@ const EditSchoolInfo = (func = () => {},data={}) => {
         SchoolLevel: SchoolLevel.value,
         SchoolType: 1,
         SchoolID,
-        SchoolImgUrl_Long:DataState.SchoolData.SchoolImgUrl_Long,
+        SchoolImgUrl_Long:SchoolImgUrl_Long,
         SchoolSessionType: SchoolSessionType.value,
         ...data
       },

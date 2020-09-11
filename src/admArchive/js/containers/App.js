@@ -8,6 +8,7 @@ import {
   Button,
   Empty,
   Search,
+  DetailsModal,
 } from "../../../common";
 import Frame from "../../../common/Frame";
 import { connect } from "react-redux";
@@ -97,7 +98,7 @@ class App extends Component {
       this.SetRoleLeader();
       this.SetRoleCollege();
 
-      this.RouteListening({});
+      this.RouteListening({ isFirst: true });
 
       history.listen(() => this.RouteListening({}));
       // this.RequestData();
@@ -108,7 +109,7 @@ class App extends Component {
     // console.log(userMsg.UserType,userMsg.UserClass,userMsg.UserType !== "6" || userMsg.UserClass !== "2")
   };
   // 路由监听
-  RouteListening = ({ fn = () => {} }) => {
+  RouteListening = ({ isFirst = false, fn = () => {} }) => {
     const { dispatch, DataState, PublicState } = this.props;
 
     let Route = this.ConstructRoute();
@@ -125,9 +126,10 @@ class App extends Component {
         SecondRoute === "Graduate" ||
         SecondRoute === "All"
       ) {
+        console.log(SecondRoute);
         this.AllGetData({ type: SecondRoute });
       } else {
-        this.SetFirstDefaultRoute();
+        this.SetFirstDefaultRoute({});
       }
     } else if (FirstRoute === "RegisterExamine") {
       if (SecondRoute === "RegisterWillExamine") {
@@ -144,10 +146,10 @@ class App extends Component {
     } else if (FirstRoute === "ImportFile") {
       if (SecondRoute === "Student") {
       } else {
-        this.SetFirstDefaultRoute();
+        this.SetFirstDefaultRoute({});
       }
     } else {
-      this.SetFirstDefaultRoute();
+      this.SetFirstDefaultRoute({ isFirst });
     }
     fn();
     // history.push("11");
@@ -188,7 +190,9 @@ class App extends Component {
       DataState: {
         CommonData: {
           RolePower: { IsCollege },
-          RouteData,InitLeaderParams
+          RouteData,
+          InitLeaderParams,
+          InitGraduateParams,
         },
       },
     } = this.props;
@@ -224,11 +228,16 @@ class App extends Component {
         this.GetTeacherModuleData();
       }
     } else if (type === "Leader") {
-      dispatch(
-        CommonAction.SetLeaderParams(InitLeaderParams)
-      );
+      dispatch(CommonAction.SetLeaderParams(InitLeaderParams));
       dispatch(MainAction.GetLeaderToPage({}));
     } else if (type === "Graduate") {
+      dispatch(CommonAction.SetGraduateParams(InitGraduateParams));
+      dispatch(
+        MainAction.GetGraduateTree({
+          fn: (State) => {},
+        })
+      );
+      dispatch(MainAction.GetGraduateToPage({}));
     } else if (type === "All") {
       if (IsCollege) {
         dispatch(MainAction.GetCollegeSummary({}));
@@ -364,13 +373,21 @@ class App extends Component {
     history.push("/RegisterExamine/RegisterWillExamine");
   };
   // 设置第一级默认路径
-  SetFirstDefaultRoute = () => {
+  SetFirstDefaultRoute = ({ isFirst }) => {
+    let { dispatch } = this.props;
+    if (isFirst) {
+      //如果是第一次,因为不会进行数据和路由更新，需要手动
+      dispatch(CommonAction.SetRouteParams(["UserArchives", "All"]));
+
+      this.AllGetData({});
+    }
     history.push("/UserArchives/All");
   };
   // 解析路由
   ConstructRoute = (tpye = "construct", key) => {
     // type:construct,直接解析，获取pathname，分解为数组
     let route = history.location.pathname.slice(1);
+    // console.log(history, route);
     let pathArr = route.split("/");
     if (tpye === "construct") {
       if (key === undefined) {
@@ -547,6 +564,15 @@ class App extends Component {
     );
     return LockerVersion === 1;
   };
+  // 详情关闭
+  onDetailsModalCancel = () => {
+    const { dispatch } = this.props;
+    dispatch(
+      CommonAction.SetModalVisible({
+        DetailsModalVisible: false,
+      })
+    );
+  };
   render() {
     const {
       UIState,
@@ -560,6 +586,8 @@ class App extends Component {
             showLeftMenu,
             showBarner,
           },
+          ModalVisible: { DetailsModalVisible },
+          UserArchivesParams: { DetailsType, DetailsData },
         },
       },
       PublicState: {
@@ -631,9 +659,10 @@ class App extends Component {
                     exact
                     component={Temple}
                   ></Route>
+                  {/* <Redirect from="/" to="/UserArchives" /> */}
                   {/* <Route path="/" component={Temple}>
-                <Redirect from="/" to="/UserArchives" />
-                </Route> */}
+                    <Redirect from="/" to="/UserArchives" />
+                  </Route> */}
                 </Router>
               </Loading>
             </div>
@@ -649,6 +678,14 @@ class App extends Component {
           onCancel={onCancel}
           onClose={onClose}
         ></Alert>
+        <DetailsModal
+          ref="DetailsMsgModal"
+          visible={DetailsModalVisible}
+          module={1}
+          onCancel={this.onDetailsModalCancel}
+          data={DetailsData}
+          type={DetailsType}
+        ></DetailsModal>
       </React.Fragment>
     );
   }

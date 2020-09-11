@@ -25,11 +25,13 @@ import { postData, getData } from "../../../../common/js/fetch";
 import CONFIG from "../../../../common/js/config";
 import actions from "../../actions";
 // import "../../scss/Main.scss";
+import GraduateContact from "./GraduateContact";
+import GraduateJobType from "./GraduateJobType";
 import $ from "jquery";
 const { MainAction, CommonAction, PublicAction } = actions;
 let { checkUrlAndPostMsg } = Public;
 
-class Student extends Component {
+class Graduate extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
@@ -45,11 +47,11 @@ class Student extends Component {
             return (
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
-                  <CheckBox
+                  {/* <CheckBox
                     value={data.UserID}
                     // type="gray"
                     onChange={this.onCheckChange}
-                  ></CheckBox>
+                  ></CheckBox> */}
                   <span className="key-content">{data.OrderNo}</span>
                 </label>
               </div>
@@ -68,7 +70,7 @@ class Student extends Component {
               <div className="name-content">
                 <i
                   alt={arr.UserName}
-                  onClick={this.onUserNameClick.bind(this, arr.UserID)}
+                  onClick={this.onUserNameClick.bind(this, arr)}
                   className="name-img"
                   style={{
                     width: "37.5px",
@@ -94,7 +96,7 @@ class Student extends Component {
                 <span
                   className="name-UserName"
                   title={arr.UserName ? arr.UserName : ""}
-                  onClick={this.onUserNameClick.bind(this, arr.UserID)}
+                  onClick={this.onUserNameClick.bind(this, arr)}
                 >
                   {arr.UserName ? arr.UserName : "--"}
                 </span>
@@ -118,15 +120,15 @@ class Student extends Component {
           },
         },
         {
-          title: "性别",
+          title: "毕业年份",
           align: "center",
           width: 80,
-          dataIndex: "Gender",
-          key: "Gender",
-          render: (Gender) => {
+          dataIndex: "Year",
+          key: "Year",
+          render: (Year) => {
             return (
-              <span title={Gender} className="Gender">
-                {Gender ? Gender : "--"}
+              <span title={Year} className="Year">
+                {Year ? Year : "--"}
               </span>
             );
           },
@@ -146,48 +148,57 @@ class Student extends Component {
         // //   }
         // // },
         {
-          title: "院系专业",
+          title: "班级",
           align: "center",
-          width: 220,
-          key: "MyCollege",
+          width: 140,
+          key: "MyClass",
           render: (data) => {
-            return data.CollegeName ||
-              data.MajorName ||
-              data.GradeName ||
-              data.ClassName ? (
-              <span className="MyClass">
-                <span
-                  className="CollegeMajor"
-                  title={data.CollegeName + ">" + data.MajorName}
-                >
-                  {data.CollegeName + ">" + data.MajorName}
-                </span>
-              </span>
-            ) : (
-              "--"
+            return (
+              <p className="Class" title={data.ClassName}>
+                {data.ClassName ? data.ClassName : "--"}
+              </p>
             );
           },
         },
         {
-          title: "年级班级",
+          title: "毕业去向",
           align: "center",
-          width: 220,
-          key: "GradeClass",
+          width: 160,
+          key: "JobType",
           render: (data) => {
-            return data.CollegeName ||
-              data.MajorName ||
-              data.GradeName ||
-              data.ClassName ? (
-              <span className="MyClass">
+            return data.HasTrack ? (
+              <div className="JobType-box">
                 <span
-                  className="GradeClass"
-                  title={data.GradeName + ">" + data.ClassName}
+                  title={data.JobType}
+                  className="JobType"
+                  style={{
+                    color: data.JobType === "升学" ? "#002871" : "#187100",
+                  }}
                 >
-                  {data.GradeName + ">" + data.ClassName}
+                  {data.JobType}
                 </span>
-              </span>
+                <span title={data.Discription} className="Discription">
+                  {data.Discription}
+                </span>
+              </div>
             ) : (
-              "--"
+              <span title={"不详"} className="HasTrack">
+                不详
+              </span>
+            );
+          },
+        },
+        {
+          title: "联系电话",
+          width: 120,
+          align: "center",
+          key: "Telephone",
+          dataIndex: "Telephone",
+          render: (Telephone) => {
+            return (
+              <p title={Telephone} className="Telephone">
+                {Telephone ? Telephone : "--"}
+              </p>
             );
           },
         },
@@ -195,7 +206,7 @@ class Student extends Component {
           title: "操作",
           align: "center",
           key: "handle",
-          width: 232,
+          width: 270,
           // dataIndex: "key",
           render: (data) => {
             let {
@@ -210,10 +221,10 @@ class Student extends Component {
                 <Button
                   color="blue"
                   type="default"
-                  onClick={this.StudentEdit.bind(this, data)}
-                  className="handle-btn"
+                  onClick={this.GraduateEdit.bind(this, data)}
+                  className="check-btn"
                 >
-                  编辑
+                  编辑毕业去向
                 </Button>
                 {IsLeader ? (
                   ""
@@ -221,10 +232,10 @@ class Student extends Component {
                   <Button
                     color="blue"
                     type="default"
-                    onClick={this.StudentChange.bind(this, data)}
+                    onClick={this.GraduateChange.bind(this, data)}
                     className="check-btn"
                   >
-                    查看变更记录
+                    编辑联系信息
                   </Button>
                 )}
               </div>
@@ -245,48 +256,52 @@ class Student extends Component {
     checkUrlAndPostMsg({ btnName, url });
   };
   //
-  StudentChange = (data) => {
+  GraduateChange = (data) => {
     // console.log(data);
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetUserArchivesParams({
-        TipsLogName: data.UserName,
+      CommonAction.SetGraduateEditParams({
+        Email: data.Email,
+        Telephone: data.Telephone,
+        HomeAddress: data.HomeAddress,
+        UserID: data.UserID,
       })
     );
-    dispatch(MainAction.GetUserLog({ innerID: data.InnerID }));
     dispatch(
       CommonAction.SetModalVisible({
-        UserLogModalVisible: true,
+        GraduateContactModalVisible: true,
       })
     );
   };
-  StudentEdit = (data) => {
+  GraduateEdit = (data) => {
     let { dispatch } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(data));
+
     dispatch(
-      CommonAction.SetUserArchivesParams({
-        UserArchivesModalRole: "Student",
-        UserArchivesModalType: "edit",
+      CommonAction.SetGraduateEditParams({
+        Discription: data.Discription,
+        JobType: data.JobType,
+        UserName: data.UserName,
+        UserID: data.UserID,
       })
     );
     dispatch(
       CommonAction.SetModalVisible({
-        UserArchivesModalVisible: true,
+        GraduateJobTypeModalVisible: true,
       })
     );
   };
-  onAddStudent = () => {
+  onAddGraduate = () => {
     let {
       dispatch,
       DataState: {
-        CommonData: { InitEditStudent },
+        CommonData: { InitEditGraduate },
       },
     } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(InitEditStudent));
+    dispatch(CommonAction.SetEditUserArchivesData(InitEditGraduate));
 
     dispatch(
       CommonAction.SetUserArchivesParams({
-        UserArchivesModalRole: "Student",
+        UserArchivesModalRole: "Graduate",
         UserArchivesModalType: "add",
       })
     );
@@ -297,35 +312,34 @@ class Student extends Component {
     );
   };
   // 点击姓名头像
-  onUserNameClick = (UserID) => {
-    // const {
-    //   DataState: {
-    //     // GradeStudentPreview: { pensonalList },
-    //   },
-    // } = this.props;
-    // console.log(UserID);
-    // if (pensonalList[key]) {
-    let token = sessionStorage.getItem("token");
-    window.open(
-      "/html/userPersona/index.html?userType=" +
-        2 +
-        "&userID=" +
-        UserID +
-        "&lg_tk=" +
-        token
+  onUserNameClick = (data) => {
+    const { dispatch } = this.props;
+    dispatch(
+      CommonAction.SetUserArchivesParams({
+        DetailsType: "graduate",
+        DetailsData: data.DetailsData,
+      })
     );
-    // }
-    // const { DataState } = this.props;
-    // this.setState({
-    //   StudentDetailsMsgModalVisible: true,
-    //   detailData: DataState.GradeStudentPreview.pensonalList[key],
-    // });
+    dispatch(
+      CommonAction.SetModalVisible({
+        DetailsModalVisible: true,
+      })
+    );
+    // let token = sessionStorage.getItem("token");
+    // window.open(
+    //   "/html/userPersona/index.html?userType=" +
+    //     2 +
+    //     "&userID=" +
+    //     UserID +
+    //     "&lg_tk=" +
+    //     token
+    // );
   };
   //学院选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         collegeID: e.value,
         collegeName: e.title,
         majorID: "",
@@ -338,12 +352,12 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onMajorChange = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         majorID: e.value,
         majorName: e.title,
         classID: "",
@@ -354,12 +368,12 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onGradeChange = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         gradeID: e.value,
         gradeName: e.title,
         classID: "",
@@ -370,12 +384,12 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onClassChange = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         classID: e.value,
         className: e.title,
 
@@ -385,13 +399,13 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   // 搜索
   onChangeSearch = (e) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         searchValue: e.target.value,
       })
     );
@@ -399,7 +413,7 @@ class Student extends Component {
   onCancelSearch = (value) => {
     let { dispatch } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         keyword: "",
         searchValue: "",
         cancelBtnShow: "n",
@@ -408,19 +422,19 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
-  onStudentSearch = (e) => {
+  onGraduateSearch = (e) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         keyword: e.value,
         searchValue: e.value,
         cancelBtnShow: "y",
@@ -429,78 +443,78 @@ class Student extends Component {
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onTableChange = (page, filters, sorter) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         sortType: sorter.order,
         sortFiled: sorter.columnKey,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onShowSizeChange = (current, pageSize) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         pageIndex: 0,
         pageSize,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onPagiNationChange = (e) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         pageIndex: e - 1,
         checkedList: [],
         checkAll: false,
       })
     );
-    dispatch(MainAction.GetStudentToPage({}));
+    dispatch(MainAction.GetGraduateToPage({}));
   };
   onCheckBoxGroupChange = (checkedList) => {
     let {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
         MainData: {
-          StudentData: { List },
+          GraduateData: { List },
         },
       },
     } = this.props;
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         checkedList,
         checkAll: List.length === checkedList.length ? true : false,
       })
@@ -511,10 +525,10 @@ class Student extends Component {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { searchValue },
+          GraduateParams: { searchValue },
         },
         MainData: {
-          StudentData: { List },
+          GraduateData: { List },
         },
       },
     } = this.props;
@@ -522,7 +536,7 @@ class Student extends Component {
     let checkAll = e.target.checked;
     let keyList = List.map((child) => child.UserID);
     dispatch(
-      CommonAction.SetStudentParams({
+      CommonAction.SetGraduateParams({
         checkedList: checkAll ? keyList : [],
         checkAll,
       })
@@ -533,7 +547,7 @@ class Student extends Component {
       dispatch,
       DataState: {
         CommonData: {
-          StudentParams: { checkedList },
+          GraduateParams: { checkedList },
         },
       },
     } = this.props;
@@ -541,17 +555,17 @@ class Student extends Component {
       dispatch(
         PublicAction.showErrorAlert({
           type: "warn",
-          title: "请先勾选所要删除的学生",
+          title: "请先勾选所要删除的毕业生",
         })
       );
     } else {
       dispatch(
         PublicAction.showErrorAlert({
           type: "btn-query",
-          title: "确定删除所勾选的学生吗？",
+          title: "确定删除所勾选的毕业生吗？",
           onOk: () => {
             dispatch(
-              MainAction.DeleteStudent({
+              MainAction.DeleteGraduate({
                 fn: () => {
                   dispatch(
                     PublicAction.showErrorAlert({
@@ -560,12 +574,12 @@ class Student extends Component {
                     })
                   );
                   dispatch(
-                    CommonAction.SetStudentParams({
+                    CommonAction.SetGraduateParams({
                       checkedList: [],
                       checkAll: false,
                     })
                   );
-                  dispatch(MainAction.GetStudentToPage({}));
+                  dispatch(MainAction.GetGraduateToPage({}));
                 },
               })
             );
@@ -579,12 +593,12 @@ class Student extends Component {
     let {
       DataState: {
         MainData: {
-          StudentTree: { CollegeList, MajorList, GradeList, ClassList },
-          StudentData: { Total, PageIndex, List },
+          GraduateTree: { CollegeList, MajorList, GradeList, ClassList },
+          GraduateData: { Total, PageIndex, List },
         },
         CommonData: {
           RolePower: { LockerVersion_1, IsCollege },
-          StudentParams: {
+          GraduateParams: {
             collegeID,
             collegeName,
             majorID,
@@ -610,8 +624,9 @@ class Student extends Component {
     } = this.props;
 
     let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
-    let Major = [];
-    let Class = [];
+    let Grade = [{ value: "", title: "全部年级" }].concat(GradeList);
+    let Major = [{ value: "", title: "全部专业" }];
+    let Class = [{ value: "", title: "全部班级" }];
     collegeID !== "" &&
       MajorList instanceof Array &&
       MajorList.forEach((child) => {
@@ -643,66 +658,23 @@ class Student extends Component {
         }
       });
     return (
-      <div id="Student" className="Content">
-        <div className="Student-box">
+      <div id="Graduate" className="Content">
+        <div className="Graduate-box">
           <div className="Content-top">
             <span className="top-tips">
-              <span className="tips menu39 ">学生档案管理</span>
+              <span className="tips menu39 ">毕业生档案管理</span>
             </span>
             <div className="top-nav">
-              <span
-                className="link"
-                style={{ cursor: "pointer" }}
-                onClick={this.onEditMajor}
-              >
-                <span className="addMajor">专业管理</span>
-              </span>
-              <span className="divide">|</span>
-              {!LockerVersion_1 ? (
-                <>
-                  <a className="link">
-                    <span
-                      onClick={this.onLinkClick.bind(
-                        this,
-                        "学生注册审核",
-                        "#/RegisterExamine/RegisterWillExamine"
-                      )}
-                      className="RegisterExamine"
-                    >
-                      学生注册审核
-                      {/* <i
-                        style={{
-                          display: DataState.GetSignUpLog.WillData.Total
-                            ? "inline-block"
-                            : "none",
-                        }}
-                        className="have-red"
-                      ></i> */}
-                    </span>
-                  </a>
-                  <span className="divide">|</span>
-                </>
-              ) : (
-                ""
-              )}
-              <span
-                className="link"
-                style={{ cursor: "pointer" }}
-                onClick={this.onAddStudent}
-              >
-                <span className="add">添加学生</span>
-              </span>
-              <span className="divide">|</span>
               <a className="link">
                 <span
                   onClick={this.onLinkClick.bind(
                     this,
-                    "导入学生",
-                    "#/ImportFile/Student"
+                    "导入毕业生",
+                    "#/ImportFile/Graduate"
                   )}
                   className="ImportFile"
                 >
-                  导入学生
+                  导入毕业去向
                 </span>
               </a>
             </div>
@@ -751,7 +723,7 @@ class Student extends Component {
                 value: gradeID,
                 title: gradeID !== "" ? gradeName : "全部年级",
               }}
-              dropList={GradeList}
+              dropList={Grade}
               onChange={this.onGradeChange}
             ></DropDown>
             <DropDown
@@ -788,7 +760,7 @@ class Student extends Component {
             <div className="Search">
               <Search
                 placeHolder="请输入学号或姓名进行搜索..."
-                onClickSearch={this.onStudentSearch}
+                onClickSearch={this.onGraduateSearch}
                 height={30}
                 width={250}
                 Value={searchValue}
@@ -816,22 +788,22 @@ class Student extends Component {
             >
               {List instanceof Array && List.length !== 0 ? (
                 <>
-                  <CheckBoxGroup
+                  {/* <CheckBoxGroup
                     style={{ width: "100%" }}
                     value={checkedList}
                     onChange={this.onCheckBoxGroupChange}
-                  >
-                    <Table
-                      className="table"
-                      // loading={TableLoading}
-                      columns={this.state.columns}
-                      pagination={false}
-                      onChange={this.onTableChange}
-                      dataSource={List}
-                    ></Table>
-                  </CheckBoxGroup>
+                  > */}
+                  <Table
+                    className="table"
+                    // loading={TableLoading}
+                    columns={this.state.columns}
+                    pagination={false}
+                    onChange={this.onTableChange}
+                    dataSource={List}
+                  ></Table>
+                  {/* </CheckBoxGroup> */}
 
-                  <div style={{ display: "inline-block" }}>
+                  {/* <div style={{ display: "inline-block" }}>
                     <CheckBox
                       className="checkAll-box"
                       // type="gray"
@@ -847,7 +819,7 @@ class Student extends Component {
                     >
                       删除
                     </Button>
-                  </div>
+                  </div> */}
                   <div className="pagination-box">
                     <PagiNation
                       showQuickJumper
@@ -865,8 +837,8 @@ class Student extends Component {
                 <Empty
                   title={
                     cancelBtnShow === "y" || cancelBtnShow !== 0
-                      ? "暂无符合条件的学生档案"
-                      : "暂无学生档案"
+                      ? "暂无符合条件的毕业生档案"
+                      : "暂无毕业生档案"
                   }
                   type="3"
                   style={{ marginTop: "150px" }}
@@ -875,6 +847,8 @@ class Student extends Component {
             </Loading>
           </div>
         </div>
+        <GraduateContact></GraduateContact>
+        <GraduateJobType></GraduateJobType>
       </div>
     );
   }
@@ -888,4 +862,4 @@ const mapStateToProps = (state) => {
     PublicState,
   };
 };
-export default connect(mapStateToProps)(Student);
+export default connect(mapStateToProps)(Graduate);

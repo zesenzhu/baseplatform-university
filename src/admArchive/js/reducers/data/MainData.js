@@ -40,11 +40,30 @@ const MainData = (
       PageIndex: 0,
       List: [],
     },
+    GraduateTree: {
+      CollegeList: [],
+      MajorList: [],
+      GradeList: [],
+      ClassList: [],
+    },
+    GraduateData: {
+      Total: 0,
+      PageIndex: 0,
+      List: [],
+    },
     UserLog: {},
   },
   actions
 ) => {
   switch (actions.type) {
+    case MainAction.MAIN_GET_GRADUATE_TO_PAGE:
+      return Object.assign({}, state, {
+        GraduateData: actions.data,
+      });
+    case MainAction.MAIN_GET_GRADUATE_TREE_DATA:
+      return Object.assign({}, state, {
+        GraduateTree: actions.data,
+      });
     case MainAction.MAIN_GET_LEADER_TO_PAGE:
       return Object.assign({}, state, {
         LeaderData: actions.data,

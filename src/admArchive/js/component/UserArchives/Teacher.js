@@ -171,7 +171,7 @@ class Teacher extends Component {
           render: (data) => {
             return (
               <span className="Title" title={data.Title}>
-                {data.Title?data.Title:'--'}
+                {data.Title ? data.Title : "--"}
               </span>
             );
           },
@@ -247,12 +247,29 @@ class Teacher extends Component {
   };
   TeacherEdit = (data) => {
     let { dispatch } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(data));
+    dispatch(
+      CommonAction.SetEditUserArchivesData({
+        UserID: data.UserID,
+        UserName: data.UserName,
+        ImgPath: data.PhotoPath_NoCache
+          ? data.PhotoPath_NoCache
+          : data.PhotoPath,
+        Gender: data.Gender,
+        CollegeID: data.CollegeID,
+        CollegeName: data.CollegeName,
+        GroupID: data.GroupID,
+        GroupName: data.GroupName,
+
+        IDCardNo: data.IDCardNo,
+        Telephone: data.Telephone,
+        Email: data.Email,
+        HomeAddress: data.HomeAddress,
+      })
+    );
     dispatch(
       CommonAction.SetUserArchivesParams({
-        UserArchivesModalRole:'Teacher',
-        UserArchivesModalType:'edit'
-
+        UserArchivesModalRole: "Teacher",
+        UserArchivesModalType: "edit",
       })
     );
     dispatch(
@@ -265,10 +282,18 @@ class Teacher extends Component {
     let {
       dispatch,
       DataState: {
-        CommonData: { InitEditTeacher },
+        CommonData: { InitEditTeacher, TeacherParams },
       },
     } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(InitEditTeacher));
+    dispatch(
+      CommonAction.SetEditUserArchivesData({
+        ...InitEditTeacher,
+        CollegeID: TeacherParams.collegeID,
+        CollegeName: TeacherParams.collegeName,
+        GroupID: TeacherParams.groupID,
+        GroupName: TeacherParams.groupName,
+      })
+    );
 
     dispatch(
       CommonAction.SetUserArchivesParams({
@@ -316,7 +341,7 @@ class Teacher extends Component {
         collegeName: e.title,
         groupID: "",
         groupName: "",
-        
+
         keyword: "",
         pageIndex: 0,
         checkedList: [],
@@ -331,7 +356,7 @@ class Teacher extends Component {
       CommonAction.SetTeacherParams({
         groupID: e.value,
         groupName: e.title,
-        
+
         keyword: "",
         pageIndex: 0,
         checkedList: [],
@@ -340,7 +365,7 @@ class Teacher extends Component {
     );
     dispatch(MainAction.GetTeacherToPage({}));
   };
-  
+
   // 搜索
   onChangeSearch = (e) => {
     let { dispatch } = this.props;
@@ -523,15 +548,16 @@ class Teacher extends Component {
                 },
               })
             );
-          }}))
-      
+          },
+        })
+      );
     }
   };
   render() {
     let {
       DataState: {
         MainData: {
-          TeacherTree: { CollegeList, GroupList,   },
+          TeacherTree: { CollegeList, GroupList },
           TeacherData: { Total, PageIndex, List },
         },
         CommonData: {
@@ -562,7 +588,7 @@ class Teacher extends Component {
     } = this.props;
 
     let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
-    let Group = [];
+    let Group = [{ value: "", title: "全部教研室" }];
     let Class = [];
     collegeID !== "" &&
       GroupList instanceof Array &&
@@ -576,7 +602,7 @@ class Teacher extends Component {
           );
         }
       });
-     
+
     return (
       <div id="Teacher" className="Content">
         <div className="Teacher-box">
@@ -676,7 +702,7 @@ class Teacher extends Component {
               dropList={Group}
               onChange={this.onGroupChange}
             ></DropDown>
-             
+
             <div className="Search">
               <Search
                 placeHolder="请输入学号或姓名进行搜索..."

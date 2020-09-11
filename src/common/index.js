@@ -1,5 +1,5 @@
 import "es6-shim";
-import React,{memo} from "react";
+import React, { memo } from "react";
 import "antd/dist/antd.min.css";
 import "./index.scss";
 import "./scss/_left_menu.scss";
@@ -30,14 +30,13 @@ import CONFIG from "./js/config";
 
 import "moment/locale/zh-cn";
 
-import {getQueryVariable} from './js/disconnect/index';
+import { getQueryVariable } from "./js/disconnect/index";
 
 const $ = require("jquery");
 
 const history = require("history");
 
 const hashHistory = history.createHashHistory();
-
 
 moment.locale("zh-cn");
 /*
@@ -70,7 +69,7 @@ class Button extends React.Component {
       className: props.className ? props.className : "",
     };
   }
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     this.setState({
       type: props.type /*type:primary、default、默认primary*/,
       size: props.size /*size:large、normal、small默认normal*/,
@@ -82,7 +81,7 @@ class Button extends React.Component {
       onChange: props.onChange,
       style: props.style,
       className: props.className ? props.className : "",
-    })
+    });
   }
   /*
    * size筛选:large、normal、small，不写默认为normal
@@ -502,7 +501,7 @@ class Modal extends React.Component {
       visible: props.visible /*对话框是否可见*/,
       className: props.className ? props.className : "" /**/,
       destroyOnClose: props.destroyOnClose ? props.destroyOnClose : true,
-      ModalStyle:"Modal-1"
+      ModalStyle: "Modal-1",
     };
   }
 
@@ -540,13 +539,11 @@ class Modal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
-    const { title,bodyStyle,className,footer,mask } = nextProps;
+    const { title, bodyStyle, className, footer, mask } = nextProps;
 
     this.selectType(this.props.type);
 
-    this.setState({ title: title,bodyStyle,className,footer,mask});
-
+    this.setState({ title: title, bodyStyle, className, footer, mask });
   }
 
   // 拖拽modal
@@ -671,13 +668,8 @@ class Modal extends React.Component {
         });*/
   }
 
-
-
-
   render() {
-
     return (
-
       <AntdModal
         // ref={ref=>this.Modal=ref}
         ref="Modal"
@@ -697,7 +689,11 @@ class Modal extends React.Component {
         visible={this.props.visible}
         centered={this.props.centered ? this.props.centered : true}
         width={this.state.width}
-        closeIcon={this.state.ModalStyle==='Modal-1'?<i className={"modal-close-icon"}></i>:null}
+        closeIcon={
+          this.state.ModalStyle === "Modal-1" ? (
+            <i className={"modal-close-icon"}></i>
+          ) : null
+        }
         footer={
           this.state.footer === null
             ? null
@@ -841,32 +837,24 @@ class Table extends React.Component {
  * 分页组件 start
  * */
 class PageComponent extends React.Component {
-
   render() {
-    const {
-      children,
-      size,
-      className,
-      showSizeChanger,
-      ...reset
-    } = this.props;
-
+    const { children, size, className, showSizeChanger, ...reset } = this.props;
 
     return (
       <ConfigProvider locale={zhCN}>
-
-          <AntPagination
-
-          className={`${className} ${
-            size && size === "micro" ? "micro" : ""
-          } `}
-
+        <AntPagination
+          className={`${className} ${size && size === "micro" ? "micro" : ""} `}
           size={size}
-
           showSizeChanger={showSizeChanger}
-
-          showTotal={showSizeChanger?(total)=><span>共<span style={{color:'#ff6600'}}>{total}</span>条</span>:()=>{}}
-
+          showTotal={
+            showSizeChanger
+              ? (total) => (
+                  <span>
+                    共<span style={{ color: "#ff6600" }}>{total}</span>条
+                  </span>
+                )
+              : () => {}
+          }
           {...reset}
         >
           {children}
@@ -878,8 +866,6 @@ class PageComponent extends React.Component {
 /*
  * 分页组件 end
  * */
-
-
 
 /*
  * 搜索 start
@@ -1200,17 +1186,14 @@ class DropComponent extends React.Component {
       dropSelectd: props.dropSelectd ? props.dropSelectd : "",
       dropListShow: false,
       range2ListShow: "",
-      range2ListActive: ""
-
+      range2ListActive: "",
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dropSelectd, dropList } = nextProps;
 
-    const { dropSelectd,dropList } = nextProps;
-
-    this.setState({ dropSelectd:dropSelectd});
-
+    this.setState({ dropSelectd: dropSelectd });
   }
 
   onToggleDropList() {
@@ -1266,11 +1249,10 @@ class DropComponent extends React.Component {
   } //在二级的时候展开下拉
 
   componentDidMount() {
-
     const that = this;
 
     document.addEventListener("click", (e) =>
-        that.outDropClick({
+      that.outDropClick({
         that,
         target: e.target,
         ulDom: this.refs.dropdown_select_ul,
@@ -1280,24 +1262,16 @@ class DropComponent extends React.Component {
   }
 
   outDropClick(e) {
-
-
-    const {that,target, ulDom, spanDom } = e;
+    const { that, target, ulDom, spanDom } = e;
 
     if (ulDom && spanDom) {
       //在该界面上已有该组件才这样展示
       if (!spanDom.contains(target) && !ulDom.contains(target)) {
-
-          that.setState({dropListShow:false }, () => {
-
+        that.setState({ dropListShow: false }, () => {
           $(ulDom).hide();
-
         });
-
       }
-
     }
-
   } //当点击事件发生在下拉组件之外的时候
 
   onClickSearch(e) {
@@ -1320,9 +1294,6 @@ class DropComponent extends React.Component {
     }
   }
 
-
-
-
   render() {
     const {
       Title,
@@ -1341,7 +1312,6 @@ class DropComponent extends React.Component {
       dropSimpleSearch,
       ...reset
     } = this.props;
-
 
     let dropContainer = "";
 
@@ -1424,9 +1394,7 @@ class DropComponent extends React.Component {
                     ? mutipleOptions.empSearchTitle
                     : "暂未有相关数据"
                 }
-              >
-
-              </Empty>
+              ></Empty>
             )}
           </Loading>
         </ul>
@@ -1510,9 +1478,7 @@ class DropComponent extends React.Component {
                 ? mutipleOptions.empTitle
                 : "暂未有相关数据"
             }
-          >
-
-          </Empty>
+          ></Empty>
         );
       }
     } else if (mutipleOptions && mutipleOptions.range === 3) {
@@ -1539,20 +1505,20 @@ class DropComponent extends React.Component {
                 onCancelSearch={this.onCancelSearch.bind(this)}
                 CancelBtnShow={mutipleOptions.CancelBtnShow}
                 Value={mutipleOptions.inputValue}
-              >
-
-              </Search>
+              ></Search>
             </div>
 
             <Scrollbars
-              renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
-              renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
+              renderTrackHorizontal={(props) => {
+                return <span style={{ display: "none" }}></span>;
+              }}
+              renderThumbHorizontal={(props) => {
+                return <span style={{ display: "none" }}></span>;
+              }}
               autoHeight
               autoHeightMin={160}
-             
               autoHeightMax={scrollWrapperHeight}
-              style={{ width: scrollWrapperWidth}}
-              
+              style={{ width: scrollWrapperWidth }}
             >
               <Loading
                 opacity={false}
@@ -1569,66 +1535,53 @@ class DropComponent extends React.Component {
         </div>
       );
     } else {
-
       dropContainer = (
-
-          <ul
+        <ul
           className="dropdown_select_ul"
           ref="dropdown_select_ul"
-          style={{ width:width, overflow: "initial" }}
+          style={{ width: width, overflow: "initial" }}
         >
-
-          <Loading
-            opacity={false}
-            spinning={dropLoadingShow}
-          >
+          <Loading opacity={false} spinning={dropLoadingShow}>
             <Scrollbars
               autoHeight
               autoHeightMin={0}
               autoHeightMax={288}
-              renderTrackHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
-              renderThumbHorizontal={(props)=>{ return <span style={{display:'none'}}></span>}}
+              renderTrackHorizontal={(props) => {
+                return <span style={{ display: "none" }}></span>;
+              }}
+              renderThumbHorizontal={(props) => {
+                return <span style={{ display: "none" }}></span>;
+              }}
             >
-
-              {
-
-                  dropList&&(dropList instanceof Array)&&dropList.map((item,key) => {
-
-                   return (
-
-                          <li
-                          key={key}
-                          className={`dropdown_select_li ${
-                            activeValue && activeValue === item.value
-                              ? "active"
-                              : dropSelectd.value === item.value
-                              ? "active"
-                              : ""
-                          }`}
-                          title={TitleShow ? (Title ? Title : item.title) : ""}
-                          data-vaule={item.value}
-                          onClick={this.onSimpleDropChange.bind(this, {
-                            onChange: onChange,
-                            value: item.value,
-                            title: item.title,
-                          })}
-                        >
-                          {item.title}
-                        </li>
-
-                   );
-
-                 })
-              }
-
+              {dropList &&
+                dropList instanceof Array &&
+                dropList.map((item, key) => {
+                  return (
+                    <li
+                      key={key}
+                      className={`dropdown_select_li ${
+                        activeValue && activeValue === item.value
+                          ? "active"
+                          : dropSelectd.value === item.value
+                          ? "active"
+                          : ""
+                      }`}
+                      title={TitleShow ? (Title ? Title : item.title) : ""}
+                      data-vaule={item.value}
+                      onClick={this.onSimpleDropChange.bind(this, {
+                        onChange: onChange,
+                        value: item.value,
+                        title: item.title,
+                      })}
+                    >
+                      {item.title}
+                    </li>
+                  );
+                })}
             </Scrollbars>
-
           </Loading>
-
-          </ul>
-
+        </ul>
       );
-
     }
 
     return (
@@ -1637,10 +1590,7 @@ class DropComponent extends React.Component {
         {...reset}
       >
         <span className="dropdown_title_span">{title}</span>
-        <span
-          className="dropdown_wrapper"
-          style={{ width: width }}
-        >
+        <span className="dropdown_wrapper" style={{ width: width }}>
           <span
             ref="dropdown_default_span"
             className={`dropdown_default_span ${disabled ? "disabled" : ""}`}
@@ -1648,7 +1598,7 @@ class DropComponent extends React.Component {
               //点击展示和隐藏下拉列表
               disabled ? () => {} : this.onToggleDropList.bind(this)
             }
-            style={{ width:width}}
+            style={{ width: width }}
           >
             <span
               className={`dropdown_icon_span ${
@@ -2536,12 +2486,11 @@ class MenuLeft extends React.Component {
 
   render() {
     //传递的参数的数据
-    const { Menu, Icon, menuClick,history } = this.props;
+    const { Menu, Icon, menuClick, history } = this.props;
     //history.pathname路由
     const pathname = history.location.pathname;
 
     return (
-
       <Router>
         <div className="frame_left_menu_pin">
           <div className={`frame_left_menu_pic ${Icon ? Icon : "pic1"}`}></div>
@@ -2673,7 +2622,6 @@ class MenuLeft extends React.Component {
           </div>
         </div>
       </Router>
-
     );
   }
 }
@@ -2839,9 +2787,9 @@ class Frame extends React.Component {
 
     this.state = {
       fixed: false,
-      isFrame:false,
-      isWorkPlantform:false,
-      isInitGuide:false
+      isFrame: false,
+      isWorkPlantform: false,
+      isInitGuide: false,
     };
   }
 
@@ -2859,27 +2807,19 @@ class Frame extends React.Component {
 
   }*/
 
-    UNSAFE_componentWillReceiveProps(){
-
-        if(window.AppRightContentChange){
-
-            window.AppRightContentChange(this.RightContent.clientHeight);
-
-        }
-
-        if(getQueryVariable('isWorkPlantform')){
-
-            this.setState({isWorkPlantform:true});
-
-        }
-
-        if(getQueryVariable('isInitGuide')){
-
-            this.setState({isInitGuide:true});
-
-        }
-
+  UNSAFE_componentWillReceiveProps() {
+    if (window.AppRightContentChange) {
+      window.AppRightContentChange(this.RightContent.clientHeight);
     }
+
+    if (getQueryVariable("isWorkPlantform")) {
+      this.setState({ isWorkPlantform: true });
+    }
+
+    if (getQueryVariable("isInitGuide")) {
+      this.setState({ isInitGuide: true });
+    }
+  }
 
   render() {
     const {
@@ -2898,8 +2838,8 @@ class Frame extends React.Component {
       onLogOut,
       contentShow = true,
       MessageShow = false,
-      showTop=true,
-      showBottom=true,
+      showTop = true,
+      showBottom = true,
       ...reset
     } = this.props;
 
@@ -2982,127 +2922,116 @@ class Frame extends React.Component {
         beyondAnimateDom = "";
     }
 
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     return (
+      <div
+        className={`frame-drag-flag ${
+          this.state.isInitGuide ? "isInitGuide" : ""
+        }  ${this.state.isWorkPlantform ? "in-work-plant-form" : ""}`}
+        {...reset}
+      >
+        {showTop ? (
+          <div className="frame-header-wrapper">
+            <div className={`frame-header-bg ${type ? type : ""}`}>
+              <div className="frame-header-star-bg">{bgAnimateDom}</div>{" "}
+              {/*星星的背景图*/}
+            </div>
+            {beyondAnimateDom}
+            <div className="frame-home-header">
+              <div className="frame-home-header-content">
+                <div
+                  className="frame-home-logo"
+                  style={{ backgroundImage: `url(${CONFIG.logo})` }}
+                >
+                  <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
+                </div>
 
-      <div className={`frame-drag-flag ${this.state.isInitGuide?'isInitGuide':''}  ${this.state.isWorkPlantform?'in-work-plant-form':''}`}   {...reset}>
+                {!register ? (
+                  <div className="frame-home-header-menus">
+                    <div className="frame-home-header-menu">
+                      <input
+                        className="frame-home-logout"
+                        title="退出"
+                        type="button"
+                        onClick={onLogOut ? () => onLogOut() : () => {}}
+                        value=""
+                      />
+                      <a
+                        href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
+                        target="_blank"
+                        className="frame-home-username"
+                        title={userInfo && userInfo.name ? userInfo.name : ""}
+                      >
+                        {userInfo && userInfo.name ? userInfo.name : ""}
+                      </a>
 
-          {
-
-            showTop?
-
-                <div className="frame-header-wrapper">
-                    <div className={`frame-header-bg ${type ? type : ""}`}>
-                        <div className="frame-header-star-bg">{bgAnimateDom}</div>{" "}
-                        {/*星星的背景图*/}
+                      {userInfo && userInfo.image ? (
+                        <a
+                          href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
+                          target="_blank"
+                          className="frame-home-userpic"
+                          style={{ backgroundImage: `url(${userInfo.image})` }}
+                        ></a>
+                      ) : null}
                     </div>
-                    {beyondAnimateDom}
-                    <div className="frame-home-header">
-                        <div className="frame-home-header-content">
-                            <div
-                                className="frame-home-logo"
-                                style={{ backgroundImage: `url(${CONFIG.logo})` }}
-                            >
-                                <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
-                            </div>
 
-              {!register ? (
-                <div className="frame-home-header-menus">
-                  <div className="frame-home-header-menu">
-                    <input
-                      className="frame-home-logout"
-                      title="退出"
-                      type="button"
-                      onClick={onLogOut ? () => onLogOut() : () => {}}
-                      value=""
-                    />
-                    <a
-                      href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
-                      target="_blank"
-                      className="frame-home-username"
-                      title={userInfo && userInfo.name ? userInfo.name : ""}
-                    >
-                      {userInfo && userInfo.name ? userInfo.name : ""}
-                    </a>
-
-                      {
-
-                          userInfo && userInfo.image?
-
-                              <a
-                                  href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
-                                  target="_blank"
-                                  className="frame-home-userpic"
-                                  style={{backgroundImage: `url(${userInfo.image})`}}>
-
-                              </a>
-
-                              :null
-
-                      }
-
-                  </div>
-
-                                    {MessageShow ? (
-                                        <div className="frame-home-header-menu">
-                      <span
+                    {MessageShow ? (
+                      <div className="frame-home-header-menu">
+                        <span
                           id="Assistant_infoCenter"
                           className={`frame-home-msg-menu ${msg ? "msg" : ""}`}
                           title="我的消息"
-                      ></span>
-                                        </div>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                            ) : (
-                                ""
-                            )}
-                        </div>
-                    </div>
-                    <div
-                        className={`frame-block-wrapper ${
-                            module && module.className ? module.className : ""
-                            }`}
-                        style={{
-                            backgroundImage: `url(${
-                                module && module.image ? module.image : ""
-                                })`,
-                        }}
-                    >
-                        <div className="frame-block-zh-name">
-                            {module && module.cnname ? module.cnname : ""}
-                        </div>
-                        <div className="frame-block-en-name">
-                            {module && module.enname ? module.enname : ""}
-                        </div>
-                    </div>
-                </div>
+                        ></span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <div
+              className={`frame-block-wrapper ${
+                module && module.className ? module.className : ""
+              }`}
+              style={{
+                backgroundImage: `url(${
+                  module && module.image ? module.image : ""
+                })`,
+              }}
+            >
+              <div className="frame-block-zh-name">
+                {module && module.cnname ? module.cnname : ""}
+              </div>
+              <div className="frame-block-en-name">
+                {module && module.enname ? module.enname : ""}
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
 
-                :''
-
-          }
-
-
-        {
-          showBarner ? (
-
-              <div className={`frame-time-bar ${this.state.isWorkPlantform?'in-work-plant-form':''}`}>
+        {showBarner ? (
+          <div
+            className={`frame-time-bar ${
+              this.state.isWorkPlantform ? "in-work-plant-form" : ""
+            }`}
+          >
             <div className="frame-nav-content">{timeBarner}</div>
           </div>
-
-          ) :
-              (
+        ) : (
           ""
-        )
-        }
+        )}
         <div
           className={`frame-content-wrapper clearfix ${
             showBarner ? "" : "barnerHide"
-          } ${this.state.isWorkPlantform?'in-work-plant-form':''}
+          } ${this.state.isWorkPlantform ? "in-work-plant-form" : ""}
 
-          ${this.state.isInitGuide?'isInitGuide':''}
+          ${this.state.isInitGuide ? "isInitGuide" : ""}
 
           `}
         >
@@ -3129,15 +3058,7 @@ class Frame extends React.Component {
           )}
         </div>
 
-          {
-
-            showBottom?
-
-                <div className="frame-bottom">{ProVersion}</div>
-
-                :''
-
-          }
+        {showBottom ? <div className="frame-bottom">{ProVersion}</div> : ""}
       </div>
     );
   }
@@ -3331,13 +3252,13 @@ class DetailsModal extends React.Component {
                 style={{
                   height:
                     type === "student" ||
-                    type === "graduate"||
+                    type === "graduate" ||
                     (type === "examine" && this.state.role === "student")
                       ? "31px"
                       : "30px",
                 }}
               >
-                {type === "student" || type === "examine"||type === "graduate"
+                {type === "student" || type === "examine" || type === "graduate"
                   ? "班级"
                   : type === "parents"
                   ? "子女班级"
@@ -3346,12 +3267,18 @@ class DetailsModal extends React.Component {
               <span
                 className="col-right"
                 style={
-                  type === "student" || type === "examine"||type === "parents"||type === "graduate"
+                  type === "student" ||
+                  type === "examine" ||
+                  type === "parents" ||
+                  type === "graduate"
                     ? { height: "20px", lineHeight: "20px", marginTop: " 5px" }
                     : {}
                 }
                 title={
-                  type === "student" || type === "examine" || type === "parents"||type === "graduate"
+                  type === "student" ||
+                  type === "examine" ||
+                  type === "parents" ||
+                  type === "graduate"
                     ? data.userGrade &&
                       data.userClass &&
                       data.userCollege &&
@@ -3363,6 +3290,10 @@ class DetailsModal extends React.Component {
                         (data.userGrade ? data.userGrade : "--") +
                         " > " +
                         (data.userClass ? data.userClass : "--")
+                      : data.className
+                      ? data.className
+                        ? data.className
+                        : "--"
                       : ""
                     : data.subjectName
                     ? data.subjectName
@@ -3370,7 +3301,8 @@ class DetailsModal extends React.Component {
                 }
               >
                 {type === "student" ||
-                type === "examine" ||type === "graduate"||
+                type === "examine" ||
+                type === "graduate" ||
                 type === "parents" ? (
                   data.userGrade &&
                   data.userClass &&
@@ -3379,6 +3311,12 @@ class DetailsModal extends React.Component {
                     (data.userCollege ? data.userCollege : "--") +
                     " > " +
                     (data.userMajor ? data.userMajor : "--")
+                  ) : data.className ? (
+                    data.className ? (
+                      data.className
+                    ) : (
+                      "--"
+                    )
                   ) : (
                     <span className="content-null">未填写</span>
                   )
@@ -3392,12 +3330,20 @@ class DetailsModal extends React.Component {
                 className="col-right"
                 style={{
                   display:
-                    type === "student" || type === "examine"|| type === "parents"||type === "graduate" ? "block" : "none",
+                    type === "student" ||
+                    type === "examine" ||
+                    type === "parents" ||
+                    type === "graduate"
+                      ? "block"
+                      : "none",
                   height: "20px",
                   lineHeight: "20px",
                 }}
                 title={
-                  type === "student" || type === "examine"||type === "graduate"|| type === "parents"
+                  type === "student" ||
+                  type === "examine" ||
+                  type === "graduate" ||
+                  type === "parents"
                     ? data.userGrade &&
                       data.userClass &&
                       data.userCollege &&
@@ -3413,7 +3359,10 @@ class DetailsModal extends React.Component {
                     : ""
                 }
               >
-                {type === "student" || type === "examine"||type === "graduate"|| type === "parents"
+                {type === "student" ||
+                type === "examine" ||
+                type === "graduate" ||
+                type === "parents"
                   ? data.userGrade &&
                     data.userClass &&
                     data.userCollege &&
@@ -3682,42 +3631,36 @@ class Tips extends React.Component {
   }
 }
 
-
-
 PageComponent.defaultProps = {
+  showQuickJumper: true,
 
-    showQuickJumper:true,
+  showSizeChanger: false,
 
-    showSizeChanger:false,
+  hideOnSinglePage: true,
 
-    hideOnSinglePage:true,
+  pageSizeOptions: ["10", "20", "50", "100"],
 
-    pageSizeOptions:['10','20','50','100'],
+  total: 0,
 
-    total:0,
+  pageSize: 10,
 
-    pageSize:10,
+  current: 1,
 
-    current:1,
-
-    className:''
-
+  className: "",
 };
 
 DropComponent.defaultProps = {
+  dropList: [],
 
-    dropList:[],
+  TitleShow: true,
 
-    TitleShow:true,
+  width: 120,
 
-    width:120,
+  dropLoadingShow: false,
 
-    dropLoadingShow:false,
+  dropSimpleSearch: false,
 
-    dropSimpleSearch:false,
-
-    //simpleSearchChange:()=>{}
-
+  //simpleSearchChange:()=>{}
 };
 
 const LeftMenu = withRouter(MenuLeft);
@@ -3727,10 +3670,6 @@ const PagiNation = memo(PageComponent);
 const Alert = memo(AppAlert);
 
 const DropDown = memo(DropComponent);
-
-
-
-
 
 export {
   Radio,

@@ -28,6 +28,7 @@ import All from "./All";
 import Student from "./Student";
 import Teacher from "./Teacher";
 import Leader from "./Leader";
+import Graduate from "./Graduate";
 import Temple from "../Temple";
 
 // import "../../scss/Main.scss";
@@ -57,7 +58,7 @@ class UserArchives extends Component {
       DataState: {
         MainData: { UserLog },
         CommonData: {
-          ModalVisible: { UserLogModalVisible },UserArchivesParams:{
+          ModalVisible: { UserLogModalVisible,UserArchivesModalVisible },UserArchivesParams:{
             TipsLogName
           }
         },
@@ -78,8 +79,8 @@ class UserArchives extends Component {
         ></Route>
         <Route path="/UserArchives/Leader" component={Leader} exact></Route>
         <Route
-          path="/UserArchives/Graduate/:id"
-          component={Temple}
+          path="/UserArchives/Graduate"
+          component={Graduate}
           exact
         ></Route>
         <Modal
@@ -99,7 +100,7 @@ class UserArchives extends Component {
             <TipsLog userName={TipsLogName} data={UserLog}></TipsLog>
           </Loading>
         </Modal>
-        <UserArchivesModal></UserArchivesModal>
+        {UserArchivesModalVisible?<UserArchivesModal></UserArchivesModal>:''}
       </div>
     );
   }

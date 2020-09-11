@@ -1,3 +1,4 @@
+
 ///操作名称
 const COMMON_SET_FRAME_PARAMS = "COMMON_SET_FRAME_PARAMS";
 
@@ -65,6 +66,13 @@ const SetLeaderParams = (data) => {
     dispatch({ type: COMMON_SET_LEADER_PARAMS, data: data });
   };
 };
+// 设置毕业生参数
+const COMMON_SET_GRADUATE_PARAMS = "COMMON_SET_GRADUATE_PARAMS";
+const SetGraduateParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_GRADUATE_PARAMS, data: data });
+  };
+};
 // 设置编辑添加用户的数据
 const COMMON_SET_EDIT_USER_ARCHIVES_PARAMS  = "COMMON_SET_EDIT_USER_ARCHIVES_PARAMS";
 const SetEditUserArchivesData = (data) => {
@@ -81,7 +89,40 @@ const SetEditUserArchivesData = (data) => {
     dispatch({ type: COMMON_SET_EDIT_USER_ARCHIVES_PARAMS, data: Data });
   };
 };
+// 设置毕业生编辑参数
+const COMMON_SET_GRADUATE_EDIT_PARAMS = "COMMON_SET_GRADUATE_EDIT_PARAMS";
+const SetGraduateEditParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_GRADUATE_EDIT_PARAMS, data: data });
+  };
+};
+// 设置提示visible参数
+const COMMON_SET_TIPS_VISIBLE_PARAMS = "COMMON_SET_TIPS_VISIBLE_PARAMS";
+const SetTipsVisibleParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_TIPS_VISIBLE_PARAMS, data: data });
+  };
+};
+// 设置提示visible参数
+const COMMON_SET_TIPS_TITLE_PARAMS = "COMMON_SET_TIPS_TITLE_PARAMS";
+const SetTipsTitleParams = (data) => {
+  return (dispatch) => {
+    dispatch({ type: COMMON_SET_TIPS_TITLE_PARAMS, data: data });
+  };
+};
 export default {
+  COMMON_SET_TIPS_TITLE_PARAMS,
+  SetTipsTitleParams,
+
+  COMMON_SET_TIPS_VISIBLE_PARAMS,
+  SetTipsVisibleParams,
+
+  COMMON_SET_GRADUATE_EDIT_PARAMS,
+  SetGraduateEditParams,
+
+  SetGraduateParams,
+  COMMON_SET_GRADUATE_PARAMS,
+
   COMMON_SET_EDIT_USER_ARCHIVES_PARAMS,
   SetEditUserArchivesData,
 
@@ -111,4 +152,5 @@ export default {
 
   COMMON_SET_FRAME_PARAMS,
   SetFrameParams,
+
 };
