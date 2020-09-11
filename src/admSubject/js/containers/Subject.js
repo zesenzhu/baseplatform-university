@@ -893,7 +893,13 @@ function Subject(props){
 
                               isInitGuide?
 
-                                  <Button onClick={onAddSubjectClick} className="top-btn isInitGuide" color="blue" shape="round">+添加学科</Button>
+                                  !isAIProduct?
+
+                                      <Button onClick={onAddSubjectClick} className="top-btn isInitGuide" color="blue" shape="round">+添加学科</Button>
+
+                                      :
+
+                                      null
 
                                   :null
 
