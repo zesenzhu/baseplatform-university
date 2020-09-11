@@ -538,7 +538,7 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>课程学分:</span>
 
-                            <InputNumber min={0} className={"course-credit"}  placeHolder={"请输入课程学分"} value={credit} onChange={v=>{console.log(v);setCredit(v)}}/>
+                            <InputNumber maxLength={3}  min={0} className={"course-credit"}  placeHolder={"请输入课程学分"} value={credit} onChange={v=>{console.log(v);setCredit(v)}}/>
 
                         </div>
 
