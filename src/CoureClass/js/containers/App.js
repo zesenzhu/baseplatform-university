@@ -34,9 +34,11 @@ import "../../scss/index.scss";
 
 import actions from "../actions";
 
-import { QueryPower } from "../../../common/js/power";
+import { QueryPower,QueryOtherPower } from "../../../common/js/power";
 
 import {loginUserUpdate} from "../reducers/LoginUser";
+
+import {teacherPowerChange} from "../reducers/teacherManagePower";
 
 const COURECLASS_MODULEID = "000-2-0-17"; //教学班管理
 
@@ -98,8 +100,6 @@ class App extends Component {
 
       history.listen(() => {
 
-          console.log(888);
-
           //路由监听
           let route = history.location.pathname;
 
@@ -157,7 +157,6 @@ class App extends Component {
 
 
   UNSAFE_componentWillReceiveProps(nextProps){
-
 
       if (this.state.firstLoad){
 
@@ -318,7 +317,7 @@ class App extends Component {
 
           }
 
-      }else{
+      }else if (parseInt(UserType)===0){
 
           let havePower = QueryPower({
               UserInfo: UserMsg,
@@ -397,9 +396,53 @@ class App extends Component {
               }
           });
 
+      }else if (parseInt(UserType)===1){
+
+          QueryOtherPower({
+              SchoolID:UserMsg.SchoolID,
+              ModuleID: COURECLASS_MODULEID,
+              Power:'Teacher_CourseClass_CURD',
+              UserType:UserMsg.UserType
+          }).then(data=> {
+
+              if (data) {
+
+                  dispatch(bannerShow());
+
+              } else {
+
+                  dispatch(bannerHide());
+
+              }
+
+              dispatch(teacherPowerChange(data));
+
+
+                  let SubjectID = DataState.GetCoureClassAllMsg.Subject;
+                  let GradeID = DataState.GetCoureClassAllMsg.Grade;
+
+                  let pathArr = route.split("/");
+                  let handleRoute = pathArr[1];
+                  let routeID = pathArr[2];
+                  let subjectID = pathArr[3];
+                  let classID = pathArr[4];
+
+                 if (UserMsg.UserType === "1" && handleRoute === "Teacher") {
+
+                      dispatch(
+                          actions.UpDataState.getTeacherCourseClassMsg(
+                              "/GetCourseClassByUserID?schoolID=" +
+                              UserMsg.SchoolID +
+                              "&teacherID=" +
+                              UserMsg.UserID
+                          )
+                      );
+
+                  }
+
+          });
+
       }
-
-
 
   };
 
