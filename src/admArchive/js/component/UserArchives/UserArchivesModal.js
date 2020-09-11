@@ -69,7 +69,6 @@ class UserArchivesModal extends Component {
     this.setState({
       picUpload,
     });
-    console.log(picUpload, option);
   }
   ModalOk = () => {
     let {
@@ -393,7 +392,7 @@ class UserArchivesModal extends Component {
         CollegeID !== "" &&
           TeacherTree.GroupList instanceof Array &&
           TeacherTree.GroupList.forEach((child) => {
-            if (child.CollegeID === collegeID) {
+            if (child.CollegeID === CollegeID) {
               GroupList.push(child);
             }
           });
@@ -570,48 +569,53 @@ class UserArchivesModal extends Component {
               ) : (
                 ""
               )}
-            </div>
-            {UserArchivesModalRole === "Teacher" ? (
-              <div className="row clearfix ">
-                <span className="culonm-1 ">
-                  <span className="must-icon">*</span>教研室：
-                </span>
-                <div className="culonm-2">
-                  <Tips
-                    overlayClassName="tips"
-                    visible={
-                      CollegeID && GroupList.length !== 0
-                        ? GroupTipsVisible
-                        : false
-                    }
-                    getPopupContainer={(e) => e.parentNode}
-                    title={GroupTipsTitle}
-                  >
-                    <DropDown
-                      style={{ zIndex: 2 }}
-                      disabled={
-                        GroupList.length === 0 || !CollegeID ? true : false
+              {UserArchivesModalRole === "Teacher" ? (
+                <div className="row clearfix ">
+                  <span className="culonm-1 ">
+                    <span className="must-icon">*</span>教研室：
+                  </span>
+                  <div className="culonm-2">
+                    <Tips
+                      overlayClassName="tips"
+                      visible={
+                        CollegeID && GroupList.length !== 0
+                          ? GroupTipsVisible
+                          : false
                       }
-                      // disabled={this.state.ClassChange.value===-1?false:true}
-                      dropSelectd={
-                        !CollegeID || GroupList.length > 0
-                          ? {
-                              value: GroupID,
-                              title: GroupID ? GroupName : "请选择教研室",
-                            }
-                          : { value: -1, title: "暂无创建教研室" }
-                      }
-                      dropList={GroupList}
-                      width={200}
-                      height={96}
-                      onChange={this.onEditGroupChange}
-                    ></DropDown>
-                  </Tips>
+                      getPopupContainer={(e) => e.parentNode}
+                      title={GroupTipsTitle}
+                    >
+                      <DropDown
+                        style={{ zIndex: 2 }}
+                        disabled={
+                          GroupList.length === 0 || !CollegeID ? true : false
+                        }
+                        // disabled={this.state.ClassChange.value===-1?false:true}
+                        dropSelectd={
+                          !CollegeID || GroupList.length > 0
+                            ? {
+                                value: GroupID,
+                                title: GroupID ? GroupName : "请选择教研室",
+                              }
+                            : { value: -1, title: "暂无创建教研室" }
+                        }
+                        dropList={GroupList}
+                        width={200}
+                        height={96}
+                        onChange={this.onEditGroupChange}
+                      ></DropDown>
+                    </Tips>
+                    {CollegeID && GroupList.length === 0 ? (
+                      <span className="AddOther">添加教研室</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </Loading>
       </Modal>

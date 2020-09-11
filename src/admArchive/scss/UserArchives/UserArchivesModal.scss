@@ -182,6 +182,30 @@
                             cursor: pointer;
                         }
                     }
+                    .AddOther {
+                        position: relative;
+                        line-height: 28px;
+                        padding-left: 20px;
+                        height: 28px;
+                        text-align: right;
+                        font-size: 14px;
+                        display: inline-block;
+                        color: #0099ff;
+                        top: 50%;
+                        text-decoration: underline;
+                        cursor: pointer;
+                        -webkit-transform: translateY(-50%);
+                        -ms-transform: translateY(-50%);
+                        transform: translateY(-50%);
+                        &:hover {
+                            color: #ff6600;
+                        }
+                        span {
+                            color: #0099ff;
+                            text-decoration: underline;
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }

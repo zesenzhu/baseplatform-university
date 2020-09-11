@@ -163,63 +163,87 @@ const checkUserID = ({
   };
 };
 const checkUserName = ({
-    value,
-    fn = () => {},
-    error = () => {},
-    success = () => {},
-  }) => {
-    return (dispatch, getState) => {
-      let Test = /^[a-zA-Z0-9_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5 ]{0,48}[a-zA-Z0-9_\u4e00-\u9fa5]$|^[a-zA-Z0-9_\u4e00-\u9fa5]{1,50}$/.test(value);
-      if (Test) {
-        dispatch(CommonAction.SetTipsVisibleParams({ UserNameTipsVisible: false }));
-        success(getState());
-      } else {
-        dispatch(CommonAction.SetTipsVisibleParams({ UserNameTipsVisible: true }));
-        error(getState());
-      }
-      fn(getState());
-    };
+  value,
+  fn = () => {},
+  error = () => {},
+  success = () => {},
+}) => {
+  return (dispatch, getState) => {
+    let Test = /^[a-zA-Z0-9_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5 ]{0,48}[a-zA-Z0-9_\u4e00-\u9fa5]$|^[a-zA-Z0-9_\u4e00-\u9fa5]{1,50}$/.test(
+      value
+    );
+    if (Test) {
+      dispatch(
+        CommonAction.SetTipsVisibleParams({ UserNameTipsVisible: false })
+      );
+      success(getState());
+    } else {
+      dispatch(
+        CommonAction.SetTipsVisibleParams({ UserNameTipsVisible: true })
+      );
+      error(getState());
+    }
+    fn(getState());
   };
-  const checkGender = ({
-    value,
-    fn = () => {},
-    error = () => {},
-    success = () => {},
-  }) => {
-    return (dispatch, getState) => {
-       
-      if (value) {
-        dispatch(CommonAction.SetTipsVisibleParams({ GenderTipsVisible: false }));
-        success(getState());
-      } else {
-        dispatch(CommonAction.SetTipsVisibleParams({ GenderTipsVisible: true }));
-        error(getState());
-      }
-      fn(getState());
-    };
+};
+const checkGender = ({
+  value,
+  fn = () => {},
+  error = () => {},
+  success = () => {},
+}) => {
+  return (dispatch, getState) => {
+    if (value) {
+      dispatch(CommonAction.SetTipsVisibleParams({ GenderTipsVisible: false }));
+      success(getState());
+    } else {
+      dispatch(CommonAction.SetTipsVisibleParams({ GenderTipsVisible: true }));
+      error(getState());
+    }
+    fn(getState());
   };
-  const checkCollege = ({
-    value,
-    fn = () => {},
-    error = () => {},
-    success = () => {},
-  }) => {
-    return (dispatch, getState) => {
-       
-      if (value) {
-        dispatch(CommonAction.SetTipsVisibleParams({ CollegeTipsVisible: false }));
-        success(getState());
-      } else {
-        dispatch(CommonAction.SetTipsVisibleParams({ CollegeTipsVisible: true }));
-        error(getState());
-      }
-      fn(getState());
-    };
+};
+const checkCollege = ({
+  value,
+  fn = () => {},
+  error = () => {},
+  success = () => {},
+}) => {
+  return (dispatch, getState) => {
+    if (value) {
+      dispatch(
+        CommonAction.SetTipsVisibleParams({ CollegeTipsVisible: false })
+      );
+      success(getState());
+    } else {
+      dispatch(CommonAction.SetTipsVisibleParams({ CollegeTipsVisible: true }));
+      error(getState());
+    }
+    fn(getState());
   };
+};
+const checkGroup = ({
+  value,
+  fn = () => {},
+  error = () => {},
+  success = () => {},
+}) => {
+  return (dispatch, getState) => {
+    if (value) {
+      dispatch(CommonAction.SetTipsVisibleParams({ GroupTipsVisible: false }));
+      success(getState());
+    } else {
+      dispatch(CommonAction.SetTipsVisibleParams({ GroupTipsVisible: true }));
+      error(getState());
+    }
+    fn(getState());
+  };
+};
 export default {
-    checkCollege,
-    checkGender,
-    checkUserName,
+  checkGroup,
+  checkCollege,
+  checkGender,
+  checkUserName,
   checkUserID,
   checkDiscription,
   checkTelphone,

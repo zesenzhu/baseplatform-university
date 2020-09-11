@@ -85,6 +85,7 @@ function handleInitData(initData, pageSize) {
         ProvinceName: child.ProvinceName,
         CountyID: child.CountyID,
         ProvinceID: child.ProvinceID,
+        SchoolImgUrl_Long: child.SchoolImgUrl_Long,
       });
       keyList.push(index);
     });
