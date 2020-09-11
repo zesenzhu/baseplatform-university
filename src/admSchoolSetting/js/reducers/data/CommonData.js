@@ -20,6 +20,7 @@ const CommonData = (
       SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
       SchoolTel: "", //学校联系电话
       SchoolLinkman: "", //学校联系人
+      SchoolImgUrl_Long:""
     },
     SchoolModalInitData: {
       SchoolName: "", //学校名字
@@ -30,6 +31,7 @@ const CommonData = (
       SchoolSessionType: { value: 3, title: "三年制" }, //学校学制
       SchoolTel: "", //学校联系电话
       SchoolLinkman: "", //学校联系人
+      SchoolImgUrl_Long:''
     },
     QuerySchoolParams: {
       keyWord: "",

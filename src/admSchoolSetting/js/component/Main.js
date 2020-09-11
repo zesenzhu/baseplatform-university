@@ -712,6 +712,7 @@ class Main extends Component {
       CityID,
       CountyID,
       ProvinceID,
+      SchoolImgUrl_Long
     } = SchoolList[key.key];
     let { SchoolLinkman, SchoolTel } = SchoolLink;
 
@@ -728,6 +729,7 @@ class Main extends Component {
         CityID,
         CountyID,
         ProvinceID,
+        SchoolImgUrl_Long
       })
     );
     dispatch({ type: UpUIState.EDIT_MODAL_OPEN });

@@ -183,9 +183,11 @@ const getCollegeSummary = async ({ collegeID = "" }) => {
 // 获取学院、专业、年级、班级信息（用于构建下拉列表）
 const MAIN_GET_TREE_DATA = "MAIN_GET_TREE_DATA";
 
-const GetTree = ({ fn = () => {}, collegeID, schoolID }) => {
+const GetTree = ({ fn = () => {}, isLoading = true, collegeID, schoolID }) => {
   return (dispatch, getState) => {
-    dispatch(PublicAction.ContentLoadingOpen());
+    if (isLoading) {
+      dispatch(PublicAction.ContentLoadingOpen());
+    }
     let State = getState();
     let {
       PublicState: {
@@ -622,6 +624,20 @@ const GetLeaderToPage = ({
           res.Data.List instanceof Array &&
           res.Data.List.forEach((child, index) => {
             List.push({
+              DetailsData: {
+                userName: child.UserName,
+                userImg: child.PhotoPath_NoCache || child.PhotoPath,
+                Gende: child.Gender,
+                userText: child.Sign,
+                userID: child.UserID,
+                userIDCard: child.IDCardNo,
+                userPhone: child.Telephone,
+                userMail: child.Email,
+                userCollege: child.CollegeName,
+                userAddress: child.HomeAddress,
+                //   CollegeName: child.HomeAddress,
+                Position: child.Position,
+              },
               key: index,
               OrderNo: index + 1 >= 10 ? index + 1 : "0" + (index + 1),
               ...child,
@@ -671,12 +687,167 @@ const getLeaderToPage = async ({
   }
   return data;
 };
+// 分页获取毕业生
+const MAIN_GET_GRADUATE_TO_PAGE = "MAIN_GET_GRADUATE_TO_PAGE";
+
+const GetGraduateToPage = ({
+  fn = () => {},
+  collegeID,
+  schoolID,
+  majorID,
+  gradeID,
+  classID,
+  keyword,
+  pageIndex,
+  pageSize,
+  sortFiled,
+  sortType,
+}) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.TableLoadingOpen());
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID, CollegeID },
+      },
+      DataState: {
+        CommonData: { GraduateParams },
+      },
+    } = State;
+
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+    if (collegeID === undefined) {
+      collegeID = GraduateParams.collegeID;
+    }
+    if (majorID === undefined) {
+      majorID = GraduateParams.majorID;
+    }
+    if (gradeID === undefined) {
+      gradeID = GraduateParams.gradeID;
+    }
+    if (classID === undefined) {
+      classID = GraduateParams.classID;
+    }
+    if (keyword === undefined) {
+      keyword = GraduateParams.keyword;
+    }
+    if (pageIndex === undefined) {
+      pageIndex = GraduateParams.pageIndex;
+    }
+    if (pageSize === undefined) {
+      pageSize = GraduateParams.pageSize;
+    }
+    if (sortFiled === undefined) {
+      sortFiled = GraduateParams.sortFiled;
+    }
+    if (sortType === undefined) {
+      sortType = GraduateParams.sortType;
+    }
+
+    getGraduateToPage({
+      collegeID,
+      schoolID,
+      majorID,
+      gradeID,
+      classID,
+      keyword,
+      pageIndex,
+      pageSize,
+      sortFiled,
+      sortType,
+    }).then((res) => {
+      if (res) {
+        let List = [];
+        res.Data &&
+          res.Data.List instanceof Array &&
+          res.Data.List.forEach((child, index) => {
+            List.push({
+              DetailsData: {
+                userName: child.UserName,
+                userImg: child.PhotoPath_NoCache || child.PhotoPath,
+                Gende: child.Gender,
+                userID: child.UserID,
+                jobType: child.JobType,
+                hasTrack: child.HasTrack,
+                discription: child.Discription,
+                year: child.Year,
+                userClass: child.ClassName,
+                userIDCard: child.IDCardNo,
+                userPhone: child.Telephone,
+                userMail: child.Email,
+                className: child.ClassName,
+                userAddress: child.HomeAddress,
+              },
+              key: index,
+              OrderNo:
+                pageSize * res.Data.PageIndex + index + 1 >= 10
+                  ? pageSize * res.Data.PageIndex + index + 1
+                  : "0" + (pageSize * res.Data.PageIndex + index + 1),
+              ...child,
+            });
+          });
+        dispatch({
+          type: MAIN_GET_GRADUATE_TO_PAGE,
+          data: { ...res.Data, List },
+        });
+        fn(getState());
+        dispatch(PublicAction.TableLoadingClose());
+      }
+    });
+  };
+};
+const getGraduateToPage = async ({
+  collegeID = "",
+  schoolID = "",
+  majorID = "",
+  gradeID = "",
+  classID = "",
+  keyword = "",
+  pageIndex = "",
+  pageSize = "",
+  sortFiled = "",
+  sortType = "",
+}) => {
+  let url =
+    UserInfoProxy +
+    "/GetGraduate_univ?schoolID=" +
+    schoolID +
+    (collegeID !== "" ? "&collegeID=" + collegeID : "") +
+    (gradeID !== "" ? "&gradeID=" + gradeID : "") +
+    (classID !== "" ? "&classID=" + classID : "") +
+    (keyword !== "" ? "&keyword=" + keyword : "") +
+    "&pageIndex=" +
+    pageIndex +
+    "&pageSize=" +
+    pageSize +
+    (sortFiled !== "" ? "&sortFiled=" + sortFiled : "") +
+    (sortType !== "" ? "&sortType=" + sortType : "") +
+    (majorID !== "" ? "&majorID=" + majorID : "");
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
 // 获取教师档案-获取学院、教研室信息
 const MAIN_GET_TEACHER_TREE_DATA = "MAIN_GET_TEACHER_TREE_DATA";
 
-const GetTeacherTree = ({ fn = () => {}, collegeID, schoolID }) => {
+const GetTeacherTree = ({
+  fn = () => {},
+  isLoading = true,
+  collegeID,
+  schoolID,
+}) => {
   return (dispatch, getState) => {
-    dispatch(PublicAction.ContentLoadingOpen());
+    if (isLoading) {
+      dispatch(PublicAction.ContentLoadingOpen());
+    }
     let State = getState();
     let {
       PublicState: {
@@ -896,7 +1067,207 @@ const DeleteLeader = ({ fn = () => {} }) => {
       });
   };
 };
+// 获取学院、专业、年级、班级信息（用于构建下拉列表）
+const MAIN_GET_GRADUATE_TREE_DATA = "MAIN_GET_GRADUATE_TREE_DATA";
+
+const GetGraduateTree = ({ fn = () => {}, collegeID, schoolID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ContentLoadingOpen());
+    let State = getState();
+    let {
+      PublicState: {
+        LoginMsg: { SchoolID, CollegeID },
+      },
+      DataState: {
+        CommonData: {
+          RolePower: { IsCollege, IsLeader },
+        },
+      },
+    } = State;
+    if (IsCollege) {
+      if (collegeID === undefined) {
+        collegeID = CollegeID;
+      }
+    } else {
+      collegeID = "";
+    }
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+
+    getGraduateTree({
+      collegeID,
+      schoolID,
+    }).then((res) => {
+      if (res) {
+        let CollegeList = [];
+        let MajorList = [];
+        let GradeList = [];
+        let ClassList = [];
+        res.Data instanceof Array &&
+          res.Data.forEach((college) => {
+            let { CollegeID, CollegeName, Majors } = college;
+            CollegeList.push({ value: CollegeID, title: CollegeName });
+            Majors instanceof Array &&
+              Majors.forEach((major) => {
+                let { MajorID, MajorName, Grades } = major;
+                MajorList.push({
+                  value: MajorID,
+                  title: MajorName,
+                  CollegeID,
+                  CollegeName,
+                });
+                Grades instanceof Array &&
+                  Grades.forEach((grade) => {
+                    let { GradeID, GradeName, Classes } = grade;
+                    if (
+                      GradeList.length === 0 ||
+                      GradeList[GradeList.length - 1].MajorID === MajorID
+                    ) {
+                      //年级只要一个就可以了，所以专业不一样就没必要在加了
+                      GradeList.push({
+                        value: GradeID,
+                        title: GradeName,
+                        CollegeID,
+                        CollegeName,
+                        MajorID,
+                        MajorName,
+                      });
+                    }
+
+                    Classes instanceof Array &&
+                      Classes.forEach((Class) => {
+                        let { ClassID, ClassName } = Class;
+                        ClassList.push({
+                          value: ClassID,
+                          title: ClassName,
+                          CollegeID,
+                          CollegeName,
+                          MajorID,
+                          MajorName,
+                          GradeID,
+                          GradeName,
+                        });
+                      });
+                  });
+              });
+          });
+
+        dispatch({
+          type: MAIN_GET_GRADUATE_TREE_DATA,
+          data: {
+            CollegeList,
+            MajorList,
+            GradeList,
+            ClassList,
+          },
+        });
+        fn(getState());
+        dispatch(PublicAction.ContentLoadingClose());
+      }
+    });
+  };
+};
+const getGraduateTree = async ({ collegeID = "", schoolID = "" }) => {
+  let url =
+    UserInfoProxy +
+    "/GetTreeOfGraduate_univ?collegeID=" +
+    collegeID +
+    "&schoolID=" +
+    schoolID;
+  let data = "";
+  let res = await getData(url, 2);
+  let json = await res.json();
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+
+// 编辑毕业生联系信息
+
+const EditGraduateContact = ({ fn = () => {} }) => {
+  return (dispatch, getState) => {
+    // console.log(url)
+    let url = "/EditGraduateContact_Univ";
+    let {
+      DataState: {
+        CommonData: {
+          GraduateEditParams: { Telephone, Email, HomeAddress, UserID },
+        },
+      },
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = getState();
+
+    postData(
+      UserInfoProxy + url,
+      {
+        Telephone,
+        Email,
+        HomeAddress,
+        UserID,
+      },
+      2
+    )
+      .then((data) => data.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          // dispatch(SetMainEditInitData());
+          fn();
+        }
+      });
+  };
+};
+
+// 编辑毕业生去向信息
+
+const EditGraduateTrack = ({ fn = () => {} }) => {
+  return (dispatch, getState) => {
+    // console.log(url)
+    let url = "/EditGraduateTrack_Univ";
+    let {
+      DataState: {
+        CommonData: {
+          GraduateEditParams: { JobType, Discription, HomeAddress, UserID },
+        },
+      },
+      PublicState: {
+        LoginMsg: { SchoolID },
+      },
+    } = getState();
+
+    postData(
+      UserInfoProxy + url,
+      {
+        JobType,
+        Discription,
+        UserID,
+      },
+      2
+    )
+      .then((data) => data.json())
+      .then((json) => {
+        if (json.StatusCode === 200) {
+          // dispatch(SetMainEditInitData());
+          fn();
+        }
+      });
+  };
+};
 export default {
+  EditGraduateContact,
+  EditGraduateTrack,
+
+  MAIN_GET_GRADUATE_TO_PAGE,
+  GetGraduateToPage,
+
+  MAIN_GET_GRADUATE_TREE_DATA,
+  GetGraduateTree,
+
   MAIN_GET_LEADER_TO_PAGE,
   GetLeaderToPage,
 

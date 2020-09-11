@@ -68,7 +68,7 @@ class Leader extends Component {
               <div className="name-content">
                 <i
                   alt={arr.UserName}
-                  onClick={this.onUserNameClick.bind(this, arr.UserID)}
+                  onClick={this.onUserNameClick.bind(this, arr)}
                   className="name-img"
                   style={{
                     width: "37.5px",
@@ -94,7 +94,7 @@ class Leader extends Component {
                 <span
                   className="name-UserName"
                   title={arr.UserName ? arr.UserName : ""}
-                  onClick={this.onUserNameClick.bind(this, arr.UserID)}
+                  onClick={this.onUserNameClick.bind(this, arr)}
                 >
                   {arr.UserName ? arr.UserName : "--"}
                 </span>
@@ -230,7 +230,24 @@ class Leader extends Component {
   };
   LeaderEdit = (data) => {
     let { dispatch } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(data));
+    dispatch(
+      CommonAction.SetEditUserArchivesData({
+        UserID: data.UserID,
+        UserName: data.UserName,
+        ImgPath: data.PhotoPath_NoCache
+          ? data.PhotoPath_NoCache
+          : data.PhotoPath,
+        Gender: data.Gender,
+        CollegeID: data.CollegeID,
+        CollegeName: data.CollegeName,
+
+        Position: data.Position,
+        IDCardNo: data.IDCardNo,
+        Telephone: data.Telephone,
+        Email: data.Email,
+        HomeAddress: data.HomeAddress,
+      })
+    );
     dispatch(
       CommonAction.SetUserArchivesParams({
         UserArchivesModalRole: "Leader",
@@ -265,29 +282,28 @@ class Leader extends Component {
     );
   };
   // 点击姓名头像
-  onUserNameClick = (UserID) => {
-    // const {
-    //   DataState: {
-    //     // GradeLeaderPreview: { pensonalList },
-    //   },
-    // } = this.props;
-    // console.log(UserID);
-    // if (pensonalList[key]) {
-    let token = sessionStorage.getItem("token");
-    window.open(
-      "/html/userPersona/index.html?userType=" +
-        2 +
-        "&userID=" +
-        UserID +
-        "&lg_tk=" +
-        token
+  onUserNameClick = (data) => {
+    const { dispatch } = this.props;
+    dispatch(
+      CommonAction.SetUserArchivesParams({
+        DetailsType: "leader",
+        DetailsData: data.DetailsData,
+      })
     );
-    // }
-    // const { DataState } = this.props;
-    // this.setState({
-    //   LeaderDetailsMsgModalVisible: true,
-    //   detailData: DataState.GradeLeaderPreview.pensonalList[key],
-    // });
+    dispatch(
+      CommonAction.SetModalVisible({
+        DetailsModalVisible: true,
+      })
+    );
+    // let token = sessionStorage.getItem("token");
+    // window.open(
+    //   "/html/userPersona/index.html?userType=" +
+    //     2 +
+    //     "&userID=" +
+    //     UserID +
+    //     "&lg_tk=" +
+    //     token
+    // );
   };
   //学院选择
   onCollegeSelect = (e) => {
@@ -505,8 +521,9 @@ class Leader extends Component {
                 },
               })
             );
-          }}))
-     
+          },
+        })
+      );
     }
   };
   render() {

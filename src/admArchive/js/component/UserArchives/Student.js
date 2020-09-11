@@ -262,7 +262,28 @@ class Student extends Component {
   };
   StudentEdit = (data) => {
     let { dispatch } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(data));
+    dispatch(
+      CommonAction.SetEditUserArchivesData({
+        UserID: data.UserID,
+        UserName: data.UserName,
+        ImgPath: data.PhotoPath_NoCache
+          ? data.PhotoPath_NoCache
+          : data.PhotoPath,
+        Gender: data.Gender,
+        CollegeID: data.CollegeID,
+        CollegeName: data.CollegeName,
+        MajorID: data.MajorID,
+        MajorName: data.MajorName,
+        GradeID: data.GradeID,
+        GradeName: data.GradeName,
+        ClassID: data.ClassID,
+        ClassName: data.ClassName,
+        IDCardNo: data.IDCardNo,
+        Telephone: data.Telephone,
+        Email: data.Email,
+        HomeAddress: data.HomeAddress,
+      })
+    );
     dispatch(
       CommonAction.SetUserArchivesParams({
         UserArchivesModalRole: "Student",
@@ -279,10 +300,22 @@ class Student extends Component {
     let {
       dispatch,
       DataState: {
-        CommonData: { InitEditStudent },
+        CommonData: { InitEditStudent, StudentParams },
       },
     } = this.props;
-    dispatch(CommonAction.SetEditUserArchivesData(InitEditStudent));
+    dispatch(
+      CommonAction.SetEditUserArchivesData({
+        ...InitEditStudent,
+        CollegeID: StudentParams.collegeID,
+        CollegeName: StudentParams.collegeName,
+        MajorID: StudentParams.majorID,
+        MajorName: StudentParams.majorName,
+        GradeID: StudentParams.gradeID,
+        GradeName: StudentParams.gradeName,
+        ClassID: StudentParams.classID,
+        ClassName: StudentParams.className,
+      })
+    );
 
     dispatch(
       CommonAction.SetUserArchivesParams({
@@ -610,8 +643,9 @@ class Student extends Component {
     } = this.props;
 
     let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
-    let Major = [];
-    let Class = [];
+    let Grade = [{ value: "", title: "全部年级" }].concat(GradeList);
+    let Major = [{ value: "", title: "全部专业" }];
+    let Class = [{ value: "", title: "全部班级" }];
     collegeID !== "" &&
       MajorList instanceof Array &&
       MajorList.forEach((child) => {
@@ -751,7 +785,7 @@ class Student extends Component {
                 value: gradeID,
                 title: gradeID !== "" ? gradeName : "全部年级",
               }}
-              dropList={GradeList}
+              dropList={Grade}
               onChange={this.onGradeChange}
             ></DropDown>
             <DropDown
