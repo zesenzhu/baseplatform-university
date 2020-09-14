@@ -1187,13 +1187,26 @@ class DropComponent extends React.Component {
       dropListShow: false,
       range2ListShow: "",
       range2ListActive: "",
+      simpleSearchList:[],
+      simpleSearchShow:false,
+      simpleSearchValue:''
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dropSelectd, dropList } = nextProps;
 
-    this.setState({ dropSelectd: dropSelectd });
+    const { dropSelectd, dropList,type } = nextProps;
+
+    let simpleSearchList = [];
+
+    if (type!=='multiple'){
+
+        simpleSearchList = dropList;
+
+    }
+
+    this.setState({ dropSelectd: dropSelectd,simpleSearchList });
+
   }
 
   onToggleDropList() {
@@ -1249,6 +1262,7 @@ class DropComponent extends React.Component {
   } //在二级的时候展开下拉
 
   componentDidMount() {
+
     const that = this;
 
     document.addEventListener("click", (e) =>
@@ -1256,20 +1270,33 @@ class DropComponent extends React.Component {
         that,
         target: e.target,
         ulDom: this.refs.dropdown_select_ul,
-        spanDom: this.refs.dropdown_default_span,
+        spanDom: this.refs.dropdown_default_span
+
       })
     ); //当点击事件发生在下拉之外的时候
   }
 
   outDropClick(e) {
+
     const { that, target, ulDom, spanDom } = e;
+
+    const {dropList=[]} = this.props;
 
     if (ulDom && spanDom) {
       //在该界面上已有该组件才这样展示
       if (!spanDom.contains(target) && !ulDom.contains(target)) {
-        that.setState({ dropListShow: false }, () => {
+
+        that.setState({
+            dropListShow:false,
+            simpleSearchList:dropList,
+            simpleSearchShow:false,
+            simpleSearchValue:''
+        },() => {
+
           $(ulDom).hide();
+
         });
+
       }
     }
   } //当点击事件发生在下拉组件之外的时候
@@ -1293,6 +1320,102 @@ class DropComponent extends React.Component {
       mutipleOptions.dropCancelSearch();
     }
   }
+
+  simpleSearch() {
+
+      const { dropList } = this.props;
+
+      if (this.state.simpleSearchValue) {
+
+        const list =  dropList.filter(i=>{
+
+            if(typeof(i.title)==='string'||typeof(i.title)==='number'){
+
+              return i.title.toString().includes(this.state.simpleSearchValue);
+
+            }else{
+
+              let hasValue = this.recursive(i.title);
+
+              return hasValue;
+
+            }
+
+        });
+
+        const simpleSearchList = list.length>0?list:[{value:'',title:'搜索不到相关数据'}];
+
+        this.setState({simpleSearchShow:true,simpleSearchList});
+
+      }
+
+  }
+
+    //递归函数
+  recursive(reactDom){
+
+  let hasValue = false;
+
+  if(typeof(reactDom.props.children)==='string'||typeof(reactDom.props.children)==='number'){
+
+      if(reactDom.props.children.toString().includes(this.state.simpleSearchValue)){
+
+          hasValue = true;
+
+      }
+
+  }else{
+
+      for (let i = 0;i<=reactDom.props.children.length-1;i++){
+
+          if (!hasValue){
+
+              if(typeof(reactDom.props.children[i])==='string'||typeof(reactDom.props.children[i])==='number') {
+
+                  if(reactDom.props.children[i].toString().includes(this.state.simpleSearchValue)){
+
+                      hasValue = true;
+
+                  }
+
+              }else{
+
+                   hasValue =  this.recursive(reactDom.props.children[i]);
+
+              }
+
+          }
+
+      }
+
+  }
+
+
+  return hasValue;
+
+}
+
+  //简单搜索的值发生变化
+  simpleSearchValueChange(e){
+
+    this.setState({
+
+        simpleSearchValue:e.target.value
+
+    });
+
+  }
+
+  //简单搜索关闭
+
+  simpleSearchClose(){
+
+    const {dropList} = this.props;
+
+    this.setState({simpleSearchValue:'',simpleSearchShow:false,simpleSearchList:dropList});
+
+  }
+
 
   render() {
     const {
@@ -1535,6 +1658,9 @@ class DropComponent extends React.Component {
         </div>
       );
     } else {
+
+
+
       dropContainer = (
         <ul
           className="dropdown_select_ul"
@@ -1542,6 +1668,25 @@ class DropComponent extends React.Component {
           style={{ width: width, overflow: "initial" }}
         >
           <Loading opacity={false} spinning={dropLoadingShow}>
+
+              {
+
+                  dropList&&dropList.length>12?
+
+                      <li className={"dropdown_select_search"}>
+
+                        <AntdInput value={this.state.simpleSearchValue} onChange={this.simpleSearchValueChange.bind(this)} onPressEnter={this.simpleSearch.bind(this)}  className={"search-input"}/>
+
+                        <i onClick={this.simpleSearchClose.bind(this)} className={"dropdown_search_close"} style={{display:`${this.state.simpleSearchShow?'block':'none'}`}}></i>
+
+                        <i onClick={this.simpleSearch.bind(this)} className={"drop_search_btn"} style={{display:`${this.state.simpleSearchShow?'none':'block'}`}}></i>
+
+                      </li>
+
+                      :null
+
+              }
+
             <Scrollbars
               autoHeight
               autoHeightMin={0}
@@ -1553,9 +1698,9 @@ class DropComponent extends React.Component {
                 return <span style={{ display: "none" }}></span>;
               }}
             >
-              {dropList &&
-                dropList instanceof Array &&
-                dropList.map((item, key) => {
+              {
+
+                this.state.simpleSearchList.map((item, key) => {
                   return (
                     <li
                       key={key}
@@ -1577,7 +1722,9 @@ class DropComponent extends React.Component {
                       {item.title}
                     </li>
                   );
-                })}
+                })
+
+              }
             </Scrollbars>
           </Loading>
         </ul>
