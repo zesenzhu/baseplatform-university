@@ -20,7 +20,7 @@ function ShowCardTeacher(props){
 
     //props
 
-    const { dispatch, DataState, UIState } = props;
+    const { dispatch, DataState, UIState,teacherManagePower } = props;
 
     const {editCourseClass,updateTeacherCourseClass} = props;
 
@@ -112,11 +112,22 @@ function ShowCardTeacher(props){
                         </div>
 
                     </div>
-                    <div className='handle-content'>
-                        <span onClick={e=>onHandleClick(props.params.CourseClassID)} className='left'><i className='resetName'></i><span>编辑</span></span>
-                        <span onClick={e=>onDeleteClick(props.params.CourseClassID)} className='right'><i className='Delete'></i><span>删除</span></span>
-                        <span className='divide'></span>
-                    </div>
+
+                    {
+
+                        teacherManagePower?
+
+                            <div className='handle-content'>
+                                <span onClick={e=>onHandleClick(props.params.CourseClassID)} className='left'><i className='resetName'></i><span>编辑</span></span>
+                                <span onClick={e=>onDeleteClick(props.params.CourseClassID)} className='right'><i className='Delete'></i><span>删除</span></span>
+                                <span className='divide'></span>
+                            </div>
+
+                            :null
+
+                    }
+
+
                 </div>
             </div>
 
@@ -124,10 +135,11 @@ function ShowCardTeacher(props){
 
 }
 const mapStateToProps = (state) => {
-    let { UIState, DataState } = state;
+    let { UIState, DataState,teacherManagePower } = state;
     return {
         UIState,
-        DataState
+        DataState,
+        teacherManagePower
     }
 };
 
