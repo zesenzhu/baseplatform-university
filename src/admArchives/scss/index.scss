@@ -1,35 +1,20 @@
-$image-url:'../images';
-.frame-nav-content {
-    position: relative;
-}
-
-.frame-fluid {
-    position: relative;
-    //   padding: 0;
-    padding: 25px 42px !important;
-    background: #fff !important;
-}
-
-label {
-    cursor: pointer;
-}
-
-.mainFrame {
+@import "../../common/scss/public.scss";
+$img-url: "../images";
+@import "./Main.scss";
+@import "./Common/index.scss";
+@import "./UserArchives/index.scss";
+@import "./RegisterExamine/index.scss";
+@import "./Log/index.scss";
+@import "./ImportFile/index.scss";
+@import "./Modal.scss";
+.AdmArchives-frame {
     .frame-block-wrapper {
-        padding-left: 100px!important;
+        padding-left: 100px;
     }
 }
 
-.Modal-1 .ant-modal-body {
-    overflow: visible;
-    height: 510px;
+.ClassFrame {
+    .frame-block-wrapper {
+        padding-left: 110px;
+    }
 }
-
-.ant-tooltip {
-    z-index: 2002!important;
-}
-
-// //教研室管理的模态框
-// @import "./edit-group-modal.scss";
-// // 添加教研室修改modal
-// @import "./add-class-modal.scss"

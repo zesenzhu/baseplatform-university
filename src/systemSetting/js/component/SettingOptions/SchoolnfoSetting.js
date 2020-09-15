@@ -102,13 +102,13 @@ class SchoolnfoSetting extends Component {
               <span
                 title={
                   CollegeCode && SchoolCode
-                    ? "cadimin" + "_" + CollegeCode + "_" + SchoolCode
+                    ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
                     : ""
                 }
                 className="CollegeAccount"
               >
                 {CollegeCode && SchoolCode
-                  ? "cadimin" + "_" + CollegeCode + "_" + SchoolCode
+                  ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
                   : "--"}
               </span>
             );
@@ -221,7 +221,7 @@ class SchoolnfoSetting extends Component {
       CancelBtnShow: "n",
       searchValue: "",
       type: "",
-      pageSize:4
+      pageSize: 4,
     };
     const { dispatch } = props;
     const { SchoolID } = JSON.parse(sessionStorage.getItem("UserInfo"));
@@ -1007,7 +1007,9 @@ class SchoolnfoSetting extends Component {
       dispatch(
         DataChange.getCollegePreview(
           this.state.searchValue,
-          collegePreview.currentIndex,'','',
+          collegePreview.currentIndex,
+          "",
+          "",
           this.state.pageSize
         )
       );
@@ -1034,15 +1036,13 @@ class SchoolnfoSetting extends Component {
     );
   };
   onShowSizeChange = (current, pageSize) => {
-    let {
-      dispatch,
-       
-    } = this.props;
+    let { dispatch } = this.props;
 
     this.setState({
       checkedList: [],
       checkAll: false,
-      pagination: 1,pageSize
+      pagination: 1,
+      pageSize,
     });
     dispatch(
       DataChange.getCollegePreview(
@@ -1053,7 +1053,6 @@ class SchoolnfoSetting extends Component {
         pageSize
       )
     );
-    
   };
   onEditCollegeOk = () => {
     const { dispatch, DataUpdate, UIState } = this.props;
@@ -1241,7 +1240,6 @@ class SchoolnfoSetting extends Component {
       CollegeList = [];
 
       CollegeList2.forEach((child) => {
-
         child.SchoolCode = SchoolCode;
         CollegeList.push(child);
       });
@@ -1415,7 +1413,7 @@ class SchoolnfoSetting extends Component {
                       current={currentIndex}
                       hideOnSinglePage={totalCount === 0 ? true : false}
                       total={totalCount}
-                      pageSizeOptions={[4,10,20,50]}
+                      pageSizeOptions={[4, 10, 20, 50]}
                       onChange={this.onPagiNationChange}
                     ></PagiNation>
                   </div>

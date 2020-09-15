@@ -500,7 +500,7 @@ class Modal extends React.Component {
       onOk: props.onOk /*点击确定回调*/,
       visible: props.visible /*对话框是否可见*/,
       className: props.className ? props.className : "" /**/,
-      destroyOnClose: props.destroyOnClose ? props.destroyOnClose : true,
+      destroyOnClose: props.destroyOnClose!==undefined ? props.destroyOnClose : true,
       ModalStyle: "Modal-1",
     };
   }
@@ -791,6 +791,7 @@ class CheckBox extends React.Component {
         CheckClassName = "";
     }
 
+    
     return (
       <ConfigProvider locale={zhCN}>
         <AntCheckBox

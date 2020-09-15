@@ -445,6 +445,7 @@ class Class extends Component {
               current={PageIndex + 1}
               hideOnSinglePage={Total === 0 ? true : false}
               total={Total}
+              pageSizeOptions={[12,24,48,96]}
               onChange={this.onPagiNationChange}
             ></PagiNation>
           </div>

@@ -1810,6 +1810,7 @@ class Parents extends React.Component {
             <span className="top-tips">
               <span className="tips menu39 ">家长账号管理</span>
             </span>
+            <span style={{float:'right',fontSize:'14px',color:'#999'}}>注:家长账号由学生账号一对一自动生成</span>
             {/* <div className='top-nav'>
                             <Link className='link'  to='/GraduteArchives' replace>查看毕业生档案</Link>
                             <span className='divide'>|</span>
