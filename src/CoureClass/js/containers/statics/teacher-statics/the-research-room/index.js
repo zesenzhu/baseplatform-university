@@ -75,8 +75,6 @@ function TheCollege(props) {
     const paginationRef = useRef(pagination);
 
 
-    console.log(666);
-
     useEffect(()=>{
 
         let isUnmount = false;

@@ -1423,6 +1423,7 @@ class DropComponent extends React.Component {
       TitleShow,
       title,
       width,
+      height,
       activeValue,
       disabled,
       dropSelectd,
@@ -1659,8 +1660,6 @@ class DropComponent extends React.Component {
       );
     } else {
 
-
-
       dropContainer = (
         <ul
           className="dropdown_select_ul"
@@ -1691,6 +1690,7 @@ class DropComponent extends React.Component {
               autoHeight
               autoHeightMin={0}
               autoHeightMax={288}
+              style={{height:`${height?height:'auto'}`}}
               renderTrackHorizontal={(props) => {
                 return <span style={{ display: "none" }}></span>;
               }}

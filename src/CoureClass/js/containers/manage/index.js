@@ -646,7 +646,6 @@ function Index(props) {
     //表格的table
     const columns = useMemo(()=>{
 
-
         if (isAiPractice){
 
             return [

@@ -72,7 +72,7 @@ function TeacherTotal(props) {
     //ref
     const paginationRef = useRef(pagination);
 
-    console.log(777);
+
 
     useEffect(()=>{
 

@@ -257,6 +257,7 @@ function CollegeTotal(props) {
 
                 setCardList(list);
 
+
             }
 
             setCollegeLoading(false);
@@ -277,6 +278,8 @@ function CollegeTotal(props) {
     };
 
 
+
+
     return(
 
         <Loading spinning={loading} tip={"加载中,请稍候..."}>
@@ -292,7 +295,6 @@ function CollegeTotal(props) {
                     <CardTab tabClick={tabClick} type={1} list={cardList}></CardTab>
 
                 </Loading>
-
 
                 <PagiNation pageSize={pagination.pageSize} hideOnSinglePage={pagination.pageSize===parseInt(pagination.pageSizeList[0])} showSizeChanger pageSizeOptions={pagination.pageSizeList} onShowSizeChange={pagiSizeChange} total={pagination.total}  current={pagination.current} onChange={pageChange}></PagiNation>
 
