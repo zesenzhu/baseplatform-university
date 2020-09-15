@@ -110,34 +110,34 @@ function Content(props){
                 rely:''
             },
 
-            {
-                title: (
-                    <span>
-                成绩
-                <br />
-                信息
-              </span>
-                ),
-                id: "score",
-                value: StuResult,
-                type:
-                    "AdmToStu,LeaderToStu,StuToStu,ParentsToStu,HeaderTeacherToStu",
-                rely:'StuResult'
-            },
-            {
-                title: (
-                    <span>
-                综合
-                <br />
-                评价
-              </span>
-                ),
-                id: "comment",
-                value: StuQuality,
-                type:
-                    "AdmToStu,LeaderToStu,StuToStu,ParentsToStu,HeaderTeacherToStu",
-                rely:'StuQuality'
-            },
+            // {
+            //     title: (
+            //         <span>
+            //     成绩
+            //     <br />
+            //     信息
+            //   </span>
+            //     ),
+            //     id: "score",
+            //     value: StuResult,
+            //     type:
+            //         "AdmToStu,LeaderToStu,StuToStu,ParentsToStu,HeaderTeacherToStu",
+            //     rely:'StuResult'
+            // },
+            // {
+            //     title: (
+            //         <span>
+            //     综合
+            //     <br />
+            //     评价
+            //   </span>
+            //     ),
+            //     id: "comment",
+            //     value: StuQuality,
+            //     type:
+            //         "AdmToStu,LeaderToStu,StuToStu,ParentsToStu,HeaderTeacherToStu",
+            //     rely:'StuQuality'
+            // },
             {
                 title: <span>德育</span>,
                 id: "pe",
