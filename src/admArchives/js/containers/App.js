@@ -124,7 +124,11 @@ class App extends Component {
           RegisterExamineParams: { classID, className },
         },
       },
-      PublicState,
+      PublicState:{
+        LoginMsg:{
+          CollegeID,CollegeName
+        }
+      },
     } = this.props;
 
     let Route = this.ConstructRoute();
@@ -235,6 +239,10 @@ class App extends Component {
         checkedList: [],
         checkAll: false,
       };
+      if(IsCollege){
+        RegisterParams.collegeID = CollegeID;
+        RegisterParams.collegeName = CollegeName;
+      }
       if (LockerVersion_1) {
         //基础版不要注册审核
         this.SetFirstDefaultRoute({ isFirst: true });
@@ -245,6 +253,7 @@ class App extends Component {
           showBarner: false,
         })
       );
+      // 教师
       if (IsTeacher) {
         if (classID) {
           if (SecondRoute === "RegisterWillExamine") {
@@ -306,7 +315,7 @@ class App extends Component {
             })
           );
         }
-      } else {
+      } else {//管理员
         if (SecondRoute === "RegisterWillExamine") {
           dispatch(MainAction.GetTree({ isLoading: isFirst }));
 
@@ -350,12 +359,16 @@ class App extends Component {
         this.SetFirstDefaultRoute({ isFirst: true });
         return;
       }
+      
       dispatch(
         CommonAction.SetFrameParams({
           showBarner: false,
         })
       );
-
+      if(IsCollege){
+        RegisterParams.collegeID = CollegeID;
+        RegisterParams.collegeName = CollegeName;
+      }
       if (SecondRoute === "TeacherRegisterWillExamine") {
         dispatch(MainAction.GetTeacherTree({ isLoading: false }));
 
@@ -528,7 +541,7 @@ class App extends Component {
     let {
       dispatch,
       PublicState: {
-        LoginMsg: { Role, ColegeID, CollegeName },
+        LoginMsg: { Role, CollegeID, CollegeName },
       },
       DataState: {
         CommonData: {
@@ -547,7 +560,7 @@ class App extends Component {
     if (IsCollege) {
       //是学院且参数没选择，第一次进来
       //学院的
-      data.collegeID = ColegeID;
+      data.collegeID = CollegeID;
       data.collegeName = CollegeName;
       let major;
       if (id) {
@@ -563,8 +576,8 @@ class App extends Component {
       }
       dispatch(
         CommonAction.SetRegisterExamineParams({
-          collegeID: college.value,
-          collegeName: college.title,
+          collegeID: CollegeID,
+          collegeName:CollegeName,
         })
       );
     } else {
@@ -597,7 +610,7 @@ class App extends Component {
     let {
       dispatch,
       PublicState: {
-        LoginMsg: { Role, ColegeID, CollegeName },
+        LoginMsg: { Role, CollegeID, CollegeName },
       },
       DataState: {
         CommonData: {
@@ -615,7 +628,7 @@ class App extends Component {
     if (IsCollege) {
       //是学院且参数没选择，第一次进来
       //学院的
-      data.collegeID = ColegeID;
+      data.collegeID = CollegeID;
       data.collegeName = CollegeName;
       let group;
       if (id) {
@@ -631,8 +644,8 @@ class App extends Component {
       }
       dispatch(
         CommonAction.SetRegisterExamineParams({
-          collegeID: college.value,
-          collegeName: college.title,
+          collegeID: CollegeID,
+          collegeName:CollegeName,
         })
       );
     } else {

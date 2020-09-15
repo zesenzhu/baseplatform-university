@@ -162,7 +162,7 @@ class GroupModal extends Component {
       },
     } = this.props;
     let GroupList = [];
-    CollegeID !== "" &&
+    CollegeID  &&
       groupList instanceof Array &&
       groupList.forEach((child) => {
         if (child.CollegeID === CollegeID) {

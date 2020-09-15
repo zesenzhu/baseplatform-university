@@ -17,7 +17,7 @@ class TopHandle extends React.Component {
       : {};
     return (
       <div className="top-handle">
-        {userPower === "Admin" && handleRoute !== "ClassDetails" ? (
+        {userPower.includes('Admin') && handleRoute !== "ClassDetails" ? (
           <React.Fragment>
             <Button
               className="btn-handle"
@@ -47,7 +47,7 @@ class TopHandle extends React.Component {
         ) : (
           ""
         )}
-        {(userPower === "Admin" || userPower === "MainTeacher") &&
+        {(userPower.includes('Admin') || userPower === "MainTeacher") &&
         handleRoute === "ClassDetails" ? (
           <React.Fragment>
             <Button

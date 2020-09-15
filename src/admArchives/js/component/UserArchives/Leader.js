@@ -572,9 +572,7 @@ class Leader extends Component {
     let token = sessionStorage.getItem("token");
     let url =
       CONFIG.UserInfoProxy +
-      "/ExportSchoolLeader?keyword=" +
-      keyword +
-      "&lg_tk=" +
+      "/ExportSchoolLeader?lg_tk=" +
       token;
 
     window.open(url);
@@ -640,12 +638,12 @@ class Leader extends Component {
                   导入领导
                 </span>
               </a>
-              {/* <span className="divide">|</span>
+              <span className="divide">|</span>
             <a className="link">
               <span onClick={this.Export} className="Export">
                 导出领导
               </span>
-            </a> */}
+            </a>
             </div>
           </div>
           <div className="Content-hr"></div>

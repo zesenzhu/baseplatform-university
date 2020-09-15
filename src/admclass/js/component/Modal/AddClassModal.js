@@ -63,6 +63,7 @@ class AddClassModal extends React.Component {
       collegeList,
       majorData,
       gradeList,
+      UserPower,
       children,
       ...params
     } = this.props;
@@ -79,6 +80,8 @@ class AddClassModal extends React.Component {
       value: MajorID,
       title: MajorID === "" ? "请选择专业" : MajorName,
     };
+    let IsCollege = UserPower.includes("College");
+
     return (
       <div
         className={`AddClassModal ${className}`}
@@ -86,9 +89,9 @@ class AddClassModal extends React.Component {
         {...params}
       >
         <div className="modal-row">
-          <span className="row-left">选择学院:</span>
+          <span className="row-left">学院:</span>
           <span className="row-right">
-            <Tips
+            {!IsCollege?<Tips
               overlayClassName="tips"
               placement={"right"}
               getPopupContainer={(e) => e.parentNode}
@@ -106,11 +109,11 @@ class AddClassModal extends React.Component {
                 dropList={collegeList}
                 onChange={(e) => onSelectCollege(e)}
               ></DropDown>
-            </Tips>
+            </Tips>:<span style={{lineHeight:'32px'}}>{SelectCollege.title?SelectCollege.title:'--'}</span>}
           </span>
         </div>
         <div className="modal-row">
-          <span className="row-left">选择专业:</span>
+          <span className="row-left">专业:</span>
           <span className="row-right">
             <Tips
               overlayClassName="tips"
@@ -137,7 +140,7 @@ class AddClassModal extends React.Component {
           </span>
         </div>
         <div className="modal-row">
-          <span className="row-left">选择年级:</span>
+          <span className="row-left">年级:</span>
           <span className="row-right">
             <Tips
               overlayClassName="tips"

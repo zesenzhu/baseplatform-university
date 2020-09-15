@@ -588,7 +588,7 @@ class Teacher extends Component {
           ? CollegeList[0].value
           : "",
         CollegeName: StudentParams.collegeName
-          ? StudentParams.collegeID
+          ? StudentParams.collegeName
           : CollegeList[0]
           ? CollegeList[0].title
           : "",
@@ -687,7 +687,7 @@ class Teacher extends Component {
     let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
     let Group = [{ value: "", title: "全部教研室" }];
     let Class = [];
-    collegeID !== "" &&
+    collegeID  &&
       GroupList instanceof Array &&
       GroupList.forEach((child) => {
         if (child.CollegeID === collegeID) {
@@ -763,12 +763,12 @@ class Teacher extends Component {
                   导入教师
                 </span>
               </a>
-              {/* <span className="divide">|</span>
+              <span className="divide">|</span>
               <a className="link">
                 <span onClick={this.Export} className="Export">
                   导出教师
                 </span>
-              </a> */}
+              </a>
             </div>
           </div>
           <div className="Content-hr"></div>
@@ -783,7 +783,7 @@ class Teacher extends Component {
                 height={240}
                 dropSelectd={{
                   value: collegeID,
-                  title: collegeID !== "" ? collegeName : "全部学院",
+                  title: collegeID  ? collegeName : "全部学院",
                 }}
                 dropList={College}
               ></DropDown>
@@ -795,14 +795,14 @@ class Teacher extends Component {
               width={120}
               height={240}
               disabled={
-                collegeID !== "" ? (Group.length > 0 ? false : true) : true
+                collegeID  ? (Group.length > 0 ? false : true) : true
               }
               dropSelectd={{
                 value: groupID,
                 title:
-                  groupID !== ""
+                  groupID 
                     ? groupName
-                    : collegeID !== "" && Group.length === 0
+                    : collegeID  && Group.length === 0
                     ? "暂无教研室"
                     : "全部教研室",
               }}

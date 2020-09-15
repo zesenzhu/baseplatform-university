@@ -341,6 +341,7 @@ class Class extends Component {
             });
           });
       });
+    let IsCollege = UserPower.includes("College");
     return (
       <Loading
         opacity={false}
@@ -354,16 +355,20 @@ class Class extends Component {
             <div className="top-title">行政班管理</div>
           </div>
           <div className="content-handle">
-            <DropDown
-              ref="College"
-              style={{ zIndex: 10 }}
-              width={120}
-              height={240}
-              title="院系专业："
-              dropSelectd={selectCollege}
-              dropList={CollegeList}
-              onChange={this.onCollegeChange}
-            ></DropDown>
+            {!IsCollege ? (
+              <DropDown
+                ref="College"
+                style={{ zIndex: 10 }}
+                width={120}
+                height={240}
+                title="院系专业："
+                dropSelectd={selectCollege}
+                dropList={CollegeList}
+                onChange={this.onCollegeChange}
+              ></DropDown>
+            ) : (
+              ""
+            )}
             {/* {selectCollege.value ? ( */}
             <DropDown
               ref="Major"
@@ -371,6 +376,7 @@ class Class extends Component {
               width={120}
               height={240}
               // title="年级："
+              title={IsCollege ? "专业：" : ""}
               disabled={selectCollege.value ? false : true}
               dropSelectd={
                 // selectCollege.value
@@ -389,7 +395,7 @@ class Class extends Component {
 
             <DropDown
               ref="Grade"
-              style={{ zIndex: 10, position: "absolute", left: "410px" }}
+              style={{ zIndex: 10, position: "absolute", left: IsCollege?'280px':"410px" }}
               width={120}
               height={240}
               title="年级："
@@ -419,7 +425,7 @@ class Class extends Component {
                     onDeleteClick={this.onDeleteClick}
                     key={index}
                     data={child}
-                    canControl={UserPower === "Admin"}
+                    canControl={UserPower.includes("Admin")}
                     className={"Card"}
                   ></ClassCard>
                 );
@@ -445,7 +451,7 @@ class Class extends Component {
               current={PageIndex + 1}
               hideOnSinglePage={Total === 0 ? true : false}
               total={Total}
-              pageSizeOptions={[12,24,48,96]}
+              pageSizeOptions={[12, 24, 48, 96]}
               onChange={this.onPagiNationChange}
             ></PagiNation>
           </div>

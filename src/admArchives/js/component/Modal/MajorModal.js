@@ -156,7 +156,7 @@ class MajorModal extends Component {
       },
     } = this.props;
     let MajorList = [];
-    CollegeID !== "" &&
+    CollegeID  &&
       majorList instanceof Array &&
       majorList.forEach((child) => {
         if (child.CollegeID === CollegeID) {

@@ -117,7 +117,14 @@ class App extends Component {
         CommonData: { UserPower },
       },
       PublicState: {
-        LoginMsg: { UserType, UserClass, GroupID, GroupName },
+        LoginMsg: {
+          UserType,
+          UserClass,
+          GroupID,
+          GroupName,
+          CollegeID,
+          CollegeName,
+        },
       },
     } = this.props;
     //console.log(UserPower);
@@ -137,7 +144,7 @@ class App extends Component {
     // }
 
     // if (handleRoute === "Grade") {
-    //   if (UserPower === "Admin" || UserPower === "TeachingLeader") {
+    //   if (UserPower.includes('Admin') || UserPower === "TeachingLeader") {
     //     //教务主任和管理员可以景来
     //     dispatch(UpDataState.GetSummary({}));
     //   } else {
@@ -145,8 +152,16 @@ class App extends Component {
     //   }
     // } else
     if (handleRoute === "Class") {
-      if (UserPower === "Admin" || UserPower === "TeachingLeader") {
+      if (UserPower.includes("Admin") || UserPower === "TeachingLeader") {
         // 有路由变化都要改变数据储存，初始
+        if (UserPower.includes("College")) {
+          dispatch(
+            UpDataState.SetSelectCollegeData({
+              value: CollegeID,
+              title: CollegeName,
+            })
+          );
+        }
         dispatch(
           UpDataState.SetClassParams({
             GradeID: "",
@@ -166,7 +181,7 @@ class App extends Component {
       }
     } else if (handleRoute === "ClassDetails") {
       console.log(UserPower);
-      if (UserPower === "Admin" || UserPower === "TeachingLeader") {
+      if (UserPower.includes("Admin") || UserPower === "TeachingLeader") {
         dispatch(
           UpDataState.SetTopLeftData({
             cnname: (
@@ -242,14 +257,20 @@ class App extends Component {
         UserType = UserType.toString();
         UserClass = UserClass.toString();
         let UserPower = "";
-        if (UserType === "7"||UserType==='10'
-        //  && UserClass === "2"
-         ) {
+        if (
+          UserType === "7" ||
+          UserType === "10"
+          //  && UserClass === "2"
+        ) {
           //教务主任
           UserPower = "TeachingLeader";
         } else if (UserType === "0") {
           //管理员
-          UserPower = "Admin";
+          if (UserClass === 1 || UserClass === 2) {
+            UserPower = "Admin";
+          } else {
+            UserPower = "Admin-College";
+          }
         } else if (UserType === "1") {
           //教师
           if (UserClass[2] === "1") {

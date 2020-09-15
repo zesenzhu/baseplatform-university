@@ -915,16 +915,16 @@ class UserArchivesModal extends Component {
         // MajorList = StudentTree.MajorList;
         GradeList = StudentTree.GradeList;
         // ClassList = StudentTree.ClassList;
-        CollegeID !== "" &&
+        CollegeID &&
           StudentTree.MajorList instanceof Array &&
           StudentTree.MajorList.forEach((child) => {
             if (child.CollegeID === CollegeID) {
               MajorList.push(child);
             }
           });
-        CollegeID !== "" &&
-          MajorID !== "" &&
-          GradeID !== "" &&
+        CollegeID &&
+          MajorID &&
+          GradeID &&
           StudentTree.ClassList instanceof Array &&
           StudentTree.ClassList.forEach((child) => {
             if (
@@ -942,7 +942,7 @@ class UserArchivesModal extends Component {
         UserIDC = "工号";
         CollegeList = TeacherTree.CollegeList;
         // GroupList = TeacherTree.GroupList;
-        CollegeID !== "" &&
+        CollegeID &&
           TeacherTree.GroupList instanceof Array &&
           TeacherTree.GroupList.forEach((child) => {
             if (child.CollegeID === CollegeID) {
@@ -1099,7 +1099,10 @@ class UserArchivesModal extends Component {
                       title={CollegeTipsTitle}
                     >
                       {IsCollege ? (
-                        <span title={CollegeName}>
+                        <span
+                          style={{ lineHeight: "40px" }}
+                          title={CollegeName}
+                        >
                           {CollegeName ? CollegeName : "--"}
                         </span>
                       ) : (

@@ -326,7 +326,7 @@ class TimeBanner extends React.Component {
     let handleRoute = pathArr[1];
     return (
       <Router>
-        {/* {UserPower === "Admin" && handleRoute !== "ClassDetails" ? (
+        {/* {UserPower.includes('Admin') && handleRoute !== "ClassDetails" ? (
           <TopMenu onSelectMenu={this.onSelectMenu}></TopMenu>
         ) : (
           ""
@@ -363,6 +363,7 @@ class TimeBanner extends React.Component {
             onSelectMajor={this.onSelectMajor}
             tipsVisible={TipsVisible}
             tipsTitle={Tips}
+            UserPower={UserPower}
             gradeList={GradeList}
             collegeList={CollegeList}
             majorData={MajorData}

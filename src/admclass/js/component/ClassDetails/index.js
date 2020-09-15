@@ -202,7 +202,7 @@ class ClassDetails extends Component {
       >
         {ClassTeacherData.ClassID === ClassDetailsParams.ClassID ? (
           <React.Fragment>
-            {UserPower === "Admin" || UserPower === "TeachingLeader" ? (
+            {UserPower.includes('Admin') || UserPower === "TeachingLeader" ? (
               <Admin></Admin>
             ) : (
               ""

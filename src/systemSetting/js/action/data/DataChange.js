@@ -92,6 +92,12 @@ const getCurrentSemester = (SchoolID) => {
     const url = `/SysMgr/Setting/GetCurrentTermInfo?SchoolID=${SchoolID}`;
 
     ApiActions.getMethod(url).then((json) => {
+      if(!json){
+        return;
+      }
+      if(!json.Data){
+        return;
+      }
       let semesterInfo = json.Data;
 
       //   console.log(semesterInfo);

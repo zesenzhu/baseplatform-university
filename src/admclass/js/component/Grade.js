@@ -180,7 +180,7 @@ class Grade extends Component {
                     onReNameClick={this.onReNameClick}
                     key={index}
                     data={child}
-                    canControl={UserPower === "Admin"}
+                    canControl={UserPower.includes('Admin')}
                     className={"Card"}
                   ></GradeCard>
                 );
