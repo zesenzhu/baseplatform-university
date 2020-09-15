@@ -97,9 +97,6 @@ function CourseTotal(props) {
     //ref
     const subjectRef = useRef(subject);
 
-
-    console.log(555);
-
     useEffect(()=>{
 
         let isUnmount = false;

@@ -36,7 +36,11 @@ class WaveRound extends React.Component {
       speed: props.speed ? props.speed : 0.33,
       // ||props.num===0?props.num:false
     };
+
   }
+
+
+
   componentWillMount() {
     if (this.state.shandow) {
       // a = colors[0];
@@ -56,8 +60,10 @@ class WaveRound extends React.Component {
       ctx = canvas.getContext("2d");
 
       if (nextProps.num !== this.props.num) {
+
         // console.log(nextProps.num);
         this.draw(ctx, canvas, nextProps.num);
+
       }
     }
   }
@@ -78,6 +84,9 @@ class WaveRound extends React.Component {
   }
 
   draw = (ctx, canvas, num = this.state.number) => {
+
+    let animationFrame = null;
+
     // canvas = document.getElementById("canvas");
     // ctx = canvas.getContext("2d");
     var Green=document.getElementById("green");
@@ -131,6 +140,9 @@ class WaveRound extends React.Component {
     let cStartPoint = arcStack.shift();
     ctx.strokeStyle = "#1c86d1";
     ctx.moveTo(cStartPoint[0], cStartPoint[1]);
+
+    cancelAnimationFrame(animationFrame);
+
     // 开始渲染
     render();
     var color = colorRgba("#1c86d1", 0.2);
@@ -254,21 +266,9 @@ class WaveRound extends React.Component {
     }
     // 渲染阴影
     function drawImageShadow(){
-      // let imgUrl = ''
-      // green: "#1ca222",
-      // orange: "#ff7e00",
-      // blue: "#1790e5"
-      let img = ''
-      // var img = new Image();
-			// img.onload = function(){
-			// 	// ('加载完毕')
-				
-			// 	// 将图片画到canvas上面上去！
-			// 	// ctx.drawImage(img,100,100);
-        
-      //   ctx.drawImage(img,0,r*2);
- 
-			// }
+
+      let img = '';
+
       if(that.state.background!=='#1ca222'&&that.state.background!=='#ff7e00'&&that.state.background!=='#1790e5'){
         return;
       }else if(that.state.background==='#1ca222'){
@@ -282,7 +282,8 @@ class WaveRound extends React.Component {
       ctx.drawImage(img,0,r);
     }
     //渲染canvas
-    function render() {
+    function render(){
+
       ctx.clearRect(0, 0, oW, oH);
       // drawRadialGradient()
 
@@ -305,11 +306,12 @@ class WaveRound extends React.Component {
       drawSine();
       // 写字
       // ctx.restore()
-      drawImageShadow()
+      drawImageShadow();
 
       drawText();
       
-      requestAnimationFrame(render);
+      animationFrame = requestAnimationFrame(render);
+
     }
     /**
      * JS颜色十六进制转换为rgb或rgba,返回的格式为 rgba（255，255，255，0.5）字符串
@@ -341,7 +343,11 @@ class WaveRound extends React.Component {
       }
     }
   };
+
+
+
   render() {
+
     return (
       <canvas
         ref={this.canvas}
