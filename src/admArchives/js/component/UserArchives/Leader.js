@@ -349,7 +349,7 @@ class Leader extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetLeaderParams({
-        searchValue: e.target.value,
+        searchValue: e.target.value.trim(),
       })
     );
   };
@@ -566,14 +566,21 @@ class Leader extends Component {
         },
         MainData: {
           StudentTree: { CollegeList },
+          LeaderData: { Total, PageIndex, List },
         },
       },
     } = this.props;
+    if (!Total) {
+      dispatch(
+        PublicAction.showErrorAlert({
+          type: "warn",
+          title: "暂无数据可导出",
+        })
+      );
+      return;
+    }
     let token = sessionStorage.getItem("token");
-    let url =
-      CONFIG.UserInfoProxy +
-      "/ExportSchoolLeader?lg_tk=" +
-      token;
+    let url = CONFIG.UserInfoProxy + "/ExportSchoolLeader?lg_tk=" + token;
 
     window.open(url);
   };
@@ -639,11 +646,11 @@ class Leader extends Component {
                 </span>
               </a>
               <span className="divide">|</span>
-            <a className="link">
-              <span onClick={this.Export} className="Export">
-                导出领导
-              </span>
-            </a>
+              <a className="link">
+                <span onClick={this.Export} className="Export">
+                  导出领导
+                </span>
+              </a>
             </div>
           </div>
           <div className="Content-hr"></div>

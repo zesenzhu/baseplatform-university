@@ -19,6 +19,7 @@ class TopMenu extends React.Component {
 
     let pathArr = route.split("/");
     let handleRoute = pathArr[2];
+    console.log('das')
     // if (key !== "All") {
     //   // console.log(key)
     //   if (handleRoute === "Student") {
@@ -32,6 +33,7 @@ class TopMenu extends React.Component {
     // } else {
     //   history.push("/UserArchives/" + key);
     // }
+    // if()
     history.push("/" + key);
   };
 

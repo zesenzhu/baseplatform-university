@@ -117,6 +117,7 @@ if (process.env.NODE_ENV === "development") {
 
     GlobalProxy:'http://192.168.2.207:10108/Global',
 
+    UserAccessProxy:'http://192.168.129.242:8066/UserMgr/PowerMgr/'
 
   };
 }
@@ -187,6 +188,8 @@ if (process.env.NODE_ENV === "production") {
     UserScheduleProxy:RootUrl+'/Schedule/api/',
 
     GlobalProxy:'/Global',
+
+    UserAccessProxy:'/UserMgr/PowerMgr/'
 
 
   };

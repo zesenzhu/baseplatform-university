@@ -127,7 +127,9 @@ $image-url: "../images";
                         }
                     }
                     .ant-table-row {
-                        td:nth-child(1),
+                        td:nth-child(1) {
+                            padding-left: 24px;
+                        }
                         td:nth-child(2),
                         td:nth-child(3) {
                             padding: 10px 0;

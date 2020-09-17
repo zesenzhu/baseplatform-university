@@ -49,7 +49,7 @@ class Leader extends React.Component {
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
                   {" "}
-                  <CheckBox type="gray" value={key}></CheckBox>
+                  <CheckBox value={key}></CheckBox>
                   <span className="key-content">
                     {key + 1 >= 10 ? key + 1 : "0" + (key + 1)}
                   </span>
@@ -258,7 +258,7 @@ class Leader extends React.Component {
           width: 132,
           key: "handle",
           // dataIndex: "key",
-          render: data => {
+          render: (data) => {
             return (
               <div className="handle-content">
                 <Button
@@ -279,7 +279,7 @@ class Leader extends React.Component {
                 </Button>
               </div>
             );
-          }
+          },
         },
       ],
       data: [
@@ -327,14 +327,14 @@ class Leader extends React.Component {
       PwdStrong: 0,
       firstParam: "",
       secondParam: "",
-      College: [{ value: '', title: "全部学院" }],
+      College: [{ value: "", title: "全部学院" }],
       firstSelect:
         props.DataState.LoginUser.UserType === "0" &&
         (props.DataState.LoginUser.UserClass === "3" ||
           props.DataState.LoginUser.UserClass === "4")
           ? { value: 10, title: "学院领导" }
           : { value: -1, title: "全部领导" },
-      collegeSelect: { value: '', title: "全部学院" },
+      collegeSelect: { value: "", title: "全部学院" },
       userType:
         props.DataState.LoginUser.UserType === "0" &&
         (props.DataState.LoginUser.UserClass === "3" ||
@@ -344,13 +344,26 @@ class Leader extends React.Component {
     };
     window.LeaderCancelSearch = this.LeaderCancelSearch.bind(this);
   }
-  
+
   LeaderCancelSearch = () => {
     this.setState({
       checkedList: [],
       checkAll: false,
     });
   };
+  componentDidMount() {
+    history.listen(() => {
+      this.setState({
+        pageSize: 10,
+        CancelBtnShow: "n",
+        keyword: "",
+        searchValue: "",
+        checkedList: [],
+        pagination: 1,
+        checkAll: false,
+      });
+    });
+  }
   componentWillMount() {
     const { dispatch } = this.props;
     let pwd = "pwd888888";
@@ -377,9 +390,9 @@ class Leader extends React.Component {
     let College = nextProps.DataState.CollegeMsg.College;
     let oldCollege = this.props.DataState.CollegeMsg.College;
     let { DataState } = nextProps;
-    let firstParam ;
-    let secongParam ;
-    
+    let firstParam;
+    let secongParam;
+
     if (College !== oldCollege) {
       let firstSelect = { value: -1, title: "全部领导" };
       let collegeSelect;
@@ -388,23 +401,25 @@ class Leader extends React.Component {
       if (this.state.userType) {
         //学院
         firstSelect = { value: 10, title: "学院领导" };
-        firstParam = '&userType=10';
-        secongParam = '&CollegeID='+DataState.LoginUser.CollegeID;
+        firstParam = "&userType=10";
+        secongParam = "&CollegeID=" + DataState.LoginUser.CollegeID;
         collegeSelect = {
           value: DataState.LoginUser.CollegeID,
           title: DataState.LoginUser.CollegeName,
         };
       } else {
-        firstSelect ={ value: -1, title: "全部领导" };
-        collegeSelect = { value: '', title: "全部学院" };
-        firstParam = '&userType=-1';
-        secongParam = '&CollegeID=';
+        firstSelect = { value: -1, title: "全部领导" };
+        collegeSelect = { value: "", title: "全部学院" };
+        firstParam = "&userType=-1";
+        secongParam = "&CollegeID=";
       }
       // console.log(College, firstSelect, collegeSelect);
       this.setState({
         College: College,
         firstSelect,
-        collegeSelect,secongParam,firstParam,
+        collegeSelect,
+        secongParam,
+        firstParam,
         initCollege: collegeSelect,
       });
     }
@@ -568,8 +583,8 @@ class Leader extends React.Component {
               actions.UpDataState.getSchoolLeaderPreview(
                 "/GetSchoolLeader_univ?SchoolID=" +
                   this.state.userMsg.SchoolID +
-                  this.state.firstParam+
-                  this.state.secondParam+
+                  this.state.firstParam +
+                  this.state.secondParam +
                   this.state.sortFiled +
                   this.state.sortType
               )
@@ -628,8 +643,8 @@ class Leader extends React.Component {
               actions.UpDataState.getSchoolLeaderPreview(
                 "/GetSchoolLeader_univ?SchoolID=" +
                   this.state.userMsg.SchoolID +
-                  this.state.firstParam+
-                  this.state.secondParam+
+                  this.state.firstParam +
+                  this.state.secondParam +
                   this.state.sortFiled +
                   this.state.sortType
               )
@@ -778,8 +793,8 @@ class Leader extends React.Component {
             actions.UpDataState.getSchoolLeaderPreview(
               "/GetSchoolLeader_univ?SchoolID=" +
                 this.state.userMsg.SchoolID +
-                this.state.firstParam+
-                  this.state.secondParam+
+                this.state.firstParam +
+                this.state.secondParam +
                 this.state.sortFiled +
                 this.state.sortType
             )
@@ -866,8 +881,8 @@ class Leader extends React.Component {
         actions.UpDataState.getSchoolLeaderPreview(
           "/GetSchoolLeader_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            this.state.firstParam+
-                  this.state.secondParam+
+            this.state.firstParam +
+            this.state.secondParam +
             "&sortFiled=" +
             sorter.columnKey +
             "&" +
@@ -988,7 +1003,8 @@ class Leader extends React.Component {
       checkAll: false,
       firstSelect: e,
       firstParam: "&userType=" + e.value,
-      secondParam: e.value===10?"&collegeID=" + this.state.initCollege.value:'',
+      secondParam:
+        e.value === 10 ? "&collegeID=" + this.state.initCollege.value : "",
       CancelBtnShow: "n",
       searchValue: "",
       // pagination: 1,
@@ -1001,8 +1017,7 @@ class Leader extends React.Component {
           this.state.userMsg.SchoolID +
           "&userType=" +
           e.value +
-          
-          (e.value===10?"&collegeID=" + this.state.initCollege.value:'') +
+          (e.value === 10 ? "&collegeID=" + this.state.initCollege.value : "") +
           this.state.sortFiled +
           this.state.sortType
       )
@@ -1074,7 +1089,7 @@ class Leader extends React.Component {
             actions.UpUIState.showErrorAlert({
               type: "success",
               title: "操作成功",
-              onHide: this.onAlertWarnHide.bind(this)
+              onHide: this.onAlertWarnHide.bind(this),
             })
           );
           this.setState({
@@ -1082,7 +1097,7 @@ class Leader extends React.Component {
             defaultPwd: "pwd888888",
             checkedList: [],
             checkAll: false,
-            PwdStrong:0
+            PwdStrong: 0,
           });
 
           dispatch(
@@ -1139,7 +1154,7 @@ class Leader extends React.Component {
           <div className="Leader-hr"></div>
           <div className="Leader-content">
             {/* <div className="content-top"> */}
-              {/* <DropDown
+            {/* <DropDown
                 ref="dropMenuFirst"
                 // title="学科："
                 onChange={this.FirstDropMenu.bind(this)}

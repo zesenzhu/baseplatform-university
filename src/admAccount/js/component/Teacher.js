@@ -357,6 +357,24 @@ class Teacher extends React.Component {
     let pwd = "pwd888888";
     dispatch(actions.UpDataState.getChangeInputValue(pwd));
   }
+  componentDidMount() {
+    history.listen(() => {
+      this.setState({
+        pageSize: 10,
+        CancelBtnShow: "n",
+      keyword: "",
+      searchValue: "",
+      checkedList: [],
+      pagination: 1,
+      checkAll: false,
+      secondList: [{ value: 0, title: "全部教研室" }],
+      firstList: [{ value: 0, title: "全部学院" }],
+      firstSelect: { value: 0, title: "全部学院" },
+      secondSelect: { value: 0, title: "全部教研室" },
+      SubjectSelect: { value: 0, title: "全部学科" },
+      });
+    });
+  }
   componentWillReceiveProps(nextProps) {
     const { DataState, UIState, dispatch } = nextProps;
 
@@ -1515,10 +1533,11 @@ class Teacher extends React.Component {
                 onChange={this.SecondDropMenu.bind(this)}
                 width={120}
                 height={240}
-                style={{
-                  display:
-                    this.state.firstSelect.value === 0 ? "none" : "block",
-                }}
+                disabled={this.state.firstSelect.value === 0}
+                // style={{
+                //   display:
+                //     this.state.firstSelect.value === 0 ? "none" : "block",
+                // }}
                 dropSelectd={this.state.secondSelect}
                 dropList={this.state.secondList}
               ></DropDown>

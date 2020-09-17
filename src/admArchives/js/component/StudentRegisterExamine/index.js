@@ -363,7 +363,7 @@ class RegisterExamine extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetRegisterExamineParams({
-        searchValue: e.target.value,
+        searchValue: e.target.value.trim(),
       })
     );
   };

@@ -90,30 +90,30 @@ class SchoolnfoSetting extends Component {
             );
           },
         },
-        {
-          title: "管理员账号",
-          align: "center",
-          width: 240,
-          // dataIndex: "CollegeCode",
-          key: "CollegeAccount",
-          // sorter: true,
-          render: ({ CollegeCode, SchoolCode } = data) => {
-            return (
-              <span
-                title={
-                  CollegeCode && SchoolCode
-                    ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
-                    : ""
-                }
-                className="CollegeAccount"
-              >
-                {CollegeCode && SchoolCode
-                  ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
-                  : "--"}
-              </span>
-            );
-          },
-        },
+        // {
+        //   title: "管理员账号",
+        //   align: "center",
+        //   width: 240,
+        //   // dataIndex: "CollegeCode",
+        //   key: "CollegeAccount",
+        //   // sorter: true,
+        //   render: ({ CollegeCode, SchoolCode } = data) => {
+        //     return (
+        //       <span
+        //         title={
+        //           CollegeCode && SchoolCode
+        //             ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
+        //             : ""
+        //         }
+        //         className="CollegeAccount"
+        //       >
+        //         {CollegeCode && SchoolCode
+        //           ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
+        //           : "--"}
+        //       </span>
+        //     );
+        //   },
+        // },
         {
           title: "用户总人数",
           align: "center",
@@ -290,7 +290,13 @@ class SchoolnfoSetting extends Component {
       showCountyTip,
       hideCountyTip,
     } = this.AreaCheck.current;
-    let { ImgUrl } = this.SchoolBadge.current;
+    let ImgUrl = "";
+    if (this.SchoolBadge.current) {
+      ImgUrl = this.SchoolBadge.current.ImgUrl;
+    } else {
+      ImgUrl = schoolInfo.SchoolLogoUrl_Long;
+    }
+    // { ImgUrl } = this.SchoolBadge.current;
     highNum = highNum ? highNum : "3";
     // if (
     //   periodInfo[0].checked === true &&
@@ -1244,6 +1250,14 @@ class SchoolnfoSetting extends Component {
         CollegeList.push(child);
       });
     }
+
+    // 多学校：当ProductType为3的时候不出现长条校徽
+    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    let isMoreSchool = parseInt(ProductType) === 3;
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
@@ -1275,21 +1289,28 @@ class SchoolnfoSetting extends Component {
                 }
               />
             </div>
-            <div className="school-msg-box-2">
+            <div
+              className="school-msg-box-2"
+              style={isMoreSchool ? { marginTop: "30px" } : {}}
+            >
               <div className="school-name" title={schoolInfo.SchoolName}>
                 学校名称:
                 <span>{schoolInfo.SchoolName}</span>
               </div>
               <div className="school-info">
-                <div className="school-badge">
-                  长条校徽:
-                  <i
-                    className="SchoolLogoUrl_Long"
-                    style={{
-                      background: `url(${schoolInfo.SchoolLogoUrl_Long}) no-repeat center center/280px 40px`,
-                    }}
-                  ></i>
-                </div>
+                {!isMoreSchool ? (
+                  <div className="school-badge">
+                    长条校徽:
+                    <i
+                      className="SchoolLogoUrl_Long"
+                      style={{
+                        background: `url(${schoolInfo.SchoolLogoUrl_Long}) no-repeat center center/280px 40px`,
+                      }}
+                    ></i>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="school-code">
                   学校代码: <span>{schoolInfo.SchoolCode}</span>
                 </div>
@@ -1456,7 +1477,7 @@ class SchoolnfoSetting extends Component {
             onOk={this.editComfirm}
             onCancel={this.editCancel}
             width={"784px"}
-            bodyStyle={{ height: "372px" }}
+            bodyStyle={{ height: isMoreSchool ? "330px" : "372px" }}
             visible={this.state.edit_visible}
             okText="保存"
             destroyOnClose={true}
@@ -1518,12 +1539,22 @@ class SchoolnfoSetting extends Component {
                     </Tooltip>
                   </span>
                 </div>
-                <div className={"row clearfix row-SchoolBadge"}>
-                  <span className="left">长条校徽:</span>
-                  <span className="right">
-                    <SchoolBadge ref={this.SchoolBadge}></SchoolBadge>
-                  </span>
-                </div>
+                {!isMoreSchool ? (
+                  <div className={"row clearfix row-SchoolBadge"}>
+                    <span className="left">长条校徽:</span>
+                    <span className="right">
+                      <SchoolBadge
+                        schoolBadge={schoolInfo.SchoolLogoUrl_Long.replace(
+                          ResHttpRootUrl,
+                          ""
+                        )}
+                        ref={this.SchoolBadge}
+                      ></SchoolBadge>
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="row clearfix win-school-code">
                   <span className="left">学校代码:</span>
                   <span className="right">

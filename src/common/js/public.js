@@ -1,3 +1,36 @@
+/*
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑       永不宕机     永无BUG
+ * 
+ * @Author: zhuzesen
+ * @LastEditors: zhuzesen
+ * @Date: 2020-07-01 08:48:32
+ * @LastEditTime: 2020-09-17 14:39:00
+ * @Description: 项目公用的方法
+ * @FilePath: \baseplatform-university\src\common\js\public.js
+ */
+
 import { func } from "prop-types";
 import config from './config'
 // 有bug，用下面的comparisonObject
@@ -360,6 +393,62 @@ export function checkUrlAndPostMsg(
  // (isIFrame);
  return isIFrame;
 }
+
+
+// 设置用户角色,模块角色统一在这处理
+const setRole = (LoginMsg) => {
+  // let {
+  //   dispatch,
+  //   DataState,
+  //   PublicState: {
+  //     LoginMsg: { UserType, UserClass },
+  //   },
+  // } = this.props;
+  let { UserType, UserClass } = LoginMsg;
+  let Role = "";
+  UserType = parseInt(UserType);
+  UserClass = parseInt(UserClass);
+  if (UserType === 0 && (UserClass === 1 || UserClass === 2)) {
+    //学校管理员（admin_学校代码，创建学校时生成）
+    Role = "Admin-School";
+  } else if (UserType === 0 && (UserClass === 3 || UserClass === 4)) {
+    //学院管理员
+    Role = "Admin-College";
+  } else if (UserType === 1) {
+    //教师,— UserClass=100000~111111：
+    //后5位分别代表：
+    //任课教师、班主任、教研者（V3.0无效，恒为0）、学科主管、校领导
+    //（V3.0无效，恒为0），值为1时代表有该身份；
+    Role = "Teacher";
+  } else if (UserType === 2) {
+    //学生
+    Role = "Student";
+  } else if (UserType === 7) {
+    //学校领导（V3.0之后的版本才有此角色）
+    // — UserClass=0 校长
+    //— UserClass=1 副校长
+    //— UserClass=2 教务主任
+    Role = "Leader-School";
+  } else if (UserType === 10) {
+    //学院领导（V3.0之后的版本才有此角色）
+    // — UserClass=3 院长
+    //— UserClass=4 副院长
+    Role = "Leader-College";
+  } else if (UserType === 3) {
+    //家长
+
+    Role = "Parent";
+  } else if (UserType === 4) {
+    //教育专家
+
+    Role = "Specialist";
+  } else if (UserType === 5) {
+    //教育局领导
+
+    Role = "Leader-Education";
+  }
+  return { ...LoginMsg, Role };
+};
 export default {
     deepCompare,
     getQueryVariable,
@@ -369,6 +458,7 @@ export default {
     UrlGetIcon,
     IEVersion,
     requestNextAnimationFrame,
-    checkUrlAndPostMsg
+    checkUrlAndPostMsg,
+    setRole
 
 }
