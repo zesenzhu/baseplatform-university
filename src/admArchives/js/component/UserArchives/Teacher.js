@@ -328,7 +328,7 @@ class Teacher extends Component {
     let token = sessionStorage.getItem("token");
     window.open(
       "/html/userPersona/index.html?userType=" +
-        2 +
+        1 +
         "&userID=" +
         UserID +
         "&lg_tk=" +
