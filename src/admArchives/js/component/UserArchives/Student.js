@@ -432,7 +432,7 @@ class Student extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetStudentParams({
-        searchValue: e.target.value,
+        searchValue: e.target.value.trim(),
       })
     );
   };
@@ -679,9 +679,21 @@ class Student extends Component {
         },
         MainData: {
           StudentTree: { CollegeList },
+          StudentData:{
+            Total
+          }
         },
       },
     } = this.props;
+    if(!Total){
+      dispatch(
+        PublicAction.showErrorAlert({
+          type: "warn",
+          title: "暂无数据可导出",
+        })
+      );
+      return
+    }
     let token = sessionStorage.getItem("token");
     let url =
       CONFIG.UserInfoProxy +

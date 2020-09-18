@@ -400,6 +400,25 @@ class Student extends React.Component {
       GradeArr: GradeArr,
     });
   }
+
+  componentDidMount() {
+    history.listen(() => {
+      this.setState({
+        pageSize: 10,
+        firstSelect: { value: 0, title: "全部学院" },
+        secondSelect: { value: 0, title: "全部专业" },
+        thirdSelect: { value: 0, title: "全部年级" },
+        fourthSelect: { value: 0, title: "全部班级" },
+        CancelBtnShow: "n",
+        keyword: "",
+        checkedList: [],
+        checkAll: false,
+        pagination: 1,
+        searchValue: "",
+        DropMenuShow: false,
+      });
+    });
+  }
   onChangeEnableClick = (key, isEnable) => {
     const {
       dispatch,
@@ -722,10 +741,12 @@ class Student extends React.Component {
         actions.UpDataState.getGradeStudentPreview(
           "/GetStudentToPage_univ?SchoolID=" +
             this.state.userMsg.SchoolID +
-            "&collegeID=" +
-            this.state.firstSelect.value +
-            "&majorID=" +
-            this.state.secondSelect.value +
+            (this.state.firstSelect.value
+              ? "&collegeID=" + this.state.firstSelect.value
+              : "") +
+            (this.state.secondSelect.value
+              ? "&majorID=" + this.state.secondSelect.value
+              : "") +
             "&PageIndex=0&PageSize=" +
             this.state.pageSize +
             "" +
@@ -1837,9 +1858,16 @@ class Student extends React.Component {
               <Link className="link" to="/ImportStudent" replace>
                 导入学生
               </Link> */}
-               <span className="goto">
+              <span className="goto">
                 如需添加学生，请前往
-                <a target="_black" href={Config.BasicProxy+'/html/admArchives/index.html#/UserArchives/Student/all'} className="link">
+                <a
+                  target="_black"
+                  href={
+                    Config.BasicProxy +
+                    "/html/admArchives/index.html#/UserArchives/Student/all"
+                  }
+                  className="link"
+                >
                   学生档案管理
                 </a>
               </span>

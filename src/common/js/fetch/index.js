@@ -5,7 +5,7 @@ import {
   AESEncryptionBody,
   AESEncryptionUrl,
   requestSecure,
-  ErrorAlert
+  ErrorAlert,
 } from "./util";
 import { stringify } from "querystring";
 import ReactDOM from "react-dom";
@@ -43,7 +43,7 @@ function postData(
   let ContentTypeArr = [
     "application/x-www-form-urlencoded",
     "application/json",
-    "multipart/form-data"
+    "multipart/form-data",
   ];
   let ContentType = "";
   if (content_type === "urlencoded") {
@@ -65,12 +65,12 @@ function postData(
     headers: {
       Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
       "Content-Type": ContentType, //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
-      Authorization: requestSecure(paramsObj, TESTKEY, SecurityLevel)
+      Authorization: requestSecure(paramsObj, TESTKEY, SecurityLevel),
     },
     redirect: "follow", //manual、*follow(自动重定向)、error，此项为重定向的相关配置
     // referrer: 'no-referrer',//该首部字段会告知服务器请求的原始资源的URI
     // 注意post时候参数的形式
-    body: AESEncryptionBody(paramsObj, TESTKEY, SecurityLevel, content_type) //此处需要和headers里的"Content-Type"相对应
+    body: AESEncryptionBody(paramsObj, TESTKEY, SecurityLevel, content_type), //此处需要和headers里的"Content-Type"相对应
   });
   // .then(data => data.json()).then(json => {
   //     if (json.StatusCode === '401') {
@@ -84,45 +84,39 @@ function postData(
   // }, err => {
 
   // })
-  result.then(
-    res => {
+  result
+    .then((res) => {
+      //做提前处理
+      let clone = res.clone();
+      //console.log(clone.json());
+      return clone;
+    })
+    .then((response) => {
+      //当请求成功时直接返回response，失败则进行json解析返回失败信息
+      // console.log(response.status)
 
-
-
-        //做提前处理
-        let clone = res.clone();
-        //console.log(clone.json());
-        return clone;
-     
-    }
-  ).then(response => {
-    //当请求成功时直接返回response，失败则进行json解析返回失败信息
-    // console.log(response.status)
-
-    if (response.status === 200) {
-
-      return response;
-
-    }else if (response.status===401){
-
-        const preUrl = encodeURIComponent(Public.getLg_tk(window.location.href));
+      if (response.status === 200) {
+        return response;
+      } else if (response.status === 401) {
+        const preUrl = encodeURIComponent(
+          Public.getLg_tk(window.location.href)
+        );
 
         window.location.href = "/html/admDisconnect?lg_preurl=" + preUrl;
-
-    }else {
-      return response.json().then(json => {
-        //   console.log(json)
-        return Promise.reject(json);
-      });
-    }
-  })
+      } else {
+        return response.json().then((json) => {
+          //   console.log(json)
+          return Promise.reject(json);
+        });
+      }
+    })
     .then(
-      res => res.json(),
-      err => {
+      (res) => res.json(),
+      (err) => {
         return false;
       }
     )
-    .then(json => {
+    .then((json) => {
       // console.log(json, json.StatusCode === 200)
       if (element !== false) {
         handleStatusCode(json, element);
@@ -148,7 +142,6 @@ function handleStatusCode(json, element = true) {
     return;
   }
 
-
   if (json.StatusCode === undefined) {
     title = "服务器出现未知异常，请重试或联系管理员";
     ReactDOM.render(
@@ -170,7 +163,7 @@ function handleStatusCode(json, element = true) {
   if (element === true) {
     isAllSelect = true;
   } else if (element instanceof Array) {
-    element.map(child => {
+    element.map((child) => {
       isSelect[child] = true;
     });
   } else {
@@ -207,7 +200,6 @@ function handleStatusCode(json, element = true) {
       }
       break;
     case 401:
-
       if (isAllSelect || isSelect[401]) TokenCheck();
       break;
     case 403:
@@ -218,7 +210,12 @@ function handleStatusCode(json, element = true) {
       window.location.href = config.ErrorProxy + "/Error.aspx?errcode=E011";
   }
 }
-
+/**
+ * @description:
+ * @param {url:接口，SecurityLevel：安全层，1~5，mode：请求模式，
+ * IsDesk：是否是首页，element：是否使用默认的错误提示机制}
+ * @return {type}
+ */
 function getData(
   url,
   SecurityLevel = 1,
@@ -252,9 +249,9 @@ function getData(
     headers: {
       Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
       "Content-Type": "application/x-www-form-urlencoded", //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
-      Authorization: requestSecure(url, TESTKEY, SecurityLevel)
+      Authorization: requestSecure(url, TESTKEY, SecurityLevel),
     },
-    redirect: "follow" //manual、*follow(自动重定向)、error，此项为重定向的相关配置
+    redirect: "follow", //manual、*follow(自动重定向)、error，此项为重定向的相关配置
     // referrer: 'no-referrer',//该首部字段会告知服务器请求的原始资源的URI
   });
 
@@ -267,51 +264,41 @@ function getData(
   //     return data
   // })
 
-  result.then(
-    res => {
-        //做提前处理
+  result
+    .then((res) => {
+      //做提前处理
       let clone = res.clone();
       // console.log(clone.json())
-      return clone
-    }
-  ).then(response => {
-    // console.log(response.status)
-    //当请求成功时直接返回response，失败则进行json解析返回失败信息
+      return clone;
+    })
+    .then((response) => {
+      // console.log(response.status)
+      //当请求成功时直接返回response，失败则进行json解析返回失败信息
 
-
-    if (response.status === 200) {
-      return response;
-    } else {
-
-      if(response.status===401){
-
-          const preUrl = encodeURIComponent(Public.getLg_tk(window.location.href));
+      if (response.status === 200) {
+        return response;
+      } else {
+        if (response.status === 401) {
+          const preUrl = encodeURIComponent(
+            Public.getLg_tk(window.location.href)
+          );
 
           window.location.href = "/html/admDisconnect?lg_preurl=" + preUrl;
-
-      }else{
-
-          return response.json().then(json => {
-              //   console.log(json)
-              return Promise.reject(json);
-
+        } else {
+          return response.json().then((json) => {
+            //   console.log(json)
+            return Promise.reject(json);
           });
-
+        }
       }
-
-    }
-  })
+    })
     .then(
-      res => res.json()
-      ,
-      err => {
-        return false
-
+      (res) => res.json(),
+      (err) => {
+        return false;
       }
     )
-    .then(json => {
-
-
+    .then((json) => {
       // console.log(json, json.StatusCode === 200)
       if (element !== false) {
         handleStatusCode(json, element);
@@ -327,7 +314,6 @@ function getQueryVariable(variable) {
     window.location.search.substring(1) ||
     window.location.href.split("?")[1] ||
     window.location.href;
-
 
   var vars = query.split("&");
   for (var i = 0; i < vars.length; i++) {

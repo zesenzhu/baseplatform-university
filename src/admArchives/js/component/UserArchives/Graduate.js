@@ -189,7 +189,7 @@ class Graduate extends Component {
           },
         },
         {
-          title: "联系电话",
+          title: "预留电话",
           width: 120,
           align: "center",
           key: "Telephone",

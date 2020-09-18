@@ -380,7 +380,7 @@ class Teacher extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetTeacherParams({
-        searchValue: e.target.value,
+        searchValue: e.target.value.trim(),
       })
     );
   };
@@ -627,10 +627,19 @@ class Teacher extends Component {
           },
         },
         MainData: {
-          StudentTree: { CollegeList },
+          StudentTree: { CollegeList },TeacherData: { Total, PageIndex, List },
         },
       },
     } = this.props;
+    if(!Total){
+      dispatch(
+        PublicAction.showErrorAlert({
+          type: "warn",
+          title: "暂无数据可导出",
+        })
+      );
+      return
+    }
     let token = sessionStorage.getItem("token");
     let url =
       CONFIG.UserInfoProxy +

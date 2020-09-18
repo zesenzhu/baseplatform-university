@@ -193,7 +193,7 @@ class GraduateContact extends Component {
           spinning={ModalLoading}
         >
           <div className="row">
-            <span className="left">联系电话：</span>
+            <span className="left">预留电话：</span>
             <span className="right">
               <Tips
                 //   placement="right"
@@ -203,7 +203,7 @@ class GraduateContact extends Component {
                 title={TelephoneTipsTitle}
               >
                 <Input
-                  placeholder="请输入联系电话..."
+                  placeholder="请输入预留电话..."
                   maxLength={11}
                   type="text"
                   className="Telephone"

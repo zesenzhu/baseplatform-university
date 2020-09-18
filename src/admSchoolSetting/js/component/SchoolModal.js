@@ -493,7 +493,7 @@ class SchoolModal extends React.Component {
               >
                 <Input
                   className="culonm-input"
-                  placeholder="请输入学校名称.."
+                  placeholder="请输入学校名称..."
                   maxLength={20}
                   onChange={this.onSchoolNameChange.bind(this)}
                   onBlur={this.onSchoolNameBlur.bind(this)}
@@ -512,7 +512,7 @@ class SchoolModal extends React.Component {
               >
                 <Input
                   className="culonm-input"
-                  placeholder="请输入学校代码.."
+                  placeholder="请输入学校代码..."
                   maxLength={10}
                   disabled={this.props.type === "edit" ? true : false}
                   onChange={this.onSchoolCodeChange.bind(this)}
@@ -580,7 +580,7 @@ class SchoolModal extends React.Component {
               >
                 <Input
                   className="culonm-input"
-                  placeholder="请输入联系人姓名.."
+                  placeholder="请输入联系人姓名..."
                   maxLength={50}
                   onChange={this.onSchoolLinkmanChange.bind(this)}
                   onBlur={this.onSchoolLinkmanBlur.bind(this)}
@@ -599,7 +599,7 @@ class SchoolModal extends React.Component {
               >
                 <Input
                   className="culonm-input"
-                  placeholder="请输入联系电话.."
+                  placeholder="请输入联系电话..."
                   maxLength={40}
                   onChange={this.onSchoolTelChange.bind(this)}
                   onBlur={this.onSchoolTelBlur.bind(this)}

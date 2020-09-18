@@ -335,6 +335,24 @@ class Parents extends React.Component {
     };
     window.ParentsCancelSearch = this.ParentsCancelSearch.bind(this);
   }
+  componentDidMount() {
+    history.listen(() => {
+      this.setState({
+        pageSize: 10,
+        CancelBtnShow: "n",
+        keyword: "",
+        checkedList: [],
+        checkAll: false,
+        pagination: 1,
+        searchValue: "",
+        DropMenuShow: false,
+        secondSelect: { value: 0, title: "全部专业" },
+        firstSelect: { value: 0, title: "全部学院" },
+        thirdSelect: { value: 0, title: "全部年级" },
+        fourthSelect: { value: 0, title: "全部班级" },
+      });
+    });
+  }
   componentWillReceiveProps(nextProps) {
     let { DataState, dispatch } = nextProps;
 
@@ -1492,7 +1510,6 @@ class Parents extends React.Component {
           this.state.sortType
       )
     );
-    
   };
   onChangeEnableClick = (key, isEnable) => {
     const {
@@ -1810,7 +1827,16 @@ class Parents extends React.Component {
             <span className="top-tips">
               <span className="tips menu39 ">家长账号管理</span>
             </span>
-            <span style={{float:'right',fontSize:'14px',color:'#999'}}>注:家长账号由学生账号一对一自动生成</span>
+            <span
+              style={{
+                float: "right",
+                fontSize: "14px",
+                color: "#999",
+                lineHeight: "37px",
+              }}
+            >
+              注:家长账号由学生账号一对一自动生成
+            </span>
             {/* <div className='top-nav'>
                             <Link className='link'  to='/GraduteArchives' replace>查看毕业生档案</Link>
                             <span className='divide'>|</span>

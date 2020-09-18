@@ -345,6 +345,21 @@ class Admin extends React.Component {
       checkedList: [],
     });
   };
+  componentDidMount() {
+    history.listen(() => {
+      this.setState({
+        pageSize: 10,
+        CancelBtnShow: "n",
+
+        pagination: 1,
+        keyword: "",
+        searchValue: "",
+        checkAll: false,
+        // pagination: 1,
+        checkedList: [],
+      });
+    });
+  }
   componentWillMount() {
     const { dispatch } = this.props;
     let pwd = "0";
