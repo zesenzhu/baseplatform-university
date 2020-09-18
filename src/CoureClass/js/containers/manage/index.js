@@ -220,7 +220,10 @@ function Index(props) {
 
         if (SchoolID){
 
-            const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+            let {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+
+            ProductType = 6;
 
             if (collegeID&&collegeName&&gradeID&&gradeName){
 

@@ -126,6 +126,11 @@ function AddEditCourseClass(props,ref) {
     });
 
 
+    //人工实训
+
+    const [aiPractice,setAiPractice] = useState(false);
+
+
     //获取props
 
     const LoginUser = useSelector(state=>state.LoginUser);
@@ -147,6 +152,8 @@ function AddEditCourseClass(props,ref) {
     //初始化
 
     useEffect(()=>{
+
+        const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
         if (IsEdit){
 
@@ -222,7 +229,9 @@ function AddEditCourseClass(props,ref) {
 
                  setLoading(false);
 
-            })
+            });
+
+            setAiPractice(parseInt(ProductType)===6);
 
         }else{
 
@@ -274,6 +283,11 @@ function AddEditCourseClass(props,ref) {
 
                         setDataSource(d=>({...d,subject:subjectList,course:courseDataList}));
 
+                        if (parseInt(ProductType)===6){
+
+                            subjectChange(subjectList[0]);
+
+                        }
 
                     }
 
@@ -403,6 +417,12 @@ function AddEditCourseClass(props,ref) {
 
                             }
 
+                            if (parseInt(ProductType)===6){
+
+                                setCourse(d=>({...d,disabled:false}));
+
+                            }
+
                             setSubject(d=>({...d,dropSelectd:{value:'',title:"请选择学科"},dropList:list}));
 
                             setLoading(false);
@@ -414,6 +434,8 @@ function AddEditCourseClass(props,ref) {
                 });
 
             }
+
+            setAiPractice(parseInt(ProductType)===6);
 
             /*if (CourseInfo.CourseNO){
 
@@ -450,7 +472,6 @@ function AddEditCourseClass(props,ref) {
                 setLoading(false);
 
             }*/
-
 
         }
 
@@ -690,11 +711,10 @@ function AddEditCourseClass(props,ref) {
 
                     <div className="row-column">
 
-                        <span className="left">{IsEdit?'课程':'学科课程'}：</span>
+                        <span className="left">{IsEdit||aiPractice?'课程':'学科课程'}：</span>
 
                         <span className="right ">
 
-                            {/*<span className={"course-name"} title={course.courseCheckInfo.CourseName}>{course.courseCheckInfo.CourseName}</span>*/}
 
                             {
 
@@ -702,11 +722,19 @@ function AddEditCourseClass(props,ref) {
 
                                     <>
 
-                                        <Tips visible={subject.tip} title={"请选择学科"}>
+                                        {
 
-                                            <DropDown className={"select-subject"} dropSelectd={subject.dropSelectd} dropList={subject.dropList} onChange={subjectChange}></DropDown>
+                                            !aiPractice?
 
-                                        </Tips>
+                                                <Tips visible={subject.tip} title={"请选择学科"}>
+
+                                                    <DropDown className={"select-subject"} dropSelectd={subject.dropSelectd} dropList={subject.dropList} onChange={subjectChange}></DropDown>
+
+                                                </Tips>
+
+                                                :null
+
+                                        }
 
                                         <Tips visible={course.tip} title={"请选择课程"}>
 

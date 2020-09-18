@@ -1691,7 +1691,7 @@ class DropComponent extends React.Component {
               autoHeight
               autoHeightMin={0}
               autoHeightMax={288}
-              style={{height:`${height?height:'auto'}`}}
+              style={{height:height?(this.state.simpleSearchList.length*24<height?this.state.simpleSearchList.length*24:height):'auto'}}
               renderTrackHorizontal={(props) => {
                 return <span style={{ display: "none" }}></span>;
               }}
@@ -2988,6 +2988,7 @@ class Frame extends React.Component {
       MessageShow = false,
       showTop = true,
       showBottom = true,
+      logo,
       ...reset
     } = this.props;
 
@@ -3090,7 +3091,7 @@ class Frame extends React.Component {
               <div className="frame-home-header-content">
                 <div
                   className="frame-home-logo"
-                  style={{ backgroundImage: `url(${CONFIG.logo})` }}
+                  style={{ backgroundImage:`url(${logo?logo:CONFIG.logo})` }}
                 >
                   <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
                 </div>

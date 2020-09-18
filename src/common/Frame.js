@@ -50,7 +50,9 @@ class FrameContainer extends Component{
 
             },
 
-            childrenLoad:false
+            childrenLoad:false,
+
+            Logo:''
 
         }
 
@@ -70,7 +72,7 @@ class FrameContainer extends Component{
 
                         sessionStorage.setItem("LgBasePlatformInfo",JSON.stringify(data));
 
-                        this.setState({childrenLoad:true,WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName});
+                        this.setState({childrenLoad:true,WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName,Logo:data.ProductLogoUrl?data.ProductLogoUrl:''});
 
                     }
 
@@ -87,7 +89,7 @@ class FrameContainer extends Component{
                             const rootUrl = data.WebRootUrl[data.WebRootUrl.length-1]==='/'?data.WebRootUrl.substring(0,data.WebRootUrl.length-1):data.WebRootUrl;
 
 
-                            this.setState({WebRootUrl:rootUrl,WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName});
+                            this.setState({WebRootUrl:rootUrl,WebIndexUrl:data.WebIndexUrl,ProVersion:data.ProVersion,ProductName:data.ProductName,Logo:data.ProductLogoUrl?data.ProductLogoUrl:''});
 
                             firstPageLoad(()=>{
 
@@ -124,7 +126,7 @@ class FrameContainer extends Component{
 
         let { UserType,UserClass } = JSON.parse(sessionStorage.getItem('UserInfo'));
 
-        if (!(parseInt(UserType)===0&&parseInt(UserClass)===2)){
+        if ((!(parseInt(UserType)===0&&parseInt(UserClass)===2))&&(parseInt(UserType)!==6)){
 
                 this.GetMessage().then(data=>{
 
@@ -270,13 +272,23 @@ class FrameContainer extends Component{
 
                     MessageShow={this.state.messageShow}
 
+                    logo={this.state.Logo}
+
                     register={register}
 
                     {...reset}
 
                 >
 
-                    { this.state.childrenLoad?children:null }
+                    {
+
+                        this.state.childrenLoad?
+
+                            children
+
+                            :null
+
+                    }
 
                 </Frame>
 

@@ -29,6 +29,10 @@ function TheCourse(props) {
 
     const [cardLoading,setCardLoading] = useState(false);
 
+    //人工实训
+
+    const [aiPractice,setAiPractice] = useState(false);
+
     
     //统计
     const [statics,setStatics] = useState([
@@ -174,6 +178,14 @@ function TheCourse(props) {
 
             });
 
+            const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+            if (parseInt(ProductType)===6){
+
+                setAiPractice(true);
+
+            }
+
         }
 
         return ()=>{
@@ -282,7 +294,7 @@ function TheCourse(props) {
 
             <div className={"the-course-wrapper"}>
 
-                <TitleBar type={"course"} title={<><NavLink to={"/statics/course/total"}>课程教学班统计</NavLink> > {subjectName} > {courseTypeName}</>}></TitleBar>
+                <TitleBar type={"course"} title={<><NavLink to={"/statics/course/total"}>课程教学班统计</NavLink> > {!aiPractice?`${subjectName}>`:''} {courseTypeName}</>}></TitleBar>
 
                 <StaticsCircle list={statics}></StaticsCircle>
 

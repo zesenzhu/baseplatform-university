@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development'){
 
         moniProxy:'http://192.168.2.202:7300/mock/5f40ff6044c5b010dca04032/userPersona',
 
-        ceshiProxy:'http://192.168.129.64:20102'
+        ceshiProxy:'http://192.168.2.207:10108'
 
     }
 
