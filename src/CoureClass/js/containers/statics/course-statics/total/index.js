@@ -39,6 +39,11 @@ function CourseTotal(props) {
 
     });
 
+    //人工实训
+
+    const [aiPractice,setAiPractice] = useState(false);
+
+
 
     //卡片
     const [cardList,setCardList] = useState([]);
@@ -197,7 +202,15 @@ function CourseTotal(props) {
 
                 }
 
-            })
+            });
+
+            const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+            if (parseInt(ProductType)===6){
+
+                setAiPractice(true);
+
+            }
 
         }
 
@@ -370,18 +383,26 @@ function CourseTotal(props) {
 
                 <div className={"drop-statics-title clearfix"}>
 
-                    <div className={"drop-info"}>
+                    {
 
-                        <DropDown title={"学科:"} onChange={subjectChange} dropSelectd={subject.dropSelectd} dropList={subject.dropList}>
+                        !aiPractice?
+
+                            <div className={"drop-info"}>
+
+                                <DropDown title={"学科:"} onChange={subjectChange} dropSelectd={subject.dropSelectd} dropList={subject.dropList}>
 
 
-                        </DropDown>
+                                </DropDown>
 
-                    </div>
+                            </div>
+
+                            :null
+
+                    }
 
                     <div className={"statics-info"}>
 
-                        {subject.dropSelectd.title}共开设<span className={"red"}>{statics.course}</span>门课程，有<span className={"red"}>{statics.courseClass}</span>个教学班，<span className={"red"}>{statics.teacher}</span>位任课教师，<span className={"red"}>{statics.student}</span>名学生
+                        {!aiPractice?subject.dropSelectd.title:''}共开设<span className={"red"}>{statics.course}</span>门课程，有<span className={"red"}>{statics.courseClass}</span>个教学班，<span className={"red"}>{statics.teacher}</span>位任课教师，<span className={"red"}>{statics.student}</span>名学生
 
                     </div>
 
