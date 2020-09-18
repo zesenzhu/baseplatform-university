@@ -267,7 +267,7 @@ class TeacherPersonalSchedule extends Component{
 
                     weekPrevEvent = {this.weekPrevEvent.bind(this)}
                     
-                    WeekNO={this.state.NowWeekNO}
+                    WeekNO={PeriodWeekTerm.WeekNO}
                     
                     >
 
