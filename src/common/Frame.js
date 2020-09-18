@@ -126,7 +126,7 @@ class FrameContainer extends Component{
 
         let { UserType,UserClass } = JSON.parse(sessionStorage.getItem('UserInfo'));
 
-        if (!(parseInt(UserType)===0&&parseInt(UserClass)===2)){
+        if ((!(parseInt(UserType)===0&&parseInt(UserClass)===2))&&(parseInt(UserType)!==6)){
 
                 this.GetMessage().then(data=>{
 
@@ -280,7 +280,15 @@ class FrameContainer extends Component{
 
                 >
 
-                    { this.state.childrenLoad?children:null }
+                    {
+
+                        this.state.childrenLoad?
+
+                            children
+
+                            :null
+
+                    }
 
                 </Frame>
 
