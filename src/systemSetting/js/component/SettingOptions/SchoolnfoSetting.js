@@ -1257,7 +1257,8 @@ class SchoolnfoSetting extends Component {
     )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
-    let isMoreSchool = parseInt(ProductType) === 3;
+    let isMoreSchool = true;
+    // parseInt(ProductType) === 3;
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
