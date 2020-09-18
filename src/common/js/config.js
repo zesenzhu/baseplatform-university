@@ -111,9 +111,9 @@ if (process.env.NODE_ENV === "development") {
 
     NewCourseClass: "http://192.168.2.207:10108",
 
-    UserPersonaProxy:'http://192.168.129.64:20102',
+    UserPersonaProxy:'http://192.168.2.207:10108',
 
-    UserScheduleProxy:'http://192.168.129.64:20102/Schedule/api/',
+    UserScheduleProxy:'http://192.168.2.207:10108/Schedule/api/',
 
     GlobalProxy:'http://192.168.2.207:10108/Global',
 

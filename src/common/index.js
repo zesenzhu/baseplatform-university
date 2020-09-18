@@ -2988,6 +2988,7 @@ class Frame extends React.Component {
       MessageShow = false,
       showTop = true,
       showBottom = true,
+      logo,
       ...reset
     } = this.props;
 
@@ -3090,7 +3091,7 @@ class Frame extends React.Component {
               <div className="frame-home-header-content">
                 <div
                   className="frame-home-logo"
-                  style={{ backgroundImage: `url(${CONFIG.logo})` }}
+                  style={{ backgroundImage:`url(${logo?logo:CONFIG.logo})` }}
                 >
                   <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
                 </div>
