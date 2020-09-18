@@ -1544,10 +1544,14 @@ class SchoolnfoSetting extends Component {
                     <span className="left">长条校徽:</span>
                     <span className="right">
                       <SchoolBadge
-                        schoolBadge={schoolInfo.SchoolLogoUrl_Long.replace(
-                          ResHttpRootUrl,
-                          ""
-                        )}
+                        schoolBadge={
+                          typeof schoolInfo.SchoolLogoUrl_Long === "string"
+                            ? schoolInfo.SchoolLogoUrl_Long.replace(
+                                ResHttpRootUrl,
+                                ""
+                              )
+                            : ""
+                        }
                         ref={this.SchoolBadge}
                       ></SchoolBadge>
                     </span>
