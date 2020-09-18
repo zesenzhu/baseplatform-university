@@ -1344,7 +1344,7 @@ class DropComponent extends React.Component {
 
         });
 
-        const simpleSearchList = list.length>0?list:[{value:'',title:'搜索不到相关数据'}];
+            const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
 
         this.setState({simpleSearchShow:true,simpleSearchList});
 
@@ -1714,7 +1714,7 @@ class DropComponent extends React.Component {
                       }`}
                       title={TitleShow ? (Title ? Title : item.title) : ""}
                       data-vaule={item.value}
-                      onClick={this.onSimpleDropChange.bind(this, {
+                      onClick={item.value==='symbol_none_value'?()=>{}:this.onSimpleDropChange.bind(this, {
                         onChange: onChange,
                         value: item.value,
                         title: item.title,
