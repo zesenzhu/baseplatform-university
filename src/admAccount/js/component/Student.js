@@ -1890,7 +1890,7 @@ class Student extends React.Component {
                 onChange={this.StudentDropMenu}
                 width={120}
                 disabled={this.state.userType}
-                title="班级:"
+                title="院系专业:"
                 height={240}
                 dropSelectd={this.state.firstSelect}
                 dropList={this.state.firstList}
