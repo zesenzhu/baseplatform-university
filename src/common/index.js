@@ -949,15 +949,6 @@ class Search extends React.Component {
         }
       });
     } else {
-      // if (onClickSearch) {
-      //     onClickSearch({
-      //         selectdValue: select ? (
-      //                 this.state.selectdValue ? this.state.selectdValue.value
-      //                     : selectOptions.selectdValue.value)
-      //             : null,
-      //         value: this.SearchInput.value
-      //     });
-      // }
 
       this.setState({ SearchBlank: true });
 
@@ -969,7 +960,9 @@ class Search extends React.Component {
     this.setState({ inputFocus: false, SearchBlank: false });
   } //input blur事件
   handleEnterKey(e) {
-    const { select, selectOptions, onClickSearch } = this.props;
+
+    const { select, selectOptions, onClickSearch,onSearchKeyUp } = this.props;
+
     if (e.nativeEvent.keyCode === 13) {
       if (this.SearchInput.value.trim()) {
         this.setState({ cancleShow: true, SearchBlank: false }, () => {
@@ -985,20 +978,20 @@ class Search extends React.Component {
           }
         });
       } else {
-        // if (onClickSearch) {
-        //     return onClickSearch({
-        //         selectdValue: select ? (
-        //             this.state.selectdValue ? this.state.selectdValue.value
-        //                 : selectOptions.selectdValue.value)
-        //             : null,
-        //         value: this.SearchInput.value
-        //     })
-        // }
 
         this.setState({ SearchBlank: true });
 
         this.SearchInput.focus();
       }
+
+    }else{
+
+      if(onSearchKeyUp){
+
+          onSearchKeyUp();
+
+      }
+
     }
 
     //this.SearchClick();
@@ -1136,7 +1129,7 @@ class Search extends React.Component {
                   onKeyUp={this.handleEnterKey.bind(this)}
                   value={Value ? Value : this.state.Value}
                   onChange={
-                    onChange ? (e) => onChange(e) : this.InputChange.bind(this)
+                    onChange?onChange: this.InputChange.bind(this)
                   }
                 />
                 <input
@@ -1690,8 +1683,8 @@ class DropComponent extends React.Component {
             <Scrollbars
               autoHeight
               autoHeightMin={0}
-              autoHeightMax={288}
-              style={{height:height?(this.state.simpleSearchList.length*24<height?this.state.simpleSearchList.length*24:height):'auto'}}
+              autoHeightMax={height?height:288}
+              // style={{height:height?(this.state.simpleSearchList.length*24<height?this.state.simpleSearchList.length*24:height):'auto'}}
               renderTrackHorizontal={(props) => {
                 return <span style={{ display: "none" }}></span>;
               }}
