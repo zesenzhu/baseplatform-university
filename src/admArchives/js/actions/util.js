@@ -465,6 +465,7 @@ const checkUserArchive = ({
           EditUserArchivesData,
           InitEditUserArchivesData,
           UserArchivesParams: { UserArchivesModalRole },
+          RolePower: { ProductType_6 },
         },
       },
     } = getState();
@@ -650,14 +651,17 @@ const checkUserArchive = ({
           },
         })
       );
-      dispatch(
-        checkSubjectID({
-          value: SubjectIDs,
-          error: () => {
-            SubjectTipsVisible = true;
-          },
-        })
-      );
+      if (!ProductType_6) {
+        dispatch(
+          checkSubjectID({
+            value: SubjectIDs,
+            error: () => {
+              SubjectTipsVisible = true;
+            },
+          })
+        );
+      }
+
       if (
         TelephoneError ||
         UserNameError ||

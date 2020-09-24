@@ -16,6 +16,7 @@ const CommonData = (
     RolePower: {
       //版本或角色权限，用于控制界面或数据的显示等
       LockerVersion_1: false,
+      ProductType_6: false,
       IsCollege: false,
       IsLeader: false,
       IsTeacher: false,

@@ -451,7 +451,14 @@ class BaseSetting extends Component {
 
       ClassName,
     } = BaseSetting;
-
+    let { LockerVersion, ProductType } = JSON.parse(
+      sessionStorage.getItem("LgBasePlatformInfo")
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    let token = sessionStorage.getItem("token");
+    LockerVersion = parseInt(LockerVersion);
+    ProductType = parseInt(ProductType);
     return (
       <Loading spinning={loadingShow}>
         <div className="base-setting-wrapper">
@@ -554,7 +561,7 @@ class BaseSetting extends Component {
               ) : (
                 ""
               )}
-              {UserType === 1 ? (
+              {ProductType!==6&&UserType === 1 ? (
                 <div className="subject-wrapper clearfix">
                   <span className="props">所教学科:</span>
 

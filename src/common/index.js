@@ -1199,7 +1199,12 @@ class DropComponent extends React.Component {
 
     }
 
-    this.setState({ dropSelectd: dropSelectd,simpleSearchList });
+
+    this.setState({ dropSelectd: dropSelectd,simpleSearchList },()=>{
+
+      console.log(this.state.simpleSearchList);
+
+    });
 
   }
 
@@ -1430,6 +1435,21 @@ class DropComponent extends React.Component {
       dropSimpleSearch,
       ...reset
     } = this.props;
+
+  
+    let simpleSearchList =  this.state.simpleSearchList;
+
+
+    if (type!=='multiple'&&this.state.simpleSearchShow){
+    
+      simpleSearchList =  this.state.simpleSearchList;
+    
+    }else{
+
+      simpleSearchList = dropList;
+
+    }
+
 
     let dropContainer = "";
 
@@ -1694,7 +1714,7 @@ class DropComponent extends React.Component {
             >
               {
 
-                this.state.simpleSearchList.map((item, key) => {
+                  simpleSearchList.map((item, key) => {
                   return (
                     <li
                       key={key}
@@ -1725,7 +1745,15 @@ class DropComponent extends React.Component {
       );
     }
 
+ 
+
+
+
+
     return (
+
+     
+
       <div
         className={`dropdown_container ${className ? className : ""}`}
         {...reset}
