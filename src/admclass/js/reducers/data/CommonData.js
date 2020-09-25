@@ -126,6 +126,7 @@ const CommonData = (
       cnname: "行政班管理",
       enname: "Class Management",
       image: logo,
+      subtitle:''
     },
   },
   actions

@@ -103,6 +103,7 @@ class App extends Component {
       this.SetRoleCollege();
       this.SetRoleTeacher();
       this.SetBannerList();
+      dispatch(MainAction.GetUnreadLogCount({}));
 
       this.RouteListening({ isFirst: true });
 
@@ -128,18 +129,19 @@ class App extends Component {
         LoginMsg: { CollegeID, CollegeName },
       },
     } = this.props;
-
     let Route = this.ConstructRoute();
     dispatch(CommonAction.SetRouteParams(Route));
 
     let FirstRoute = Route[0];
     let SecondRoute = Route[1];
+    console.log("第一", FirstRoute,IsTeacher);
+
     if (IsTeacher) {
       //教师只能进审核
       if (FirstRoute !== "RegisterExamine") {
         this.SetRegisterExamineDefaultRoute();
-        return;
-      } else {
+        // return;
+      } 
         document.title = "班级管理";
         dispatch(
           CommonAction.SetFrameParams({
@@ -148,9 +150,10 @@ class App extends Component {
             cnname: "班级管理",
             enname: "Class management",
             className: "ClassFrame",
+            subtitle: "学生注册",
           })
         );
-      }
+      
     } else {
       document.title = "用户档案管理";
       dispatch(
@@ -209,6 +212,7 @@ class App extends Component {
         dispatch(
           CommonAction.SetFrameParams({
             showBarner: true,
+            subtitle: "",
           })
         );
         // console.log(SecondRoute);
@@ -219,6 +223,8 @@ class App extends Component {
         dispatch(
           CommonAction.SetFrameParams({
             showBarner: false,
+            subtitle:
+              SecondRoute === "LogDynamic" ? "最近档案动态" : "档案变更记录",
           })
         );
         this.AllGetData({ type: SecondRoute });
@@ -249,6 +255,7 @@ class App extends Component {
       dispatch(
         CommonAction.SetFrameParams({
           showBarner: false,
+          subtitle: "学生注册审核",
         })
       );
       // 教师
@@ -362,6 +369,7 @@ class App extends Component {
       dispatch(
         CommonAction.SetFrameParams({
           showBarner: false,
+          subtitle: "教师注册审核",
         })
       );
       if (IsCollege) {
@@ -398,6 +406,16 @@ class App extends Component {
         CommonAction.SetFrameParams({
           showBarner: false,
           className: "ImportFrame",
+          subtitle:
+            SecondRoute === "Student"
+              ? "导入学生档案"
+              : SecondRoute === "Teacher"
+              ? "导入教师档案"
+              : SecondRoute === "Graduate"
+              ? "导入毕业生档案"
+              : SecondRoute === "Leader"
+              ? "导入领导档案"
+              : "",
         })
       );
       if (
@@ -918,6 +936,7 @@ class App extends Component {
             showLeftMenu,
             showBarner,
             className,
+            subtitle,
           },
           ModalVisible: { DetailsModalVisible },
           UserArchivesParams: { DetailsType, DetailsData },
@@ -956,6 +975,7 @@ class App extends Component {
               cnname: cnname,
               enname: enname,
               image: image,
+              subtitle,
             }}
             type={FrameType}
             showLeftMenu={showLeftMenu}

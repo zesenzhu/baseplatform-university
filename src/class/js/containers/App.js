@@ -110,6 +110,8 @@ class App extends Component {
                           enname: "Administration class management",
 
                           image: logo,
+
+                          subtitle:'导入班主任及班长'
                         },
                       },
                     });
@@ -172,6 +174,8 @@ class App extends Component {
                       enname: "Class management",
 
                       image: TeacherLogo,
+
+                      subtitle:'导入学生档案'
                     },
                   },
                 });
@@ -188,6 +192,8 @@ class App extends Component {
                       enname: "My Class",
 
                       image: logo3,
+
+                      subtitle:''
                     },
                     // ModuleInfo: {
                     //   cnname: "班级管理",
@@ -255,6 +261,8 @@ class App extends Component {
                       enname: "Administration class management",
 
                       image: logo,
+
+                      subtitle:'导入班主任及班长'
                     },
                   },
                 });
@@ -280,6 +288,8 @@ class App extends Component {
                       enname: "Administration class management",
 
                       image: logo,
+
+                      subtitle:''
                     },
                   },
                 });
@@ -545,6 +555,8 @@ class App extends Component {
                               enname: "Administration class management",
 
                               image: logo,
+
+                              subtitle:'导入班主任及班长'
                             },
                           },
                         });
@@ -608,6 +620,8 @@ class App extends Component {
                           enname: "Class management",
 
                           image: TeacherLogo,
+
+                          subtitle:'导入学生档案'
                         },
                       },
                     });
@@ -632,6 +646,8 @@ class App extends Component {
                           enname: "My Class",
 
                           image: logo3,
+
+                          subtitle:''
                         },
                       },
                     });
@@ -694,6 +710,8 @@ class App extends Component {
                           enname: "Administration class management",
 
                           image: logo,
+
+                          subtitle:'导入班主任及班长'
                         },
                       },
                     });

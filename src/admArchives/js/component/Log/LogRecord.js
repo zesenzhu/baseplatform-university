@@ -538,7 +538,7 @@ class LogRecord extends Component {
         <div className="LogRecord-box">
           <div className="Content-top">
             <span className="top-tips">
-              <span className="tips menu39 ">最近档案动态</span>
+              <span className="tips menu39 ">档案变更记录</span>
             </span>
           </div>
           <div className="Content-hr"></div>

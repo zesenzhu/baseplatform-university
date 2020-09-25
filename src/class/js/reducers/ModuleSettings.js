@@ -14,7 +14,9 @@ const ModuleSetting = (state={
 
         enname:"Administration class management",
 
-        image:logo
+        image:logo,
+
+        subtitle:''
 
     }
 
