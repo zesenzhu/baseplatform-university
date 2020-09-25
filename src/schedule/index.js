@@ -16,6 +16,8 @@ import 'moment/locale/zh-cn';
 
 import ZH_CN from 'antd/es/locale/zh_CN';
 
+import {HashRouter as Router} from 'react-router-dom';
+
 moment.locale('zh-cn');
 
 
@@ -24,7 +26,11 @@ ReactDOM.render(<Provider store={store}>
 
     <ConfigProvider locale={ZH_CN}>
 
-        <App />
+        <Router>
+
+            <App />
+
+        </Router>
 
     </ConfigProvider>
 

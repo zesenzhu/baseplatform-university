@@ -16,8 +16,6 @@ import {showQueryAlert,showSuccessAlert} from "../actions/utils";
 function ShowCardTeacher(props){
 
 
-    const [isAiPractice,setIsAiPractice] = useState(false);
-
 
     //props
 
@@ -90,14 +88,6 @@ function ShowCardTeacher(props){
     };
 
 
-    useEffect(()=>{
-
-        const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
-
-        setIsAiPractice(parseInt(ProductType)===6);
-
-    },[]);
-
 
         return (
 
@@ -112,8 +102,8 @@ function ShowCardTeacher(props){
                         <div className='content-hr' ></div>
                         <div className='content-details'>
                             <div className='details-row clearfix'>
-                                <span className='left'>{isAiPractice?'课程：':'学科：'}</span>
-                                <span className='right subjectName'>{props.params.SubjectName}</span>
+                                <span className='left'>课程：</span>
+                                <span className='right subjectName'>{props.params.CourseName}</span>
                             </div>
                             <div className='details-row clearfix'>
                                 <span className='left'>学生数量：</span>

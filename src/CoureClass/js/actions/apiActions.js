@@ -554,7 +554,15 @@ export const InsertOrEditCourseClass_University = async ({SchoolID,UserID,GradeI
 
     }else if (res.StatusCode===400){
 
-        dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+        if (parseInt(res.ErrCode)===-5){
+
+            dispatch(showErrorAlert({title:'一个学生在同一课程下只能加入到一个教学班中。'}));
+
+        }else{
+
+            dispatch(showErrorAlert({title:res.Msg?res.Msg:'未知错误'}));
+
+        }
 
     }
 

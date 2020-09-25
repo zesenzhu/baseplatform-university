@@ -103,6 +103,8 @@ class App extends Component {
           //路由监听
           let route = history.location.pathname;
 
+          console.log(route);
+
           if(route.split('/')[1]==='statics'){
 
               dispatch(bannerShow());
@@ -247,6 +249,8 @@ class App extends Component {
 
   // 请求每个组件主要渲染的数据
   requestData = route => {
+
+
     const { dispatch, DataState } = this.props;
     if (
       !DataState.LoginUser.SchoolID &&
@@ -407,7 +411,11 @@ class App extends Component {
 
               if (data) {
 
-                  dispatch(bannerShow());
+                  if (handleRoute==='Teacher'){
+
+                      dispatch(bannerShow());
+
+                  }
 
               } else {
 
@@ -416,7 +424,6 @@ class App extends Component {
               }
 
               dispatch(teacherPowerChange(data));
-
 
                   let SubjectID = DataState.GetCoureClassAllMsg.Subject;
                   let GradeID = DataState.GetCoureClassAllMsg.Grade;
@@ -493,21 +500,31 @@ class App extends Component {
       window.location.href = "/html/CoureClass#/All";
     }
     let route = history.location.pathname.split("/");
+
     let cnname = "教学班管理";
     
      let subtitle = '';
     
     let enname = "CoureClass Management";
-    if (route[1] === "Teacher") {
-      cnname = "我的教学班管理";
-      enname = "My class Management";
+
+    if (parseInt(UserType)===1) {
+
+        cnname = "我的教学班管理";
+
+        enname = "My class Management";
+
     }
 
- if (route[1]==='ImportFile'){
+    if (route[1]==='ImportFile'){
 
         subtitle = '导入教学班';
 
+    }else if(route[1]==='Log'){
+
+        subtitle = route[2] === 'Dynamic'?'最新动态':'历史记录';
+
     }
+
     return (
 
       <>
@@ -534,6 +551,7 @@ class App extends Component {
                     type="triangle"
                     showBarner={bannerState.show}
                     showLeftMenu={leftMenu.show}
+
                   >
                     <div ref="frame-time-barner">
 
@@ -592,7 +610,7 @@ class App extends Component {
           width={720}
           type="1"
           destroyOnClose={true}
-          title={"教学班详情"}
+          title={parseInt(UserType)===1?'学生名单详情':"教学班详情"}
           visible={
             UIState.SetCourseClassDetailsModalShow
               .setCourseClassDetailsMadalShow
