@@ -55,7 +55,7 @@ function ModulesContent(props){
 
                 return parseInt(UserClass[2])===1?[
 
-                    {Url:'/html/admclass',Name:'我的行政班管理',ClassName:'admClass'},
+                    {Url:'/html/class/index.html',Name:'我的行政班管理',ClassName:'admClass'},
 
                     {Url:'/html/CoureClass',Name:'我的教学班管理',ClassName:'courseClass'},
 
