@@ -3010,6 +3010,7 @@ class Frame extends React.Component {
       showTop = true,
       showBottom = true,
       logo,
+      topRightContent,
       ...reset
     } = this.props;
 
@@ -3101,7 +3102,7 @@ class Frame extends React.Component {
         }  ${this.state.isWorkPlantform ? "in-work-plant-form" : ""}`}
         {...reset}
       >
-        {showTop ? (
+        {showTop ?
           <div className="frame-header-wrapper">
             <div className={`frame-header-bg ${type ? type : ""}`}>
               <div className="frame-header-star-bg">{bgAnimateDom}</div>{" "}
@@ -3173,17 +3174,32 @@ class Frame extends React.Component {
                 })`,
               }}
             >
-              <div className="frame-block-zh-name">
-                {module && module.cnname ? module.cnname : ""}
+              <div className="frame-block-zh-name clearfix">
+                        <div className={"frame-block-title"}>{module && module.cnname ? module.cnname : ""}</div>
+
+                          {
+
+                              module.subtitle?
+
+                                  <div className={"frame-block-subtitle"}>{module.subtitle}</div>
+
+                                  :null
+
+                          }
+
+                      </div>
+                      <div className="frame-block-en-name">
+                        {module && module.enname ? module.enname : ""}
+                      </div>
+
+                      <div className={"frame-top-right-content"}>{topRightContent}</div>
+
+                    </div>
+
               </div>
-              <div className="frame-block-en-name">
-                {module && module.enname ? module.enname : ""}
-              </div>
-            </div>
-          </div>
-        ) : (
+         :
           ""
-        )}
+        }
 
         {showBarner ? (
           <div
@@ -3228,7 +3244,15 @@ class Frame extends React.Component {
           )}
         </div>
 
-        {showBottom ? <div className="frame-bottom">{ProVersion}</div> : ""}
+          {
+
+            showBottom?
+
+                <div className={`frame-bottom ${module.subtitle?'no-title':''}`}>{!module.subtitle?ProVersion:''}</div>
+
+                :''
+
+          }
       </div>
     );
   }

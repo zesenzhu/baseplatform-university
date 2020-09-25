@@ -494,12 +494,20 @@ class App extends Component {
     }
     let route = history.location.pathname.split("/");
     let cnname = "教学班管理";
+    
+     let subtitle = '';
+    
     let enname = "CoureClass Management";
     if (route[1] === "Teacher") {
       cnname = "我的教学班管理";
       enname = "My class Management";
     }
 
+ if (route[1]==='ImportFile'){
+
+        subtitle = '导入教学班';
+
+    }
     return (
 
       <>
@@ -520,6 +528,7 @@ class App extends Component {
                     module={{
                       cnname: cnname,
                       enname: enname,
+                      subtitle:subtitle,
                       image: logo
                     }}
                     type="triangle"
