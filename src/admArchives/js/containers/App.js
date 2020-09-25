@@ -124,10 +124,8 @@ class App extends Component {
           RegisterExamineParams: { classID, className },
         },
       },
-      PublicState:{
-        LoginMsg:{
-          CollegeID,CollegeName
-        }
+      PublicState: {
+        LoginMsg: { CollegeID, CollegeName },
       },
     } = this.props;
 
@@ -239,7 +237,7 @@ class App extends Component {
         checkedList: [],
         checkAll: false,
       };
-      if(IsCollege){
+      if (IsCollege) {
         RegisterParams.collegeID = CollegeID;
         RegisterParams.collegeName = CollegeName;
       }
@@ -315,7 +313,8 @@ class App extends Component {
             })
           );
         }
-      } else {//管理员
+      } else {
+        //管理员
         if (SecondRoute === "RegisterWillExamine") {
           dispatch(MainAction.GetTree({ isLoading: isFirst }));
 
@@ -359,13 +358,13 @@ class App extends Component {
         this.SetFirstDefaultRoute({ isFirst: true });
         return;
       }
-      
+
       dispatch(
         CommonAction.SetFrameParams({
           showBarner: false,
         })
       );
-      if(IsCollege){
+      if (IsCollege) {
         RegisterParams.collegeID = CollegeID;
         RegisterParams.collegeName = CollegeName;
       }
@@ -577,7 +576,7 @@ class App extends Component {
       dispatch(
         CommonAction.SetRegisterExamineParams({
           collegeID: CollegeID,
-          collegeName:CollegeName,
+          collegeName: CollegeName,
         })
       );
     } else {
@@ -645,7 +644,7 @@ class App extends Component {
       dispatch(
         CommonAction.SetRegisterExamineParams({
           collegeID: CollegeID,
-          collegeName:CollegeName,
+          collegeName: CollegeName,
         })
       );
     } else {
@@ -878,17 +877,22 @@ class App extends Component {
     return Role.includes("College");
   };
   // LockerVersion===1 ，校园基础信息管理 XG5.2-免费版,1为基础版，不要毕业生
+  // 直接在这进行产品版本判断，AI实训产品时（大学，ProductType==6），可以隐藏教师学科的信息
   SetLockerVersionGradute = () => {
     let { dispatch } = this.props;
-    let { LockerVersion } = JSON.parse(
+    let { LockerVersion, ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
     )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
     let token = sessionStorage.getItem("token");
+    ProductType = parseInt(ProductType);
     LockerVersion = parseInt(LockerVersion);
     dispatch(
-      CommonAction.SetRolePowerParams({ LockerVersion_1: LockerVersion === 1 })
+      CommonAction.SetRolePowerParams({
+        LockerVersion_1: LockerVersion === 1,
+        ProductType_6: ProductType === 6,
+      })
     );
     return LockerVersion === 1;
   };

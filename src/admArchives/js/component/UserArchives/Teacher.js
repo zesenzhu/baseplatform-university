@@ -289,7 +289,8 @@ class Teacher extends Component {
     let {
       dispatch,
       DataState: {
-        CommonData: { InitEditTeacher, TeacherParams },
+        CommonData: { InitEditTeacher, TeacherParams,RolePower:{ProductType_6} },
+        MainData: { SubjectList }
       },
     } = this.props;
     dispatch(MainAction.GetTeacherTree({ isLoading: false }));
@@ -301,6 +302,7 @@ class Teacher extends Component {
         CollegeName: TeacherParams.collegeName,
         GroupID: TeacherParams.groupID,
         GroupName: TeacherParams.groupName,
+        SubjectIDs:ProductType_6&&SubjectList instanceof Array ?SubjectList.map(child=>child.value):[]
       })
     );
 

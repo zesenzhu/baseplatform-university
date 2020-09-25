@@ -695,7 +695,6 @@ class Graduate extends Component {
                 onChange={this.onCollegeSelect}
                 width={120}
                 disabled={IsCollege}
-                title="院系专业:"
                 height={240}
                 dropSelectd={{
                   value: collegeID,

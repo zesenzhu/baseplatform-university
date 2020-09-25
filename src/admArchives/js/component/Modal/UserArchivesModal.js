@@ -787,7 +787,7 @@ class UserArchivesModal extends Component {
         CommonData: {
           ModalVisible: { UserArchivesModalVisible },
           UserArchivesParams: { UserArchivesModalType, UserArchivesModalRole },
-          RolePower: { IsCollege },
+          RolePower: { IsCollege,ProductType_6 },
 
           TipsVisible: {
             UserIDTipsVisible,
@@ -1351,7 +1351,7 @@ class UserArchivesModal extends Component {
               ) : (
                 ""
               )}
-              {UserArchivesModalRole === "Teacher" ? (
+              {!ProductType_6&&UserArchivesModalRole === "Teacher" ? (
                 <div className="row clearfix row-subject">
                   <span className="culonm-1 Subject">
                     <span className="must-icon">*</span>所教学科：

@@ -164,6 +164,7 @@ class MajorModal extends Component {
         }
       });
     let isNull = true;
+    console.log(CollegeList,IsCollege)
     return (
       <Modal
         ref="UserArchivesModal"
