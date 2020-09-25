@@ -184,11 +184,13 @@ class App extends Component {
       if (UserPower.includes("Admin") || UserPower === "TeachingLeader") {
         dispatch(
           UpDataState.SetTopLeftData({
-            cnname: (
-              <span>
-                行政班管理<span className="tl-title">-班级详情</span>
-              </span>
-            ),
+            cnname: "行政班管理",
+            //  (
+            //   <span>
+            //     行政班管理<span className="tl-title">-班级详情</span>
+            //   </span>
+            // ),
+            subtitle: "班级详情",
           })
         );
         dispatch(
@@ -215,6 +217,7 @@ class App extends Component {
           UpDataState.SetTopLeftData({
             cnname: "我的行政班",
             enname: "My Class",
+            subtitle: "班级详情",
           })
         );
         dispatch(
@@ -266,7 +269,7 @@ class App extends Component {
           UserPower = "TeachingLeader";
         } else if (UserType === "0") {
           //管理员
-          if (UserClass === 1 || UserClass === 2) {
+          if (UserClass === '1' || UserClass === '2') {
             UserPower = "Admin";
           } else {
             UserPower = "Admin-College";
@@ -345,6 +348,7 @@ class App extends Component {
                 cnname: TopLeftData.cnname,
                 enname: TopLeftData.enname,
                 image: TopLeftData.image,
+                subtitle: TopLeftData.subtitle,
               }}
               pageInit={this.RequestData}
             >
