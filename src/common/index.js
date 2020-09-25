@@ -180,7 +180,7 @@ class Button extends React.Component {
     if (this.props.width) {
       style = Object.assign({}, style, this.handleWidth(this.props.width));
     }
-    // console.log(style)
+
     return { style };
   };
   render() {
@@ -244,11 +244,11 @@ class Input extends React.Component {
 
   //onChange
   onInputChange = (e) => {
-    // console.log(e.target.value)
+
     if (this.props.onChange) {
       e.target.value = e.target.value.trim();
       this.props.onChange(e);
-      // console.log(e.target.value)
+
     } else {
       this.setState({
         value: e.target.value.trim(),
@@ -551,13 +551,13 @@ class Modal extends React.Component {
   componentDidMount() {
     //         let modalHeader = $('.ant-modal-header');
     //         let modal = $(this.refs.Modal);
-    //         console.log(modalHeader,modal)
+
     //         modal.click((e)=>{
-    // console.log(e)
+
     //         })
     //         modal.mousedown(function(e) {
     //             // e.pageX
-    //             console.log('215')
+
     //             var positionDiv = $(this).offset();
     //             var distenceX = e.pageX - positionDiv.left;
     //             var distenceY = e.pageY - positionDiv.top;
@@ -587,7 +587,7 @@ class Modal extends React.Component {
     //         });
     /* $('.ant-modal').each((index,that)=>{
 
-            console.log($(that).width());
+
 
             $(that).css({
 
@@ -621,7 +621,7 @@ class Modal extends React.Component {
 
             yTemp = my - parseInt($win.offset().top);
 
-            console.log(xTemp,yTemp);
+
 
         });
         //var win;
@@ -641,7 +641,7 @@ class Modal extends React.Component {
 
                 if (mx - xTemp > 0 && mx - xTemp < $window.width() - $win.width()) {
 
-                    console.log(mx - xTemp);
+
 
                     $win.css('left', mx - xTemp+'px');
 
@@ -649,7 +649,7 @@ class Modal extends React.Component {
 
                 if (my - yTemp > 0 && my - yTemp < $window.height() - $win.height()) {
 
-                    console.log(my - yTemp);
+
 
                     $win.css('top', my - yTemp+'px');
 
@@ -1200,11 +1200,7 @@ class DropComponent extends React.Component {
     }
 
 
-    this.setState({ dropSelectd: dropSelectd,simpleSearchList },()=>{
-
-      console.log(this.state.simpleSearchList);
-
-    });
+    this.setState({ dropSelectd: dropSelectd,simpleSearchList });
 
   }
 
@@ -2344,7 +2340,7 @@ class Menu extends React.Component {
     let { children, MenuBox } = { ...reset };
     let layer = 1;
     /*级数*/
-    // console.log(children)
+
     this.setState({
       initParams: initParams,
       menuDom: this.objectDeconstruction(children, layer),
@@ -2378,7 +2374,6 @@ class Menu extends React.Component {
     let myLayer = layer;
     /*级数*/
     if ("object" === typeof object && isNaN(object.length)) {
-      // console.log( object.children,object.children instanceof Array,object.children instanceof Array && object.children.length !==0)
 
       if (
         object.children &&
@@ -2420,7 +2415,7 @@ class Menu extends React.Component {
             </React.Fragment>
           );
         } else if (myLayer === 2) {
-          // console.log(object.active)
+
           return (
             <div className="frame_leftmenu_twograde_container" key={object.key}>
               <div
@@ -2480,7 +2475,7 @@ class Menu extends React.Component {
             </div>
           );
         } else if (myLayer === 2) {
-          // console.log(object)
+
           return (
             <div
               className={`frame_leftmenu_twograde_container no_child ${
@@ -2535,10 +2530,8 @@ class Menu extends React.Component {
           //   </li>
           // );
         } else {
-          // console.log(object,1)
-          // if(object.active){
-          //   console.log(object)
-          // }
+
+
           return (
             <li
               className={`clearfix ${object.active ? "active" : ""} ${
@@ -3272,7 +3265,7 @@ class DetailsModal extends React.Component {
 
   render() {
     let { type, data, children, ...params } = this.props;
-    // console.log(params)
+
     if (type === "student") {
     }
     // if(data){
@@ -3810,7 +3803,7 @@ class Tips extends React.Component {
       overlayStyle,
       ...params
     } = this.props;
-    // console.log(params)
+
     return (
       <Tooltip
         placement={placement}

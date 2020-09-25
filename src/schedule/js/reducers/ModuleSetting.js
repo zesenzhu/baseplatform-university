@@ -41,9 +41,13 @@ const ModuleSetting = (state={
 
                 ...state,
 
-                moduleCnName:"课程表查询",
+                moduleCnName:"我的课表",
 
-                moduleEnName:'Curriculum Enquiries',
+                moduleEnName:'My Schedule',
+
+               /* moduleCnName:"课程表查询",
+
+                moduleEnName:'Curriculum Enquiries',*/
 
                 logo:logoStudent,
 
@@ -57,9 +61,13 @@ const ModuleSetting = (state={
 
                 ...state,
 
-                moduleCnName:"我的课表",
+                /*moduleCnName:"我的课表",
 
-                moduleEnName:'My Schedule',
+                moduleEnName:'My Schedule',*/
+
+                moduleCnName:"课程表查询",
+
+                moduleEnName:'Curriculum Enquiries',
 
                 logo:logoTeacher,
 
