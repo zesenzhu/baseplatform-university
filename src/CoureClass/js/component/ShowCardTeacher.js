@@ -10,12 +10,13 @@ import '../../scss/ShowCard.scss'
 
 import CONFIG from '../../../common/js/config';
 
-import history from "../containers/history";
-
 import {showQueryAlert,showSuccessAlert} from "../actions/utils";
 
 
 function ShowCardTeacher(props){
+
+
+    const [isAiPractice,setIsAiPractice] = useState(false);
 
 
     //props
@@ -88,6 +89,16 @@ function ShowCardTeacher(props){
 
     };
 
+
+    useEffect(()=>{
+
+        const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
+
+        setIsAiPractice(parseInt(ProductType)===6);
+
+    },[]);
+
+
         return (
 
             <div className='ShowCard-box-Teacher '>
@@ -101,7 +112,7 @@ function ShowCardTeacher(props){
                         <div className='content-hr' ></div>
                         <div className='content-details'>
                             <div className='details-row clearfix'>
-                                <span className='left'>学科：</span>
+                                <span className='left'>{isAiPractice?'课程：':'学科：'}</span>
                                 <span className='right subjectName'>{props.params.SubjectName}</span>
                             </div>
                             <div className='details-row clearfix'>
