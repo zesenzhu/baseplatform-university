@@ -192,8 +192,10 @@ class MainContent extends Component {
     }
     let path = history.location.pathname.split("/")[2];
     let isImport = false;
+    let subtitle =''
     if (path === "Import") {
       isImport = true;
+      subtitle ='导入学院'
     }
     // console.log(path)
     if (
@@ -214,6 +216,7 @@ class MainContent extends Component {
             image: setting,
             cnname: "系统设置",
             enname: "System Settings",
+            subtitle
           }}
           userInfo={{ name: UserName, image: PhotoPath }}
         >

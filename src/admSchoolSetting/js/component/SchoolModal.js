@@ -43,14 +43,6 @@ class SchoolModal extends React.Component {
   componentWillMount() {
     const { dispatch, DataState, UIState } = this.props;
     let token = sessionStorage.getItem("token");
-    dispatch(UpDataState.getImgUrlProxy());
-    if (this.props.type === "add") {
-      dispatch(
-        UpDataState.SetSchoolModalData({
-          SchoolImgUrl: "SysSetting/Attach/default.png",
-        })
-      );
-    }
     let {
       SchoolName, //学校名字
       SchoolCode, //学校代码
@@ -61,6 +53,15 @@ class SchoolModal extends React.Component {
       SchoolTel, //学校联系电话
       SchoolLinkman, //学校联系人
     } = DataState.CommonData.SchoolModalData;
+    if (this.props.type === "add") {
+      dispatch(
+        UpDataState.SetSchoolModalData({
+          SchoolImgUrl: "SysSetting/Attach/default.png",
+        })
+      );
+      SchoolImgUrl = DataState.CommonData.ImgUrlProxy +"SysSetting/Attach/default.png"
+    }
+    
     this.setState({
       classResultImgUrl: SchoolImgUrl,
     });
@@ -431,11 +432,13 @@ class SchoolModal extends React.Component {
                 (this.state.classResultImgUrl
                   ? this.state.classResultImgUrl
                   : DefaultImg) +
-                ")" +
-                "," +
-                "url(" +
-                DefaultImg +
-                ")",
+                ")"
+                //  +
+                // "," +
+                // "url(" +
+                // DefaultImg +
+                // ")"
+                ,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "contain",
