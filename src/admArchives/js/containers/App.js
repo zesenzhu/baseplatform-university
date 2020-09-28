@@ -817,7 +817,7 @@ class App extends Component {
             SysUrl.length > 0 &&
             Role.includes("Admin")
           ) {
-            List.push({
+            BannerList.push({
               url: SysUrl[0].WebSvrAddr + "?lg_tk=" + token,
               ...child,
             });
