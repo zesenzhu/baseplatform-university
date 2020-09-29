@@ -103,7 +103,7 @@ function ShowCardTeacher(props){
                         <div className='content-details'>
                             <div className='details-row clearfix'>
                                 <span className='left'>课程：</span>
-                                <span className='right subjectName'>{props.params.CourseName}</span>
+                                <span className='right subjectName' title={props.params.CourseName}>{props.params.CourseName}</span>
                             </div>
                             <div className='details-row clearfix'>
                                 <span className='left'>学生数量：</span>
