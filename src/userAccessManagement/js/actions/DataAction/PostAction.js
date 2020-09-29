@@ -32,20 +32,265 @@
  *            ,,,     ,,:,::::::i:iiiii:i::::,, ::::iiiir@xingjief.r;7:i,
  *         , , ,,,:,,::::::::iiiiiiiiii:,:,:::::::::iiir;ri7vL77rrirri::
  *          :,, , ::::::::i:::i:::i:i::,,,,,:,::i:i:::iir;@Secbone.ii:::
- * 
+ *
  * @Author: zhuzesen
  * @LastEditors: zhuzesen
  * @Date: 2020-09-17 10:08:21
- * @LastEditTime: 2020-09-17 14:34:09
+ * @LastEditTime: 2020-09-25 10:13:01
  * @Description: 模块接口的post的action
- * @FilePath: \baseplatform-university\src\userAccessManagement\js\actions\DataAction\PostAction.js
+ * @FilePath: \baseplatform-middle\src\userAccessManagement\js\actions\DataAction\PostAction.js
  */
 
-import { postData, getData } from "../../../../common/js/fetch";
+import { postData, getData } from "../util";
+
 import PublicAction from "../PublicAction";
 import HandleAction from "../HandleAction";
+import DataAction from "./index";
 import CONFIG from "../../../../common/js/config";
-const { BasicProxy, UserInfoProxy, ClassProxy } = CONFIG;
+const { BasicProxy, UserInfoProxy, UserAccessProxy, UserAccountProxy } = CONFIG;
 
+const AddIdentityType = ({ fn = () => {}, schoolID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ModalLoadingOpen());
 
-export default{}
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          CustomIdentity: { IdentityName, Description, UserType },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "AddIdentityType";
+    postData({
+      url,
+      params: { IdentityName, Description, UserType: UserType.join(",") },
+    }).then(({ res }) => {
+      if (res) {
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "添加成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+      dispatch(PublicAction.ModalLoadingClose());
+
+    });
+  };
+};
+// 编辑身份
+const EditIdentityType = ({ fn = () => {}, schoolID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ModalLoadingOpen());
+
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          CustomIdentity: { IdentityName, Description, UserType, IdentityID },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "EditIdentityType";
+    postData({
+      url,
+      params: {
+        IdentityName,
+        Description,
+        UserType: UserType.join(","),
+        IdentityID,
+      },
+    }).then(({ res }) => {
+      if (res) {
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "编辑成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+      dispatch(PublicAction.ModalLoadingClose());
+
+    });
+  };
+};
+
+// 删除身份
+const DeleteIdentityType = ({ fn = () => {}, schoolID }) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          CustomIdentity: { IdentityID },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "DeleteIdentityType";
+    postData({
+      url,
+      params: { IdentityID },
+    }).then(({ res }) => {
+      if (res) {
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "删除成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+    });
+  };
+};
+// 编辑权限模块
+const EditIdentityModule = ({ fn = () => {}, schoolID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ModalLoadingOpen());
+
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          IdentityPower: { IdentityID, ModuleIDs },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "EditIdentityModule";
+    postData({
+      url,
+      params: { IdentityID, ModuleIDs: ModuleIDs.join(",") },
+    }).then(({ res }) => {
+      if (res) {
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "编辑成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+      dispatch(PublicAction.ModalLoadingClose());
+
+    });
+  };
+};
+// 删除成员
+const DeleteIdentityUser = ({ fn = () => {}, UserID }) => {
+  return (dispatch, getState) => {
+
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          CheckMember: { IdentityID },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "DeleteIdentityUser";
+    postData({
+      url,
+      params: { IdentityID, UserID },
+    }).then(({ res }) => {
+      if (res) {
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "移除成功" })
+        );
+        dispatch(DataAction.GetIdentityUser({}));
+      }
+    });
+  };
+};
+// 添加成员
+const AddIdentityUser = ({ fn = () => {}, UserID }) => {
+  return (dispatch, getState) => {
+    dispatch(PublicAction.ModalLoadingOpen());
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          AddMember: { IdentityID, MemberList },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "AddIdentityUser";
+    postData({
+      url,
+      params: {
+        IdentityID,
+        NodeItems: MemberList.map((child) => {
+          return (
+            child.NodeType +
+            "|" +
+            child.NodeLevel +
+            "|" +
+            child.NodeID +
+            "|" +
+            child.FullID
+          );
+        }).join(","),
+      },
+    }).then(({ res }) => {
+      if (res) {
+        dispatch(DataAction.GetIdentityUser({}));
+
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "添加成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+      dispatch(PublicAction.ModalLoadingClose());
+    });
+  };
+};
+// 删除成员
+const UpdateUserIdentity = ({ fn = () => {}, UserID }) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let {
+      HandleState: {
+        ParamsData: {
+          SearchIdentity: { IdentityIDsList, UserID },
+        },
+      },
+    } = State;
+
+    let url = UserAccessProxy + "UpdateUserIdentity";
+    postData({
+      url,
+      params: {
+        UserID,
+        IdentityIDs: IdentityIDsList.join(","),
+      },
+    }).then(({ res }) => {
+      if (res) {
+        dispatch(DataAction.SearchIdentityUser({}));
+
+        fn();
+
+        dispatch(
+          PublicAction.showErrorAlert({ type: "success", title: "编辑成功" })
+        );
+        dispatch(DataAction.GetIdentityTypeList({}));
+      }
+    });
+  };
+};
+export default {
+  UpdateUserIdentity,
+  AddIdentityUser,
+  DeleteIdentityUser,
+  AddIdentityType,
+  EditIdentityType,
+  DeleteIdentityType,
+  EditIdentityModule,
+};

@@ -918,9 +918,11 @@ class SchoolnfoSetting extends Component {
       let dataList = collegePreview.CollegeList;
       let Total = collegePreview.totalCount;
       let CollegeIDList = checkList.map((child, index) => {
-        return dataList[index].College.CollegeID;
+        return dataList[child].College.CollegeID;
       });
       let CollegeIDListString = CollegeIDList.join();
+      // console.log(checkList,dataList,CollegeIDList)
+      // return;
       dispatch(
         AppAlertAction.alertQuery({
           title: `确定删除勾选的学院吗？`,

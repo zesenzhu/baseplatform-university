@@ -36,7 +36,7 @@ import "../../scss/index.scss";
 import { HandleAction, DataAction, PublicAction } from "../actions";
 import Public from "../../../common/js/public";
 import Scrollbars from "react-custom-scrollbars";
-
+import Main from "./Main";
 const { Bs2CsProxy } = CONFIG;
 let { getQueryVariable, setRole } = Public;
 // const { HandleAction, DataAction, PublicAction } = actions;
@@ -75,6 +75,8 @@ class App extends Component {
         return;
       }
       // 数据请求前的处理
+      // 获取是否开启家长功能
+      dispatch(DataAction.GetConfig({}));
 
       this.RouteListening({ isFirst: true });
 
@@ -101,9 +103,11 @@ class App extends Component {
 
     let FirstRoute = Route[0];
     let SecondRoute = Route[1];
-    console.log(Route,FirstRoute);
+    // console.log(Route, FirstRoute);
     if (FirstRoute === "") {
-      dispatch(DataAction.GetIdentityTypeList({}));
+      this.AllGetData({});
+    } else {
+      this.SetFirstDefaultRoute({ isFirst: true });
     }
     fn();
   };
@@ -113,11 +117,16 @@ class App extends Component {
     let { dispatch } = this.props;
     if (isFirst) {
       //如果是第一次,因为不会进行数据和路由更新，需要手动
-      dispatch(HandleAction.SetRouteParams(["UserArchives", "All"]));
+      dispatch(HandleAction.SetRouteParams(["", ""]));
 
       this.AllGetData({});
     }
-    history.push("/UserArchives/All");
+    history.push("/");
+  };
+  AllGetData = () => {
+    let { dispatch } = this.props;
+
+    dispatch(DataAction.GetIdentityTypeList({}));
   };
   // 解析路由
   ConstructRoute = (tpye = "construct", key) => {
@@ -135,7 +144,29 @@ class App extends Component {
       }
     }
   };
-
+  // 搜索修改
+  onChangeSearch = (e) => {
+    let { dispatch } = this.props;
+    dispatch(
+      HandleAction.ParamsSetSearchIdentity({ SearchValue: e.target.value })
+    );
+  };
+  // 确认修改
+  onClickSearch = (e) => {
+    let { dispatch } = this.props;
+    dispatch(
+      HandleAction.ParamsSetSearchIdentity({
+        KeyWord: e.value,
+        PageIndex: 1,
+        PageSize: 5,
+        CancelBtnShow: "y",
+      })
+    );
+    dispatch(DataAction.SearchIdentityUser({}));
+    dispatch(
+      HandleAction.SetModalVisible({ SearchIdentityModalVisible: true })
+    );
+  };
   render() {
     const {
       HandleState: {
@@ -151,6 +182,9 @@ class App extends Component {
           },
         },
         ControlData: { ModalVisible },
+        ParamsData: {
+          SearchIdentity: { SearchValue, KeyWord, CancelBtnShow },
+        },
       },
       PublicState: {
         Loading: { AppLoading, ContentLoading },
@@ -191,7 +225,23 @@ class App extends Component {
             showBarner={showBarner}
             className={`myFrame  ${className}`}
             pageInit={this.RequestData}
+            topRightContent={
+              <Search
+                placeHolder="请输入用户姓名/工号/学号搜索用户身份权限..."
+                onClickSearch={this.onClickSearch}
+                className={"transparent"}
+                height={32}
+                width={380}
+                Value={SearchValue}
+                // onCancelSearch={this.onCancelSearch}
+                onChange={this.onChangeSearch}
+                CancelBtnShow={"n"}
+              ></Search>
+            }
           >
+            {/* <div ref="frame-time-barner" style={{textAlign:'right'}}>
+              
+            </div> */}
             <div ref="frame-right-content">
               <Loading
                 opacity={false}
@@ -200,9 +250,9 @@ class App extends Component {
                 spinning={ContentLoading}
               >
                 <Router>
-                  {/* <Route path="/UserArchives" component={UserArchives}> */}
-                  {/* <Redirect from="/UserArchives*" to="/UserArchives/All" /> */}
-                  {/* </Route> */}
+                  <Route path="/" component={Main}>
+                    {/* <Redirect from="*" to="/" /> */}
+                  </Route>
 
                   {/* <Redirect from="/" to="/UserArchives" /> */}
                   {/* <Route path="/" component={Temple}>
