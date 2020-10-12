@@ -128,9 +128,9 @@ function YearAndTerm(props) {
 
                            let range = [];
 
-                           const startDate = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-'))).format('YYYY-MM-DD');
+                           const startDate = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-')));
 
-                           const endDate = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-'))).format('YYYY-MM-DD');
+                           const endDate = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-')));
 
                            if (replaceYear.slice(-2)==='01'){
 
@@ -196,9 +196,9 @@ function YearAndTerm(props) {
 
                         let title = '',value = '',dropList=[],startTime = '',endTime = '',range = [];
 
-                        startTime = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-'))).format('YYYY-MM-DD');
+                        startTime = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-')));
 
-                        endTime = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-'))).format('YYYY-MM-DD');
+                        endTime = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-')));
 
                         if (nowMonth>6){
 
@@ -380,9 +380,9 @@ function YearAndTerm(props) {
 
         setStartDate(d=>{
 
-            startDateRef.current = {...d,date:dateStr,tip:false};
+            startDateRef.current = {...d,date:date,tip:false};
 
-            return {...d,date:dateStr,tip:false};
+            return {...d,date:date,tip:false};
 
         });
 
@@ -394,9 +394,9 @@ function YearAndTerm(props) {
 
         setEndDate(d=>{
 
-            endDateRef.current = {...d,date:dateStr,tip:false};
+            endDateRef.current = {...d,date:date,tip:false};
 
-            return {...d,date:dateStr,tip:false};
+            return {...d,date:date,tip:false};
 
         });
 
@@ -406,9 +406,9 @@ function YearAndTerm(props) {
     //下一步
     const nextStepClick = useCallback(()=>{
 
-        const StartDate = startDateRef.current.date;
+        const StartDate = startDateRef.current.date.format('YYYY-MM-DD');
 
-        const EndDate = endDateRef.current.date;
+        const EndDate = endDateRef.current.date.format('YYYY-MM-DD');
 
         let startOk=false,endOk=false;
 
