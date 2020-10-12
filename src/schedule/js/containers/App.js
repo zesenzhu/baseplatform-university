@@ -107,6 +107,12 @@ class App extends Component{
 
         let { UserType,UserClass } = UserInfo;
 
+        if (parseInt(UserType)===0){
+
+            this.Frame.getIdentity({ModuleID:'000004'});
+
+        }
+
         //判断权限
 
         if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2||parseInt(UserType)===7||parseInt(UserType)===10){
@@ -590,6 +596,11 @@ class App extends Component{
 
     }
 
+    onRef(ref){
+
+        this.Frame = ref;
+
+    }
 
 
     render() {
@@ -605,8 +616,6 @@ class App extends Component{
         const routes = pathname.split('/');
 
         let subtitle = '';
-
-        console.log(routes);
         
         if (routes[1]==='Import'){
 
@@ -658,6 +667,8 @@ class App extends Component{
                                 pageInit={this.pageInit.bind(this)}
 
                                 type="circle"
+
+                                onRef={this.onRef.bind(this)}
 
                             >
 

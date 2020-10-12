@@ -76,13 +76,16 @@ class App extends Component {
 
       const UserInfoCopy = {...UserInfo,UserType:parseInt(UserInfo.UserType),UserClass:UserInfo.UserClass};
 
-      /*let UserType = UserInfo.UserType;
 
-      if (parseInt(UserType)===7||parseInt(UserType)===10){
+      if (UserInfoCopy.UserType===0){
 
-          UserInfo.UserType = '0';
+          this.Frame.getIdentity({ModuleID:'000005'});
 
-      }*/
+      }else if (UserInfoCopy.UserType===1) {
+
+          this.Frame.getIdentity({ModuleID:'000013'})
+
+      }
 
       dispatch(
           actions.UpDataState.getLoginUser(
@@ -490,6 +493,13 @@ class App extends Component {
 
   }
 
+    onRef(ref){
+
+        this.Frame = ref;
+
+    }
+
+
   render() {
     const { LoginUser,UIState,DataState,leftMenu,AppLoading,bannerState,history } = this.props;
 
@@ -551,7 +561,7 @@ class App extends Component {
                     type="triangle"
                     showBarner={bannerState.show}
                     showLeftMenu={leftMenu.show}
-
+                    onRef={this.onRef.bind(this)}
                   >
                     <div ref="frame-time-barner">
 

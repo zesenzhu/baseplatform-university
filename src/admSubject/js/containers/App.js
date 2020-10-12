@@ -54,6 +54,8 @@ class App extends Component {
 
         const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
+        this.Frame.getIdentity({ModuleID:'000007'});
+
         if (parseInt(ProductType)===6){
 
             document.title='课程管理';
@@ -166,6 +168,12 @@ class App extends Component {
 
     }
 
+    onRef(ref){
+
+        this.Frame = ref;
+
+    }
+
 
     render() {
 
@@ -196,7 +204,7 @@ class App extends Component {
                         type="triangle"
                         showLeftMenu={false}
                         showBarner={productType!==6}
-
+                        onRef={this.onRef.bind(this)}
                     >
 
                         <div ref={"frame-time-barner"}>
