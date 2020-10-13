@@ -352,7 +352,23 @@ class ReplaceSchedule extends Component{
 
                     </div>
 
-                    <div className="subject-wrapper clearfix">
+                    {
+
+                        teacherSubject.dropShow?
+
+                        <div className="subject-wrapper clearfix">
+
+                            <div className="props">学科:</div>
+
+                            <DropDown width={160} height={300} style={{zIndex:20}} dropSelectd={teacherSubject.select.dropSelectd}  dropList={teacherSubject.select.dropList} onChange={this.TeacherSubjectChange.bind(this)}></DropDown>
+
+                        </div>
+
+                        :null
+
+                    }
+
+                    {/*<div className="subject-wrapper clearfix">
 
                         <div className="props">学科:</div>
 
@@ -368,7 +384,7 @@ class ReplaceSchedule extends Component{
 
                         }
 
-                    </div>
+                    </div>*/}
 
                     <div className="class-wrapper clearfix">
 
