@@ -189,6 +189,7 @@ class App extends Component {
 
               }
 
+
               if(route.split('/')[1]==='ImportFile'){
 
                   dispatch(bannerHide());

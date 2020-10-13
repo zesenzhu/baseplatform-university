@@ -625,7 +625,7 @@ function AddEditCourseClass(props,ref) {
 
         const { value,title } = data;
 
-        let courseList = [];
+        let courseList = [],courseDisabled=false,courseTitle='请选择课程';
 
         if (value){
 
@@ -637,6 +637,10 @@ function AddEditCourseClass(props,ref) {
 
                 courseList.push({value:'',title:'暂无可选课程'});
 
+                courseDisabled = true;
+
+                courseTitle = '暂无课程可选';
+
             }
 
         }
@@ -645,7 +649,7 @@ function AddEditCourseClass(props,ref) {
 
         setTeacher(d=>({...d,dropSelectd:{value:'',title:'请选择教师'},tip:false,disabled:true}));
 
-        setCourse(d=>({...d,disabled:false,dropSelectd:{value:'',title:'请选择课程'},dropList:courseList}))
+        setCourse(d=>({...d,disabled:courseDisabled,dropSelectd:{value:'',title:courseTitle},dropList:courseList}))
 
     },[]);
 
@@ -738,7 +742,7 @@ function AddEditCourseClass(props,ref) {
 
                                         <Tips visible={course.tip} title={"请选择课程"}>
 
-                                            <DropDown className={"select-course"} disabled={course.disabled} dropSelectd={course.dropSelectd} dropList={course.dropList} onChange={courseChange}></DropDown>
+                                            <DropDown width={138} className={"select-course"} disabled={course.disabled} dropSelectd={course.dropSelectd} dropList={course.dropList} onChange={courseChange}></DropDown>
 
                                         </Tips>
 
