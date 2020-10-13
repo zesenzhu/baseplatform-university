@@ -311,7 +311,7 @@ class FrameContainer extends Component{
 
             this.GetIdentityTypeByCode(identity).then(data=>{
 
-                if (data.length>0){
+                if (data&&data.length>0){
 
                     this.IdentityRecognition(data,ModuleID);
 
@@ -323,7 +323,7 @@ class FrameContainer extends Component{
 
             this.GetIdentity().then(data=>{
 
-                if (data.length>0){
+                if (data&&data.length>0){
 
                     this.IdentityRecognition(data,ModuleID);
 
@@ -353,8 +353,6 @@ class FrameContainer extends Component{
             if (index>=0){
 
                 const IdentityItem = IdentityList[index];
-
-                console.log(IdentityItem);
 
                 this.setState({
 
