@@ -106,8 +106,6 @@ class App extends Component {
           //路由监听
           let route = history.location.pathname;
 
-          console.log(route);
-
           if(route.split('/')[1]==='statics'){
 
               dispatch(bannerShow());
@@ -190,6 +188,7 @@ class App extends Component {
                   dispatch(leftMemuHide());
 
               }
+
 
               if(route.split('/')[1]==='ImportFile'){
 
