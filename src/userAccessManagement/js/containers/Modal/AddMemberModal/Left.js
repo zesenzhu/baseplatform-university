@@ -143,7 +143,7 @@ class Left extends Component {
                     name={child.NodeName}
                   ></Tag>
                 );
-              }):<Empty type='4' title="请在左侧选择成员添加" style={{marginTop:'150px'}}></Empty>}
+              }):<Empty type='4' title="请在右侧选择成员添加" style={{marginTop:'150px'}}></Empty>}
             {/* <Tooltip
               placement="top"
               trigger={["click"]}
