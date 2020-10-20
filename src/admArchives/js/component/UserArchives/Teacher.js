@@ -734,7 +734,7 @@ class Teacher extends Component {
                       onClick={this.onLinkClick.bind(
                         this,
                         "教师注册审核",
-                        "#/RegisterExamine/RegisterWillExamine"
+                        "#/TeacherRegisterExamine/TeacherRegisterWillExamine"
                       )}
                       className="RegisterExamine"
                     >
