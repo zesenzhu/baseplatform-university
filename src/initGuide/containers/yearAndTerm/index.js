@@ -128,9 +128,18 @@ function YearAndTerm(props) {
 
                            let range = [];
 
-                           const startDate = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-')));
 
-                           const endDate = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-')));
+                           const startDate = data.TermStartDate.split(' ')[0].split('/').map((i,k)=>{
+
+                              return k>0&&i.length<2?'0'+i:i;
+
+                           }).join('-');
+
+                           const endDate = data.TermEndDate.split(' ')[0].split('/').map((i,k)=>{
+
+                               return k>0&&i.length<2?'0'+i:i;
+
+                           }).join('-');
 
                            if (replaceYear.slice(-2)==='01'){
 
@@ -196,9 +205,17 @@ function YearAndTerm(props) {
 
                         let title = '',value = '',dropList=[],startTime = '',endTime = '',range = [];
 
-                        startTime = moment(new Date(data.TermStartDate.split(' ')[0].replace(/\//g,'-')));
+                        startTime = data.TermStartDate.split(' ')[0].split('/').map((i,k)=>{
 
-                        endTime = moment(new Date(data.TermEndDate.split(' ')[0].replace(/\//g,'-')));
+                                return k>0&&i.length<2?'0'+i:i;
+
+                            }).join('-');
+
+                        endTime = data.TermEndDate.split(' ')[0].split('/').map((i,k)=>{
+
+                            return k>0&&i.length<2?'0'+i:i;
+
+                        }).join('-');
 
                         if (nowMonth>6){
 
@@ -380,9 +397,9 @@ function YearAndTerm(props) {
 
         setStartDate(d=>{
 
-            startDateRef.current = {...d,date:date,tip:false};
+            startDateRef.current = {...d,date:dateStr,tip:false};
 
-            return {...d,date:date,tip:false};
+            return {...d,date:dateStr,tip:false};
 
         });
 
@@ -394,9 +411,9 @@ function YearAndTerm(props) {
 
         setEndDate(d=>{
 
-            endDateRef.current = {...d,date:date,tip:false};
+            endDateRef.current = {...d,date:dateStr,tip:false};
 
-            return {...d,date:date,tip:false};
+            return {...d,date:dateStr,tip:false};
 
         });
 
@@ -406,9 +423,9 @@ function YearAndTerm(props) {
     //下一步
     const nextStepClick = useCallback(()=>{
 
-        const StartDate = startDateRef.current.date.format('YYYY-MM-DD');
+        const StartDate = startDateRef.current.date;
 
-        const EndDate = endDateRef.current.date.format('YYYY-MM-DD');
+        const EndDate = endDateRef.current.date;
 
         let startOk=false,endOk=false;
 
@@ -484,6 +501,7 @@ function YearAndTerm(props) {
         }
 
     },[]);
+
 
     return(
 
