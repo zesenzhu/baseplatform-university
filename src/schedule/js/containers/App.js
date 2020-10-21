@@ -107,27 +107,53 @@ class App extends Component{
 
         let { UserType,UserClass } = UserInfo;
 
-        if (parseInt(UserType)===0){
-
-            this.Frame.getIdentity({ModuleID:'000004'});
-
-        }
-
         //判断权限
 
-        if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2||parseInt(UserType)===7||parseInt(UserType)===10){
+        if(parseInt(ProductType)===3){
 
-            if (parseInt(UserType)===0){//判断管理员权限
+            if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2){
 
-                QueryPower({UserInfo,ModuleID:'000-2-0-07'}).then(data=>{
+                if (parseInt(UserType)===0){//判断管理员权限
 
-                    if (data){
+                   this.Frame.getIdentity({ModuleID:'000004'},()=>{
+
+                       dispatch(ModuleCommonActions.getCommonInfo());
+
+                       if (Hash.includes('Import')){
+
+                           dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
+
+                       }else{
+
+                           dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
+
+                       }
+
+                   });
+
+                }else if (parseInt(UserType)===1){
+
+                    let GetAdjustPower =  QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_U'});
+
+                    let GetImportPower = QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_C'});
+
+                    Promise.all([GetAdjustPower,GetImportPower]).then(res=>{
+
+                        dispatch({type:TeacherPowerActions.TEACHER_POWER_CHANGE,data:{Adjust:res[0],AddImport:res[1]}});
 
                         dispatch(ModuleCommonActions.getCommonInfo());
 
                         if (Hash.includes('Import')){
 
-                            dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
+                            if (!res[1]){
+
+                                window.location.href='/Error.aspx?errcode=E011';
+
+                            }else{
+
+                                dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT});
+
+                            }
 
                         }else{
 
@@ -135,57 +161,97 @@ class App extends Component{
 
                         }
 
-                    }else{
+                    });
 
-                        window.location.href='/Error.aspx?errcode=E011';
-
-                    }
-
-                });
-
-            }else if (parseInt(UserType)===1){
-
-                let GetAdjustPower =  QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_U'});
-
-                let GetImportPower = QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_C'});
-
-                Promise.all([GetAdjustPower,GetImportPower]).then(res=>{
-
-                    dispatch({type:TeacherPowerActions.TEACHER_POWER_CHANGE,data:{Adjust:res[0],AddImport:res[1]}});
+                }else{
 
                     dispatch(ModuleCommonActions.getCommonInfo());
 
-                    if (Hash.includes('Import')){
-
-                        if (!res[1]){
-
-                            window.location.href='/Error.aspx?errcode=E011';
-
-                        }else{
-
-                            dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT});
-
-                        }
-
-                    }else{
-
-                        dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
-
-                    }
-
-                });
+                }
 
             }else{
 
-                dispatch(ModuleCommonActions.getCommonInfo());
+                window.location.href='/Error.aspx?errcode=E011';
 
             }
 
-        }else{//无权限角色
+        }else{
 
-            //window.location.href='/Error.aspx?errcode=E011';
+            if (parseInt(UserType)===0||parseInt(UserType)===1||parseInt(UserType)===2||parseInt(UserType)===7||parseInt(UserType)===10){
+
+                if (parseInt(UserType)===0){//判断管理员权限
+
+                    QueryPower({UserInfo,ModuleID:'000-2-0-07'}).then(data=>{
+
+                        if (data){
+
+                            dispatch(ModuleCommonActions.getCommonInfo());
+
+                            if (Hash.includes('Import')){
+
+                                dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT})
+
+                            }else{
+
+                                dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
+
+                            }
+
+                        }else{
+
+                            window.location.href='/Error.aspx?errcode=E011';
+
+                        }
+
+                    });
+
+                }else if (parseInt(UserType)===1){
+
+                    let GetAdjustPower =  QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_U'});
+
+                    let GetImportPower = QueryOtherPower({UserType,SchoolID:UserInfo.SchoolID,Power:'Teacher_Schedule_C'});
+
+                    Promise.all([GetAdjustPower,GetImportPower]).then(res=>{
+
+                        dispatch({type:TeacherPowerActions.TEACHER_POWER_CHANGE,data:{Adjust:res[0],AddImport:res[1]}});
+
+                        dispatch(ModuleCommonActions.getCommonInfo());
+
+                        if (Hash.includes('Import')){
+
+                            if (!res[1]){
+
+                                window.location.href='/Error.aspx?errcode=E011';
+
+                            }else{
+
+                                dispatch({type:RouterSetActions.ROUTER_SET_TO_IMPORT});
+
+                            }
+
+                        }else{
+
+                            dispatch({type:RouterSetActions.ROUTER_SET_TO_DEFAULT})
+
+                        }
+
+                    });
+
+                }else{
+
+                    dispatch(ModuleCommonActions.getCommonInfo());
+
+                }
+
+            }else{//无权限角色
+
+                window.location.href='/Error.aspx?errcode=E011';
+
+            }
 
         }
+
+
 
         if (getQueryVariable('isWorkPlantform')){
 

@@ -214,7 +214,7 @@ function Teacher(props){
 
                 <Empty
                   type="4"
-                  title="您的还没有教学班哦~"
+                  title="您还没有教学班"
                   style={{ marginTop: "200px", transform: "translateY(-50%)" }}>
 
                 </Empty>

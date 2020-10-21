@@ -54,7 +54,11 @@ class App extends Component {
 
         const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
-        this.Frame.getIdentity({ModuleID:'000007'});
+        this.Frame.getIdentity({ModuleID:'000007'},()=>{
+
+            this.requestData();
+
+        });
 
         if (parseInt(ProductType)===6){
 
@@ -72,15 +76,6 @@ class App extends Component {
 
         const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
 
-        if (UserType==='0'||UserType==='7'||UserType==='10'){
-
-            this.requestData();
-
-        }else{
-
-            window.location.href = '/error.aspx?ErrCode=E011';
-
-        }
 
         if (getQueryVariable('isInitGuide')){
 
@@ -100,9 +95,6 @@ class App extends Component {
 
         const { SchoolID,UserType } = LoginUser;
 
-
-
-
         if (UserType==='7'||UserType==='10'){
 
             const isCourse = getQueryVariable('isCourse');
@@ -119,13 +111,14 @@ class App extends Component {
 
         }else{
 
-            let havePower = QueryPower({
+            /*let havePower = QueryPower({
 
                 UserInfo: LoginUser,
 
                 ModuleID: SUBJECT_MODULEID
 
             });
+
             havePower.then(res => {
 
                 console.log(res);
@@ -151,7 +144,19 @@ class App extends Component {
                 }
 
 
-            })
+            })*/
+
+            const isCourse = getQueryVariable('isCourse');
+
+            if (isCourse||productType===6){
+
+                dispatch(menuActions.leftMenuChange('course'));
+
+            }else{
+
+                dispatch(menuActions.leftMenuChange('subject'));
+
+            }
 
         }
 

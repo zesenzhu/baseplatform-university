@@ -39,6 +39,7 @@ import { QueryPower,QueryOtherPower } from "../../../common/js/power";
 import {loginUserUpdate} from "../reducers/LoginUser";
 
 import {teacherPowerChange} from "../reducers/teacherManagePower";
+import CONFIG from "../../../common/js/config";
 
 const COURECLASS_MODULEID = "000-2-0-17"; //教学班管理
 
@@ -79,11 +80,133 @@ class App extends Component {
 
       if (UserInfoCopy.UserType===0){
 
-          this.Frame.getIdentity({ModuleID:'000005'});
+          this.Frame.getIdentity({ModuleID:'000005'},()=>{
+
+              that.requestData(route);
+
+              history.listen(() => {
+
+                  //路由监听
+                  let route = history.location.pathname;
+
+                  if(route.split('/')[1]==='statics'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(leftMemuShow());
+
+                  }
+
+                  if(route.split('/')[1]==='manage'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='ImportFile'){
+
+                      dispatch(bannerHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='Log'){
+
+                      dispatch(bannerHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='Teacher'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(bannerBtnShow());
+
+                      dispatch(bannerLogHide());
+
+                      dispatch(bannerTabHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  that.requestData(route);
+
+              });
+
+          });
 
       }else if (UserInfoCopy.UserType===1) {
 
-          this.Frame.getIdentity({ModuleID:'000013'})
+          this.Frame.getIdentity({ModuleID:'000013'},()=>{
+
+              that.requestData(route);
+
+              history.listen(() => {
+
+                  //路由监听
+                  let route = history.location.pathname;
+
+                  if(route.split('/')[1]==='statics'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(leftMemuShow());
+
+                  }
+
+                  if(route.split('/')[1]==='manage'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='ImportFile'){
+
+                      dispatch(bannerHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='Log'){
+
+                      dispatch(bannerHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  if(route.split('/')[1]==='Teacher'){
+
+                      dispatch(bannerShow());
+
+                      dispatch(bannerBtnShow());
+
+                      dispatch(bannerLogHide());
+
+                      dispatch(bannerTabHide());
+
+                      dispatch(leftMemuHide());
+
+                  }
+
+                  that.requestData(route);
+
+              });
+
+          })
+
+      }else{
+
+          window.location.href = CONFIG.ErrorProxy + "/Error.aspx?errcode=E011";
 
       }
 
@@ -99,62 +222,7 @@ class App extends Component {
           UserMsg: JSON.parse(sessionStorage.getItem("UserInfo"))
       });
 
-      that.requestData(route);
 
-      history.listen(() => {
-
-          //路由监听
-          let route = history.location.pathname;
-
-          if(route.split('/')[1]==='statics'){
-
-              dispatch(bannerShow());
-
-              dispatch(leftMemuShow());
-
-          }
-
-          if(route.split('/')[1]==='manage'){
-
-              dispatch(bannerShow());
-
-              dispatch(leftMemuHide());
-
-          }
-
-          if(route.split('/')[1]==='ImportFile'){
-
-              dispatch(bannerHide());
-
-              dispatch(leftMemuHide());
-
-          }
-
-          if(route.split('/')[1]==='Log'){
-
-              dispatch(bannerHide());
-
-              dispatch(leftMemuHide());
-
-          }
-
-          if(route.split('/')[1]==='Teacher'){
-
-              dispatch(bannerShow());
-
-              dispatch(bannerBtnShow());
-
-              dispatch(bannerLogHide());
-
-              dispatch(bannerTabHide());
-
-              dispatch(leftMemuHide());
-
-          }
-
-          that.requestData(route);
-
-      });
 
   }
 
