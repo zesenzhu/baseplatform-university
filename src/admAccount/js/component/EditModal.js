@@ -10,7 +10,7 @@ import {
   CheckBox,
   CheckBoxGroup,
   Tips,
-  Loading
+  Loading,
 } from "../../../common/index";
 import actions from "../actions";
 import "../../../common/js/PicUpload/Cropper/cropper.css";
@@ -45,7 +45,7 @@ class EditModal extends React.Component {
       checkedList: [],
       checkedListArr: [],
       plainOptionsArr: [],
-      PowerChildLen: []
+      PowerChildLen: [],
       // props.userKey === 'change' ? props.data.Power.Powers.map((child, index) => {
       //     return child.PowerChild.length
       // }) : props.PowerList.map((child, index) => 0)
@@ -56,10 +56,10 @@ class EditModal extends React.Component {
     // //console.log(this.state.data)
     let token = sessionStorage.getItem("token");
     let userType = "Admin";
-    let userID = '';
+    let userID = "";
     let curImgPath = "";
     if (this.state.UserKey === "change") {
-      userID = this.state.data.UserName.UserID
+      userID = this.state.data.UserName.UserID;
       this.setState({
         UserIDChange: this.state.data.UserName.UserID,
         defaultUserName: this.state.data.UserName.Name,
@@ -77,6 +77,7 @@ class EditModal extends React.Component {
           QQ: this.state.data.Others.QQ,
           Weixin: this.state.data.Others.Weixin,
           Weibo: this.state.data.Others.Weibo,
+          IdentityIDs: this.state.data.Others.IdentityIDs,
         })
       );
       dispatch(
@@ -88,6 +89,7 @@ class EditModal extends React.Component {
           QQ: this.state.data.Others.QQ,
           Weixin: this.state.data.Others.Weixin,
           Weibo: this.state.data.Others.Weibo,
+          IdentityIDs: this.state.data.Others.IdentityIDs,
         })
       );
       this.state.PowerList.map((power, index) => {
@@ -130,7 +132,7 @@ class EditModal extends React.Component {
           checkAll: checkAll,
           indeterminate: indeterminate,
           checkedListArr: checkedListArr,
-          plainOptionsArr: plainOptionsArr
+          plainOptionsArr: plainOptionsArr,
         });
         // return (
         //     <div key={this.state.PowerList[index].value}>
@@ -161,18 +163,18 @@ class EditModal extends React.Component {
         // )
       });
       let ModulesID = [];
-      this.state.checkedListArr.map(child => {
+      this.state.checkedListArr.map((child) => {
         //console.log(child.length)
         if (child.length !== 0) ModulesID.push(child.join());
       });
       dispatch(
         actions.UpDataState.setAdminPreview({
-          ModuleIDs: ModulesID.join()
+          ModuleIDs: ModulesID.join(),
         })
       );
       dispatch(
         actions.UpDataState.setAdminInitPreview({
-          ModuleIDs: ModulesID.join()
+          ModuleIDs: ModulesID.join(),
         })
       );
       curImgPath = this.state.data.Others.AvatarPath;
@@ -201,7 +203,7 @@ class EditModal extends React.Component {
           checkAll: checkAll,
           indeterminate: indeterminate,
           checkedListArr: checkedListArr,
-          plainOptionsArr: plainOptionsArr
+          plainOptionsArr: plainOptionsArr,
         });
         // return (
         //     <div key={this.state.PowerList[index].value}>
@@ -234,15 +236,15 @@ class EditModal extends React.Component {
     }
     // 图片上传
     let option = {
-      UploadType:'Avatar',//头像
+      UploadType: "Avatar", //头像
       token: token,
       resWebUrl: DataState.GetPicUrl.picUrl, //资源站点地址
       userType: userType, //用户类型，可选值Admin、Student、Teacher、SchoolLeader
       userID: userID, //新增时传空字符串、编辑时传相应UserID
-      curImgPath: curImgPath //用户当前头像，新增时可不传
+      curImgPath: curImgPath, //用户当前头像，新增时可不传
     };
     this.setState({
-      option: option
+      option: option,
     });
   }
   componentDidMount() {
@@ -260,7 +262,7 @@ class EditModal extends React.Component {
       let option = this.state.option;
       option.resWebUrl = DataState.GetPicUrl.picUrl;
       this.setState({
-        option: option
+        option: option,
       });
       $("#picUpload").picUploader(option); //初始化
       dispatch(actions.UpDataState.getPicObject($("#picUpload")));
@@ -403,13 +405,13 @@ class EditModal extends React.Component {
 
   //     }
   // }
-  onEditIDChange = e => {
+  onEditIDChange = (e) => {
     const { dispatch } = this.props;
     this.setState({
-      UserIDChange: e.target.value.trim()
+      UserIDChange: e.target.value.trim(),
     });
   };
-  onEditIDBlur = e => {
+  onEditIDBlur = (e) => {
     const { dispatch } = this.props;
 
     //用户ID（工号/学号）检测
@@ -422,20 +424,20 @@ class EditModal extends React.Component {
       dispatch(
         actions.UpDataState.setAdminPreview({
           isChange: true,
-          UserID: e.target.value
+          UserID: e.target.value,
         })
       );
       dispatch(actions.UpUIState.UserIDTipsVisibleClose());
     }
   };
-  onEditNameChange = e => {
+  onEditNameChange = (e) => {
     const { dispatch } = this.props;
 
     this.setState({
-      defaultUserName: e.target.value.trim()
+      defaultUserName: e.target.value.trim(),
     });
   };
-  onEditNameBlur = e => {
+  onEditNameBlur = (e) => {
     const { dispatch } = this.props;
     //用户姓名检测
     //用户姓名由1-20位的汉字、字母、数字、下划线组成。
@@ -450,7 +452,7 @@ class EditModal extends React.Component {
       dispatch(
         actions.UpDataState.setAdminPreview({
           isChange: true,
-          UserName: value
+          UserName: value,
         })
       );
       dispatch(actions.UpUIState.UserNameTipsVisibleClose());
@@ -459,7 +461,7 @@ class EditModal extends React.Component {
 
   // 新
   onCheckAllChange = (index, e) => {
-    const { dispatch ,DataState} = this.props;
+    const { dispatch, DataState } = this.props;
 
     let checkedListArr = this.state.checkedListArr;
     let indeterminate = this.state.indeterminate;
@@ -477,7 +479,7 @@ class EditModal extends React.Component {
     // let InitPower =  DataState.AdminPreview.InitData.split(',');
     // let len = InitPower.length
     // let CopyPower = InitPower.slice()
-    checkedListArr.map(child => {
+    checkedListArr.map((child) => {
       //console.log(child.length)
       // child instanceof Array && child.map((newChild)=>{
       //   InitPower instanceof Array && InitPower.map((power)=>{
@@ -486,16 +488,15 @@ class EditModal extends React.Component {
       //     }
       //   })
       // })
-      
+
       if (child.length !== 0) ModulesID.push(child.join());
-      
     });
 
     // if()
     dispatch(
       actions.UpDataState.setAdminPreview({
         // isChange: true,
-        ModuleIDs: ModulesID.join()
+        ModuleIDs: ModulesID.join(),
       })
     );
     //console.log(indeterminate, checkedListArr, checkAll);
@@ -503,7 +504,7 @@ class EditModal extends React.Component {
       checkedListArr: checkedListArr,
       indeterminate: indeterminate,
       checkAll: checkAll,
-      PowerChildLen: PowerChildLen
+      PowerChildLen: PowerChildLen,
     });
   };
   onCheckChange = (index, value, e) => {
@@ -525,21 +526,21 @@ class EditModal extends React.Component {
     PowerChildLen[index] = value.length;
     //console.log(checkedListArr, indeterminate, checkAll)
     let ModulesID = [];
-    checkedListArr.map(child => {
+    checkedListArr.map((child) => {
       //console.log(child.length)
       if (child.length !== 0) ModulesID.push(child.join());
     });
     dispatch(
       actions.UpDataState.setAdminPreview({
         isChange: true,
-        ModuleIDs: ModulesID.join()
+        ModuleIDs: ModulesID.join(),
       })
     );
     this.setState({
       checkedListArr: checkedListArr,
       indeterminate: indeterminate,
       checkAll: checkAll,
-      PowerChildLen: PowerChildLen
+      PowerChildLen: PowerChildLen,
     });
   };
   onEditTelChange = (e) => {
@@ -556,7 +557,7 @@ class EditModal extends React.Component {
     let value = e.target.value;
     let Test = /^([0-9\/-]){1,40}$/.test(value);
 
-    if (value!==''&&!Test) {
+    if (value !== "" && !Test) {
       dispatch(actions.UpUIState.SetTipsVisible({ TelphoneTipsVisible: true }));
     } else {
       dispatch(
@@ -584,7 +585,7 @@ class EditModal extends React.Component {
     let value = e.target.value;
     let Test = /^[1-9]*[1-9][0-9]{4,18}$/.test(value);
 
-    if (value!==''&&!Test) {
+    if (value !== "" && !Test) {
       dispatch(actions.UpUIState.SetTipsVisible({ QQTipsVisible: true }));
     } else {
       dispatch(
@@ -684,72 +685,183 @@ class EditModal extends React.Component {
       );
     }
   }
+  constructList = (List) => {
+    return List.map((child, index) => {
+      return (
+        <CheckBox key={index} value={child.IdentityID}>
+          <span className="check-title" title={child.IdentityName}>
+            {child.IdentityName}
+          </span>
+        </CheckBox>
+      );
+    });
+  };
+
+  changeCheckBox = (value) => {
+    const { dispatch } = this.props;
+    if (value.length <= 0) {
+      return;
+    }
+    dispatch(actions.UpUIState.SetTipsVisible({ IdentityTipsVisible: false }));
+
+    dispatch(
+      actions.UpDataState.setAdminPreview({
+        isChange: true,
+        IdentityIDs: value.join(","),
+      })
+    );
+  };
   render() {
     const { UIState, DataState } = this.props;
+    let {
+      AdminPreview: {
+        IdentityType,
+        TrasferData: { IdentityIDs },
+      },
+    } = DataState;
+    let IdentityCode =
+      typeof IdentityIDs === "string"
+        ? IdentityIDs.split("-")[IdentityIDs.split("-").length - 1]
+        : "";
+    // IdentityType = IdentityType.concat(IdentityType, IdentityType);
+    let IdentityList =
+      typeof IdentityIDs === "string" ? IdentityIDs.split(",") : [];
 
+    // 身份在ProductType为3出来
+    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    let HaveIdentity = parseInt(ProductType) === 3;
     return (
       <div className="EditModal_Admin">
-
         <div className="Left" id="picUpload"></div>
         <div className="Right">
-       
           <div className="row clearfix" style={{ marginTop: 18 + "px" }}>
-            <span className="culonm-1"><span style={{display:this.state.UserKey === "change" ?'none':'inline-block'}} className="must-icon">*</span>{"工号："}</span>
+            <span className="culonm-1">
+              <span
+                style={{
+                  display:
+                    this.state.UserKey === "change" ? "none" : "inline-block",
+                }}
+                className="must-icon"
+              >
+                *
+              </span>
+              {"工号："}
+            </span>
             <div className="culonm-2">
-              
-                <Tips
-                  // placement="bottomRight"
-                  // getPopupContainer={trigger => trigger.parentNode}
-                  overlayClassName={"tips-edit tips-userName"}
-                  visible={UIState.TipsVisible.UserIDTipsVisible}
-                  title={"工号" + this.state.UserIDTipsTitle}
-                  getPopupContainer= {e=>e.parentNode} autoAdjustOverflow={false} 
-                >
-              
-              {this.state.UserKey === "change" ? (
-                <span title={this.state.UserIDChange} className="UserID-text">{this.state.UserIDChange}</span>
-              ) : (
-                <Input
-                  maxLength={24}
-                  id="123"
-                  style={{ display: "block" }}
-                  className="UserName-input"
-                  type="text"
-                  name="EditID"
-                  value={this.state.UserIDChange}
-                  onChange={this.onEditIDChange}
-                  onBlur={this.onEditIDBlur}
-                />
-              )}
-                </Tips>
-
-            </div>
-          </div>
-          <div className="row clearfix">
-            <span className="culonm-1"><span className="must-icon">*</span>账号名称：</span>
-            <div className="culonm-2 ">
-              {/* <div className="EditName-tips"> */}
-                <Tips
-                  // placement="bottomRight"
-                  // getPopupContainer={trigger => trigger.parentNode}
-                  overlayClassName={"tips-edit tips-userName"}
-                  visible={UIState.TipsVisible.UserNameTipsVisible}
-                  title={this.state.UserNameTipsTitle}
-                  getPopupContainer= {e=>e.parentNode} autoAdjustOverflow={false} 
-                >
-              {/* </div> */}
-              <Input
-                className="UserName-input"
-                maxLength={20}
-                type="text"
-                name="EditName"
-                value={this.state.defaultUserName}
-                onChange={this.onEditNameChange}
-                onBlur={this.onEditNameBlur}
-              />
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-userName"}
+                visible={UIState.TipsVisible.UserIDTipsVisible}
+                title={"工号" + this.state.UserIDTipsTitle}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {this.state.UserKey === "change" ? (
+                  <span title={this.state.UserIDChange} className="UserID-text">
+                    {this.state.UserIDChange}
+                  </span>
+                ) : (
+                  <Input
+                    maxLength={24}
+                    id="123"
+                    style={{ display: "block" }}
+                    className="UserName-input"
+                    type="text"
+                    name="EditID"
+                    value={this.state.UserIDChange}
+                    onChange={this.onEditIDChange}
+                    onBlur={this.onEditIDBlur}
+                  />
+                )}
               </Tips>
             </div>
           </div>
+          <div className="row clearfix">
+            <span className="culonm-1">
+              <span className="must-icon">*</span>账号名称：
+            </span>
+            <div className="culonm-2 ">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-userName"}
+                visible={UIState.TipsVisible.UserNameTipsVisible}
+                title={this.state.UserNameTipsTitle}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {/* </div> */}
+                <Input
+                  className="UserName-input"
+                  maxLength={20}
+                  type="text"
+                  name="EditName"
+                  value={this.state.defaultUserName}
+                  onChange={this.onEditNameChange}
+                  onBlur={this.onEditNameBlur}
+                />
+              </Tips>
+            </div>
+          </div>
+          {HaveIdentity?<div className="row clearfix">
+            <span className="culonm-1">
+              <span className="must-icon">*</span>身份：
+            </span>
+            <div className="culonm-2 culomn-identity">
+              {/* <div className="EditName-tips"> */}
+              <Tips
+                // placement="bottomRight"
+                // getPopupContainer={trigger => trigger.parentNode}
+                overlayClassName={"tips-edit tips-iden"}
+                visible={UIState.TipsVisible.IdentityTipsVisible}
+                title={"请选择身份"}
+                getPopupContainer={(e) => e.parentNode}
+                autoAdjustOverflow={false}
+              >
+                {IdentityCode === "IC0009" ? (
+                  <p className="empty">院系管理员</p>
+                ) : IdentityType instanceof Array &&
+                  IdentityType.length !== 0 ? (
+                  <CheckBoxGroup
+                    onChange={this.changeCheckBox}
+                    className={"identity-checkedBoxGroupMap"}
+                    value={IdentityList}
+                  >
+                    {IdentityType.length <= 16 ? (
+                      this.constructList(IdentityType)
+                    ) : (
+                      <Scrollbars
+                        autoHeightMin={28}
+                        autoHeightMax={90}
+                        autoHeight={true}
+                        autoHideTimeout={0}
+                        autoHideDuration={0}
+                        className="Scrollbars"
+                        // renderTrackVertical={props=>{return this.MapPlainOptions().length <= 16 ? <div></div> : <div {...props}/>}}
+                        style={{
+                          display: "inline-block",
+                          width: "unset",
+                          // height: "unset",
+                          // maxWidth: "400px",
+                          minWidth: "100px",
+                        }}
+                      >
+                        {this.constructList(IdentityType)}
+                      </Scrollbars>
+                    )}
+                  </CheckBoxGroup>
+                ) : (
+                  <p className="empty">暂无身份</p>
+                )}
+              </Tips>
+            </div>
+          </div>:''}
           <div className="row clearfix">
             <span className="culonm-1">联系电话：</span>
             <div className="culonm-2 ">
@@ -948,7 +1060,6 @@ class EditModal extends React.Component {
             </div>
 
           </div> */}
-
         </div>
       </div>
     );
@@ -970,7 +1081,7 @@ class MapPlainOptions extends React.Component {
     });
     //console.log(map)
     this.setState({
-      map: map
+      map: map,
     });
   }
   render() {
@@ -978,13 +1089,13 @@ class MapPlainOptions extends React.Component {
   }
 }
 MapPlainOptions.defaultProps = {
-  plainOptions: []
+  plainOptions: [],
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   let { UIState, DataState } = state;
   return {
     UIState,
-    DataState
+    DataState,
   };
 };
 export default connect(mapStateToProps)(EditModal);

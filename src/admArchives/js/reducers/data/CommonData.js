@@ -12,7 +12,7 @@ const CommonData = (
       showBarner: true,
       type: "circle",
       className: "UserFrame",
-      subtitle:''
+      subtitle: "",
     },
     RolePower: {
       //版本或角色权限，用于控制界面或数据的显示等
@@ -21,6 +21,7 @@ const CommonData = (
       IsCollege: false,
       IsLeader: false,
       IsTeacher: false,
+      NoLeader: false,
     },
     BannerInitList: [
       { value: "All", title: "用户档案总览", icon: "All" },

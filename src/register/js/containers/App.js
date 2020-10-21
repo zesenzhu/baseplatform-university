@@ -102,9 +102,10 @@ class App extends Component {
     return (
       <React.Fragment>
         <Loading
-          opacity={false}
+          opacity={0.5}
           tip="加载中..."
           size="large"
+          
           spinning={UIState.AppLoading.appLoading}
         >
           {/* <Frame

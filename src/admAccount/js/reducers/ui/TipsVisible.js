@@ -8,6 +8,7 @@ const TipsVisible = (
     WeixinTipsVisible: false,
     WeiboTipsVisible: false,
     QQTipsVisible: false,
+    IdentityTipsVisible: false,
   },
   actions
 ) => {
@@ -34,6 +35,7 @@ const TipsVisible = (
         WeixinTipsVisible: false,
         WeiboTipsVisible: false,
         QQTipsVisible: false,
+        IdentityTipsVisible:false
       });
     default:
       return state;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Menu,
   Loading,
@@ -60,6 +60,7 @@ class App extends Component {
     this.state = {
       UserMsg: props.PublicState.LoginMsg,
     };
+    this.Frame = createRef();
   }
 
   componentWillMount() {
@@ -82,35 +83,46 @@ class App extends Component {
   RequestData = () => {
     const { dispatch, DataState, PublicState } = this.props;
     // if (!PublicState.LoginMsg.isLogin) {
-    //查询userInfo是否存在
+    // console.log(this.Frame.getIdentity)
     if (JSON.parse(sessionStorage.getItem("UserInfo"))) {
-      let userMsg = this.setRole(
+      let userMsg = 
         JSON.parse(sessionStorage.getItem("UserInfo"))
-      ); //做角色处理，增加个Role字段
-      dispatch(
-        PublicAction.getLoginUser(
-          // ...JSON.parse(sessionStorage.getItem("UserInfo")),
-          userMsg
-        )
-      );
+       
+     
 
       if (!userMsg.SchoolID) {
         //做字段排除，不存在就不能进界面
         return;
       }
+      let ModuleID = "000012";
+      if (userMsg.UserType === "1") {
+        ModuleID = "000014";
+      }
       // 数据请求前的处理
-      this.SetRoleLeader();
+      this.SetRoleLeader(); //权限升级身份后没有领导
       this.SetRoleCollege();
       this.SetRoleTeacher();
+      this.SetProductTypeLeader();
       this.SetBannerList();
       dispatch(MainAction.GetUnreadLogCount({}));
+      this.Frame.getIdentity({ ModuleID }, (identify) => {
+        // console.log(identify)
+        userMsg = this.setRole(userMsg,identify)
+        dispatch(
+          PublicAction.getLoginUser(
+            // ...JSON.parse(sessionStorage.getItem("UserInfo")),
+            userMsg
+          )
+        );
+        this.RouteListening({ isFirst: true });
 
-      this.RouteListening({ isFirst: true });
-
-      history.listen(() => this.RouteListening({}));
-      // this.RequestData();
-      dispatch(PublicAction.AppLoadingClose());
+        history.listen(() => this.RouteListening({}));
+        // this.RequestData();
+        dispatch(PublicAction.AppLoadingClose());
+      });
     }
+    //查询userInfo是否存在
+
     // }
 
     // console.log(userMsg.UserType,userMsg.UserClass,userMsg.UserType !== "6" || userMsg.UserClass !== "2")
@@ -121,7 +133,13 @@ class App extends Component {
       dispatch,
       DataState: {
         CommonData: {
-          RolePower: { LockerVersion_1, IsTeacher, IsLeader, IsCollege },
+          RolePower: {
+            LockerVersion_1,
+            IsTeacher,
+            IsLeader,
+            IsCollege,
+            NoLeader,
+          },
           RegisterExamineParams: { classID, className },
         },
       },
@@ -134,26 +152,25 @@ class App extends Component {
 
     let FirstRoute = Route[0];
     let SecondRoute = Route[1];
-    console.log("第一", FirstRoute,IsTeacher);
+    console.log("第一", FirstRoute, IsTeacher);
 
     if (IsTeacher) {
       //教师只能进审核
       if (FirstRoute !== "RegisterExamine") {
         this.SetRegisterExamineDefaultRoute();
         // return;
-      } 
-        document.title = "班级管理";
-        dispatch(
-          CommonAction.SetFrameParams({
-            showBarner: false,
-            image: TeacherLogo,
-            cnname: "班级管理",
-            enname: "Class management",
-            className: "ClassFrame",
-            subtitle: "学生注册",
-          })
-        );
-      
+      }
+      document.title = "班级管理";
+      dispatch(
+        CommonAction.SetFrameParams({
+          showBarner: false,
+          image: TeacherLogo,
+          cnname: "班级管理",
+          enname: "Class management",
+          className: "ClassFrame",
+          subtitle: "学生注册",
+        })
+      );
     } else {
       document.title = "用户档案管理";
       dispatch(
@@ -209,16 +226,21 @@ class App extends Component {
         SecondRoute === "Graduate" ||
         SecondRoute === "All"
       ) {
-        dispatch(
-          CommonAction.SetFrameParams({
-            showBarner: true,
-            subtitle: "",
-          })
-        );
-        // console.log(SecondRoute);
-        dispatch(MainAction.GetUnreadLogCount({}));
-
-        this.AllGetData({ type: SecondRoute });
+        console.log(NoLeader);
+        if (NoLeader && SecondRoute === "Leader") {
+          this.SetFirstDefaultRoute({ isFirst: true });
+          // return;
+        } else {
+          dispatch(
+            CommonAction.SetFrameParams({
+              showBarner: true,
+              subtitle: "",
+            })
+          );
+          // console.log(SecondRoute);
+          dispatch(MainAction.GetUnreadLogCount({}));
+          this.AllGetData({ type: SecondRoute });
+        }
       } else if (SecondRoute === "LogDynamic" || SecondRoute === "LogRecord") {
         dispatch(
           CommonAction.SetFrameParams({
@@ -727,7 +749,7 @@ class App extends Component {
     }
   };
   // 设置用户角色,模块角色统一在这处理
-  setRole = (LoginMsg) => {
+  setRole = (LoginMsg,identity) => {
     // let {
     //   dispatch,
     //   DataState,
@@ -735,6 +757,7 @@ class App extends Component {
     //     LoginMsg: { UserType, UserClass },
     //   },
     // } = this.props;
+    console.log(identity)
     let { UserType, UserClass } = LoginMsg;
     let Role = "";
     UserType = parseInt(UserType);
@@ -798,7 +821,7 @@ class App extends Component {
     let BannerList = [];
 
     // Role为领导的时候不能显示领导，
-    // ProductType===6，适配人工智能实训室，不要领导
+    // ProductType===6,3，适配人工智能实训室，不要领导
     // LockerVersion===1 ，校园基础信息管理 XG5.2-免费版,1为基础版，不要毕业生
     BannerInitList instanceof Array &&
       BannerInitList.forEach((child, index) => {
@@ -817,7 +840,7 @@ class App extends Component {
             SysUrl.length > 0 &&
             Role.includes("Admin")
           ) {
-            let token = sessionStorage.getItem('token')
+            let token = sessionStorage.getItem("token");
             BannerList.push({
               url: SysUrl[0].WebSvrAddr + "?lg_tk=" + token,
               ...child,
@@ -830,8 +853,9 @@ class App extends Component {
 
     dispatch(CommonAction.SetBannerParams(BannerList));
   };
-  // // ProductType===6，适配人工智能实训室，不要领导,统一处理
+  // // ProductType===6,3，适配人工智能实训室，不要领导,统一处理
   SetProductTypeLeader = () => {
+    let { dispatch } = this.props;
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
     )
@@ -839,7 +863,12 @@ class App extends Component {
       : {};
     let token = sessionStorage.getItem("token");
     ProductType = parseInt(ProductType);
-    return ProductType === 6;
+    dispatch(
+      CommonAction.SetRolePowerParams({
+        NoLeader: ProductType === 6 || ProductType === 3,
+      })
+    );
+    return ProductType === 6 || ProductType === 3;
   };
   SetRoleLeader = () => {
     let {
@@ -924,6 +953,10 @@ class App extends Component {
       })
     );
   };
+  // 获取frame的ref
+  onRef = (ref) => {
+    this.Frame = ref;
+  };
   render() {
     const {
       UIState,
@@ -983,6 +1016,7 @@ class App extends Component {
             showBarner={showBarner}
             className={`myFrame AdmArchives-frame ${className}`}
             pageInit={this.RequestData}
+            onRef={this.onRef.bind(this)}
           >
             <div ref="frame-time-barner">
               <TimeBanner SelectMenu={this.SelectMenu} />
