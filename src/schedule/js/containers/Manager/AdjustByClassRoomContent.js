@@ -326,7 +326,7 @@ class AdjustByClassRoomContent extends Component{
 
             dateCheckedList, classHourDate, WeekNO, WeekDay, dateLoadingShow,
 
-            classHourList, classHourCheckedList, classHourLoadingShow,
+            classHourList,classHourCheckedList, classHourLoadingShow,
 
             classTips,classTipsTitle,monthTips,monthTipsTitle,weekTips,
 
@@ -337,6 +337,20 @@ class AdjustByClassRoomContent extends Component{
             TargetClassRoomTips,TargetClassRoomTipsTitle,monthLoading,weekLoading
 
         } = AdjustByClassRoom;
+
+        const orderClassHourList = classHourList.map(i=>{
+
+            const list = i.list.sort((a,b)=>a-b);
+
+            return {
+
+                ...i,
+
+                list
+
+            }
+
+        });
 
         let radios = [
 
@@ -639,7 +653,7 @@ class AdjustByClassRoomContent extends Component{
 
                                                 {
 
-                                                    classHourList.map((item,key) => {
+                                                    orderClassHourList.map((item,key) => {
 
                                                         let noonChecked = false;
 
