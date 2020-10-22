@@ -13,8 +13,8 @@ const RegisterMsg = (
     SchoolID:'',
     MajorID:'',
     CollegeID:'',
-    GroupID:''
-
+    GroupID:'',
+    ShortName:''
   },
   actions
 ) => {

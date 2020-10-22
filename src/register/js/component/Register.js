@@ -580,8 +580,10 @@ class Register extends Component {
             VisibleIsFalse = true;
           }
         }
+        console.log(child,child !== "ShortName")
         if (
-          DataState.RegisterMsg[child] === "" ||
+          (child !== "ShortName" &&
+          DataState.RegisterMsg[child] === "") ||
           DataState.RegisterMsg[child] === [] ||
           ((child === "ClassID" ||
             child === "GradeID" ||
@@ -618,7 +620,8 @@ class Register extends Component {
           }
         }
         if (
-          DataState.RegisterMsg[child] === "" ||
+          (child !== "ShortName" &&
+          DataState.RegisterMsg[child] === "") ||
           (DataState.RegisterMsg[child] instanceof Array &&
             DataState.RegisterMsg[child].length === 0) ||
           ((child === "GroupID" || child === "SchoolID") &&
@@ -651,6 +654,7 @@ class Register extends Component {
       console.log("url是空的");
       return;
     }
+    dispatch(actions.UpUIState.AppLoadingOpen());
     postData(
       CONFIG.RegisterProxy + url,
       {
@@ -662,6 +666,8 @@ class Register extends Component {
         return res.json();
       })
       .then((json) => {
+        dispatch(actions.UpUIState.AppLoadingClose());
+
         if (json.StatusCode === 200) {
           dispatch(
             actions.UpUIState.showErrorAlert({
@@ -932,7 +938,9 @@ class Register extends Component {
               </Tips>
             </span>
           </div>
-          <div className={`clearfix row ${this.state.PwdStrong ? "pwd-row" : ""}`}>
+          <div
+            className={`clearfix row ${this.state.PwdStrong ? "pwd-row" : ""}`}
+          >
             <span className="left">
               <span className="must">*</span>
               {"登录密码"}：
@@ -1436,7 +1444,7 @@ class Register extends Component {
               className="btn-submit"
               type="primary"
               color="blue"
-              shape={'round'}
+              shape={"round"}
               onClick={(e) => this.onSubmit(this.props.role)}
             >
               注册

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Menu,
   Loading,
@@ -50,6 +50,7 @@ class App extends Component {
     this.state = {
       UserMsg: props.PublicState.LoginMsg,
     };
+    this.Frame = createRef();
   }
 
   componentWillMount() {
@@ -83,29 +84,35 @@ class App extends Component {
     if (!userMsg.SchoolID) {
       return;
     }
-    let havePower = QueryPower({
-      UserInfo: userMsg,
-      ModuleID: "000-2-0-06",
-    });
-    console.log(userMsg.UserType === "1");
+    // let havePower = QueryPower({
+    //   UserInfo: userMsg,
+    //   ModuleID: "000-2-0-06",
+    // });
+    let ModuleID = "000011"; //默认管理员，判断是否为老师，更改为教师使用的id
+    // console.log(userMsg.UserType === "1",this.Frame.getIdentity);
     if (userMsg.UserType === "1") {
       //教师直接跳到旧的班级管理
+      ModuleID = "000014";
       window.location.href = "/html/class#/";
+      return ;
       // window.open("/html/class#/");
     }
-    havePower.then((res) => {
-      if (res) {
-        this.UserPower({
-          UserType: userMsg.UserType,
-          UserClass: userMsg.UserClass,
-          dispatch,
-        });
-        this.ListenRoute({ isFirst: true });
-        history.listen(() => {
-          this.ListenRoute({});
-        });
-        dispatch(PublicAction.AppLoadingClose());
-      }
+    // return ;
+    this.UserPower({
+      UserType: userMsg.UserType,
+      UserClass: userMsg.UserClass,
+      dispatch,
+    });
+    this.Frame.getIdentity({ ModuleID }, (identify) => {
+      // havePower.then((res) => {
+      //   if (res) {
+      
+      this.ListenRoute({ isFirst: true });
+      history.listen(() => {
+        this.ListenRoute({});
+      });
+      dispatch(PublicAction.AppLoadingClose());
+      // }
     });
 
     // console.log(userMsg.UserType,userMsg.UserClass,userMsg.UserType !== "6" || userMsg.UserClass !== "2")
@@ -138,6 +145,7 @@ class App extends Component {
     if (UserType === "" || UserType === undefined) {
       return;
     }
+    // console.log(UserPower,this.props.DataState.CommonData)
 
     // if (isFirst) {
     //   this.UserPower({UserType, UserClass,dispatch});
@@ -180,7 +188,6 @@ class App extends Component {
         window.location.href = CONFIG.ErrorProxy + "/Error.aspx?errcode=E011";
       }
     } else if (handleRoute === "ClassDetails") {
-      console.log(UserPower);
       if (UserPower.includes("Admin") || UserPower === "TeachingLeader") {
         dispatch(
           UpDataState.SetTopLeftData({
@@ -242,6 +249,7 @@ class App extends Component {
     } else {
       //当做年级
       history.push("Class");
+      console.log('classs')
       this.ListenRoute({}); //因为直接push会导致界面数据不刷新，所以暂时手动给刷新
     }
 
@@ -269,7 +277,7 @@ class App extends Component {
           UserPower = "TeachingLeader";
         } else if (UserType === "0") {
           //管理员
-          if (UserClass === '1' || UserClass === '2') {
+          if (UserClass === "1" || UserClass === "2") {
             UserPower = "Admin";
           } else {
             UserPower = "Admin-College";
@@ -293,6 +301,10 @@ class App extends Component {
         console.error("权限分析有问题:" + e);
       }
     }
+  };
+  // 获取frame的ref
+  onRef = (ref) => {
+    this.Frame = ref;
   };
   render() {
     const {
@@ -351,6 +363,7 @@ class App extends Component {
                 subtitle: TopLeftData.subtitle,
               }}
               pageInit={this.RequestData}
+              onRef={this.onRef.bind(this)}
             >
               <div ref="frame-time-barner">
                 <Barner></Barner>

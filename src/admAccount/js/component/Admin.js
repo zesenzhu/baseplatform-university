@@ -365,6 +365,7 @@ class Admin extends React.Component {
     let pwd = "0";
 
     dispatch(actions.UpDataState.getChangeInputValue(pwd));
+    dispatch(actions.UpDataState.GetIdentityTypeForAdmin());
   }
   componentWillReceiveProps(nextProps) {
     let Grades = this.props.DataState.GradeClassMsg.Grades
@@ -549,7 +550,11 @@ class Admin extends React.Component {
     dispatch(actions.UpUIState.hideErrorAlert());
   };
   onHandleClick = (key) => {
+    const { dispatch, UIState } = this.props;
+
     //console.log(this.state.AdminAccountData[key])
+    dispatch(actions.UpDataState.GetIdentityTypeForAdmin());
+
     this.setState({
       AdminChangeKey: key,
       changeAdminModalVisible: true,
@@ -563,6 +568,8 @@ class Admin extends React.Component {
     if (UIState.AppLoading.TableLoading) {
       return;
     }
+    dispatch(actions.UpDataState.GetIdentityTypeForAdmin());
+
     this.setState({
       addAdminModalVisible: true,
       userKey: "add",
@@ -792,6 +799,23 @@ class Admin extends React.Component {
       isFlase = true;
     }
     if (
+      UIState.TipsVisible.IdentityTipsVisible ||
+      !DataState.AdminPreview.TrasferData.IdentityIDs
+    ) {
+      // dispatch(
+      //   actions.UpUIState.showErrorAlert({
+      //     type: "btn-warn",
+      //     title: "姓名有错误",
+      //     ok: this.onAlertWarnOk.bind(this),
+      //     cancel: this.onAlertWarnClose.bind(this),
+      //     close: this.onAlertWarnClose.bind(this)
+      //   })
+      // );
+      dispatch(actions.UpUIState.SetTipsVisible({ IdentityTipsVisible: true }));
+
+      isFlase = true;
+    }
+    if (
       UIState.TipsVisible.TelphoneTipsVisible ||
       UIState.TipsVisible.WeixinTipsVisible ||
       UIState.TipsVisible.WeiboTipsVisible ||
@@ -840,6 +864,7 @@ class Admin extends React.Component {
           QQ: DataState.AdminPreview.TrasferData.QQ,
           Weixin: DataState.AdminPreview.TrasferData.Weixin,
           Weibo: DataState.AdminPreview.TrasferData.Weibo,
+          IdentityIDs: DataState.AdminPreview.TrasferData.IdentityIDs,
         },
         2
       )
@@ -875,7 +900,7 @@ class Admin extends React.Component {
                 UserID: "",
                 UserName: "",
                 ModuleIDs: "",
-                PhotoPath: "",
+                PhotoPath: "",IdentityIDs:'',
                 Pwd: "0",
               })
             );
@@ -930,6 +955,7 @@ class Admin extends React.Component {
         UserName: "",
         ModuleIDs: "",
         PhotoPath: "",
+        IdentityIDs: "",
         Pwd: "0",
       })
     );
@@ -940,7 +966,14 @@ class Admin extends React.Component {
   };
   handleChangeAdminModalOk = (e) => {
     const { dispatch, UIState, DataState } = this.props;
-
+    let {
+      isChange,
+      UserID,
+      UserName,
+      ModuleIDs,
+      PhotoPath,
+      IdentityIDs,
+    } = DataState.AdminPreview.TrasferData;
     let picObj = DataState.GetPicUrl.picObj;
 
     if (UIState.TipsVisible.UserIDTipsVisible) {
@@ -970,7 +1003,20 @@ class Admin extends React.Component {
 
       return;
     }
+    if (UIState.TipsVisible.IdentityTipsVisible || IdentityIDs === "") {
+      // dispatch(
+      //   actions.UpUIState.showErrorAlert({
+      //     type: "btn-warn",
+      //     title: "姓名有错误",
+      //     ok: this.onAlertWarnOk.bind(this),
+      //     cancel: this.onAlertWarnClose.bind(this),
+      //     close: this.onAlertWarnClose.bind(this)
+      //   })
+      // );
+      dispatch(actions.UpUIState.SetTipsVisible({ IdentityTipsVisible: true }));
 
+      return;
+    }
     if (
       UIState.TipsVisible.TelphoneTipsVisible ||
       UIState.TipsVisible.WeixinTipsVisible ||
@@ -981,13 +1027,7 @@ class Admin extends React.Component {
 
       return;
     }
-    let {
-      isChange,
-      UserID,
-      UserName,
-      ModuleIDs,
-      PhotoPath,
-    } = DataState.AdminPreview.TrasferData;
+
     let InitPower = DataState.AdminPreview.InitData.ModuleIDs.split(",");
     let len = InitPower.length;
 
@@ -1063,6 +1103,7 @@ class Admin extends React.Component {
           QQ: DataState.AdminPreview.TrasferData.QQ,
           Weixin: DataState.AdminPreview.TrasferData.Weixin,
           Weibo: DataState.AdminPreview.TrasferData.Weibo,
+          IdentityIDs: DataState.AdminPreview.TrasferData.IdentityIDs,
         },
         2
       )
@@ -1091,6 +1132,7 @@ class Admin extends React.Component {
                 ModuleIDs: "",
                 PhotoPath: "",
                 Pwd: "0",
+                IdentityIDs: "",
               })
             );
             dispatch(
@@ -1121,6 +1163,7 @@ class Admin extends React.Component {
         UserName: "",
         ModuleIDs: "",
         PhotoPath: "",
+        IdentityIDs: "",
         Pwd: "0",
       })
     );
