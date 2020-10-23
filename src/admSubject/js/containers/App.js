@@ -54,6 +54,18 @@ class App extends Component {
 
         const { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
+        dispatch(productTypeChange(parseInt(ProductType)));
+
+        dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
+
+        const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
+
+        if (getQueryVariable('isInitGuide')){
+
+            this.setState({isInitGuide:true});
+
+        }
+
         this.Frame.getIdentity({ModuleID:'000007'},()=>{
 
             this.requestData();
@@ -67,19 +79,6 @@ class App extends Component {
         }else{
 
             document.title='学科课程管理';
-
-        }
-
-        dispatch(productTypeChange(parseInt(ProductType)));
-
-        dispatch(actions.UpDataState.getLoginUser(JSON.parse(sessionStorage.getItem('UserInfo'))));
-
-        const { UserType } = JSON.parse(sessionStorage.getItem('UserInfo'));
-
-
-        if (getQueryVariable('isInitGuide')){
-
-            this.setState({isInitGuide:true});
 
         }
 
