@@ -288,12 +288,12 @@ class App extends Component {
         //   MenuParams: Menu,
         // });
       }
-      let havePower = QueryPower({
-        UserInfo: userMsg,
-        ModuleID: ACCOUNT_MODULEID,
-      });
-      havePower.then((res) => {
-        if (res) {
+      // let havePower = QueryPower({
+      //   UserInfo: userMsg,
+      //   ModuleID: ACCOUNT_MODULEID,
+      // });
+      // havePower.then((res) => {
+      //   if (res) {
           if (route === "/") {
             history.push("/Student");
 
@@ -442,9 +442,27 @@ class App extends Component {
           } else {
             history.push("/Student");
           }
-        }
-      });
+      //   }
+      // });
     });
+    // history.listen(() => {
+    //   //路由监听
+    //   let route = history.location.pathname;
+
+    //   // 获取接口数据
+    //   this.requestData(route);
+
+    //   this.handleMenu();
+
+    //   // if (history.location.pathname === '/' || history.location.pathname === '/UserAccount') {
+    //   //     history.push('/UserAccount/All')
+    //   //     console.log(this.state)
+    //   // }
+    //   // if (history.location.pathname === '/RegisterExamine' ) {
+    //   //     history.push('/RegisterExamine/RegisterWillExamine')
+    //   //     console.log(this.state)
+    //   // }
+    // });
   };
   //操作左侧菜单，响应路由变化
   handleMenu = () => {

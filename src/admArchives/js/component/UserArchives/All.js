@@ -465,7 +465,7 @@ class All extends Component {
           },
         },
         CommonData: {
-          RolePower: { LockerVersion_1, IsCollege },
+          RolePower: { LockerVersion_1, IsCollege,NoLeader },
         },
       },
       PublicState: {
@@ -515,7 +515,7 @@ class All extends Component {
               >
                 {Teacher}
               </span>
-              {!LockerVersion_1 ? (
+              {!LockerVersion_1&&!NoLeader ? (
                 <>
                   ，领导人数:
                   <span

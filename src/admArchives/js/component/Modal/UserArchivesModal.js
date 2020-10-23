@@ -235,7 +235,7 @@ class UserArchivesModal extends Component {
             dispatch(
               PublicAction.showErrorAlert({
                 type: "warn",
-                title: "学生信息没有发生改变",
+                title: "信息没有发生改变",
               })
             );
             console.log("重复");
