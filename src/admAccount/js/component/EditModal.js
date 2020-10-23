@@ -809,59 +809,73 @@ class EditModal extends React.Component {
               </Tips>
             </div>
           </div>
-          {HaveIdentity?<div className="row clearfix">
-            <span className="culonm-1">
-              <span className="must-icon">*</span>身份：
-            </span>
-            <div className="culonm-2 culomn-identity">
-              {/* <div className="EditName-tips"> */}
-              <Tips
-                // placement="bottomRight"
-                // getPopupContainer={trigger => trigger.parentNode}
-                overlayClassName={"tips-edit tips-iden"}
-                visible={UIState.TipsVisible.IdentityTipsVisible}
-                title={"请选择身份"}
-                getPopupContainer={(e) => e.parentNode}
-                autoAdjustOverflow={false}
-              >
-                {IdentityCode === "IC0009" ? (
-                  <p className="empty">院系管理员</p>
-                ) : IdentityType instanceof Array &&
-                  IdentityType.length !== 0 ? (
-                  <CheckBoxGroup
-                    onChange={this.changeCheckBox}
-                    className={"identity-checkedBoxGroupMap"}
-                    value={IdentityList}
-                  >
-                    {IdentityType.length <= 16 ? (
-                      this.constructList(IdentityType)
-                    ) : (
-                      <Scrollbars
-                        autoHeightMin={28}
-                        autoHeightMax={90}
-                        autoHeight={true}
-                        autoHideTimeout={0}
-                        autoHideDuration={0}
-                        className="Scrollbars"
-                        // renderTrackVertical={props=>{return this.MapPlainOptions().length <= 16 ? <div></div> : <div {...props}/>}}
-                        style={{
-                          display: "inline-block",
-                          width: "unset",
-                          // height: "unset",
-                          // maxWidth: "400px",
-                          minWidth: "100px",
-                        }}
-                      >
-                        {this.constructList(IdentityType)}
-                      </Scrollbars>
-                    )}
-                  </CheckBoxGroup>
-                ) : (
-                  <p className="empty">暂无身份</p>
-                )}
-              </Tips>
+          {HaveIdentity ? (
+            <div className="row clearfix">
+              <span className="culonm-1">
+                <span className="must-icon">*</span>身份：
+              </span>
+              <div className="culonm-2 culomn-identity">
+                {/* <div className="EditName-tips"> */}
+                <Tips
+                  // placement="bottomRight"
+                  // getPopupContainer={trigger => trigger.parentNode}
+                  overlayClassName={"tips-edit tips-iden"}
+                  visible={UIState.TipsVisible.IdentityTipsVisible}
+                  title={"请选择身份"}
+                  getPopupContainer={(e) => e.parentNode}
+                  autoAdjustOverflow={false}
+                >
+                  {IdentityCode === "IC0009" ? (
+                    <p
+                      className="empty"
+                      style={{ margin: 0, lineHeight: "40px" }}
+                    >
+                      院系管理员
+                    </p>
+                  ) : IdentityType instanceof Array &&
+                    IdentityType.length !== 0 ? (
+                    <CheckBoxGroup
+                      onChange={this.changeCheckBox}
+                      className={"identity-checkedBoxGroupMap"}
+                      value={IdentityList}
+                    >
+                      {IdentityType.length <= 16 ? (
+                        this.constructList(IdentityType)
+                      ) : (
+                        <Scrollbars
+                          autoHeightMin={28}
+                          autoHeightMax={90}
+                          autoHeight={true}
+                          autoHideTimeout={0}
+                          autoHideDuration={0}
+                          className="Scrollbars"
+                          // renderTrackVertical={props=>{return this.MapPlainOptions().length <= 16 ? <div></div> : <div {...props}/>}}
+                          style={{
+                            display: "inline-block",
+                            width: "unset",
+                            // height: "unset",
+                            // maxWidth: "400px",
+                            minWidth: "100px",
+                          }}
+                        >
+                          {this.constructList(IdentityType)}
+                        </Scrollbars>
+                      )}
+                    </CheckBoxGroup>
+                  ) : (
+                    <p
+                      className="empty"
+                      style={{ margin: 0, lineHeight: "40px" }}
+                    >
+                      暂无身份
+                    </p>
+                  )}
+                </Tips>
+              </div>
             </div>
-          </div>:''}
+          ) : (
+            ""
+          )}
           <div className="row clearfix">
             <span className="culonm-1">联系电话：</span>
             <div className="culonm-2 ">

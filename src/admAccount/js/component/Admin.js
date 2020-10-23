@@ -798,9 +798,17 @@ class Admin extends React.Component {
 
       isFlase = true;
     }
+    // 身份在ProductType为3出来
+    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    let HaveIdentity = parseInt(ProductType) === 3;
     if (
-      UIState.TipsVisible.IdentityTipsVisible ||
-      !DataState.AdminPreview.TrasferData.IdentityIDs
+      HaveIdentity &&
+      (UIState.TipsVisible.IdentityTipsVisible ||
+        !DataState.AdminPreview.TrasferData.IdentityIDs)
     ) {
       // dispatch(
       //   actions.UpUIState.showErrorAlert({
@@ -900,7 +908,8 @@ class Admin extends React.Component {
                 UserID: "",
                 UserName: "",
                 ModuleIDs: "",
-                PhotoPath: "",IdentityIDs:'',
+                PhotoPath: "",
+                IdentityIDs: "",
                 Pwd: "0",
               })
             );
@@ -1002,8 +1011,17 @@ class Admin extends React.Component {
       dispatch(actions.UpUIState.UserNameTipsVisibleOpen());
 
       return;
-    }
-    if (UIState.TipsVisible.IdentityTipsVisible || IdentityIDs === "") {
+    } // 身份在ProductType为3出来
+    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    let HaveIdentity = parseInt(ProductType) === 3;
+    if (
+      HaveIdentity &&
+      (UIState.TipsVisible.IdentityTipsVisible || IdentityIDs === "")
+    ) {
       // dispatch(
       //   actions.UpUIState.showErrorAlert({
       //     type: "btn-warn",
@@ -1053,6 +1071,17 @@ class Admin extends React.Component {
       if (len !== 0) {
         ModulesIsChange = true;
       }
+    }
+    console.log(isChange)
+    if(!isChange){
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "信息没有发生改变",
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return ;
     }
     // console.log(Modules.length,len)
 
