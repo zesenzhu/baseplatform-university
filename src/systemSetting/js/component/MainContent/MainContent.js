@@ -231,7 +231,7 @@ class MainContent extends Component {
     }
     let path = history.location.pathname.split("/")[2];
     let isImport = false;
-    let subtitle =''
+    let subtitle ='';
     if (path === "Import") {
       isImport = true;
       subtitle ='导入学院'
