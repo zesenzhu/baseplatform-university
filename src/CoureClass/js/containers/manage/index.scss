@@ -168,6 +168,8 @@
 
         width: 220px;
 
+        padding-right: 10px;
+
         margin: 0 auto;
 
         font-weight: bold;
@@ -177,6 +179,14 @@
         @include textOverFlow;
 
         color: #0099ff;
+
+        span{
+
+          display: block;
+
+          @include textOverFlow;
+
+        }
 
         &:hover{
 
