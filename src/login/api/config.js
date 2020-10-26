@@ -13,7 +13,9 @@ if (process.env.NODE_ENV === 'development'){
 
         IntroduceModalHtml:'http://192.168.2.207:10108/UserHelp/teacherhelp.html',
 
-        SystemsMainServer:'http://192.168.2.207:10108/BaseApi/Global/'
+        // SystemsMainServer:'http://192.168.2.207:10108/BaseApi/Global/'
+
+        SystemsMainServer:'http://192.168.129.130:10102/BaseApi/Global/'
 
     }
 
