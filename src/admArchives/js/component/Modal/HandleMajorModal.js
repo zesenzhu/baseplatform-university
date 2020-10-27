@@ -36,6 +36,7 @@ class HandleMajorModal extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { DataState } = nextProps;
+    $('.HandleMajorModal').parent().addClass('zIndex')
   }
   componentDidMount() {}
   ModalOk = () => {

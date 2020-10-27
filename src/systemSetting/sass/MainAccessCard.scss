@@ -6,7 +6,7 @@
     float: left;
     top: 0;
     margin-bottom: 20px;
-    margin-left: 36px;
+    margin-left: 20px;
     //   transition:top 10s linear 0s;
     &:hover {
         // top: -200px;
@@ -16,23 +16,30 @@
             box-shadow: 0px 6px 6px 0px #abbfd1;
         }
     }
-    &:nth-child(3n + 1) {
+    &:nth-child(4n + 1) {
         margin-left: 0;
     }
-    &:nth-child(3n + 2) {
+    &:nth-child(4n + 2) {
         .subsystem-content {
             .pic-bg {
                 background: url("../images/tomato_bg.png");
             }
         }
     }
-    &:nth-child(3n+3) {
+    &:nth-child(4n+3) {
         .subsystem-content {
             .pic-bg {
                 background: url("../images/green_bg.png");
             }
         }
     }
+    // &:nth-child(4n+4) {
+    //     .subsystem-content {
+    //         .pic-bg {
+    //             background: url("../images/green_bg.png");
+    //         }
+    //     }
+    // }
     .grey-bg {
         position: absolute;
         width: 260px;
