@@ -105,11 +105,13 @@ function CourseModal(props,ref) {
 
     const [credit,setCredit] = useState('');
 
-    const {productType} = useSelector(state=>state);
+    const {productType,identify,DataState} = useSelector(state=>state);
 
+    const {LoginUser} = DataState;
 
     //props
     const { type,subList,collegeList,courseNO,collegeData,courseNameE,courseNumE,subSelectd,collegeSelectd,courseTypeE,majorListE,courseCredit } = props;
+
 
 
 
@@ -131,7 +133,15 @@ function CourseModal(props,ref) {
 
         setSubject(e=>({...e,dropList:subList,dropSelectd:subSelectd.value!==0?subSelectd:{value:0,title:'请选择学科'}}));
 
-        setCollege(e=>({...e,dropList:collegeList,collegeData,dropSelectd:collegeSelectd.value!==0?collegeSelectd:{value:0,title:'请选择学院'}}));
+        if (identify.isCollegeManager){
+
+            setCollege(e=>({...e,collegeData,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}}));
+
+        }else{
+
+            setCollege(e=>({...e,dropList:collegeList,collegeData,dropSelectd:collegeSelectd.value!==0?collegeSelectd:{value:0,title:'请选择学院'}}));
+
+        }
 
         setCourseNameInput(courseNameE);
 
@@ -372,6 +382,8 @@ function CourseModal(props,ref) {
     }));
 
 
+    console.log(college.collegeData,major);
+
     return(
 
             <Loading spinning={loading} tip={"加载中，请稍候..."}>
@@ -478,27 +490,37 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>开课学院:</span>
 
-                            <Tips visible={college.tipShow} title={"请选择学院"}>
+                            {
 
-                                <DropDown
+                                identify.isCollegeManager?
 
-                                    width={150}
+                                    <span>{LoginUser.CollegeName}</span>
 
-                                    style={{zIndex:5}}
+                                    :
 
-                                    height={300}
+                                    <Tips visible={college.tipShow} title={"请选择学院"}>
 
-                                    dropSelectd={college.dropSelectd}
+                                        <DropDown
 
-                                    dropList={college.dropList}
+                                            width={150}
 
-                                    onChange={collegeChange}
+                                            style={{zIndex:5}}
 
-                                >
+                                            height={300}
 
-                                </DropDown>
+                                            dropSelectd={college.dropSelectd}
 
-                            </Tips>
+                                            dropList={college.dropList}
+
+                                            onChange={collegeChange}
+
+                                        >
+
+                                        </DropDown>
+
+                                    </Tips>
+
+                            }
 
                         </div>
 
@@ -538,7 +560,7 @@ function CourseModal(props,ref) {
 
                             <span className={"props"}>课程学分:</span>
 
-                            <InputNumber maxLength={3}  min={0} className={"course-credit"}  placeHolder={"请输入课程学分"} value={credit} onChange={v=>{console.log(v);setCredit(v)}}/>
+                            <InputNumber maxLength={3}  min={0} className={"course-credit"}  placeHolder={"请输入课程学分"} value={credit} onChange={v=>{setCredit(v)}}/>
 
                         </div>
 

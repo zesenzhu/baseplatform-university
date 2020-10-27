@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === "development") {
     logo: logo,
     footer: "蓝鸽科技 版权所有",
     TokenProxy: "http://192.168.2.207:10108/",
-    // TokenProxy:'http://47.115.20.102:10108',
+    // TokenProxy:'http://47.115.20.102:10102',
     SubjectProxy: "http://192.168.2.207:10108/Subject/api",
     CourseClassProxy: "http://192.168.2.207:10108/CourseClass/api",
     CourseClassMoni:
@@ -49,10 +49,10 @@ if (process.env.NODE_ENV === "development") {
     // WebsiteProxy:"http://192.168.2.114:8090",
     WebsiteProxy: "http://192.168.2.207:10108/",
     ScheduleProxy: "http://192.168.2.207:10108/",
-    // ScheduleProxy:"http://47.115.20.102:10108",
+    // ScheduleProxy:"http://47.115.20.102:10102",
     Xproxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
     PowerProxy: "http://192.168.2.207:10108/UserMgr/PowerMgr",
-    // PowerProxy:'http://47.115.20.102:10108/UserMgr/PowerMgr',
+    // PowerProxy:'http://47.115.20.102:10102/UserMgr/PowerMgr',
     UserInfoProxy: "http://192.168.2.207:10108/UserMgr/UserInfoMgr",
     proxy:
       "http://192.168.2.202:7300/mock/5d7726e0ed0ccd1564c8df05/webCloudDev",

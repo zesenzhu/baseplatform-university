@@ -324,7 +324,6 @@ function Course(props) {
 
     const [isAIPractice,setIsAIPractice] = useState(false);
 
-
     //props
 
 
@@ -345,7 +344,7 @@ function Course(props) {
 
     const courseRef = useStateValue(course);
 
-    const {DataState,subjectProps,productType} = useSelector(state=>state);
+    const {DataState,subjectProps,productType,identify} = useSelector(state=>state);
 
     const {LoginUser} = DataState;
 
@@ -359,7 +358,6 @@ function Course(props) {
     useEffect(()=>{
 
         const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
-
 
         if (parseInt(ProductType)===6){
 
@@ -609,33 +607,33 @@ function Course(props) {
 
                  const getColleges = apiActions.GetMajorInfo_University({schoolID:SchoolID,dispatch});
 
-                 const getCourse = apiActions.GetCourseInfo_University({schoolID:SchoolID,pageIndex:1,pageSize:10,subjectID:subjectId,dispatch});
+                 const getCourse = apiActions.GetCourseInfo_University({schoolID:SchoolID,collegeID:identify.isCollegeManager?LoginUser.CollegeID:'',pageIndex:1,pageSize:10,subjectID:subjectId,dispatch});
 
                  Promise.all([getColleges,getCourse]).then(res=>{
 
-                    if (res[0]){
+                     if (res[0]){
 
-                        const list1 = res[0].map(i=>({value:i.CollegeID,title:i.CollegeName}));
+                         const list1 = res[0].map(i=>({value:i.CollegeID,title:i.CollegeName}));
 
-                        list1.unshift({value:0,title:"全部学院"});
+                         list1.unshift({value:0,title:"全部学院"});
 
-                        setCollege(e=>({...e,dropList:list1,collegeData:res[0]}));
+                         setCollege(e=>({...e,dropList:list1,collegeData:res[0]}));
 
-                    }
+                     }
 
-                    if (res[1]){
+                     if (res[1]){
 
-                        const dataSource = res[1].Courses?res[1].Courses.map((i,k)=>({...i,key:k,index:k})):[];
+                         const dataSource = res[1].Courses?res[1].Courses.map((i,k)=>({...i,key:k,index:k})):[];
 
-                        setCourse(e=>({...e,dataSource,count:res[1].Total}));
+                         setCourse(e=>({...e,dataSource,count:res[1].Total}));
 
-                        setPagination(e=>({...e,total:res[1].Total}));
+                         setPagination(e=>({...e,total:res[1].Total}));
 
-                    }
+                     }
 
-                    setCourseLoading(false);
+                     setCourseLoading(false);
 
-                    dispatch({type:upUIState.APP_LOADING_CLOSE});
+                     dispatch({type:upUIState.APP_LOADING_CLOSE});
 
                  });
 
@@ -770,7 +768,7 @@ function Course(props) {
 
         const subjectValue = subjectsRef.current.dropSelectd.value!==0?subjectsRef.current.dropSelectd.value:'';
 
-        const collegeValue = collegeRef.current.dropSelectd.value!==0?collegeRef.current.dropSelectd.value:'';
+        const collegeValue = identify.isCollegeManager?LoginUser.CollegeID:collegeRef.current.dropSelectd.value!==0?collegeRef.current.dropSelectd.value:'';
 
         const orderType = orderRef.current;
 
@@ -1060,22 +1058,35 @@ function Course(props) {
 
                                     }
 
-                                    <span className={"drop_title"}>学院:</span>
 
-                                    <DropDown
+                                    {
 
-                                        dropSelectd={college.dropSelectd}
+                                        !identify.isCollegeManager?
 
-                                        dropList={college.dropList}
+                                           <>
 
-                                        onChange={collegeDropChange}
+                                               <span className={"drop_title"}>学院:</span>
 
-                                        height={300}
+                                               <DropDown
 
-                                    >
+                                                   dropSelectd={college.dropSelectd}
+
+                                                   dropList={college.dropList}
+
+                                                   onChange={collegeDropChange}
+
+                                                   height={300}
+
+                                               >
 
 
-                                    </DropDown>
+                                               </DropDown>
+
+                                           </>
+
+                                        :null
+
+                                    }
 
                                 </div>
 
@@ -1084,6 +1095,8 @@ function Course(props) {
                             <div className={"selectd_layout"}>
 
                                 {
+
+                                    !identify.isCollegeManager? //是否是学院管理员
 
                                     isAIPractice?
 
@@ -1104,6 +1117,11 @@ function Course(props) {
                                       :
 
                                       `${subjects.dropSelectd.value===0?college.dropSelectd.title:subjects.dropSelectd.title}`
+
+
+                                    :
+
+                                    `${subjects.dropSelectd.title}在${LoginUser.CollegeName}下`
 
                                 }
 

@@ -2,7 +2,7 @@ import "../../scss/Subject.scss";
 
 import React,{useEffect,useState,useRef,memo,useCallback} from "react";
 
-import { connect } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 import SubjectModal from "../component/SubjectModal.js";
 
@@ -268,12 +268,99 @@ function Subject(props){
 
 
 
-    const { dispatch,DataState,UIState } = props;
+    const { DataState,UIState,identify } = useSelector(state=>state);
+
+    const dispatch = useDispatch();
 
     const { LoginUser,SubjectMsg } = DataState;
 
     const { UserID,SchoolID,UserType } = LoginUser;
 
+
+    useEffect(()=>{
+
+        if (identify.isCollegeManager){
+
+            setColumns([
+
+                {
+                    title: "学科名称",
+                    align: "left",
+                    key: "SubjectName",
+                    width:270,
+                    dataIndex: "SubjectName",
+                    className:'subject-name-title',
+                    render: item => {
+
+                        return (
+                            <div className="SubjectName-content">
+
+                                <div title={item} className="SubjectName-name">{item}</div>
+
+                            </div>
+                        );
+                    }
+                },
+
+                {
+
+                    title:'学科编号',
+                    align:'center',
+                    key:'SubjectNumber',
+                    width:170,
+                    dataIndex:'SubjectNumber',
+                    // sorter:true,
+                    render:item=>{
+
+                        return <div title={item} className={"subject_number"}>{item?item:'--'}</div>
+
+                    }
+
+                },
+
+                {
+                    title: "开课课程总数",
+                    align: "center",
+                    width:170,
+                    dataIndex: "CourseCount",
+                    key: "CourseCount",
+                    render: (item,key) => {
+                        return (
+
+                            <div className={"course_num"}>
+
+                                <span >{item}</span>
+
+                                <button onClick={e=>lookCourse(key)}>查看</button>
+
+                            </div>
+
+                        );
+                    }
+                },
+                {
+                    title: "学科主任",
+                    align: "center",
+                    width:180,
+                    dataIndex: "LeaderName",
+                    key: "LeaderName",
+                    render: (item,k) => {
+                        return (
+
+                            item?
+
+                                <a title={item} onClick={e=>personDetail(k)} className={"teacher_name"}>{item}</a>
+
+                                : <span>--</span>
+
+                        );
+                    }
+                }
+            ]);
+
+        }
+
+    },[identify]);
 
     //界面初始化
    useEffect(()=>{
@@ -847,7 +934,7 @@ function Subject(props){
 
                   {
 
-                      !isInitGuide?
+                      !isInitGuide&&!identify.isCollegeManager?
 
                           <>
 
@@ -1044,11 +1131,5 @@ function Subject(props){
 
 }
 
-const mapStateToProps = state => {
-  let { UIState, DataState } = state;
-  return {
-    UIState,
-    DataState
-  };
-};
-export default connect(mapStateToProps)(memo(Subject));
+
+export default memo(Subject);
