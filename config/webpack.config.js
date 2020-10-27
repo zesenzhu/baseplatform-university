@@ -30,9 +30,9 @@ const postcssNormalize = require('postcss-normalize');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 
-//去掉打包文件
-//const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-const shouldUseSourceMap = false;
+//去掉打包的map文件
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+//const shouldUseSourceMap = false;
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
