@@ -156,3 +156,26 @@ label {
         color: #33c130;
     }
 }
+
+.content-top {
+    .dropdown_title_span {
+        margin-right: 8px;
+    }
+}
+
+// .ant-table-row {
+//     &:hover {
+//         td {
+//             // background: transparent !important;
+//             &::before {
+//                 content: '';
+//                 width: 100%;
+//                 height: 2px;
+//                 position: absolute;
+//                 top: 0px;
+//                 left: 0;
+//                 background: #fff;
+//             }
+//         }
+//     }
+// }

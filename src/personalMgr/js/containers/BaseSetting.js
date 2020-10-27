@@ -10,8 +10,7 @@ import { connect } from "react-redux";
 
 import ScrollBars from "react-custom-scrollbars";
 
-
-let keyCode = false
+let keyCode = false;
 class BaseSetting extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,6 @@ class BaseSetting extends Component {
     };
 
     dispatch(BaseActions.Init());
-
   }
 
   editorStatusChange() {
@@ -202,8 +200,8 @@ class BaseSetting extends Component {
   //sign个性签名变化
   SignChange(e) {
     const { dispatch } = this.props;
-    console.log(keyCode)
-    if(keyCode){
+    console.log(keyCode);
+    if (keyCode) {
       return;
     }
     dispatch({
@@ -369,10 +367,10 @@ class BaseSetting extends Component {
     if (evt && evt.keyCode === 13) {
       if (typeof evt.cancelBubble !== "undefined") evt.cancelBubble = true;
       if (typeof evt.stopPropagation === "function") evt.stopPropagation();
-      keyCode = true
+      keyCode = true;
       return false;
     }
-    keyCode = false
+    keyCode = false;
     return true;
   };
   render() {
@@ -561,7 +559,7 @@ class BaseSetting extends Component {
               ) : (
                 ""
               )}
-              {ProductType!==6&&UserType === 1 ? (
+              {ProductType !== 6 && UserType === 1 ? (
                 <div className="subject-wrapper clearfix">
                   <span className="props">所教学科:</span>
 
@@ -611,229 +609,237 @@ class BaseSetting extends Component {
               ) : (
                 ""
               )}
-              <div
-                className="role-wrapper clearfix"
-                style={{ zIndex: this.state.zIndex }}
-              >
+              {UserType === 0 ||
+              UserType === 1 ||
+              UserType === 7 ||
+              UserType === 10 ? (
                 <div
-                  className="detial-wrapper"
-                  style={{ display: `${ManagerModuleShow ? "block" : "none"}` }}
+                  className="role-wrapper clearfix"
+                  style={{ zIndex: this.state.zIndex }}
                 >
-                  {Modules && Modules.length > 0 ? (
-                    Modules.map((item, key) => {
-                      let content = item.ModuleList.map((i) => i.ModuleName);
-
-                      return (
-                        <div key={key} className="detail-item-wrapper">
-                          <div className="detail-item-title">
-                            {item.ModuleGroupName}
-                          </div>
-
-                          <div className="detail-content-wrapper">
-                            {content.join(",")}
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="no-permission">您还没有任何权限！</div>
-                  )}
-
-                  <span
-                    className="close-btn"
-                    onClick={this.roleDetailClose.bind(this)}
+                  <div
+                    className="detial-wrapper"
+                    style={{
+                      display: `${ManagerModuleShow ? "block" : "none"}`,
+                    }}
                   >
-                    ×
-                  </span>
-                </div>
-
-                <span
-                  style={{
-                    display:
-                      UserType === 0 || UserType === 1||
-                      UserType === 7 || UserType === 10
-                        ? "inline-block"
-                        : "none",
-                  }}
-                  className="props"
-                >
-                  身份:
-                </span>
-
-                {UserType === 0 ? (
-                  <React.Fragment>
-                    <span
-                      className={`val ${Modules ? "link" : ""}`}
-                      ref="module-detail"
-                      onClick={Modules ? this.roleLook.bind(this) : () => {}}
-                    >
-                      {UserClass === 1
-                        ? "学校普通管理员"
-                        : UserClass === 2
-                        ? "学校超级管理员"
-                        : UserClass === 3
-                        ? "学院普通管理员"
-                        : UserClass === 4
-                        ? "学院超级管理员"
-                        : "管理员"}
-                    </span>
-
-                    {Modules ? (
-                      <span className="set-tips">
-                        (点击可查看子系统访问权限)
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )}
- {UserType === 7 ? (
-                  <React.Fragment>
-                    <span
-                      className={`val `}
-                      // ref="module-detail"
-                      // onClick={Modules ? this.roleLook.bind(this) : () => {}}
-                    >
-                      学校领导（{Position}）
-                    </span>
-
-                     
-                  </React.Fragment>
-                ) : (
-                  ""
-                )}
-                {UserType === 10 ? (
-                  <React.Fragment>
-                    <span
-                      className={`val `}
-                      // ref="module-detail"
-                      // onClick={Modules ? this.roleLook.bind(this) : () => {}}
-                    >
-                      学院领导（{Position+'-'+CollegeName}）
-                    </span>
-
-                     
-                  </React.Fragment>
-                ) : (
-                  ""
-                )}
-                {UserType === 1 ? (
-                  <React.Fragment>
-                    {RoleNames &&
-                      RoleNames.map((item, key) => {
-                        let title = "";
-
-                        let emptyContent = "";
-
-                        switch (key) {
-                          case 0:
-                            title = "任课班级";
-
-                            emptyContent = "暂无任课班级！";
-
-                            break;
-
-                          case 1:
-                            title = "所管班级";
-
-                            emptyContent = "暂无管理班级！";
-
-                            break;
-
-                          case 2:
-                            title = "所管教研组";
-
-                            emptyContent = "暂无管理教研组！";
-
-                            break;
-
-                          default:
-                            title = "任课班级";
-                        }
-
-                        const RoleInnerHTML =
-                          RoleDetail[key] === ""
-                            ? emptyContent
-                            : RoleDetail[key];
+                    {Modules && Modules.length > 0 ? (
+                      Modules.map((item, key) => {
+                        let content = item.ModuleList.map((i) => i.ModuleName);
 
                         return (
-                          <React.Fragment key={key}>
-                            {key === 0 || item === "" ? "" : <span>/</span>}
+                          <div key={key} className="detail-item-wrapper">
+                            <div className="detail-item-title">
+                              {item.ModuleGroupName}
+                            </div>
 
-                            {item !== "" ? (
-                              <span
-                                className="val link"
-                                ref={`teacher-roal-detail${key}`}
-                                onClick={this.teacherRoleLook.bind(this, key)}
-                              >
-                                {item}
+                            <div className="detail-content-wrapper">
+                              {content.join(",")}
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="no-permission">您还没有任何权限！</div>
+                    )}
 
-                                <div
-                                  className="detial-wrapper teacher"
-                                  style={{
-                                    display: `${
-                                      TeacherRoalDetails[key]["show"]
-                                        ? "block"
-                                        : "none"
-                                    }`,
-                                  }}
+                    <span
+                      className="close-btn"
+                      onClick={this.roleDetailClose.bind(this)}
+                    >
+                      ×
+                    </span>
+                  </div>
+
+                  <span
+                    style={{
+                      display:
+                        UserType === 0 ||
+                        UserType === 1 ||
+                        UserType === 7 ||
+                        UserType === 10
+                          ? "inline-block"
+                          : "none",
+                    }}
+                    className="props"
+                  >
+                    身份:
+                  </span>
+
+                  {UserType === 0 ? (
+                    <React.Fragment>
+                      <span
+                        className={`val ${Modules ? "link" : ""}`}
+                        ref="module-detail"
+                        onClick={Modules ? this.roleLook.bind(this) : () => {}}
+                      >
+                        {UserClass === 1
+                          ? "学校普通管理员"
+                          : UserClass === 2
+                          ? "学校超级管理员"
+                          : UserClass === 3
+                          ? "学院普通管理员"
+                          : UserClass === 4
+                          ? "学院超级管理员"
+                          : "管理员"}
+                      </span>
+
+                      {Modules ? (
+                        <span className="set-tips">
+                          (点击可查看子系统访问权限)
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
+                  {UserType === 7 ? (
+                    <React.Fragment>
+                      <span
+                        className={`val `}
+                        // ref="module-detail"
+                        // onClick={Modules ? this.roleLook.bind(this) : () => {}}
+                      >
+                        学校领导（{Position}）
+                      </span>
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
+                  {UserType === 10 ? (
+                    <React.Fragment>
+                      <span
+                        className={`val `}
+                        // ref="module-detail"
+                        // onClick={Modules ? this.roleLook.bind(this) : () => {}}
+                      >
+                        学院领导（{Position + "-" + CollegeName}）
+                      </span>
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
+                  {UserType === 1 ? (
+                    <React.Fragment>
+                      {RoleNames &&
+                        RoleNames.map((item, key) => {
+                          let title = "";
+
+                          let emptyContent = "";
+
+                          switch (key) {
+                            case 0:
+                              title = "任课班级";
+
+                              emptyContent = "暂无任课班级！";
+
+                              break;
+
+                            case 1:
+                              title = "所管班级";
+
+                              emptyContent = "暂无管理班级！";
+
+                              break;
+
+                            case 2:
+                              title = "所管教研组";
+
+                              emptyContent = "暂无管理教研组！";
+
+                              break;
+
+                            default:
+                              title = "任课班级";
+                          }
+
+                          const RoleInnerHTML =
+                            RoleDetail[key] === ""
+                              ? emptyContent
+                              : RoleDetail[key];
+
+                          return (
+                            <React.Fragment key={key}>
+                              {key === 0 || item === "" ? "" : <span>/</span>}
+
+                              {item !== "" ? (
+                                <span
+                                  className="val link"
+                                  ref={`teacher-roal-detail${key}`}
+                                  onClick={this.teacherRoleLook.bind(this, key)}
                                 >
-                                  <div className="detail-item-title">
-                                    {title}
-                                  </div>
+                                  {item}
 
-                                  <ScrollBars
+                                  <div
+                                    className="detial-wrapper teacher"
                                     style={{
-                                      width: RoleDetail[key]
-                                        ? RoleDetail[key].split("、").length *
-                                            80 +
-                                          230
-                                        : 230,
-                                      maxWidth: 420,
+                                      display: `${
+                                        TeacherRoalDetails[key]["show"]
+                                          ? "block"
+                                          : "none"
+                                      }`,
                                     }}
-                                    autoHeight
-                                    autoHeightMax={172}
                                   >
-                                    <div
-                                      className="detail-content-wrapper"
+                                    <div className="detail-item-title">
+                                      {title}
+                                    </div>
+
+                                    <ScrollBars
                                       style={{
                                         width: RoleDetail[key]
                                           ? RoleDetail[key].split("、").length *
                                               80 +
-                                            172
-                                          : 172,
+                                            230
+                                          : 230,
+                                        maxWidth: 420,
                                       }}
-                                      dangerouslySetInnerHTML={{
-                                        __html: RoleInnerHTML,
-                                      }}
-                                    ></div>
-                                  </ScrollBars>
+                                      autoHeight
+                                      autoHeightMax={172}
+                                    >
+                                      <div
+                                        className="detail-content-wrapper"
+                                        style={{
+                                          width: RoleDetail[key]
+                                            ? RoleDetail[key].split("、")
+                                                .length *
+                                                80 +
+                                              172
+                                            : 172,
+                                        }}
+                                        dangerouslySetInnerHTML={{
+                                          __html: RoleInnerHTML,
+                                        }}
+                                      ></div>
+                                    </ScrollBars>
 
-                                  <span
-                                    className="close-btn"
-                                    onClick={(e) =>
-                                      this.TeacherRoalDetailsClose(e, key)
-                                    }
-                                  >
-                                    ×
-                                  </span>
-                                </div>
-                              </span>
-                            ) : (
-                              ""
-                            )}
-                          </React.Fragment>
-                        );
-                      })}
+                                    <span
+                                      className="close-btn"
+                                      onClick={(e) =>
+                                        this.TeacherRoalDetailsClose(e, key)
+                                      }
+                                    >
+                                      ×
+                                    </span>
+                                  </div>
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
 
-                    <span className="set-tips">(点击可查看身份详情)</span>
-                  </React.Fragment>
-                ) : (
-                  ""
-                )}
-              </div>
+                      <span className="set-tips">(点击可查看身份详情)</span>
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 

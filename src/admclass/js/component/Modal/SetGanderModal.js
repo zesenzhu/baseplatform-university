@@ -77,6 +77,15 @@ class SetGanderModal extends React.Component {
     //   })
     // );
   };
+  onSearchKeyKeyUp = (key) => {
+    // console.log(key.keyCode);
+    if (
+      // this.state.SearchValue&&
+      key.keyCode === 13) {
+      //enter键搜索
+      this.onSearchClick();
+    }
+  };
   onSearchClick = () => {
     let { dispatch } = this.props;
     dispatch(
@@ -135,7 +144,7 @@ class SetGanderModal extends React.Component {
           activeKey={activeKey}
           onChange={this.onTapChange}
         > */}
-          {/* <TabPane tab="本班教师" key="1">
+        {/* <TabPane tab="本班教师" key="1">
             <div className="tab-contant">
               <div style={{ height: "100%" }} className="card-content">
                 <Scrollbars>
@@ -163,94 +172,95 @@ class SetGanderModal extends React.Component {
               </div>
             </div>
           </TabPane>*/}
-          {/* <TabPane tab="全校教师" key="2">  */}
-            <div className="tab-contant">
-              <div className="handle-top-box">
-                <div className="handle-row">
-                  <span className="row-left">所属教研室:</span>
-                  <span className="row-right">
-                    <DropDown
-                      style={{ zIndex: 5 }}
-                      ref="subject"
-                      width={120}
-                      height={240}
-                      // title="班级："
-                      dropSelectd={{
-                        value: SubjectTeacherParams.SubjectIDs,
-                        title: SubjectTeacherParams.SUbjectNames,
-                      }}
-                      dropList={SubjectList}
-                      onChange={this.onSelecSubjectChange}
-                    ></DropDown>
-                  </span>
-                </div>
-                <div className="handle-row">
-                  <span className="row-left">关键词:</span>
-                  <span className="row-right">
-                    <Input
-                      width={265}
-                      height={28}
-                      placeholder="请输入工号或姓名进行搜索..."
-                      // title="班级："
-                      className="search-input"
-                      value={this.state.SearchValue}
-                      onChange={this.onSearchKeyChange}
-                    ></Input>
-                    <i
-                      style={{
-                        display:
-                          SubjectTeacherParams.CancelBtnShow === "y"
-                            ? "inline-block"
-                            : "none",
-                      }}
-                      className="cancel-btn"
-                      onClick={this.onCancelSearchClick}
-                    ></i>
-                    <Button
-                      onClick={this.onSearchClick}
-                      height={"28"}
-                      color={"blue"}
-                      className="search-btn"
-                    >
-                      确定
-                    </Button>
-                  </span>
-                </div>
-              </div>
-              <Loading
-                opacity={false}
-                // tip="加载中..."
-                size="large"
-                spinning={SubjectTeacherLoadingVisible}
-              >
-                <div style={{ height: "350px" }} className="card-content">
-                  <Scrollbars>
-                    {SubjectTeacherData.List instanceof Array &&
-                    SubjectTeacherData.List.length > 0 ? (
-                      SubjectTeacherData.List.map((child, index) => {
-                        return (
-                          <SelectTeacherCard
-                            searchValue={SubjectTeacherParams.SearchValue}
-                            selectKey={SelectGanderData.UserID}
-                            data={child}
-                            onCardClick={this.onCardClick}
-                            type="teacher"
-                            key={index}
-                          ></SelectTeacherCard>
-                        );
-                      })
-                    ) : (
-                      <Empty
-                        type={"3"}
-                        title={"暂无符合条件的教师"}
-                        style={{ marginTop: "100px" }}
-                      ></Empty>
-                    )}
-                  </Scrollbars>
-                </div>
-              </Loading>
+        {/* <TabPane tab="全校教师" key="2">  */}
+        <div className="tab-contant">
+          <div className="handle-top-box">
+            <div className="handle-row">
+              <span className="row-left">所属教研室:</span>
+              <span className="row-right">
+                <DropDown
+                  style={{ zIndex: 5 }}
+                  ref="subject"
+                  width={120}
+                  height={240}
+                  // title="班级："
+                  dropSelectd={{
+                    value: SubjectTeacherParams.SubjectIDs,
+                    title: SubjectTeacherParams.SUbjectNames,
+                  }}
+                  dropList={SubjectList}
+                  onChange={this.onSelecSubjectChange}
+                ></DropDown>
+              </span>
             </div>
-          {/* </TabPane>
+            <div className="handle-row">
+              <span className="row-left">关键词:</span>
+              <span className="row-right">
+                <Input
+                  width={265}
+                  height={28}
+                  placeholder="请输入工号或姓名进行搜索..."
+                  // title="班级："
+                  className="search-input"
+                  value={this.state.SearchValue}
+                  onKeyUp={this.onSearchKeyKeyUp}
+                  onChange={this.onSearchKeyChange}
+                ></Input>
+                <i
+                  style={{
+                    display:
+                      SubjectTeacherParams.CancelBtnShow === "y"
+                        ? "inline-block"
+                        : "none",
+                  }}
+                  className="cancel-btn"
+                  onClick={this.onCancelSearchClick}
+                ></i>
+                <Button
+                  onClick={this.onSearchClick}
+                  height={"28"}
+                  color={"blue"}
+                  className="search-btn"
+                >
+                  确定
+                </Button>
+              </span>
+            </div>
+          </div>
+          <Loading
+            opacity={false}
+            // tip="加载中..."
+            size="large"
+            spinning={SubjectTeacherLoadingVisible}
+          >
+            <div style={{ height: "350px" }} className="card-content">
+              <Scrollbars>
+                {SubjectTeacherData.List instanceof Array &&
+                SubjectTeacherData.List.length > 0 ? (
+                  SubjectTeacherData.List.map((child, index) => {
+                    return (
+                      <SelectTeacherCard
+                        searchValue={SubjectTeacherParams.SearchValue}
+                        selectKey={SelectGanderData.UserID}
+                        data={child}
+                        onCardClick={this.onCardClick}
+                        type="teacher"
+                        key={index}
+                      ></SelectTeacherCard>
+                    );
+                  })
+                ) : (
+                  <Empty
+                    type={"3"}
+                    title={"暂无符合条件的教师"}
+                    style={{ marginTop: "100px" }}
+                  ></Empty>
+                )}
+              </Scrollbars>
+            </div>
+          </Loading>
+        </div>
+        {/* </TabPane>
         </Tabs> */}
         <div className="ganger-show-box">
           {!ClassTeacherData.Ganger.IsSet ? (
@@ -258,7 +268,7 @@ class SetGanderModal extends React.Component {
               <SelectTeacherCard
                 ganger="now"
                 data={SelectGanderData}
-                className='my-ganger'
+                className="my-ganger"
                 type="ganger"
               ></SelectTeacherCard>
             </div>
@@ -268,12 +278,12 @@ class SetGanderModal extends React.Component {
                 ganger="old"
                 data={ClassTeacherData.Ganger}
                 type="ganger"
-                className='my-ganger'
+                className="my-ganger"
               ></SelectTeacherCard>
               <SelectTeacherCard
                 ganger="new"
                 data={SelectGanderData}
-                className='my-ganger'
+                className="my-ganger"
                 type="ganger"
               ></SelectTeacherCard>
             </div>

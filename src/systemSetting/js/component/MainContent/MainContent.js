@@ -1,4 +1,4 @@
-import React, { Component,createRef } from "react";
+import React, { Component, createRef } from "react";
 import Frame from "../../../../common/Frame";
 import { TokenCheck_Connect } from "../../../../common/js/disconnect";
 import Semester from "../SettingOptions/YearSemesterSetting";
@@ -12,7 +12,7 @@ import config from "../../../../common/js/config";
 import history from "../../containers/history";
 import { QueryPower } from "../../../../common/js/power";
 import versionChenck from "../../../../common/js/public";
-import TimeBanner from '../newEdition/TimeBanner'
+import TimeBanner from "../newEdition/TimeBanner";
 import { connect } from "react-redux";
 
 import DataChange from "../../action/data/DataChange";
@@ -66,7 +66,6 @@ class MainContent extends Component {
 
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
-        
       ],
     };
     const { dispatch } = props;
@@ -138,7 +137,7 @@ class MainContent extends Component {
     //   }
     // });
   }
-  RequestData =()=>{
+  RequestData = () => {
     const { dispatch } = this.props;
     const Hash = location.hash;
     const { SchoolID, UserType } = JSON.parse(
@@ -158,24 +157,23 @@ class MainContent extends Component {
       //   console.log(restlu);
 
       //   if (restlu) {
-        this.Frame.getIdentity({ ModuleID }, (identify) => {
-          this.setState({
-            havePower: true,
-          });
-          dispatch(DataChange.getCurrentSemester(SchoolID));
-          //    dispatch(DataChange.getCurrentSchoolInfo(SchoolID));
-          //    dispatch(DataChange.getCurrentSbusystemInfo({}));
-          dispatch(DataChange.getServerAdd());
-        }
-      )
-    //   });
-    // }
-  }
-}
+      this.Frame.getIdentity({ ModuleID }, (identify) => {
+        this.setState({
+          havePower: true,
+        });
+        dispatch(DataChange.getCurrentSemester(SchoolID));
+        //    dispatch(DataChange.getCurrentSchoolInfo(SchoolID));
+        //    dispatch(DataChange.getCurrentSbusystemInfo({}));
+        dispatch(DataChange.getServerAdd());
+      });
+      //   });
+      // }
+    }
+  };
   componentDidMount() {
     let that = this;
     that.handleMenu();
-
+    console.log("dasd");
     //     history.listen((location)=>{
     //     let path =  location.pathname.split("/")[2];
     // console.log(path)
@@ -214,27 +212,27 @@ class MainContent extends Component {
     // console.log(this.state.MenuParams)
     // this.handleMenu();
   };
- // 获取frame的ref
- onRef = (ref) => {
-  this.Frame = ref;
-};
+  // 获取frame的ref
+  onRef = (ref) => {
+    this.Frame = ref;
+  };
   render() {
     let UserName = "";
     let PhotoPath = "";
     //获取用户信息，并渲染到骨架上
-    if (sessionStorage.getItem("UserInfo")) {
-      const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
-      UserName = UserInfo.UserName;
-      PhotoPath = UserInfo.PhotoPath;
-    } else {
-      return <div></div>;
-    }
+    // if (sessionStorage.getItem("UserInfo")) {
+    //   const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+    //   UserName = UserInfo.UserName;
+    //   PhotoPath = UserInfo.PhotoPath;
+    // } else {
+    //   return <div></div>;
+    // }
     let path = history.location.pathname.split("/")[2];
     let isImport = false;
-    let subtitle =''
+    let subtitle = "";
     if (path === "Import") {
       isImport = true;
-      subtitle ='导入学院'
+      subtitle = "导入学院";
     }
     // console.log(path)
     if (
@@ -255,11 +253,11 @@ class MainContent extends Component {
             image: setting,
             cnname: "系统设置",
             enname: "System Settings",
-            subtitle
+            subtitle,
           }}
           userInfo={{ name: UserName, image: PhotoPath }}
           pageInit={this.RequestData}
-            onRef={this.onRef.bind(this)}
+          onRef={this.onRef.bind(this)}
         >
           <div ref="frame-time-barner">
             <TimeBanner path={path} List={this.state.List} />

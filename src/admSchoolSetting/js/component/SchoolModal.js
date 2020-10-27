@@ -456,7 +456,7 @@ class SchoolModal extends React.Component {
             color="blue"
             onClick={this.CropperModalOpen}
           >
-            上传图标
+            上传校徽
           </Button>
           <Button
             color="green"
