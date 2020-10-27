@@ -93,7 +93,6 @@ class App extends Component {
 
       }
 
-
       this.Frame.getIdentity({ModuleID},()=>{
 
           that.requestData(route);
