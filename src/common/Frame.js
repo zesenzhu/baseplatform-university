@@ -427,7 +427,7 @@ class FrameContainer extends Component{
 
                         if (callBack){
 
-                            callBack(IdentityItem);
+                            callBack([IdentityItem]);
 
                         }
 

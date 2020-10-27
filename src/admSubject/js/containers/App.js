@@ -30,6 +30,8 @@ import {productTypeChange} from "../reducers/productType";
 
 import productType from "../reducers/productType";
 
+import {userIndetifyChange} from "../reducers/identify";
+
 const SUBJECT_MODULEID = "000-2-0-18"; //学科管理
 
 
@@ -66,7 +68,11 @@ class App extends Component {
 
         }
 
-        this.Frame.getIdentity({ModuleID:'000007'},()=>{
+        this.Frame.getIdentity({ModuleID:'000007'},(identify)=>{
+
+            const isCollegeManager = identify&&identify[0].IdentityCode==='IC0009';
+
+            dispatch(userIndetifyChange({isCollegeManager,identifyList:identify?identify:[]}));
 
             this.requestData();
 

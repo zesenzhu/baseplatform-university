@@ -24,6 +24,8 @@ function MajorModal(props,ref) {
     const {pickCollegeID,majorPickList,collegeData,isCommon} = props;
 
 
+    console.log(pickCollegeID,majorPickList,collegeData);
+
 
     useEffect(()=>{
 

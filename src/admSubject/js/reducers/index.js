@@ -8,6 +8,8 @@ import subjectProps from './subjectProps';
 
 import productType from './productType';
 
+import identify from './identify';
+
 export let initialState = {};
 
 let rootReducers = combineReducers({
@@ -20,7 +22,9 @@ let rootReducers = combineReducers({
 
     subjectProps,
 
-    productType
+    productType,
+
+    identify
 
 });
 export default rootReducers;

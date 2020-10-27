@@ -7,15 +7,15 @@ if (process.env.NODE_ENV === 'development'){
 
         GetBaseInfo:'http://192.168.2.202:7300/mock/5d772752ed0ccd1564c8df0d/login',
 
-        //GetBaseInfo:'http://172.16.52.123:10102',
+        //GetBaseInfo:'http://192.168.2.207:10108',
 
-        Login:'http://172.16.52.123:10102',
+        Login:'http://192.168.2.207:10108',
 
-        IntroduceModalHtml:'http://172.16.52.123:10102/UserHelp/teacherhelp.html',
+        IntroduceModalHtml:'http://192.168.2.207:10108/UserHelp/teacherhelp.html',
 
-        // SystemsMainServer:'http://172.16.52.123:10102/BaseApi/Global/'
+        // SystemsMainServer:'http://192.168.2.207:10108/BaseApi/Global/'
 
-        SystemsMainServer:'http://172.16.52.123:10102/BaseApi/Global/'
+        SystemsMainServer:'http://192.168.2.207:10108/BaseApi/Global/'
 
     }
 
