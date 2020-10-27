@@ -447,8 +447,6 @@ class FrameContainer extends Component{
 
         const { children,onRef, pageInit,type,register,showBarner,showTop, showBottom, module, userInfo, msg, showLeftMenu,contentShow,onLogOut, ...reset } = this.props;
 
-        console.log(userInfo);
-
         return (
 
             <React.Fragment>
