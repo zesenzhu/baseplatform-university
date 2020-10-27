@@ -36,6 +36,8 @@ class HandleGroupModal extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { DataState } = nextProps;
+    $('.HandleGroupModal').parent().addClass('zIndex')
+
   }
   componentDidMount() {}
   ModalOk = () => {

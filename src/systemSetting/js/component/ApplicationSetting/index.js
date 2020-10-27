@@ -618,6 +618,7 @@ class ApplicationSetting extends Component {
             添加应用
           </Button>
         </div>
+        <div className="hr"></div>
         <div className="params-box">
           <div className="access-status">
             访问状态:
