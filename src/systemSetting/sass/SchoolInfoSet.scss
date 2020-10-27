@@ -13,8 +13,8 @@
     padding-top: 30px;
     box-sizing: border-box;
     .hr {
-        margin: 2px 0 10px;
-        width: 100%;
+        margin: 2px 0 10px 25px;
+        width: calc(100% - 25px);
         border-top: 1px dashed #aaa;
     }
     .edite-info-box {
@@ -333,7 +333,7 @@
         .StudentCount,
         .TeacherCount {
             font-size: 14px;
-            color: #999;
+            color: #333;
             height: 17px;
             line-height: 17px;
             display: inline-block;
@@ -372,22 +372,40 @@
         .handle-btn {
             float: right;
             height: 24px;
-            width: 56px;
+            cursor: pointer;
+            // width: 56px;
             line-height: 24px;
             font-size: 14px;
+            text-decoration: underline;
             padding: 0;
             text-align: center;
-            margin-right: 3px;
+            margin: 0 8px;
+            color: #0249a5;
+            padding-left: 18px;
+            background: url(../images/icon-edit-college.png) no-repeat left center/15px 15px;
+            opacity: 0.9;
+            &:hover {
+                opacity: 1;
+            }
         }
         .check-btn {
             float: right;
             height: 24px;
-            width: 56px;
+            // width: 56px;
+            cursor: pointer;
             line-height: 24px;
             font-size: 14px;
             padding: 0;
             text-align: center;
-            margin-right: 2px;
+            text-decoration: underline;
+            margin: 0 8px;
+            color: #9a1601;
+            padding-left: 17px;
+            background: url(../images/icon-delete-college.png) no-repeat left center/15px 15px;
+            opacity: 0.9;
+            &:hover {
+                opacity: 1;
+            }
         }
     }
     .initTitle {

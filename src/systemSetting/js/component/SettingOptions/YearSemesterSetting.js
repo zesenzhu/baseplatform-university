@@ -307,6 +307,7 @@ class YearSemesterSetting extends Component {
                 <div className="semester-logo"></div>
                 <span>学年学期设置</span>
               </div>
+              <div className="hr"></div>
               <i></i>
               <div className="semester-info">
                 <p>

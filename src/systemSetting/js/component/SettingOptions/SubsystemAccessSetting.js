@@ -303,6 +303,7 @@ class SubsystemAccessSetting extends Component {
                         <div className="subsystem-logo"></div>
                         <span>子系统访问设置</span>
                     </div>
+                    <div className="hr"></div>
                     <div className="access-status">
                         访问状态:
                     <DropDown

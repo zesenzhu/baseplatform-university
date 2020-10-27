@@ -180,7 +180,19 @@ class SchoolnfoSetting extends Component {
           render: (Key) => {
             return (
               <div className="handle-content">
-                <Button
+                <span
+                  onClick={this.onEditCollegeClick.bind(this, Key)}
+                  className="handle-btn"
+                >
+                  编辑
+                </span>
+                <span
+                  onClick={this.onDeleteCollegeClick.bind(this, Key)}
+                  className="check-btn"
+                >
+                  删除
+                </span>
+                {/* <Button
                   color="blue"
                   type="default"
                   onClick={this.onEditCollegeClick.bind(this, Key)}
@@ -195,7 +207,7 @@ class SchoolnfoSetting extends Component {
                   className="check-btn"
                 >
                   删除
-                </Button>
+                </Button> */}
               </div>
             );
           },
@@ -275,7 +287,7 @@ class SchoolnfoSetting extends Component {
       SchoolTel,
       SchoolLinkman,
     } = this.props.schoolInfo;
-    const { dispatch, periodInfo ,schoolInfo} = this.props;
+    const { dispatch, periodInfo, schoolInfo } = this.props;
     let SchoolType = ""; //学制的代码数字
     // let SchoolSessionType = ""; //学制类型对应的参数（7=>3/6/3 或者5/4/3）
     // console.log(primaryNum, middleNum, SchoolCode, SchoolName, SchoolLogoUrl);

@@ -876,7 +876,7 @@ class Main extends Component {
         </div>
         {/* 模态框 */}
         <Modal
-          bodyStyle={{ padding: 0, height: "320px" }}
+          bodyStyle={{ padding: 0, height: "340px" }}
           type="1"
           title={"创建学校"}
           width={700}
@@ -901,7 +901,7 @@ class Main extends Component {
           {/* </Loading> */}
         </Modal>
         <Modal
-          bodyStyle={{ padding: 0, height: "320px" }}
+          bodyStyle={{ padding: 0, height: "340px" }}
           type="1"
           title={"编辑学校"}
           width={700}

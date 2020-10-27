@@ -136,7 +136,7 @@ class All extends Component {
         name: !IsCollege ? "学院" : "专业",
         nameTextStyle: {
           color: "#999",
-          fontSize: "12",
+          fontSize: "14",
         },
         axisLabel: {
           // interval: 0,
@@ -144,8 +144,8 @@ class All extends Component {
           width: 30,
 
           textStyle: {
-            color: "#999",
-            fontSize: "12",
+            color: "#333",
+            fontSize: "14",
           },
         },
         axisTick: {
@@ -165,11 +165,11 @@ class All extends Component {
         // },
         boundaryGap: ["0", "10%"], //y轴上留白
         type: "value",
-        name: "学生人数",
+        name: "学生人数(单位:人数)",
         nameTextStyle: {
           color: "#999",
-          fontSize: "12",
-          padding: [0, 0, 0, 0],
+          fontSize: "14",
+          padding: [0, 0, 10, 70],
         },
         splitLine: {
           //分隔线样式
@@ -183,8 +183,8 @@ class All extends Component {
           // interval: 0,
 
           textStyle: {
-            color: "#999",
-            fontSize: "12",
+            color: "#333",
+        fontSize: "14",
           },
         },
       },
@@ -304,7 +304,7 @@ class All extends Component {
         name: !IsCollege ? "学院" : "教研室",
         nameTextStyle: {
           color: "#999",
-          fontSize: "12",
+          fontSize: "14",
         },
         axisTick: {
           inside: true,
@@ -315,9 +315,8 @@ class All extends Component {
           width: 30,
           rich: {},
           textStyle: {
-            color: "#999",
-            // bold:false
-            fontSize: "12",
+            color: "#333",
+            fontSize: "14",
           },
         },
       },
@@ -330,18 +329,18 @@ class All extends Component {
         },
         boundaryGap: ["0", "10%"],
         type: "value",
-        name: "教师人数",
+        name: "教师人数(单位:人数)",
         nameTextStyle: {
           color: "#999",
-          fontSize: "12",
-          padding: [0, 0, 0, 0], //控制name位置
+          fontSize: "14",
+          padding: [0, 0, 10, 70], //控制name位置
         },
         axisLabel: {
           // interval: 0,
 
           textStyle: {
-            color: "#999",
-            fontSize: "12",
+            color: "#333",
+        fontSize: "14",
           },
         },
         color: "#999",

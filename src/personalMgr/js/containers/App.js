@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 
 import { Loading, Alert, MenuLeftNoLink } from "../../../common";
 
@@ -31,7 +31,7 @@ class App extends Component {
     super(props);
 
     const { dispatch } = props;
-
+    this.Frame = createRef();
     /*if(publicJS.IEVersion()){
 
             TokenCheck_Connect(false,()=>{
@@ -90,6 +90,10 @@ class App extends Component {
     dispatch({ type: LoginUserActions.UPDATE_LOGIN_USER, data: UserInfo });
 
     const isSafeSetting = getQueryVariable("isSafeSetting");
+    let ModuleID = ''
+    this.Frame.getIdentity({  }, (identify) => {
+
+    })
 
     getBaseInfo({ UserID, UserType, dispatch }).then((data) => {
       if (data) {
@@ -123,7 +127,9 @@ class App extends Component {
       }
     });
   }
-
+  onRef = (ref) => {
+    this.Frame = ref;
+  };
   render() {
     let { LoginUser, ModuleCommonInfo, AppAlert, AppLoading } = this.props;
 
@@ -166,6 +172,7 @@ class App extends Component {
           type="triangle"
           showBarner={false}
           showLeftMenu={true}
+          onRef={this.onRef.bind(this)}
         >
           <div ref="frame-left-menu">
             <div className="frame_left_menu_pic clearfix">
