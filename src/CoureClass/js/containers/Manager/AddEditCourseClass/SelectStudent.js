@@ -1,6 +1,6 @@
 import React,{memo,forwardRef,useRef,useImperativeHandle,useEffect,useState} from "react";
 
-import { connect } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 import "../../../../scss/SelectStudent.scss";
 
@@ -21,6 +21,8 @@ import {
 } from "../../../actions/apiActions";
 
 import {Search, Loading, CheckBox, CheckBoxGroup, Empty,DropDown} from "../../../../../common";
+
+
 
 function SelectStudent(props,ref){
 
@@ -126,7 +128,11 @@ function SelectStudent(props,ref){
 
 
     //props 传参
-    const { LoginUser,dispatch,stuCheckedList,classCheckedList,gradeChecked,majorChecked } = props;
+    const { stuCheckedList,classCheckedList,gradeChecked,majorChecked } = props;
+
+    const {LoginUser,identify} = useSelector(state=>state);
+
+    const dispatch = useDispatch();
 
     const { SchoolID,UserID,UserType } = LoginUser;
 
@@ -214,7 +220,6 @@ function SelectStudent(props,ref){
 
                         }
 
-
                         colID = findItem.CollegeID;
 
                         majID = findItem.CollegeName;
@@ -223,9 +228,24 @@ function SelectStudent(props,ref){
 
                         setMajor(d=>({...d,disabled:false,dropSelectd:majorObj,dropList:majList}));
 
+
+                    }else{
+
+                        if (identify.isCollegeManager){
+
+                            setCollege(d=>({...d,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}}));
+
+                            const list = res[0].find(i=>i.CollegeID===LoginUser.CollegeID).Majors.map(i=>({value:i.MajorID,title:i.MajorName}));
+
+                            setMajor(d=>({...d,disabled:false,dropList:list}));
+
+
+                        }
+
                     }
 
-                    GetClassInfo_University({schoolID:SchoolID,collegeID:colID,majorID:majorid,gradeID,dispatch}).then(data=>{
+
+                    GetClassInfo_University({schoolID:SchoolID,collegeID:identify.isCollegeManager?LoginUser.CollegeID:colID,majorID:majorid,gradeID,dispatch}).then(data=>{
 
                         if (data){
 
@@ -720,19 +740,27 @@ function SelectStudent(props,ref){
 
                 <div className="box-top">
 
-                    <DropDown
+                    {
 
-                        dropSelectd={college.dropSelectd}
+                        !identify.isCollegeManager?
 
-                        dropList={college.dropList}
+                            <DropDown
 
-                        height={300}
+                                dropSelectd={college.dropSelectd}
 
-                        onChange={collegeChange}
+                                dropList={college.dropList}
 
-                    >
+                                height={300}
 
-                    </DropDown>
+                                onChange={collegeChange}
+
+                            >
+
+                            </DropDown>
+
+                            :null
+
+                    }
 
                     <DropDown
 
@@ -989,4 +1017,4 @@ const mapStateToProps = state => {
         LoginUser
     };
 };
-export default memo(connect(mapStateToProps,null,null,{forwardRef:true})(forwardRef(SelectStudent)));
+export default memo(forwardRef(SelectStudent));

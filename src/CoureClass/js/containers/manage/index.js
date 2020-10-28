@@ -174,7 +174,9 @@ function Index(props) {
     const [isAiPractice,setIsAiPractice] = useState(false);
 
 
-    const LoginUser = useSelector(state=>state.LoginUser);
+
+
+    const {LoginUser,identify} = useSelector(state=>state);
 
     const { collegeID,collegeName,gradeID,gradeName,subjectID,subjectName,courseType,courseTypeName,courseName,courseID,teachingRoomID,teachingRoomName,teacherID,teacherName } = useSelector(state=>state.breadCrumb.manage);
 
@@ -220,10 +222,7 @@ function Index(props) {
 
         if (SchoolID){
 
-            let {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
-
-
-            ProductType = 6;
+            const {ProductType} = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
             if (collegeID&&collegeName&&gradeID&&gradeName){
 
@@ -234,6 +233,12 @@ function Index(props) {
                 setColleges(d=>({...d,dropSelectd:{value:collegeID,title:collegeName}}));
 
                 setGrades(d=>({...d,dropSelectd:{value:gradeID,title:gradeName}}));
+
+            }else if(identify.isCollegeManager){
+
+                collegeRef.current = {...collegeRef.current,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}};
+
+                setColleges(d=>({...d,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}}));
 
             }
 
@@ -1651,11 +1656,21 @@ function Index(props) {
 
                     </DropDown>
 
-                    <span className={"props"}>院系:</span>
+                    {
 
-                    <DropDown onChange={collegeChange} dropSelectd={college.dropSelectd} dropList={college.dropList}>
+                        !identify.isCollegeManager?
 
-                    </DropDown>
+                            <>
+
+                                <span className={"props"}>院系:</span>
+
+                                <DropDown onChange={collegeChange} dropSelectd={college.dropSelectd} dropList={college.dropList}></DropDown>
+
+                            </>
+
+                            :null
+
+                    }
 
                     <span className={"props"}>所属年级:</span>
 

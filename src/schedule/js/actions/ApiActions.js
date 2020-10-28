@@ -719,9 +719,9 @@ const ClassRoomIsUseded = async ({ClassRoomID,ClassDate,ClassHourNO,dispatch}) =
 
 //判断教室是否被占用
 
-const GetScheduleLogForPage = async ({SchoolID,OperateType=0,StartDate='',EndDate='',PageIndex=1,PageSize=10,ScheduleID='',dispatch}) => {
+const GetScheduleLogForPage = async ({CollegeID='',SchoolID,OperateType=0,StartDate='',EndDate='',PageIndex=1,PageSize=10,ScheduleID='',dispatch}) => {
 
-    let Url = '/Schedule/api/GetScheduleLogForPage?SchoolID='+SchoolID+'&OperateType='+OperateType+'&StartDate='+StartDate+'&EndDate='+EndDate+'&PageIndex='+PageIndex+'&PageSize='+PageSize+'&ScheduleID='+ScheduleID;
+    let Url = '/Schedule/api/GetScheduleLogForPage?SchoolID='+SchoolID+'&OperateType='+OperateType+'&StartDate='+StartDate+'&EndDate='+EndDate+'&PageIndex='+PageIndex+'&PageSize='+PageSize+'&ScheduleID='+ScheduleID+'&CollegeID='+CollegeID;
 
     let res = await Method.getGetData(Url,
 

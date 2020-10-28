@@ -21,7 +21,7 @@ import {useSelector,useDispatch} from 'react-redux';
 function Index(){
 
 
-    const {LoginUser,productType} = useSelector(state=>state);
+    const {LoginUser,productType,identify} = useSelector(state=>state);
 
 
 
@@ -39,15 +39,29 @@ function Index(){
 
         }else{
 
-            return [
+            if (identify.isCollegeManager){
 
-                {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
+                return [
 
-                {link:"/manager/class",name:"班级课表",logo:"class"},
+                    {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
 
-                {link:"/manager/room",name:"教室课表",logo:"classroom"},
+                    {link:"/manager/class",name:"班级课表",logo:"class"}
 
-            ];
+                ];
+
+            }else{
+
+                return [
+
+                    {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
+
+                    {link:"/manager/class",name:"班级课表",logo:"class"},
+
+                    {link:"/manager/room",name:"教室课表",logo:"classroom"},
+
+                ];
+
+            }
 
         }
 
@@ -78,7 +92,6 @@ function Index(){
                     <Route path="/manager/room/*" component={ClassRoomTotalSingle}></Route>
 
                     <Redirect path="/manager/room*" to={{pathname:"/manager/room/total"}}></Redirect>
-
 
                 </Switch>
 
