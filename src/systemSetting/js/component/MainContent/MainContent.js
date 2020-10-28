@@ -220,11 +220,12 @@ class MainContent extends Component {
     let UserName = "";
     let PhotoPath = "";
     //获取用户信息，并渲染到骨架上
-    // if (sessionStorage.getItem("UserInfo")) {
-    //   const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
-    //   UserName = UserInfo.UserName;
-    //   PhotoPath = UserInfo.PhotoPath;
-    // } else {
+    if (sessionStorage.getItem("UserInfo")) {
+      const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+      UserName = UserInfo.UserName;
+      PhotoPath = UserInfo.PhotoPath;
+    } 
+    // else {
     //   return <div></div>;
     // }
     let path = history.location.pathname.split("/")[2];
