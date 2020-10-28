@@ -8,6 +8,8 @@ import {DatePicker,ConfigProvider} from 'antd';
 
 import { connect } from 'react-redux';
 
+
+
 import $ from "jquery";
 
 import zhCN from 'antd/es/locale/zh_CN';
@@ -15,6 +17,8 @@ import zhCN from 'antd/es/locale/zh_CN';
 import moment from 'moment';
 
 import 'moment/locale/zh-cn';
+
+import ComPageRefresh from '../../actions/ComPageRefresh';
 
 import AppAlertActions from "../../actions/AppAlertActions";
 
@@ -29,33 +33,7 @@ class App extends Component{
 
         let { dispatch,ModuleSetting } = props;
 
-        let { LoginUser } = this.props;
-
-        if (LoginUser.UserID){
-
-            const { SchoolID } = LoginUser;
-
-            dispatch(ALActions.PageInit({SchoolID}));
-
-        }else{
-
-            const WaiteUserInfo = setInterval(()=>{
-
-                LoginUser = this.props.LoginUser;
-
-                if (LoginUser.UserID){
-
-                    const { SchoolID } = LoginUser;
-
-                    dispatch(ALActions.PageInit({SchoolID}));
-
-                    clearInterval(WaiteUserInfo);
-
-                }
-
-            },20)
-
-        }
+        dispatch(ComPageRefresh.ComPageInit(ALActions.PageInit()));
 
     }
 

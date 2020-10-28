@@ -85,9 +85,6 @@ function TheCollege(props) {
 
     const {history} = props;
 
-
-    console.log(222);
-
     useEffect(()=>{
 
         let isUnmount = false;

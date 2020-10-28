@@ -31,6 +31,8 @@ function AppRoutes(props){
 
     const {UserType,UserClass} = useSelector(state=>state.LoginUser);
 
+    const {identify} = useSelector(state=>state);
+
     const RedirctPath = useMemo(()=>{
 
         switch (UserType) {
@@ -51,9 +53,24 @@ function AppRoutes(props){
 
                     <Redirect path={"/statics/course*"} to={'/statics/course/total'}></Redirect>
 
-                    <Redirect path={"/statics/college*"} to={'/statics/college/total'}></Redirect>
+                    {
 
-                    <Redirect path={"/statics*"} to={'/statics/college/total'}></Redirect>
+                        identify.isCollegeManager?
+
+                            <Redirect path={"/statics*"} to={'/statics/course/total'}></Redirect>
+
+                            :
+
+                            <>
+
+                            <Redirect path={"/statics/college*"} to={'/statics/college/total'}></Redirect>
+
+                            <Redirect path={"/statics*"} to={'/statics/college/total'}></Redirect>
+
+                            </>
+
+                    }
+
 
                     <Redirect path={"/*"} to={'/manage'}></Redirect>
 

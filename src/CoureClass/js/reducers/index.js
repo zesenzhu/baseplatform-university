@@ -7,6 +7,7 @@ import previewData from "./previewData";
 import commonSetting from './commonSetting';
 import bannerState from './bannerState';
 import teacherManagePower from './teacherManagePower';
+import identify from './identify';
 
 //新的redux
 import LoginUser from './LoginUser';
@@ -26,6 +27,7 @@ let rootReducers = combineReducers({
     commonSetting,
     AppLoading,
     bannerState,
-    teacherManagePower
+    teacherManagePower,
+    identify
 });
 export default rootReducers;

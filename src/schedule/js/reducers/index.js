@@ -26,6 +26,8 @@ import NotBusyRoomModal from './NotBusyRoomModal';
 
 import productType from './productType';
 
+import identify from './identify';
+
 export let initialState = {};
 
 let rootReducers = combineReducers({
@@ -52,7 +54,9 @@ let rootReducers = combineReducers({
 
     NotBusyRoomModal,
 
-    productType
+    productType,
+
+    identify
 
 });
 

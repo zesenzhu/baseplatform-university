@@ -11,8 +11,10 @@ const MANAGER_INTELLENCT_URL_UPDATE = 'MANAGER_INTELLENCT_URL_UPDATE';
 
 const getCommonInfo = () => {
 
-    return dispatch  => {
+    return (dispatch,getState)  => {
         //获取登录信息
+
+            const {identify} = getState();
 
             let UserInfo = JSON.parse(sessionStorage.getItem('UserInfo'));
 
@@ -100,13 +102,25 @@ const getCommonInfo = () => {
 
                         const { ItemCollege } = data;
 
-                        const dropShow = ItemCollege.length>1?true:false;
+                        let dropShow = true,dropList=[],dropObj='';
 
-                        const dropList = ItemCollege.map(i=>({value:i.CollegeID,title:i.CollegeName}));
+                        if (identify.isCollegeManager){
 
-                        dropList.unshift({value:'',title:'全部学院'});
+                            dropShow=false;
 
-                        let dropObj = dropShow===false?{id:ItemCollege.length>0?ItemCollege[0].CollegeID:'',name:ItemCollege.length>0?ItemCollege[0].CollegeName:''}:'';
+                            dropObj = {id:UserInfo.CollegeID,name:UserInfo.CollegeName};
+
+                        }else{
+
+                             dropShow = ItemCollege.length>1?true:false;
+
+                             dropList = ItemCollege.map(i=>({value:i.CollegeID,title:i.CollegeName}));
+
+                            dropList.unshift({value:'',title:'全部学院'});
+
+                            dropObj = dropShow===false?{id:ItemCollege.length>0?ItemCollege[0].CollegeID:'',name:ItemCollege.length>0?ItemCollege[0].CollegeName:''}:'';
+
+                        }
 
                         const newItem = data.ItemWeek.map(i=>{
 
@@ -185,6 +199,7 @@ const getCommonInfo = () => {
                         data['ItemWeek'] = newItem;
 
                         dispatch({type:PeriodWeekTermActions.UPDATE_PERIOD_TERM_WEEK,data:{...data,dropShow,dropList,dropObj}});
+
 
                         if (parseInt(UserType)===0){
 

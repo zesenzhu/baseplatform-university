@@ -64,6 +64,8 @@ function CollegeTotal(props) {
 
     const {SchoolID,UserType,UserID} = useSelector(state=>state.LoginUser);
 
+    const {identify} = useSelector(state=>state);
+
     const dispatch = useDispatch();
 
 
@@ -73,11 +75,17 @@ function CollegeTotal(props) {
     const paginationRef = useRef(pagination);
 
 
-    console.log(333);
+
 
     useEffect(()=>{
 
         let isUnmount = false;
+
+        if (identify.isCollegeManager){
+
+            history.push('/statics/course/total');
+
+        }
 
         if (SchoolID) {
 

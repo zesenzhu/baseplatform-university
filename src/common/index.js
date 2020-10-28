@@ -1338,7 +1338,7 @@ class DropComponent extends React.Component {
 
         });
 
-            const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
+        const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
 
         this.setState({simpleSearchShow:true,simpleSearchList});
 
@@ -1393,9 +1393,35 @@ class DropComponent extends React.Component {
   //简单搜索的值发生变化
   simpleSearchValueChange(e){
 
+    const { dropList } = this.props;
+
+    const searchValue = e.target.value;
+
     this.setState({
 
-        simpleSearchValue:e.target.value
+        simpleSearchValue:searchValue
+
+    },()=>{
+
+        const list =  dropList.filter(i=>{
+
+            if(typeof(i.title)==='string'||typeof(i.title)==='number'){
+
+                return i.title.toString().includes(searchValue);
+
+            }else{
+
+                let hasValue = this.recursive(i.title);
+
+                return hasValue;
+
+            }
+
+        });
+
+        const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
+
+        this.setState({simpleSearchShow:true,simpleSearchList});
 
     });
 
@@ -1639,7 +1665,9 @@ class DropComponent extends React.Component {
                 onCancelSearch={this.onCancelSearch.bind(this)}
                 CancelBtnShow={mutipleOptions.CancelBtnShow}
                 Value={mutipleOptions.inputValue}
-              ></Search>
+              >
+
+              </Search>
             </div>
 
             <Scrollbars

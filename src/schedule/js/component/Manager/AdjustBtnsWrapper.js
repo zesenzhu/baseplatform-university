@@ -14,7 +14,7 @@ class AdjustBtnsWrapper extends Component{
 
             adjustByTeacherShow,Import,ScheduleSettingShow,adjustByClassRoomShow,
 
-            Intellenct,IntellenctUrl
+            Intellenct,IntellenctUrl,isCollegeManager
 
         } = this.props;
 
@@ -22,13 +22,19 @@ class AdjustBtnsWrapper extends Component{
 
             <div className="adjust-schedule-wrapper">
 
-                <span className="schedule-setting" onClick={()=>ScheduleSettingShow()}>课程表设置</span>
-
                 {
 
-                    IntellenctUrl?
+                    !isCollegeManager?
 
-                        <span className="enter-schedule">
+                        <>
+
+                            <span className="schedule-setting" onClick={()=>ScheduleSettingShow()}>课程表设置</span>
+
+                            {
+
+                                IntellenctUrl?
+
+                                    <span className="enter-schedule">
 
                             <span>录入课程安排</span>
 
@@ -42,17 +48,13 @@ class AdjustBtnsWrapper extends Component{
 
                         </span>
 
-                        :
+                                    :
 
-                        <span className="import-schedule single" onClick={()=>Import()}>导入课表</span>
+                                    <span className="import-schedule single" onClick={()=>Import()}>导入课表</span>
 
-                }
+                            }
 
-
-
-
-
-                <span className="adjust-schedule" id="adjust-schedule"  >
+                            <span className="adjust-schedule" id="adjust-schedule"  >
 
                     <span>调整课程安排</span>
 
@@ -74,8 +76,44 @@ class AdjustBtnsWrapper extends Component{
 
                 </span>
 
-                <span className="see-adjust-log" onClick={()=>{ window.open('/html/schedule#/manager/adjustlog'); }}>查看调课日志</span>
+                            <span className="see-adjust-log" onClick={()=>{ window.open('/html/schedule#/manager/adjustlog'); }}>查看调课日志</span>
 
+                        </>
+
+                        :
+
+                        <>
+
+
+                            {
+
+                                IntellenctUrl?
+
+                                    <span className="enter-schedule">
+
+                            <span>录入课程安排</span>
+
+                            <div className="import-list-wrapper" id="import-list-wrapper" >
+
+                                <div className="import-schedule" onClick={()=>Import()}><span>导入课表</span></div>
+
+                                <div className="intellenct-schedule" onClick={()=>Intellenct()}><span>智能排课</span></div>
+
+                            </div>
+
+                        </span>
+
+                                    :
+
+                                    <span className="import-schedule single" onClick={()=>Import()}>导入课表</span>
+
+                            }
+
+                            <span className="see-adjust-log" onClick={()=>{ window.open('/html/schedule#/manager/adjustlog'); }}>查看调课日志</span>
+
+                        </>
+
+                }
 
 
             </div>

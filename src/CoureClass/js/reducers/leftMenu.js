@@ -77,7 +77,7 @@ const leftMenu = (state=defaultState,actions) =>{
 
       case LEFT_MENU_LIST_UPDATE:
 
-          return {...state,memuList:actions.data};
+          return {...state,menuList:actions.data};
 
       case LEFT_MENU_SHOW:
 

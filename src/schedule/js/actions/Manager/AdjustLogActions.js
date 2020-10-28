@@ -27,9 +27,13 @@ const MANAGER_ADJUST_LOG_PAGE_CHANGE = 'MANAGER_ADJUST_LOG_PAGE_CHANGE';
 
 
 
-const PageInit = ({SchoolID}) => {
+const PageInit = () => {
 
-  return dispatch => {
+  return (dispatch,getState) => {
+
+      const {LoginUser,identify} = getState();
+
+      const {SchoolID} = LoginUser;
 
       const OperateType = 0,StartDate = '',
 
@@ -37,7 +41,7 @@ const PageInit = ({SchoolID}) => {
 
       ApiActions.GetScheduleLogForPage({SchoolID,OperateType,StartDate,
 
-          EndDate,PageIndex,PageSize,ScheduleID,dispatch}).then(data=>{
+          EndDate,PageIndex,PageSize,ScheduleID,CollegeID:identify.isCollegeManager?LoginUser.CollegeID:'',dispatch}).then(data=>{
 
          if (data){
 
@@ -79,10 +83,6 @@ const PageInit = ({SchoolID}) => {
              });
 
             dispatch({type:MANAGER_ADJUST_LOG_INIT,data:{LogList,TotalCount}});
-
-         }else{
-
-             //window.location.href = '/error.aspx';
 
          }
 
@@ -215,13 +215,15 @@ const Reback = ({LogID,OperateType}) => {
 //更新table列表
 const LogUpdate = ({OperateType,SchoolID,StartDate,EndDate,ScheduleID,PageIndex,PageSize}) => {
 
-    return dispatch => {
+    return (dispatch,getState) => {
+
+        const {LoginUser,identify} = getState();
 
         dispatch({type:MANAGER_ADJUST_LOG_TABLE_LOADING_SHOW});
 
         dispatch({type:MANAGER_ADJUST_LOG_PAGE_CHANGE,data:PageIndex});
 
-        ApiActions.GetScheduleLogForPage({SchoolID,StartDate,EndDate,ScheduleID,PageIndex,PageSize,OperateType}).then(data=>{
+        ApiActions.GetScheduleLogForPage({CollegeID:identify.isCollegeManager?LoginUser.CollegeID:'',SchoolID,StartDate,EndDate,ScheduleID,PageIndex,PageSize,OperateType}).then(data=>{
 
             if (data){
 

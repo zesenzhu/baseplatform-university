@@ -65,6 +65,7 @@ import SDActions from "../actions/ScheduleDetailActions";
 import {productTypeChange} from "../reducers/productType";
 
 import {getQueryVariable} from "../../../common/js/disconnect";
+import {userIndetifyChange} from "../../../CoureClass/js/reducers/identify";
 
 
 
@@ -115,7 +116,11 @@ class App extends Component{
 
                 if (parseInt(UserType)===0){//判断管理员权限
 
-                   this.Frame.getIdentity({ModuleID:'000004'},()=>{
+                   this.Frame.getIdentity({ModuleID:'000004'},(identify)=>{
+
+                       const isCollegeManager = identify&&identify[0].IdentityCode==='IC0009';
+
+                       dispatch(userIndetifyChange({isCollegeManager,identifyList:identify}));
 
                        dispatch(ModuleCommonActions.getCommonInfo());
 
@@ -673,7 +678,7 @@ class App extends Component{
 
         const {state,history} = this.props;
 
-        const { productType,LoginUser,ScheduleDetail,AppLoading,ModuleSetting,Manager,PeriodWeekTerm,AppAlert,RouterSet } = state;
+        const { productType,identify,LoginUser,ScheduleDetail,AppLoading,ModuleSetting,Manager,PeriodWeekTerm,AppAlert,RouterSet } = state;
 
         const { AdjustBtns } = Manager;
 
@@ -705,238 +710,239 @@ class App extends Component{
 
         <React.Fragment>
 
-                       <DocumentTitle title={productType===6?'课表管理':ModuleSetting.moduleCnName}>
+           <DocumentTitle title={productType===6?'课表管理':ModuleSetting.moduleCnName}>
 
-                           <React.Fragment>
+               <React.Fragment>
 
-                           {
+               {
 
-                               AppLoading.show?
+                   AppLoading.show?
 
-                                   <Loading opacity={false} size="large" tip="加载中..."></Loading>
+                       <Loading opacity={false} size="large" tip="加载中..."></Loading>
 
-                                   :''
+                       :''
 
-                           }
+               }
 
 
-                           <Frame
-                                module={{
-                                    cnname:ModuleSetting.moduleCnName,
-                                    enname:ModuleSetting.moduleEnName,
-                                    image:ModuleSetting.logo,
-                                    subtitle
-                                }}
+               <Frame
+                    module={{
+                        cnname:ModuleSetting.moduleCnName,
+                        enname:ModuleSetting.moduleEnName,
+                        image:ModuleSetting.logo,
+                        subtitle
+                    }}
 
-                                showBarner={RouterSet.router==='/'?ModuleSetting.timeBar:false}
+                    showBarner={RouterSet.router==='/'?ModuleSetting.timeBar:false}
 
-                                pageInit={this.pageInit.bind(this)}
+                    pageInit={this.pageInit.bind(this)}
 
-                                type="circle"
+                    type="circle"
 
-                                onRef={this.onRef.bind(this)}
+                    onRef={this.onRef.bind(this)}
 
-                            >
+                >
 
-                                <div ref="frame-time-barner">
+                    <div ref="frame-time-barner">
 
-                                    <div className="college_change clearfix">
+                        <div className="college_change clearfix">
 
-                                        {
+                            {
 
-                                            PeriodWeekTerm.dropShow?
+                                PeriodWeekTerm.dropShow?
 
-                                                <DropDown
+                                    <DropDown
 
-                                                    dropSelectd={PeriodWeekTerm.dropSelectd}
+                                        dropSelectd={PeriodWeekTerm.dropSelectd}
 
-                                                    dropList={PeriodWeekTerm.dropList}
+                                        dropList={PeriodWeekTerm.dropList}
 
-                                                    height={300}
+                                        height={300}
 
-                                                    onChange={this.periodChange.bind(this)}
+                                        onChange={this.periodChange.bind(this)}
 
-                                                >
+                                    >
 
-                                                </DropDown>
+                                    </DropDown>
 
-                                                :
+                                    :
 
-                                                <div className={"college_name"}>{PeriodWeekTerm.dropObj.name}</div>
+                                    <div className={"college_name"}>{PeriodWeekTerm.dropObj.name}</div>
 
-                                        }
+                            }
 
-                                    </div>
+                        </div>
 
-                                    {
+                        {
 
-                                        parseInt(LoginUser.UserType) === 0||(parseInt(LoginUser.UserType)===7&&parseInt(LoginUser.UserClass)===2)?
+                            parseInt(LoginUser.UserType) === 0||(parseInt(LoginUser.UserType)===7&&parseInt(LoginUser.UserClass)===2)?
 
-                                            <AdjustBtnsWrapper
+                                <AdjustBtnsWrapper
 
-                                                adjustBtns={AdjustBtns}
+                                    adjustBtns={AdjustBtns}
 
-                                                ScheduleSettingShow={this.ScheduleSettingShow.bind(this)}
+                                    isCollegeManager={identify.isCollegeManager}
 
-                                                addScheduleModalShow={this.addScheduleModalShow.bind(this)}
+                                    ScheduleSettingShow={this.ScheduleSettingShow.bind(this)}
 
-                                                adjustByTimeModalShow = {this.adjustByTimeModalShow.bind(this)}
+                                    addScheduleModalShow={this.addScheduleModalShow.bind(this)}
 
-                                                stopScheduleShow={this.stopScheduleShow.bind(this)}
+                                    adjustByTimeModalShow = {this.adjustByTimeModalShow.bind(this)}
 
-                                                delScheduleShow = {this.delScheduleShow.bind(this)}
+                                    stopScheduleShow={this.stopScheduleShow.bind(this)}
 
-                                                adjustByTeacherShow = {this.adjustByTeacherShow.bind(this)}
+                                    delScheduleShow = {this.delScheduleShow.bind(this)}
 
-                                                adjustByClassRoomShow={this.adjustByClassRoomShow.bind(this)}
+                                    adjustByTeacherShow = {this.adjustByTeacherShow.bind(this)}
 
-                                                Import={this.Import.bind(this)}
+                                    adjustByClassRoomShow={this.adjustByClassRoomShow.bind(this)}
 
-                                                Intellenct={this.PathToIntellenct.bind(this)}
+                                    Import={this.Import.bind(this)}
 
-                                                IntellenctUrl={Manager.Intellenct.Url}
+                                    Intellenct={this.PathToIntellenct.bind(this)}
 
-                                            >
+                                    IntellenctUrl={Manager.Intellenct.Url}
 
-                                            </AdjustBtnsWrapper>
+                                >
 
-                                            :''
+                                </AdjustBtnsWrapper>
 
-                                    }
+                                :''
 
-                                </div>
+                        }
 
-                                <div ref="frame-right-content">
+                    </div>
 
-                                    <RouterWrapper></RouterWrapper>
+                    <div ref="frame-right-content">
 
-                                </div>
+                        <RouterWrapper></RouterWrapper>
 
-                            </Frame>
+                    </div>
 
-                           </React.Fragment>
+                </Frame>
 
-                       </DocumentTitle>
+               </React.Fragment>
 
-                       <AddScheduleModal></AddScheduleModal>
+           </DocumentTitle>
 
-                       <AdjustByTimeModal></AdjustByTimeModal>
+           <AddScheduleModal></AddScheduleModal>
 
-                       <StopScheduleModal></StopScheduleModal>
+           <AdjustByTimeModal></AdjustByTimeModal>
 
-                       <DelScheduleModal></DelScheduleModal>
+           <StopScheduleModal></StopScheduleModal>
 
+           <DelScheduleModal></DelScheduleModal>
 
-                       <Alert
+           <Alert
 
-                           className={`${this.state.isInitGuide?'init-guide':''}`}
+               className={`${this.state.isInitGuide?'init-guide':''}`}
 
-                           type={AppAlert.type}
-                              title={AppAlert.title}
-                              abstract={AppAlert.abstract}
-                              show={AppAlert.show}
-                              onClose={AppAlert.close}
-                              onCancel={AppAlert.cancel}
-                              onOk={AppAlert.ok}
-                              onHide={AppAlert.hide}
-                              okTitle={AppAlert.okTitle}
-                              cancelTitle={AppAlert.cancelTitle}>
+               type={AppAlert.type}
+                  title={AppAlert.title}
+                  abstract={AppAlert.abstract}
+                  show={AppAlert.show}
+                  onClose={AppAlert.close}
+                  onCancel={AppAlert.cancel}
+                  onOk={AppAlert.ok}
+                  onHide={AppAlert.hide}
+                  okTitle={AppAlert.okTitle}
+                  cancelTitle={AppAlert.cancelTitle}>
 
-                       </Alert>
+           </Alert>
 
-                        <ScheduleDetailModal
+            <ScheduleDetailModal
 
-                            Params={ScheduleDetail.ScheduleDetail}
+                Params={ScheduleDetail.ScheduleDetail}
 
-                            CanOperate={ScheduleDetail.Params.CanOperate}
+                CanOperate={ScheduleDetail.Params.CanOperate}
 
-                            StopSchedule={this.StopSchedule.bind(this)}
+                StopSchedule={this.StopSchedule.bind(this)}
 
-                            RebackStopSchedule={this.RebackStopSchedule.bind(this)}
+                RebackStopSchedule={this.RebackStopSchedule.bind(this)}
 
-                            ChangeTimeShow={this.ChangeTimeShow.bind(this)}
+                ChangeTimeShow={this.ChangeTimeShow.bind(this)}
 
-                            ScheduleDetailClose={this.ScheduleDetailClose.bind(this)}
+                ScheduleDetailClose={this.ScheduleDetailClose.bind(this)}
 
-                            RebackTime={this.RebackTime.bind(this)}
+                RebackTime={this.RebackTime.bind(this)}
 
-                            AdjustClassRoomShow={this.AdjustClassRoomShow.bind(this)}
+                AdjustClassRoomShow={this.AdjustClassRoomShow.bind(this)}
 
-                            RebackClassRoom={this.RebackClassRoom.bind(this)}
+                RebackClassRoom={this.RebackClassRoom.bind(this)}
 
-                            ChooseReplaceTeacherShow={this.ChooseReplaceTeacherShow.bind(this)}
+                ChooseReplaceTeacherShow={this.ChooseReplaceTeacherShow.bind(this)}
 
-                            ChangeScheduleShow={this.ChangeScheduleShow.bind(this)}
+                ChangeScheduleShow={this.ChangeScheduleShow.bind(this)}
 
-                            RebackReplaceSchedule={this.RebackReplaceSchedule.bind(this)}
+                RebackReplaceSchedule={this.RebackReplaceSchedule.bind(this)}
 
-                        >
+            >
 
-                        </ScheduleDetailModal>
+            </ScheduleDetailModal>
 
-                        <ChangeTimeModal
+            <ChangeTimeModal
 
-                            Params={ScheduleDetail.ChangeTime}
+                Params={ScheduleDetail.ChangeTime}
 
-                            SelectClassHour={this.SelectClassHour.bind(this)}
+                SelectClassHour={this.SelectClassHour.bind(this)}
 
-                            WeekPick={this.WeekPick.bind(this)}
+                WeekPick={this.WeekPick.bind(this)}
 
-                            CloseChangeTime={this.CloseChangeTime.bind(this)}
+                CloseChangeTime={this.CloseChangeTime.bind(this)}
 
-                            ChangeTimeCommit={this.ChangeTimeCommit.bind(this)}
+                ChangeTimeCommit={this.ChangeTimeCommit.bind(this)}
 
-                        >
+            >
 
-                        </ChangeTimeModal>
+            </ChangeTimeModal>
 
-                        <AdjustClassRoomModal
+            <AdjustClassRoomModal
 
-                            Params={ScheduleDetail.AdjustClassRoom}
+                Params={ScheduleDetail.AdjustClassRoom}
 
-                            ChangeClassRoomPick={this.ChangeClassRoomPick.bind(this)}
+                ChangeClassRoomPick={this.ChangeClassRoomPick.bind(this)}
 
-                            ChangeClassRoomType={this.ChangeClassRoomType.bind(this)}
+                ChangeClassRoomType={this.ChangeClassRoomType.bind(this)}
 
-                            SearchValueChange={this.SearchValueChange.bind(this)}
+                SearchValueChange={this.SearchValueChange.bind(this)}
 
-                            ClassRoomSearchClick={this.ClassRoomSearchClick.bind(this)}
+                ClassRoomSearchClick={this.ClassRoomSearchClick.bind(this)}
 
-                            ClassRoomSearchCancel={this.ClassRoomSearchCancel.bind(this)}
+                ClassRoomSearchCancel={this.ClassRoomSearchCancel.bind(this)}
 
-                            CloseAdjustClassRoom={this.CloseAdjustClassRoom.bind(this)}
+                CloseAdjustClassRoom={this.CloseAdjustClassRoom.bind(this)}
 
-                            AdjustClassRoomCommit={this.AdjustClassRoomCommit.bind(this)}
+                AdjustClassRoomCommit={this.AdjustClassRoomCommit.bind(this)}
 
-                        >
+            >
 
-                        </AdjustClassRoomModal>
+            </AdjustClassRoomModal>
 
-                        <ReplaceScheduleModal
+            <ReplaceScheduleModal
 
-                            Params={ScheduleDetail.ReplaceSchedule}
+                Params={ScheduleDetail.ReplaceSchedule}
 
-                            ReplaceTeacherPick={this.ReplaceTeacherPick.bind(this)}
+                ReplaceTeacherPick={this.ReplaceTeacherPick.bind(this)}
 
-                            SearchValueChange={this.ReplaceSearchValueChange.bind(this)}
+                SearchValueChange={this.ReplaceSearchValueChange.bind(this)}
 
-                            ReplaceSearchClick={this.ReplaceSearchClick.bind(this)}
+                ReplaceSearchClick={this.ReplaceSearchClick.bind(this)}
 
-                            ReplaceSearchCancel={this.ReplaceSearchCancel.bind(this)}
+                ReplaceSearchCancel={this.ReplaceSearchCancel.bind(this)}
 
-                            ReplaceScheduleClose={this.ReplaceScheduleClose.bind(this)}
+                ReplaceScheduleClose={this.ReplaceScheduleClose.bind(this)}
 
-                            ReplaceScheduleCommit={this.ReplaceScheduleCommit.bind(this)}
+                ReplaceScheduleCommit={this.ReplaceScheduleCommit.bind(this)}
 
-                        >
+            >
 
 
 
-                        </ReplaceScheduleModal>
+            </ReplaceScheduleModal>
 
-                        <ChangeScheduleModal></ChangeScheduleModal>
+            <ChangeScheduleModal></ChangeScheduleModal>
 
-                    </React.Fragment>
+        </React.Fragment>
 
         );
     }
