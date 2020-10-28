@@ -666,7 +666,7 @@ class Teacher extends Component {
       DataState: {
         MainData: {
           TeacherTree: { CollegeList, GroupList },
-          TeacherData: { Total, PageIndex, List },
+          TeacherData: { Total, PageIndex, List },TeacherRegisterData
         },
         CommonData: {
           RolePower: { LockerVersion_1, IsCollege },
@@ -739,14 +739,11 @@ class Teacher extends Component {
                       className="RegisterExamine"
                     >
                       教师注册审核
-                      {/* <i
-                        style={{
-                          display: DataState.GetSignUpLog.WillData.Total
-                            ? "inline-block"
-                            : "none",
-                        }}
-                        className="have-red"
-                      ></i> */}
+                      {TeacherRegisterData.Total ? (
+                        <i className="have-red"></i>
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </a>
                   <span className="divide">|</span>

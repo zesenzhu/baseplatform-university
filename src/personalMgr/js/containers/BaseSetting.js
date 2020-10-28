@@ -374,7 +374,7 @@ class BaseSetting extends Component {
     return true;
   };
   render() {
-    const { BaseSetting, LoginUser } = this.props;
+    const { BaseSetting, LoginUser:{identity} } = this.props;
 
     const {
       loadingShow,
@@ -669,11 +669,15 @@ class BaseSetting extends Component {
                   {UserType === 0 ? (
                     <React.Fragment>
                       <span
-                        className={`val ${Modules ? "link" : ""}`}
+                        // className={`val ${Modules ? "link" : ""}`}
+                        className={`val  `}
                         ref="module-detail"
-                        onClick={Modules ? this.roleLook.bind(this) : () => {}}
+                        title={identity&&identity.map((child,index)=>{
+                          return child.IdentityName+(identity.length-1===index?'':'、')
+                        })}
+                        // onClick={Modules ? this.roleLook.bind(this) : () => {}}
                       >
-                        {UserClass === 1
+                        {/* {UserClass === 1
                           ? "学校普通管理员"
                           : UserClass === 2
                           ? "学校超级管理员"
@@ -681,16 +685,19 @@ class BaseSetting extends Component {
                           ? "学院普通管理员"
                           : UserClass === 4
                           ? "学院超级管理员"
-                          : "管理员"}
+                          : "管理员"} */}
+                          {identity&&identity.map((child,index)=>{
+                            return child.IdentityName+(identity.length-1===index?'':'、')
+                          })}
                       </span>
 
-                      {Modules ? (
+                      {/* {Modules ? (
                         <span className="set-tips">
                           (点击可查看子系统访问权限)
                         </span>
                       ) : (
                         ""
-                      )}
+                      )} */}
                     </React.Fragment>
                   ) : (
                     ""
