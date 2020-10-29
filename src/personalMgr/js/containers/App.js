@@ -90,10 +90,14 @@ class App extends Component {
     dispatch({ type: LoginUserActions.UPDATE_LOGIN_USER, data: UserInfo });
 
     const isSafeSetting = getQueryVariable("isSafeSetting");
-    let ModuleID = ''
-    this.Frame.getIdentity({  }, (identify) => {
-
-    })
+    let ModuleID = "";
+    this.Frame.getIdentity({}, (identity) => {
+      // console.log(identify);
+      dispatch({
+        type: LoginUserActions.UPDATE_LOGIN_USER,
+        data: { ...UserInfo, identity },
+      });
+    });
 
     getBaseInfo({ UserID, UserType, dispatch }).then((data) => {
       if (data) {

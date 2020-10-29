@@ -3670,7 +3670,16 @@ class DetailsModal extends React.Component {
                 )}
               </span>
             </div>
-
+            {data.IdentityName ? (
+              <div className="row">
+                <span className="col-left">{"身份"}</span>
+                <span className="col-right" title={data.IdentityName}>
+                  {data.IdentityName}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
             {/* 用户档案 */}
             <div
               className="row"
