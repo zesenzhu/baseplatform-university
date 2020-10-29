@@ -72,6 +72,16 @@ function SelfDoubleSingleTable(props,ref){
 
         setColWidth(colWh);
 
+        if (schedule.length>6){
+
+            $('.self-double-single-table-wrapper').css({borderBottom:'1px solid #aaddea'})
+
+        }else{
+
+            $('.self-double-single-table-wrapper').css({borderBottom:'0'})
+
+        }
+
     });
 
 
@@ -110,7 +120,6 @@ function SelfDoubleSingleTable(props,ref){
         getScrollTop:ScrollRef.current.getScrollTop,
 
         scrollTop:ScrollRef.current.scrollTop
-
 
     }),[]);
 

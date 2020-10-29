@@ -22,6 +22,8 @@ const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
 
+const moment = require('moment');
+
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
 
@@ -64,7 +66,7 @@ checkBrowsers(paths.appPath, isInteractive)
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
-    copyPublicFolder();
+    createVersionFile();
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -193,3 +195,15 @@ function copyPublicFolder() {
     filter: file => file !== paths.appHtml,
   });*/
 }
+
+
+const createVersionFile = ()=>{
+
+    fs.writeFile(`${paths.appBuild}/university-version.txt`, `版本号：${new Date().getTime()},版本时间：${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}`, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The version file was saved!");
+    });
+
+};
