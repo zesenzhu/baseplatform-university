@@ -200,7 +200,7 @@ function copyPublicFolder() {
 const createVersionFile = ()=>{
 
 
-fs.writeFile(`${paths.appBuild}/university-version.txt`, `版本号：${new Date().getTime()},版本时间：${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}`, function(err) {
+fs.writeFile(`${paths.appBuild}/version.txt`, `版本名称:大学版,版本号：${new Date().getTime()},版本时间：${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}`, function(err) {
     if(err) {
         return console.log(err);
     }
