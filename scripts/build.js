@@ -199,11 +199,12 @@ function copyPublicFolder() {
 
 const createVersionFile = ()=>{
 
-    fs.writeFile(`${paths.appBuild}/university-version.txt`, `版本号：${new Date().getTime()},版本时间：${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}`, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-        console.log("The version file was saved!");
-    });
+
+fs.writeFile(`${paths.appBuild}/university-version.txt`, `版本号：${new Date().getTime()},版本时间：${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}`, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The version file was saved!");
+});
 
 };
