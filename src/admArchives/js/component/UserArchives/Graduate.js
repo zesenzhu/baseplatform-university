@@ -710,14 +710,14 @@ class Graduate extends Component {
               width={120}
               height={240}
               disabled={
-                collegeID  ? (Major.length > 0 ? false : true) : true
+                collegeID  ? (Major.length > 1 ? false : true) : true
               }
               dropSelectd={{
                 value: majorID,
                 title:
                   majorID 
                     ? majorName
-                    : collegeID  && Major.length === 0
+                    : collegeID  && Major.length <= 1
                     ? "暂无专业"
                     : "全部专业",
               }}
@@ -749,7 +749,7 @@ class Graduate extends Component {
                 collegeID  &&
                 majorID  &&
                 gradeID  &&
-                Class.length > 0
+                Class.length > 1
                   ? false
                   : true
               }
@@ -761,7 +761,7 @@ class Graduate extends Component {
                     : collegeID  &&
                       majorID  &&
                       gradeID  &&
-                      Class.length === 0
+                      Class.length <= 1
                     ? "暂无班级"
                     : "全部班级",
               }}

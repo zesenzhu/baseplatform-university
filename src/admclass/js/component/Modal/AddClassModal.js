@@ -128,9 +128,9 @@ class AddClassModal extends React.Component {
                 ref="Grade"
                 width={150}
                 height={240}
-                disabled={!SelectCollege.value ? true : false}
+                disabled={!SelectCollege.value||(SelectCollege.value && majorData[SelectCollege.value].length<1)  ? true : false}
                 // title="班级："
-                dropSelectd={SelectMajor}
+                dropSelectd={(SelectCollege.value && majorData[SelectCollege.value].length>=1)?SelectMajor:{value:0,title:SelectCollege.value?'暂无专业':'请选择专业'}}
                 dropList={
                   SelectCollege.value ? majorData[SelectCollege.value] : []
                 }

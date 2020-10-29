@@ -895,14 +895,14 @@ class RegisterExamine extends Component {
             width={120}
             height={240}
             disabled={
-              collegeID  ? (Group.length > 0 ? false : true) : true
+              collegeID  ? (Group.length > 1 ? false : true) : true
             }
             dropSelectd={{
               value: groupID,
               title:
                 groupID 
                   ? groupName
-                  : collegeID  && Group.length === 0
+                  : collegeID  && Group.length <= 1
                   ? "暂无教研室"
                   : "全部教研室",
             }}

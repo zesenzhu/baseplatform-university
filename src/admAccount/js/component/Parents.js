@@ -1868,8 +1868,23 @@ class Parents extends React.Component {
                 //   display:
                 //     this.state.firstSelect.value !== 0 ? "block" : "none",
                 // }}
-                disabled={this.state.firstSelect.value !== 0 ? false : true}
-                dropSelectd={this.state.secondSelect}
+                disabled={
+                  this.state.firstSelect.value !== 0 &&
+                  this.state.secondList.length > 1
+                    ? false
+                    : true
+                }
+                dropSelectd={
+                  this.state.secondList.length > 1
+                    ? this.state.secondSelect
+                    : {
+                        value: 0,
+                        title:
+                          this.state.firstSelect.value === 0
+                            ? "全部专业"
+                            : "暂无专业",
+                      }
+                }
                 dropList={this.state.secondList}
                 onChange={this.ParentsDropMenuSecond}
               ></DropDown>
@@ -1898,11 +1913,24 @@ class Parents extends React.Component {
                 disabled={
                   this.state.firstSelect.value !== 0 &&
                   this.state.secondSelect.value !== 0 &&
-                  this.state.thirdSelect.value !== 0
+                  this.state.thirdSelect.value !== 0 &&
+                  this.state.fourthList.length > 1
                     ? false
                     : true
                 }
-                dropSelectd={this.state.fourthSelect}
+                dropSelectd={
+                  this.state.fourthList.length > 1
+                    ? this.state.fourthSelect
+                    : {
+                        value: 0,
+                        title:
+                          this.state.firstSelect.value !== 0 &&
+                          this.state.secondSelect.value !== 0 &&
+                          this.state.thirdSelect.value !== 0
+                            ? "暂无班级"
+                            : "全部班级",
+                      }
+                }
                 dropList={this.state.fourthList}
                 onChange={this.ParentsDropMenuFourth}
               ></DropDown>

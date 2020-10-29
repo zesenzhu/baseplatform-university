@@ -1899,12 +1899,27 @@ class Student extends React.Component {
                 ref="dropMenuSecond"
                 width={120}
                 height={240}
-                disabled={this.state.firstSelect.value !== 0 ? false : true}
+                disabled={
+                  this.state.firstSelect.value !== 0 &&
+                  this.state.secondList.length > 1
+                    ? false
+                    : true
+                }
                 // style={{
                 //   display:
                 //     this.state.firstSelect.value !== 0 ? "block" : "none",
                 // }}
-                dropSelectd={this.state.secondSelect}
+                dropSelectd={
+                  this.state.secondList.length > 1
+                    ? this.state.secondSelect
+                    : {
+                        value: 0,
+                        title:
+                          this.state.firstSelect.value === 0
+                            ? "全部专业"
+                            : "暂无专业",
+                      }
+                }
                 dropList={this.state.secondList}
                 onChange={this.StudentDropMenuSecond}
               ></DropDown>
@@ -1933,11 +1948,24 @@ class Student extends React.Component {
                 disabled={
                   this.state.firstSelect.value !== 0 &&
                   this.state.secondSelect.value !== 0 &&
-                  this.state.thirdSelect.value !== 0
+                  this.state.thirdSelect.value !== 0 &&
+                  this.state.fourthList.length > 1
                     ? false
                     : true
                 }
-                dropSelectd={this.state.fourthSelect}
+                dropSelectd={
+                  this.state.fourthList.length > 1
+                    ? this.state.fourthSelect
+                    : {
+                        value: 0,
+                        title:
+                          this.state.firstSelect.value !== 0 &&
+                          this.state.secondSelect.value !== 0 &&
+                          this.state.thirdSelect.value !== 0
+                            ? "暂无班级"
+                            : "全部班级",
+                      }
+                }
                 dropList={this.state.fourthList}
                 onChange={this.StudentDropMenuFourth}
               ></DropDown>
