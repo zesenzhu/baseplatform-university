@@ -1018,7 +1018,7 @@ class RegisterExamine extends Component {
           onCancel={this.UserExamineMadalCancel}
           onFail={this.UserExamineMadalFail}
           data={ExamineDetails}
-          type="examine"
+          type="examineTeacher"
         ></DetailsModal>
       </div>
     );
