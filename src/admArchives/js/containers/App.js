@@ -84,6 +84,9 @@ class App extends Component {
     const { dispatch, DataState, PublicState } = this.props;
     // if (!PublicState.LoginMsg.isLogin) {
     // console.log(this.Frame.getIdentity)
+    let route = history.location.pathname.slice(1);
+    // console.log(history, route);
+    let pathArr = route.split("/");
     if (JSON.parse(sessionStorage.getItem("UserInfo"))) {
       let userMsg = 
         JSON.parse(sessionStorage.getItem("UserInfo"))
@@ -95,7 +98,11 @@ class App extends Component {
         return;
       }
       let ModuleID = "000012";
-      if (userMsg.UserType === "1") {
+      if (
+        userMsg.UserType === "1" &&
+        ((pathArr[0] === "ImportFile" && pathArr[1] === "Student") ||
+          pathArr[0] === "RegisterExamine")
+      ) {
         ModuleID = "000014";
       }
       // 数据请求前的处理

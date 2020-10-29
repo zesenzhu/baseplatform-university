@@ -40,17 +40,20 @@ class Admin extends React.Component {
       columns: [
         {
           title: "",
-          dataIndex: "handle",
+          // dataIndex: "handle",
           width: 68,
           key: "key",
           align: "left",
-          render: (handle) => {
+          render: (data) => {
+            let { handle, Others } = data;
+            let isCollege = Others && Others.UserClass > 2
             return (
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
                   <CheckBox
                     // type="gray"
-                    value={handle.key}
+                    disabled={isCollege} //UserClass>2为学院管理员
+                    value={isCollege?handle.key+'1':handle.key}
                     onChange={this.onCheckChange}
                   ></CheckBox>
                   <span className="key-content">
@@ -606,8 +609,12 @@ class Admin extends React.Component {
     console.log(this.state.checkedList);
     let Total = DataState.AdminPreview.Total;
 
-    let UserIDs = this.state.checkedList.map((child) => {
-      return DataState.AdminPreview.newList[child].UserName.UserID;
+    let UserIDs = [];
+    this.state.checkedList.map((child) => {
+      if (DataState.AdminPreview.newList[child].Others.UserClass <= 2) {
+        UserIDs.push(DataState.AdminPreview.newList[child].UserName.UserID);
+      }
+      // return DataState.AdminPreview.newList[child].UserName.UserID;
     });
     let len = UserIDs.length;
     let pagination = this.state.pagination - 1;
@@ -1072,8 +1079,8 @@ class Admin extends React.Component {
         ModulesIsChange = true;
       }
     }
-    console.log(isChange)
-    if(!isChange){
+    console.log(isChange);
+    if (!isChange) {
       dispatch(
         actions.UpUIState.showErrorAlert({
           type: "warn",
@@ -1081,7 +1088,7 @@ class Admin extends React.Component {
           onHide: this.onAlertWarnHide.bind(this),
         })
       );
-      return ;
+      return;
     }
     // console.log(Modules.length,len)
 
