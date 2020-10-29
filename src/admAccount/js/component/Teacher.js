@@ -1542,12 +1542,20 @@ class Teacher extends React.Component {
                 onChange={this.SecondDropMenu.bind(this)}
                 width={120}
                 height={240}
-                disabled={this.state.firstSelect.value === 0}
+                disabled={this.state.firstSelect.value === 0||this.state.secondList.length<=1}
                 // style={{
                 //   display:
                 //     this.state.firstSelect.value === 0 ? "none" : "block",
                 // }}
-                dropSelectd={this.state.secondSelect}
+                dropSelectd={this.state.secondList.length > 1
+                  ? this.state.secondSelect
+                  : {
+                      value: 0,
+                      title:
+                        this.state.firstSelect.value === 0
+                          ? "全部教研室"
+                          : "暂无教研室",
+                    }}
                 dropList={this.state.secondList}
               ></DropDown>
               {/* <DropDown

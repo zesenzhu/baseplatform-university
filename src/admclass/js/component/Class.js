@@ -377,14 +377,24 @@ class Class extends Component {
               height={240}
               // title="年级："
               title={IsCollege ? "专业：" : ""}
-              disabled={selectCollege.value ? false : true}
+              disabled={
+                selectCollege.value && MajorData[selectCollege.value].length > 1
+                  ? false
+                  : true
+              }
               dropSelectd={
                 // selectCollege.value
                 //   ? MajorData[selectCollege.value].le
                 //     ? selectMajor
                 //     : { value: "-1", title: "暂无专业" }
                 // :
-                selectMajor
+                MajorData[selectCollege.value] &&
+                MajorData[selectCollege.value].length > 1
+                  ? selectMajor
+                  : {
+                      value: 0,
+                      title: selectCollege.value ? "暂无专业" : "全部专业",
+                    }
               }
               dropList={MajorData[selectCollege.value]}
               onChange={this.onMajorChange}
@@ -395,7 +405,11 @@ class Class extends Component {
 
             <DropDown
               ref="Grade"
-              style={{ zIndex: 10, position: "absolute", left: IsCollege?'280px':"410px" }}
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                left: IsCollege ? "280px" : "410px",
+              }}
               width={120}
               height={240}
               title="年级："
