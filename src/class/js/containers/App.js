@@ -1395,11 +1395,16 @@ class App extends Component {
   RequestData = () => {
     const { dispatch, DataState, UIState } = this.props;
     const hash = location.hash;
-
-    this.Frame.getIdentity({ ModuleID: "000014" }, () => {
-      let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
+    let UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
       let { UserType, UserClass } = UserInfo;
+    let ModuleID =  '000014';
+    if(UserType==='0'){
+      ModuleID = '000011'
+    }
+    // return;
+    this.Frame.getIdentity({ ModuleID }, () => {
+      
       if (UserType === "7" || UserType === "10") {
         UserInfo.UserClass = "2";
         UserInfo.UserType = "7";

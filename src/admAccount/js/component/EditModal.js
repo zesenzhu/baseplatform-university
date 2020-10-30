@@ -78,6 +78,7 @@ class EditModal extends React.Component {
           Weixin: this.state.data.Others.Weixin,
           Weibo: this.state.data.Others.Weibo,
           IdentityIDs: this.state.data.Others.IdentityIDs,
+          UserClass: this.state.data.Others.UserClass,
         })
       );
       dispatch(
@@ -90,6 +91,7 @@ class EditModal extends React.Component {
           Weixin: this.state.data.Others.Weixin,
           Weibo: this.state.data.Others.Weibo,
           IdentityIDs: this.state.data.Others.IdentityIDs,
+          UserClass: this.state.data.Others.UserClass,
         })
       );
       this.state.PowerList.map((power, index) => {
@@ -716,7 +718,7 @@ class EditModal extends React.Component {
     let {
       AdminPreview: {
         IdentityType,
-        TrasferData: { IdentityIDs },
+        TrasferData: { IdentityIDs, UserClass },
       },
     } = DataState;
     let IdentityCode =
@@ -825,7 +827,7 @@ class EditModal extends React.Component {
                   getPopupContainer={(e) => e.parentNode}
                   autoAdjustOverflow={false}
                 >
-                  {IdentityCode === "IC0009" ? (
+                  {UserClass!=undefined&&UserClass > 2 ? (
                     <p
                       className="empty"
                       style={{ margin: 0, lineHeight: "40px" }}
