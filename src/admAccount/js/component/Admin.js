@@ -46,14 +46,14 @@ class Admin extends React.Component {
           align: "left",
           render: (data) => {
             let { handle, Others } = data;
-            let isCollege = Others && Others.UserClass > 2
+            let isCollege = Others && Others.UserClass > 2;
             return (
               <div className="registerTime-content">
                 <label style={{ whiteSpace: "nowrap" }}>
                   <CheckBox
                     // type="gray"
                     disabled={isCollege} //UserClass>2为学院管理员
-                    value={isCollege?handle.key+'1':handle.key}
+                    value={isCollege ? handle.key + "1" : handle.key}
                     onChange={this.onCheckChange}
                   ></CheckBox>
                   <span className="key-content">
@@ -512,8 +512,28 @@ class Admin extends React.Component {
   // }
 
   onDeleteAllClick = () => {
-    const { dispatch } = this.props;
+    const { dispatch, DataState } = this.props;
     //  console.log(this.state.checkedList)
+    let UserIDs = [];
+    this.state.checkedList.map((child) => {
+      if (DataState.AdminPreview.newList[child].Others.UserClass <= 2) {
+        UserIDs.push(DataState.AdminPreview.newList[child].UserName.UserID);
+      }
+      // return DataState.AdminPreview.newList[child].UserName.UserID;
+    });
+    if (UserIDs.length === 0) {
+      dispatch(
+        actions.UpUIState.showErrorAlert({
+          type: "warn",
+          title: "学院管理员不允许删除",
+          ok: this.onAlertWarnOk.bind(this),
+          cancel: this.onAlertWarnClose.bind(this),
+          close: this.onAlertWarnClose.bind(this),
+          onHide: this.onAlertWarnHide.bind(this),
+        })
+      );
+      return
+    }
     if (this.state.checkedList.length === 0) {
       dispatch(
         actions.UpUIState.showErrorAlert({
@@ -606,7 +626,7 @@ class Admin extends React.Component {
   onAlertDeleteOk = () => {
     const { dispatch, DataState } = this.props;
     let url = "/DeleteAdmin_univ";
-    console.log(this.state.checkedList);
+    // console.log(this.state.checkedList);
     let Total = DataState.AdminPreview.Total;
 
     let UserIDs = [];
