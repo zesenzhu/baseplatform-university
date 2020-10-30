@@ -84,7 +84,7 @@ class App extends Component {
 
       let ModuleID = '';
 
-      if (UserInfoCopy.UserType===0){
+      if ([0,7,10].includes(UserInfoCopy.UserType)){
 
           ModuleID = '000005';
 
@@ -98,12 +98,11 @@ class App extends Component {
 
       }
 
-
       this.Frame.getIdentity({ModuleID},(identify)=>{
 
               const isCollegeManager = identify&&identify[0].IdentityCode==='IC0009';
 
-              dispatch(userIndetifyChange({isCollegeManager,identifyList:identify}));
+              dispatch(userIndetifyChange({isCollegeManager,identifyList:identify?identify:[]}));
 
               if (isCollegeManager){
 

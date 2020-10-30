@@ -3161,7 +3161,41 @@ class Frame extends React.Component {
 
                       }
 
-                      <a
+
+                        {
+
+                            userInfo && userInfo.name?
+
+                                userInfo.noClick?
+
+                                    <a className="frame-home-username no-click" title={userInfo.name}>{userInfo.name}</a>
+
+                                    :
+
+                                    <a href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`} target="_blank" className="frame-home-username" title={userInfo.name}>{userInfo.name}</a>
+
+                                :null
+
+                        }
+
+
+                        {
+                            userInfo && userInfo.image?
+
+                                userInfo.noClick?
+
+                                    <a className="frame-home-userpic no-click" style={{ backgroundImage: `url(${userInfo.image})` }}></a>
+
+                                    :
+
+                                    <a href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`} target="_blank" className="frame-home-userpic" style={{ backgroundImage: `url(${userInfo.image})` }}></a>
+
+                                : null
+
+                        }
+
+
+                      {/*<a
                         href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
                         target="_blank"
                         className="frame-home-username"
@@ -3170,6 +3204,7 @@ class Frame extends React.Component {
                         {userInfo && userInfo.name ? userInfo.name : ""}
                       </a>
 
+
                       {userInfo && userInfo.image ? (
                         <a
                           href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
@@ -3177,7 +3212,8 @@ class Frame extends React.Component {
                           className="frame-home-userpic"
                           style={{ backgroundImage: `url(${userInfo.image})` }}
                         ></a>
-                      ) : null}
+                      ) : null}*/}
+
                     </div>
 
                     {MessageShow ? (
