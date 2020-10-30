@@ -7,8 +7,6 @@ import {fetch} from 'whatwg-fetch'
 import $ from 'jquery'
 
 import config from './config'
-import {getData} from "../../../common/js/fetch";
-import CONFIG from "../../../common/js/config";
 
 
 //get
@@ -191,9 +189,7 @@ export const GetSelfIdentity = async () => {
 
     const {UserID} = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-    const result = await getData(`${CONFIG.Import}/UserMgr/PowerMgr/GetIdentityTypeByUserID?UserID=${UserID}`,2);
-
-    const res = await result.json();
+    const res = await getGetData(`/UserMgr/PowerMgr/GetIdentityTypeByUserID?UserID=${UserID}`,2);
 
     if (res.StatusCode===200){
 
@@ -209,9 +205,7 @@ export const GetIdentityTypeByCode = async (IdentityCodes) => {
 
     const {SchoolID} = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-    const result = await getData(`${CONFIG.Import}/UserMgr/PowerMgr/GetIdentityTypeByCode?SchoolID=${SchoolID}&IdentityCodes=${IdentityCodes}`,2);
-
-    const res = await result.json();
+    const res = await getGetData(`/UserMgr/PowerMgr/GetIdentityTypeByCode?SchoolID=${SchoolID}&IdentityCodes=${IdentityCodes}`,2);
 
     if (res.StatusCode===200){
 
