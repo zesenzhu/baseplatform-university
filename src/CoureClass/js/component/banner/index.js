@@ -20,6 +20,10 @@ import {showSuccessAlert,subNameReg} from "../../actions/utils";
 
 import {InsertOrEditCourseClass_University} from '../../actions/apiActions';
 
+import {checkUrlAndPostMsg} from "../../../../common/js/public";
+
+import config from '../../../../common/js/config';
+
 function Index(props) {
 
 
@@ -44,7 +48,7 @@ function Index(props) {
 
     const LoginUser = useSelector(state=>state.LoginUser);
 
-    const {LogCount} = useSelector(state=>state.commonSetting);
+    const {LogCount,iFrame} = useSelector(state=>state.commonSetting);
 
     const { tab,log,btn} = useSelector(state=>state.bannerState);
 
@@ -169,7 +173,24 @@ function Index(props) {
 
     },[]);
 
+    //查看详情iframe
+    const lookDetail = useCallback(()=>{
 
+        const url = config.HashPrevProxy+location.pathname+location.search+'#/Log/Dynamic';
+
+        checkUrlAndPostMsg({btnName:'查看详情',url});
+
+    },[]);
+
+    //导入教学班
+
+    const importCourseClass = useCallback(()=>{
+
+        const url = config.HashPrevProxy+location.pathname+location.search+'#/Import';
+
+        checkUrlAndPostMsg({btnName:'导入教学班',url});
+
+    },[]);
 
 
 
@@ -197,7 +218,17 @@ function Index(props) {
 
                     <span className="tips">当前共有<span className={"red"}>{LogCount}</span>条更新记录
 
-                        <NavLink target={"_blank"} to={"/Log/Dynamic"} className="tips_handle">查看详情</NavLink>
+                        {
+
+                            iFrame?
+
+                                <a onClick={lookDetail} type={"link"} className="tips_handle">查看详情</a>
+
+                                :
+
+                                <NavLink target={"_blank"} to={"/Log/Dynamic"} className="tips_handle">查看详情</NavLink>
+
+                        }
 
                     </span>
 
@@ -223,18 +254,41 @@ function Index(props) {
                                 value="添加教学班"
                                 shape="round">添加教学班</Button>
 
-                            <NavLink to={"/ImportFile"} target="_blank">
+                            {
 
-                                <Button
-                                    className="content content-button"
-                                    height="24"
-                                    type="primary"
-                                    color="blue"
-                                    value="导入教学班"
-                                    shape="round"
-                                >导入教学班</Button>
+                                iFrame?
 
-                            </NavLink>
+                                    <a onClick={importCourseClass}>
+
+                                        <Button
+                                            className="content content-button"
+                                            height="24"
+                                            type="primary"
+                                            color="blue"
+                                            value="导入教学班"
+                                            shape="round"
+                                        >导入教学班</Button>
+
+                                    </a>
+
+                                    :
+
+                                    <NavLink to={"/ImportFile"} target="_blank">
+
+                                        <Button
+                                            className="content content-button"
+                                            height="24"
+                                            type="primary"
+                                            color="blue"
+                                            value="导入教学班"
+                                            shape="round"
+                                        >导入教学班</Button>
+
+                                    </NavLink>
+
+                            }
+
+
                         </div>
 
                         :null
@@ -249,7 +303,7 @@ function Index(props) {
             width={800}
             destroyOnClose={true}
             title={"添加教学班"}
-            bodyStyle={{ height:520,padding:0}}
+            bodyStyle={{ height:iFrame?400:520,padding:0}}
             visible={addEditCourse.show}
             onOk={addEditOk}
             onCancel={e=>setAddEditCourse(data=>({...data,show:false,CourseInfo:{CourseNO:'',CourseName:''}}))}

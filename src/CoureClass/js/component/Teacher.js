@@ -34,9 +34,11 @@ function Teacher(props){
     const [aiPractice,setAiPractice] = useState(false);
 
     //props
-    const { DataState,UIState,dispatch } = props;
+    const { DataState,UIState,dispatch,commonSetting } = props;
 
     const {GetTeacherCourseClassMsg,LoginUser } = DataState;
+
+    const {iFrame} = commonSetting;
 
     const { CourseClassSource } = GetTeacherCourseClassMsg;
 
@@ -221,13 +223,15 @@ function Teacher(props){
 
         }
 
+            {console.log(iFrame?400:520)}
+
             <Modal
                 className={"add-edit-course-class-modal"}
                 type="1"
                 width={800}
                 destroyOnClose={true}
                 title={"编辑教学班"}
-                bodyStyle={{ height:520,padding: 0 }}
+                bodyStyle={{height:iFrame?400:520,padding:0}}
                 visible={addEditCourse.show}
                 onOk={addEditOk}
                 onCancel={e=>setAddEditCourse(false)}
@@ -252,10 +256,11 @@ function Teacher(props){
 }
 
 const mapStateToProps = state => {
-  let { UIState, DataState } = state;
+  let { UIState, DataState,commonSetting } = state;
   return {
     UIState,
-    DataState
+    DataState,
+    commonSetting
   };
 };
 export default memo(connect(mapStateToProps)(Teacher));

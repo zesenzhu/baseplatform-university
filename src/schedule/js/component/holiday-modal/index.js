@@ -35,6 +35,8 @@ function Holiday(props) {
     const [selectdDate,setSelectdDate] = useState([]);
 
     const {SchoolID,UserID} = useSelector(state=>state.LoginUser);
+
+    const {iFrame} = useSelector(state=>state.frames);
     
     const dispatch = useDispatch();
 
@@ -271,7 +273,7 @@ function Holiday(props) {
 
             width={1000}
 
-            bodyStyle={{height:600,padding:0}}
+            bodyStyle={{height:iFrame?500:600,padding:0}}
 
             visible={show}
 
@@ -299,7 +301,7 @@ function Holiday(props) {
 
                 <div className={"top-tips"}>请勾选非周末日期设为校内节假日(周末默认为节假日)，节假日默认情况下不会安排课程。</div>
 
-                <Scrollbars style={{height:552}}>
+                <Scrollbars style={{height:iFrame?452:552}}>
 
                     <ul className={"canlender-wrapper"}>
 

@@ -539,11 +539,13 @@ class Modal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+
     const { title, bodyStyle, className, footer, mask } = nextProps;
 
     this.selectType(this.props.type);
 
     this.setState({ title: title, bodyStyle, className, footer, mask });
+
   }
 
   // 拖拽modal

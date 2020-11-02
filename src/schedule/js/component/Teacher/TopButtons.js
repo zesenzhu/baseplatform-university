@@ -4,25 +4,22 @@ import { Button } from "../../../../common";
 
 import {getQueryVariable} from "../../../../common/js/disconnect";
 
+import {useSelector} from 'react-redux';
+
 function TopButtons(props){
 
-    const [isFrame,setIsFrame] = useState(false);
-
     const [aiPractice,setAiPractice] = useState(false);
+
+    const {frames} = useSelector(state=>state);
 
 
     const { Power } = props;
 
     const {AdjustScheduleShow,AddTempScheduleShow,Import} = props;
 
+    const {iFrame} = frames;
 
     useEffect(()=>{
-
-        if (getQueryVariable('iFrame')){
-
-            setIsFrame(true);
-
-        }
 
         if (getQueryVariable('aiPractice')){
 
@@ -30,10 +27,9 @@ function TopButtons(props){
 
         }
 
-
     },[]);
 
-
+    console.log(iFrame);
 
         return (
 
@@ -57,7 +53,7 @@ function TopButtons(props){
 
                             {
 
-                                !isFrame?
+                                !iFrame?
 
                                     <Button color="blue" className="teacher-btn import-schedule" onClick={()=>Import()}>导入课程安排</Button>
 

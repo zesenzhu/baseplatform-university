@@ -30,6 +30,10 @@ import CombineCourseClass from "../Manager/CombineCourseClass";
 
 import {leftMemuHide} from "../../reducers/leftMenu";
 
+import {checkUrlAndPostMsg} from "../../../../common/js/public";
+
+import config from '../../../../common/js/config';
+
 import './index.scss';
 
 import actions from "../../actions";
@@ -181,6 +185,8 @@ function Index(props) {
     const { collegeID,collegeName,gradeID,gradeName,subjectID,subjectName,courseType,courseTypeName,courseName,courseID,teachingRoomID,teachingRoomName,teacherID,teacherName } = useSelector(state=>state.breadCrumb.manage);
 
     const {UserType,UserClass,SchoolID,UserID} = LoginUser;
+
+    const {iFrame} = useSelector(state=>state.commonSetting);
 
     const dispatch = useDispatch();
 
@@ -631,9 +637,19 @@ function Index(props) {
     //导入教学班
     const importCourseClass = ()=>{
 
-        const token = sessionStorage.getItem("token");
+        if (iFrame){
 
-        window.open("/html/CoureClass#/ImportFile?lg_tk="+token);
+            const url = config.HashPrevProxy+location.pathname+location.search+'#/ImportFile';
+
+            checkUrlAndPostMsg({btnName:'导入教学班',url});
+
+        }else{
+
+            const token = sessionStorage.getItem("token");
+
+            window.open("/html/CoureClass#/ImportFile?lg_tk="+token);
+
+        }
 
     };
 
@@ -1751,7 +1767,7 @@ function Index(props) {
 
                 title={`${addEditCourse.isEdit?'编辑':'添加'}教学班`}
 
-                bodyStyle={{ height:520,padding: 0 }}
+                bodyStyle={{height:iFrame?400:520,padding:0}}
 
                 visible={addEditCourse.show}
 
