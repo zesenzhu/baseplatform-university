@@ -521,19 +521,7 @@ class Admin extends React.Component {
       }
       // return DataState.AdminPreview.newList[child].UserName.UserID;
     });
-    if (UserIDs.length === 0) {
-      dispatch(
-        actions.UpUIState.showErrorAlert({
-          type: "warn",
-          title: "学院管理员不允许删除",
-          ok: this.onAlertWarnOk.bind(this),
-          cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this),
-        })
-      );
-      return
-    }
+    
     if (this.state.checkedList.length === 0) {
       dispatch(
         actions.UpUIState.showErrorAlert({
@@ -546,6 +534,19 @@ class Admin extends React.Component {
         })
       );
     } else {
+      if (UserIDs.length === 0) {
+        dispatch(
+          actions.UpUIState.showErrorAlert({
+            type: "warn",
+            title: "学院管理员不允许删除",
+            ok: this.onAlertWarnOk.bind(this),
+            cancel: this.onAlertWarnClose.bind(this),
+            close: this.onAlertWarnClose.bind(this),
+            onHide: this.onAlertWarnHide.bind(this),
+          })
+        );
+        return;
+      }
       dispatch(
         actions.UpUIState.showErrorAlert({
           type: "btn-query",
