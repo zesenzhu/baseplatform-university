@@ -382,7 +382,7 @@ class Teacher extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetTeacherParams({
-        searchValue: e.target.value.trim(),
+        searchValue: e.target.value,
       })
     );
   };
@@ -411,7 +411,7 @@ class Teacher extends Component {
     } = this.props;
     dispatch(
       CommonAction.SetTeacherParams({
-        keyword: e.value,
+        keyword: e.value.trim(),
         searchValue: e.value,
         cancelBtnShow: "y",
         pageIndex: 0,

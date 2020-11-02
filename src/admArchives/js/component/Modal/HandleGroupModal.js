@@ -118,7 +118,7 @@ class HandleGroupModal extends Component {
 
     dispatch(
       CommonAction.SetGroupEditParams({
-        GroupName: e.target.value.trim(),
+        GroupName: e.target.value,
       })
     );
   };

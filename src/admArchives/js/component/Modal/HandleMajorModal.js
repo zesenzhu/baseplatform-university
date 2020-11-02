@@ -117,7 +117,7 @@ class HandleMajorModal extends Component {
 
     dispatch(
       CommonAction.SetMajorEditParams({
-        MajorName: e.target.value.trim(),
+        MajorName: e.target.value,
       })
     );
   };
