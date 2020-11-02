@@ -34,13 +34,13 @@ class HandleCollegeModal extends Component {
   onCollegeCodeChange = (e)=>{
     const {dispatch} = this.props;
     dispatch(DataChange.setCollegeMsg({
-      CollegeCode:e.target.value.trim()
+      CollegeCode:e.target.value 
     }))
   }
   onCollegeCodeBlur = (e)=>{
     const {dispatch} = this.props;
     dispatch(DataChange.checkCollegeCode(()=>{
-      console.log('sussess')
+      // console.log('sussess')
     }))
 
      
@@ -48,13 +48,13 @@ class HandleCollegeModal extends Component {
   onCollegeNameChange = (e)=>{
     const {dispatch} = this.props;
     dispatch(DataChange.setCollegeMsg({
-      CollegeName:e.target.value.trim()
+      CollegeName:e.target.value 
     }))
   }
   onCollegeNameBlur = (e)=>{
     const {dispatch} = this.props;
     dispatch(DataChange.checkCollegeName(()=>{
-      console.log('sussess')
+      // console.log('sussess')
     }))
      
   }

@@ -430,7 +430,7 @@ class Admin extends React.Component {
     this.setState({
       checkedList: [],
       checkAll: false,
-      keyword: e.value,
+      keyword: e.value.trim(),
       CancelBtnShow: "y",
       // pagination: 1
     });
@@ -441,7 +441,7 @@ class Admin extends React.Component {
           "&PageIndex=0&PageSize=" +
           this.state.pageSize +
           "&keyword=" +
-          e.value +
+          e.value.trim() +
           this.state.sortFiled +
           this.state.sortType
       )
@@ -449,7 +449,7 @@ class Admin extends React.Component {
   };
   onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value.trim(),
+      searchValue: e.target.value,
     });
   };
 
@@ -521,19 +521,7 @@ class Admin extends React.Component {
       }
       // return DataState.AdminPreview.newList[child].UserName.UserID;
     });
-    if (UserIDs.length === 0) {
-      dispatch(
-        actions.UpUIState.showErrorAlert({
-          type: "warn",
-          title: "学院管理员不允许删除",
-          ok: this.onAlertWarnOk.bind(this),
-          cancel: this.onAlertWarnClose.bind(this),
-          close: this.onAlertWarnClose.bind(this),
-          onHide: this.onAlertWarnHide.bind(this),
-        })
-      );
-      return
-    }
+    
     if (this.state.checkedList.length === 0) {
       dispatch(
         actions.UpUIState.showErrorAlert({
@@ -546,6 +534,19 @@ class Admin extends React.Component {
         })
       );
     } else {
+      if (UserIDs.length === 0) {
+        dispatch(
+          actions.UpUIState.showErrorAlert({
+            type: "warn",
+            title: "学院管理员不允许删除",
+            ok: this.onAlertWarnOk.bind(this),
+            cancel: this.onAlertWarnClose.bind(this),
+            close: this.onAlertWarnClose.bind(this),
+            onHide: this.onAlertWarnHide.bind(this),
+          })
+        );
+        return;
+      }
       dispatch(
         actions.UpUIState.showErrorAlert({
           type: "btn-query",
@@ -1247,7 +1248,7 @@ class Admin extends React.Component {
         userID:
           DataState.AdminPreview.newList[this.state.onClickKey].UserName.UserID,
         userType: 0,
-        newPwd: md5(pwd),
+        newPwd: md5(pwd.trim()),
       },
       2
     )
@@ -1316,7 +1317,7 @@ class Admin extends React.Component {
     const { dispatch } = this.props;
     //  console.log(e.target.value)
     this.setState({
-      defaultPwd: e.target.value.trim(),
+      defaultPwd: e.target.value,
     });
   };
 

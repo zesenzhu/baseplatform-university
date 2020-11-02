@@ -59,7 +59,7 @@ const getCollegePreview = (
     }} = getState();
     console.log(getState())
     let SchoolID = JSON.parse(sessionStorage.getItem("UserInfo")).SchoolID;
-    let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/List?SchoolID=${SchoolID}&keyword=${keyword}&index=${index}&pageSize=${pageSize}&SortType=${sortType}&SortFiled=${sortFiled}`;
+    let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/List?SchoolID=${SchoolID}&keyword=${keyword.trim()}&index=${index}&pageSize=${pageSize}&SortType=${sortType}&SortFiled=${sortFiled}`;
     ApiActions.getMethodUniv(url).then((json) => {
       // console.log(json.StatusCode)
       if (json.StatusCode === 200) {
@@ -504,7 +504,7 @@ const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
       );
       error = true;
     } else if (!Test.test(CollegeName)) {
-      // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称格式不正确'}})
+      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称格式不正确'}})
       dispatch(
         UpUIState.editModalTipsVisible({
           CollegeNameTipsVisible: true,
@@ -593,8 +593,8 @@ const EditCollege = ({
     ApiActions.postMethodUniv(url, {
       SchoolID,
       CollegeID,
-      CollegeCode,
-      CollegeName,
+      CollegeCode:CollegeCode.trim(),
+      CollegeName:CollegeName.trim(),
     }).then((json) => {
       if (json.StatusCode === 200) {
         dispatch(AppAlertAction.alertSuccess({ title: `修改学院成功` }));
@@ -647,8 +647,8 @@ const AddCollege = ({
     let url = `${config.SystemSettingProxy_univ}/SysMgr/Setting/College/AddCollege`;
     ApiActions.postMethodUniv(url, {
       SchoolID,
-      CollegeName,
-      CollegeCode,
+      CollegeName:CollegeName.trim(),
+      CollegeCode:CollegeCode.trim(),
     }).then((json) => {
       console.log(json);
       if (json.StatusCode === 200) {

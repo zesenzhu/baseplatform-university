@@ -161,16 +161,16 @@ class Class extends Component {
   //
   onEditNameChange = (e) => {
     let { dispatch } = this.props;
-    this.checkName(e.target.value.trim());
+    this.checkName(e.target.value );
     dispatch(
       UpDataState.SetClassData({
-        ClassName: e.target.value.trim(),
+        ClassName: e.target.value ,
       })
     );
   };
   onEditNameBlur = (e) => {
     let { dispatch } = this.props;
-    this.checkName(e.target.value.trim());
+    this.checkName(e.target.value );
 
     // dispatch(
     //   UpDataState.SetGradeData({
@@ -234,7 +234,7 @@ class Class extends Component {
     console.log(e);
     dispatch(
       UpDataState.SetClassParams({
-        Keyword: e.value,
+        Keyword: e.value.trim(),
         CancelBtnShow: "y",
         PageIndex: 0,
       })

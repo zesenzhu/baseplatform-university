@@ -448,7 +448,7 @@ class SchoolnfoSetting extends Component {
           ApiActions.postMethod("/SysMgr/Setting/EditSchoolInfo_Univ", {
             UserID: UserID,
             SchoolID: SchoolID,
-            SchoolName: SchoolName,
+            SchoolName: SchoolName.trim(),
             SchoolCode: SchoolCode,
             SchoolTel: SchoolTel,
             SchoolLinkman: SchoolLinkman,
@@ -576,8 +576,8 @@ class SchoolnfoSetting extends Component {
       ...schoolInfo,
       SchoolCode:
         e.target.value.length > 20
-          ? valueableCode.trim()
-          : e.target.value.trim(),
+          ? valueableCode 
+          : e.target.value ,
     };
 
     dispatch({
@@ -643,8 +643,8 @@ class SchoolnfoSetting extends Component {
       ...schoolInfo,
       SchoolName:
         e.target.value.length > 20
-          ? valueableLength.trim()
-          : e.target.value.trim(),
+          ? valueableLength 
+          : e.target.value ,
     };
 
     dispatch({
@@ -810,14 +810,14 @@ class SchoolnfoSetting extends Component {
     this.setState({
       checkedList: [],
       checkAll: false,
-      keyword: "&keyword=" + e.value,
+      keyword: "&keyword=" + e.value.trim(),
       searchValue: e.value,
       CancelBtnShow: "y",
       // pagination: 1
     });
     dispatch(
       DataChange.getCollegePreview(
-        e.value,
+        e.value.trim(),
         1,
         this.state.sortType,
         this.state.sortFiled,
@@ -829,7 +829,7 @@ class SchoolnfoSetting extends Component {
   // 修改搜索关键字
   onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value.trim(),
+      searchValue: e.target.value ,
     });
   };
   // 添加学院
@@ -1149,8 +1149,8 @@ class SchoolnfoSetting extends Component {
     }
     dispatch(
       DataChange.AddCollege({
-        CollegeCode: DataUpdate.handleCollegeMsg.CollegeCode,
-        CollegeName: DataUpdate.handleCollegeMsg.CollegeName,
+        CollegeCode: DataUpdate.handleCollegeMsg.CollegeCode.trim(),
+        CollegeName: DataUpdate.handleCollegeMsg.CollegeName.trim(),
         success: () => {
           dispatch(UpUIState.addCollegeModalClose());
           this.setState({

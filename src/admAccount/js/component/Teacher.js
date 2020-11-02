@@ -621,7 +621,7 @@ class Teacher extends React.Component {
       return;
     }
     this.setState({
-      keyword: e.value,
+      keyword: e.value.trim(),
       CancelBtnShow: "y",
       pagination: 1,
       checkedList: [],
@@ -634,7 +634,7 @@ class Teacher extends React.Component {
           "&PageIndex=0&PageSize=" +
           this.state.pageSize +
           "&keyword=" +
-          e.value +
+          e.value.trim() +
           "&collegeID=" +
           (this.state.firstSelect.value ? this.state.firstSelect.value : "") +
           "&GroupID=" +
@@ -647,7 +647,7 @@ class Teacher extends React.Component {
   //搜索change
   onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value.trim(),
+      searchValue: e.target.value ,
     });
   };
   // 取消搜索
@@ -864,7 +864,7 @@ class Teacher extends React.Component {
             DataState.SubjectTeacherPreview.newList[this.state.onClickKey]
               .Others.UserID,
           userType: 1,
-          newPwd: md5(this.state.defaultPwd),
+          newPwd: md5(this.state.defaultPwd.trim()),
         },
         2
       )
@@ -939,7 +939,7 @@ class Teacher extends React.Component {
         {
           userID: userIDs.join(),
           userType: 1,
-          newPwd: md5(this.state.defaultPwd),
+          newPwd: md5(this.state.defaultPwd.trim()),
         },
         2
       )
@@ -1034,7 +1034,7 @@ class Teacher extends React.Component {
     const { dispatch } = this.props;
     // console.log(e.target.value)
     this.setState({
-      defaultPwd: e.target.value.trim(),
+      defaultPwd: e.target.value ,
     });
   };
   onAlertWarnClose = () => {

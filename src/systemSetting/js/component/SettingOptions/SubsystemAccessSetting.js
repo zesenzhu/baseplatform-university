@@ -57,7 +57,7 @@ class SubsystemAccessSetting extends Component {
 
 
             // })
-            dispatch(DataChange.getCurrentSbusystemInfo({ "IsOpened": this.state.AccessDropValue, "UserType": this.state.UserDropValue, "keyword": e.value }));
+            dispatch(DataChange.getCurrentSbusystemInfo({ "IsOpened": this.state.AccessDropValue, "UserType": this.state.UserDropValue, "keyword": e.value.trim() }));
 
         }
 
