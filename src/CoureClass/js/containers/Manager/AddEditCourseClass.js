@@ -135,6 +135,8 @@ function AddEditCourseClass(props,ref) {
 
     const LoginUser = useSelector(state=>state.LoginUser);
 
+    const {iFrame} = useSelector(state=>state.commonSetting);
+
     const dispatch = useDispatch();
 
     const { SchoolID,UserID,UserType,UserName } = LoginUser;
@@ -847,7 +849,7 @@ function AddEditCourseClass(props,ref) {
 
                         <span className="right right-2">
 
-                        <div className="Student-box">
+                        <div className="Student-box" style={{height:iFrame?260:372}}>
 
                           <div className="box-top">
 
@@ -914,9 +916,9 @@ function AddEditCourseClass(props,ref) {
 
                                           }
 
-                                          <div className={`class-list-wrapper list-wrapper ${stuClasses.stuList.length===0?'no-border':''}`}>
+                                          <div className={`class-list-wrapper list-wrapper ${stuClasses.stuList.length===0?'no-border':''}`} style={{height:iFrame?80:140}}>
 
-                                              <Scrollbars style={{height:stuClasses.stuList.length>0?130:324}}>
+                                              <Scrollbars style={stuClasses.stuList.length>0?{height:iFrame?74:122}:{height:iFrame?216:310}}>
 
                                                   <div className={"card-wrapper"}>
 
@@ -974,9 +976,9 @@ function AddEditCourseClass(props,ref) {
 
                                           }
 
-                                          <div className={`stu-list-wrapper list-wrapper ${stuClasses.classList.length===0?'no-border':''}`}>
+                                          <div className={`stu-list-wrapper list-wrapper ${stuClasses.classList.length===0?'no-border':''}`} style={{height:iFrame?80:140}}>
 
-                                              <Scrollbars style={{height:stuClasses.classList.length>0?130:324}}>
+                                              <Scrollbars style={stuClasses.classList.length>0?{height:iFrame?74:122}:{height:iFrame?216:310}}>
 
                                                   <div className={"card-wrapper"}>
 
@@ -1061,7 +1063,7 @@ function AddEditCourseClass(props,ref) {
                 width={720}
                 mask={false}
                 title={"选择学生"}
-                bodyStyle={{ height:480, padding: 0 }}
+                bodyStyle={{ height:iFrame?400:480, padding: 0 }}
                 visible={selectStuModal}
                 onOk={selectStudentOk}
                 onCancel={e=>setSelectStuModal(false)}

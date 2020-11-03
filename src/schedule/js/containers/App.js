@@ -65,9 +65,14 @@ import SDActions from "../actions/ScheduleDetailActions";
 import {productTypeChange} from "../reducers/productType";
 
 import {getQueryVariable} from "../../../common/js/disconnect";
+
 import {userIndetifyChange} from "../../../CoureClass/js/reducers/identify";
 
+import {iframeChange} from "../reducers/frames";
 
+import {checkUrlAndPostMsg} from "../../../common/js/public";
+
+import config from '../../../common/js/config';
 
 
 class App extends Component{
@@ -101,6 +106,12 @@ class App extends Component{
         let { ProductType } = JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"));
 
         dispatch(productTypeChange(parseInt(ProductType)));
+
+        if (getQueryVariable('iFrame')==='true'){
+
+         dispatch(iframeChange(true));
+
+        }
 
         const Hash = location.hash;
 
@@ -368,7 +379,21 @@ class App extends Component{
 
     Import(){
 
-        window.open('/html/schedule#/Import');
+        const {iFrame}= this.props.state.frames;
+
+        if (iFrame){
+
+            const url = config.HashPrevProxy + location.pathname+location.search+'#/Import';
+
+            checkUrlAndPostMsg({btnName:'导入课表',url});
+
+        }else{
+
+            window.open('/html/schedule#/Import');
+
+        }
+
+
 
     }
 
@@ -376,7 +401,11 @@ class App extends Component{
 
     ScheduleSettingShow(){
 
-        window.open('/html/schedule#/manager/scheduleSetting');
+        const url = config.HashPrevProxy+location.pathname+location.search+'#/manager/scheduleSetting';
+
+        checkUrlAndPostMsg({btnName:'课程表设置',url});
+
+        // window.open('/html/schedule#/manager/scheduleSetting');
 
     }
 

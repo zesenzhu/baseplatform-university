@@ -130,7 +130,9 @@ function SelectStudent(props,ref){
     //props 传参
     const { stuCheckedList,classCheckedList,gradeChecked,majorChecked } = props;
 
-    const {LoginUser,identify} = useSelector(state=>state);
+    const {LoginUser,identify,commonSetting} = useSelector(state=>state);
+
+    const {iFrame} = commonSetting;
 
     const dispatch = useDispatch();
 
@@ -812,7 +814,7 @@ function SelectStudent(props,ref){
 
                 <Loading spinning={contentLoading}>
 
-                    <div className="box-content">
+                    <div className="box-content" style={{height:iFrame?360:440}}>
 
                         {
 
@@ -824,7 +826,7 @@ function SelectStudent(props,ref){
 
                                         layOut.layOutList.length>0?
 
-                                            <Scrollbars style={{ width: 100 + "%", height: 440 + "px" }}>
+                                            <Scrollbars style={{ width: 100 + "%", height: iFrame?360:440+ "px" }}>
 
                                                     {
                                                         layOut.layOutList.map((i, k) => {
@@ -893,7 +895,7 @@ function SelectStudent(props,ref){
 
                                                 classesList.length>0?
 
-                                                    <Scrollbars style={{width:180,height:440}}>
+                                                    <Scrollbars style={{width:180,height:iFrame?360:440}}>
 
                                                         {
 
@@ -944,7 +946,7 @@ function SelectStudent(props,ref){
 
                                                         stuList.length>0?
 
-                                                            <Scrollbars style={{ width: 100 + "%", height: 440 + "px" }}>
+                                                            <Scrollbars style={{ width: 100 + "%", height: iFrame?360:440 + "px" }}>
 
                                                                 {
                                                                         stuList.map((i, k) => {

@@ -897,7 +897,7 @@ function CourseClass(props) {
                 width={800}
                 destroyOnClose={true}
                 title={"编辑教学班"}
-                bodyStyle={{ height:520,padding: 0 }}
+                bodyStyle={{ height:iFrame?400:520,padding: 0 }}
                 visible={addEditCourse.show}
                 onOk={addEditOk}
                 onCancel={e=>setAddEditCourse(false)}

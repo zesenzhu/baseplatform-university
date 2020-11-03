@@ -22,9 +22,11 @@ function Index(){
 
     const [HeaderLinkList,setHeaderLinkList] = useState();
 
-    const {LoginUser,productType} = useSelector(state=>state);
+    const {LoginUser,productType,frames} = useSelector(state=>state);
 
     const {UserType,UserClass,UserID } = LoginUser;
+
+    const {iFrame} = frames;
 
     const dispatch = useDispatch();
 
@@ -55,14 +57,25 @@ function Index(){
 
                      } else {
 
-                         setHeaderLinkList([
+                         let list = [];
 
-                             {link: "/teacher/mine", name: "我的课表", logo: "mine"},
+                         if (iFrame){
 
-                             {link: "/teacher/subject-teacher", name: "学科教师课表", logo: "subject"},
+                            $('.frame-content-rightside').css({marginTop:0,borderTop:0});
 
+                         }else{
 
-                         ]);
+                            list = [
+
+                                {link: "/teacher/mine", name: "我的课表", logo: "mine"},
+
+                                {link: "/teacher/subject-teacher", name: "学科教师课表", logo: "subject"},
+
+                            ];
+
+                         }
+
+                         setHeaderLinkList(list);
 
                      }
 

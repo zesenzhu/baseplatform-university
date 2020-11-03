@@ -18,15 +18,16 @@ import {leftMemuShow,leftMemuHide,leftMenuListUpdate} from "../reducers/leftMenu
 
 import {userIndetifyChange} from "../reducers/identify";
 
+import {getQueryVariable} from "../../../common/js/disconnect";
 
+import {iFrameChange} from "../reducers/commonSetting";
 
 import {
     bannerShow,
     bannerHide,
     bannerBtnShow,
     bannerLogHide,
-    bannerTabHide,
-    bannerBtnHide
+    bannerTabHide
 } from "../reducers/bannerState";
 
 
@@ -70,6 +71,15 @@ class App extends Component {
   pageInit(){
 
       const { dispatch, DataState,history } = this.props;
+
+
+      const iFrame = getQueryVariable('iFrame');
+
+      if (iFrame==='true'){
+
+        dispatch(iFrameChange(true));
+
+      }
 
       // 获取接口数据
       let route = history.location.pathname;
@@ -805,7 +815,7 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => {
-  let { UIState, DataState,breadCrumb,AppLoading,leftMenu,LoginUser,bannerState } = state;
+  let { UIState, DataState,breadCrumb,AppLoading,leftMenu,LoginUser,bannerState,commonSetting } = state;
   return {
     UIState,
     DataState,

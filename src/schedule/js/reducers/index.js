@@ -28,6 +28,8 @@ import productType from './productType';
 
 import identify from './identify';
 
+import frames from './frames';
+
 export let initialState = {};
 
 let rootReducers = combineReducers({
@@ -56,7 +58,9 @@ let rootReducers = combineReducers({
 
     productType,
 
-    identify
+    identify,
+
+    frames
 
 });
 

@@ -1,10 +1,12 @@
-import React,{Component} from 'react';
-import ScheduleSetting from "../../containers/Manager/ScheduleSetting";
+import React,{useCallback,useEffect,memo} from 'react';
 
-class AdjustBtnsWrapper extends Component{
+import {useSelector,useDispatch} from 'react-redux';
 
+import {checkUrlAndPostMsg} from "../../../../common/js/public";
 
-    render() {
+import config from '../../../../common/js/config';
+
+function AdjustBtnsWrapper(props){
 
         const {
 
@@ -16,7 +18,15 @@ class AdjustBtnsWrapper extends Component{
 
             Intellenct,IntellenctUrl,isCollegeManager
 
-        } = this.props;
+        } = props;
+
+        const lookAdjustLog = useCallback(()=>{
+
+            const url = config.HashPrevProxy+location.pathname+'#/manager/adjustlog'+location.search;
+
+            checkUrlAndPostMsg({btnName:'查看调课日志',url});
+
+        },[]);
 
         return (
 
@@ -36,17 +46,17 @@ class AdjustBtnsWrapper extends Component{
 
                                     <span className="enter-schedule">
 
-                            <span>录入课程安排</span>
+                                        <span>录入课程安排</span>
 
-                            <div className="import-list-wrapper" id="import-list-wrapper" >
+                                        <div className="import-list-wrapper" id="import-list-wrapper" >
 
-                                <div className="import-schedule" onClick={()=>Import()}><span>导入课表</span></div>
+                                            <div className="import-schedule" onClick={()=>Import()}><span>导入课表</span></div>
 
-                                <div className="intellenct-schedule" onClick={()=>Intellenct()}><span>智能排课</span></div>
+                                            <div className="intellenct-schedule" onClick={()=>Intellenct()}><span>智能排课</span></div>
 
-                            </div>
+                                        </div>
 
-                        </span>
+                                    </span>
 
                                     :
 
@@ -76,7 +86,7 @@ class AdjustBtnsWrapper extends Component{
 
                 </span>
 
-                            <span className="see-adjust-log" onClick={()=>{ window.open('/html/schedule#/manager/adjustlog'); }}>查看调课日志</span>
+                            <span className="see-adjust-log" onClick={lookAdjustLog}>查看调课日志</span>
 
                         </>
 
@@ -91,17 +101,17 @@ class AdjustBtnsWrapper extends Component{
 
                                     <span className="enter-schedule">
 
-                            <span>录入课程安排</span>
+                                        <span>录入课程安排</span>
 
-                            <div className="import-list-wrapper" id="import-list-wrapper" >
+                                        <div className="import-list-wrapper" id="import-list-wrapper" >
 
-                                <div className="import-schedule" onClick={()=>Import()}><span>导入课表</span></div>
+                                            <div className="import-schedule" onClick={()=>Import()}><span>导入课表</span></div>
 
-                                <div className="intellenct-schedule" onClick={()=>Intellenct()}><span>智能排课</span></div>
+                                            <div className="intellenct-schedule" onClick={()=>Intellenct()}><span>智能排课</span></div>
 
-                            </div>
+                                        </div>
 
-                        </span>
+                                    </span>
 
                                     :
 
@@ -109,7 +119,7 @@ class AdjustBtnsWrapper extends Component{
 
                             }
 
-                            <span className="see-adjust-log" onClick={()=>{ window.open('/html/schedule#/manager/adjustlog'); }}>查看调课日志</span>
+                            <span className="see-adjust-log" onClick={lookAdjustLog}>查看调课日志</span>
 
                         </>
 
@@ -120,7 +130,7 @@ class AdjustBtnsWrapper extends Component{
 
         );
 
-    }
+
 
 }
 
