@@ -12,7 +12,7 @@
  * @Author: zhuzesen
  * @LastEditors: zhuzesen
  * @Date: 2020-10-28 10:50:56
- * @LastEditTime: 2020-10-28 16:49:58
+ * @LastEditTime: 2020-11-03 10:12:39
  * @Description: 控制注册审核审核模式：先审后用。先用后审
  * @FilePath: \baseplatform-university\src\admArchives\js\component\RegisterModel\index.js
  */
@@ -129,7 +129,7 @@ function RegisterModel(props, ref) {
         ) {
           setIsError(false);
           setModel(IsSelect);
-          console.log(IsSelect)
+          // console.log(IsSelect)
         } else {
           setIsError(true);
         }
@@ -164,7 +164,7 @@ function RegisterModel(props, ref) {
   
 
   useImperativeHandle(ref, () => ({}));
-  console.log(ModelRef.current,Model)
+  // console.log(ModelRef.current,Model)
   return !IsError ? (
     <span ref={ref} className={`RegisterModel ${className}`}>
       <span className="title">{Type}：</span>

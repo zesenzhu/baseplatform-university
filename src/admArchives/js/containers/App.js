@@ -49,9 +49,10 @@ import TeacherRegisterExamine from "../component/TeacherRegisterExamine";
 import TimeBanner from "../component/Common/TimeBanner";
 import TeacherLogo from "../../images/Frame/teacher-logo.png";
 import logo from "../../images/Frame/icon-logo.png";
+// import { matchParamfromArray } from "../../../../common/js/public";
 
 const { Bs2CsProxy } = CONFIG;
-let { getQueryVariable } = Public;
+let { getQueryVariable, matchParamfromArray } = Public;
 const { MainAction, CommonAction, PublicAction } = actions;
 class App extends Component {
   constructor(props) {
@@ -88,10 +89,7 @@ class App extends Component {
     // console.log(history, route);
     let pathArr = route.split("/");
     if (JSON.parse(sessionStorage.getItem("UserInfo"))) {
-      let userMsg = 
-        JSON.parse(sessionStorage.getItem("UserInfo"))
-       
-     
+      let userMsg = JSON.parse(sessionStorage.getItem("UserInfo"));
 
       if (!userMsg.SchoolID) {
         //做字段排除，不存在就不能进界面
@@ -106,6 +104,13 @@ class App extends Component {
         ModuleID = "000014";
       }
       // 数据请求前的处理
+      userMsg = this.setRole(userMsg);
+      dispatch(
+        PublicAction.getLoginUser(
+          // ...JSON.parse(sessionStorage.getItem("UserInfo")),
+          userMsg
+        )
+      );
       this.SetRoleLeader(); //权限升级身份后没有领导
       this.SetRoleCollege();
       this.SetRoleTeacher();
@@ -114,7 +119,8 @@ class App extends Component {
       dispatch(MainAction.GetUnreadLogCount({}));
       this.Frame.getIdentity({ ModuleID }, (identify) => {
         // console.log(identify)
-        userMsg = this.setRole(userMsg,identify)
+        // userMsg = this.setRole(userMsg,identify)
+        userMsg = this.setRole(userMsg);
         dispatch(
           PublicAction.getLoginUser(
             // ...JSON.parse(sessionStorage.getItem("UserInfo")),
@@ -124,6 +130,7 @@ class App extends Component {
         this.RouteListening({ isFirst: true });
 
         history.listen(() => this.RouteListening({}));
+
         // this.RequestData();
         dispatch(PublicAction.AppLoadingClose());
       });
@@ -133,6 +140,43 @@ class App extends Component {
     // }
 
     // console.log(userMsg.UserType,userMsg.UserClass,userMsg.UserType !== "6" || userMsg.UserClass !== "2")
+  };
+  // 工作平台班级选择
+  MatchParam = (fn) => {
+    let {
+      DataState: {
+        MainData: {
+          StudentTree: { CollegeList },
+          TeacherClassList,
+        },
+        CommonData: {
+          RolePower: { IsTeacher },
+        },
+      },
+      dispatch,
+    } = this.props;
+    // 适配工作平台跳转到对应班级
+    if (IsTeacher) {
+      matchParamfromArray({ array: TeacherClassList }, (res) => {
+
+        if (res) {
+          dispatch(
+            CommonAction.SetRegisterExamineParams({
+              classID: res.value,
+              className: res.title,
+
+              keyword: "",
+              pageIndex: 0,
+              checkedList: [],
+              checkAll: false,
+            })
+          );
+          dispatch(MainAction.GetSignUpLogToPage({}));
+        } else {
+          fn();
+        }
+      });
+    }
   };
   // 路由监听
   RouteListening = ({ isFirst = false, fn = () => {} }) => {
@@ -159,7 +203,7 @@ class App extends Component {
 
     let FirstRoute = Route[0];
     let SecondRoute = Route[1];
-    console.log("第一", FirstRoute, IsTeacher);
+    // console.log("第一", FirstRoute, IsTeacher);
 
     if (IsTeacher) {
       //教师只能进审核
@@ -321,30 +365,32 @@ class App extends Component {
                   },
                   PublicState,
                 } = State;
-                if (SecondRoute === "RegisterWillExamine") {
-                  dispatch(
-                    CommonAction.SetRegisterExamineParams({
-                      ...RegisterParams,
-                      classID: TeacherClassList[0].value,
-                      className: TeacherClassList[0].title,
-                      status: 0,
-                    })
-                  );
-                  dispatch(MainAction.GetSignUpLogToPage({}));
-                } else if (SecondRoute === "RegisterDidExamine") {
-                  dispatch(
-                    CommonAction.SetRegisterExamineParams({
-                      ...RegisterParams,
+                this.MatchParam(() => {
+                  if (SecondRoute === "RegisterWillExamine") {
+                    dispatch(
+                      CommonAction.SetRegisterExamineParams({
+                        ...RegisterParams,
+                        classID: TeacherClassList[0].value,
+                        className: TeacherClassList[0].title,
+                        status: 0,
+                      })
+                    );
+                    dispatch(MainAction.GetSignUpLogToPage({}));
+                  } else if (SecondRoute === "RegisterDidExamine") {
+                    dispatch(
+                      CommonAction.SetRegisterExamineParams({
+                        ...RegisterParams,
 
-                      classID: TeacherClassList[0].value,
-                      className: TeacherClassList[0].title,
-                      status: 1,
-                    })
-                  );
-                  dispatch(MainAction.GetSignUpLogToPage({}));
-                } else {
-                  this.SetRegisterExamineDefaultRoute();
-                }
+                        classID: TeacherClassList[0].value,
+                        className: TeacherClassList[0].title,
+                        status: 1,
+                      })
+                    );
+                    dispatch(MainAction.GetSignUpLogToPage({}));
+                  } else {
+                    this.SetRegisterExamineDefaultRoute();
+                  }
+                });
               },
             })
           );
@@ -461,7 +507,7 @@ class App extends Component {
     }
     fn();
     // history.push("11");
-    console.log(history, Route);
+    // console.log(history, Route);
   };
   // 设置点击头部列表事件
   SelectMenu = (data) => {
@@ -756,7 +802,7 @@ class App extends Component {
     }
   };
   // 设置用户角色,模块角色统一在这处理
-  setRole = (LoginMsg,identity) => {
+  setRole = (LoginMsg, identity) => {
     // let {
     //   dispatch,
     //   DataState,
@@ -764,7 +810,7 @@ class App extends Component {
     //     LoginMsg: { UserType, UserClass },
     //   },
     // } = this.props;
-    console.log(identity)
+    // console.log(identity)
     let { UserType, UserClass } = LoginMsg;
     let Role = "";
     UserType = parseInt(UserType);
@@ -911,6 +957,7 @@ class App extends Component {
         IsTeacher: Role.includes("Teacher"),
       })
     );
+    console.log(Role.includes("Teacher"));
     return Role.includes("Teacher");
   };
   SetRoleCollege = () => {
