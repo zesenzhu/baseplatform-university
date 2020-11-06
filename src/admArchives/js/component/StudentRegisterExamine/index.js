@@ -23,9 +23,9 @@ import history from "../../containers/history";
 import { postData, getData } from "../../../../common/js/fetch";
 import CONFIG from "../../../../common/js/config";
 import actions from "../../actions";
-import RegisterModel from '../RegisterModel'
+import RegisterModel from "../RegisterModel";
 import Temple from "../Temple";
-
+import { matchParamfromArray } from "../../../../common/js/public";
 // import "../../scss/Main.scss";
 import $ from "jquery";
 const { MainAction, CommonAction, PublicAction } = actions;
@@ -270,7 +270,9 @@ class RegisterExamine extends Component {
       },
     } = nextProps;
   }
-  componentDidMount() {}
+  componentDidMount() {
+    
+  }
   onExamineClick = (data) => {
     let { dispatch } = this.props;
     dispatch(
@@ -876,7 +878,7 @@ class RegisterExamine extends Component {
     let Grade = [{ value: "", title: "全部年级" }].concat(GradeList);
     let Major = [{ value: "", title: "全部专业" }];
     let Class = [{ value: "", title: "全部班级" }];
-    collegeID  &&
+    collegeID &&
       MajorList instanceof Array &&
       MajorList.forEach((child) => {
         if (child.CollegeID === collegeID) {
@@ -888,9 +890,9 @@ class RegisterExamine extends Component {
           );
         }
       });
-    collegeID  &&
-      majorID  &&
-      gradeID  &&
+    collegeID &&
+      majorID &&
+      gradeID &&
       ClassList instanceof Array &&
       ClassList.forEach((child) => {
         if (
@@ -913,7 +915,7 @@ class RegisterExamine extends Component {
           <span className="top-tips">
             <span className="tips menu39 ">学生注册审核</span>
           </span>
-          <RegisterModel></RegisterModel>
+         { !IsTeacher?<RegisterModel></RegisterModel>:''}
         </div>
         <div className="Content-hr"></div>
         <div className="Content-handle clearfix">
@@ -943,7 +945,7 @@ class RegisterExamine extends Component {
                   height={240}
                   dropSelectd={{
                     value: collegeID,
-                    title: collegeID  ? collegeName : "全部学院",
+                    title: collegeID ? collegeName : "全部学院",
                   }}
                   dropList={College}
                 ></DropDown>
@@ -954,17 +956,14 @@ class RegisterExamine extends Component {
                 ref="dropMenuSecond"
                 width={120}
                 height={240}
-                disabled={
-                  collegeID  ? (Major.length > 1 ? false : true) : true
-                }
+                disabled={collegeID ? (Major.length > 1 ? false : true) : true}
                 dropSelectd={{
                   value: majorID,
-                  title:
-                    majorID 
-                      ? majorName
-                      : collegeID  && Major.length <= 1
-                      ? "暂无专业"
-                      : "全部专业",
+                  title: majorID
+                    ? majorName
+                    : collegeID && Major.length <= 1
+                    ? "暂无专业"
+                    : "全部专业",
                 }}
                 dropList={Major}
                 onChange={this.onMajorChange}
@@ -977,7 +976,7 @@ class RegisterExamine extends Component {
                 title={"年级班级:"}
                 dropSelectd={{
                   value: gradeID,
-                  title: gradeID  ? gradeName : "全部年级",
+                  title: gradeID ? gradeName : "全部年级",
                 }}
                 dropList={Grade}
                 onChange={this.onGradeChange}
@@ -991,24 +990,17 @@ class RegisterExamine extends Component {
                 //     this.state.thirdSelect.value !== 0 ? "block" : "none",
                 // }}
                 disabled={
-                  collegeID  &&
-                  majorID  &&
-                  gradeID  &&
-                  Class.length > 1
+                  collegeID && majorID && gradeID && Class.length > 1
                     ? false
                     : true
                 }
                 dropSelectd={{
                   value: classID,
-                  title:
-                    classID 
-                      ? className
-                      : collegeID  &&
-                        majorID  &&
-                        gradeID  &&
-                        Class.length <= 1
-                      ? "暂无班级"
-                      : "全部班级",
+                  title: classID
+                    ? className
+                    : collegeID && majorID && gradeID && Class.length <= 1
+                    ? "暂无班级"
+                    : "全部班级",
                 }}
                 dropList={Class}
                 onChange={this.onClassChange}
@@ -1108,7 +1100,12 @@ class RegisterExamine extends Component {
                 ) : (
                   ""
                 )}
-                <div className="pagination-box" style={status===1?{textAlign:'center',float:'none'}:{}}>
+                <div
+                  className="pagination-box"
+                  style={
+                    status === 1 ? { textAlign: "center", float: "none" } : {}
+                  }
+                >
                   <PagiNation
                     showQuickJumper
                     showSizeChanger

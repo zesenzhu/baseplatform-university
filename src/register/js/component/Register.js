@@ -112,7 +112,7 @@ class Register extends Component {
   // 用户id change
   onUserIDChange = (e) => {
     this.setState({
-      UserID: e.target.value.trim(),
+      UserID: e.target.value,
     });
   };
   // 用户id blur
@@ -142,7 +142,7 @@ class Register extends Component {
   // 用户姓名 change
   onUserNameChange = (e) => {
     this.setState({
-      UserName: e.target.value.trim(),
+      UserName: e.target.value,
     });
   };
   // 用户姓名 blur
@@ -689,7 +689,7 @@ class Register extends Component {
   // 验证码 change
   onTestCodeChange = (e) => {
     this.setState({
-      TestCode: e.target.value.trim(),
+      TestCode: e.target.value,
     });
   };
   // 验证码 blur
@@ -767,7 +767,7 @@ class Register extends Component {
   // 用户别名 change
   onShortNameChange = (e) => {
     this.setState({
-      ShortName: e.target.value.trim(),
+      ShortName: e.target.value,
     });
   };
   // 用户别名 blur
