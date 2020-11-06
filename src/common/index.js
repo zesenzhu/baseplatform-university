@@ -1176,6 +1176,7 @@ class Search extends React.Component {
  * 下拉 start
  * */
 class DropComponent extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -1710,7 +1711,7 @@ class DropComponent extends React.Component {
 
               {
 
-                  dropList&&dropList.length>12?
+                  dropList&&dropList.length>12&&dropSimpleSearch?
 
                       <li className={"dropdown_select_search"}>
 
@@ -3932,7 +3933,7 @@ DropComponent.defaultProps = {
 
   dropLoadingShow: false,
 
-  dropSimpleSearch: false,
+  dropSimpleSearch: true,
 
   //simpleSearchChange:()=>{}
 };

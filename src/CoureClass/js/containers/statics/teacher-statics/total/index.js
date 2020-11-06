@@ -50,13 +50,13 @@ function TeacherTotal(props) {
     //统计的列表
     const [staticsList,setStaticsList] = useState([
 
-        {id:'teachingRoom',value:0,title:'教研室数量'},
+        {id:'teachingRoom',value:-1,title:'教研室数量'},
 
-        {id:'courseClass',value:0,title:'教学班数量'},
+        {id:'courseClass',value:-1,title:'教学班数量'},
 
-        {id:'teacher',value:0,title:'教师数量'},
+        {id:'teacher',value:-1,title:'教师数量'},
 
-        {id:'student',value:0,title:'学生数量'}
+        {id:'student',value:-1,title:'学生数量'}
 
     ]);
 
