@@ -101,7 +101,7 @@ function Charts(props) {
 
                         nameGap:20,
 
-                        splitNumber:6,
+                        splitNumber:4,
 
                         axisLine:{
 
@@ -191,7 +191,13 @@ function Charts(props) {
                         legendHoverLink:true
 
                     }
-                ]
+                ],
+
+                grid:{
+
+                    bottom:34
+
+                }
 
             });
 
