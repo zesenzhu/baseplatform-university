@@ -4,7 +4,8 @@ import "antd/dist/antd.min.css";
 import "./index.scss";
 import "./scss/_left_menu.scss";
 import { HashRouter as Router, NavLink, withRouter } from "react-router-dom";
-
+import defaultImg from "./images/Img/默认应用_80@2x.png";
+import errorImg from "./images/Img/默认应用_80@2x.png";
 import "./js/leftMenu";
 import {
   Radio as AntRadio,
@@ -3905,7 +3906,92 @@ class Tips extends React.Component {
     );
   }
 }
-
+class Img extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoad: false,
+      isError: false,
+    };
+  }
+  onLoad = () => {
+    this.props.onLoad();
+    this.setState({
+      isLoad: true,
+    });
+  };
+  onError = () => {
+    this.props.onError();
+    this.setState({
+      isLoad: true,
+      isError: true,
+    });
+  };
+  render() {
+    const {
+      className,
+      defaultImg,
+      errorImg,
+      height,
+      src,
+      width,
+      alt,
+      ...params
+    } = this.props;
+    // console.log(params)
+    return (
+      <div
+        style={{ height: height + "px", width: width + "px" }}
+        className={`lg-Img ${className}`}
+      >
+        <img
+          alt={alt}
+          src={src}
+          className="initImg"
+          height={height}
+          style={{
+            height: height + "px",
+            width: width + "px",
+            opacity: !this.state.isLoad || this.state.isError ? 0 : 1,
+          }}
+          width={width}
+          // style={{opacity: (!this.state.isLoad||this.state.isError)?0:1}}
+          onLoad={this.onLoad}
+          onError={this.onError}
+        ></img>
+        {!this.state.isLoad ? (
+          <i
+            alt={alt}
+            className="defaultImg"
+            style={{ height: height + "px", width: width + "px" }}
+          ></i>
+        ) : (
+            ""
+          )}
+        {this.state.isError ? (
+          <i
+            alt={alt}
+            style={{ height: height + "px", width: width + "px" }}
+            className="errorImg"
+          ></i>
+        ) : (
+            ""
+          )}
+      </div>
+    );
+  }
+}
+Img.defaultProps = {
+  className: "",
+  defaultImg: defaultImg,
+  alt: "lg-Img",
+  src: "",
+  errorImg: errorImg,
+  width: 80,
+  height: 80,
+  onError: () => { },
+  onLoad: () => { },
+};
 PageComponent.defaultProps = {
   showQuickJumper: true,
 
@@ -3967,4 +4053,5 @@ export {
   DetailsModal,
   Tips,
   MenuLeftNoLink,
+  Img
 };

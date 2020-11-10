@@ -5,6 +5,7 @@ import Semester from "../SettingOptions/YearSemesterSetting";
 import Import from "../Import";
 import School from "../SettingOptions/SchoolnfoSetting";
 // import Subsystem from '../ApplicationSetting'
+// import Subsystem from '../SubApplication/js'
 import Subsystem from "../SettingOptions/SubsystemAccessSetting";
 import setting from "../../../images/setting_logo.png";
 import { Menu, Loading } from "../../../../common";

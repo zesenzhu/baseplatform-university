@@ -1,0 +1,228 @@
+@import "../../../../../../../common/scss/public.scss";
+.SubCard {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 258px;
+    padding: 16px;
+    top: 0;
+    // cursor: pointer;
+    min-height: 100px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: solid 1px #abbfd1;
+    transition: top 0.1s linear;
+    -webkit-transition: top 0.1s linear;
+    -moz-transition: top 0.1s linear;
+    -ms-transition: top 0.1s linear;
+    -o-transition: top 0.1s linear;
+    &::before {
+        content: "";
+        position: absolute;
+        width: calc(100% - 10px);
+        height: 4px;
+        left: 5px;
+        bottom: -4px;
+        background: url(./images/img-card-bg.png) no-repeat center bottom/100%;
+    }
+    &:hover {
+        top: -7px;
+        .sc-handle {
+            display: block;
+        }
+    }
+    &:nth-of-type(4n) {
+        .sc-top {
+            .lg-Img {
+                background-image: linear-gradient(0deg, #0088af 0%, #4aaed7 0%, #94d4ff 0%, #d7f6fe 100%), linear-gradient(#1bc5bb, #1bc5bb);
+            }
+        }
+    }
+    &:nth-of-type(4n + 1) {
+        .sc-top {
+            .lg-Img {
+                background-image: linear-gradient(0deg, #ffc3a5 0%, #fef0d8 100%), linear-gradient(180deg, #0050b2 0%, #01c5e8 100%);
+            }
+        }
+    }
+    &:nth-of-type(4n + 2) {
+        .sc-top {
+            .lg-Img {
+                background-image: linear-gradient(0deg, #0088af 0%, #4aaed7 0%, #94d4ff 0%, #d7f6fe 100%), linear-gradient(180deg, #0050b2 0%, #01c5e8 100%);
+            }
+        }
+    }
+    &:nth-of-type(4n + 3) {
+        .sc-top {
+            .lg-Img {
+                background-image: linear-gradient(0deg, #0088af 0%, #4db8ae 0%, #9ae8ad 0%, #cefcec 100%), linear-gradient(0deg, #02ca07 0%, #046d1d 100%);
+            }
+        }
+    }
+    .sc-top {
+        padding-bottom: 16px;
+        border-bottom: dashed 1px #cccccc;
+        .lg-Img {
+            border-radius: 12px;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            -ms-border-radius: 12px;
+            -o-border-radius: 12px;
+            overflow: hidden;
+        }
+        .sc-title {
+            height: 64px;
+            display: inline-block;
+            width: calc(100% - 64px);
+            padding-left: 10px;
+            .sct-name {
+                line-height: 36px;
+                margin-top: 2px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #333333;
+                @include TextOverflow;
+            }
+            .sct-group {
+                line-height: 18px;
+                font-size: 12px;
+                .sctg-box {
+                    margin-right: 3px;
+                    padding: 0 4px;
+                    @include TextOverflow;
+                    display: inline-block;
+                    max-width: calc(50% - 3px);
+                    border-radius: 3px;
+                }
+                .sctg-type {
+                    color: #579164;
+                    background-color: #d3f2da;
+                }
+                .sctg-other {
+                    color: #5c6c83;
+                    background-color: #d3e0f2;
+                }
+                .sctg-lancoo {
+                    color: #306e6d;
+                    background-color: #bfeae9;
+                }
+            }
+        }
+    }
+    .sc-center {
+        padding-top: 10px;
+        .scc-row {
+            line-height: 26px;
+            .sccr-left {
+                display: inline-block;
+                width: 28%;
+                font-size: 14px;
+                color: #999999;
+                vertical-align: middle;
+            }
+            .sccr-right {
+                display: inline-block;
+                width: 70%;
+                font-size: 14px;
+                vertical-align: middle;
+                @include TextOverflow;
+                color: #333;
+                .btn-state {
+                    margin-left: 2px;
+                    width: 64px;
+                    height: 20px;
+                    background: url("./images/system_close.png") no-repeat;
+                    border: none;
+                    border-radius: 12px;
+                    vertical-align: middle;
+                    cursor: pointer;
+                    &.open {
+                        background: url("./images/system_open.png") no-repeat;
+                    }
+                    &.ban {
+                        background: url("./images/cannot_close.png") no-repeat;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.SubCard-main {
+    padding-bottom: 38px;
+    .sc-handle {
+        display: none;
+        height: 32px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        border-radius: 0px 0px 5px 5px;
+        .sch-model {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            padding-left: 38px;
+            width: 33.3%;
+            font-size: 14px;
+            line-height: 32px;
+            cursor: pointer;
+            color: #ffffff;
+            opacity: 0.72;
+            &::after {
+                content: "";
+                position: absolute;
+                height: 12px;
+                width: 0px;
+                border-right: 1px solid #fff;
+                opacity: 0.72;
+                top: 50%;
+                right: -1px;
+                transform: translateY(-50%);
+                -webkit-transform: translateY(-50%);
+                -moz-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                -o-transform: translateY(-50%);
+            }
+            &:last-of-type {
+                &::after {
+                    display: none;
+                }
+            }
+            &.sch-detail {
+                background: url(./images/icon-details.png) no-repeat 20px center/14px 14px;
+            }
+            &.sch-edit {
+                background: url(./images/icon-edit.png) no-repeat 20px center/14px 14px;
+            }
+            &.sch-delete {
+                background: url(./images/icon-delete.png) no-repeat 20px center/14px 14px;
+            }
+        }
+    }
+}
+
+.SubCard-modal {
+    .sccr-more {
+        color: #0099ff !important;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .sc-select {
+        position: absolute;
+        right: -1px;
+        top: -1px;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        // border: solid 1px #abbfd1;
+        &.no-selected {
+            background: url(./images/icon-noselect.png)no-repeat center center/contain;
+        }
+        &.selected {
+            background: url(./images/icon-selected.png)no-repeat center center/contain;
+        }
+    }
+}

@@ -23,7 +23,7 @@
  * @Author: zhuzesen
  * @LastEditors: zhuzesen
  * @Date: 2020-07-01 08:48:32
- * @LastEditTime: 2020-11-03 13:52:25
+ * @LastEditTime: 2020-11-10 09:35:46
  * @Description:
  * @FilePath: \baseplatform-university\src\common\js\public.js
  */
@@ -308,54 +308,54 @@ const UrlGetIcon = (url) => {
     return urlArr;
   }
 };
-const requestNextAnimationFrame = (function () {
-  var originalWebkitMethod,
-    wrapper = undefined,
-    callback = undefined,
-    geckoVersion = 0,
-    userAgent = navigator.userAgent,
-    index = 0,
-    self = this;
-  if (window.webkitRequestAnimationFrame) {
-    wrapper = function (time) {
-      if (time === undefined) {
-        time += new Date();
-      }
-      self.callback(time);
-    };
-    originalWebkitMethod = window.webkitRequestAnimationFrame;
-    window.webkitRequestAnimationFrame = function (callback, element) {
-      self.callback = callback;
-      originalWebkitMethod(wrapper, element);
-    };
-  }
-  if (window.mozRequestAnimationFrame) {
-    index = userAgent.indexOf("rv:");
-    if (userAgent.indexOf("Gecko") !== -1) {
-      geckoVersion = userAgent.substr(index + 3, 3);
-      if (geckoVersion === "2.0") {
-        window.mozRequestAnimationFrame = undefined;
-      }
-    }
-  }
+// const requestNextAnimationFrame = (function () {
+//   var originalWebkitMethod,
+//     wrapper = undefined,
+//     callback = undefined,
+//     geckoVersion = 0,
+//     userAgent = navigator.userAgent,
+//     index = 0,
+//     self = this;
+//   if (window.webkitRequestAnimationFrame) {
+//     wrapper = function (time) {
+//       if (time === undefined) {
+//         time += new Date();
+//       }
+//       self.callback(time);
+//     };
+//     originalWebkitMethod = window.webkitRequestAnimationFrame;
+//     window.webkitRequestAnimationFrame = function (callback, element) {
+//       self.callback = callback;
+//       originalWebkitMethod(wrapper, element);
+//     };
+//   }
+//   if (window.mozRequestAnimationFrame) {
+//     index = userAgent.indexOf("rv:");
+//     if (userAgent.indexOf("Gecko") !== -1) {
+//       geckoVersion = userAgent.substr(index + 3, 3);
+//       if (geckoVersion === "2.0") {
+//         window.mozRequestAnimationFrame = undefined;
+//       }
+//     }
+//   }
 
-  return (
-    window.requestNextAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function (callback, element) {
-      var start, finish;
-      window.setTimeout(function () {
-        start = +new Date();
-        callback(start);
-        finish = +new Date();
-        self.timeout = 1000 / 60 - (finish - start);
-      }, self.timeout);
-    }
-  );
-})();
+//   return (
+//     window.requestNextAnimationFrame ||
+//     window.webkitRequestAnimationFrame ||
+//     window.mozRequestAnimationFrame ||
+//     window.oRequestAnimationFrame ||
+//     window.msRequestAnimationFrame ||
+//     function (callback, element) {
+//       var start, finish;
+//       window.setTimeout(function () {
+//         start = +new Date();
+//         callback(start);
+//         finish = +new Date();
+//         self.timeout = 1000 / 60 - (finish - start);
+//       }, self.timeout);
+//     }
+//   );
+// })();
 
 const IEVersion = () => {
   let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
@@ -543,7 +543,7 @@ export default {
   getLg_tk,
   UrlGetIcon,
   IEVersion,
-  requestNextAnimationFrame,
+  // requestNextAnimationFrame,
   checkUrlAndPostMsg,
   setRole,
   noRepeat,
