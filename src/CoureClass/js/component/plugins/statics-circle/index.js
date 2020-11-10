@@ -61,7 +61,7 @@ function StaticsCircle(props) {
 
                               // color = '#9179fc';
 
-                              color = 'pink';
+                              color = 'purple';
 
                               break;
 
@@ -101,7 +101,7 @@ function StaticsCircle(props) {
 
 	                          i.value!==-1?
 
-	                          <WaveRound type={color} data={i.value}></WaveRound>
+	                          <WaveRound  type={color} data={i.value}></WaveRound>
 
                               :null
 

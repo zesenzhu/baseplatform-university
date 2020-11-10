@@ -34,6 +34,7 @@ function WaveRound(props, ref) {
 	ClearRef.current =Re
 
   }, [data,type]);
+
   return (
     <div
       ref={ref}
