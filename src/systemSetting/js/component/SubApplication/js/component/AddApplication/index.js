@@ -9,6 +9,8 @@ import {
   Button,
   DropDown,
   Empty,
+  CheckBox,
+  CheckBoxGroup,
 } from "../../../../../../../common";
 import ClassCropperModal from "../../../../../../../common/js/CropperModal";
 import { Input, Tooltip } from "antd";
@@ -432,6 +434,16 @@ class AddAppilicationModal extends Component {
       })
     );
   };
+
+  onUserRoleChange = (value)=>{
+    const { dispatch } = this.props;
+
+    dispatch(
+      AccessAction.SetAddApplicationParams({
+        UserRole: value,
+      })
+    );
+  }
   // 添加访问入口
   onAddAddrClick = () => {
     const { dispatch, AccessData } = this.props;
@@ -586,7 +598,7 @@ class AddAppilicationModal extends Component {
 
       UIState,
       DataUpdate,
-      className
+      className,
     } = this.props;
     let {
       Entrances,
@@ -607,7 +619,7 @@ class AddAppilicationModal extends Component {
       ApplicationCallbackAddr,
       ApplicationApiAddr,
       ApplicationImgUrlShow,
-      Type,
+      Type,UserRole
     } = AccessData.AddAppilicationParams;
     let {
       ApplicationNameTipsVisible,
@@ -635,7 +647,7 @@ class AddAppilicationModal extends Component {
 
       StaticData: {
         ApplicationTypeForKey,
-        ApplicationType: ApplicationTypeList,
+        ApplicationType: ApplicationTypeList,UserType,UserRoleList
       },
     } = AccessData;
     // console.log(ApplicationTypeList);
@@ -645,9 +657,9 @@ class AddAppilicationModal extends Component {
     ) {
       ApplicationTypeList.shift();
     }
-    console.log(this.state.classResultImgUrl, Type);
+    // console.log(this.state.classResultImgUrl, Type);
     return (
-      <div className={`AddAppilication ${className?className:''}`}>
+      <div className={`AddAppilication ${className ? className : ""}`}>
         <div className="access-main-msg-box">
           <span className="row clearfix left-row">
             <span className="access-main-msg-tips">
@@ -922,6 +934,24 @@ class AddAppilicationModal extends Component {
             </span>
           </span>
           <span className="row clearfix rigth-row">
+            <span className="access-main-msg-tips">用户对象：</span>
+            <span className="access-main-msg">
+              <CheckBoxGroup value={UserRole} onChange={this.onUserRoleChange}>
+                {UserRoleList.map((child, index) => {
+                  return (
+                    <CheckBox
+                      title={child.title}
+                      value={child.value}
+                      key={index}
+                    >
+                      <span title={child.title}>{child.title}</span>
+                    </CheckBox>
+                  );
+                })}
+              </CheckBoxGroup>
+            </span>
+          </span>
+          <span className="row clearfix left-row">
             <span className="access-main-msg-tips">授权回调地址：</span>
             <span className="access-main-msg">
               <Input
@@ -949,7 +979,7 @@ class AddAppilicationModal extends Component {
             </span>
           </span>
 
-          <span className="row clearfix left-row">
+          <span className="row clearfix rigth-row">
             <span className="access-main-msg-tips">应用访问地址：</span>
             <span className="access-main-msg">
               <Input
@@ -972,7 +1002,7 @@ class AddAppilicationModal extends Component {
               </span>
             </span>
           </span>
-          <span className="row clearfix rigth-row">
+          <span className="row clearfix left-row">
             <span className="access-main-msg-tips">接口服务地址：</span>
             <span className="access-main-msg">
               <Input

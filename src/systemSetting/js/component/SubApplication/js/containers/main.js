@@ -169,6 +169,7 @@ class Main extends Component {
   // 点击详情
   onAccessDetailClick = (applicationID) => {
     let { dispatch } = this.props;
+    
     dispatch(
       AccessAction.SetModalVisible({
         AccessDetailModalVisible: true,
@@ -192,6 +193,12 @@ class Main extends Component {
   // 点击修改
   onEditDetailClick = (applicationID) => {
     let { dispatch } = this.props;
+    dispatch(
+      AccessAction.SetAddApplicationParams({
+ 
+        Type:'edit'
+      })
+    );
     dispatch(
       AccessAction.SetModalVisible({
         EditAccessModalVisible: true,

@@ -54,14 +54,15 @@
     padding-top: 50px;
 }
 
-.AccessDetailModal {
+.AppDetailModal {
     position: relative;
-    height: 500px;
-    width: 800px;
+    height: 400px;
+    padding-top: 20px;
+    // width: 800px;
     .access-main-msg-box {
         position: relative;
-        height: 280px;
-        width: 800px;
+        // height: 280px;
+        // width: 800px;
         // padding: 0 10px;
         .row {
             width: 50%;
@@ -69,12 +70,47 @@
             line-height: 40px;
             // display: inline-block;
             float: left;
-            padding-left: 20px;
-            padding-right: 10px;
+            // padding-left: 20px;
+            padding-right: 20px;
             text-align: left;
             font-size: 14px;
             color: #333;
             @include TextOverflow();
+            .row-left {
+                display: inline-block;
+                width: 133px;
+                text-align: right;
+                vertical-align: top;
+                color: #999999;
+            }
+            &::nth-of-type(2n) {
+                width: 45%;
+            }
+            &::nth-of-type(2n+1) {
+                width: 55%;
+            }
+            .ApplicationName {
+                font-size: 16px;
+                color: #ff6600;
+            }
+            .ApplicationStatusName {
+                color: #009900;
+            }
+            .isClose {
+                color: #ff6600;
+            }
+            .ApplicationImgUrl {
+                margin-top: 10px;
+            }
+            .none {
+                color: #999999;
+            }
+            .IsThirdPartyName {
+                color: #999999;
+            }
+        }
+        .row-more {
+            height: 108px;
         }
     }
     .Entrances-table {

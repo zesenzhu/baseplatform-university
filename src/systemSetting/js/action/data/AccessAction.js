@@ -274,7 +274,7 @@ const UpdateApplicationInfo = ({ func = () => {} }) => {
       ApplicationUrl,
       ApplicationApiAddr: applicationApiUrl,
       Entrances,
-      DeleteEntrances,
+      DeleteEntrances,UserRole
     } = getState().AccessData.AddAppilicationParams;
     let { defaultPicUrl } = getState().AccessData;
     let newEntrances = [];

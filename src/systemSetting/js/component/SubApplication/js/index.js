@@ -6,6 +6,7 @@ import AccessAction from "../../../action/data/AccessAction";
 import Main from "./containers/main";
 import SetAppModal from './containers/setAppModal'
 import EditAppModal from './containers/editAppModal'
+import AppDetailModal from './containers/appDetailModal'
 
 class SubApplication extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class SubApplication extends Component {
         <Main></Main>
         <SetAppModal></SetAppModal>
         <EditAppModal></EditAppModal>
+        <AppDetailModal></AppDetailModal>
       </div>
     );
   }

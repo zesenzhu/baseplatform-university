@@ -39,10 +39,10 @@ let UserType = {
     value: `3`,
     title: `家长`,
   },
-  7: {
-    value: `7`,
-    title: `领导`,
-  },
+  // 7: {
+  //   value: `7`,
+  //   title: `领导`,
+  // },
 };
 let DeviceTypes = {
   android: {
@@ -96,10 +96,33 @@ const AccessData = (
           value: `3`,
           title: `家长`,
         },
+        // {
+        //   value: `7`,
+        //   title: `领导`,
+        // },
+      ],
+      UserRoleList: [
+        
         {
-          value: `7`,
-          title: `领导`,
+          value: 0,
+          title: `管理员`,
         },
+        {
+          value: 1,
+          title: "教师",
+        },
+        {
+          value: 2,
+          title: `学生`,
+        },
+        {
+          value: 3,
+          title: `家长`,
+        },
+        // {
+        //   value: `7`,
+        //   title: `领导`,
+        // },
       ],
       ApplicationType: [
         {
@@ -303,6 +326,7 @@ const AccessData = (
       ApplicationCallbackAddr: "",
       ApplicationApiAddr: "",
       DeleteEntrances: [],
+      UserRole:[]
     },
     AddAppilicationInitParams: {
       Type:'add',
@@ -324,6 +348,7 @@ const AccessData = (
       ApplicationSecret: "",
       ApplicationCallbackAddr: "",
       ApplicationApiAddr: "",
+      UserRole:[],
       DeleteEntrances: [],
     },
     AppilicationInitParams: {
@@ -677,9 +702,9 @@ function handleAccessDetailData(Data) {
     other.IsThirdPartyName = "蓝鸽公司";
   }
   if (other.ApplicationStatus === 0) {
-    other.ApplicationStatusName = "已开启访问";
-  } else {
     other.ApplicationStatusName = "已关闭访问";
+  } else {
+    other.ApplicationStatusName = "已开启访问";
   }
   other.ApplicationTypeName = ApplicationType[other.ApplicationType].title;
 

@@ -3917,6 +3917,7 @@ class Img extends React.Component {
   onLoad = () => {
     this.props.onLoad();
     this.setState({
+      isError: false,
       isLoad: true,
     });
   };
