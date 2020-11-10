@@ -1737,7 +1737,7 @@ function Index(props) {
 
                                 <Button type={"primary"} onClick={e=>delCourseClass(1)}>删除</Button>
 
-                                <Button className={"combine"} onClick={combineCourseClass}>合班</Button>
+                                <Button type={"primary"} className={"combine"} onClick={combineCourseClass}>合班</Button>
 
                             </div>
 

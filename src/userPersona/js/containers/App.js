@@ -108,8 +108,6 @@ function App(props) {
 
         const identifyCode  = getQueryVariable('lg_ic');
 
-        const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
-
         if (identifyCode){
 
             GetIdentityTypeByCode(identifyCode).then(data=>{

@@ -79,7 +79,11 @@ class TermPick extends Component{
 
                     TitleShow={false}
                     
-                    style={{zIndex:10}}>
+                    style={{zIndex:10}}
+
+                    dropSimpleSearch={false}
+
+                >
                         
                     </DropDown>周
 
