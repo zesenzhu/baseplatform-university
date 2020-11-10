@@ -24,6 +24,8 @@ const GetAccessInfo = ({
 }) => {
   return (dispatch, getState) => {
     let { AccessInfoParams } = getState().AccessData.AccessInfo;
+    dispatch(SetLoadingVisible({ AccessContentLoadingVisible: true }));
+
     if (userType === undefined) {
       userType = AccessInfoParams.userType.value;
     }
@@ -47,14 +49,14 @@ const GetAccessInfo = ({
       keyword +
       "&applicationType=" +
       applicationType;
-    console.log(url);
-    dispatch(UpUIState.RightLoadingOpen());
     getData(url, 2)
       .then((data) => data.json())
       .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_ACCESS_INFO_DATA, data: json.Data });
-          dispatch(UpUIState.RightLoadingClose());
+          // dispatch(UpUIState.RightLoadingClose());
+          dispatch(SetLoadingVisible({ AccessContentLoadingVisible: false }));
+
           func(getState());
         }
       });
@@ -137,7 +139,7 @@ const AddApplicationInfo = ({ func = () => {} }) => {
       Entrances,
       DeleteEntrances,
     } = getState().AccessData.AddAppilicationParams;
-    let {defaultPicUrl} = getState().AccessData;
+    let { defaultPicUrl } = getState().AccessData;
 
     let newEntrances = [];
     Entrances instanceof Array &&
@@ -161,12 +163,12 @@ const AddApplicationInfo = ({ func = () => {} }) => {
               : typeof child.UserType === "string"
               ? child.UserType
               : "",
-              entranceIconLarge: child.EntranceIconLarge
-              ? child.EntranceIconLarge
-              : defaultPicUrl,
-            entranceIconMini: child.EntranceIconMini
-              ? child.EntranceIconMini
-              : defaultPicUrl,
+          entranceIconLarge: child.EntranceIconLarge
+            ? child.EntranceIconLarge
+            : defaultPicUrl,
+          entranceIconMini: child.EntranceIconMini
+            ? child.EntranceIconMini
+            : defaultPicUrl,
           operationType: child.OperationType,
 
           path: child.AccessParam,
@@ -195,12 +197,12 @@ const AddApplicationInfo = ({ func = () => {} }) => {
               : typeof child.UserType === "string"
               ? child.UserType
               : "",
-              entranceIconLarge: child.EntranceIconLarge
-              ? child.EntranceIconLarge
-              : defaultPicUrl,
-            entranceIconMini: child.EntranceIconMini
-              ? child.EntranceIconMini
-              : defaultPicUrl,
+          entranceIconLarge: child.EntranceIconLarge
+            ? child.EntranceIconLarge
+            : defaultPicUrl,
+          entranceIconMini: child.EntranceIconMini
+            ? child.EntranceIconMini
+            : defaultPicUrl,
           path: child.AccessParam,
           subjectIds:
             child.SubjectIds instanceof Array
@@ -214,9 +216,14 @@ const AddApplicationInfo = ({ func = () => {} }) => {
           deviceType,
         });
       });
+    // if(!applicationIcon){
+    //   return;
+    // }
     dispatch(
       checkAllAppParams({
         success: (Data) => {
+          dispatch(UpUIState.ModalLoadingOpen());
+
           postData(
             url,
             {
@@ -224,7 +231,9 @@ const AddApplicationInfo = ({ func = () => {} }) => {
               ApplicationName,
               IsThirdParty,
               ProviderName,
-              ApplicationSecret:ApplicationSecret?ApplicationSecret:'12456',
+              ApplicationSecret: ApplicationSecret
+                ? ApplicationSecret
+                : "12456",
               Introduction,
               ApplicationType,
               applicationIcon,
@@ -240,6 +249,7 @@ const AddApplicationInfo = ({ func = () => {} }) => {
             .then((json) => {
               if (json.StatusCode === 200) {
                 func(getState());
+                dispatch(UpUIState.ModalLoadingClose());
               }
             });
         },
@@ -266,7 +276,7 @@ const UpdateApplicationInfo = ({ func = () => {} }) => {
       Entrances,
       DeleteEntrances,
     } = getState().AccessData.AddAppilicationParams;
-    let {defaultPicUrl} = getState().AccessData;
+    let { defaultPicUrl } = getState().AccessData;
     let newEntrances = [];
     Entrances instanceof Array &&
       Entrances.map((child) => {
@@ -289,12 +299,12 @@ const UpdateApplicationInfo = ({ func = () => {} }) => {
               : typeof child.UserType === "string"
               ? child.UserType
               : "",
-              entranceIconLarge: child.EntranceIconLarge
-              ? child.EntranceIconLarge
-              : defaultPicUrl,
-            entranceIconMini: child.EntranceIconMini
-              ? child.EntranceIconMini
-              : defaultPicUrl,
+          entranceIconLarge: child.EntranceIconLarge
+            ? child.EntranceIconLarge
+            : defaultPicUrl,
+          entranceIconMini: child.EntranceIconMini
+            ? child.EntranceIconMini
+            : defaultPicUrl,
           operationType: child.OperationType,
 
           path: child.AccessParam,
@@ -353,7 +363,9 @@ const UpdateApplicationInfo = ({ func = () => {} }) => {
               ApplicationName,
               IsThirdParty,
               ProviderName,
-              ApplicationSecret:ApplicationSecret?ApplicationSecret:'123456',
+              ApplicationSecret: ApplicationSecret
+                ? ApplicationSecret
+                : "123456",
               Introduction,
               ApplicationType,
               applicationIcon,
@@ -794,7 +806,6 @@ const checkApplicationID = (func = (error, ApplicationIDError) => {}) => {
     let ApplicationID = AccessData.AddAppilicationParams.ApplicationID;
     let InitApplicationID = AccessData.AddAppilicationInitParams.ApplicationID;
     let error = false;
-    console.log(ApplicationID);
     if (!ApplicationID) {
       dispatch(SetAddApplicationTips({ ApplicationIDTips: "应用ID不能为空" }));
       dispatch(
@@ -1059,6 +1070,47 @@ const checkApplicationApiAddr = (
     func(error, ApplicationApiAddrError);
   };
 };
+
+// 应用编辑：应用ID修改检查
+const checkApplicationImgUrl = (
+  func = (error, ApplicationImgUrlError) => {}
+) => {
+  return (dispatch, getState) => {
+    let { AccessData, UIState } = getState();
+    let Test = /^([a-zA-Z0-9]{1,24})$/;
+    let ApplicationImgUrlError = false;
+
+    let ApplicationImgUrl = AccessData.AddAppilicationParams.ApplicationImgUrl;
+    let InitApplicationImgUrl =
+      AccessData.AddAppilicationInitParams.ApplicationImgUrl;
+    let error = false;
+    if (!ApplicationImgUrl) {
+      dispatch(
+        SetAddApplicationTips({ ApplicationImgUrlTips: "请上传应用图标" })
+      );
+      dispatch(
+        SetAddApplicationTipsVisible({
+          ApplicationImgUrlTipsVisible: true,
+        })
+      );
+      error = true;
+    } else {
+      dispatch(
+        SetAddApplicationTipsVisible({
+          ApplicationImgUrlTipsVisible: false,
+        })
+      );
+      dispatch(
+        SetAddApplicationTips({ ApplicationImgUrlTips: "请上传应用图标" })
+      );
+
+      if (Public.comparisonObject(InitApplicationImgUrl, ApplicationImgUrl)) {
+        ApplicationImgUrlError = true;
+      }
+    }
+    func(error, ApplicationImgUrlError);
+  };
+};
 // 检测所有添加的参数
 const checkAllAppParams = ({
   isAdd = true,
@@ -1138,7 +1190,18 @@ const checkAllAppParams = ({
         ProviderError2 = Error2;
       })
     );
-    let { AddAppilicationTipsVisible,AddAppilicationParams:{IsThirdParty} } = getState().AccessData;
+    let ApplicationImgUrlError = false;
+    let ApplicationImgUrlError2 = false;
+    dispatch(
+      checkApplicationImgUrl((Error, Error2) => {
+        ApplicationImgUrlError = Error;
+        ApplicationImgUrlError2 = Error2;
+      })
+    );
+    let {
+      AddAppilicationTipsVisible,
+      AddAppilicationParams: { IsThirdParty },
+    } = getState().AccessData;
     if (
       ProviderError ||
       ApplicationNameError ||
@@ -1147,7 +1210,8 @@ const checkAllAppParams = ({
       ApplicationUrlError ||
       ApplicationCallbackAddrError ||
       IntroductionError ||
-      (isAdd&&ApplicationSecretError&&IsThirdParty!=='0') ||
+      ApplicationImgUrlError ||
+      (isAdd && ApplicationSecretError && IsThirdParty !== "0") ||
       AddAppilicationTipsVisible.ApplicationNameTipsVisible
     ) {
       error1(getState());
@@ -1168,6 +1232,7 @@ const checkAllAppParams = ({
           ApplicationCallbackAddrError2 &&
           IntroductionError2 &&
           ApplicationSecretError2 &&
+          ApplicationImgUrlError2 &&
           AddAppilicationParams.ApplicationImgUrl ===
             AddAppilicationInitParams.ApplicationImgUrl &&
           AddAppilicationParams.ApplicationType ===
@@ -1512,6 +1577,14 @@ const GetClientidAndKey = ({
 }) => {
   return (dispatch, getState) => {
     // console.log(url)
+    let {
+      AccessData: {
+        AddAppilicationInitParams: { Type },
+      },
+    } = getState();
+    if(Type!=='add'){
+      return;
+    }
     let url =
       AccessProxy_univ +
       "/GetClientidAndKey?ApplicationName=" +
@@ -1527,7 +1600,7 @@ const GetClientidAndKey = ({
         }
         if (json.StatusCode === 200) {
           let { result, clientMsg } = json.Data;
-          if (useDefault) {
+          // if (useDefault) {
             if (result) {
               dispatch(
                 SetAddApplicationParams({
@@ -1547,7 +1620,7 @@ const GetClientidAndKey = ({
                 })
               );
             }
-          }
+          // }
           dispatch(SetLoadingVisible({ EditAccessLoadingVisible: false }));
           func(getState());
         }
@@ -1635,7 +1708,7 @@ const SetEntrancesToApplication = ({ func = () => {} }) => {
               AccessParam: ios,
               CanAdd: false,
               OperationType: "0",
-              DeviceType:'ios',
+              DeviceType: "ios",
               DeviceTypesName: "IOS",
             });
           }
@@ -1647,7 +1720,7 @@ const SetEntrancesToApplication = ({ func = () => {} }) => {
               pc,
               OperationType: "0",
               CanAdd: false,
-              DeviceType:'pc',
+              DeviceType: "pc",
               AccessParam: pc,
               DeviceTypesName: "PC",
             });
@@ -1659,7 +1732,7 @@ const SetEntrancesToApplication = ({ func = () => {} }) => {
               UserTypeName: StaticData.UserTypeForKey[child].title,
               CanAdd: false,
               android,
-              DeviceType:'android',
+              DeviceType: "android",
               OperationType: "0",
               AccessParam: android,
               DeviceTypesName: "安卓",

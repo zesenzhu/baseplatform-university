@@ -1,0 +1,192 @@
+@import "../../../../../../../common/scss/public.scss";
+.AddAppilication {
+    position: relative;
+    height: 460px;
+    width: 1159px;
+    .access-main-msg-box {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        // padding: 0 10px;
+        .row {
+            // display: inline-block;
+            width: 48%;
+            height: 44px;
+            line-height: 44px;
+            // display: inline-block;
+            float: left;
+            // padding-left: 20px;
+            // padding-right: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            // @include TextOverflow();
+            .access-main-msg {
+                display: inline-block;
+                height: 44px;
+                line-height: 44px;
+                width: 78%;
+                .access-main-msg-input {
+                    width: 427px;
+                    height: 28px;
+                    line-height: 28px;
+                }
+                .msg-tips {
+                    color: red;
+                    line-height: 16px;
+                    vertical-align: top;
+                    font-size: 12px;
+                    margin-top: -10px;
+                }
+            }
+            .access-main-msg-tips {
+                display: inline-block;
+                height: 44px;
+                line-height: 44px;
+                text-align: right;
+                vertical-align: top;
+                color: #999999;
+                width: 22%;
+                .must-icon {
+                    color: red;
+                }
+            }
+        }
+        .left-row {
+            // width: 45%;
+            .access-main-msg {
+                .msg-tips {
+                    margin-top: -10px;
+                }
+            }
+        }
+        .Introduce-row {
+            height: 84px;
+            margin-bottom: 8px;
+            .access-main-msg {
+                height: 84px;
+                .Introduction-TextArea {
+                    height: 74px;
+                    padding-top: 0;
+                    margin-top: 10px;
+                    padding-bottom: 0;
+                    line-height: 24px;
+                }
+                .msg-tips {
+                    margin-top: 0px;
+                }
+            }
+        }
+        .rigth-row {
+            // width: 55%;
+            .access-main-msg-tips {
+                width: 25%;
+            }
+            .access-main-msg {
+                width: 75%;
+            }
+            .msg-IsThirdParty {
+                .access-main-msg-input {
+                    width: 192px;
+                }
+                .msg-tips {
+                    margin-left: 180px;
+                }
+            }
+        }
+        .row-pwd {
+            .access-main-msg {
+                .access-main-msg-input {
+                    width: 343px;
+                }
+            }
+        }
+        .img-row {
+            height: 84px;
+            margin-bottom: 8px;
+            .access-main-msg-tips {
+                line-height: 94px;
+                height: 94px;
+            }
+            .access-main-msg {
+                height: 84px;
+                margin-top: 10px;
+                .ToolImgBox {
+                    height: 80px;
+                    width: 80px;
+                    cursor: pointer;
+                    display: inline-block;
+                    // margin-right: 10px;
+                    vertical-align: top;
+                    background: url(./images/icon-add-image-group.png)no-repeat center center /contain;
+                }
+                .btn-box {
+                    display: inline-block;
+                    vertical-align: top;
+                    height: 70px;
+                    .imgBtn {
+                        height: 28px;
+                        display: block;
+                        line-height: 28px;
+                        font-size: 12px;
+                        padding: 0 5px;
+                        &:last-of-type {
+                            margin-top: 14px;
+                        }
+                    }
+                }
+                .imgTips {
+                    display: inline-block;
+                    /* float: left; */
+                    // width: 170px;
+                    color: #b8b8b8;
+                    margin-left: 10px;
+                    line-height: 22px;
+                    margin-top: 18px;
+                    font-size: 14px;
+                }
+                .msg-tips {
+                    margin-top: 0px;
+                }
+            }
+        }
+        .dropdown_container {
+            margin-top: -10px;
+            .dropdown_wrapper .dropdown_select_ul {
+                top: 40px;
+            }
+        }
+        .add-row {
+            height: 25px;
+            line-height: 25px;
+            .access-main-msg {
+                height: 25px;
+                line-height: 25px;
+            }
+            .access-main-msg-tips {
+                display: inline-block;
+                height: 25px;
+                line-height: 25px;
+                text-align: right;
+                vertical-align: top;
+                width: 30%;
+            }
+            .add-addr {
+                margin-left: 10px;
+                font-size: 14px;
+                // text-decoration: underline;
+                color: #0099ff;
+                cursor: pointer;
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+        }
+    }
+    .dropdown_container {
+        vertical-align: bottom;
+        .dropdown_wrapper {
+            margin-left: 0;
+        }
+    }
+}

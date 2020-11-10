@@ -1,0 +1,17 @@
+#SubApplication {
+    padding: 20px;
+    min-height: 600px;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    &:focus {
+        outline-color: transparent;
+    }
+}
+
+@import "./main.scss";
+@import "./modal.scss";

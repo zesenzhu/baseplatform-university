@@ -1,0 +1,139 @@
+@import "../../../../../common/scss/public.scss";
+// 添加设置应用
+.SetAppModal {
+    .tab-bar-top {
+        height: 70px;
+        text-align: center;
+        .tab-bar {
+            position: relative;
+            margin: 24px 10px 0;
+            display: inline-block;
+            width: 130px;
+            line-height: 28px;
+            height: 28px;
+            cursor: pointer;
+            border-radius: 14px;
+            &.default {
+                color: #0e95ed;
+                background: url(../images/icon-default.png) no-repeat center top/100% 100%;
+            }
+            &.actived {
+                color: #fff;
+                background: url(../images/icon-select.png) no-repeat center top/100% 100%;
+                box-shadow: 0 10px 15px -10px #0e94ec;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -6px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    -webkit-transform: translateX(-50%);
+                    -moz-transform: translateX(-50%);
+                    -ms-transform: translateX(-50%);
+                    -o-transform: translateX(-50%);
+                    width: 12px;
+                    height: 6px;
+                    background: url(../images/icon-trigle.png) no-repeat center top/contain;
+                }
+            }
+        }
+    }
+    .exists-content {
+        height: calc(596px - 70px);
+        .add-card {
+            margin: 10px;
+            &:nth-of-type(4n + 1) {
+                margin-left: 32px;
+            }
+        }
+    }
+}
+
+.EditApplication {
+    height: 400px !important;
+    padding-top: 50px;
+}
+
+.AccessDetailModal {
+    position: relative;
+    height: 500px;
+    width: 800px;
+    .access-main-msg-box {
+        position: relative;
+        height: 280px;
+        width: 800px;
+        // padding: 0 10px;
+        .row {
+            width: 50%;
+            height: 40px;
+            line-height: 40px;
+            // display: inline-block;
+            float: left;
+            padding-left: 20px;
+            padding-right: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            @include TextOverflow();
+        }
+    }
+    .Entrances-table {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+        .Scrollbars {
+            z-index: 6;
+            height: 187px!important; //220-33为主显示高度
+        }
+        .ant-table-tbody>tr>td,
+        .ant-table-thead>tr>th {
+            padding: 2px 0;
+        }
+        .ant-table-header-column {
+            line-height: 28px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .ant-table-column-title {
+            color: #647e86;
+        }
+        .table-top {
+            position: absolute;
+            // width: 100%;
+            z-index: 5;
+            .ant-table-align-center {
+                width: 120px;
+                &:last-of-type {
+                    width: 200px;
+                }
+            }
+        }
+        .Entrances {
+            margin-top: -33px;
+            .UserType,
+            .EntranceName,
+            .EntranceImgUrl,
+            .SubjectNames,
+            .DeviceTypesName {
+                display: inline-block;
+                width: 115px;
+                line-height: 20px;
+                font-size: 14px;
+                @include TextOverflow();
+            }
+            .AccessParam {
+                display: inline-block;
+                width: 195px;
+                line-height: 20px;
+                font-size: 14px;
+                text-decoration: underline;
+                color: #0099ff;
+                cursor: pointer;
+                @include TextOverflow();
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+        }
+    }
+}

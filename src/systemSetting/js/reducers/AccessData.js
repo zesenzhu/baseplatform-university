@@ -197,6 +197,7 @@ const AccessData = (
       AddAccessEntrancesLoadingVisible: false,
       EditAccessEntrancesLoadingVisible: false,
       AddAccessComponentLoadingVisible: false,
+      AccessContentLoadingVisible:false
     },
     ApplicationList: {
       List: [],
@@ -275,6 +276,7 @@ const AccessData = (
       ApplicationCallbackAddrTips: "授权回调地址格式不正确",
       ApplicationUrlTips: "应用访问地址格式不正确",
       ApplicationApiAddrTips: "接口服务地址格式不正确",
+      ApplicationImgUrlTips: "请上传应用图标",
       // s*******
       EntranceNameTips: "入口名称格式不正确",
       pcTips: "PC端访问路径不正确",
@@ -303,6 +305,8 @@ const AccessData = (
       DeleteEntrances: [],
     },
     AddAppilicationInitParams: {
+      Type:'add',
+
       Entrances: [],
       ApplicationID: "",
       ApplicationName: "",
@@ -324,6 +328,7 @@ const AccessData = (
     },
     AppilicationInitParams: {
       //为初始化清除旧数据
+      Type:'add',
       Entrances: [],
       DeleteEntrances: [],
 

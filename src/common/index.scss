@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 @import "~compass-mixins/lib/animate";
 @import "~compass-mixins/lib/compass";
 
@@ -73,7 +72,6 @@ body {
     color: #333333;
     background-color: #f5f5f5!important;
     font-family: "Microsoft YaHei"!important;
-
 }
 
 .clearfix::after {
@@ -91,12 +89,6 @@ body {
 
 
 /*公共css end*/
-
-
-
-
-
-
 
 //分页
 @import "./scss/pagination";
@@ -118,15 +110,13 @@ body {
 @import "./scss/frame";
 //modal
 @import "./scss/modal";
-
 //emptybox 空数据
 @import "./scss/empty";
-
 //input 输入框
 @import "./scss/input";
-
 //tooltip 提示框
 @import "./scss/tooltip";
-
 //tooltip 按钮组
 @import "./scss/button";
+// Img 图片
+@import './scss/img.scss'
