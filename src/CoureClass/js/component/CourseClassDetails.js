@@ -1,13 +1,20 @@
 import React from "react";
+
 import { connect } from "react-redux";
+
 import actions from "../actions";
+
 import "../../scss/CourseClassDetails.scss";
-import history from "../containers/history";
+
+
 import { Table, Button, DetailsModal, Empty } from "../../../common";
+
 import { Scrollbars } from "react-custom-scrollbars";
+
 import {getQueryVariable} from "../../../common/js/disconnect";
 
 class CourseClassDetails extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -95,11 +102,14 @@ class CourseClassDetails extends React.Component {
 
   //点击头部任课教师
   onTeacherNameClick = id => {
-    const { dispatch } = this.props;
+
+    const { dispatch,identify } = this.props;
 
       const token = sessionStorage.getItem("token");
 
-      const lg_ic = getQueryVariable('lg_ic');
+	  const {identifyList} = identify;
+
+      const lg_ic = getQueryVariable('lg_ic')?getQueryVariable('lg_ic'):identifyList[0].IdentityCode;
 
       window.open(`/html/userPersona/index.html?userID=${id}&userType=1&lg_tk=${token}&lg_ic=${lg_ic}`);
 
@@ -273,10 +283,12 @@ class CourseClassDetails extends React.Component {
 }
 
 const mapStateToProps = state => {
-  let { UIState, DataState } = state;
+  let { UIState, DataState,identify } = state;
   return {
     UIState,
-    DataState
+    DataState,
+    identify
   };
 };
+
 export default connect(mapStateToProps)(CourseClassDetails);
