@@ -140,7 +140,7 @@ p {
                     line-height: 96px;
                 }
                 .Progress-RankClass {
-                    background: url(../images/exam-all.png)no-repeat center center /contain;
+                    background: url(../images/exam-all.png) no-repeat center center / contain;
                     .Progress-content {
                         font-size: 24px;
                         line-height: 20px;
@@ -157,7 +157,7 @@ p {
                     }
                 }
                 .Progress-TotalScore {
-                    background: url(../images/exam-class.png)no-repeat center center /contain;
+                    background: url(../images/exam-class.png) no-repeat center center / contain;
                     .Progress-content {
                         font-size: 24px;
                         line-height: 20px;
@@ -168,7 +168,7 @@ p {
                     }
                 }
                 .Progress-RankGrade {
-                    background: url(../images/exam-grade.png)no-repeat center center /contain;
+                    background: url(../images/exam-grade.png) no-repeat center center / contain;
                     .Progress-content {
                         font-size: 24px;
                         line-height: 20px;
@@ -343,6 +343,110 @@ p {
                 border-radius: 6px;
                 .none {
                     color: #ff0000;
+                }
+            }
+        }
+    }
+    #SelfStudy {
+        padding: 10px 0;
+        .TR-box {
+            width: calc(100% + 24px);
+            margin-left: -12px;
+            .StudyCard {
+                margin: 12px;
+                width: 254px;
+                height: 152px;
+                display: inline-block;
+                vertical-align: top;
+                &:nth-of-type(3n + 1) {
+                    background: url(../images/img-card-1.png) no-repeat center center / contain;
+                    .RC-Msg {
+                        .RCM-content {
+                            .RCMc-top {
+                                color: #fe7196;
+                            }
+                        }
+                    }
+                }
+                &:nth-of-type(3n + 2) {
+                    background: url(../images/img-card-2.png) no-repeat center center / contain;
+                    .RC-Msg {
+                        .RCM-content {
+                            .RCMc-top {
+                                color: #6d91ff;
+                            }
+                        }
+                    }
+                }
+                &:nth-of-type(3n) {
+                    background: url(../images/img-card-3.png) no-repeat center center / contain;
+                    .RC-Msg {
+                        .RCM-content {
+                            .RCMc-top {
+                                color: #0db58f;
+                            }
+                        }
+                    }
+                }
+                .CardName {
+                    width: 254px;
+                    height: 56px;
+                    line-height: 56px;
+                    padding: 0 18px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #ffffff;
+                    @include TextOverflow();
+                }
+                .RC-Msg {
+                    padding: 20px 0;
+                    .RCM-content {
+                        position: relative;
+                        display: inline-block;
+                        vertical-align: top;
+                        // width: calc(50% - 0.5px);
+                        .RCMc-top {
+                            height: 32px;
+                            line-height: 32px;
+                            width: 100%;
+                            font-size: 32px;
+                            text-align: center;
+                            font-weight: bold;
+                            @include TextOverflow();
+                            .Unit {
+                                font-size: 18px;
+                                line-height: 20px;
+                                vertical-align: bottom;
+                            }
+                        }
+                        .RCMc-bottom {
+                            font-size: 14px;
+                            text-align: center;
+                            line-height: 28px;
+                            color: #999999;
+                        }
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            width: 0;
+                            height: 100%;
+                            right: -0.5px;
+                            top: 0;
+                            border-left: 1px solid #e6e6e6;
+                        }
+                        &:last-of-type {
+                            &::after {
+                                border: none;
+                            }
+                        }
+                    }
+                    .devide {
+                        width: 0px;
+                        display: inline-block;
+                        vertical-align: top;
+                        height: 100%;
+                        border-left: 1px solid #e6e6e6;
+                    }
                 }
             }
         }

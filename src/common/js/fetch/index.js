@@ -62,10 +62,13 @@ function postData(
     cache: "no-cache", //*no-cache,default,reload,force-cache,only-ifcached,此项为缓存相关配置
     credentials: "omit", //*include(携带cookie)、same-origin(cookie同源携带)、omit(不携带)
 
-    headers: {
+    headers:SecurityLevel!==1? {
       Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
       "Content-Type": ContentType, //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
       Authorization: requestSecure(paramsObj, TESTKEY, SecurityLevel),
+    }:{
+      Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
+      "Content-Type": ContentType, //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
     },
     redirect: "follow", //manual、*follow(自动重定向)、error，此项为重定向的相关配置
     // referrer: 'no-referrer',//该首部字段会告知服务器请求的原始资源的URI
@@ -221,7 +224,8 @@ function getData(
   SecurityLevel = 1,
   mode = "cors",
   IsDesk = false,
-  element = true
+  element = true,
+  header={}
 ) {
   let token = sessionStorage.getItem("token") || getQueryVariable("lg_tk");
   // if (!token && SecurityLevel !== 1) {
@@ -238,7 +242,7 @@ function getData(
   if (isIE()) {
     url = encodeURI(url);
   }
-  // console.log(url)
+  // console.log(header)
   let result = fetch(AESEncryptionUrl(url, TESTKEY, SecurityLevel, IsDesk), {
     method: "get", //*post、get、put、delete，此项为请求方法相关的配置
     mode: mode, //no-cors(跨域模式但服务器端不支持cors),*cors(跨域模式，需要服务器通过Access-control-Allow-Origin来
@@ -246,10 +250,16 @@ function getData(
     cache: "no-cache", //*no-cache,default,reload,force-cache,only-ifcached,此项为缓存相关配置
     credentials: "omit", //*include(携带cookie)、same-origin(cookie同源携带)、omit(不携带)
 
-    headers: {
+    headers: SecurityLevel!==1?{
       Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
       "Content-Type": "application/x-www-form-urlencoded", //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
       Authorization: requestSecure(url, TESTKEY, SecurityLevel),
+      ...header
+    }:{
+      Accept: "application/json, text/plain, */*", //请求头，代表的、发送端（客户端）希望接收的数据类型
+      "Content-Type": "application/x-www-form-urlencoded", //实体头，代表发送端（客户端|服务器）发送的实体数据的数据类型
+   
+      ...header 
     },
     redirect: "follow", //manual、*follow(自动重定向)、error，此项为重定向的相关配置
     // referrer: 'no-referrer',//该首部字段会告知服务器请求的原始资源的URI
@@ -272,9 +282,11 @@ function getData(
       return clone;
     })
     .then((response) => {
-      // console.log(response.status)
+      // console.log(response)
       //当请求成功时直接返回response，失败则进行json解析返回失败信息
-
+// if(!element){
+//   return  response
+// }
       if (response.status === 200) {
         return response;
       } else {
@@ -285,8 +297,10 @@ function getData(
 
           window.location.href = "/html/admDisconnect?lg_preurl=" + preUrl;
         } else {
+          // return false;
+          // console.log(response.json())
           return response.json().then((json) => {
-            //   console.log(json)
+              console.log(json)
             return Promise.reject(json);
           });
         }

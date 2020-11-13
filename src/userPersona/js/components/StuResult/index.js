@@ -9,6 +9,7 @@ import ContentItem from "../contentItem";
 import LinkBtn from "../linkBtn";
 import NearExam from "./NearExam";
 import TermReport from "./TermReport";
+import SelfStudy from "./SelfStudy";
 
 const { TabPane } = Tabs;
 let { MainActions, CommonActions } = actions;
@@ -19,9 +20,23 @@ class StuQuality extends Component {
     const { dispatch } = props;
     this.state = {
       firstTime: true, //是否第一次，进行接口请求控制
+      isSelfStudy: false,
     };
   }
-  componentWillMount() {}
+  componentWillMount() {
+    // 控制作业自习显示，ProductType为2
+    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+
+    if (Number(ProductType) === 2) {
+      this.setState({
+        isSelfStudy: true,
+      });
+    }
+  }
   componentWillReceiveProps(nextProps) {
     let { firstTime } = this.state;
     let {
@@ -41,12 +56,14 @@ class StuQuality extends Component {
     // GradeID = "1AD37424-9F56-4DAD-81C6-B94CE498A8DA";
     // ClassID = "A00C8711-A908-41E0-98B4-4DFD8038E8E0";
     // SchoolID = "S-888";
+    let token = sessionStorage.getItem("token");
     if (
       firstTime &&
       ClassID &&
       Term &&
       GradeID &&
       UserID &&
+      token &&
       SchoolID &&
       Urls["810"].WsUrl
     ) {
@@ -61,6 +78,7 @@ class StuQuality extends Component {
           GradeID,
           SchoolID,
           XH: UserID,
+          Token: token,
           // SelectBar: "NearExam",
         })
       );
@@ -80,6 +98,8 @@ class StuQuality extends Component {
 
     if (key === "TermReport") {
       dispatch(MainActions.GetStudentReport({}));
+    } else if (key === "SelfStudy") {
+      dispatch(MainActions.GetSelfStudy({}));
     } else {
       dispatch(MainActions.GetStuNearExam({}));
     }
@@ -98,7 +118,8 @@ class StuQuality extends Component {
         Urls: { E34 },
       },
     } = this.props;
-    let { firstTime } = this.state;
+    // TabLoadingVisible= false
+    let { firstTime, isSelfStudy } = this.state;
     return (
       <ContentItem type="score" tabName={"学生成绩信息"}>
         <Loading
@@ -127,6 +148,21 @@ class StuQuality extends Component {
                 >
                   期末总评
                 </span>
+                {isSelfStudy ? (
+                  <>
+                    <span className="devide"></span>
+                    <span
+                      className={`SRtl-bar SRtl-SelfStudy  ${
+                        SelectBar === "SelfStudy" ? "SRtl-bar-select" : ""
+                      }`}
+                      onClick={this.onSelectBar.bind(this, "SelfStudy")}
+                    >
+                      作业自学
+                    </span>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
               {E34 && E34.WebUrl ? (
                 <LinkBtn
@@ -172,6 +208,13 @@ class StuQuality extends Component {
                 <TabPane key="TermReport">
                   <TermReport></TermReport>
                 </TabPane>
+                {isSelfStudy ? (
+                  <TabPane key="SelfStudy">
+                    <SelfStudy></SelfStudy>
+                  </TabPane>
+                ) : (
+                  ""
+                )}
               </Tabs>
             </Loading>
           </div>{" "}

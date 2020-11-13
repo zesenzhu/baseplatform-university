@@ -400,14 +400,154 @@ const MainData = (
     },
     TermAndPeriod: {
       WeekList: [],
-      ItemWeek:[],
+      ItemWeek: [],
       NowWeekSelect: { value: 1, title: "第1周" },
+    },
+    AITrain: {
+      //AI教材练习
+      IsExist: false, //是否存在着模块
+      AverageScore: 0, //平均分
+      TrainTime: 0, //训练次数
+      CardName: "AI教材练习",
+      DataList: [
+        {
+          Num: 0,
+          NumName: "平均得分",
+        },
+        {
+          Num: 0,
+          NumName: "训练次数",
+        },
+      ],
+    },
+    BeforeClass: {
+      //教案课前预习
+      IsExist: false, //是否存在着模块
+      UserID: "", //学生id
+      PercentageRate: 0, //完成率
+      TrainTime: 0, //训练次数
+      ReachStandardCount: 0, //完成次数
+      CardName: "教案课前预习",
+      DataList: [
+        {
+          Num: 0,
+          NumName: "完成率",
+          Unit: "%",
+        },
+        {
+          Num: 0,
+          NumName: "训练次数",
+        },
+      ],
+    },
+    AfterClass: {
+      //教案课后作业
+      IsExist: false, //是否存在着模块
+      UserID: "", //学生id
+      PercentageRate: 0, //完成率
+      TrainTime: 0, //训练次数
+      AverageScoreRate: 0, //平均得分率
+      CardName: "教案课后作业",
+      DataList: [
+        {
+          Num: 0,
+          Unit: "%",
+          NumName: "平均得分率",
+        },
+        {
+          Num: 0,
+          Unit: "%",
+          NumName: "完成率",
+        },
+        {
+          Num: 0,
+          NumName: "训练次数",
+        },
+      ],
+    },
+    ReTrain: {
+      //过关练习
+      IsExist: false, //是否存在着模块
+      LearningTime: 0, //学习时长
+      TrainTime: 0, //训练次数
+      CardName: "过关练习",
+      DataList: [
+        {
+          Num: 0,
+          NumName: "训练次数",
+        },
+        {
+          Num: 0,
+          Unit: "h",
+          NumName: "学习时长",
+        },
+      ],
+    },
+    PlanClass: {
+      //课外计划
+      IsExist: false, //是否存在着模块
+      LearningTime: 0, //学习时长
+      TotalPlan: 0, //计划总数
+      CardName: "课外计划",
+      DataList: [
+        {
+          Num: 0,
+          NumName: "计划总数",
+        },
+        {
+          Num: 0,
+          Unit: "h",
+          NumName: "学习时长",
+        },
+      ],
+    },
+    ResStudy: {
+      //电子素材
+      IsExist: false, //是否存在着模块
+      LearningTime: 0, //学习时长
+      TotalStudyData: 0, //学习资料总数
+      CardName: "电子素材",
+      DataList: [
+        {
+          Num: 0,
+          NumName: "学习资料数",
+        },
+        {
+          Num: 0,
+          Unit: "h",
+          NumName: "学习时长",
+        },
+      ],
     },
   },
   actions
 ) => {
   let ApplyModuleSort = [];
   switch (actions.type) {
+    case MainActions.MAIN_GET_RES_STUDY:
+      return Object.assign({}, state, {
+        ResStudy: {...state.ResStudy,...actions.data},
+      });
+    case MainActions.MAIN_GET_PLAN_CLASS:
+      return Object.assign({}, state, {
+        PlanClass: {...state.PlanClass,...actions.data},
+      });
+    case MainActions.MAIN_GET_RE_TRAIN:
+      return Object.assign({}, state, {
+        ReTrain: {...state.ReTrain,...actions.data},
+      });
+    case MainActions.MAIN_GET_AFTER_CLASS:
+      return Object.assign({}, state, {
+        AfterClass: {...state.AfterClass,...actions.data},
+      });
+    case MainActions.MAIN_GET_BEFORE_CLASS:
+      return Object.assign({}, state, {
+        AITrain: {...state.AITrain,...actions.data},
+      });
+    case MainActions.MAIN_GET_AI_TRAIN:
+      return Object.assign({}, state, {
+        BeforeClass: {...state.BeforeClass,...actions.data},
+      });
     case MainActions.MAIN_GET_TERM_AND_PERIOD:
       return Object.assign({}, state, {
         TermAndPeriod: actions.data,

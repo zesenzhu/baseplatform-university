@@ -4,6 +4,7 @@ import CONFIG from "../../../../common/js/config";
 import "whatwg-fetch";
 import CommonActions from "./CommonActions";
 import Public from "../../../../common/js/public";
+import $ from "jquery";
 const { HashPrevProxy, UserScheduleProxy, BasicProxy } = CONFIG;
 // 查询我的班级德育信息
 const MAIN_GET_CLASS_MORAL_EDU_INFO_BY_CRITERIAS =
@@ -171,12 +172,12 @@ const GetStudentReport = ({
         if (res) {
           dispatch({ type: MAIN_GET_STUDENT_REPORT, data: res.data });
           func(getState());
-          dispatch(
-            CommonActions.SetStuResultParams({
-              TabLoadingVisible: false,
-            })
-          );
         }
+        dispatch(
+          CommonActions.SetStuResultParams({
+            TabLoadingVisible: false,
+          })
+        );
       }
     );
   };
@@ -255,12 +256,12 @@ const GetStuNearExam = ({
         if (res) {
           dispatch({ type: MAIN_GET_STU_NEAR_EXAM, data: res.data });
           func(getState());
-          dispatch(
-            CommonActions.SetStuResultParams({
-              TabLoadingVisible: false,
-            })
-          );
         }
+        dispatch(
+          CommonActions.SetStuResultParams({
+            TabLoadingVisible: false,
+          })
+        );
       }
     );
   };
@@ -969,7 +970,481 @@ const getTermAndPeriodAndWeekNOInfo = async ({
   }
   return data;
 };
+
+// 获取作业自习
+const MAIN_GET_SELF_STUDY = "MAIN_GET_SELF_STUDY";
+const MAIN_GET_AI_TRAIN = "MAIN_GET_AI_TRAIN";
+const MAIN_GET_BEFORE_CLASS = "MAIN_GET_BEFORE_CLASS";
+const MAIN_GET_AFTER_CLASS = "MAIN_GET_AFTER_CLASS";
+const MAIN_GET_RE_TRAIN = "MAIN_GET_RE_TRAIN";
+const MAIN_GET_PLAN_CLASS = "MAIN_GET_PLAN_CLASS";
+const MAIN_GET_RES_STUDY = "MAIN_GET_RES_STUDY";
+const GetSelfStudy = ({
+  func = () => {},
+  Term,
+  ClassID,
+  GradeID,
+  SchoolID,
+  Proxy,
+  XH,
+  Token,
+}) => {
+  return (dispatch, getState) => {
+    dispatch(
+      CommonActions.SetStuResultParams({
+        TabLoadingVisible: true,
+      })
+    );
+    let State = getState();
+    let {
+      MoreData: {
+        CommonData: { StuResultParams, TabLoadingVisible },
+      },
+      systemUrl: { Urls },
+    } = State;
+    if (Term === undefined) {
+      Term = StuResultParams.Term;
+    }
+
+    if (SchoolID === undefined) {
+      SchoolID = StuResultParams.SchoolID;
+    }
+    if (Proxy === undefined) {
+      Proxy = StuResultParams.Proxy;
+    }
+    if (XH === undefined) {
+      XH = StuResultParams.XH;
+    }
+    if (Token === undefined) {
+      Token = StuResultParams.Token;
+    }
+    // AI教材
+    Urls[930].WsUrl &&
+      getAITrain({ userID: StuResultParams.XH, Proxy: Urls[930].WsUrl }).then(
+        (res) => {
+          if (res) {
+            let DataList = [
+              {
+                Num: res.Result ? res.Result.AverageScore * 100 : 0,
+                NumName: "完成率",
+                Unit: "%",
+              },
+              {
+                Num: res.Result ? res.Result.TrainTime : 0,
+                NumName: "训练次数",
+              },
+            ];
+
+            dispatch({
+              type: MAIN_GET_AI_TRAIN,
+              data: { ...res.Result, IsExist: true, DataList },
+            });
+            func(getState());
+          }
+          if (
+            getState().MoreData.CommonData.StuResultParams.TabLoadingVisible
+          ) {
+            dispatch(
+              CommonActions.SetStuResultParams({
+                TabLoadingVisible: false,
+              })
+            );
+          }
+        }
+      );
+
+    // 课前预习
+    Urls[630].WsUrl &&
+      getBeforeClass({
+        userid: StuResultParams.XH,
+        Proxy: Urls[630].WsUrl,
+        Term,
+        SchoolID,
+        Token,
+      }).then((res) => {
+        if (res) {
+          // "val":{
+          //   "UserID":"",//学生id
+          //   "TrainTime":7,//训练次数
+          //   "PercentageRate":0.571,//完成率
+          //    "ReachStandardCount":4.0//完成次数
+          //   },
+          let DataList = [
+            {
+              Num: res.val ? res.val.PercentageRate * 100 : 0,
+              NumName: "完成率",
+              Unit: "%",
+            },
+            {
+              Num: res.val ? res.val.TrainTime : 0,
+              NumName: "训练次数",
+            },
+          ];
+
+          dispatch({
+            type: MAIN_GET_BEFORE_CLASS,
+            data: { ...res.val, IsExist: true, DataList },
+          });
+
+          func(getState());
+        }
+        if (getState().MoreData.CommonData.StuResultParams.TabLoadingVisible) {
+          dispatch(
+            CommonActions.SetStuResultParams({
+              TabLoadingVisible: false,
+            })
+          );
+        }
+      });
+    // 课后作业
+    Urls[510].WebUrl &&
+      getAfterClass({
+        userid: StuResultParams.XH,
+        Proxy: Urls[510].WebUrl,
+        Term,
+        SchoolID,
+        Token,
+      }).then((res) => {
+        if (res) {
+          // "val":{
+          //   "UserID":"",//学生id
+          //   "TrainTime":7,//训练次数
+          //   "PercentageRate":0.571,//完成率
+          //    "ReachStandardCount":4.0//完成次数
+          //   },
+          let DataList = [
+            {
+              Num: res.Data ? res.Data.ScoreRate * 100 : 0,
+              Unit: "%",
+              NumName: "平均得分率",
+            },
+            {
+              Num: res.Data ? res.Data.PercentageRate * 100 : 0,
+              NumName: "完成率",
+              Unit: "%",
+            },
+            {
+              Num: res.Data ? res.Data.TrainTime : 0,
+              NumName: "训练次数",
+            },
+          ];
+
+          dispatch({
+            type: MAIN_GET_AFTER_CLASS,
+            data: { ...res.Data, IsExist: true, DataList },
+          });
+
+          func(getState());
+        }
+        if (getState().MoreData.CommonData.StuResultParams.TabLoadingVisible) {
+          dispatch(
+            CommonActions.SetStuResultParams({
+              TabLoadingVisible: false,
+            })
+          );
+        }
+      });
+
+    // 过关训练
+    Urls[627].WsUrl &&
+      getReTrain({
+        userid: StuResultParams.XH,
+        Proxy: Urls[627].WsUrl,
+      }).then((res) => {
+        if (res) {
+          // "val":{
+          //   "UserID":"",//学生id
+          //   "TrainTime":7,//训练次数
+          //   "PercentageRate":0.571,//完成率
+          //    "ReachStandardCount":4.0//完成次数
+          //   },
+          let DataList = [
+            {
+              Num: res.Data ? res.Data.TrainTime : 0,
+              NumName: "训练次数",
+            },
+            {
+              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              NumName: "学习时长",
+              // Unit: "%",
+            },
+          ];
+
+          dispatch({
+            type: MAIN_GET_RE_TRAIN,
+            data: { ...res.Data, IsExist: true, DataList },
+          });
+
+          func(getState());
+        }
+        if (getState().MoreData.CommonData.StuResultParams.TabLoadingVisible) {
+          dispatch(
+            CommonActions.SetStuResultParams({
+              TabLoadingVisible: false,
+            })
+          );
+        }
+      });
+
+    // 电子素材
+    Urls[629].WsUrl &&
+    getResStudy({
+        userid: StuResultParams.XH,
+        Proxy: Urls[629].WsUrl,
+      }).then((res) => {
+        if (res) {
+          // "val":{
+          //   "UserID":"",//学生id
+          //   "TrainTime":7,//训练次数
+          //   "PercentageRate":0.571,//完成率
+          //    "ReachStandardCount":4.0//完成次数
+          //   },
+          let DataList = [
+            {
+              Num: res.Data ? res.Data.TotalStudyData : 0,
+              NumName: "学习资料数",
+            },
+            {
+              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              NumName: "学习时长",
+              // Unit: "%",
+            },
+          ];
+
+          dispatch({
+            type: MAIN_GET_RES_STUDY,
+            data: { ...res.Data, IsExist: true, DataList },
+          });
+
+          func(getState());
+        }
+        if (getState().MoreData.CommonData.StuResultParams.TabLoadingVisible) {
+          dispatch(
+            CommonActions.SetStuResultParams({
+              TabLoadingVisible: false,
+            })
+          );
+        }
+      });
+    // 课外计划
+    Urls[624].WsUrl &&
+    getPlanClass({
+        userid: StuResultParams.XH,
+        Proxy: Urls[624].WsUrl,
+      }).then((res) => {
+        if (res) {
+          // "val":{
+          //   "UserID":"",//学生id
+          //   "TrainTime":7,//训练次数
+          //   "PercentageRate":0.571,//完成率
+          //    "ReachStandardCount":4.0//完成次数
+          //   },
+          let DataList = [
+            {
+              Num: res.Data ? res.Data.TotalPlan : 0,
+              NumName: "计划总数",
+            },
+            {
+              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              NumName: "学习时长",
+              // Unit: "%",
+            },
+          ];
+
+          dispatch({
+            type: MAIN_GET_PLAN_CLASS,
+            data: { ...res.Data, IsExist: true, DataList },
+          });
+
+          func(getState());
+        }
+        if (getState().MoreData.CommonData.StuResultParams.TabLoadingVisible) {
+          dispatch(
+            CommonActions.SetStuResultParams({
+              TabLoadingVisible: false,
+            })
+          );
+        }
+      });
+  };
+};
+const getAITrain = async ({
+  Term = "",
+  userID = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  XH = "",
+}) => {
+  let url = Proxy + "WebService.asmx/GetStuScoreAndTrainTime";
+  let data = "";
+  // $.post(url, { userID }, (data, status) => {
+  //   console.log(data, status);
+  // });
+  let res = await postData(url, { userID }, 1, "cors", false, false);
+  let json = await res.json();
+
+  if (json.ReturnCode === 1) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+
+  return data;
+};
+// 课前预习
+const getBeforeClass = async ({
+  Term = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  userid = "",
+  Token = "",
+}) => {
+  let url =
+    Proxy +
+    "api/public/v2/kqyx/studentportrayal?term=" +
+    Term +
+    "&userid=" +
+    userid +
+    "&token=" +
+    Token +
+    "&schoolid=" +
+    SchoolID;
+  let data = "";
+  let res = await getData(url, 1, "cors", false, false);
+
+  let json = await res.json();
+
+  if (json.code === 0) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 课后作业
+const getAfterClass = async ({
+  Term = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  userid = "",
+  Token = "",
+}) => {
+  let url =
+    Proxy +
+    "api/Com/studentportrayal?term=" +
+    Term +
+    "&userid=" +
+    userid +
+    "&token=" +
+    Token +
+    "&schoolid=" +
+    SchoolID;
+  let data = "";
+  let res = await getData(url, 1, "cors", false, false);
+
+  let json = await res.json();
+
+  if (json.StatusCode === 200) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 过关训练
+const getReTrain = async ({
+  Term = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  userid = "",
+  Token = "",
+}) => {
+  let url = Proxy + "api/Public/ReTrainInfos?StuID=" + userid;
+  let data = "";
+  let res = await getData(url, 1, "cors", false, false);
+
+  let json = await res.json();
+
+  if (json.Status === 1) {
+    data = json;
+  } else {
+    data = false; //有错误
+  }
+  return data;
+};
+// 课外计划
+const getPlanClass = async ({
+  Term = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  userid = "",
+  Token = "",
+}) => {
+  let url =
+    Proxy + "FreeStudyCloudApi/StudyPlan/GetPlanStudyInfo?UserID=" + userid;
+  let data = "";
+  try {
+    let res = await getData(url, 1, "cors", false, false);
+
+    let json = await res.json();
+
+    if (json.StatusCode === 0) {
+      data = json;
+    } else {
+      data = false; //有错误
+    }
+  } catch {
+    data = false;
+  }
+  return data;
+};
+// 课外计划
+const getResStudy = async ({
+  Term = "",
+  // ClassID = "",
+  // GradeID = "",
+  SchoolID = "",
+  Proxy = "",
+  userid = "",
+  Token = "",
+}) => {
+  let url = Proxy + "api/Public/GetResStudyInfo?UserID=" + userid;
+  let data = "";
+  try {
+    let res = await getData(url, 1, "cors", false, false);
+
+    let json = await res.json();
+
+    if (json.StatusCode === 0) {
+      data = json;
+    } else {
+      data = false; //有错误
+    }
+  } catch (e) {
+    data = false;
+  }
+  return data;
+};
 const MainActions = {
+  MAIN_GET_RES_STUDY,
+  MAIN_GET_PLAN_CLASS,
+  MAIN_GET_RE_TRAIN,
+  MAIN_GET_AFTER_CLASS,
+  MAIN_GET_BEFORE_CLASS,
+  MAIN_GET_AI_TRAIN,
+  MAIN_GET_SELF_STUDY,
+  GetSelfStudy,
+
   GetTermAndPeriodAndWeekNOInfo,
   MAIN_GET_TERM_AND_PERIOD,
 

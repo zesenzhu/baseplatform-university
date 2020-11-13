@@ -21,7 +21,7 @@ const CommonData = (
       GradeID: "",
       SchoolID: "",
       XH: "",
-      Proxy: "",
+      Proxy: "",Token: "",
       TabLoadingVisible: true,
       SelectBar: "NearExam", //NearExam:最近考试，TermReport:期末总评
     },
