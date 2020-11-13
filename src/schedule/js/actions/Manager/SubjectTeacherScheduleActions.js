@@ -309,7 +309,6 @@ const STSPageUpdate = (opt) => {
 
                 });
 
-
                 let scheduleList = [];
                 //判断操作是否是下一页操作
                 if (opt&&opt.nextPage){
