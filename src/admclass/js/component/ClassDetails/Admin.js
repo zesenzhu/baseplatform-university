@@ -138,17 +138,25 @@ class Admin extends Component {
       dispatch(UpDataState.GetStudentToPage({}));
     }
   };
-  onDetailModalShow = (role, UserID,UserType) => {
-    let { dispatch } = this.props;
+  onDetailModalShow = (role, UserID, UserType) => {
+    let {
+      dispatch,
+      PublicState: {
+        LoginMsg: { identify },
+      },
+    } = this.props;
     let token = sessionStorage.getItem("token");
-        window.open(
-          "/html/userPersona/index.html?userType=" +
-             UserType +
-            "&userID=" +
-             UserID +
-            "&lg_tk=" +
-            token
-        );
+    window.open(
+      "/html/userPersona/index.html?userType=" +
+        UserType +
+        "&userID=" +
+        UserID +
+        "&lg_tk=" +
+        token +
+        (identify && identify instanceof Array && identify.length > 0
+          ? "&lg_ic=" + identify[0].IdentityCode
+          : "")
+    );
     // dispatch(UpDataState.SetDetailsModalRole(role));
     // dispatch(UpDataState.GetUserDetail({ UserID }));
     // dispatch(UpDataState.SetModalVisible({ DetailsMsgModalVisible: true }));

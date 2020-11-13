@@ -106,7 +106,11 @@ class App extends Component {
     this.Frame.getIdentity({ ModuleID }, (identify) => {
       // havePower.then((res) => {
       //   if (res) {
-      
+        dispatch(
+          PublicAction.getLoginUser(
+            {...userMsg,identify}
+          )
+        );
       this.ListenRoute({ isFirst: true });
       history.listen(() => {
         this.ListenRoute({});

@@ -565,6 +565,11 @@ class App extends Component {
                 )
               );
               this.Frame.getIdentity({ ModuleID }, (identify) => {
+                dispatch(
+                  actions.UpDataState.getLoginUser(
+                    {...JSON.parse(sessionStorage.getItem("UserInfo")),identify}
+                  )
+                );
                 this.requestData(route);
               });
             }}

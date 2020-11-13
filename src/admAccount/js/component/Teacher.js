@@ -362,16 +362,16 @@ class Teacher extends React.Component {
       this.setState({
         pageSize: 10,
         CancelBtnShow: "n",
-      keyword: "",
-      searchValue: "",
-      checkedList: [],
-      pagination: 1,
-      checkAll: false,
-      secondList: [{ value: 0, title: "全部教研室" }],
-      firstList: [{ value: 0, title: "全部学院" }],
-      firstSelect: { value: 0, title: "全部学院" },
-      secondSelect: { value: 0, title: "全部教研室" },
-      SubjectSelect: { value: 0, title: "全部学科" },
+        keyword: "",
+        searchValue: "",
+        checkedList: [],
+        pagination: 1,
+        checkAll: false,
+        secondList: [{ value: 0, title: "全部教研室" }],
+        firstList: [{ value: 0, title: "全部学院" }],
+        firstSelect: { value: 0, title: "全部学院" },
+        secondSelect: { value: 0, title: "全部教研室" },
+        SubjectSelect: { value: 0, title: "全部学科" },
       });
     });
   }
@@ -647,7 +647,7 @@ class Teacher extends React.Component {
   //搜索change
   onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value ,
+      searchValue: e.target.value,
     });
   };
   // 取消搜索
@@ -1034,7 +1034,7 @@ class Teacher extends React.Component {
     const { dispatch } = this.props;
     // console.log(e.target.value)
     this.setState({
-      defaultPwd: e.target.value ,
+      defaultPwd: e.target.value,
     });
   };
   onAlertWarnClose = () => {
@@ -1249,7 +1249,12 @@ class Teacher extends React.Component {
     );
   };
   onUserNameClick = (UserID) => {
-    const { dispatch } = this.props;
+    const {
+      dispatch,
+      DataState: {
+        LoginUser: { identify },
+      },
+    } = this.props;
     let token = sessionStorage.getItem("token");
     window.open(
       "/html/userPersona/index.html?userType=" +
@@ -1257,7 +1262,10 @@ class Teacher extends React.Component {
         "&userID=" +
         UserID +
         "&lg_tk=" +
-        token
+        token +
+        (identify && identify instanceof Array && identify.length > 0
+          ? "&lg_ic=" + identify[0].IdentityCode
+          : "")
     );
     // dispatch(
     //   actions.UpDataState.getUserMsg("/GetUserDetail?userid=" + UserID, () => {
@@ -1542,20 +1550,25 @@ class Teacher extends React.Component {
                 onChange={this.SecondDropMenu.bind(this)}
                 width={120}
                 height={240}
-                disabled={this.state.firstSelect.value === 0||this.state.secondList.length<=1}
+                disabled={
+                  this.state.firstSelect.value === 0 ||
+                  this.state.secondList.length <= 1
+                }
                 // style={{
                 //   display:
                 //     this.state.firstSelect.value === 0 ? "none" : "block",
                 // }}
-                dropSelectd={this.state.secondList.length > 1
-                  ? this.state.secondSelect
-                  : {
-                      value: 0,
-                      title:
-                        this.state.firstSelect.value === 0
-                          ? "全部教研室"
-                          : "暂无教研室",
-                    }}
+                dropSelectd={
+                  this.state.secondList.length > 1
+                    ? this.state.secondSelect
+                    : {
+                        value: 0,
+                        title:
+                          this.state.firstSelect.value === 0
+                            ? "全部教研室"
+                            : "暂无教研室",
+                      }
+                }
                 dropList={this.state.secondList}
               ></DropDown>
               {/* <DropDown
