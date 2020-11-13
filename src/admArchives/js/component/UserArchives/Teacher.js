@@ -320,11 +320,14 @@ class Teacher extends Component {
   };
   // 点击姓名头像
   onUserNameClick = (UserID) => {
-    // const {
-    //   DataState: {
-    //     // GradeTeacherPreview: { pensonalList },
-    //   },
-    // } = this.props;
+    const {
+      DataState: {
+        // GradeStudentPreview: { pensonalList },
+      },
+      PublicState: {
+        LoginMsg: { identity },
+      },
+    } = this.props;
     // console.log(UserID);
     // if (pensonalList[key]) {
     let token = sessionStorage.getItem("token");
@@ -334,7 +337,12 @@ class Teacher extends Component {
         "&userID=" +
         UserID +
         "&lg_tk=" +
-        token
+        token+
+        (identity &&
+        identity instanceof Array &&
+        identity.length > 0
+        ? "&lg_ic=" + identity[0].IdentityCode
+        : "")
     );
     // }
     // const { DataState } = this.props;

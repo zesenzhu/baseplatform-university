@@ -338,11 +338,14 @@ class Student extends Component {
   };
   // 点击姓名头像
   onUserNameClick = (UserID) => {
-    // const {
-    //   DataState: {
-    //     // GradeStudentPreview: { pensonalList },
-    //   },
-    // } = this.props;
+    const {
+      DataState: {
+        // GradeStudentPreview: { pensonalList },
+      },
+      PublicState: {
+        LoginMsg: { identity },
+      },
+    } = this.props;
     // console.log(UserID);
     // if (pensonalList[key]) {
     let token = sessionStorage.getItem("token");
@@ -352,7 +355,12 @@ class Student extends Component {
         "&userID=" +
         UserID +
         "&lg_tk=" +
-        token
+        token +
+        (identity &&
+        identity instanceof Array &&
+        identity.length > 0
+        ? "&lg_ic=" + identity[0].IdentityCode
+        : "")
     );
     // }
     // const { DataState } = this.props;
@@ -679,20 +687,18 @@ class Student extends Component {
         },
         MainData: {
           StudentTree: { CollegeList },
-          StudentData:{
-            Total
-          }
+          StudentData: { Total },
         },
       },
     } = this.props;
-    if(!Total){
+    if (!Total) {
       dispatch(
         PublicAction.showErrorAlert({
           type: "warn",
           title: "暂无数据可导出",
         })
       );
-      return
+      return;
     }
     let token = sessionStorage.getItem("token");
     let url =
@@ -759,7 +765,7 @@ class Student extends Component {
     let Grade = [{ value: "", title: "全部年级" }].concat(GradeList);
     let Major = [{ value: "", title: "全部专业" }];
     let Class = [{ value: "", title: "全部班级" }];
-    collegeID  &&
+    collegeID &&
       MajorList instanceof Array &&
       MajorList.forEach((child) => {
         if (child.CollegeID === collegeID) {
@@ -771,9 +777,9 @@ class Student extends Component {
           );
         }
       });
-    collegeID  &&
-      majorID  &&
-      gradeID  &&
+    collegeID &&
+      majorID &&
+      gradeID &&
       ClassList instanceof Array &&
       ClassList.forEach((child) => {
         if (
@@ -869,7 +875,7 @@ class Student extends Component {
                 height={240}
                 dropSelectd={{
                   value: collegeID,
-                  title: collegeID  ? collegeName : "全部学院",
+                  title: collegeID ? collegeName : "全部学院",
                 }}
                 dropList={College}
               ></DropDown>
@@ -880,17 +886,14 @@ class Student extends Component {
               ref="dropMenuSecond"
               width={120}
               height={240}
-              disabled={
-                collegeID  ? (Major.length > 1 ? false : true) : true
-              }
+              disabled={collegeID ? (Major.length > 1 ? false : true) : true}
               dropSelectd={{
                 value: majorID,
-                title:
-                  majorID 
-                    ? majorName
-                    : collegeID  && Major.length <= 1
-                    ? "暂无专业"
-                    : "全部专业",
+                title: majorID
+                  ? majorName
+                  : collegeID && Major.length <= 1
+                  ? "暂无专业"
+                  : "全部专业",
               }}
               dropList={Major}
               onChange={this.onMajorChange}
@@ -903,7 +906,7 @@ class Student extends Component {
               title={"年级班级:"}
               dropSelectd={{
                 value: gradeID,
-                title: gradeID  ? gradeName : "全部年级",
+                title: gradeID ? gradeName : "全部年级",
               }}
               dropList={Grade}
               onChange={this.onGradeChange}
@@ -917,24 +920,17 @@ class Student extends Component {
               //     this.state.thirdSelect.value !== 0 ? "block" : "none",
               // }}
               disabled={
-                collegeID  &&
-                majorID  &&
-                gradeID  &&
-                Class.length > 1
+                collegeID && majorID && gradeID && Class.length > 1
                   ? false
                   : true
               }
               dropSelectd={{
                 value: classID,
-                title:
-                  classID 
-                    ? className
-                    : collegeID  &&
-                      majorID &&
-                      gradeID  &&
-                      Class.length <= 1
-                    ? "暂无班级"
-                    : "全部班级",
+                title: classID
+                  ? className
+                  : collegeID && majorID && gradeID && Class.length <= 1
+                  ? "暂无班级"
+                  : "全部班级",
               }}
               dropList={Class}
               onChange={this.onClassChange}

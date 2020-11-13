@@ -1410,14 +1410,14 @@ class Student extends React.Component {
   onPwdchange = (e) => {
     const { dispatch } = this.props;
     this.setState({
-      defaultPwd: e.target.value ,
+      defaultPwd: e.target.value,
     });
   };
   // 批量change
   onAllPwdchange = (e) => {
     const { dispatch } = this.props;
     this.setState({
-      defaultPwd: e.target.value ,
+      defaultPwd: e.target.value,
     });
   };
   onAlertWarnClose = () => {
@@ -1684,7 +1684,12 @@ class Student extends React.Component {
     }
   };
   onUserNameClick = (UserID) => {
-    const { dispatch } = this.props;
+    const {
+      dispatch,
+      DataState: {
+        LoginUser: { identify },
+      },
+    } = this.props;
     let token = sessionStorage.getItem("token");
     window.open(
       "/html/userPersona/index.html?userType=" +
@@ -1692,7 +1697,10 @@ class Student extends React.Component {
         "&userID=" +
         UserID +
         "&lg_tk=" +
-        token
+        token +
+        (identify && identify instanceof Array && identify.length > 0
+          ? "&lg_ic=" + identify[0].IdentityCode
+          : "")
     );
     // dispatch(
     //   actions.UpDataState.getUserMsg("/GetUserDetail?userid=" + UserID, () => {

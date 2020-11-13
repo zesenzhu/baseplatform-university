@@ -119,8 +119,8 @@ class App extends Component {
       dispatch(MainAction.GetUnreadLogCount({}));
       this.Frame.getIdentity({ ModuleID }, (identify) => {
         // console.log(identify)
-        // userMsg = this.setRole(userMsg,identify)
-        userMsg = this.setRole(userMsg);
+        userMsg = this.setRole(userMsg,identify)
+        // userMsg = this.setRole(userMsg);
         dispatch(
           PublicAction.getLoginUser(
             // ...JSON.parse(sessionStorage.getItem("UserInfo")),
@@ -854,7 +854,7 @@ class App extends Component {
 
       Role = "Leader-Education";
     }
-    return { ...LoginMsg, Role };
+    return { ...LoginMsg, Role,identity };
   };
   // 设置banner的选择列表
   SetBannerList = () => {

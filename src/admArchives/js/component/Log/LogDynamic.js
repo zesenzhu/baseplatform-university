@@ -252,7 +252,9 @@ class LogDynamic extends Component {
   };
   // 显示用户详情
   onUserNameClick = (data) => {
-    const { DataState, dispatch } = this.props;
+    const { DataState, dispatch,PublicState: {
+      LoginMsg: { identity },
+    }, } = this.props;
     let userInfo = data;
     this.setState({
       UserType: userInfo.UserType,
@@ -267,7 +269,12 @@ class LogDynamic extends Component {
             "&userID=" +
             userInfo.UserID +
             "&lg_tk=" +
-            token
+            token+
+            (identity &&
+            identity instanceof Array &&
+            identity.length > 0
+            ? "&lg_ic=" + identity[0].IdentityCode
+            : "")
         );
       } else {
         dispatch(MainAction.GetUserDetail({ UserID: userInfo.UserID }));
