@@ -390,6 +390,7 @@ function App(props){
 
                 }
 
+
                 dispatch(changePluginStatus(false));
 
                 setAppLoading(false);
