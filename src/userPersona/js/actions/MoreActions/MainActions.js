@@ -1435,7 +1435,403 @@ const getResStudy = async ({
   }
   return data;
 };
+
+
+// 获取教师电子教材
+const MAIN_GET_TEACHER_E_TEXTBOOK = "MAIN_GET_TEACHER_E_TEXTBOOK";
+const GetTeacherETextBook = ({
+  func = () => {},
+  schoolID,
+  teacherID,
+  Proxy,
+  token,
+  subjectNames,
+  startTime,
+  subjectIDs,
+  endTime,
+}) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let {
+      MoreData: {
+        CommonData: {
+          TeaWorkParams,
+          TeaMaterialParams: { Token, StartTime, EndTime, ForthProxy },
+        },
+      },
+      loginUser: { SchoolID },
+      targetUser: { UserID },
+      termInfo: { Term },
+      userArchives: {
+        SubjectIDs,
+        SubjectNames,
+        ShortName,
+        ClassID,
+        GradeID,
+
+        UserName,
+      },
+    } = State;
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+
+    if (Proxy === undefined) {
+      Proxy = ForthProxy;
+    }
+    if (teacherID === undefined) {
+      teacherID = UserID;
+    }
+    if (token === undefined) {
+      token = Token;
+    }
+    if (subjectIDs === undefined) {
+      subjectIDs = SubjectIDs;
+    }
+    if (subjectNames === undefined) {
+      subjectNames = SubjectNames;
+    }
+    if (startTime === undefined) {
+      startTime = StartTime;
+    }
+    if (endTime === undefined) {
+      endTime = EndTime;
+    }
+    getTeacherETextBook({
+      startTime,
+      endTime,
+      schoolID,
+      Proxy,
+      teacherID,
+      subjectIDs,
+      subjectNames,
+      token,
+    }).then((res) => {
+      if (res) {
+        dispatch({ type: MAIN_GET_TEACHER_E_TEXTBOOK, data: res.data });
+        func(getState());
+      }
+    });
+  };
+};
+const getTeacherETextBook = async ({
+  schoolID = "",
+  teacherID = "",
+  Proxy = "",
+  subjectIDs = "",
+  token = "",
+  subjectNames = "",
+  startTime = "",
+  endTime = "",
+}) => {
+  let url =
+    Proxy +
+    "/api/Public/GetTeacherResView?SchoolID=" +
+    schoolID +
+    "&TeacherID=" +
+    teacherID +
+    "&Token=" +
+    token +
+    // "&SubjectIDs=" +
+    // subjectIDs +
+    // "&SubjectNames=" +
+    // subjectNames +
+    "&startTime=" +
+    startTime +
+    " 00:00:00" +
+    "&endTime=" +
+    endTime +
+    " 23:59:59";
+  let TransUrl =
+    BasicProxy +
+    "/Global/GetHttpRequestTransfer?appid=000&token=" +
+    token +
+    "&reqUrl=" +
+    encodeURIComponent(url);
+  let data = "";
+  try {
+    let res = await getData(TransUrl, 2, "cors", false, false);
+    let json = await res.json();
+    json = JSON.parse(json);
+    // console.log(json)
+
+    if (json.error === 0) {
+      data = json;
+    } else {
+      data = false; //有错误
+    }
+  } catch {
+    data = false; //有错误
+  }
+  return data;
+};
+// 获取教师电子教材
+const MAIN_GET_TEACHER_AI_TEACH_PLAN = "MAIN_GET_TEACHER_E_TEXTBOOK";
+const GetTeacherAITeachPlan = ({
+  func = () => {},
+  schoolID,
+  teacherID,
+  Proxy,
+  token,
+  subjectNames,
+  startTime,
+  subjectIDs,
+  endTime,
+}) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let {
+      MoreData: {
+        CommonData: {
+          TeaWorkParams,
+          TeaMaterialParams: { Token, StartTime, EndTime, FifthProxy },
+        },
+      },
+      loginUser: { SchoolID },
+      targetUser: { UserID },
+      termInfo: { Term },
+      userArchives: {
+        SubjectIDs,
+        SubjectNames,
+        ShortName,
+        ClassID,
+        GradeID,
+
+        UserName,
+      },
+    } = State;
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+
+    if (Proxy === undefined) {
+      Proxy = FifthProxy;
+    }
+    if (teacherID === undefined) {
+      teacherID = UserID;
+    }
+    if (token === undefined) {
+      token = Token;
+    }
+    if (subjectIDs === undefined) {
+      subjectIDs = SubjectIDs;
+    }
+    if (subjectNames === undefined) {
+      subjectNames = SubjectNames;
+    }
+    if (startTime === undefined) {
+      startTime = StartTime;
+    }
+    if (endTime === undefined) {
+      endTime = EndTime;
+    }
+    getTeacherAITeachPlan({
+      startTime,
+      endTime,
+      schoolID,
+      Proxy,
+      teacherID,
+      subjectIDs,
+      subjectNames,
+      token,
+    }).then((res) => {
+      if (res) {
+        dispatch({ type: MAIN_GET_TEACHER_AI_TEACH_PLAN, data: res.data });
+        func(getState());
+      }
+    });
+  };
+};
+const getTeacherAITeachPlan = async ({
+  schoolID = "",
+  teacherID = "",
+  Proxy = "",
+  subjectIDs = "",
+  token = "",
+  subjectNames = "",
+  startTime = "",
+  endTime = "",
+}) => {
+  let url =
+    Proxy +
+    "/api/Public/GetTeacherResView?SchoolID=" +
+    schoolID +
+    "&TeacherID=" +
+    teacherID +
+    "&Token=" +
+    token +
+    // "&SubjectIDs=" +
+    // subjectIDs +
+    // "&SubjectNames=" +
+    // subjectNames +
+    "&startTime=" +
+    startTime +
+    " 00:00:00" +
+    "&endTime=" +
+    endTime +
+    " 23:59:59";
+  let TransUrl =
+    BasicProxy +
+    "/Global/GetHttpRequestTransfer?appid=000&token=" +
+    token +
+    "&reqUrl=" +
+    encodeURIComponent(url);
+  let data = "";
+  try {
+    let res = await getData(TransUrl, 2, "cors", false, false);
+    let json = await res.json();
+    json = JSON.parse(json);
+    // console.log(json)
+
+    if (json.error === 0) {
+      data = json;
+    } else {
+      data = false; //有错误
+    }
+  } catch {
+    data = false; //有错误
+  }
+  return data;
+};
+// 获取教师电子教材
+const MAIN_GET_TEACHER_ESP_MATERIAL = "MAIN_GET_TEACHER_ESP_MATERIAL";
+const GetTeacherESPMaterial = ({
+  func = () => {},
+  schoolID,
+  teacherID,
+  Proxy,
+  token,
+  subjectNames,
+  startTime,
+  subjectIDs,
+  endTime,
+}) => {
+  return (dispatch, getState) => {
+    let State = getState();
+    let {
+      MoreData: {
+        CommonData: {
+          TeaWorkParams,
+          TeaMaterialParams: { Token, StartTime, EndTime, SixthProxy },
+        },
+      },
+      loginUser: { SchoolID },
+      targetUser: { UserID },
+      termInfo: { Term },
+      userArchives: {
+        SubjectIDs,
+        SubjectNames,
+        ShortName,
+        ClassID,
+        GradeID,
+
+        UserName,
+      },
+    } = State;
+    if (schoolID === undefined) {
+      schoolID = SchoolID;
+    }
+
+    if (Proxy === undefined) {
+      Proxy = SixthProxy;
+    }
+    if (teacherID === undefined) {
+      teacherID = UserID;
+    }
+    if (token === undefined) {
+      token = Token;
+    }
+    if (subjectIDs === undefined) {
+      subjectIDs = SubjectIDs;
+    }
+    if (subjectNames === undefined) {
+      subjectNames = SubjectNames;
+    }
+    if (startTime === undefined) {
+      startTime = StartTime;
+    }
+    if (endTime === undefined) {
+      endTime = EndTime;
+    }
+    getTeacherESPMaterial({
+      startTime,
+      endTime,
+      schoolID,
+      Proxy,
+      teacherID,
+      subjectIDs,
+      subjectNames,
+      token,
+    }).then((res) => {
+      if (res) {
+        dispatch({ type: MAIN_GET_TEACHER_ESP_MATERIAL, data: res.data });
+        func(getState());
+      }
+    });
+  };
+};
+const getTeacherESPMaterial = async ({
+  schoolID = "",
+  teacherID = "",
+  Proxy = "",
+  subjectIDs = "",
+  token = "",
+  subjectNames = "",
+  startTime = "",
+  endTime = "",
+}) => {
+  let url =
+    Proxy +
+    "/api/Public/GetTeacherResView?SchoolID=" +
+    schoolID +
+    "&TeacherID=" +
+    teacherID +
+    "&Token=" +
+    token +
+    // "&SubjectIDs=" +
+    // subjectIDs +
+    // "&SubjectNames=" +
+    // subjectNames +
+    "&startTime=" +
+    startTime +
+    " 00:00:00" +
+    "&endTime=" +
+    endTime +
+    " 23:59:59";
+  let TransUrl =
+    BasicProxy +
+    "/Global/GetHttpRequestTransfer?appid=000&token=" +
+    token +
+    "&reqUrl=" +
+    encodeURIComponent(url);
+  let data = "";
+  try {
+    let res = await getData(TransUrl, 2, "cors", false, false);
+    let json = await res.json();
+    json = JSON.parse(json);
+    // console.log(json)
+
+    if (json.error === 0) {
+      data = json;
+    } else {
+      data = false; //有错误
+    }
+  } catch {
+    data = false; //有错误
+  }
+  return data;
+};
 const MainActions = {
+  MAIN_GET_TEACHER_ESP_MATERIAL,
+  GetTeacherESPMaterial,
+
+  MAIN_GET_TEACHER_AI_TEACH_PLAN,
+  GetTeacherAITeachPlan,
+
+
+  MAIN_GET_TEACHER_E_TEXTBOOK,
+  GetTeacherETextBook
+  ,
   MAIN_GET_RES_STUDY,
   MAIN_GET_PLAN_CLASS,
   MAIN_GET_RE_TRAIN,

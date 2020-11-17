@@ -1403,7 +1403,7 @@ class App extends Component {
       ModuleID = '000011'
     }
     // return;
-    this.Frame.getIdentity({ ModuleID }, () => {
+    this.Frame.getIdentity({ ModuleID }, (identify) => {
       
       if (UserType === "7" || UserType === "10") {
         UserInfo.UserClass = "2";
@@ -1412,7 +1412,7 @@ class App extends Component {
         UserClass = "2";
       }
       // console.log(UserInfo)
-      dispatch({ type: UpDataState.GET_LOGIN_USER_INFO, data: UserInfo });
+      dispatch({ type: UpDataState.GET_LOGIN_USER_INFO, data: {...UserInfo,identify} });
 
       //判断用户权限
 

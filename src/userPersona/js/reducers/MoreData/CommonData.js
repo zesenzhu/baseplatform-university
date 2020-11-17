@@ -44,6 +44,9 @@ const CommonData = (
       FirstProxy:'',
       SecondProxy:'',
       ThirdProxy:'',
+      ForthProxy:'',
+      FifthProxy:'',
+      SixthProxy:'',
       Token:'',
       SelectWeek:{}
     }

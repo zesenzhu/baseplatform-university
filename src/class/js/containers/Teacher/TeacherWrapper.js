@@ -201,7 +201,11 @@ class TeacherWrapper extends Component{
 
     TeacherDetailShow(Params){
 
-        const { dispatch } = this.props;
+        const { dispatch,DataState:{
+            LoginUser:{
+              identify
+            }
+          }  } = this.props;
         let token = sessionStorage.getItem("token");
         window.open(
           "/html/userPersona/index.html?userType=" +
@@ -209,7 +213,10 @@ class TeacherWrapper extends Component{
             "&userID=" +
             Params.UserID +
             "&lg_tk=" +
-            token
+            token+
+            (identify && identify instanceof Array && identify.length > 0
+              ? "&lg_ic=" + identify[0].IdentityCode
+              : "")
         );
         // dispatch(DMActions.Init(Params))
 
@@ -414,13 +421,13 @@ class TeacherWrapper extends Component{
 
 const mapStateToProps = (state)=>{
 
-    const { Teacher,DetailModal } = state;
+    const { Teacher,DetailModal,DataState } = state;
 
     const{ ClassCharge } = state.Teacher;
 
     return {
 
-        ClassCharge,Teacher,DetailModal
+        ClassCharge,Teacher,DetailModal,DataState
 
     }
 

@@ -17,21 +17,38 @@ class TeaMaterial extends Component {
     const { dispatch } = props;
     this.state = {
       firstTime: true, //是否第一次，进行接口请求控制
-      firstShow: false, //是否第一次，进行接口请求控制
-      secondShow: false, //是否第一次，进行接口请求控制
-      thirdShow: false, //是否第一次，进行接口请求控制
+      firstShow: false, //第一个模块
+      secondShow: false, //是第二个模块
+      thirdShow: false, //第三个模块
+      forthShow: false, //第四个模块
+      fifthShow: false, //第五个模块
+      sixthShow: false, //第六个模块
       firstAllScore: 0,
       firstSubjectScore: 0,
       secondAllScore: 0,
       secondSubjectScore: 0,
       thirdAllScore: 0,
       thirdSubjectScore: 0,
+      forthAllScore: 0,
+      forthSubjectScore: 0,
+      fifthAllScore: 0,
+      fifthSubjectScore: 0,
+      sixthAllScore: 0,
+      sixthSubjectScore: 0,
       secondSubjectID: "",
     };
   }
   componentWillMount() {}
   componentWillReceiveProps(nextProps) {
-    let { firstTime, firstShow, secondShow, thirdShow } = this.state;
+    let {
+      firstTime,
+      firstShow,
+      secondShow,
+      thirdShow,
+      forthShow,
+      fifthShow,
+      sixthShow,
+    } = this.state;
     let {
       dispatch,
       MoreData: {
@@ -98,6 +115,8 @@ class TeaMaterial extends Component {
           func: this.ResVeiwChart,
         })
       );
+      // this.ESPMaterialChart();
+      // this.AITeachPlanChart()
     }
     // 教案
     if (!secondShow && token && StartTime && EndTime && Urls["310"].WebUrl) {
@@ -144,7 +163,29 @@ class TeaMaterial extends Component {
         })
       );
     }
+    // 电子资源
+    if (!forthShow && token && StartTime && EndTime && Urls["C10"].WebUrl) {
+      return;
+      this.setState({
+        forthShow: true,
+      });
+      dispatch(
+        CommonActions.SetTeaMaterialParams({
+          ForthProxy: Urls["C10"].WebUrl,
+          // Urls["810"].WsUrl,
+          Token: token,
+          StartTime: StartTime,
+          EndTime: EndTime,
+          // SelectBar: "NearExam",
+        })
+      );
 
+      dispatch(
+        MainActions.GetTeacherResView({
+          func: this.ETextBookChart,
+        })
+      );
+    }
     // // 测试
     // this.ResVeiwChart(this.props);
     // this.TeachPlanChart(this.props);
@@ -163,7 +204,9 @@ class TeaMaterial extends Component {
         },
       },
     } = this.props;
-    let { firstTime, firstShow, secondShow, thirdShow } = this.state;
+    let { firstTime, firstShow, secondShow, thirdShow,forthShow,
+      fifthShow,
+      sixthShow, } = this.state;
 
     let selectWeek = ItemWeek.find((child) => {
       return child.WeekNO === NowWeekSelect.value;
@@ -200,6 +243,27 @@ class TeaMaterial extends Component {
       dispatch(
         MainActions.GetTeacherpercentage({
           func: this.TeachPercentChart,
+        })
+      );
+    }
+    if (forthShow) {
+      dispatch(
+        MainActions.GetTeacherETextBook({
+          func: this.ETextBookChart,
+        })
+      );
+    }
+    if (fifthShow) {
+      dispatch(
+        MainActions.GetTeacherAITeachPlan({
+          func: this.AITeachPlanChart,
+        })
+      );
+    }
+    if (sixthShow) {
+      dispatch(
+        MainActions.GetTeacherESPMaterial({
+          func: this.ESPMaterialChart,
         })
       );
     }
@@ -303,7 +367,6 @@ class TeaMaterial extends Component {
       mychart.resize();
       that.setState({
         secondAllScore: UploadAllScale,
-     
       });
       if (
         UploadSubjectScale instanceof Array &&
@@ -434,6 +497,221 @@ class TeaMaterial extends Component {
       //  });
     }
   };
+
+  //电子教材
+  ETextBookChart = () => {
+    let {
+      MoreData: {
+        MainData: {
+          ETextBook: {
+            UploadAllScale, //上传数量领先全校比值
+            UploadSubjectScale, //上传数量领先本学科比值
+          },
+        },
+      },
+    } = this.props;
+    let that = this;
+    clearTimeout(that.ETextBookTimeout);
+    clearInterval(that.ETextBookInterval);
+    let SubjectScale = 0;
+    UploadAllScale =
+      UploadAllScale || UploadAllScale === 0 ? UploadAllScale : 0;
+
+    if (document.getElementById("ETextBook")) {
+      let mychart = echarts.init(document.getElementById("ETextBook"), null, {
+        renderer: "svg",
+      });
+      mychart.resize();
+      that.setState({
+        forthAllScore: UploadAllScale,
+      });
+      if (
+        UploadSubjectScale instanceof Array &&
+        UploadSubjectScale.length > 0
+      ) {
+        let len = UploadSubjectScale.length;
+        UploadSubjectScale.map((child, index) => {
+          that.ETextBookTimeout = setTimeout(() => {
+            let data = {
+              SubjectName: child.SubjectName,
+              UploadAllScale,
+              SubjectID: child.SubjectID,
+
+              SubjectScale: child.SubjectScale,
+            };
+            that.setState({
+              forthSubjectScore: child.SubjectScale,
+            });
+            that.SetEChart(data, mychart, "forth");
+            that.ETextBookInterval = setInterval(() => {
+              that.setState({
+                forthSubjectScore: child.SubjectScale,
+              });
+              that.SetEChart(data, mychart, "forth");
+            }, len * 4000);
+          }, 4000 * index);
+        });
+      } else {
+        let data = {
+          // SubjectName: "同学科",
+          // haveSub: false,
+          UploadAllScale,
+          // SubjectScale: 0,
+        };
+        that.SetEChart(data, mychart,"forth");
+      }
+
+      window.addEventListener("resize", () => {
+        mychart.resize();
+      });
+      //   mychart.on("click", function(params) {
+      //     console.log(params)
+      //  });
+    }
+  };
+
+   //AI的教学方案
+   AITeachPlanChart = () => {
+    let {
+      MoreData: {
+        MainData: {
+          AITeachPlan: {
+            UploadAllScale, //上传数量领先全校比值
+            UploadSubjectScale, //上传数量领先本学科比值
+          },
+        },
+      },
+    } = this.props;
+    let that = this;
+    clearTimeout(that.AITeachPlanTimeout);
+    clearInterval(that.AITeachPlanInterval);
+    let SubjectScale = 0;
+    UploadAllScale =
+      UploadAllScale || UploadAllScale === 0 ? UploadAllScale : 0;
+
+    if (document.getElementById("AITeachPlan")) {
+      let mychart = echarts.init(document.getElementById("AITeachPlan"), null, {
+        renderer: "svg",
+      });
+      mychart.resize();
+      that.setState({
+        fifthAllScore: UploadAllScale,
+      });
+      if (
+        UploadSubjectScale instanceof Array &&
+        UploadSubjectScale.length > 0
+      ) {
+        let len = UploadSubjectScale.length;
+        UploadSubjectScale.map((child, index) => {
+          that.AITeachPlanTimeout = setTimeout(() => {
+            let data = {
+              SubjectName: child.SubjectName,
+              UploadAllScale,
+              SubjectID: child.SubjectID,
+
+              SubjectScale: child.SubjectScale,
+            };
+            that.setState({
+              fifthSubjectScore: child.SubjectScale,
+            });
+            that.SetEChart(data, mychart, "fifth");
+            that.AITeachPlanInterval = setInterval(() => {
+              that.setState({
+                fifthSubjectScore: child.SubjectScale,
+              });
+              that.SetEChart(data, mychart, "fifth");
+            }, len * 4000);
+          }, 4000 * index);
+        });
+      } else {
+        let data = {
+          // SubjectName: "同学科",
+          // haveSub: false,
+          UploadAllScale,
+          // SubjectScale: 0,
+        };
+        that.SetEChart(data, mychart,"fifth");
+      }
+
+      window.addEventListener("resize", () => {
+        mychart.resize();
+      });
+      //   mychart.on("click", function(params) {
+      //     console.log(params)
+      //  });
+    }
+  };
+   //ESP素材
+   ESPMaterialChart = () => {
+    let {
+      MoreData: {
+        MainData: {
+          ESPMaterial: {
+            UploadAllScale, //上传数量领先全校比值
+            UploadSubjectScale, //上传数量领先本学科比值
+          },
+        },
+      },
+    } = this.props;
+    let that = this;
+    clearTimeout(that.ESPMaterialTimeout);
+    clearInterval(that.ESPMaterialInterval);
+    let SubjectScale = 0;
+    UploadAllScale =
+      UploadAllScale || UploadAllScale === 0 ? UploadAllScale : 0;
+
+    if (document.getElementById("ESPMaterial")) {
+      let mychart = echarts.init(document.getElementById("ESPMaterial"), null, {
+        renderer: "svg",
+      });
+      mychart.resize();
+      that.setState({
+        sixthAllScore: UploadAllScale,
+      });
+      if (
+        UploadSubjectScale instanceof Array &&
+        UploadSubjectScale.length > 0
+      ) {
+        let len = UploadSubjectScale.length;
+        UploadSubjectScale.map((child, index) => {
+          that.ESPMaterialTimeout = setTimeout(() => {
+            let data = {
+              SubjectName: child.SubjectName,
+              UploadAllScale,
+              SubjectID: child.SubjectID,
+
+              SubjectScale: child.SubjectScale,
+            };
+            that.setState({
+              sixthSubjectScore: child.SubjectScale,
+            });
+            that.SetEChart(data, mychart, "sixth");
+            that.ESPMaterialInterval = setInterval(() => {
+              that.setState({
+                sixthSubjectScore: child.SubjectScale,
+              });
+              that.SetEChart(data, mychart, "sixth");
+            }, len * 4000);
+          }, 4000 * index);
+        });
+      } else {
+        let data = {
+          // SubjectName: "同学科",
+          // haveSub: false,
+          UploadAllScale,
+          // SubjectScale: 0,
+        };
+        that.SetEChart(data, mychart,"sixth");
+      }
+
+      window.addEventListener("resize", () => {
+        mychart.resize();
+      });
+      //   mychart.on("click", function(params) {
+      //     console.log(params)
+      //  });
+    }
+  };
   SetNaNToNumber = (data) => {
     return isNaN(Number(data)) ? 0 : Number(data);
   };
@@ -447,7 +725,16 @@ class TeaMaterial extends Component {
       targetUser: { UserID },
       loginUser,
     } = this.props;
-    let { SubjectName, UploadAllScale, SubjectID, SubjectScale } = data;
+    let {
+      SubjectName,
+      UploadAllScale,
+      SubjectID,
+      SubjectScale,
+      haveSub,
+    } = data;
+    if (haveSub === undefined) {
+      haveSub = true;
+    }
     // SubjectName = (SubjectName+Math.round(Math.random()*10))
     let option = {
       name: type,
@@ -455,7 +742,7 @@ class TeaMaterial extends Component {
         orient: "vertical",
         left: "center",
         top: "center",
-        data: ["全校教师", SubjectName],
+        data: haveSub ? ["全校教师", SubjectName] : ["全校教师"],
         itemWidth: 12,
         itemHeight: 12,
         selectedMode: false,
@@ -550,7 +837,7 @@ class TeaMaterial extends Component {
   ClickBar = (params, type, SubjectID) => {
     let {
       MoreData: {
-        MainData: { TeacherResView, TeachPlan, TeachPercent },
+        MainData: { TeacherResView, TeachPlan, TeachPercent ,ETextBook,AITeachPlan,ESPMaterial},
       },
       systemUrl: { Urls },
       targetUser: { UserID },
@@ -609,6 +896,7 @@ class TeaMaterial extends Component {
           TeachPlan,
           TeachPercent,
           TermAndPeriod: { WeekList, WeekNO },
+          ETextBook,ESPMaterial,AITeachPlan
         },
       },
       targetUser: { UserID },
@@ -625,6 +913,16 @@ class TeaMaterial extends Component {
       thirdAllScore,
       thirdSubjectScore,
       secondSubjectID,
+      forthShow, //第四个模块
+      fifthShow, //第五个模块
+      sixthShow, //第六个模块
+
+      forthAllScore,
+      forthSubjectScore,
+      fifthAllScore,
+      fifthSubjectScore,
+      sixthAllScore,
+      sixthSubjectScore,
     } = this.state;
 
     return (
@@ -842,6 +1140,210 @@ class TeaMaterial extends Component {
                         : "0.0"}
                       %
                     </p>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {forthShow ? (
+                <div className="TW-content">
+                  <div className="TWc-left">
+                    <p
+                      title={
+                        ETextBook.UploadCount || ETextBook.UploadCount === 0
+                          ? ETextBook.UploadCount
+                          : ""
+                      }
+                      className="count"
+                      style={{
+                        cursor:
+                          (ETextBook.UploadCount ||
+                            ETextBook.UploadCount === 0) &&
+                          loginUser.UserID === UserID
+                            ? "pointer"
+                            : "auto",
+                      }}
+                      onClick={
+                        ETextBook.UploadCount || ETextBook.UploadCount === 0
+                          ? this.ClickBar.bind(
+                              this,
+                              {},
+                              "forth",
+                              secondSubjectID
+                            )
+                          : () => {}
+                      }
+                    >
+                      {ETextBook.UploadCount || ETextBook.UploadCount === 0
+                        ? ETextBook.UploadCount
+                        : "--"}
+                    </p>
+                    <p className="name">上传电子教材</p>
+                    <p className="UseCount">
+                      浏览:
+                      <span title={ETextBook.BrowseCount}>
+                        {ETextBook.BrowseCount}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="TWc-right">
+                    <div className="chartsbox" id="ETextBook"></div>
+                    <p className="AllScore">
+                      领先
+                      {forthAllScore > 0
+                        ? (forthAllScore * 100).toFixed(1)
+                        : "0.0"}
+                      %
+                    </p>
+                    {ETextBook.UploadSubjectScale instanceof Array &&
+                    ETextBook.UploadSubjectScale.length ? (
+                      <p className="SubjectScore">
+                        领先
+                        {forthSubjectScore > 0
+                          ? (forthSubjectScore * 100).toFixed(1)
+                          : "0.0"}
+                        %
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
+
+{fifthShow ? (
+                <div className="TW-content">
+                  <div className="TWc-left">
+                    <p
+                      title={
+                        AITeachPlan.UploadCount || AITeachPlan.UploadCount === 0
+                          ? AITeachPlan.UploadCount
+                          : ""
+                      }
+                      className="count"
+                      style={{
+                        cursor:
+                          (AITeachPlan.UploadCount ||
+                            AITeachPlan.UploadCount === 0) &&
+                          loginUser.UserID === UserID
+                            ? "pointer"
+                            : "auto",
+                      }}
+                      onClick={
+                        AITeachPlan.UploadCount || AITeachPlan.UploadCount === 0
+                          ? this.ClickBar.bind(
+                              this,
+                              {},
+                              "fifth",
+                              secondSubjectID
+                            )
+                          : () => {}
+                      }
+                    >
+                      {AITeachPlan.UploadCount || AITeachPlan.UploadCount === 0
+                        ? AITeachPlan.UploadCount
+                        : "--"}
+                    </p>
+                    <p className="name">制作教学方案</p>
+                    <p className="UseCount">
+                      应用数:
+                      <span title={AITeachPlan.BrowseCount}>
+                        {AITeachPlan.BrowseCount}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="TWc-right">
+                    <div className="chartsbox" id="AITeachPlan"></div>
+                    <p className="AllScore">
+                      领先
+                      {fifthAllScore > 0
+                        ? (fifthAllScore * 100).toFixed(1)
+                        : "0.0"}
+                      %
+                    </p>
+                    {AITeachPlan.UploadSubjectScale instanceof Array &&
+                    AITeachPlan.UploadSubjectScale.length ? (
+                      <p className="SubjectScore">
+                        领先
+                        {fifthSubjectScore > 0
+                          ? (fifthSubjectScore * 100).toFixed(1)
+                          : "0.0"}
+                        %
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
+{sixthShow ? (
+                <div className="TW-content">
+                  <div className="TWc-left">
+                    <p
+                      title={
+                        ESPMaterial.UploadCount || ESPMaterial.UploadCount === 0
+                          ? ESPMaterial.UploadCount
+                          : ""
+                      }
+                      className="count"
+                      style={{
+                        cursor:
+                          (ESPMaterial.UploadCount ||
+                            ESPMaterial.UploadCount === 0) &&
+                          loginUser.UserID === UserID
+                            ? "pointer"
+                            : "auto",
+                      }}
+                      onClick={
+                        ESPMaterial.UploadCount || ESPMaterial.UploadCount === 0
+                          ? this.ClickBar.bind(
+                              this,
+                              {},
+                              "sixth",
+                              secondSubjectID
+                            )
+                          : () => {}
+                      }
+                    >
+                      {ESPMaterial.UploadCount || ESPMaterial.UploadCount === 0
+                        ? ESPMaterial.UploadCount
+                        : "--"}
+                    </p>
+                    <p className="name">ESP素材建设</p>
+                    <p className="UseCount">
+                      浏览:
+                      <span title={ESPMaterial.BrowseCount}>
+                        {ESPMaterial.BrowseCount}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="TWc-right">
+                    <div className="chartsbox" id="ESPMaterial"></div>
+                    <p className="AllScore">
+                      领先
+                      {sixthAllScore > 0
+                        ? (sixthAllScore * 100).toFixed(1)
+                        : "0.0"}
+                      %
+                    </p>
+                    {ESPMaterial.UploadSubjectScale instanceof Array &&
+                    ESPMaterial.UploadSubjectScale.length ? (
+                      <p className="SubjectScore">
+                        领先
+                        {sixthSubjectScore > 0
+                          ? (sixthSubjectScore * 100).toFixed(1)
+                          : "0.0"}
+                        %
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               ) : (

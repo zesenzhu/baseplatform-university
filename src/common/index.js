@@ -3369,7 +3369,7 @@ class DetailsModal extends React.Component {
         width={400}
         mask={this.state.mask}
         footer={
-          type === "examine"
+          type === "examine"||(type.includes&&type.includes('examine'))
             ? [
                 <Button
                   key="agree"
