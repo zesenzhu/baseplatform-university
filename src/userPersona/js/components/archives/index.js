@@ -40,6 +40,8 @@ function Archives(props) {
 
     const userStatus = useSelector(state=>state.userStatus);
 
+	const identifyInfo = useSelector(state=>state.identifyInfo);
+
     const { UserID,UserType } = useSelector(state=>state.targetUser);
 
     const userArchives = useSelector(state=>state.userArchives);
@@ -93,7 +95,7 @@ function Archives(props) {
 
             const url = Urls['E34'].WebUrl;
 
-            const lg_ic = getQueryVariable('lg_ic');
+            const lg_ic = getQueryVariable('lg_ic')?getQueryVariable("lg_ic"):identifyInfo[0].IdentityCode;
 
             if (UserType===2){
 

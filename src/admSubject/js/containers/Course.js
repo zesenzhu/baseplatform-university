@@ -930,7 +930,7 @@ function Course(props) {
 
         }
 
-        if ((courseType===1)&&(!majorIDs)){
+        if (([1,3].includes(courseType))&&(!majorIDs)){
 
             showMajorTips();
 

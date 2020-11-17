@@ -780,7 +780,53 @@ function Index(props) {
 
                     render:(i)=>{
 
-                        return <div className={"sub-course"} title={i.CourseName}>{i.CourseName}</div>
+	                    let courseType = '';
+
+	                    switch (parseInt(i.CourseType)){
+
+		                    case 1:
+
+			                    courseType = '专业必修';
+
+			                    break;
+
+		                    case 2:
+
+			                    courseType = '公共必修';
+
+			                    break;
+
+		                    case 3:
+
+			                    courseType = '专业选修';
+
+			                    break;
+
+		                    case 4:
+
+			                    courseType = '公共选修';
+
+			                    break;
+
+		                    case 5:
+
+			                    courseType = '其他';
+
+			                    break;
+
+		                    default:
+
+			                    courseType = '其他';
+
+	                    }
+
+                        return <>
+
+                                <div className={"sub-course"} title={i.CourseName}>{i.CourseName}</div>
+
+                                <div className={"course-type"}>{courseType}</div>
+
+                            </>
 
                     }
 
@@ -956,7 +1002,53 @@ function Index(props) {
 
                     render:(i)=>{
 
-                        return <div className={"sub-course"} title={`${i.SubjectName}>${i.CourseName}`}>{i.SubjectName}>{i.CourseName}</div>
+                        let courseType = '';
+
+                        switch (parseInt(i.CourseType)){
+
+                            case 1:
+
+                                courseType = '专业必修';
+
+                                break;
+
+                            case 2:
+
+	                            courseType = '公共必修';
+
+	                            break;
+
+	                        case 3:
+
+		                        courseType = '专业选修';
+
+		                        break;
+
+	                        case 4:
+
+		                        courseType = '公共选修';
+
+		                        break;
+
+	                        case 5:
+
+		                        courseType = '其他';
+
+		                        break;
+
+                            default:
+
+                                courseType = '其他';
+
+                        }
+
+                        return <>
+
+	                        <div className={"sub-course"} title={`${i.SubjectName}>${i.CourseName}`}>{i.SubjectName}>{i.CourseName}</div>
+
+                            <div className={"course-type"}>{courseType}</div>
+
+                        </>
 
                     }
 
