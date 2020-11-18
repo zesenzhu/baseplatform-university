@@ -128,7 +128,7 @@ function SelectStudent(props,ref){
 
 
     //props 传参
-    const { stuCheckedList,classCheckedList,gradeChecked,majorChecked } = props;
+    const { stuCheckedList,classCheckedList,gradeChecked,majorChecked,courseType } = props;
 
     const {LoginUser,identify,commonSetting} = useSelector(state=>state);
 
@@ -161,6 +161,8 @@ function SelectStudent(props,ref){
 
         if (firstLoad){
 
+            console.log(courseType,majorChecked);
+
             setFirstLoad(false);
 
             const getMajor = GetMajorInfo_University({schoolID:SchoolID,dispatch});
@@ -170,82 +172,110 @@ function SelectStudent(props,ref){
             //年级
             const gradeID = gradeChecked.value;
 
+
            //const getClass = GetClassInfo_University({schoolID:SchoolID,collegeID:colID,majorID:majID,gradeID,dispatch});
 
            Promise.all([getMajor,getGrade]).then(res=>{
 
                 if (res[0]){
 
-                    const dropList = res[0].map(i=>({value:i.CollegeID,title:i.CollegeName}));
-
-                    dropList.unshift({value:'',title:'全部学院'});
-
-                    setCollege(data=>({...data,collegeData:res[0],dropList}));
-
-
                     //查看专业问题
-
-                    const majorid = majorChecked?majorChecked.split(',')[0]:'';
+                    const majorid = [1,3].includes(courseType)&&majorChecked?majorChecked.split(',')[0]:'';
 
                     //collegeID和majorID
-                    let colID = '',majID = '';
+                    let colID = '';
 
                     const majorObj = {};
 
                     const majList  = [{value:'',title:'全部专业'}];
 
-                    const findItem = res[0].find(i=>{
+                    if ([1,3].includes(courseType)){ //如果是专业必修或选修
 
-                        const index = i.Majors&&i.Majors.length>0?i.Majors.findIndex(item=>item.MajorID===majorid):-1;
+                        const collegeListData = [];
 
-                        if (index>=0){
+                        res[0].map(i=>{
 
-                            majorObj['value'] = i.Majors[index].MajorID;
+                            const majList  = i.Majors.filter(item=>majorChecked.includes(item.MajorID));
 
-                            majorObj['title'] = i.Majors[index].MajorName;
+                            if (majList.length>0){
 
-                        }
+                             collegeListData.push({...i,Majors:majList});
 
-                        return index>=0;
+                            }
 
-                    });
+                        });
 
-                    if (findItem){
+                        const collegeDropList = collegeListData.map(i=>({value:i.CollegeID,title:i.CollegeName}));
 
-                        if(findItem.Majors&&findItem.Majors.length>0){
+	                    colID = collegeDropList[0].value;
 
-                            findItem.Majors.map(i=>{
+	                    const majorSelectd = collegeListData[0].Majors.find(i=>i.MajorID===majorid);
 
-                                majList.push({value:i.MajorID,title:i.MajorName});
+                        const majorDropList =  collegeListData[0].Majors.map(i=>({value:i.MajorID,title:i.MajorName}));
 
-                            });
+                        setCollege(d=>({...d,collegeData:collegeListData,dropList:collegeDropList,dropSelectd:{value:collegeListData[0].CollegeID,title:collegeListData[0].CollegeName}}));
 
-                        }
-
-                        colID = findItem.CollegeID;
-
-                        majID = findItem.CollegeName;
-
-                        setCollege(d=>({...d,dropSelectd:{value:findItem.CollegeID,title:findItem.CollegeName}}));
-
-                        setMajor(d=>({...d,disabled:false,dropSelectd:majorObj,dropList:majList}));
-
+                        setMajor(d=>({...d,disabled:false,dropList:majorDropList,dropSelectd:{value:majorSelectd.MajorID,title:majorSelectd.MajorName}}));
 
                     }else{
 
-                        if (identify.isCollegeManager){
+	                    const dropList = res[0].map(i=>({value:i.CollegeID,title:i.CollegeName}));
 
-                            setCollege(d=>({...d,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}}));
+	                    dropList.unshift({value:'',title:'全部学院'});
 
-                            const list = res[0].find(i=>i.CollegeID===LoginUser.CollegeID).Majors.map(i=>({value:i.MajorID,title:i.MajorName}));
+	                    setCollege(data=>({...data,collegeData:res[0],dropList}));
 
-                            setMajor(d=>({...d,disabled:false,dropList:list}));
+	                    const findItem = res[0].find(i=>{
+
+		                    const index = i.Majors&&i.Majors.length>0?i.Majors.findIndex(item=>item.MajorID===majorid):-1;
+
+		                    if (index>=0){
+
+			                    majorObj['value'] = i.Majors[index].MajorID;
+
+			                    majorObj['title'] = i.Majors[index].MajorName;
+
+		                    }
+
+		                    return index>=0;
+
+	                    });
+
+	                    if (findItem){
+
+		                    if(findItem.Majors&&findItem.Majors.length>0){
+
+			                    findItem.Majors.map(i=>{
+
+				                    majList.push({value:i.MajorID,title:i.MajorName});
+
+			                    });
+
+		                    }
+
+		                    colID = findItem.CollegeID;
+
+		                    setCollege(d=>({...d,dropSelectd:{value:findItem.CollegeID,title:findItem.CollegeName}}));
+
+		                    setMajor(d=>({...d,disabled:false,dropSelectd:majorObj,dropList:majList}));
 
 
-                        }
+	                    }else{
+
+		                    if (identify.isCollegeManager){
+
+			                    setCollege(d=>({...d,dropSelectd:{value:LoginUser.CollegeID,title:LoginUser.CollegeName}}));
+
+			                    const list = res[0].find(i=>i.CollegeID===LoginUser.CollegeID).Majors.map(i=>({value:i.MajorID,title:i.MajorName}));
+
+			                    setMajor(d=>({...d,disabled:false,dropList:list}));
+
+
+		                    }
+
+	                    }
 
                     }
-
 
                     GetClassInfo_University({schoolID:SchoolID,collegeID:identify.isCollegeManager?LoginUser.CollegeID:colID,majorID:majorid,gradeID,dispatch}).then(data=>{
 
@@ -310,9 +340,21 @@ function SelectStudent(props,ref){
 
             const majors = collegeData.find(i=>i.CollegeID===value).Majors.map(i=>({value:i.MajorID,title:i.MajorName}));
 
-            majors.unshift({value:'',title:'全部专业'});
+            if (![1,3].includes(courseType)){
 
-            setMajor(data=>({...data,dropList:majors,disabled:false,dropSelectd:{value:'',title:'全部专业'}}));
+	            majors.unshift({value:'',title:'全部专业'});
+
+	            setMajor(data=>({...data,dropList:majors,disabled:false,dropSelectd:{value:'',title:'全部专业'}}));
+
+            }else{
+
+                const selectdMajor = collegeData.find(i=>i.CollegeID===value).Majors[0];
+
+                const majorSelectd = {value:selectdMajor.MajorID,title:selectdMajor.MajorName};
+
+	            setMajor(data=>({...data,dropList:majors,disabled:false,dropSelectd:majorSelectd}));
+
+            }
 
         }
 
@@ -1019,4 +1061,5 @@ const mapStateToProps = state => {
         LoginUser
     };
 };
+
 export default memo(forwardRef(SelectStudent));

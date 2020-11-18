@@ -127,6 +127,15 @@
                                 margin-left: 11px;
                                 cursor: pointer;
                                 color: #0066ff;
+
+                                &.disabled{
+
+                                    color: #999999;
+
+                                    cursor: default;
+
+                                }
+
                             }
                         }
                     }

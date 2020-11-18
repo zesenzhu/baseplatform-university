@@ -130,6 +130,16 @@ function AddEditCourseClass(props,ref) {
 
     const [aiPractice,setAiPractice] = useState(false);
 
+    //所选择的课程的课程类型
+
+    const [selectdCourseInfo,setSelectCourseInfo] = useState({
+
+        courseType:5,
+
+        MajorIDs:''
+
+    });
+
 
     //获取props
 
@@ -179,6 +189,7 @@ function AddEditCourseClass(props,ref) {
 
                      const data = res[1];
 
+
                     const { Item,ClassItem,CourseClassID,CourseClassName,CourseNO,CourseName,TeacherID,TeacherName,GradeID,GradeName,MajorIDs } = data;
 
                     if (parseInt(UserType)===1){//如果是教师端
@@ -227,6 +238,8 @@ function AddEditCourseClass(props,ref) {
 
                     setStuClasses(e=>({...e,stuList,classList}));
 
+                    setSelectCourseInfo(d=>({...d,courseType:data.CourseType,MajorIDs:data.MajorIDs}));
+
                  }
 
                  setLoading(false);
@@ -259,11 +272,17 @@ function AddEditCourseClass(props,ref) {
 
                                 if (i.Courses&&i.Courses.length>0){
 
-                                    i.Courses.map(item=>{
+                                   /* i.Courses.map(item=>{
 
                                         courseDataList.push({SubjectID:i.SubjectID,CourseNO:item.CourseNO,CourseName:item.CourseName});
 
-                                    })
+                                    })*/
+
+	                                i.Courses.map(item=>{
+
+		                                courseDataList.push(item);
+
+	                                })
 
                                 }
 
@@ -621,6 +640,7 @@ function AddEditCourseClass(props,ref) {
 
 
 
+
     //修改选择的学科
 
     const subjectChange = useCallback((data)=>{
@@ -662,6 +682,12 @@ function AddEditCourseClass(props,ref) {
 
         const { value,title } = data;
 
+        console.log(dataSource);
+
+        const courseData = dataSource.course.find(i=>i.CourseNO===value);
+
+        setSelectCourseInfo(d=>({...d,courseType:courseData.CourseType,MajorIDs:courseData.MajorIDs}));
+
         setCourse(d=>({...d,tip:false,dropSelectd:data}));
 
         if (value){
@@ -677,7 +703,6 @@ function AddEditCourseClass(props,ref) {
         }
 
     },[]);
-
 
     return(
 
@@ -885,9 +910,9 @@ function AddEditCourseClass(props,ref) {
 
                             <span className="top-right">
 
-                                <span onClick={e=>setSelectStuModal(true)} className="handle select">选择</span>
+                                <span onClick={!course.courseCheckInfo.CourseNO&&!course.dropSelectd.value?()=>{}:e=>setSelectStuModal(true)} className={`handle select ${!course.courseCheckInfo.CourseNO&&!course.dropSelectd.value?'disabled':''}`}>选择</span>
 
-                                <span onClick={clearEmpty} className="handle deleteAll">清空</span>
+                                <span onClick={!course.courseCheckInfo.CourseNO&&!course.dropSelectd.value?()=>{}:clearEmpty} className={`handle deleteAll ${!course.courseCheckInfo.CourseNO&&!course.dropSelectd.value?'disabled':''}`}>清空</span>
 
                             </span>
 
@@ -1046,7 +1071,7 @@ function AddEditCourseClass(props,ref) {
 
                     selectCourseModal?
 
-                        <SelectCourseModal courseCheckInfo={course.courseCheckInfo} ref={SelectCourseModalRef}>
+                        <SelectCourseModal  courseCheckInfo={course.courseCheckInfo} ref={SelectCourseModalRef}>
 
 
 
@@ -1072,7 +1097,7 @@ function AddEditCourseClass(props,ref) {
 
                     selectStuModal ?
 
-                        <SelectStudent majorChecked={course.courseCheckInfo.MajorIDs?course.courseCheckInfo.MajorIDs:''}  gradeChecked={grade.dropSelectd} stuCheckedList={stuClasses.stuList}  classCheckedList={stuClasses.classList} ref={SelectStudentModalRef}></SelectStudent>
+                        <SelectStudent courseType={selectdCourseInfo.courseType} majorChecked={selectdCourseInfo.MajorIDs}  gradeChecked={grade.dropSelectd} stuCheckedList={stuClasses.stuList}  classCheckedList={stuClasses.classList} ref={SelectStudentModalRef}></SelectStudent>
 
                         : ''
 

@@ -1,6 +1,6 @@
-import React,{useState,useEffect,useRef,memo,useImperativeHandle,forwardRef} from 'react';
+import React,{useState,useEffect,useRef,memo,useImperativeHandle,forwardRef,useCallback} from 'react';
 
-import { DropDown,Modal,Tips,Loading } from "../../../common";
+import { DropDown,Tips,Loading,CheckBox,CheckBoxGroup } from "../../../common";
 
 import Scroll from 'react-custom-scrollbars';
 
@@ -26,7 +26,7 @@ function CourseModal(props,ref) {
     //课程类型
     const [courseType,setCourseType] = useState({
 
-       dropSelectd:{value:'',title:'请选择学科类型'},
+       dropSelectd:{value:'',title:'请选择课程类型'},
 
        dropList:[
 
@@ -306,7 +306,26 @@ function CourseModal(props,ref) {
 
     };
 
+    //专业列表选择变化
+    const majorChange = (e,majorItem)=>{
 
+       const checked = e.target.checked;
+
+       const pickList = Array.from(major.majorPickList);
+
+       if (checked){
+
+            pickList.push(majorItem);
+
+       }else{
+
+	       pickList.splice(pickList.findIndex(i =>i.MajorID === majorItem.MajorID),1);
+
+       }
+
+       setMajor(d=>({...d,majorPickList:pickList}));
+
+    };
 
 
     useImperativeHandle(ref,()=>({
@@ -380,9 +399,6 @@ function CourseModal(props,ref) {
         }
 
     }));
-
-
-    console.log(college.collegeData,major);
 
     return(
 
@@ -574,89 +590,46 @@ function CourseModal(props,ref) {
 
                             <div className={"major_wrapper"}>
 
-                                <div className={"major_content"}>
+                                <ul className={"major_content"}>
 
-                                    <Scroll style={{height:110}}>
-
+                                    <Scroll style={{height:'100%'}}>
 
                                         {
 
-                                            major.majorPickList.length>0?
+                                                [1,3].includes(courseType.dropSelectd.value)&&college.dropSelectd.value?
 
-                                                major.majorPickList.map((i,k)=>{
 
-                                                    return <span key={k} className={"major_item"}>{i.MajorName};</span>
+	                                                collegeData.find(i=>i.CollegeID===college.dropSelectd.value).Majors.length>0?
 
-                                                })
+                                                    collegeData.find(i=>i.CollegeID===college.dropSelectd.value).Majors.map((i,k)=>{
+
+                                                        return <li key={k} className={"major-item"}>
+
+                                                            <CheckBox onChange={e=>majorChange(e,i)} checked={major.majorPickList.map(item=>item.MajorID).includes(i.MajorID)}>{i.MajorName}</CheckBox>
+
+                                                        </li>
+
+                                                    })
+
+                                                    :
+
+		                                            <div className={"emp"}>该学院暂无专业</div>
 
                                                 :
 
-                                                <div className={"emp"}>暂无选中专业</div>
+                                                <div className={"emp"}>暂无可选专业</div>
 
                                         }
 
-
-
                                     </Scroll>
 
-                                </div>
-
-                                {
-
-                                    college.dropSelectd.value!==0&&(courseType.dropSelectd.value===1||courseType.dropSelectd.value===3)?
-
-                                        <button onClick={editMajorClick} className={"edit btn"}></button>
-
-                                        :null
-
-                                }
+                                </ul>
 
                             </div>
 
                         </Tips>
 
                     </div>
-
-                    <Modal
-                        className={"major_modal"}
-                        bodyStyle={{height:400,padding:'20px 0 20px 40px'}}
-                        width={360}
-                        type="1"
-                        title={"选择专业"}
-                        visible={major.modalShow}
-                        maskClosable={true}
-                        // onOk={majorOk}
-                        onCancel={majorOk}
-                        footer={null}
-
-                    >
-
-                        {
-
-                            major.modalShow?
-
-                                <MajorModal
-
-                                    pickCollegeID={college.dropSelectd.value}
-
-                                    majorPickList={major.majorPickList}
-
-                                    collegeData={college.collegeData}
-
-                                    isCommon={major.isCommon}
-
-                                    ref={MajorModalRef}
-
-                                >
-
-
-                                </MajorModal>
-
-                                :''
-
-                        }
-
-                    </Modal>
 
                 </div>
 
