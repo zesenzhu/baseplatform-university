@@ -204,9 +204,15 @@ class TeaMaterial extends Component {
         },
       },
     } = this.props;
-    let { firstTime, firstShow, secondShow, thirdShow,forthShow,
+    let {
+      firstTime,
+      firstShow,
+      secondShow,
+      thirdShow,
+      forthShow,
       fifthShow,
-      sixthShow, } = this.state;
+      sixthShow,
+    } = this.state;
 
     let selectWeek = ItemWeek.find((child) => {
       return child.WeekNO === NowWeekSelect.value;
@@ -412,7 +418,7 @@ class TeaMaterial extends Component {
       //     let {seriesName,seriesId} = params;
       //     let token = sessionStorage.getItem('token')
       //     if(seriesName!=='同学科'&&Urls['300']&&Urls['300'].WebUrl){
-      //       window.open(Urls['300'].WebUrl+'html/TeachingPlan/?subjectid='+seriesId+'&lg_tk='+token)
+      //       window.open(Urls['300'].WebUrl+'html/TeachingPlan/?subjectid='+seriesId+'&lg_tk='+token+"&lg_ic="+IdentityCode)
       //     }
       //     console.log(params)
       //  });
@@ -558,7 +564,7 @@ class TeaMaterial extends Component {
           UploadAllScale,
           // SubjectScale: 0,
         };
-        that.SetEChart(data, mychart,"forth");
+        that.SetEChart(data, mychart, "forth");
       }
 
       window.addEventListener("resize", () => {
@@ -570,8 +576,8 @@ class TeaMaterial extends Component {
     }
   };
 
-   //AI的教学方案
-   AITeachPlanChart = () => {
+  //AI的教学方案
+  AITeachPlanChart = () => {
     let {
       MoreData: {
         MainData: {
@@ -630,7 +636,7 @@ class TeaMaterial extends Component {
           UploadAllScale,
           // SubjectScale: 0,
         };
-        that.SetEChart(data, mychart,"fifth");
+        that.SetEChart(data, mychart, "fifth");
       }
 
       window.addEventListener("resize", () => {
@@ -641,8 +647,8 @@ class TeaMaterial extends Component {
       //  });
     }
   };
-   //ESP素材
-   ESPMaterialChart = () => {
+  //ESP素材
+  ESPMaterialChart = () => {
     let {
       MoreData: {
         MainData: {
@@ -701,7 +707,7 @@ class TeaMaterial extends Component {
           UploadAllScale,
           // SubjectScale: 0,
         };
-        that.SetEChart(data, mychart,"sixth");
+        that.SetEChart(data, mychart, "sixth");
       }
 
       window.addEventListener("resize", () => {
@@ -837,12 +843,24 @@ class TeaMaterial extends Component {
   ClickBar = (params, type, SubjectID) => {
     let {
       MoreData: {
-        MainData: { TeacherResView, TeachPlan, TeachPercent ,ETextBook,AITeachPlan,ESPMaterial},
+        MainData: {
+          TeacherResView,
+          TeachPlan,
+          TeachPercent,
+          ETextBook,
+          AITeachPlan,
+          ESPMaterial,
+        },
       },
       systemUrl: { Urls },
       targetUser: { UserID },
       loginUser,
+      identifyInfo,
     } = this.props;
+    let IdentityCode =
+      identifyInfo instanceof Array && identifyInfo[0]
+        ? identifyInfo[0].IdentityCode
+        : "";
     if (loginUser.UserID !== UserID) {
       //如果不是本人，就退出
       return;
@@ -858,7 +876,9 @@ class TeaMaterial extends Component {
       Urls["C10"].WebUrl &&
       type === "first"
     ) {
-      window.open(Urls["C10"].WebUrl + "/Manage/Personal.aspx");
+      window.open(
+        Urls["C10"].WebUrl + "/Manage/Personal.aspx?lg_ic=" + IdentityCode
+      );
     } else if (
       seriesName !== "同学科" &&
       Urls["300"] &&
@@ -871,7 +891,9 @@ class TeaMaterial extends Component {
           "html/TeachingPlan/?subjectid=" +
           SubjectID +
           "&lg_tk=" +
-          token
+          token +
+          "&lg_ic=" +
+          IdentityCode
       );
     } else if (
       seriesName !== "同学科" &&
@@ -879,7 +901,13 @@ class TeaMaterial extends Component {
       Urls["D21"].WebUrl &&
       type === "third"
     ) {
-      window.open(Urls["D21"].WebUrl + "#/record/course?lg_tk=" + token);
+      window.open(
+        Urls["D21"].WebUrl +
+          "#/record/course?lg_tk=" +
+          token +
+          "&lg_ic=" +
+          IdentityCode
+      );
     }
     // console.log(params, SubjectID, type);
   };
@@ -896,7 +924,9 @@ class TeaMaterial extends Component {
           TeachPlan,
           TeachPercent,
           TermAndPeriod: { WeekList, WeekNO },
-          ETextBook,ESPMaterial,AITeachPlan
+          ETextBook,
+          ESPMaterial,
+          AITeachPlan,
         },
       },
       targetUser: { UserID },
@@ -1213,8 +1243,7 @@ class TeaMaterial extends Component {
                 ""
               )}
 
-
-{fifthShow ? (
+              {fifthShow ? (
                 <div className="TW-content">
                   <div className="TWc-left">
                     <p
@@ -1282,7 +1311,7 @@ class TeaMaterial extends Component {
                 ""
               )}
 
-{sixthShow ? (
+              {sixthShow ? (
                 <div className="TW-content">
                   <div className="TWc-left">
                     <p

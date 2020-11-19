@@ -117,6 +117,7 @@ class StuQuality extends Component {
       systemUrl: {
         Urls: { E34 },
       },
+      identifyInfo,
     } = this.props;
     // TabLoadingVisible= false
     let { firstTime, isSelfStudy } = this.state;
@@ -170,7 +171,11 @@ class StuQuality extends Component {
                   onClick={() => {
                     let token = sessionStorage.getItem("token");
                     window.open(
-                      E34.WebUrl + "/index_user.html?lg_tk=" + token + "#6|1|0"
+                      E34.WebUrl +
+                        "/index_user.html?lg_tk=" +
+                        token +
+                        "#6|1|0&lg_ic=" +
+                        identifyInfo[0].IdentityCode
                     );
                   }}
                   className="SRt-go"
