@@ -398,6 +398,51 @@ const MainData = (
         // { SubjectScale: 1, SubjectID: "111", SubjectName: "英语" },
       ],
     },
+    // 电子教材
+    ETextBook: {
+      TeacherID: "",
+      SubjectID: "",
+      SubjectName: "",
+      Url: "",
+      UploadCount: 0, //上传资源数量
+      BrowseCount: 0, //浏览数
+      UploadAllScale: 0,
+      SubjectScale: 0,
+      UploadSubjectScale: [
+        // { SubjectScale: 0.562, SubjectID: "111", SubjectName: "语文" },
+        // { SubjectScale: 1, SubjectID: "111", SubjectName: "英语" },
+      ],
+    },
+    // AI的教学方案
+    AITeachPlan: {
+      TeacherID: "",
+      SubjectID: "",
+      SubjectName: "",
+      Url: "",
+      UploadCount: 0, //上传资源数量
+      BrowseCount: 0, //浏览数
+      UploadAllScale: 0,
+      SubjectScale: 0,
+      UploadSubjectScale: [
+        // { SubjectScale: 0.562, SubjectID: "111", SubjectName: "语文" },
+        // { SubjectScale: 1, SubjectID: "111", SubjectName: "英语" },
+      ],
+    },
+    // ESP素材
+    ESPMaterial: {
+      TeacherID: "",
+      SubjectID: "",
+      SubjectName: "",
+      Url: "",
+      UploadCount: 0, //上传资源数量
+      BrowseCount: 0, //浏览数
+      UploadAllScale: 0,
+      SubjectScale: 0,
+      UploadSubjectScale: [
+        // { SubjectScale: 0.562, SubjectID: "111", SubjectName: "语文" },
+        // { SubjectScale: 1, SubjectID: "111", SubjectName: "英语" },
+      ],
+    },
     TermAndPeriod: {
       WeekList: [],
       ItemWeek: [],
@@ -524,29 +569,41 @@ const MainData = (
 ) => {
   let ApplyModuleSort = [];
   switch (actions.type) {
+    case MainActions.MAIN_GET_TEACHER_ESP_MATERIAL:
+      return Object.assign({}, state, {
+        ESPMaterial: actions.data,
+      });
+    case MainActions.MAIN_GET_TEACHER_AI_TEACH_PLAN:
+      return Object.assign({}, state, {
+        AITeachPlan: actions.data,
+      });
+    case MainActions.MAIN_GET_TEACHER_E_TEXTBOOK:
+      return Object.assign({}, state, {
+        ETextBook: actions.data,
+      });
     case MainActions.MAIN_GET_RES_STUDY:
       return Object.assign({}, state, {
-        ResStudy: {...state.ResStudy,...actions.data},
+        ResStudy: { ...state.ResStudy, ...actions.data },
       });
     case MainActions.MAIN_GET_PLAN_CLASS:
       return Object.assign({}, state, {
-        PlanClass: {...state.PlanClass,...actions.data},
+        PlanClass: { ...state.PlanClass, ...actions.data },
       });
     case MainActions.MAIN_GET_RE_TRAIN:
       return Object.assign({}, state, {
-        ReTrain: {...state.ReTrain,...actions.data},
+        ReTrain: { ...state.ReTrain, ...actions.data },
       });
     case MainActions.MAIN_GET_AFTER_CLASS:
       return Object.assign({}, state, {
-        AfterClass: {...state.AfterClass,...actions.data},
+        AfterClass: { ...state.AfterClass, ...actions.data },
       });
     case MainActions.MAIN_GET_BEFORE_CLASS:
       return Object.assign({}, state, {
-        AITrain: {...state.AITrain,...actions.data},
+        AITrain: { ...state.AITrain, ...actions.data },
       });
     case MainActions.MAIN_GET_AI_TRAIN:
       return Object.assign({}, state, {
-        BeforeClass: {...state.BeforeClass,...actions.data},
+        BeforeClass: { ...state.BeforeClass, ...actions.data },
       });
     case MainActions.MAIN_GET_TERM_AND_PERIOD:
       return Object.assign({}, state, {

@@ -41,6 +41,7 @@ p {
         .TW-content {
             width: 345px;
             padding: 0 52px;
+            margin-bottom: 10px;
             display: inline-block;
             vertical-align: top;
             position: relative;
@@ -80,7 +81,7 @@ p {
                 .chartsbox {
                     width: 151px;
                     height: 160px;
-                    background: url(../images/教学资料.png) no-repeat center center / contain;
+                    // background: url(../images/教学资料.png) no-repeat center center / contain;
                 }
                 .AllScore {
                     position: absolute;
