@@ -1360,7 +1360,7 @@ const changeTimeOriginDate = (date) => {
                 //第一个异步
                 if (json1){
 
-                    let list = json1.map(item => {
+                    let list = json1.filter(i=>i.ScheduleType!==1).map(item => {
 
                         let noon = '';
 
@@ -2045,7 +2045,7 @@ const changeClassRoomDatePick = (date) => {
 
               if (data){
 
-                  let list = data.map(item => {
+                  let list = data.filter(i=>i.ScheduleType!==1).map(item => {
 
                       let noon = '';
 
@@ -2218,7 +2218,7 @@ const changeClassRoomClassRoomPick = (info) => {
 
 //时间变化
 
-const stopScheduleDateChange = (date) => {
+const stopScheduleDateChange = (date) =>{
 
     return (dispatch,getState) => {
 
@@ -2246,7 +2246,7 @@ const stopScheduleDateChange = (date) => {
 
                     let tonight = {type:3,name:"晚上",list:[]};
 
-                    data.map(item => {
+                    data.filter(i=>i.ScheduleType!==1).map(item => {
 
                         if (item.ClassHourType === 1){
 

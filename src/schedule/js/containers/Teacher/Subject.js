@@ -36,8 +36,6 @@ class Subject extends Component{
 
     }
 
-
-
     //选择上一周次
     weekDateChange(date,week,weekDay){
 
@@ -67,7 +65,7 @@ class Subject extends Component{
 
             const top = this.tableRef.getScrollTop();
 
-            // this.tableRef.scrollTop(top-1);
+            this.tableRef.scrollTop(top-1);
 
         }
 

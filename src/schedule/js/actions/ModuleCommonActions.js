@@ -42,6 +42,8 @@ const getCommonInfo = () => {
 
             }
 
+            const UserInfoCopy = UserInfo;
+
             switch (parseInt(UserType)) {
 
                 case 0:
@@ -62,6 +64,8 @@ const getCommonInfo = () => {
 
                 case 2:
 
+	            case 3:
+
                     dispatch({type:ModuleSettingActions.UPDATE_STUDENT_MODULE_SETTING});
 
                     if (getQueryVariable('isWorkPlantform')||getQueryVariable('iFrame')){
@@ -77,6 +81,18 @@ const getCommonInfo = () => {
 
             }
 
+            if(parseInt(UserType)===3){
+
+                UserType = 2;
+
+                UserID = UserID.substring(3);
+
+                UserInfoCopy['UserID'] = UserID;
+
+                UserInfoCopy['UserType'] = UserType;
+
+            }
+
             //如果是导入界面
             const Hash = location.hash;
 
@@ -84,11 +100,11 @@ const getCommonInfo = () => {
 
                 if (parseInt(UserType)===7||parseInt(UserType)===10){
 
-                    UserInfo.UserType = 0;
+                    UserInfoCopy.UserType = 0;
 
                 }
 
-                dispatch({type:LoginUserActions.UPDATE_LOGIN_USER,data:UserInfo});
+                dispatch({type:LoginUserActions.UPDATE_LOGIN_USER,data:UserInfoCopy});
 
             }else{
 
@@ -203,11 +219,11 @@ const getCommonInfo = () => {
 
                         if (parseInt(UserType)===0){
 
-                            UserInfo.UserType = 0;
+	                        UserInfoCopy.UserType = 0;
 
                         }
 
-                        dispatch({type:LoginUserActions.UPDATE_LOGIN_USER,data:UserInfo});
+                        dispatch({type:LoginUserActions.UPDATE_LOGIN_USER,data:UserInfoCopy});
 
                     }
 

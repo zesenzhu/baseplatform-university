@@ -75,13 +75,19 @@ function ModulesContent(props){
 
             }else if (parseInt(UserType)===2||parseInt(UserType)===3){
 
-                return [
+                return parseInt(UserType)===2?[
 
                     // {Url:'/html/admclass',Name:'我的行政班',ClassName:'admClass'},
 
                     {Url:'/html/schedule#/student/mine',Name:'我的课程安排',ClassName:'schedule'},
 
                 ]
+
+                    :[
+
+		                {Url:'/html/schedule#/student/mine',Name:'学生课程安排',ClassName:'schedule'},
+
+	                ]
 
             }else if (parseInt(UserType)===7||parseInt(UserType)===10){
 
