@@ -46,6 +46,8 @@ const defaultState = {
     624: { SysID: "624", WebUrl: "", WsUrl: "" },
     //电子素材
     629: { SysID: "629", WebUrl: "", WsUrl: "" },
+    //教学方案
+    S14: { SysID: "629", WebUrl: "", WsUrl: "" },
   },
 
   ModuleRely: {
@@ -55,7 +57,7 @@ const defaultState = {
     StuQuality: ["810"],
     MoralEdu: ["E34"],
     TeaWork: ["E34"],
-    TeaMaterial: ["C10", "D21", "310"],
+    TeaMaterial: ["C10", "D21", "310", "930", "S14"],
   },
 };
 

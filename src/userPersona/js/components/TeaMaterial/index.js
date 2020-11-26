@@ -164,14 +164,14 @@ class TeaMaterial extends Component {
       );
     }
     // 电子资源
-    if (!forthShow && token && StartTime && EndTime && Urls["C10"].WebUrl) {
-      return;
+    if (!forthShow && token && StartTime && EndTime && Urls["930"].WsUrl) {
+      // return;
       this.setState({
         forthShow: true,
       });
       dispatch(
         CommonActions.SetTeaMaterialParams({
-          ForthProxy: Urls["C10"].WebUrl,
+          ForthProxy: Urls["930"].WsUrl,
           // Urls["810"].WsUrl,
           Token: token,
           StartTime: StartTime,
@@ -181,8 +181,59 @@ class TeaMaterial extends Component {
       );
 
       dispatch(
-        MainActions.GetTeacherResView({
+        MainActions.GetTeacherETextBook({
           func: this.ETextBookChart,
+        })
+      );
+    }
+    // 教学方案
+    if (!fifthShow && token && StartTime && EndTime && Urls["S14"].WsUrl) {
+      // return;
+      this.setState({
+        fifthShow: true,
+      });
+      dispatch(
+        CommonActions.SetTeaMaterialParams({
+          FifthProxy: Urls["S14"].WsUrl,
+          // Urls["810"].WsUrl,
+          Token: token,
+          StartTime: StartTime,
+          EndTime: EndTime,
+          // SelectBar: "NearExam",
+        })
+      );
+
+      dispatch(
+        MainActions.GetTeacherAITeachPlan({
+          func: this.AITeachPlanChart,
+        })
+      );
+    }
+    // ESP
+    if (
+      !sixthShow &&
+      token &&
+      // && StartTime && EndTime
+      Urls["930"].WsUrl
+    ) {
+      // return;
+      this.setState({
+        sixthShow: true,
+      });
+      dispatch(
+        CommonActions.SetTeaMaterialParams({
+          SixthProxy: Urls["930"].WsUrl,
+          // Urls["810"].WsUrl,
+          Token: token,
+          // StartTime: StartTime,
+          // EndTime: EndTime,
+          // SelectBar: "NearExam",
+        })
+      );
+
+      dispatch(
+        MainActions.GetTeacherESPMaterial({
+          func: this.ESPMaterialChart,
         })
       );
     }
@@ -611,7 +662,8 @@ class TeaMaterial extends Component {
         UploadSubjectScale.map((child, index) => {
           that.AITeachPlanTimeout = setTimeout(() => {
             let data = {
-              SubjectName: child.SubjectName,
+              SubjectName: "同学科",
+              // child.SubjectName,
               UploadAllScale,
               SubjectID: child.SubjectID,
 
@@ -631,10 +683,10 @@ class TeaMaterial extends Component {
         });
       } else {
         let data = {
-          // SubjectName: "同学科",
-          // haveSub: false,
+          SubjectName: "同学科",
+          haveSub: false,
           UploadAllScale,
-          // SubjectScale: 0,
+          SubjectScale: 0,
         };
         that.SetEChart(data, mychart, "fifth");
       }
@@ -908,6 +960,30 @@ class TeaMaterial extends Component {
           "&lg_ic=" +
           IdentityCode
       );
+    } else if (
+      seriesName !== "同学科" &&
+      Urls["930"] &&
+      Urls["930"].WsUrl &&
+      type === "forth" &&
+      ETextBook.Url
+    ) {
+      window.open(ETextBook.Url);
+    } else if (
+      // seriesName !== "同学科" &&
+      Urls["S14"] &&
+      Urls["S14"].WebUrl &&
+      type === "fifth" &&
+      AITeachPlan.Url
+    ) {
+      window.open(AITeachPlan.Url);
+    } else if (
+      seriesName !== "同学科" &&
+      Urls["930"] &&
+      Urls["930"].WsUrl &&
+      type === "sixth" &&
+      ESPMaterial.Url
+    ) {
+      window.open(ESPMaterial.Url);
     }
     // console.log(params, SubjectID, type);
   };
@@ -1209,15 +1285,27 @@ class TeaMaterial extends Component {
                         : "--"}
                     </p>
                     <p className="name">上传电子教材</p>
-                    <p className="UseCount">
-                      浏览:
-                      <span title={ETextBook.BrowseCount}>
-                        {ETextBook.BrowseCount}
-                      </span>
-                    </p>
+                    {ETextBook.BrowseCount || ETextBook.BrowseCount === 0 ? (
+                      <p className="UseCount">
+                        浏览:
+                        <span title={ETextBook.BrowseCount}>
+                          {ETextBook.BrowseCount}
+                        </span>
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="TWc-right">
-                    <div className="chartsbox" id="ETextBook"></div>
+                    <div
+                      className={`chartsbox ${
+                        ETextBook.UploadSubjectScale instanceof Array &&
+                        ETextBook.UploadSubjectScale.length
+                          ? ""
+                          : "chartsbox-2"
+                      }`}
+                      id="ETextBook"
+                    ></div>
                     <p className="AllScore">
                       领先
                       {forthAllScore > 0
@@ -1277,15 +1365,28 @@ class TeaMaterial extends Component {
                         : "--"}
                     </p>
                     <p className="name">制作教学方案</p>
-                    <p className="UseCount">
-                      应用数:
-                      <span title={AITeachPlan.BrowseCount}>
-                        {AITeachPlan.BrowseCount}
-                      </span>
-                    </p>
+                    {AITeachPlan.BrowseCount ||
+                    AITeachPlan.BrowseCount === 0 ? (
+                      <p className="UseCount">
+                        应用数:
+                        <span title={AITeachPlan.BrowseCount}>
+                          {AITeachPlan.BrowseCount}
+                        </span>
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="TWc-right">
-                    <div className="chartsbox" id="AITeachPlan"></div>
+                    <div
+                      className={`chartsbox ${
+                        AITeachPlan.UploadSubjectScale instanceof Array &&
+                        AITeachPlan.UploadSubjectScale.length
+                          ? ""
+                          : "chartsbox-2"
+                      }`}
+                      id="AITeachPlan"
+                    ></div>
                     <p className="AllScore">
                       领先
                       {fifthAllScore > 0
@@ -1345,15 +1446,28 @@ class TeaMaterial extends Component {
                         : "--"}
                     </p>
                     <p className="name">ESP素材建设</p>
-                    <p className="UseCount">
-                      浏览:
-                      <span title={ESPMaterial.BrowseCount}>
-                        {ESPMaterial.BrowseCount}
-                      </span>
-                    </p>
+                    {ESPMaterial.BrowseCount ||
+                    ESPMaterial.BrowseCount === 0 ? (
+                      <p className="UseCount">
+                        浏览:
+                        <span title={ESPMaterial.BrowseCount}>
+                          {ESPMaterial.BrowseCount}
+                        </span>
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="TWc-right">
-                    <div className="chartsbox" id="ESPMaterial"></div>
+                    <div
+                      className={`chartsbox ${
+                        ESPMaterial.UploadSubjectScale instanceof Array &&
+                        ESPMaterial.UploadSubjectScale.length
+                          ? ""
+                          : "chartsbox-2"
+                      }`}
+                      id="ESPMaterial"
+                    ></div>
                     <p className="AllScore">
                       领先
                       {sixthAllScore > 0

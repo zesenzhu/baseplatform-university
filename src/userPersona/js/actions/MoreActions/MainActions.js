@@ -1188,7 +1188,7 @@ const GetSelfStudy = ({
 
     // 电子素材
     Urls[629].WsUrl &&
-    getResStudy({
+      getResStudy({
         userid: StuResultParams.XH,
         Proxy: Urls[629].WsUrl,
       }).then((res) => {
@@ -1228,7 +1228,7 @@ const GetSelfStudy = ({
       });
     // 课外计划
     Urls[624].WsUrl &&
-    getPlanClass({
+      getPlanClass({
         userid: StuResultParams.XH,
         Proxy: Urls[624].WsUrl,
       }).then((res) => {
@@ -1436,7 +1436,6 @@ const getResStudy = async ({
   return data;
 };
 
-
 // 获取教师电子教材
 const MAIN_GET_TEACHER_E_TEXTBOOK = "MAIN_GET_TEACHER_E_TEXTBOOK";
 const GetTeacherETextBook = ({
@@ -1507,8 +1506,12 @@ const GetTeacherETextBook = ({
       subjectNames,
       token,
     }).then((res) => {
+      // console.log(res);
       if (res) {
-        dispatch({ type: MAIN_GET_TEACHER_E_TEXTBOOK, data: res.data });
+        dispatch({
+          type: MAIN_GET_TEACHER_E_TEXTBOOK,
+          data: { ...res.Result, UploadCount: res.Result.BookCount },
+        });
         func(getState());
       }
     });
@@ -1524,49 +1527,62 @@ const getTeacherETextBook = async ({
   startTime = "",
   endTime = "",
 }) => {
-  let url =
-    Proxy +
-    "/api/Public/GetTeacherResView?SchoolID=" +
-    schoolID +
-    "&TeacherID=" +
-    teacherID +
-    "&Token=" +
-    token +
-    // "&SubjectIDs=" +
-    // subjectIDs +
-    // "&SubjectNames=" +
-    // subjectNames +
-    "&startTime=" +
-    startTime +
-    " 00:00:00" +
-    "&endTime=" +
-    endTime +
-    " 23:59:59";
-  let TransUrl =
-    BasicProxy +
-    "/Global/GetHttpRequestTransfer?appid=000&token=" +
-    token +
-    "&reqUrl=" +
-    encodeURIComponent(url);
+  let url = Proxy + "WebService.asmx/GetTeacherBookData";
+  // ?SchoolID="
+  //  +
+  //   schoolID +
+  //   "&TeacherID=" +
+  //   teacherID +
+  //   "&Token=" +
+  //   token +
+  //   // "&SubjectIDs=" +
+  //   // subjectIDs +
+  //   // "&SubjectNames=" +
+  //   // subjectNames +
+  //   "&startTime=" +
+  //   startTime +
+  //   " 00:00:00" +
+  //   "&endTime=" +
+  //   endTime +
+  //   " 23:59:59";
+  // let TransUrl =
+  //   BasicProxy +
+  //   "/Global/GetHttpRequestTransfer?appid=000&token=" +
+  //   token +
+  //   "&reqUrl=" +
+  //   encodeURIComponent(url);
   let data = "";
   try {
-    let res = await getData(TransUrl, 2, "cors", false, false);
-    let json = await res.json();
-    json = JSON.parse(json);
-    // console.log(json)
+    let res = await postData(
+      url,
+      { schoolID, userID: teacherID },
+      1,
+      "cors",
+      false,
+      false
+    );
+    // console.log(
+    //   res.json
+    //   // ,res.body.cancel()
+    //   // ,res.body.getReader().closed
+    // );
 
-    if (json.error === 0) {
+    let json = await res.json();
+    // console.log(json, res);
+    if (json.ReturnCode === 1) {
       data = json;
     } else {
       data = false; //有错误
     }
   } catch {
+    console.log(data);
+
     data = false; //有错误
   }
   return data;
 };
-// 获取教师电子教材
-const MAIN_GET_TEACHER_AI_TEACH_PLAN = "MAIN_GET_TEACHER_E_TEXTBOOK";
+// 获取教师AI
+const MAIN_GET_TEACHER_AI_TEACH_PLAN = "MAIN_GET_TEACHER_AI_TEACH_PLAN";
 const GetTeacherAITeachPlan = ({
   func = () => {},
   schoolID,
@@ -1636,7 +1652,7 @@ const GetTeacherAITeachPlan = ({
       token,
     }).then((res) => {
       if (res) {
-        dispatch({ type: MAIN_GET_TEACHER_AI_TEACH_PLAN, data: res.data });
+        dispatch({ type: MAIN_GET_TEACHER_AI_TEACH_PLAN, data: res.Data });
         func(getState());
       }
     });
@@ -1654,14 +1670,14 @@ const getTeacherAITeachPlan = async ({
 }) => {
   let url =
     Proxy +
-    "/api/Public/GetTeacherResView?SchoolID=" +
+    "CouldPreparation/TeachingProgram/queryPersonalData?SchoolID=" +
     schoolID +
     "&TeacherID=" +
     teacherID +
     "&Token=" +
     token +
-    // "&SubjectIDs=" +
-    // subjectIDs +
+    "&SubjectID=" +
+    subjectIDs +
     // "&SubjectNames=" +
     // subjectNames +
     "&startTime=" +
@@ -1670,30 +1686,36 @@ const getTeacherAITeachPlan = async ({
     "&endTime=" +
     endTime +
     " 23:59:59";
-  let TransUrl =
-    BasicProxy +
-    "/Global/GetHttpRequestTransfer?appid=000&token=" +
-    token +
-    "&reqUrl=" +
-    encodeURIComponent(url);
+  // let TransUrl =
+  //   BasicProxy +
+  //   "/Global/GetHttpRequestTransfer?appid=000&token=" +
+  //   token +
+  //   "&reqUrl=" +
+  //   encodeURIComponent(url);
   let data = "";
   try {
-    let res = await getData(TransUrl, 2, "cors", false, false);
-    let json = await res.json();
-    json = JSON.parse(json);
-    // console.log(json)
+    let res = await getData(
+      url,
 
-    if (json.error === 0) {
+      1,
+      "cors",
+      false,
+      false
+    );
+
+    let json = await res.json();
+
+    if (json.ErrorFlag === 0) {
       data = json;
     } else {
       data = false; //有错误
     }
-  } catch {
-    data = false; //有错误
+  } catch (e) {
+    data = false;
   }
   return data;
 };
-// 获取教师电子教材
+// 获取ESP
 const MAIN_GET_TEACHER_ESP_MATERIAL = "MAIN_GET_TEACHER_ESP_MATERIAL";
 const GetTeacherESPMaterial = ({
   func = () => {},
@@ -1764,7 +1786,10 @@ const GetTeacherESPMaterial = ({
       token,
     }).then((res) => {
       if (res) {
-        dispatch({ type: MAIN_GET_TEACHER_ESP_MATERIAL, data: res.data });
+        dispatch({
+          type: MAIN_GET_TEACHER_ESP_MATERIAL,
+          data: { ...res.Result, UploadCount: res.Result.BookCount },
+        });
         func(getState());
       }
     });
@@ -1780,45 +1805,66 @@ const getTeacherESPMaterial = async ({
   startTime = "",
   endTime = "",
 }) => {
-  let url =
-    Proxy +
-    "/api/Public/GetTeacherResView?SchoolID=" +
-    schoolID +
-    "&TeacherID=" +
-    teacherID +
-    "&Token=" +
-    token +
-    // "&SubjectIDs=" +
-    // subjectIDs +
-    // "&SubjectNames=" +
-    // subjectNames +
-    "&startTime=" +
-    startTime +
-    " 00:00:00" +
-    "&endTime=" +
-    endTime +
-    " 23:59:59";
-  let TransUrl =
-    BasicProxy +
-    "/Global/GetHttpRequestTransfer?appid=000&token=" +
-    token +
-    "&reqUrl=" +
-    encodeURIComponent(url);
+  let url = Proxy + "WebService.asmx/GetTeacherEspUploadData";
+  // ?schoolID=" +
+  // schoolID +
+  // "&userID=" +
+  // teacherID;
+  // +
+  // "&Token=" +
+  // token +
+  // // "&SubjectIDs=" +
+  // // subjectIDs +
+  // // "&SubjectNames=" +
+  // // subjectNames +
+  // "&startTime=" +
+  // startTime +
+  // " 00:00:00" +
+  // "&endTime=" +
+  // endTime +
+  // " 23:59:59";
   let data = "";
   try {
-    let res = await getData(TransUrl, 2, "cors", false, false);
-    let json = await res.json();
-    json = JSON.parse(json);
-    // console.log(json)
+    let res = await postData(
+      url,
+      { schoolID, userID: teacherID },
+      1,
+      "cors",
+      false,
+      false
+    );
 
-    if (json.error === 0) {
+    let json = await res.json();
+
+    if (json.ReturnCode === 1) {
       data = json;
     } else {
       data = false; //有错误
     }
-  } catch {
-    data = false; //有错误
+  } catch (e) {
+    data = false;
   }
+  // let TransUrl =
+  //   BasicProxy +
+  //   "/Global/GetHttpRequestTransfer?appid=000&token=" +
+  //   token +
+  //   "&reqUrl=" +
+  //   encodeURIComponent(url);
+  // let data = "";
+  // try {
+  //   let res = await getData(TransUrl, 2, "cors", false, false);
+  //   let json = await res.json();
+  //   json = JSON.parse(json);
+  //   // console.log(json)
+
+  //   if (json.error === 0) {
+  //     data = json;
+  //   } else {
+  //     data = false; //有错误
+  //   }
+  // } catch {
+  //   data = false; //有错误
+  // }
   return data;
 };
 const MainActions = {
@@ -1828,10 +1874,8 @@ const MainActions = {
   MAIN_GET_TEACHER_AI_TEACH_PLAN,
   GetTeacherAITeachPlan,
 
-
   MAIN_GET_TEACHER_E_TEXTBOOK,
-  GetTeacherETextBook
-  ,
+  GetTeacherETextBook,
   MAIN_GET_RES_STUDY,
   MAIN_GET_PLAN_CLASS,
   MAIN_GET_RE_TRAIN,
