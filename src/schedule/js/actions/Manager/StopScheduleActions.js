@@ -658,7 +658,9 @@ const commitInfo = ({that,checkedGrades,checkedColleges}) => {
 
                    dispatch(AppAlertActions.alertSuccess({title:"停课成功！"}));
 
-                    ComPageRefresh.ComPageUpdate(dispatch);
+                    // ComPageRefresh.ComPageUpdate(dispatch);
+
+	                dispatch(ComPageRefresh.ComPageScheduleBetterUpdate());
 
                 }
 

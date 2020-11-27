@@ -4145,7 +4145,9 @@ const ModalCommit = ({changeTimeModal,changeRoomModal}) => {
 
                      dispatch(AppAlertActions.alertSuccess({title:"调整时间成功！"}));
 
-                     ComPageRefresh.ComPageUpdate(dispatch);
+                     // ComPageRefresh.ComPageUpdate(dispatch);
+
+	                 dispatch(ComPageRefresh.ComPageScheduleBetterUpdate());
 
                  }
 
@@ -4238,7 +4240,9 @@ const ModalCommit = ({changeTimeModal,changeRoomModal}) => {
 
                       dispatch(AppAlertActions.alertSuccess({title:"调整教室成功！"}));
 
-                      ComPageRefresh.ComPageUpdate(dispatch);
+                      // ComPageRefresh.ComPageUpdate(dispatch);
+
+	                  dispatch(ComPageRefresh.ComPageScheduleBetterUpdate());
 
                   }
 
@@ -4321,9 +4325,11 @@ const ModalCommit = ({changeTimeModal,changeRoomModal}) => {
 
                       dispatch({type:ADJUST_BY_TEACHER_HIDE});
 
-                      dispatch(AppAlertActions.alertSuccess({title:"停课成功！"}))
+                      dispatch(AppAlertActions.alertSuccess({title:"停课成功！"}));
 
-                      ComPageRefresh.ComPageUpdate(dispatch);
+                      // ComPageRefresh.ComPageUpdate(dispatch);
+
+	                  dispatch(ComPageRefresh.ComPageScheduleBetterUpdate());
 
                   }
 

@@ -999,7 +999,9 @@ const commitInfo = ({that,checkedColleges,checkedGrades}) => {
 
                    dispatch(AppAlertActions.alertSuccess({title:"调整成功！"}));
 
-                   ComPageRefresh.ComPageUpdate(dispatch);
+                   // ComPageRefresh.ComPageUpdate(dispatch);
+
+	               dispatch(ComPageRefresh.ComPageScheduleBetterUpdate());
 
                }
 
