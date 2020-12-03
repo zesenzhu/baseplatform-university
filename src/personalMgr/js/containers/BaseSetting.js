@@ -457,6 +457,7 @@ class BaseSetting extends Component {
     let token = sessionStorage.getItem("token");
     LockerVersion = parseInt(LockerVersion);
     ProductType = parseInt(ProductType);
+    let ProductType_3 = ProductType === 3;
     return (
       <Loading spinning={loadingShow}>
         <div className="base-setting-wrapper">
@@ -609,10 +610,10 @@ class BaseSetting extends Component {
               ) : (
                 ""
               )}
-              {UserType === 0 ||
+              {ProductType_3 && (UserType === 0 ||
               UserType === 1 ||
               UserType === 7 ||
-              UserType === 10 ? (
+              UserType === 10) ? (
                 <div
                   className="role-wrapper clearfix"
                   style={{ zIndex: this.state.zIndex }}

@@ -597,11 +597,11 @@ const MainData = (
       return Object.assign({}, state, {
         AfterClass: { ...state.AfterClass, ...actions.data },
       });
-    case MainActions.MAIN_GET_BEFORE_CLASS:
+    case MainActions.MAIN_GET_AI_TRAIN:
       return Object.assign({}, state, {
         AITrain: { ...state.AITrain, ...actions.data },
       });
-    case MainActions.MAIN_GET_AI_TRAIN:
+    case MainActions.MAIN_GET_BEFORE_CLASS :
       return Object.assign({}, state, {
         BeforeClass: { ...state.BeforeClass, ...actions.data },
       });

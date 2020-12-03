@@ -3,7 +3,7 @@ import { postData, getData } from "../../../../common/js/fetch";
 import CONFIG from "../../../../common/js/config";
 import "whatwg-fetch";
 import CommonActions from "./CommonActions";
-import Public from "../../../../common/js/public";
+import Public, { correctNumber } from "../../../../common/js/public";
 import $ from "jquery";
 const { HashPrevProxy, UserScheduleProxy, BasicProxy } = CONFIG;
 // 查询我的班级德育信息
@@ -251,19 +251,33 @@ const GetStuNearExam = ({
     if (XH === undefined) {
       XH = StuResultParams.XH;
     }
-    getStuNearExam({ Term, ClassID, GradeID, SchoolID, Proxy, XH }).then(
-      (res) => {
-        if (res) {
-          dispatch({ type: MAIN_GET_STU_NEAR_EXAM, data: res.data });
-          func(getState());
-        }
-        dispatch(
-          CommonActions.SetStuResultParams({
-            TabLoadingVisible: false,
-          })
-        );
+    const timeout = setTimeout(() => {
+      console.log("请求超时了");
+      dispatch(
+        CommonActions.SetStuResultParams({
+          TabLoadingVisible: false,
+        })
+      );
+    }, 10000);
+    let StuNearExam = getStuNearExam({
+      Term,
+      ClassID,
+      GradeID,
+      SchoolID,
+      Proxy,
+      XH,
+    }).then((res) => {
+      if (res) {
+        dispatch({ type: MAIN_GET_STU_NEAR_EXAM, data: res.data });
+        func(getState());
       }
-    );
+      dispatch(
+        CommonActions.SetStuResultParams({
+          TabLoadingVisible: false,
+        })
+      );
+    });
+    Promise.race([StuNearExam, timeout]);
   };
 };
 const getStuNearExam = async ({
@@ -1025,9 +1039,9 @@ const GetSelfStudy = ({
           if (res) {
             let DataList = [
               {
-                Num: res.Result ? res.Result.AverageScore * 100 : 0,
-                NumName: "完成率",
-                Unit: "%",
+                Num: res.Result ? res.Result.AverageScore : 0,
+                NumName: "平均得分",
+                // Unit: "%",
               },
               {
                 Num: res.Result ? res.Result.TrainTime : 0,
@@ -1071,7 +1085,7 @@ const GetSelfStudy = ({
           //   },
           let DataList = [
             {
-              Num: res.val ? res.val.PercentageRate * 100 : 0,
+              Num: res.val ? correctNumber(res.val.PercentageRate * 100) : 0,
               NumName: "完成率",
               Unit: "%",
             },
@@ -1114,12 +1128,12 @@ const GetSelfStudy = ({
           //   },
           let DataList = [
             {
-              Num: res.Data ? res.Data.ScoreRate * 100 : 0,
+              Num: res.Data ? Math.round(res.Data.ScoreRate * 100) : 0,
               Unit: "%",
               NumName: "平均得分率",
             },
             {
-              Num: res.Data ? res.Data.PercentageRate * 100 : 0,
+              Num: res.Data ? Math.round(res.Data.PercentageRate * 100) : 0,
               NumName: "完成率",
               Unit: "%",
             },
@@ -1164,9 +1178,9 @@ const GetSelfStudy = ({
               NumName: "训练次数",
             },
             {
-              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              Num: res.Data ? res.Data.LearningTime : 0,
               NumName: "学习时长",
-              // Unit: "%",
+              Unit: "h",
             },
           ];
 
@@ -1205,9 +1219,9 @@ const GetSelfStudy = ({
               NumName: "学习资料数",
             },
             {
-              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              Num: res.Data ? res.Data.LearningTime : 0,
               NumName: "学习时长",
-              // Unit: "%",
+              Unit: "h",
             },
           ];
 
@@ -1245,9 +1259,9 @@ const GetSelfStudy = ({
               NumName: "计划总数",
             },
             {
-              Num: res.Data ? res.Data.LearningTime * 100 : 0,
+              Num: res.Data ? res.Data.LearningTime : 0,
               NumName: "学习时长",
-              // Unit: "%",
+              Unit: "h",
             },
           ];
 
@@ -1676,8 +1690,9 @@ const getTeacherAITeachPlan = async ({
     teacherID +
     "&Token=" +
     token +
-    "&SubjectID=" +
-    subjectIDs +
+    // 默认英语
+    "&SubjectID="+(subjectIDs?subjectIDs:"S1-English") +
+     
     // "&SubjectNames=" +
     // subjectNames +
     "&startTime=" +

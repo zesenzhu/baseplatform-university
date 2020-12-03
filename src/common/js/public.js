@@ -23,7 +23,7 @@
  * @Author: zhuzesen
  * @LastEditors: zhuzesen
  * @Date: 2020-07-01 08:48:32
- * @LastEditTime: 2020-11-10 09:35:46
+ * @LastEditTime: 2020-12-03 15:21:32
  * @Description:
  * @FilePath: \baseplatform-university\src\common\js\public.js
  */
@@ -294,30 +294,29 @@ function comparisonObject(sourceObj, compareObj) {
 }*/
 
 function getLg_tk(url) {
+  let ohref = window.location.href;
+  let rpar = ""; //跟着lg_tk的路由
+  let hrefpars = ohref.split("?");
+  if (hrefpars.length == 2) {
+    let urlpars = hrefpars[1].split("&");
+    for (let i = 0; i < urlpars.length; i++) {
+      if (urlpars[i].indexOf("lg_tk=") == 0) {
+        if (urlpars[i].indexOf("#") > -1) {
+          rpar = urlpars[i].substring(urlpars[i].indexOf("#"));
+        }
+        urlpars.splice(i, 1);
+      }
+    }
+    if (urlpars.length > 0) {
+      hrefpars[1] = urlpars.join("&");
+      ohref = hrefpars.join("?");
+    } else {
+      ohref = hrefpars[0];
+    }
+  }
+  ohref += rpar;
 
-	let ohref = window.location.href;
-	let rpar = "";//跟着lg_tk的路由
-	let hrefpars = ohref.split('?');
-	if (hrefpars.length == 2) {
-		let urlpars = hrefpars[1].split('&');
-		for (let i = 0; i < urlpars.length; i++) {
-			if (urlpars[i].indexOf('lg_tk=') == 0) {
-				if (urlpars[i].indexOf('#') > -1) { rpar = urlpars[i].substring(urlpars[i].indexOf('#')); }
-				urlpars.splice(i, 1);
-			}
-		}
-		if (urlpars.length > 0) {
-			hrefpars[1] = urlpars.join('&');
-			ohref = hrefpars.join('?');
-		}
-		else {
-			ohref = hrefpars[0];
-		}
-	}
-	ohref  += rpar;
-
-	return ohref;
-
+  return ohref;
 }
 // 处理url适合获取icon
 const UrlGetIcon = (url) => {
@@ -558,11 +557,18 @@ export function matchTypeAdd(
 ) {
   let Param = getQueryVariable(param);
   let isAdd = false;
-  if (Param  === "add") {
+  if (Param === "add") {
     isAdd = true;
   }
   fn(isAdd);
   return isAdd;
+}
+
+// 解决js数字失精问题
+// 0.7*100=7.0000000000001
+// 0.1+0.2=0.30000000000004
+export function correctNumber(number=0) {
+  return parseFloat(number.toPrecision(12));
 }
 export default {
   deepCompare,
@@ -577,5 +583,6 @@ export default {
   setRole,
   noRepeat,
   ArrayNoRepeat,
-  matchParamfromArray,matchTypeAdd
+  matchParamfromArray,
+  matchTypeAdd,
 };
