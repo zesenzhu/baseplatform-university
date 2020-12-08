@@ -52,7 +52,7 @@ class Import extends Component{
 
                 ImportTitle:'导入学生',
 
-                ImportTarget:'student'
+                ImportTarget:'student_1'
 
             };
 
