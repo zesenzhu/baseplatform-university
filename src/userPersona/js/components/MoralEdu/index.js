@@ -104,7 +104,7 @@ class MoralEdu extends Component {
               </span>:''}
               {data instanceof Array && data.length > 2 ? (
                 <LinkBtn
-                  onClick={this.onShowAllClick(!ShowAll)}
+                  onClick={this.onShowAllClick.bind(this,!ShowAll)}
                   type="all"
                   className="SRt-go"
                 >

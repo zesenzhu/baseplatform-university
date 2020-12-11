@@ -106,7 +106,7 @@ class StuQuality extends Component {
                 onClick={() => {
                   let token = sessionStorage.getItem("token");
                   window.open(
-                    E34.WebUrl + "/index_user.html?lg_tk=" + token + "#6|3|0&lg_ic="+identifyInfo[0].IdentityCode
+                    E34.WebUrl + "/index_user.html?lg_tk=" + token+"&lg_ic="+identifyInfo[0].IdentityCode + "#6|3|0"
                   );
                 }}
                 >

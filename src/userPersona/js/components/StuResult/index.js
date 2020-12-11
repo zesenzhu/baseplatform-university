@@ -174,8 +174,9 @@ class StuQuality extends Component {
                       E34.WebUrl +
                         "/index_user.html?lg_tk=" +
                         token +
-                        "#6|1|0&lg_ic=" +
-                        identifyInfo[0].IdentityCode
+                        "&lg_ic=" +
+                        identifyInfo[0].IdentityCode +
+                        "#6|1|0"
                     );
                   }}
                   className="SRt-go"
