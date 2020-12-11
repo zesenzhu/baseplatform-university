@@ -556,7 +556,7 @@ function AddEditCourseClass(props,ref) {
 
             }else{
 
-                setCourseClass(data=>({...data,tip:true,tipTitle:'课程名称格式不正确'}));
+                setCourseClass(data=>({...data,tip:true,tipTitle:'教学班名称格式不正确'}));
 
             }
 
