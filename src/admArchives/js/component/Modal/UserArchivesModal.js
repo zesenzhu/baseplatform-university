@@ -1364,7 +1364,7 @@ class UserArchivesModal extends Component {
                         getPopupContainer={(e) => e.parentNode}
                         title={SubjectTipsTitle}
                       >
-                        {this.MapPlainOptions().length <= 16 ? (
+                        {this.MapPlainOptions().length <= 12 ? (
                           <CheckBoxGroup
                             onChange={this.changeCheckBox}
                             className={"checkedBoxGroupMap"}
@@ -1378,7 +1378,7 @@ class UserArchivesModal extends Component {
                             autoHeightMax={112}
                             autoHeight={true}
                             autoHide={
-                              this.MapPlainOptions().length <= 16 ? true : false
+                              this.MapPlainOptions().length <= 12 ? true : false
                             }
                             autoHideTimeout={0}
                             autoHideDuration={0}
