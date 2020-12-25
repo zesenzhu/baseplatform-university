@@ -525,9 +525,16 @@ class YearSemesterSetting extends Component {
                     placeholder="请选择日期"
                     format="YYYY-MM-DD"
                     onChange={this.getPainDate}
-                    disabledDate={(e) =>
-                   {return e >= moment(semesterInfo.TermEndDate) ||   this.disabledDate(e, semesterInfo.TermStartDate, "start")}
-                    }
+                    disabledDate={(e) => {
+                      return (
+                        e >= moment(semesterInfo.TermEndDate) ||
+                        this.disabledDate(
+                          e,
+                          semesterInfo.TermStartDate,
+                          "start"
+                        )
+                      );
+                    }}
                     showToday={false}
                     suffixIcon={<i className="calender-logo"></i>}
                     defaultPickerValue={moment(semesterInfo.defaultStartDate)}
@@ -545,9 +552,12 @@ class YearSemesterSetting extends Component {
                     }
                     format="YYYY-MM-DD"
                     onChange={this.getOffDate}
-                    disabledDate={(e) =>
-                  {return e <= moment(semesterInfo.TermStartDate) ||   this.disabledDate(e, semesterInfo.TermEndDate, "end")}
-                    }
+                    disabledDate={(e) => {
+                      return (
+                        e <= moment(semesterInfo.TermStartDate) ||
+                        this.disabledDate(e, semesterInfo.TermEndDate, "end")
+                      );
+                    }}
                     showToday={false}
                     suffixIcon={<i className="calender-logo"></i>}
                     defaultPickerValue={moment(semesterInfo.defaultEndDate)}

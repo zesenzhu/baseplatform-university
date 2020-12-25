@@ -231,7 +231,8 @@ export const teacherSearchReg = (str) => {
 
     let pattern = '';
 
-    pattern =  /^[A-Za-z0-9]{1,30}$|^[a-zA-Z0-9_.·\u4e00-\u9fa5 ]{0,48}[a-zA-Z0-9_.·\u4e00-\u9fa5]$/
+    // pattern =  /^[A-Za-z0-9]{1,30}$|^[a-zA-Z0-9_.·\u4e00-\u9fa5 ]{0,48}[a-zA-Z0-9_.·\u4e00-\u9fa5]$/     //旧的不支持（）
+    pattern = /^[_\->/()（）A-Za-z0-9\u4e00-\u9fa5]{0,50}$|^[A-Za-z0-9]{1,30}$|^[a-zA-Z0-9_.·\u4e00-\u9fa5 ]{0,48}[a-zA-Z0-9_.·\u4e00-\u9fa5]$/;
 
     return pattern.test(str);
 

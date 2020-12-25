@@ -408,7 +408,6 @@ function App(props) {
           let LgBasePlatformInfo = JSON.parse(
             sessionStorage.getItem("LgBasePlatformInfo")
           );
-          console.log(LgBasePlatformInfo);
           if (LgBasePlatformInfo !== null && macId) {
             let OpenSetInfo = [];
             LgBasePlatformInfo.OpenSetInfo instanceof Array &&
@@ -426,7 +425,13 @@ function App(props) {
             LgBasePlatformInfo.OpenSetInfo = OpenSetInfo;
           }
 
-          sessionStorage.setItem("LgBasePlatformInfo",JSON.stringify(LgBasePlatformInfo))
+          sessionStorage.setItem(
+            "LgBasePlatformInfo",
+            JSON.stringify(LgBasePlatformInfo)
+          );
+          dispatch(
+            changeSetting({ OpenSetInfo: LgBasePlatformInfo.OpenSetInfo })
+          );
         } catch (e) {}
 
         //存储MacID
