@@ -730,7 +730,7 @@ function AddTempScheduleModal(props){
 
             }else{
 
-                setCourseInput(e=>({...e,tip:true,tipTitle:'输入的学科名称格式不正确'}));
+                setCourseInput(e=>({...e,tip:true,tipTitle:'输入的课程名称格式不正确'}));
 
             }
 
@@ -754,7 +754,7 @@ function AddTempScheduleModal(props){
 
             }else{
 
-                setClassRoomInput(e=>({...e,tip:true,tipTitle:'输入的学科名称格式不正确'}));
+                setClassRoomInput(e=>({...e,tip:true,tipTitle:'输入的上课教室名称格式不正确'}));
 
             }
 

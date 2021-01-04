@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import "../../scss/common/SelectStudent.scss";
 
 import { Scrollbars } from "react-custom-scrollbars";
+import AppAlertActions from '../actions/AppAlertActions';
 
 // import {teacherSearchReg,subNameReg,showWarnAlert}
 
@@ -346,8 +347,8 @@ function SelectStudent(props,ref){
             setTimeout(updateSearch,0);
 
         }else{
-
-            dispatch(showWarnAlert({title:`输入的学生姓名格式不正确`}));
+            dispatch(AppAlertActions.alertError({title:'输入的学生姓名格式不正确'}));
+            // dispatch(showWarnAlert({title:`输入的学生姓名格式不正确`}));
 
         }
 
@@ -507,7 +508,7 @@ function SelectStudent(props,ref){
                     <Search
                         className="top-search"
                         placeHolder="请输入学生姓名进行搜索..."
-                        width="280"
+                        width={245}
                         Value={search.Value}
                         onChange={e=>{e.persist();setSearch(data=>({...data,Value:e.target.value}))}}
                         onCancelSearch={searchCancel}

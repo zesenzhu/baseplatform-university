@@ -71,27 +71,28 @@ function App(props) {
     const hashUri = urlObj.newUrl.split("#/")[1]
       ? "#/" + urlObj.newUrl.split("#/")[1]
       : "";
+    nexUrl =
+      uriMain + (uriMain.includes("?") ? "&lg_tk=" : "?lg_tk=") + hashUri;
+    // switch (urlObj.type) {
+    //   case 1:
+    //     if (urlObj.nexType === 1) {
+    //       nexUrl = uriMain + "?lg_tk=" + hashUri;
+    //     } else {
+    //       nexUrl = uriMain + "&lg_tk=" + hashUri;
+    //     }
 
-    switch (urlObj.type) {
-      case 1:
-        if (urlObj.nexType === 1) {
-          nexUrl = uriMain + "?lg_tk=" + hashUri;
-        } else {
-          nexUrl = uriMain + "&lg_tk=" + hashUri;
-        }
+    //     break;
 
-        break;
+    //   case 2:
+    //     nexUrl = uriMain + "&lg_tk=" + hashUri;
 
-      case 2:
-        nexUrl = uriMain + "&lg_tk=" + hashUri;
+    //     break;
 
-        break;
+    //   case 3:
+    //     nexUrl = uriMain + "?lg_tk=" + hashUri;
 
-      case 3:
-        nexUrl = uriMain + "?lg_tk=" + hashUri;
-
-        break;
-    }
+    //     break;
+    // }
 
     console.log(nexUrl);
 
