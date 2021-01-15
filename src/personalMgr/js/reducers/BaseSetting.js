@@ -65,11 +65,18 @@ const BaseSetting = (state={
         size:"small"
 
     }
+,
+SysUrl: [],
 
 },actions) => {
 
     switch (actions.type) {
-
+        case BaseActions.MAIN_GET_SUB_SYSTEMS_MAIN_SERVER:
+            return {
+              ...state,
+      
+              SysUrl: actions.data,
+            };
         case BaseActions.BASE_INFO_UPDATE:
 
             return {

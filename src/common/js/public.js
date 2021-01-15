@@ -570,6 +570,50 @@ export function matchTypeAdd(
 export function correctNumber(number=0) {
   return parseFloat(number.toPrecision(12));
 }
+
+/**
+ * @description: 存数据到storage,sessionStorage,localStorage
+ * @param {*key:键,value:值，haveLocalStorage:是否存到localStorage}
+ * @return {*boolean:是否存成功}
+ */
+export const setDataStorage = (
+  key = "error",
+  value = "key is undefined",
+  haveLocalStorage = false
+) => {
+  value = value instanceof Object ? JSON.stringify(value) : value;
+  sessionStorage.setItem(key, value);
+  haveLocalStorage && localStorage.setItem(key, value);
+};
+
+/**
+ * @description: 获取storage的数据
+ * @param {*key:键，haveLocalStorage:是否取localStorage}
+ * @return {*value:不存在返回null}
+ */
+export const getDataStorage = (key, haveLocalStorage = false) => {
+  if (key === undefined) {
+    console.log("Storage key is not undefined");
+    return null;
+  }
+  let value = "";
+  if (haveLocalStorage) {
+    value = localStorage.getItem(key);
+  } else {
+    value = sessionStorage.getItem(key);
+  }
+  if (value === null) {
+    console.log(key + " Storage is not exist");
+
+    return null;
+  }
+
+  try {
+    value = JSON.parse(value);
+  } catch (e) {}
+  return value;
+};
+
 export default {
   deepCompare,
   getQueryVariable,

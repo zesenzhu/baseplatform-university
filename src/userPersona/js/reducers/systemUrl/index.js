@@ -47,7 +47,7 @@ const defaultState = {
     //电子素材
     629: { SysID: "629", WebUrl: "", WsUrl: "" },
     //教学方案
-    S14: { SysID: "629", WebUrl: "", WsUrl: "" },
+    S14: { SysID: "S14", WebUrl: "", WsUrl: "" },
   },
 
   ModuleRely: {
