@@ -48,7 +48,7 @@ class MainContent extends Component {
           },
           {
             key: "School",
-            title: "学校基础资料设置",
+            title: "院校基础资料设置",
             icon: "menu44",
             onTitleClick: this.handleClick.bind(this.key),
           },
@@ -63,7 +63,7 @@ class MainContent extends Component {
       route: false,
       havePower: false,
       List: [
-        { value: "School", title: "学校基础资料设置", icon: "School" },
+        { value: "School", title: "院校基础资料设置", icon: "School" },
 
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
@@ -234,7 +234,7 @@ class MainContent extends Component {
     let subtitle = "";
     if (path === "Import") {
       isImport = true;
-      subtitle = "导入学院";
+      subtitle = "导入院系";
     }
     // console.log(path)
     if (

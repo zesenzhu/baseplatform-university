@@ -59,7 +59,7 @@ class Import  extends React.Component {
             </div> */}
 
 
-           <ImportExcel ImportTitle='导入学院' ImportTarget='importCollegeInfo'></ImportExcel>
+           <ImportExcel ImportTitle='导入院系' ImportTarget='importCollegeInfo'></ImportExcel>
 
         </React.Fragment>
     )

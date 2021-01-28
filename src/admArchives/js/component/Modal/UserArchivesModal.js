@@ -238,7 +238,6 @@ class UserArchivesModal extends Component {
                 title: "信息没有发生改变",
               })
             );
-            console.log("重复");
           },
         })
       );
@@ -639,9 +638,10 @@ class UserArchivesModal extends Component {
   // 学科
   changeCheckBox = (e) => {
     const { dispatch } = this.props;
-    if (e.length === 0) {
-      return;
-    }
+    // 新版本可以不选择学科
+    // if (e.length === 0) {
+    //   return;
+    // }
 
     dispatch(
       util.checkSubjectID({
@@ -783,7 +783,7 @@ class UserArchivesModal extends Component {
   render() {
     let {
       DataState: {
-        MainData: { StudentTree, TeacherTree, TitleList },
+        MainData: { StudentTree, TeacherTree, TitleList,SysUrl },
         CommonData: {
           ModalVisible: { UserArchivesModalVisible },
           UserArchivesParams: { UserArchivesModalType, UserArchivesModalRole },
@@ -901,10 +901,11 @@ class UserArchivesModal extends Component {
         value: "女",
         title: "女",
       },
-      {
-        value: "保密",
-        title: "保密",
-      },
+      // 保密新版本不要
+      // {
+      //   value: "保密",
+      //   title: "保密",
+      // },
     ];
     let bodyHeight = "456px";
     switch (UserArchivesModalRole) {
@@ -1334,7 +1335,8 @@ class UserArchivesModal extends Component {
                       getPopupContainer={(e) => e.parentNode}
                       title={TitleTipsTitle}
                     >
-                      <DropDown
+                      {/* 教务系统的职称不允许编辑 */}
+                      {UserArchivesModalType!=='add'&&SysUrl['E34']?<span className='UserID-text'>{TitleName}</span>:<DropDown
                         style={{ zIndex: 1 }}
                         dropSelectd={{
                           value: TitleID,
@@ -1344,7 +1346,7 @@ class UserArchivesModal extends Component {
                         width={200}
                         height={96}
                         onChange={this.onEditTitleChange}
-                      ></DropDown>
+                      ></DropDown>}
                     </Tips>
                   </div>
                 </div>
@@ -1354,7 +1356,8 @@ class UserArchivesModal extends Component {
               {!ProductType_6&&UserArchivesModalRole === "Teacher" ? (
                 <div className="row clearfix row-subject">
                   <span className="culonm-1 Subject">
-                    <span className="must-icon">*</span>所教学科：
+                    {/* <span className="must-icon">*</span> */}
+                    所教学科：
                   </span>
                   <div className="culonm-2">
                     {

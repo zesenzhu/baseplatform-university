@@ -70,10 +70,11 @@ class Register extends Component {
           value: "女",
           title: "女",
         },
-        {
-          value: "保密",
-          title: "保密",
-        },
+        // 新版不要保密
+        // {
+        //   value: "保密",
+        //   title: "保密",
+        // },
       ],
       Agreement: false,
       Read: false,
@@ -580,7 +581,7 @@ class Register extends Component {
             VisibleIsFalse = true;
           }
         }
-        console.log(child,child !== "ShortName")
+        // console.log(child,child !== "ShortName")
         if (
           (child !== "ShortName" &&
           DataState.RegisterMsg[child] === "") ||
@@ -620,7 +621,7 @@ class Register extends Component {
           }
         }
         if (
-          (child !== "ShortName" &&
+          (child !== "ShortName"&&child!=='SubjectIDs'&&//学科可以为[] &&
           DataState.RegisterMsg[child] === "") ||
           (DataState.RegisterMsg[child] instanceof Array &&
             DataState.RegisterMsg[child].length === 0) ||
@@ -811,10 +812,10 @@ class Register extends Component {
   // 学科多选
   onCheckBoxGroupChange = (value) => {
     const { dispatch } = this.props;
-
-    if (value.length === 0) {
-      return;
-    }
+// 新版本可以学科不选择
+    // if (value.length === 0) {
+    //   return;
+    // }
     this.setState({
       SubjectSelect: value,
     });
@@ -1101,7 +1102,7 @@ class Register extends Component {
                   name={"gender"}
                   className="radio-box"
                 >
-                  <Radio value={"保密"}>保密</Radio>
+                  {/* <Radio value={"保密"}>保密</Radio> */}
                   <Radio value={"男"}>男</Radio>
                   <Radio value={"女"}>女</Radio>
                 </RadioGroup>

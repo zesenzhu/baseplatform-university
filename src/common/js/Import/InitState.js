@@ -188,7 +188,7 @@ const InitState = ({ props, type }) => {
         {
           ID: "importCollegeInfo",
 
-          Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FSysMgr%2FSysSetting%2FCollegeInfo%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E5%AD%A6%E9%99%A2%E4%BF%A1%E6%81%AF.xls`,
+          Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FSysMgr%2FSysSetting%2FCollegeInfo%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E9%99%A2%E7%B3%BB%E4%BF%A1%E6%81%AF.xls`,
         },
       ],
 

@@ -9,11 +9,12 @@ import {
 } from "react-router-dom";
 import history from "./history";
 
-import { getDataStorage } from "../../../common/js/public";
+import { getDataStorage,checkProduct } from "../../../common/js/public";
 // import "../../scss/index.scss";
 
 import ImportExcel from "../../../common/js/Import/ImportExcel";
 import ImportPhoto from "../../../common/js/Import/ImportPhoto";
+import { version } from "core-js";
 
 class ImportFile extends React.Component {
   constructor(props) {
@@ -29,33 +30,37 @@ class ImportFile extends React.Component {
     // 8：多个中职学校，
     // 9：多个高职学校。
     let path = history.location.pathname.split("/");
-    let { ProductUseRange } = getDataStorage("LgBasePlatformInfo"); //获取平台版本，看是大学还是中小学
-    ProductUseRange = parseInt(ProductUseRange);
-    // 根据身份和产品类型判断显示的版本
     let version = "_middle";
-    switch (ProductUseRange) {
-      // 1，2，6：单个大学，为高校版本学校端
-      case 1:
-      case 2:
-      case 6:
-      case 9:
-        version = "_university";
+    // let { ProductUseRange } = getDataStorage("LgBasePlatformInfo"); //获取平台版本，看是大学还是中小学
+    // ProductUseRange = parseInt(ProductUseRange);
+    // // 根据身份和产品类型判断显示的版本
+    // let version = "_middle";
+    // switch (ProductUseRange) {
+    //   // 1，2，6：单个大学，为高校版本学校端
+    //   case 1:
+    //   case 2:
+    //   case 7:
+    //   case 6:
+    //   case 9:
+    //     version = "_university";
 
-        break;
-      // 3,5:单个中小学，为教育局版本学校端
-      case 3:
-      case 4:
-      case 8:
-      case 5:
-        // if (IdentityCode.includes("IC000")) {
-        //学校
-        version = "_middle";
-        break;
-      // 4,8:多个中小学，为教育局版本教育局端
+    //     break;
+    //   // 3,5:单个中小学，为教育局版本学校端
+    //   case 3:
+    //   case 4:
+    //   case 8:
+    //   case 5:
+    //     // if (IdentityCode.includes("IC000")) {
+    //     //学校
+    //     version = "_middle";
+    //     break;
+    //   // 4,8:多个中小学，为教育局版本教育局端
 
-      default:
-        version = "_middle";
-    }
+    //   default:
+    //     version = "_middle";
+    // }
+    version ='_'+ checkProduct();
+    console.log(version)
     let route = path[2];
     // console.log( route, props);
     this.state = {
@@ -75,25 +80,20 @@ class ImportFile extends React.Component {
   }
 
   componentWillMount() {
- 
     // document.title=route === 'Teacher' ? '导入教师档案' :route === 'Leader'?'导入领导 档案'  :route === 'Student'?'导入学生档案':'导入毕业生档案'
   }
- 
 
-    // this.setState({
-    //     type:type,
-    //     route:route
-    // })
-    // this.ImportHtml(name,route)
-//   };
+  // this.setState({
+  //     type:type,
+  //     route:route
+  // })
+  // this.ImportHtml(name,route)
+  //   };
   render() {
     const { UIState, DataState } = this.props;
- 
- 
- 
+
     return (
       <React.Fragment>
-    
         {/* <div
           className={"content-box"}
           style={{
@@ -103,12 +103,12 @@ class ImportFile extends React.Component {
                 : "0 12px 12px 12px",
           }}
         > */}
-           
-            <ImportExcel
-              ImportTitle={this.props.title}
-              ImportTarget={this.state.Route}
-            ></ImportExcel>
-           
+
+        <ImportExcel
+          ImportTitle={this.props.title}
+          ImportTarget={this.state.Route}
+        ></ImportExcel>
+
         {/* </div> */}
         {/* </div>
         </Frame> */}

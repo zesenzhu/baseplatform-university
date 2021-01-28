@@ -411,7 +411,7 @@ function College(props) {
 
     const delCollege = (CollegeIDs)=>{
 
-        dispatch(btnQueryAlertShow({title:'确定要删除该学院吗?',cancelShow:'y',ok:e=>delCollegeOk(CollegeIDs)}))
+        dispatch(btnQueryAlertShow({title:'确定要删除该院系吗?',cancelShow:'y',ok:e=>delCollegeOk(CollegeIDs)}))
 
     };
 
@@ -488,9 +488,9 @@ function College(props) {
 
                         <div className={"add-wrapper"}>
 
-                            <Button className={"add-college"} onClick={addCollege}>单个添加学院</Button>
+                            <Button className={"add-college"} onClick={addCollege}>单个添加院系</Button>
 
-                            <Button onClick={importCollege} className={"import-college"}>批量导入学院</Button>
+                            <Button onClick={importCollege} className={"import-college"}>批量导入院系</Button>
 
                         </div>
 

@@ -21,7 +21,8 @@ const CommonData = (
       GradeID: "",
       SchoolID: "",
       XH: "",
-      Proxy: "",Token: "",
+      Proxy: "",
+      Token: "",
       TabLoadingVisible: true,
       SelectBar: "NearExam", //NearExam:最近考试，TermReport:期末总评
     },
@@ -38,23 +39,28 @@ const CommonData = (
       Token: "",
       Proxy: "",
     },
-    TeaMaterialParams:{
-      StartTime:'',
-      EndTime:'',
-      FirstProxy:'',
-      SecondProxy:'',
-      ThirdProxy:'',
-      ForthProxy:'',
-      FifthProxy:'',
-      SixthProxy:'',
-      Token:'',
-      SelectWeek:{}
-    }
+    TeaMaterialParams: {
+      StartTime: "",
+      EndTime: "",
+      FirstProxy: "",
+      SecondProxy: "",
+      ThirdProxy: "",
+      ForthProxy: "",
+      FifthProxy: "",
+      SixthProxy: "",
+      Token: "",
+      SelectWeek: {},
+    },
+    BaseData: {},
   },
   actions
 ) => {
   let communicationData = {};
   switch (actions.type) {
+    case CommonActions.COMMON_SET_BASE_DATA:
+      return Object.assign({}, state, {
+        BaseData: actions.data,
+      });
     case CommonActions.COMMON_SET_TEA_MATERIAL_PARAMS:
       return Object.assign({}, state, {
         TeaMaterialParams: {

@@ -48,6 +48,8 @@ const defaultState = {
     629: { SysID: "629", WebUrl: "", WsUrl: "" },
     //教学方案
     S14: { SysID: "S14", WebUrl: "", WsUrl: "" },
+    //师资发展
+    L10: { SysID: "L10", WebUrl: "", WsUrl: "" },
   },
 
   ModuleRely: {

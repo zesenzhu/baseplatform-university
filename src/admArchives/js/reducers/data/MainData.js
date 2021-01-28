@@ -4,7 +4,7 @@ import Public from "../../../../common/js/public";
 
 const MainData = (
   state = {
-    SysUrl: [],
+    SysUrl: {},
     SummaryData: {
       Total: 0,
       Student: 0,

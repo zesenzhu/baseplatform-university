@@ -11,7 +11,7 @@ import {
   CheckBoxGroup,
   Table,
   Button,
-  Tips
+  Tips,
 } from "../../../../common";
 import { Input, Tooltip } from "antd";
 import DataChange from "../../action/data/DataChange";
@@ -26,38 +26,40 @@ class HandleCollegeModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      
-    };
-     
+    this.state = {};
   }
-  onCollegeCodeChange = (e)=>{
-    const {dispatch} = this.props;
-    dispatch(DataChange.setCollegeMsg({
-      CollegeCode:e.target.value 
-    }))
-  }
-  onCollegeCodeBlur = (e)=>{
-    const {dispatch} = this.props;
-    dispatch(DataChange.checkCollegeCode(()=>{
-      // console.log('sussess')
-    }))
-
-     
-  }
-  onCollegeNameChange = (e)=>{
-    const {dispatch} = this.props;
-    dispatch(DataChange.setCollegeMsg({
-      CollegeName:e.target.value 
-    }))
-  }
-  onCollegeNameBlur = (e)=>{
-    const {dispatch} = this.props;
-    dispatch(DataChange.checkCollegeName(()=>{
-      // console.log('sussess')
-    }))
-     
-  }
+  onCollegeCodeChange = (e) => {
+    const { dispatch } = this.props;
+    dispatch(
+      DataChange.setCollegeMsg({
+        CollegeCode: e.target.value,
+      })
+    );
+  };
+  onCollegeCodeBlur = (e) => {
+    const { dispatch } = this.props;
+    dispatch(
+      DataChange.checkCollegeCode(() => {
+        // console.log('sussess')
+      })
+    );
+  };
+  onCollegeNameChange = (e) => {
+    const { dispatch } = this.props;
+    dispatch(
+      DataChange.setCollegeMsg({
+        CollegeName: e.target.value,
+      })
+    );
+  };
+  onCollegeNameBlur = (e) => {
+    const { dispatch } = this.props;
+    dispatch(
+      DataChange.checkCollegeName(() => {
+        // console.log('sussess')
+      })
+    );
+  };
   render() {
     const {
       schoolInfo,
@@ -65,61 +67,74 @@ class HandleCollegeModal extends Component {
       periodInfo,
       serverAddress,
       UIState,
+      type,
       DataUpdate,
     } = this.props;
-    let { handleCollegeMsg } = DataUpdate;
     let {
-      CollegeCode,
-        CollegeName,
-        CollegeID,
-    } = handleCollegeMsg;
+      handleCollegeMsg,
+      schoolInfo: { SchoolCode },
+    } = DataUpdate;
+    let { CollegeCode, CollegeName, CollegeID } = handleCollegeMsg;
     const { UserID } = JSON.parse(sessionStorage.getItem("UserInfo"));
-     const {CollegeCodeTips,CollegeNameTips} = UIState.AppTips
+    const { CollegeCodeTips, CollegeNameTips } = UIState.AppTips;
 
     return (
-       <div className='HandleCollegeModal'>
-         <div className='row clearfix'>
-           <span className='left'>院系代码:</span>
-           <span className='right'>
-           <Tips
-            // placement="bottom"
-            visible={UIState.EditModalTipsVisible.CollegeCodeTipsVisible}
-            title={CollegeCodeTips}
-          >
-            <Input
-              type="text"
-              value={CollegeCode}
-              maxLength={10}
-              placeholder="请输入院系代码"
-              onChange={e => this.onCollegeCodeChange(e)}
-              onBlur={e => this.onCollegeCodeBlur(e)}
-            //   disabled={gradeSelectd.valu ? false : true}
-            />
-          </Tips>
-           </span>
-         </div>
-         <div className='row clearfix'>
-           <span className='left'>院系名称:</span>
-           <span className='right'>
-           <Tips
-            // placement="bottom"
-            visible={UIState.EditModalTipsVisible.CollegeNameTipsVisible}
-            title={CollegeNameTips}
-          >
-            <Input
-              type="text"
-              value={CollegeName}
-              maxLength={20}
-
-              placeholder="请输入院系名称"
-              onChange={e => this.onCollegeNameChange(e)}
-              onBlur={e => this.onCollegeNameBlur(e)}
-            //   disabled={gradeSelectd.valu ? false : true}
-            />
-          </Tips>
-           </span>
-         </div>
-       </div>
+      <div className="HandleCollegeModal">
+        <div className="row clearfix">
+          <span className="left">院系代码:</span>
+          <span className="right">
+            <Tips
+              // placement="bottom"
+              visible={UIState.EditModalTipsVisible.CollegeCodeTipsVisible}
+              title={CollegeCodeTips}
+            >
+              {type === "add" ? (
+                <Input
+                  type="text"
+                  value={CollegeCode}
+                  maxLength={10}
+                  placeholder="请输入院系代码"
+                  onChange={(e) => this.onCollegeCodeChange(e)}
+                  onBlur={(e) => this.onCollegeCodeBlur(e)}
+                  //   disabled={gradeSelectd.valu ? false : true}
+                />
+              ) : (
+                CollegeCode
+              )}
+            </Tips>
+          </span>
+        </div>
+        <div className="row clearfix">
+          <span className="left">管理员账号:</span>
+          <span className="right">
+            {CollegeCode
+              ? CollegeCode && SchoolCode
+                ? "cadmin" + "_" + SchoolCode + "_" + CollegeCode
+                : ""
+              : <span style={{color:'red'}}>请先填写院系代码</span>}
+          </span>
+        </div>
+        <div className="row clearfix">
+          <span className="left">院系名称:</span>
+          <span className="right">
+            <Tips
+              // placement="bottom"
+              visible={UIState.EditModalTipsVisible.CollegeNameTipsVisible}
+              title={CollegeNameTips}
+            >
+              <Input
+                type="text"
+                value={CollegeName}
+                maxLength={20}
+                placeholder="请输入院系名称"
+                onChange={(e) => this.onCollegeNameChange(e)}
+                onBlur={(e) => this.onCollegeNameBlur(e)}
+                //   disabled={gradeSelectd.valu ? false : true}
+              />
+            </Tips>
+          </span>
+        </div>
+      </div>
     );
   }
 }

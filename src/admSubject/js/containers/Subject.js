@@ -25,7 +25,7 @@ import * as menuActions from "../actions/menuActions";
 import { getQueryVariable } from "../../../common/js/disconnect";
 
 import $ from "jquery";
-import {checkUrlAndPostMsg} from '../../../common/js/public';
+import { checkUrlAndPostMsg } from "../../../common/js/public";
 
 import {
   Search,
@@ -964,14 +964,36 @@ function Subject(props) {
 
                 {isInitGuide ? (
                   !isAIProduct ? (
-                    <Button
-                      onClick={onAddSubjectClick}
-                      className="top-btn isInitGuide"
-                      color="blue"
-                      shape="round"
-                    >
-                      +添加学科
-                    </Button>
+                    // <Button
+                    //   onClick={onAddSubjectClick}
+                    //   className="top-btn isInitGuide"
+                    //   color="blue"
+                    //   shape="round"
+                    // >
+                    //   +添加学科
+                    // </Button>
+                    <>
+                      <span
+                        className="link"
+                        style={{ cursor: "pointer" }}
+                        onClick={onAddSubjectClick}
+                      >
+                        <span className="add">添加学科</span>
+                      </span>
+                      <span className="divide">|</span>
+                      <a className="link">
+                        <span
+                          onClick={onLinkClick.bind(
+                            this,
+                            "导入学科",
+                            "#/ImportFile/subject"
+                          )}
+                          className="ImportFile"
+                        >
+                          导入学科
+                        </span>
+                      </a>
+                    </>
                   ) : null
                 ) : null}
               </div>

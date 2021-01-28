@@ -37,6 +37,10 @@ import { HandleAction, DataAction, PublicAction } from "../actions";
 import Public from "../../../common/js/public";
 import Scrollbars from "react-custom-scrollbars";
 import Main from "./Main";
+import More from './More';
+import Timebarner from "../component/Timebarner";
+import SearchIdentityModal from "./Modal/SearchIdentityModal";
+
 const { Bs2CsProxy } = CONFIG;
 let { getQueryVariable, setRole } = Public;
 // const { HandleAction, DataAction, PublicAction } = actions;
@@ -108,6 +112,8 @@ class App extends Component {
     // console.log(Route, FirstRoute);
     if (FirstRoute === "") {
       this.AllGetData({});
+    } else if (FirstRoute === "more") {
+      // this.AllGetData({});
     } else {
       this.SetFirstDefaultRoute({ isFirst: true });
     }
@@ -185,6 +191,7 @@ class App extends Component {
             showBarner,
             className,
           },
+          TimeBarnerList,
         },
         ControlData: { ModalVisible },
         ParamsData: {
@@ -203,82 +210,88 @@ class App extends Component {
           onCancel,
           onClose,
         },
-        LoginMsg: { UserName, PhotoPath },
+        LoginMsg: { UserName, PhotoPath,SchoolID },
       },
     } = this.props;
 
     return (
       <React.Fragment>
-        <Loading
-          opacity={false}
-          tip="加载中..."
-          size="large"
-          spinning={AppLoading}
-        >
-          <Frame
-            userInfo={{
-              name: UserName,
-              image: PhotoPath,
-            }}
-            module={{
-              cnname: cnname,
-              enname: enname,
-              image: image,
-            }}
-            type={FrameType}
-            showLeftMenu={showLeftMenu}
-            showBarner={showBarner}
-            className={`myFrame  ${className}`}
-            pageInit={this.RequestData}
-            onRef={this.onRef}
-            topRightContent={
-              <Search
-                placeHolder="请输入用户姓名/工号/学号搜索用户身份权限..."
-                onClickSearch={this.onClickSearch}
-                className={"transparent"}
-                height={32}
-                width={380}
-                Value={SearchValue}
-                // onCancelSearch={this.onCancelSearch}
-                onChange={this.onChangeSearch}
-                CancelBtnShow={"n"}
-              ></Search>
-            }
+        <Router>
+          <Loading
+            opacity={false}
+            tip="加载中..."
+            size="large"
+            spinning={AppLoading}
           >
-            {/* <div ref="frame-time-barner" style={{textAlign:'right'}}>
-              
-            </div> */}
-            <div ref="frame-right-content">
-              <Loading
-                opacity={false}
-                // tip="加载中..."
-                size="small"
-                spinning={ContentLoading}
-              >
-                <Router>
-                  <Route path="/" component={Main}>
-                    {/* <Redirect from="*" to="/" /> */}
-                  </Route>
-
-                  {/* <Redirect from="/" to="/UserArchives" /> */}
-                  {/* <Route path="/" component={Temple}>
+            <Frame
+              userInfo={{
+                name: UserName,
+                image: PhotoPath,
+              }}
+              module={{
+                cnname: cnname,
+                enname: enname,
+                image: image,
+              }}
+              type={FrameType}
+              showLeftMenu={showLeftMenu}
+              showBarner={showBarner}
+              className={`myFrame  ${className}`}
+              pageInit={this.RequestData}
+              onRef={this.onRef}
+              topRightContent={
+                <Search
+                  placeHolder="请输入用户姓名/工号/学号搜索用户身份权限..."
+                  onClickSearch={this.onClickSearch}
+                  className={"transparent"}
+                  height={32}
+                  width={380}
+                  Value={SearchValue}
+                  // onCancelSearch={this.onCancelSearch}
+                  onChange={this.onChangeSearch}
+                  CancelBtnShow={"n"}
+                ></Search>
+              }
+            >
+              <div ref="frame-time-barner" style={{ textAlign: "left" }}>
+                <Timebarner data={TimeBarnerList}></Timebarner>
+              </div>
+              <div ref="frame-right-content">
+                <Loading
+                  opacity={false}
+                  // tip="加载中..."
+                  size="small"
+                  spinning={ContentLoading}
+                >
+                  <Router>
+                    <Route exact path="/" component={Main}>
+                      {/* <Redirect from="*" to="/" /> */}
+                    </Route>
+                    <Route exact path="/more">
+                      <More SchoolID={SchoolID}></More>
+                      {/* <Redirect from="*" to="/" /> */}
+                    </Route>
+                    {/* <Redirect from="/" to="/UserArchives" /> */}
+                    {/* <Route path="/" component={Temple}>
                     <Redirect from="/" to="/UserArchives" />
                   </Route> */}
-                </Router>
-              </Loading>
-            </div>
-          </Frame>
-        </Loading>
-        <Alert
-          show={appAlert}
-          type={type}
-          abstract={littleTitle}
-          title={title}
-          onOk={onOk}
-          onHide={onHide}
-          onCancel={onCancel}
-          onClose={onClose}
-        ></Alert>
+                  </Router>
+                  <SearchIdentityModal></SearchIdentityModal>
+                </Loading>
+              </div>
+            </Frame>
+          </Loading>
+          <Alert
+            show={appAlert}
+            type={type}
+            abstract={littleTitle}
+            title={title}
+            onOk={onOk}
+            onHide={onHide}
+            onCancel={onCancel}
+            onClose={onClose}
+          ></Alert>
+        </Router>
       </React.Fragment>
     );
   }

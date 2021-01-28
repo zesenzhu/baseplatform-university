@@ -38,7 +38,7 @@ import actions from "../actions";
 import Public from "../../../common/js/public";
 import { Select } from "antd";
 import Scrollbars from "react-custom-scrollbars";
-import Icon, { CaretDownOutlined } from "@ant-design/icons";
+// import Icon, { CaretDownOutlined } from "@ant-design/icons";
 // import { console } from "es6-shim";
 import UserArchives from "../component/UserArchives";
 import All from "../component/UserArchives/All";
@@ -76,6 +76,7 @@ class App extends Component {
         fn: () => {
           this.SetBannerList(); //获取到后再次进行列表更新
         },
+        sysID: "E27,E34",
       })
     );
   }
@@ -119,7 +120,7 @@ class App extends Component {
       dispatch(MainAction.GetUnreadLogCount({}));
       this.Frame.getIdentity({ ModuleID }, (identify) => {
         // console.log(identify)
-        userMsg = this.setRole(userMsg,identify)
+        userMsg = this.setRole(userMsg, identify);
         // userMsg = this.setRole(userMsg);
         dispatch(
           PublicAction.getLoginUser(
@@ -158,7 +159,6 @@ class App extends Component {
     // 适配工作平台跳转到对应班级
     if (IsTeacher) {
       matchParamfromArray({ array: TeacherClassList }, (res) => {
-
         if (res) {
           dispatch(
             CommonAction.SetRegisterExamineParams({
@@ -854,7 +854,7 @@ class App extends Component {
 
       Role = "Leader-Education";
     }
-    return { ...LoginMsg, Role,identity };
+    return { ...LoginMsg, Role, identity };
   };
   // 设置banner的选择列表
   SetBannerList = () => {
@@ -889,13 +889,13 @@ class App extends Component {
           }
         } else if (child.value === "Face") {
           if (
-            SysUrl instanceof Array &&
-            SysUrl.length > 0 &&
+            SysUrl["E27"] &&
+            SysUrl["E27"].WebSvrAddr &&
             Role.includes("Admin")
           ) {
             let token = sessionStorage.getItem("token");
             BannerList.push({
-              url: SysUrl[0].WebSvrAddr + "?lg_tk=" + token,
+              url: SysUrl["E27"].WebSvrAddr + "?lg_tk=" + token,
               ...child,
             });
           }

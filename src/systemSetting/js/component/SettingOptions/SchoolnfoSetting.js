@@ -90,30 +90,30 @@ class SchoolnfoSetting extends Component {
             );
           },
         },
-        // {
-        //   title: "管理员账号",
-        //   align: "center",
-        //   width: 240,
-        //   // dataIndex: "CollegeCode",
-        //   key: "CollegeAccount",
-        //   // sorter: true,
-        //   render: ({ CollegeCode, SchoolCode } = data) => {
-        //     return (
-        //       <span
-        //         title={
-        //           CollegeCode && SchoolCode
-        //             ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
-        //             : ""
-        //         }
-        //         className="CollegeAccount"
-        //       >
-        //         {CollegeCode && SchoolCode
-        //           ? "cadimin" + "_" + SchoolCode + "_" + CollegeCode
-        //           : "--"}
-        //       </span>
-        //     );
-        //   },
-        // },
+        {
+          title: "管理员账号",
+          align: "center",
+          width: 240,
+          // dataIndex: "CollegeCode",
+          key: "CollegeAccount",
+          // sorter: true,
+          render: ({ CollegeCode, SchoolCode } = data) => {
+            return (
+              <span
+                title={
+                  CollegeCode && SchoolCode
+                    ? "cadmin" + "_" + SchoolCode + "_" + CollegeCode
+                    : ""
+                }
+                className="CollegeAccount"
+              >
+                {CollegeCode && SchoolCode
+                  ? "cadmin" + "_" + SchoolCode + "_" + CollegeCode
+                  : "--"}
+              </span>
+            );
+          },
+        },
         {
           title: "用户总人数",
           align: "center",
@@ -357,37 +357,37 @@ class SchoolnfoSetting extends Component {
     // }
 
     // console.log(SchoolType);
-    //如果学校名称或者学校代码为空则显示错误信息
+    //如果院校名称或者院校代码为空则显示错误信息
     if (
       // SchoolCode === "" ||
       SchoolName === ""
     ) {
-      dispatch(AppAlertAction.alertError({ title: "学校代码或名称不能为空!" }));
+      dispatch(AppAlertAction.alertError({ title: "院校代码或名称不能为空!" }));
       console.log(SchoolName);
     } else {
       if (SchoolName.length >= 21) {
-        dispatch(AppAlertAction.alertError({ title: "学校名称过长!" }));
+        dispatch(AppAlertAction.alertError({ title: "院校名称过长!" }));
         this.setState({
           emptyNameTipsShow: true,
         });
         return;
       }
       // if (!/^[a-zA-Z0-9]+$/.test(SchoolCode)) {
-      //   dispatch(AppAlertAction.alertError({ title: "学校代码需为纯数字" }));
+      //   dispatch(AppAlertAction.alertError({ title: "院校代码需为纯数字" }));
       //   this.setState({
       //     emptyCodeTipsShow: true,
       //   });
       //   return;
       // }
       // if (SchoolCode.length >= 21) {
-      //   dispatch(AppAlertAction.alertError({ title: "学校代码过长!" }));
+      //   dispatch(AppAlertAction.alertError({ title: "院校代码过长!" }));
       //   this.setState({
       //     emptyCodeTipsShow: true,
       //   });
       //   return;
       // }
       if (!SchoolSessionType) {
-        dispatch(AppAlertAction.alertError({ title: "请选择学校类型" }));
+        dispatch(AppAlertAction.alertError({ title: "请选择学制类型" }));
         this.setState({
           emptyCodeTipsShow: true,
         });
@@ -537,7 +537,7 @@ class SchoolnfoSetting extends Component {
     });
   };
 
-  //监听学校代码的获取事件
+  //监听院校代码的获取事件
   getSchoolCode = (e) => {
     let valueableCode = e.target.value.replace(/\s*/g, "").substring(0, 20);
     let timerID = "";
@@ -551,12 +551,12 @@ class SchoolnfoSetting extends Component {
     if (isNum === false) {
       this.setState({
         emptyCodeTipsShow: true,
-        codeTipsTitle: "学校代码必须是数字",
+        codeTipsTitle: "院校代码必须是数字",
       });
     }
     if (e.target.value.length > 20) {
       this.setState({
-        codeTipsTitle: "学校代码不能超过20位数字",
+        codeTipsTitle: "院校代码不能超过20位数字",
         emptyCodeTipsShow: true,
       });
 
@@ -586,17 +586,17 @@ class SchoolnfoSetting extends Component {
     });
   };
 
-  //学校代码输入框失去焦点后的回调事件
+  //院校代码输入框失去焦点后的回调事件
   visibleCode = (e) => {
     if (e.target.value === "") {
       this.setState({
         emptyCodeTipsShow: true,
-        codeTipsTitle: "学校代码不能为空",
+        codeTipsTitle: "院校代码不能为空",
       });
     } else if (e.target.value.length > 20) {
       this.setState({
         emptyCodeTipsShow: true,
-        codeTipsTitle: "学校代码不能超过20位数字",
+        codeTipsTitle: "院校代码不能超过20位数字",
       });
     } else {
       this.setState({
@@ -612,19 +612,19 @@ class SchoolnfoSetting extends Component {
 
     //定义输入数据的有效长度
     let valueableLength = "";
-    //当学校名称不为空，提示框信息不显示
+    //当院校名称不为空，提示框信息不显示
 
     if (e.target.value !== "") {
       this.setState({
         emptyNameTipsShow: false,
       });
 
-      //当输入数据长度超过20,提示学校名称长度不能超过20
+      //当输入数据长度超过20,提示院校名称长度不能超过20
       // 截取前20个作为输入
       if (e.target.value.length > 20) {
         valueableLength = e.target.value.substring(0, 20);
         this.setState({
-          tipsTitle: "学校名称不能超过20个字符",
+          tipsTitle: "院校名称不能超过20个字符",
           emptyNameTipsShow: true,
         });
         timerID = setTimeout(() => {
@@ -653,17 +653,17 @@ class SchoolnfoSetting extends Component {
     });
   };
 
-  //学校名称输入框失去焦点后的回调事件
+  //院校名称输入框失去焦点后的回调事件
   visibleName = (e) => {
     if (e.target.value === "") {
       this.setState({
         emptyNameTipsShow: true,
-        tipsTitle: "学校名称不能为空",
+        tipsTitle: "院校名称不能为空",
       });
     } else if (e.target.value.length > 20) {
       this.setState({
         emptyNameTipsShow: true,
-        tipsTitle: "学校名称不能超过20个字符",
+        tipsTitle: "院校名称不能超过20个字符",
       });
     } else {
       this.setState({
@@ -1206,11 +1206,11 @@ class SchoolnfoSetting extends Component {
     let schoolSys = "";
     let schoolLength = "";
 
-    //根据学校类型选择渲染内容
+    //根据学制类型选择渲染内容
     switch (
       schoolInfo.SchoolSessionType //SchoolType:SchoolType为1：
     ) {
-      // 学校类型；1表示本科，2表示专科，3，表示本科和专科
+      // 学制类型；1表示本科，2表示专科，3，表示本科和专科
       // case 7:
       //   schoolSys = `${schoolInfo.primaryType}+${schoolInfo.middleType}+${schoolInfo.highType}`;
       //   schoolLength = "十二年一贯制";
@@ -1266,22 +1266,24 @@ class SchoolnfoSetting extends Component {
     }
 
     // 多学校：当ProductType为3的时候不出现长条校徽
-    const { ProductType, ResHttpRootUrl } = sessionStorage.getItem(
+    // LockerMsg代表有效期，空值代表长期有效，试用期为截止日期，如2020年6月21日
+    let { ProductType, ResHttpRootUrl,LockerMsg } = sessionStorage.getItem(
       "LgBasePlatformInfo"
     )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
     let isMoreSchool = true;
+    // LockerMsg= '2020年6月21日'
     // parseInt(ProductType) === 3;
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
           <div className="edite-info-box edit-info-box-2">
-            <span className="top-tips">学校基础资料</span>
+            <span className="top-tips">院校基础资料</span>
             <div
               className="edite-info"
               onClick={this.openEdite}
-              title="点击编辑学校信息"
+              title="点击编辑院校信息"
             >
               <span></span>编辑
             </div>
@@ -1309,7 +1311,7 @@ class SchoolnfoSetting extends Component {
               style={isMoreSchool ? { marginTop: "30px" } : {}}
             >
               <div className="school-name" title={schoolInfo.SchoolName}>
-                学校名称:
+                院校名称:
                 <span>{schoolInfo.SchoolName}</span>
               </div>
               <div className="school-info">
@@ -1327,18 +1329,28 @@ class SchoolnfoSetting extends Component {
                   ""
                 )}
                 <div className="school-code">
-                  学校代码: <span>{schoolInfo.SchoolCode}</span>
+                  院校代码: <span>{schoolInfo.SchoolCode}</span>
                 </div>
                 <div className="school-type">
-                  学校类型:
+                  学制类型:
                   <span>{schoolLength}</span>
                   {/* ({schoolSys}) */}
                 </div>
                 {CountyID ? (
                   <div className="school-type">
-                    学校区域:
+                    所在区域:
                     <span>
                       {ProvinceName + ">" + CityName + ">" + CountyName}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {LockerMsg ? (
+                  <div className="school-type">
+                    使用期限:
+                    <span style={{color:'red'}} >
+                      {LockerMsg}前
                     </span>
                   </div>
                 ) : (
@@ -1459,12 +1471,12 @@ class SchoolnfoSetting extends Component {
           </div>
           <Modal
             type="1"
-            title="编辑学院"
+            title="编辑院系基础资料"
             className="Modal-HandleCollegeModal"
             onOk={this.onEditCollegeOk.bind(this)}
             onCancel={this.onEditCollegeCancel}
-            width={"400px"}
-            bodyStyle={{ height: "150px" }}
+            width={"550px"}
+            bodyStyle={{ height: "220px" }}
             visible={UIState.AppModal.EditCollegeVisible}
             okText="保存"
             destroyOnClose={true}
@@ -1473,12 +1485,12 @@ class SchoolnfoSetting extends Component {
           </Modal>
           <Modal
             type="1"
-            title="添加学院"
+            title="单个添加院系"
             onOk={this.onAddCollegeOk.bind(this)}
             onCancel={this.onAddCollegeCancel.bind(this)}
-            width={"400px"}
+            width={"550px"}
             className="Modal-HandleCollegeModal"
-            bodyStyle={{ height: "150px" }}
+            bodyStyle={{ height: "220px" }}
             visible={UIState.AppModal.AddCollegeVisible}
             okText="保存"
             destroyOnClose={true}
@@ -1488,7 +1500,7 @@ class SchoolnfoSetting extends Component {
           <Modal
             type="1"
             onClick={this.openEdite}
-            title="编辑学校基础资料"
+            title="编辑院校基础资料"
             onOk={this.editComfirm}
             onCancel={this.editCancel}
             width={"784px"}
@@ -1536,7 +1548,7 @@ class SchoolnfoSetting extends Component {
 
               <div className="content-right">
                 <div className="row clearfix win-shcool-name">
-                  <span className="left">学校名称:</span>
+                  <span className="left">院校名称:</span>
                   <span className="right">
                     <Tooltip
                       visible={this.state.emptyNameTipsShow}
@@ -1575,7 +1587,7 @@ class SchoolnfoSetting extends Component {
                   ""
                 )}
                 <div className="row clearfix win-school-code">
-                  <span className="left">学校代码:</span>
+                  <span className="left">院校代码:</span>
                   <span className="right">
                     <Tooltip
                       visible={this.state.emptyCodeTipsShow}
@@ -1608,8 +1620,8 @@ class SchoolnfoSetting extends Component {
                 </div>
 
                 <div className="  row clearfix win-school-type">
-                  {/* <div style={{ lineHeight: "28px" }}>学校学制:</div> */}
-                  <span className="left">学校学制:</span>
+                  {/* <div style={{ lineHeight: "28px" }}>学制类型:</div> */}
+                  <span className="left">学制类型:</span>
 
                   <div className="primary-school right">
                     <div className="radio" style={{ display: "inline-block" }}>
@@ -1661,7 +1673,7 @@ class SchoolnfoSetting extends Component {
                   </span>
                   <div className="edit-tips">
                     <span></span>
-                    修改学校类型会引起基础数据重新初始化，请谨慎操作
+                    修改学制类型会引起基础数据重新初始化，请谨慎操作
                   </div>
                 </div>
               </div>
