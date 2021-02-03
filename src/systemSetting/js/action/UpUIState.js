@@ -63,7 +63,7 @@ const MODAL_LOADING_CLOSE = 'MODAL_LOADING_CLOSE'
 // const EDIT_GROUP_TIPS_VISIBLE_OPEN = 'EDIT_GROUP_TIPS_VISIBLE_OPEN'
 // const EDIT_GROUP_TIPS_VISIBLE_CLOSE = 'EDIT_GROUP_TIPS_VISIBLE_CLOSE'
 
-// 学院编辑
+// 院系编辑
 const EDIT_COLLEGE_OPEN = 'EDIT_COLLEGE_OPEN'
 const EDIT_COLLEGE_CLOSE = 'EDIT_COLLEGE_CLOSE'
 const ADD_COLLEGE_OPEN = 'ADD_COLLEGE_OPEN'
@@ -167,7 +167,7 @@ const ModalLoadingClose = () => {
 //     return { type: USER_INFO_MODAL_CLOSE }
 // }
 
-// 操作学院信息
+// 操作院系信息
 const addCollegeModalOpen =()=>{
     return { type: ADD_COLLEGE_OPEN }
 }

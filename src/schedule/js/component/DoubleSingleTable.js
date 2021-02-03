@@ -182,6 +182,7 @@ function DoubleSingleTable(props){
             </div>;
 
             ClassHourCol.push({title:Title,height:64,dataIndex:`ClassHourNO${i.ClassHourNO}`,render:(item,record)=>{
+                // console.log(item)
 
                     if (item === 'none'){
 

@@ -45,7 +45,6 @@ function SelfDoubleSingleTable(props,ref){
         Params['StartTime'] = StartTime;
 
         Params['EndTime'] = EndTime;
-
         if (ScheduleDetailShow){
 
             ScheduleDetailShow(Params);
@@ -611,7 +610,7 @@ function SelfDoubleSingleTable(props,ref){
                                     {
 
                                         ItemClassHour.map((item,key)=>{
-
+// console.log(i.list,i)
                                             const findItem = i.list.find(i=>i.ClassHourNO===item.ClassHourNO);
 
                                             let scheduleDom = '--';

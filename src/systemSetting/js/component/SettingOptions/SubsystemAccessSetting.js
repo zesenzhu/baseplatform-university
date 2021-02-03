@@ -201,7 +201,7 @@ class SubsystemAccessSetting extends Component {
             data: true
         })
         if (option === "open") {
-            //如果操作为开启子系统，则执行如下编号
+            //如果操作为开启子系统，则执行如下代码
             ApiAction.postMethod(url1, {
                 "SubSystemID": SubSystemID,
             }).then(data => {
@@ -227,7 +227,7 @@ class SubsystemAccessSetting extends Component {
 
         }
         else {
-            //如果当前操作为关闭子系统，执行如下编号
+            //如果当前操作为关闭子系统，执行如下代码
             ApiAction.postMethod(url2, {
                 "SubSystemID": SubSystemID,
             }).then(data => {

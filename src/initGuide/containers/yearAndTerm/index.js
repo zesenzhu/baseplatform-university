@@ -64,7 +64,7 @@ function YearAndTerm(props) {
     //学期可选范围
     const [dateRange,setDateRange] = useState([]);
 
-    //是否是多学校
+    //是否是多院校
 
     const [IsMultiSchool,setIsMultiSchool] = useState(false);
 
@@ -195,7 +195,7 @@ function YearAndTerm(props) {
 
                            setLoading(false);
 
-                    }else{  //不是多学校的时候靠前端的来判断
+                    }else{  //不是多院校的时候靠前端的来判断
 
                         const nowDate = moment();
 

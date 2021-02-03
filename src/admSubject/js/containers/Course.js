@@ -1044,15 +1044,7 @@ function Course(props) {
             </div>
 
             {productType !== 6 ? (
-              <>
-                <span
-                  className="link"
-                  style={{ cursor: "pointer" }}
-                  onClick={(e) => modalOpen("add")}
-                >
-                  <span className="add">添加课程</span>
-                </span>
-                <span className="divide">|</span>
+              <div style={{float:'right'}}>
                 <a className="link">
                   <span
                     onClick={ onLinkClick.bind(
@@ -1065,6 +1057,15 @@ function Course(props) {
                     导入课程
                   </span>
                 </a>
+                <span className="divide">|</span>
+                <span
+                  className="link"
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => modalOpen("add")}
+                >
+                  <span className="add">添加课程</span>
+                </span>
+                
                 {/* <Button
                   onClick={(e) => modalOpen("add")}
                   className="top_btn"
@@ -1073,7 +1074,7 @@ function Course(props) {
                 >
                   +添加课程
                 </Button> */}
-              </>
+              </div>
             ) : null}
           </div>
 

@@ -64,6 +64,18 @@ class App extends Component {
   // 第一次访问所要请求的接口
   RequestData = () => {
     const { dispatch, DataState, PublicState } = this.props;
+    let { LockerVersion } = JSON.parse(
+      //校园基础信息管理 XG5.2-免费版,1为基础版
+      sessionStorage.getItem("LgBasePlatformInfo")
+    )?JSON.parse(
+      //校园基础信息管理 XG5.2-免费版,1为基础版
+      sessionStorage.getItem("LgBasePlatformInfo")
+    ):{};
+    if (LockerVersion === "1") {
+      window.location.href =
+      CONFIG.ErrorProxy + "/LockerMgr/ErrorTips.aspx?ErrorCode=-3";
+      return ;
+    }
     // if (!PublicState.LoginMsg.isLogin) {
     //查询userInfo是否存在
     if (JSON.parse(sessionStorage.getItem("UserInfo"))) {

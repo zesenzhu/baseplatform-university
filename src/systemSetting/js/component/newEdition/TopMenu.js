@@ -7,7 +7,7 @@ class TopMenu extends React.Component {
     this.state = {
       List: [
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
-        { value: "School", title: "学校基础资料设置", icon: "School" },
+        { value: "School", title: "院校基础资料设置", icon: "School" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
         
       ],

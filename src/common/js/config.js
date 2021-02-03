@@ -126,6 +126,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 if (process.env.NODE_ENV === "production") {
+  console.log = ()=>{}
+
   config = {
     name: "中小学一体化学科教育云",
     logo: logo,

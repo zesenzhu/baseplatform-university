@@ -51,7 +51,7 @@ function College(props) {
     //数据源
     const [dataSource,setDataSource] = useState([]);
 
-    //添加或编辑学院弹窗
+    //添加或编辑院系弹窗
     const [addEditCollege,setAddEditCollege] = useState({
 
         show:false,
@@ -319,7 +319,7 @@ function College(props) {
     },[]);
 
 
-    //更新学院信息
+    //更新院系信息
     const updateTable = ()=>{
 
         const {current,pageSize} = paginationRef.current;
@@ -362,7 +362,7 @@ function College(props) {
 
     };
 
-    //添加学院
+    //添加院系
     const addCollege = useCallback(()=>{
 
         setAddEditCollege(d=>{
@@ -407,7 +407,7 @@ function College(props) {
     },[]);
 
 
-    //删除学院
+    //删除院系
 
     const delCollege = (CollegeIDs)=>{
 
@@ -415,7 +415,7 @@ function College(props) {
 
     };
 
-    //删除学院确定
+    //删除院系确定
     const delCollegeOk = (CollegeIDs)=>{
 
         DeleteCollege({SchoolID:schoolIDRef.current,CollegeIDs,dispatch}).then(data=>{
@@ -434,7 +434,7 @@ function College(props) {
 
     };
 
-    //编辑学院
+    //编辑院系
 
     const editCollege = ({CollegeID,CollegeCode,CollegeName}) =>{
 
@@ -447,7 +447,7 @@ function College(props) {
     };
 
 
-    //导入学院
+    //导入院系
     const importCollege = useCallback(()=>{
 
         const token = sessionStorage.getItem("token");

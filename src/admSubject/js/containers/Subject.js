@@ -895,9 +895,8 @@ function Subject(props) {
     dispatch(menuActions.leftMenuChange("course"));
   };
   const onLinkClick = (btnName, route) => {
-    let url = window.location.href.split(window.location.hash).join(route);
+    let url = window.location.href.split(window.location.hash).join('').split(window.location.search).join(route);
 
-    // console.log(url);
     checkUrlAndPostMsg({ btnName, url });
   };
   return (
@@ -913,15 +912,8 @@ function Subject(props) {
                   </span>
 
                   {!isAIProduct ? (
-                    <>
-                      <span
-                        className="link"
-                        style={{ cursor: "pointer" }}
-                        onClick={onAddSubjectClick}
-                      >
-                        <span className="add">添加学科</span>
-                      </span>
-                      <span className="divide">|</span>
+                    <div style={{float:'right'}}>
+                      
                       <a className="link">
                         <span
                           onClick={onLinkClick.bind(
@@ -934,6 +926,14 @@ function Subject(props) {
                           导入学科
                         </span>
                       </a>
+                      <span className="divide">|</span>
+                      <span
+                        className="link"
+                        style={{ cursor: "pointer" }}
+                        onClick={onAddSubjectClick}
+                      >
+                        <span className="add">添加学科</span>
+                      </span>
                       {/* <Button
                   onClick={(e) => modalOpen("add")}
                   className="top_btn"
@@ -942,7 +942,7 @@ function Subject(props) {
                 >
                   +添加课程
                 </Button> */}
-                    </>
+                    </div>
                   ) : //   <Button onClick={onAddSubjectClick} className="top-btn" color="blue" shape="round">+添加学科</Button>
 
                   null}
@@ -972,15 +972,8 @@ function Subject(props) {
                     // >
                     //   +添加学科
                     // </Button>
-                    <>
-                      <span
-                        className="link"
-                        style={{ cursor: "pointer" }}
-                        onClick={onAddSubjectClick}
-                      >
-                        <span className="add">添加学科</span>
-                      </span>
-                      <span className="divide">|</span>
+                    <div style={{float:'right'}}>
+                      
                       <a className="link">
                         <span
                           onClick={onLinkClick.bind(
@@ -993,7 +986,38 @@ function Subject(props) {
                           导入学科
                         </span>
                       </a>
-                    </>
+                      <span className="divide">|</span>
+                      <span
+                        className="link"
+                        style={{ cursor: "pointer" }}
+                        onClick={onAddSubjectClick}
+                      >
+                        <span className="add">添加学科</span>
+                      </span>
+                     
+                    </div>
+                    // <>
+                    //   <span
+                    //     className="link"
+                    //     style={{ cursor: "pointer" }}
+                    //     onClick={onAddSubjectClick}
+                    //   >
+                    //     <span className="add">添加学科</span>
+                    //   </span>
+                    //   <span className="divide">|</span>
+                    //   <a className="link">
+                    //     <span
+                    //       onClick={onLinkClick.bind(
+                    //         this,
+                    //         "导入学科",
+                    //         "#/ImportFile/subject"
+                    //       )}
+                    //       className="ImportFile"
+                    //     >
+                    //       导入学科
+                    //     </span>
+                    //   </a>
+                    // </>
                   ) : null
                 ) : null}
               </div>

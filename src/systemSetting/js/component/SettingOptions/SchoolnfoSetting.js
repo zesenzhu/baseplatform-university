@@ -605,7 +605,7 @@ class SchoolnfoSetting extends Component {
     }
   };
 
-  //监听学校名字改变的事件
+  //监听院校名字改变的事件
   getSchoolName = (e) => {
     let { schoolInfo, dispatch } = this.props;
     let timerID = 0;
@@ -832,14 +832,14 @@ class SchoolnfoSetting extends Component {
       searchValue: e.target.value ,
     });
   };
-  // 添加学院
+  // 添加院系
   onAddCollegeClick = (key) => {
     const { dispatch, handleCollegeMsg, collegePreview } = this.props;
 
     dispatch(DataChange.setCollegeInitMsg());
     dispatch({ type: UpUIState.ADD_COLLEGE_OPEN });
   };
-  // 编辑学院
+  // 编辑院系
   onEditCollegeClick = (key) => {
     const { dispatch, handleCollegeMsg, collegePreview } = this.props;
     let { CollegeName, CollegeID } = collegePreview.CollegeList[key].College;
@@ -853,7 +853,7 @@ class SchoolnfoSetting extends Component {
     );
     dispatch({ type: UpUIState.EDIT_COLLEGE_OPEN });
   };
-  // 删除学院
+  // 删除院系
   onDeleteCollegeClick = (key) => {
     const { dispatch, collegePreview } = this.props;
     let url = "/DeleteCollege";
@@ -862,7 +862,7 @@ class SchoolnfoSetting extends Component {
     let pagination = collegePreview.currentIndex;
     dispatch(
       AppAlertAction.alertQuery({
-        title: `确定删除该学院吗？`,
+        title: `确定删除该院系吗？`,
         ok: () => {
           return this.onAlertQueryOk.bind(this, CollegeID);
         },
@@ -893,7 +893,7 @@ class SchoolnfoSetting extends Component {
     // );
   };
 
-  // 选择学院
+  // 选择院系
   OnCheckAllChange = (e) => {
     //  console.log(e)
     if (e.target.checked) {
@@ -919,12 +919,12 @@ class SchoolnfoSetting extends Component {
           : false,
     });
   };
-  //删除所选学院
+  //删除所选院系
   onDeleteAllClick = () => {
     const { dispatch, collegePreview } = this.props;
     //  console.log(this.state.checkedList)
     if (this.state.checkedList.length === 0) {
-      dispatch(AppAlertAction.alertError({ title: `请先勾选所要删除的学院` }));
+      dispatch(AppAlertAction.alertError({ title: `请先勾选所要删除的院系` }));
     } else {
       let checkList = this.state.checkedList;
       let dataList = collegePreview.CollegeList;
@@ -937,7 +937,7 @@ class SchoolnfoSetting extends Component {
       // return;
       dispatch(
         AppAlertAction.alertQuery({
-          title: `确定删除勾选的学院吗？`,
+          title: `确定删除勾选的院系吗？`,
           ok: () => {
             return this.onAlertQueryOk.bind(this, CollegeIDListString);
           },
@@ -1095,7 +1095,7 @@ class SchoolnfoSetting extends Component {
       return;
     }
     if (CollegeNameError && CollegeCodeError) {
-      dispatch(AppAlertAction.alertError({ title: `学院名称和代码没有修改` }));
+      dispatch(AppAlertAction.alertError({ title: `院系名称和代码没有修改` }));
       return;
     }
     dispatch(
@@ -1265,7 +1265,7 @@ class SchoolnfoSetting extends Component {
       });
     }
 
-    // 多学校：当ProductType为3的时候不出现长条校徽
+    // 多院校：当ProductType为3的时候不出现长条校徽
     // LockerMsg代表有效期，空值代表长期有效，试用期为截止日期，如2020年6月21日
     let { ProductType, ResHttpRootUrl,LockerMsg } = sessionStorage.getItem(
       "LgBasePlatformInfo"
@@ -1423,8 +1423,8 @@ class SchoolnfoSetting extends Component {
                       <Empty
                         title={
                           this.state.CancelBtnShow === "y"
-                            ? "暂无符合条件的学院"
-                            : "暂无学院"
+                            ? "暂无符合条件的院系"
+                            : "暂无院系"
                         }
                         type="3"
                         style={{ marginTop: "33px" }}

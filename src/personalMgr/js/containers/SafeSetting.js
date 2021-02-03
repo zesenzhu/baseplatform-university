@@ -839,9 +839,9 @@ class SafeSetting extends Component {
                       <td className="col2">
                         <Tooltip
                           placement="right"
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.parentNode
-                          }
+                          // getPopupContainer={(triggerNode) =>
+                          //   triggerNode.parentNode
+                          // }
                           visible={pwdErrorTips.origin}
                           title={pwdErrorTips.originTips}
                         >
@@ -868,9 +868,9 @@ class SafeSetting extends Component {
                       <td className="col2">
                         <Tooltip
                           placement="right"
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.parentNode
-                          }
+                          // getPopupContainer={(triggerNode) =>
+                          //   triggerNode.parentNode
+                          // }
                           visible={pwdErrorTips.new}
                           title={pwdErrorTips.newTips}
                         >
@@ -926,9 +926,9 @@ class SafeSetting extends Component {
                       <td className="col2">
                         <Tooltip
                           placement="right"
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.parentNode
-                          }
+                          // getPopupContainer={(triggerNode) =>
+                          //   triggerNode.parentNode
+                          // }
                           visible={pwdErrorTips.reNew}
                           title={pwdErrorTips.reNewTips}
                         >

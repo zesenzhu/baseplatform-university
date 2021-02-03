@@ -70,7 +70,7 @@ function SchoolSetting(props) {
     value: "",
   });
 
-  //学校区域
+  //院校区域
 
   const [schoolArea, setSchoolArea] = useState({
     provinceID: "",
@@ -115,7 +115,7 @@ function SchoolSetting(props) {
     checked: "",
   });
 
-  //学校logo
+  //院校logo
 
   const [schoolLogo, setSchoolLogo] = useState({
     show: false,
@@ -187,7 +187,7 @@ function SchoolSetting(props) {
       dispatch(guiderStepChange(1));
 
       if (SchoolID) {
-        //如果有学校ID的情况下先获取学校设置
+        //如果有院校ID的情况下先获取院校设置
 
         GetSchoolInfo({ dispatch, SchoolID }).then((data) => {
           if (!unMount) {
@@ -886,7 +886,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //打开学校logo弹窗事件
+  //打开院校logo弹窗事件
 
   const schoolLogoShow = useCallback(() => {
     setSchoolLogo((d) => {
@@ -896,7 +896,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //关闭学校logo的弹窗
+  //关闭院校logo的弹窗
   const closeSchoolLogoModal = useCallback(() => {
     setSchoolLogo((d) => {
       schoolLogoRef.current = { ...d, show: false };
@@ -905,7 +905,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //提交学校logo事件
+  //提交院校logo事件
   const schoolLogoCommit = useCallback((blob, filePath) => {
     const { ResHttpRootUrl } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
@@ -920,7 +920,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //学校logo初始化
+  //院校logo初始化
 
   const logoInit = (SchoolLogoUrl, SchoolLogoUrl_Long) => {
     const { ResHttpRootUrl } = JSON.parse(
@@ -987,7 +987,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //当学校logo初始化错误
+  //当院校logo初始化错误
 
   const logoLoadErr = useCallback(() => {
     const { ResHttpRootUrl } = JSON.parse(
@@ -1328,7 +1328,7 @@ function SchoolSetting(props) {
         CountyID = countyID;
 
         if (loginUserRef.current.SchoolID) {
-          //修改学校信息
+          //修改院校信息
 
           EditSchoolInfo_Middle({
             UserID: loginUserRef.current.UserID,
@@ -1585,13 +1585,13 @@ function SchoolSetting(props) {
 
             <tr>
               <td className={"col1"}>
-                {schoolType === "middle" ? "学校类型:" : "学制类型:"}
+                {schoolType === "middle" ? "院校类型:" : "学制类型:"}
               </td>
 
               <td className={"col2"}>
                 {schoolType === "middle" ? (
                   <div className={"school-type"}>
-                    <Tips visible={period.tip} title={"请选择学校类型"}>
+                    <Tips visible={period.tip} title={"请选择院校类型"}>
                       <SchoolTypeCheck
                         radioClick={radioClick}
                         periodClick={periodClick}
@@ -1626,13 +1626,17 @@ function SchoolSetting(props) {
                 ) : null}
               </td>
             </tr>
-            {
+            {LockerMsg ? (
               <tr>
                 <td className={"col1"}>使用期限:</td>
 
-                <td style={{color:'red'}} className={"col2"}>{LockerMsg}前</td>
+                <td style={{ color: "red" }} className={"col2"}>
+                  {LockerMsg}前
+                </td>
               </tr>
-            }
+            ) : (
+              ""
+            )}
           </tbody>
         </table>
 

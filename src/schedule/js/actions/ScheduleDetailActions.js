@@ -120,6 +120,7 @@ const ScheduleDetailShow = (Params) => {
         const { TeacherID,ScheduleID,ClassDate,ClassHourNO,SubjectID,ClassID,CourseClassID,ClassRoomID } = Params;
 
         dispatch({type:COMPONENT_SCHEDULE_DETAIL_MODAL_SHOW});
+        console.log(SubjectID,Params)
 
         ApiActions.GetScheduleDetailByUserID({SchoolID,TeacherID,ScheduleID,ClassDate,ClassHourNO,dispatch}).then(data=>{
 

@@ -61,7 +61,7 @@ import { identifyChange } from "../actions/identifyInfoActions";
 import CommonActions from "../actions/MoreActions/CommonActions";
 
 import "../../../common/scss/public.scss";
-let {SetBaseData} = CommonActions
+let { SetBaseData } = CommonActions;
 function App(props) {
   //documenttitle
 
@@ -218,7 +218,12 @@ function App(props) {
           let urlObj = { ...Urls };
 
           data.map((i) => {
-            urlObj[i.SysID] = { WebUrl: i.WebSvrAddr, WsUrl: i.WsSvrAddr };
+            // 教务系统的，后面再加
+            if (i.SysID !== "E34")
+              urlObj[i.SysID] = {
+                WebUrl: i.WebSvrAddr,
+                WsUrl: i.WsSvrAddr,
+              };
           });
 
           dispatch(systemUrlUpdate(urlObj));

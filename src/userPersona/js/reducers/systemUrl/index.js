@@ -18,7 +18,7 @@ const defaultState = {
     C10: { SysID: "C10", WebUrl: "", WsUrl: "" },
 
     //李萌芽项目组
-    E34: { SysID: "E34", WebUrl: "", WsUrl: "" },
+    E34: { SysID: "E34", WebUrl: "", WsUrl: "" },//大学版暂时不用，后面
 
     //精品课程
 

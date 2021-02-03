@@ -1327,7 +1327,7 @@ class Register extends Component {
             }}
           >
             <span className="left">
-              <span className="must">*</span>
+              {/* <span className="must">*</span> */}
               {"所教学科"}：
             </span>
             <span className="right subject-right">

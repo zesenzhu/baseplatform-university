@@ -9,18 +9,18 @@ import Api from "../data/Api";
 const GET_CURRENT_SEMESTER_INFO = "GET_CURRENT_SEMESTER_INFO"; //获取当前学年学期的信息
 const SEMESTER_LOADING_HIDE = "SEMESTER_LOADING_HIDE"; //loading界面的展示或消失
 const REFRESH_SEMESTER_INFO = "REFRESH_SEMESTER_INFO"; //刷新学期信息
-const GET_CURRENT_SCHOOL_INFO = "GET_CURRENT_SCHOOL_INFO"; //获取当前学校信息
-const REFRESH_SCHOOL_INFO = "REFRESH_SCHOOL_INFO"; //刷新当前学校信息
+const GET_CURRENT_SCHOOL_INFO = "GET_CURRENT_SCHOOL_INFO"; //获取当前院校信息
+const REFRESH_SCHOOL_INFO = "REFRESH_SCHOOL_INFO"; //刷新当前院校信息
 const CET_CURRENT_SUBSYSTEM_INFO = "CET_CURRENT_SUBSYSTEM_INFO"; //获取子系统详情
 const REFRESH_SUBSYSTEM_INFO = "REFRESH_SUBSYSTEM_INFO"; //刷新当前子系统信息
 const INIT_PERIOD_LIST = "INIT_PERIOD_LIST"; //初始化学制选择表
-// const UPDATA_SCHOOL_LOGOURL="UPDATA_SCHOOL_LOGOURL"//更新学校校徽
+// const UPDATA_SCHOOL_LOGOURL="UPDATA_SCHOOL_LOGOURL"//更新院校校徽
 const GET_SERVER_ADDRESS = "GET_SERVER_ADDRESS"; //获取服务器地址
 
-const GET_COLLEGE_PREVIEW = "GET_COLLEGE_PREVIEW"; //获取学院信息
+const GET_COLLEGE_PREVIEW = "GET_COLLEGE_PREVIEW"; //获取院系信息
 
-const SET_COLLEGE_MSG = "SET_COLLEGE_MSG"; //设置修改学院的数据
-const SET_COLLEGE_INIT_MSG = "SET_COLLEGE_INIT_MSG"; //设置修改学院的数据
+const SET_COLLEGE_MSG = "SET_COLLEGE_MSG"; //设置修改院系的数据
+const SET_COLLEGE_INIT_MSG = "SET_COLLEGE_INIT_MSG"; //设置修改院系的数据
 ///////////////////////////////////////////////////////////////////////////
 const setCollegeMsg = (
   data = {
@@ -223,7 +223,7 @@ const getServerAdd = () => {
   };
 };
 
-//获取当前学校详情
+//获取当前院校详情
 
 const getCurrentSchoolInfo = (SchoolID) => {
   return (dispatch) => {
@@ -268,8 +268,8 @@ const getCurrentSchoolInfo = (SchoolID) => {
               };
             } else if (firstParam === "0" && secondParam === "3") {
               /*   如果参数为03X 表示只有初中或者初中+高中，但默认绑定六年制小学
-                                 绑定时的数据只在修改学校基础信息中体现。
-                                 举个例子,当前情况下学校只有初中，但想添加一个小学，此时需要点击小学的选项卡，
+                                 绑定时的数据只在修改院校基础信息中体现。
+                                 举个例子,当前情况下院校只有初中，但想添加一个小学，此时需要点击小学的选项卡，
                                  如果此时初中为三年制，则点击小学后，绑定的就是六年制的小学，而不是无对应显示或五年制小学
                                  下面的情况以此类推 
                              */
@@ -295,7 +295,7 @@ const getCurrentSchoolInfo = (SchoolID) => {
               secondParam === "0" &&
               thirdParam === "3"
             ) {
-              //如果只有参数为003，则表示只有高中，默认绑定是六年制小学与三年制初中,只是在修改学校基础信息上起作用
+              //如果只有参数为003，则表示只有高中，默认绑定是六年制小学与三年制初中,只是在修改院校基础信息上起作用
               schoolInfo = {
                 ...schoolInfo,
                 primaryType: "六年制小学",
@@ -433,7 +433,7 @@ const getCurrentSbusystemInfo = ({ UserType, IsOpened, keyword }) => {
   };
 };
 
-// 学院编辑：学院编号修改检查
+// 院系编辑：院系代码修改检查
 const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
   return (dispatch, getState) => {
     let { DataUpdate, UIState } = getState();
@@ -447,7 +447,7 @@ const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
     if (CollegeCode === "") {
       dispatch({
         type: UpUIState.SET_APP_TIPS,
-        data: { CollegeCodeTips: "学院编号不能为空" },
+        data: { CollegeCodeTips: "院系代码不能为空" },
       });
       dispatch(
         UpUIState.editModalTipsVisible({
@@ -458,7 +458,7 @@ const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
     } else if (!Test.test(CollegeCode)) {
       dispatch({
         type: UpUIState.SET_APP_TIPS,
-        data: { CollegeCodeTips: "学院编号格式不正确" },
+        data: { CollegeCodeTips: "院系代码格式不正确" },
       });
       dispatch(
         UpUIState.editModalTipsVisible({
@@ -472,7 +472,7 @@ const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
           CollegeCodeTipsVisible: false,
         })
       );
-      // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeCodeTips:'学院编号格式不正确'}});
+      // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeCodeTips:'院系代码格式不正确'}});
       // dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:''}});
       if (Public.comparisonObject(InitCollegeCode, CollegeCode)) {
         CollegeCodeError = true;
@@ -482,7 +482,7 @@ const checkCollegeCode = (func = (error, CollegeCodeError) => {}) => {
   };
 };
 
-// 学院编辑：学院名称修改检查
+// 院系编辑：院系名称修改检查
 const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
   return (dispatch, getState) => {
     let { DataUpdate, UIState } = getState();
@@ -495,7 +495,7 @@ const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
     if (CollegeName === "") {
       dispatch({
         type: UpUIState.SET_APP_TIPS,
-        data: { CollegeNameTips: "学院名称不能为空" },
+        data: { CollegeNameTips: "院系名称不能为空" },
       });
       dispatch(
         UpUIState.editModalTipsVisible({
@@ -504,7 +504,7 @@ const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
       );
       error = true;
     } else if (!Test.test(CollegeName)) {
-      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'学院名称格式不正确'}})
+      dispatch({type:UpUIState.SET_APP_TIPS,data:{CollegeNameTips:'院系名称格式不正确'}})
       dispatch(
         UpUIState.editModalTipsVisible({
           CollegeNameTipsVisible: true,
@@ -519,7 +519,7 @@ const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
       );
       dispatch({
         type: UpUIState.SET_APP_TIPS,
-        data: { CollegeNameTips: "学院名称格式不正确" },
+        data: { CollegeNameTips: "院系名称格式不正确" },
       });
       if (Public.comparisonObject(InitCollegeName, CollegeName)) {
         CollegeNameError = true;
@@ -578,7 +578,7 @@ const checkCollegeName = (func = (error, CollegeNameError) => {}) => {
 // }
 
 // 接口
-// 修改学院
+// 修改院系
 const EditCollege = ({
   CollegeID = "",
   CollegeName = "",
@@ -597,7 +597,7 @@ const EditCollege = ({
       CollegeName:CollegeName.trim(),
     }).then((json) => {
       if (json.StatusCode === 200) {
-        dispatch(AppAlertAction.alertSuccess({ title: `修改学院成功` }));
+        dispatch(AppAlertAction.alertSuccess({ title: `修改院系成功` }));
         success();
       } else {
         dispatch(
@@ -608,7 +608,7 @@ const EditCollege = ({
     });
   };
 };
-// 删除学院
+// 删除院系
 const DeleteCollege = ({
   CollegeIDs = "",
   success = () => {},
@@ -623,7 +623,7 @@ const DeleteCollege = ({
       CollegeIDs,
     }).then((json) => {
       if (json.StatusCode === 200) {
-        dispatch(AppAlertAction.alertSuccess({ title: `删除学院成功` }));
+        dispatch(AppAlertAction.alertSuccess({ title: `删除院系成功` }));
         success();
       } else {
         dispatch(
@@ -634,7 +634,7 @@ const DeleteCollege = ({
     });
   };
 };
-// 添加学院
+// 添加院系
 const AddCollege = ({
   CollegeName = "",
   CollegeCode = "",
@@ -652,7 +652,7 @@ const AddCollege = ({
     }).then((json) => {
       console.log(json);
       if (json.StatusCode === 200) {
-        dispatch(AppAlertAction.alertSuccess({ title: `添加学院成功` }));
+        dispatch(AppAlertAction.alertSuccess({ title: `添加院系成功` }));
         success();
       } else {
         dispatch(

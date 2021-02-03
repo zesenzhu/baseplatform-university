@@ -80,7 +80,7 @@ export const GetCurrentTermInfo = async ({dispatch,SchoolID})=>{
 };
 
 
-//获取学校基础信息
+//获取院校基础信息
 export const GetSchoolInfo = async ({dispatch,SchoolID})=>{
 
     const res = await getGetData(`/SysMgr/Setting/GetSchoolInfo?SchoolID=${SchoolID}`,2);
@@ -91,14 +91,14 @@ export const GetSchoolInfo = async ({dispatch,SchoolID})=>{
 
     }else{
 
-        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'获取学校基础信息失败'}));
+        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'获取院校基础信息失败'}));
 
     }
 
 };
 
 
-//获取学校基础信息
+//获取院校基础信息
 export const GetCollegeList = async ({dispatch,SchoolID,keyword='',index=1,pageSize=10,SortType='CollegeName',SortFiled='asc'})=>{
 
     const res = await getGetData(`/SysMgr/Setting/College/List?SchoolID=${SchoolID}&index=${index}&pageSize=${pageSize}&keyword=${keyword}&SortType=${SortType}&SortFiled=${SortFiled}`,2);
@@ -109,7 +109,7 @@ export const GetCollegeList = async ({dispatch,SchoolID,keyword='',index=1,pageS
 
     }else{
 
-        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'获取学校基础信息失败'}));
+        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'获取院校基础信息失败'}));
 
     }
 
@@ -144,7 +144,7 @@ export const GetSubjectInfoValid_University = async ({schoolID,dispatch}) =>{
 };
 
 
-//获取学校初始化状态
+//获取院校初始化状态
 
 export const GetSchoolInitStatus = async ({schoolID,dispatch}) =>{
 
@@ -167,7 +167,7 @@ export const GetSchoolInitStatus = async ({schoolID,dispatch}) =>{
 
 //post方法
 
-//添加学院
+//添加院系
 
 export const AddCollege = async ({SchoolID,CollegeName,CollegeCode,dispatch}) =>{
 
@@ -189,7 +189,7 @@ export const AddCollege = async ({SchoolID,CollegeName,CollegeCode,dispatch}) =>
 
 };
 
-//删除学院
+//删除院系
 export const DeleteCollege = async ({SchoolID,CollegeIDs,dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/College/DeleteCollege`,{
@@ -211,7 +211,7 @@ export const DeleteCollege = async ({SchoolID,CollegeIDs,dispatch}) =>{
 };
 
 
-//编辑学院
+//编辑院系
 export const EditCollege = async ({SchoolID,CollegeID,CollegeCode,CollegeName,dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/College/EditCollege`,{
@@ -255,7 +255,7 @@ export const SetTermInfo = async ({SchoolID,UserID,StartDate,EndDate,TermName,di
 };
 
 
-//中小学修改学校基础信息
+//中小学修改院校基础信息
 export const EditSchoolInfo_Middle = async ({UserID,SchoolID,SchoolName,SchoolImgUrl_Long,SchoolCode,SchoolType,SchoolSessionType,SchoolImgUrl,CountyID,dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/EditSchoolInfo`,{
@@ -277,7 +277,7 @@ export const EditSchoolInfo_Middle = async ({UserID,SchoolID,SchoolName,SchoolIm
 };
 
 
-//大学修改学校基础信息
+//大学修改院校基础信息
 export const EditSchoolInfo_Univ = async ({UserID,SchoolID,SchoolImgUrl_Long,SchoolName,SchoolCode,SchoolType='',SchoolLevel,SchoolSessionType,SchoolImgUrl,SchoolTel='',SchoolLinkman='',CountyID,dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/EditSchoolInfo_Univ`,{
@@ -299,7 +299,7 @@ export const EditSchoolInfo_Univ = async ({UserID,SchoolID,SchoolImgUrl_Long,Sch
 };
 
 
-//添加学校基础信息
+//添加院校基础信息
 export const AddSchoolInfo = async ({SchoolLevel,UserID,SchoolID='',SchoolName,SchoolImgUrl_Long,SchoolCode,SchoolType,SchoolSessionType,SchoolImgUrl,SchoolTel='',SchoolLinkman='',CountyID,dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/AddSchoolInfo`,{
@@ -314,14 +314,14 @@ export const AddSchoolInfo = async ({SchoolLevel,UserID,SchoolID='',SchoolName,S
 
     }else{
 
-        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'创建学校失败'}));
+        dispatch(btnErrorAlertShow({title:res.Msg?res.Msg:'创建院校失败'}));
 
     }
 
 };
 
 
-//添加学校基础信息
+//添加院校基础信息
 export const UpdateSchoolInitStatus = async ({SchoolId='',dispatch}) =>{
 
     const res = await getPostData(`/SysMgr/Setting/UpdateSchoolInitStatus`,{

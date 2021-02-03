@@ -16,23 +16,23 @@ import './index.scss';
 
 function AddEditCollege(props,ref) {
 
-    //学院名称
+    //院系名称
     const [name,setName] = useState({
 
        tip:false,
 
-       title:'请输入学院名称',
+       title:'请输入院系名称',
 
        value:''
 
     });
 
-    //学院代码
+    //院系代码
     const [code,setCode] = useState({
 
         tip:false,
 
-        title:'请输入学院代码',
+        title:'请输入院系代码',
 
         value:''
 
@@ -120,7 +120,7 @@ function AddEditCollege(props,ref) {
     },[show]);
 
 
-    //学校名称变化
+    //院校名称变化
     const nameChange = useCallback((e)=>{
 
         e.persist();
@@ -135,7 +135,7 @@ function AddEditCollege(props,ref) {
 
     },[]);
 
-    //学校代码变化
+    //院校代码变化
     const codeChange = useCallback((e)=>{
 
         e.persist();
@@ -150,7 +150,7 @@ function AddEditCollege(props,ref) {
 
     },[]);
 
-    //学校名称blur
+    //院校名称blur
     const nameBlur = useCallback((e)=>{
 
         const { value } = nameRef.current;
@@ -173,9 +173,9 @@ function AddEditCollege(props,ref) {
 
                 setName(d=>{
 
-                    nameRef.current = { ...d,tip:true,title:"学院名称由中文,英文,数字或()（）等特殊字符组成"};
+                    nameRef.current = { ...d,tip:true,title:"院系名称由中文,英文,数字或()（）等特殊字符组成"};
 
-                    return { ...d,tip:true,title:"学院名称由中文,英文,数字和()（）等特殊字符组成"};
+                    return { ...d,tip:true,title:"院系名称由中文,英文,数字和()（）等特殊字符组成"};
 
                 })
 
@@ -185,9 +185,9 @@ function AddEditCollege(props,ref) {
 
             setName(d=>{
 
-                nameRef.current = { ...d,tip:true,title:"请输入学院名称"};
+                nameRef.current = { ...d,tip:true,title:"请输入院系名称"};
 
-                return { ...d,tip:true,title:"请输入学院名称"};
+                return { ...d,tip:true,title:"请输入院系名称"};
 
             })
 
@@ -195,7 +195,7 @@ function AddEditCollege(props,ref) {
 
     },[]);
 
-    //学校代码blur
+    //院校代码blur
     const codeBlur = useCallback((e)=>{
 
         const { value } = codeRef.current;
@@ -218,9 +218,9 @@ function AddEditCollege(props,ref) {
 
                 setCode(d=>{
 
-                    codeRef.current = { ...d,tip:true,title:"学院代码由英文和数字组成"};
+                    codeRef.current = { ...d,tip:true,title:"院系代码由英文和数字组成"};
 
-                    return { ...d,tip:true,title:"学院代码由英文和数字组成"};
+                    return { ...d,tip:true,title:"院系代码由英文和数字组成"};
 
                 })
 
@@ -230,9 +230,9 @@ function AddEditCollege(props,ref) {
 
             setCode(d=>{
 
-                codeRef.current = { ...d,tip:true,title:"请输入学院代码"};
+                codeRef.current = { ...d,tip:true,title:"请输入院系代码"};
 
-                return { ...d,tip:true,title:"请输入学院代码"};
+                return { ...d,tip:true,title:"请输入院系代码"};
 
             })
 
@@ -248,9 +248,9 @@ function AddEditCollege(props,ref) {
 
             setName(d=>{
 
-                nameRef.current = {...d,tip:true,title:'请输入学院名称'};
+                nameRef.current = {...d,tip:true,title:'请输入院系名称'};
 
-               return {...d,tip:true,title:'请输入学院名称'};
+               return {...d,tip:true,title:'请输入院系名称'};
 
             });
 
@@ -260,9 +260,9 @@ function AddEditCollege(props,ref) {
 
             setCode(d=>{
 
-                codeRef.current = {...d,tip:true,title:'请输入学院代码'};
+                codeRef.current = {...d,tip:true,title:'请输入院系代码'};
 
-                return {...d,tip:true,title:'请输入学院代码'};
+                return {...d,tip:true,title:'请输入院系代码'};
 
             });
 
@@ -343,7 +343,7 @@ function AddEditCollege(props,ref) {
 
             tip:false,
 
-            title:'请输入学院名称',
+            title:'请输入院系名称',
 
             value:''
 
@@ -353,7 +353,7 @@ function AddEditCollege(props,ref) {
 
             tip:false,
 
-            title:'请输入学院代码',
+            title:'请输入院系代码',
 
             value:''
 
@@ -378,7 +378,7 @@ function AddEditCollege(props,ref) {
 
             visible={show}
 
-            title={isEdit?'编辑学院':'添加学院'}
+            title={isEdit?'编辑院系':'添加院系'}
 
             width={400}
 
