@@ -4,9 +4,10 @@ import { TokenCheck_Connect } from "../../../../common/js/disconnect";
 import Semester from "../SettingOptions/YearSemesterSetting";
 import Import from "../Import";
 import School from "../SettingOptions/SchoolnfoSetting";
+import Subsystem from '../../page/SubSystem'
 // import Subsystem from '../ApplicationSetting'
 // import Subsystem from '../SubApplication/js'
-import Subsystem from "../SettingOptions/SubsystemAccessSetting";
+// import Subsystem from "../SettingOptions/SubsystemAccessSetting";
 import setting from "../../../images/setting_logo.png";
 import { Menu, Loading } from "../../../../common";
 import config from "../../../../common/js/config";
@@ -68,6 +69,7 @@ class MainContent extends Component {
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
       ],
+      path:'School'
     };
     const { dispatch } = props;
     const Hash = location.hash;
@@ -146,11 +148,11 @@ class MainContent extends Component {
     );
     const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
 
-    console.log(UserType === "0");
     // dispatch(DataChange.getCurrentSbusystemInfo());////模拟测试使用
     let ModuleID = "000001";
     //判断该用户是否是管理员,如果该用户不是管理员跳转到错误页,
     if (UserType !== "0") {
+
       window.location.href = config.ErrorProxy + "/Error.aspx?errcode=E011";
     } else {
       //如果该用户是管理员则检查用户信息和模块ID是否符合
@@ -173,13 +175,11 @@ class MainContent extends Component {
   };
   componentDidMount() {
     let that = this;
-    that.handleMenu();
-    console.log("dasd");
-    //     history.listen((location)=>{
-    //     let path =  location.pathname.split("/")[2];
-    // console.log(path)
-    // that.handleMenu(path)
-    //     })
+    // that.handleMenu();
+        history.listen((location)=>{
+        let path =  location.pathname.split("/")[2];
+        this.setState({path:path})
+        })
   }
   //操作左侧菜单，响应路由变化
   handleMenu = (path) => {
@@ -262,7 +262,7 @@ class MainContent extends Component {
           onRef={this.onRef.bind(this)}
         >
           <div ref="frame-time-barner">
-            <TimeBanner path={path} List={this.state.List} />
+            <TimeBanner path={ path} List={this.state.List} />
           </div>
 
           <div ref="frame-right-content">
@@ -287,7 +287,9 @@ class MainContent extends Component {
                   exact
                   history={history}
                   component={Subsystem}
-                ></Route>
+                >
+                  {/* <Subsystem></Subsystem> */}
+                </Route>
                 <Route
                   path="/MainContent/Import*"
                   exact

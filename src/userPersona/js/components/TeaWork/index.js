@@ -34,7 +34,7 @@ class TeaWork extends Component {
       termInfo: { Term },
       loginUser:{SchoolID},
 
-      userArchives: { ShortName, ClassID, GradeID, UserName },
+      userArchives: { ShortName, ClassID, GradeID, UserName,CollegeID },
     } = nextProps;
     // let {}
     let token = sessionStorage.getItem("token");
@@ -46,6 +46,7 @@ class TeaWork extends Component {
         CommonActions.SetTeaWorkParams({
           Proxy: Urls["E34"].WsUrl,
           // Urls["810"].WsUrl,
+          academyId:CollegeID,
           Token: token,
           Semester: Term,
           UserName: UserID,
@@ -112,9 +113,9 @@ class TeaWork extends Component {
     let List = {};
     let {
       administrativeClassNum, //行政班数
-      classNum, //教学班数
+      courseClassNum, //教学班数
       invigilationNum, //监考数
-      scheduleCount, //课程数
+      courseNum, //课程数
     } = data instanceof Array && data.length > 0 ? data[0] : {};
     return (
       <ContentItem type="work" tabName={"教学工作量统计"}>
@@ -142,15 +143,15 @@ class TeaWork extends Component {
             </div>
             <div className="SQ-box">
               <div className="TW-content">
-                <div className="TWc-ball scheduleCount">
+                <div className="TWc-ball scheduleCount ">
                   <p
                     className="num"
                     title={
-                      scheduleCount || scheduleCount === 0 ? scheduleCount : ""
+                      courseNum || courseNum === 0 ? courseNum : ""
                     }
                   >
-                    {scheduleCount || scheduleCount === 0
-                      ? scheduleCount
+                    {courseNum || courseNum === 0
+                      ? courseNum
                       : "--"}
                   </p>
                 </div>
@@ -177,14 +178,14 @@ class TeaWork extends Component {
                 <div className="TWc-ball classNum">
                   <p
                     className="num "
-                    title={classNum || classNum === 0 ? classNum : ""}
+                    title={courseClassNum || courseClassNum === 0 ? courseClassNum : ""}
                   >
-                    {classNum || classNum === 0 ? classNum : "--"}
+                    {courseClassNum || courseClassNum === 0 ? courseClassNum : "--"}
                   </p>
                 </div>
                 <p className="title">教学班数(任课教师)</p>
               </div>
-              <div className="TW-content">
+              {/* {invigilationNum===0||invigilationNum?<div className="TW-content">
                 <div className="TWc-ball invigilationNum">
                   <p
                     className="num "
@@ -200,7 +201,7 @@ class TeaWork extends Component {
                   </p>
                 </div>
                 <p className="title">监考数量</p>
-              </div>
+              </div>:''} */}
             </div>
           </div>
         </Loading>

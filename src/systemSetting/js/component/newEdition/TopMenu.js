@@ -29,7 +29,7 @@ class TopMenu extends React.Component {
     //   }
     //   history.push("/UserArchives/" + key + "/all");
     // } else {
-      console.log(key,history)
+     
       history.push("/MainContent/" + key);
     // }
     // history.push('/'+key)
@@ -39,10 +39,11 @@ class TopMenu extends React.Component {
 
   render() {
     let { List } = this.props;
-    // let pathname = history.location.pathname;
+    let pathname = history.location.pathname;
 
-    // let pathArr = pathname.split("/");
-    // let handleRoute = pathArr[2];
+    let pathArr = pathname.split("/");
+    let handleRoute = pathArr[2];
+    console.log(handleRoute)
     // console.log(handleRoute,history)
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")

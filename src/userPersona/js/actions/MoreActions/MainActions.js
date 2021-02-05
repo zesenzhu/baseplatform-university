@@ -371,7 +371,7 @@ const GetTeacherWork = ({
   Proxy,
   pageNum,
   userName,
-  token,
+  token,academyId
 }) => {
   return (dispatch, getState) => {
     let State = getState();
@@ -390,6 +390,10 @@ const GetTeacherWork = ({
     }
     if (userName === undefined) {
       userName = TeaWorkParams.UserName;
+    }
+    
+    if (academyId === undefined) {
+      academyId = TeaWorkParams.academyId;
     }
     if (pageSize === undefined) {
       pageSize = TeaWorkParams.PageSize;
@@ -421,18 +425,18 @@ const getTeacherWork = async ({
   Proxy = "",
   pageSize = "",
   token = "",
-  pageNum = "",
+  pageNum = "",academyId=''
 }) => {
   let url =
     Proxy +
-    "/admin/getTeacherWork?userName=" +
+    "/getTeacherWorkCase?userName=" +
     userName +
     "&pageNum=" +
     pageNum +
     "&pageSize=" +
     pageSize +
     "&semester=" +
-    semester +
+    semester +'&academyId='+academyId+
     "&token=" +
     token;
   let data = "";

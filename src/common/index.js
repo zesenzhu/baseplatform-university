@@ -1,5 +1,17 @@
 import "es6-shim";
-import React, { memo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  memo,
+  useReducer,
+  forwardRef,
+  useCallback,
+  useContext,
+  createContext,
+  useImperativeHandle,
+} from "react";
 import "antd/dist/antd.min.css";
 import "./index.scss";
 import "./scss/_left_menu.scss";
@@ -245,11 +257,9 @@ class Input extends React.Component {
 
   //onChange
   onInputChange = (e) => {
-
     if (this.props.onChange) {
       e.target.value = e.target.value.trim();
       this.props.onChange(e);
-
     } else {
       this.setState({
         value: e.target.value.trim(),
@@ -501,7 +511,8 @@ class Modal extends React.Component {
       onOk: props.onOk /*点击确定回调*/,
       visible: props.visible /*对话框是否可见*/,
       className: props.className ? props.className : "" /**/,
-      destroyOnClose: props.destroyOnClose!==undefined ? props.destroyOnClose : true,
+      destroyOnClose:
+        props.destroyOnClose !== undefined ? props.destroyOnClose : true,
       ModalStyle: "Modal-1",
     };
   }
@@ -540,13 +551,11 @@ class Modal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
     const { title, bodyStyle, className, footer, mask } = nextProps;
 
     this.selectType(this.props.type);
 
     this.setState({ title: title, bodyStyle, className, footer, mask });
-
   }
 
   // 拖拽modal
@@ -554,13 +563,10 @@ class Modal extends React.Component {
   componentDidMount() {
     //         let modalHeader = $('.ant-modal-header');
     //         let modal = $(this.refs.Modal);
-
     //         modal.click((e)=>{
-
     //         })
     //         modal.mousedown(function(e) {
     //             // e.pageX
-
     //             var positionDiv = $(this).offset();
     //             var distenceX = e.pageX - positionDiv.left;
     //             var distenceY = e.pageY - positionDiv.top;
@@ -794,7 +800,6 @@ class CheckBox extends React.Component {
         CheckClassName = "";
     }
 
-    
     return (
       <ConfigProvider locale={zhCN}>
         <AntCheckBox
@@ -952,7 +957,6 @@ class Search extends React.Component {
         }
       });
     } else {
-
       this.setState({ SearchBlank: true });
 
       this.SearchInput.focus();
@@ -963,8 +967,7 @@ class Search extends React.Component {
     this.setState({ inputFocus: false, SearchBlank: false });
   } //input blur事件
   handleEnterKey(e) {
-
-    const { select, selectOptions, onClickSearch,onSearchKeyUp } = this.props;
+    const { select, selectOptions, onClickSearch, onSearchKeyUp } = this.props;
 
     if (e.nativeEvent.keyCode === 13) {
       if (this.SearchInput.value.trim()) {
@@ -981,20 +984,14 @@ class Search extends React.Component {
           }
         });
       } else {
-
         this.setState({ SearchBlank: true });
 
         this.SearchInput.focus();
       }
-
-    }else{
-
-      if(onSearchKeyUp){
-
-          onSearchKeyUp();
-
+    } else {
+      if (onSearchKeyUp) {
+        onSearchKeyUp();
       }
-
     }
 
     //this.SearchClick();
@@ -1131,9 +1128,7 @@ class Search extends React.Component {
                   onBlur={this.onInputBlur.bind(this)}
                   onKeyUp={this.handleEnterKey.bind(this)}
                   value={Value ? Value : this.state.Value}
-                  onChange={
-                    onChange?onChange: this.InputChange.bind(this)
-                  }
+                  onChange={onChange ? onChange : this.InputChange.bind(this)}
                 />
                 <input
                   className="search_cancel_input"
@@ -1177,7 +1172,6 @@ class Search extends React.Component {
  * 下拉 start
  * */
 class DropComponent extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -1185,27 +1179,22 @@ class DropComponent extends React.Component {
       dropListShow: false,
       range2ListShow: "",
       range2ListActive: "",
-      simpleSearchList:[],
-      simpleSearchShow:false,
-      simpleSearchValue:''
+      simpleSearchList: [],
+      simpleSearchShow: false,
+      simpleSearchValue: "",
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
-    const { dropSelectd, dropList,type } = nextProps;
+    const { dropSelectd, dropList, type } = nextProps;
 
     let simpleSearchList = [];
 
-    if (type!=='multiple'){
-
-        simpleSearchList = dropList;
-
+    if (type !== "multiple") {
+      simpleSearchList = dropList;
     }
 
-
-    this.setState({ dropSelectd: dropSelectd,simpleSearchList });
-
+    this.setState({ dropSelectd: dropSelectd, simpleSearchList });
   }
 
   onToggleDropList() {
@@ -1261,7 +1250,6 @@ class DropComponent extends React.Component {
   } //在二级的时候展开下拉
 
   componentDidMount() {
-
     const that = this;
 
     document.addEventListener("click", (e) =>
@@ -1269,33 +1257,30 @@ class DropComponent extends React.Component {
         that,
         target: e.target,
         ulDom: this.refs.dropdown_select_ul,
-        spanDom: this.refs.dropdown_default_span
-
+        spanDom: this.refs.dropdown_default_span,
       })
     ); //当点击事件发生在下拉之外的时候
   }
 
   outDropClick(e) {
-
     const { that, target, ulDom, spanDom } = e;
 
-    const {dropList=[]} = this.props;
+    const { dropList = [] } = this.props;
 
     if (ulDom && spanDom) {
       //在该界面上已有该组件才这样展示
       if (!spanDom.contains(target) && !ulDom.contains(target)) {
-
-        that.setState({
-            dropListShow:false,
-            simpleSearchList:dropList,
-            simpleSearchShow:false,
-            simpleSearchValue:''
-        },() => {
-
-          $(ulDom).hide();
-
-        });
-
+        that.setState(
+          {
+            dropListShow: false,
+            simpleSearchList: dropList,
+            simpleSearchShow: false,
+            simpleSearchValue: "",
+          },
+          () => {
+            $(ulDom).hide();
+          }
+        );
       }
     }
   } //当点击事件发生在下拉组件之外的时候
@@ -1321,126 +1306,109 @@ class DropComponent extends React.Component {
   }
 
   simpleSearch() {
+    const { dropList } = this.props;
 
-      const { dropList } = this.props;
+    if (this.state.simpleSearchValue) {
+      const list = dropList.filter((i) => {
+        if (typeof i.title === "string" || typeof i.title === "number") {
+          return i.title.toString().includes(this.state.simpleSearchValue);
+        } else {
+          let hasValue = this.recursive(i.title);
 
-      if (this.state.simpleSearchValue) {
+          return hasValue;
+        }
+      });
 
-        const list =  dropList.filter(i=>{
+      const simpleSearchList =
+        list.length > 0
+          ? list
+          : [{ value: "symbol_none_value", title: "无数据" }];
 
-            if(typeof(i.title)==='string'||typeof(i.title)==='number'){
+      this.setState({ simpleSearchShow: true, simpleSearchList });
+    }
+  }
 
-              return i.title.toString().includes(this.state.simpleSearchValue);
+  //递归函数
+  recursive(reactDom) {
+    let hasValue = false;
 
-            }else{
-
-              let hasValue = this.recursive(i.title);
-
-              return hasValue;
-
+    if (
+      typeof reactDom.props.children === "string" ||
+      typeof reactDom.props.children === "number"
+    ) {
+      if (
+        reactDom.props.children
+          .toString()
+          .includes(this.state.simpleSearchValue)
+      ) {
+        hasValue = true;
+      }
+    } else {
+      for (let i = 0; i <= reactDom.props.children.length - 1; i++) {
+        if (!hasValue) {
+          if (
+            typeof reactDom.props.children[i] === "string" ||
+            typeof reactDom.props.children[i] === "number"
+          ) {
+            if (
+              reactDom.props.children[i]
+                .toString()
+                .includes(this.state.simpleSearchValue)
+            ) {
+              hasValue = true;
             }
-
-        });
-
-        const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
-
-        this.setState({simpleSearchShow:true,simpleSearchList});
-
-      }
-
-  }
-
-    //递归函数
-  recursive(reactDom){
-
-  let hasValue = false;
-
-  if(typeof(reactDom.props.children)==='string'||typeof(reactDom.props.children)==='number'){
-
-      if(reactDom.props.children.toString().includes(this.state.simpleSearchValue)){
-
-          hasValue = true;
-
-      }
-
-  }else{
-
-      for (let i = 0;i<=reactDom.props.children.length-1;i++){
-
-          if (!hasValue){
-
-              if(typeof(reactDom.props.children[i])==='string'||typeof(reactDom.props.children[i])==='number') {
-
-                  if(reactDom.props.children[i].toString().includes(this.state.simpleSearchValue)){
-
-                      hasValue = true;
-
-                  }
-
-              }else{
-
-                   hasValue =  this.recursive(reactDom.props.children[i]);
-
-              }
-
+          } else {
+            hasValue = this.recursive(reactDom.props.children[i]);
           }
-
+        }
       }
+    }
 
+    return hasValue;
   }
-
-
-  return hasValue;
-
-}
 
   //简单搜索的值发生变化
-  simpleSearchValueChange(e){
-
+  simpleSearchValueChange(e) {
     const { dropList } = this.props;
 
     const searchValue = e.target.value;
 
-    this.setState({
+    this.setState(
+      {
+        simpleSearchValue: searchValue,
+      },
+      () => {
+        const list = dropList.filter((i) => {
+          if (typeof i.title === "string" || typeof i.title === "number") {
+            return i.title.toString().includes(searchValue);
+          } else {
+            let hasValue = this.recursive(i.title);
 
-        simpleSearchValue:searchValue
-
-    },()=>{
-
-        const list =  dropList.filter(i=>{
-
-            if(typeof(i.title)==='string'||typeof(i.title)==='number'){
-
-                return i.title.toString().includes(searchValue);
-
-            }else{
-
-                let hasValue = this.recursive(i.title);
-
-                return hasValue;
-
-            }
-
+            return hasValue;
+          }
         });
 
-        const simpleSearchList = list.length>0?list:[{value:'symbol_none_value',title:'无数据'}];
+        const simpleSearchList =
+          list.length > 0
+            ? list
+            : [{ value: "symbol_none_value", title: "无数据" }];
 
-        this.setState({simpleSearchShow:true,simpleSearchList});
-
-    });
-
+        this.setState({ simpleSearchShow: true, simpleSearchList });
+      }
+    );
   }
 
   //简单搜索关闭
 
-  simpleSearchClose(){
+  simpleSearchClose() {
+    const { dropList } = this.props;
 
-    const {dropList} = this.props;
-
-    this.setState({simpleSearchValue:'',simpleSearchShow:false,simpleSearchList:dropList});
-
+    this.setState({
+      simpleSearchValue: "",
+      simpleSearchShow: false,
+      simpleSearchList: dropList,
+    });
   }
-
 
   render() {
     const {
@@ -1462,20 +1430,13 @@ class DropComponent extends React.Component {
       ...reset
     } = this.props;
 
-  
-    let simpleSearchList =  this.state.simpleSearchList;
+    let simpleSearchList = this.state.simpleSearchList;
 
-
-    if (type!=='multiple'&&this.state.simpleSearchShow){
-    
-      simpleSearchList =  this.state.simpleSearchList;
-    
-    }else{
-
+    if (type !== "multiple" && this.state.simpleSearchShow) {
+      simpleSearchList = this.state.simpleSearchList;
+    } else {
       simpleSearchList = dropList;
-
     }
-
 
     let dropContainer = "";
 
@@ -1669,9 +1630,7 @@ class DropComponent extends React.Component {
                 onCancelSearch={this.onCancelSearch.bind(this)}
                 CancelBtnShow={mutipleOptions.CancelBtnShow}
                 Value={mutipleOptions.inputValue}
-              >
-
-              </Search>
+              ></Search>
             </div>
 
             <Scrollbars
@@ -1701,7 +1660,6 @@ class DropComponent extends React.Component {
         </div>
       );
     } else {
-
       dropContainer = (
         <ul
           className="dropdown_select_ul"
@@ -1709,29 +1667,41 @@ class DropComponent extends React.Component {
           style={{ width: width, overflow: "initial" }}
         >
           <Loading opacity={false} spinning={dropLoadingShow}>
+            {dropList && dropList.length > 12 && dropSimpleSearch ? (
+              <li className={"dropdown_select_search"}>
+                <AntdInput
+                  value={this.state.simpleSearchValue}
+                  onChange={this.simpleSearchValueChange.bind(this)}
+                  onPressEnter={this.simpleSearch.bind(this)}
+                  className={"search-input"}
+                />
 
-              {
+                <i
+                  onClick={this.simpleSearchClose.bind(this)}
+                  className={"dropdown_search_close"}
+                  style={{
+                    display: `${
+                      this.state.simpleSearchShow ? "block" : "none"
+                    }`,
+                  }}
+                ></i>
 
-                  dropList&&dropList.length>12&&dropSimpleSearch?
-
-                      <li className={"dropdown_select_search"}>
-
-                        <AntdInput value={this.state.simpleSearchValue} onChange={this.simpleSearchValueChange.bind(this)} onPressEnter={this.simpleSearch.bind(this)}  className={"search-input"}/>
-
-                        <i onClick={this.simpleSearchClose.bind(this)} className={"dropdown_search_close"} style={{display:`${this.state.simpleSearchShow?'block':'none'}`}}></i>
-
-                        <i onClick={this.simpleSearch.bind(this)} className={"drop_search_btn"} style={{display:`${this.state.simpleSearchShow?'none':'block'}`}}></i>
-
-                      </li>
-
-                      :null
-
-              }
+                <i
+                  onClick={this.simpleSearch.bind(this)}
+                  className={"drop_search_btn"}
+                  style={{
+                    display: `${
+                      this.state.simpleSearchShow ? "none" : "block"
+                    }`,
+                  }}
+                ></i>
+              </li>
+            ) : null}
 
             <Scrollbars
               autoHeight
               autoHeightMin={0}
-              autoHeightMax={height?height:288}
+              autoHeightMax={height ? height : 288}
               // style={{height:height?(this.state.simpleSearchList.length*24<height?this.state.simpleSearchList.length*24:height):'auto'}}
               renderTrackHorizontal={(props) => {
                 return <span style={{ display: "none" }}></span>;
@@ -1740,48 +1710,40 @@ class DropComponent extends React.Component {
                 return <span style={{ display: "none" }}></span>;
               }}
             >
-              {
-
-                  simpleSearchList.map((item, key) => {
-                  return (
-                    <li
-                      key={key}
-                      className={`dropdown_select_li ${
-                        activeValue && activeValue === item.value
-                          ? "active"
-                          : dropSelectd.value === item.value
-                          ? "active"
-                          : ""
-                      }`}
-                      title={TitleShow ? (Title ? Title : item.title) : ""}
-                      data-vaule={item.value}
-                      onClick={item.value==='symbol_none_value'?()=>{}:this.onSimpleDropChange.bind(this, {
-                        onChange: onChange,
-                        value: item.value,
-                        title: item.title,
-                      })}
-                    >
-                      {item.title}
-                    </li>
-                  );
-                })
-
-              }
+              {simpleSearchList.map((item, key) => {
+                return (
+                  <li
+                    key={key}
+                    className={`dropdown_select_li ${
+                      activeValue && activeValue === item.value
+                        ? "active"
+                        : dropSelectd.value === item.value
+                        ? "active"
+                        : ""
+                    }`}
+                    title={TitleShow ? (Title ? Title : item.title) : ""}
+                    data-vaule={item.value}
+                    onClick={
+                      item.value === "symbol_none_value"
+                        ? () => {}
+                        : this.onSimpleDropChange.bind(this, {
+                            onChange: onChange,
+                            value: item.value,
+                            title: item.title,
+                          })
+                    }
+                  >
+                    {item.title}
+                  </li>
+                );
+              })}
             </Scrollbars>
           </Loading>
         </ul>
       );
     }
 
- 
-
-
-
-
     return (
-
-     
-
       <div
         className={`dropdown_container ${className ? className : ""}`}
         {...reset}
@@ -2406,7 +2368,6 @@ class Menu extends React.Component {
     let myLayer = layer;
     /*级数*/
     if ("object" === typeof object && isNaN(object.length)) {
-
       if (
         object.children &&
         object.children instanceof Array &&
@@ -2447,7 +2408,6 @@ class Menu extends React.Component {
             </React.Fragment>
           );
         } else if (myLayer === 2) {
-
           return (
             <div className="frame_leftmenu_twograde_container" key={object.key}>
               <div
@@ -2507,7 +2467,6 @@ class Menu extends React.Component {
             </div>
           );
         } else if (myLayer === 2) {
-
           return (
             <div
               className={`frame_leftmenu_twograde_container no_child ${
@@ -2562,8 +2521,6 @@ class Menu extends React.Component {
           //   </li>
           // );
         } else {
-
-
           return (
             <li
               className={`clearfix ${object.active ? "active" : ""} ${
@@ -3128,7 +3085,7 @@ class Frame extends React.Component {
         }  ${this.state.isWorkPlantform ? "in-work-plant-form" : ""}`}
         {...reset}
       >
-        {showTop ?
+        {showTop ? (
           <div className="frame-header-wrapper">
             <div className={`frame-header-bg ${type ? type : ""}`}>
               <div className="frame-header-star-bg">{bgAnimateDom}</div>{" "}
@@ -3139,7 +3096,9 @@ class Frame extends React.Component {
               <div className="frame-home-header-content">
                 <div
                   className="frame-home-logo"
-                  style={{ backgroundImage:`url(${logo?logo:CONFIG.logo})` }}
+                  style={{
+                    backgroundImage: `url(${logo ? logo : CONFIG.logo})`,
+                  }}
                 >
                   <a href={`${WebIndexUrl}?lg_tk=${token}`}>{ProductName}</a>
                 </div>
@@ -3155,49 +3114,55 @@ class Frame extends React.Component {
                         value=""
                       />
 
-                      {
+                      {Identity.Icon ? (
+                        <i
+                          title={Identity.Name ? Identity.Name : ""}
+                          className={"frame-user-identity"}
+                          style={{ backgroundImage: `url(${Identity.Icon})` }}
+                        >
+                          {Identity.Name ? Identity.Name : ""}
+                        </i>
+                      ) : null}
 
-                          Identity.Icon?
+                      {userInfo && userInfo.name ? (
+                        userInfo.noClick ? (
+                          <a
+                            className="frame-home-username no-click"
+                            title={userInfo.name}
+                          >
+                            {userInfo.name}
+                          </a>
+                        ) : (
+                          <a
+                            href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
+                            target="_blank"
+                            className="frame-home-username"
+                            title={userInfo.name}
+                          >
+                            {userInfo.name}
+                          </a>
+                        )
+                      ) : null}
 
-                              <i title={Identity.Name?Identity.Name:''} className={"frame-user-identity"} style={{backgroundImage:`url(${Identity.Icon})`}}>{Identity.Name?Identity.Name:''}</i>
-
-                              :null
-
-                      }
-
-
-                        {
-
-                            userInfo && userInfo.name?
-
-                                userInfo.noClick?
-
-                                    <a className="frame-home-username no-click" title={userInfo.name}>{userInfo.name}</a>
-
-                                    :
-
-                                    <a href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`} target="_blank" className="frame-home-username" title={userInfo.name}>{userInfo.name}</a>
-
-                                :null
-
-                        }
-
-
-                        {
-                            userInfo && userInfo.image?
-
-                                userInfo.noClick?
-
-                                    <a className="frame-home-userpic no-click" style={{ backgroundImage: `url(${userInfo.image})` }}></a>
-
-                                    :
-
-                                    <a href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`} target="_blank" className="frame-home-userpic" style={{ backgroundImage: `url(${userInfo.image})` }}></a>
-
-                                : null
-
-                        }
-
+                      {userInfo && userInfo.image ? (
+                        userInfo.noClick ? (
+                          <a
+                            className="frame-home-userpic no-click"
+                            style={{
+                              backgroundImage: `url(${userInfo.image})`,
+                            }}
+                          ></a>
+                        ) : (
+                          <a
+                            href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
+                            target="_blank"
+                            className="frame-home-userpic"
+                            style={{
+                              backgroundImage: `url(${userInfo.image})`,
+                            }}
+                          ></a>
+                        )
+                      ) : null}
 
                       {/*<a
                         href={`${WebRootUrl}/html/personalMgr?lg_tk=${token}`}
@@ -3217,7 +3182,6 @@ class Frame extends React.Component {
                           style={{ backgroundImage: `url(${userInfo.image})` }}
                         ></a>
                       ) : null}*/}
-
                     </div>
 
                     {MessageShow ? (
@@ -3248,31 +3212,26 @@ class Frame extends React.Component {
               }}
             >
               <div className="frame-block-zh-name clearfix">
-                        <div className={"frame-block-title"}>{module && module.cnname ? module.cnname : ""}</div>
+                <div className={"frame-block-title"}>
+                  {module && module.cnname ? module.cnname : ""}
+                </div>
 
-                          {
-
-                              module.subtitle?
-
-                                  <div className={"frame-block-subtitle"}>{module.subtitle}</div>
-
-                                  :null
-
-                          }
-
-                      </div>
-                      <div className="frame-block-en-name">
-                        {module && module.enname ? module.enname : ""}
-                      </div>
-
-                      <div className={"frame-top-right-content"}>{topRightContent}</div>
-
-                    </div>
-
+                {module.subtitle ? (
+                  <div className={"frame-block-subtitle"}>
+                    {module.subtitle}
+                  </div>
+                ) : null}
               </div>
-         :
+              <div className="frame-block-en-name">
+                {module && module.enname ? module.enname : ""}
+              </div>
+
+              <div className={"frame-top-right-content"}>{topRightContent}</div>
+            </div>
+          </div>
+        ) : (
           ""
-        }
+        )}
 
         {showBarner ? (
           <div
@@ -3317,15 +3276,13 @@ class Frame extends React.Component {
           )}
         </div>
 
-          {
-
-            showBottom?
-
-                <div className={`frame-bottom ${module.subtitle?'no-title':''}`}>{!module.subtitle?ProVersion:''}</div>
-
-                :''
-
-          }
+        {showBottom ? (
+          <div className={`frame-bottom ${module.subtitle ? "no-title" : ""}`}>
+            {!module.subtitle ? ProVersion : ""}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
@@ -3369,7 +3326,7 @@ class DetailsModal extends React.Component {
         width={400}
         mask={this.state.mask}
         footer={
-          type === "examine"||(type.includes&&type.includes('examine'))
+          type === "examine" || (type.includes && type.includes("examine"))
             ? [
                 <Button
                   key="agree"
@@ -3967,8 +3924,8 @@ class Img extends React.Component {
             style={{ height: height + "px", width: width + "px" }}
           ></i>
         ) : (
-            ""
-          )}
+          ""
+        )}
         {this.state.isError ? (
           <i
             alt={alt}
@@ -3976,11 +3933,154 @@ class Img extends React.Component {
             className="errorImg"
           ></i>
         ) : (
-            ""
-          )}
+          ""
+        )}
       </div>
     );
   }
+}
+
+function LgAppModal(props, ref) {
+  let {
+    className,
+    centered,
+    type,
+    footer,
+    cancelText,
+    onCancel,
+    okText,
+    onOk,
+    width,
+    bodyStyle,
+    height,
+    children,
+    destroyOnClose,
+    visible,
+    ...reset
+  } = props;
+  const [Footer, setFooter] = useState(footer);
+  const [Width, setWidth] = useState(width);
+  const [Height, setHeight] = useState(height);
+  const [ModalClassName, setModalClassName] = useState("");
+  const [Visible, setVisible] = useState(false);
+  useEffect(() => {
+    setVisible(!!visible);
+  }, [visible]);
+  useEffect(() => {
+    setHeight(height);
+  }, [height]);
+  useEffect(() => {
+    setWidth(width);
+  }, [width]);
+  useEffect(() => {
+    let Type = Number(type);
+    let width = 810;
+    let height = 456;
+    let ModalStyle = "Modal-1";
+    switch (Type) {
+      case 1:
+        width = 810;
+        height = 456;
+        ModalStyle = "Modal-1";
+        break;
+      case 2:
+        width = 810;
+        height = 411;
+        ModalStyle = "Modal-2";
+        setFooter(null);
+
+        break;
+      case 3:
+        width = 588;
+        height = 293;
+        ModalStyle = "Modal-3";
+        break;
+      default:
+        width = 810;
+        height = 456;
+        ModalStyle = "Modal-1";
+    }
+    setWidth(Width || width);
+    setHeight(Height || height);
+    setModalClassName(ModalStyle);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
+
+  const OnOk = useCallback(() => {
+    if (typeof onOk === "function") {
+      onOk();
+    } else {
+      setVisible(false);
+    }
+  }, [onOk]);
+  const OnCancel = useCallback(() => {
+    if (typeof onCancel === "function") {
+      onCancel();
+    } else {
+      setVisible(false);
+    }
+  }, [onCancel]);
+  const openModal = useCallback(() => {
+    setVisible(true);
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    openModal,
+  }));
+  return (
+    <AntdModal
+      className={`initModel ${ModalClassName} ${className || ""}`}
+      visible={Visible}
+      closeIcon={
+        ModalClassName === "Modal-1" ? (
+          <i className={"modal-close-icon"}></i>
+        ) : null
+      }
+      width={Width}
+      bodyStyle={Object.assign(
+        {},
+        Height ? { height: Height } : {},
+        bodyStyle || {}
+      )}
+      onOk={OnOk}
+      onCancel={OnCancel}
+      destroyOnClose={destroyOnClose || true}
+      // height={Height}
+      footer={
+        Footer === null
+          ? null
+          : Footer
+          ? Footer
+          : [
+              onOk !== null ? (
+                <Button
+                  key="onOk"
+                  type="primary"
+                  size="small"
+                  color="green"
+                  onClick={OnOk}
+                >
+                  {okText || "确定"}
+                </Button>
+              ) : null,
+              onCancel !== null ? (
+                <Button
+                  key="onCancel"
+                  size="small"
+                  color="blue"
+                  onClick={OnCancel}
+                >
+                  {cancelText || "取消"}
+                </Button>
+              ) : null,
+            ]
+      }
+      {...reset}
+    >
+      {children}
+    </AntdModal>
+  );
 }
 Img.defaultProps = {
   className: "",
@@ -3990,8 +4090,8 @@ Img.defaultProps = {
   errorImg: errorImg,
   width: 80,
   height: 80,
-  onError: () => { },
-  onLoad: () => { },
+  onError: () => {},
+  onLoad: () => {},
 };
 PageComponent.defaultProps = {
   showQuickJumper: true,
@@ -4032,6 +4132,7 @@ const PagiNation = memo(PageComponent);
 const Alert = memo(AppAlert);
 
 const DropDown = memo(DropComponent);
+const LgModal = memo(forwardRef(LgAppModal));
 
 export {
   Radio,
@@ -4046,6 +4147,7 @@ export {
   Input,
   Empty,
   Modal,
+  LgModal,
   Menu,
   Loading,
   Alert,
@@ -4054,5 +4156,5 @@ export {
   DetailsModal,
   Tips,
   MenuLeftNoLink,
-  Img
+  Img,
 };

@@ -111,22 +111,22 @@ if (process.env.NODE_ENV === "development") {
 
     NewCourseClass: "http://192.168.129.3:30103/",
 
-    UserPersonaProxy:'http://192.168.129.3:30103/',
+    UserPersonaProxy: "http://192.168.129.3:30103/",
 
-    UserScheduleProxy:'http://192.168.129.3:30103/Schedule/api/',
+    UserScheduleProxy: "http://192.168.129.3:30103/Schedule/api/",
 
-    GlobalProxy:'http://192.168.129.3:30103/Global',
+    GlobalProxy: "http://192.168.129.3:30103/Global",
 
-    UserAccessProxy:'http://192.168.129.3:30103/UserMgr/PowerMgr/',
+    UserAccessProxy: "http://192.168.129.3:30103/UserMgr/PowerMgr/",
 
     SelectObjectProxy: "http://192.168.129.3:30103/UserMgr/SelectObject/",
-   
 
+    SubSystemProxy: "http://192.168.129.3:30103/SysMgr/Setting/SubSystem/",
   };
 }
 
 if (process.env.NODE_ENV === "production") {
-  console.log = ()=>{}
+  console.log = () => {};
 
   config = {
     name: "中小学一体化学科教育云",
@@ -188,19 +188,16 @@ if (process.env.NODE_ENV === "production") {
 
     NewCourseClass: RootUrl,
 
-    UserPersonaProxy:RootUrl,
+    UserPersonaProxy: RootUrl,
 
-    UserScheduleProxy:RootUrl+'/Schedule/api/',
+    UserScheduleProxy: RootUrl + "/Schedule/api/",
 
-    GlobalProxy:'/Global',
+    GlobalProxy: "/Global",
 
-    UserAccessProxy:'/UserMgr/PowerMgr/',
-
-    
+    UserAccessProxy: "/UserMgr/PowerMgr/",
 
     SelectObjectProxy: "/UserMgr/SelectObject/",
-
-
+    SubSystemProxy: "/SysMgr/Setting/SubSystem/",
   };
 }
 

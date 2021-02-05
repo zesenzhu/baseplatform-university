@@ -219,7 +219,7 @@ function App(props) {
 
           data.map((i) => {
             // 教务系统的，后面再加
-            if (i.SysID !== "E34")
+            // if (i.SysID !== "E34")
               urlObj[i.SysID] = {
                 WebUrl: i.WebSvrAddr,
                 WsUrl: i.WsSvrAddr,

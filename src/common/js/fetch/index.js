@@ -55,6 +55,7 @@ function postData(
   } else {
     ContentType = ContentTypeArr[0];
   }
+  console.log(ContentType,content_type)
   let result = fetch(url, {
     method: "post", //*post、get、put、delete，此项为请求方法相关的配置
     mode: "cors", //no-cors(跨域模式但服务器端不支持cors),*cors(跨域模式，需要服务器通过Access-control-Allow-Origin来
@@ -239,6 +240,7 @@ function getData(
   //     });
   // }
   // console.log(isIE());
+  url = url.split('?&').join('?')
   if (isIE()) {
     url = encodeURI(url);
   }

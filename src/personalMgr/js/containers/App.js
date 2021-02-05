@@ -83,13 +83,13 @@ class App extends Component {
     const { dispatch, DataState } = this.props;
 
     // 获取人脸库地址
-    // dispatch(
-    //   BaseActions.GetSubSystemsMainServerBySubjectID({
-    //     fn: () => {
-    //       // this.SetBannerList(); //获取到后再次进行列表更新
-    //     },
-    //   })
-    // );
+    dispatch(
+      BaseActions.GetSubSystemsMainServerBySubjectID({
+        fn: () => {
+          // this.SetBannerList(); //获取到后再次进行列表更新
+        },
+      })
+    );
   }
   pageInit() {
     const { dispatch } = this.props;
@@ -163,25 +163,25 @@ class App extends Component {
         ident: "author",
         default: false,
       },
-      // {
-      //   name: "我的人脸",
-      //   menu: "menu_face",
-      //   ident: "face",
-      //   default: false,
-      // },
+      {
+        name: "我的人脸",
+        menu: "menu_face",
+        ident: "face",
+        default: false,
+      },
     ];
-    // let faceUrl = "";
+    let faceUrl = "";
 
-    // if (
-    //   LoginUser.UserType === "0" ||
-    //   !(SysUrl instanceof Array && SysUrl.length > 0)
-    // ) {
-    //   Menu.pop();
-    // } else {
-    //   let token = sessionStorage.getItem("token");
+    if (
+      LoginUser.UserType === "0" ||
+      !(SysUrl instanceof Array && SysUrl.length > 0)
+    ) {
+      Menu.pop();
+    } else {
+      let token = sessionStorage.getItem("token");
 
-    //   faceUrl = SysUrl[0].WebSvrAddr + "MyFace.html?type=1&lg_tk=" + token;
-    // }
+      faceUrl = SysUrl[0].WebSvrAddr + "MyFace.html?type=1&lg_tk=" + token;
+    }
     let rate = 944 / 1200; //人脸缩放
     return (
       <React.Fragment>
@@ -247,7 +247,7 @@ class App extends Component {
             ) : (
               ""
             )}
-            {/* {ModuleCommonInfo.menuActive === "face" ? (
+            {ModuleCommonInfo.menuActive === "face" ? (
               <div style={{ position:'relative',transform: `scale(${rate})`, }}>
                 <iframe
                 style={{border: "none",position:'absolute',top:0,left:-(1-rate)/2*(1200)}}
@@ -259,7 +259,7 @@ class App extends Component {
               </div>
             ) : (
               ""
-            )} */}
+            )}
           </div>
         </Frame>
 
