@@ -33,7 +33,6 @@ import Card from "../component/card";
 import { Input } from "antd";
 import { Context } from "../context";
 import { Scrollbars } from "react-custom-scrollbars";
-import { Object } from "_es6-shim@0.35.6@es6-shim";
 import { autoAlert } from "../../../../../common/js/public";
 import { ImgUrlProxy } from "../../../../../common/js/config";
 function AddSubSystem(props, ref) {
@@ -716,25 +715,28 @@ function NewSubSystem(props, ref) {
           <tr className={"table-tr-1  "}>
             <td>授权回调地址:</td>
             <td colSpan={3}>
-              <Input
+            <Input
                 className="add-input add-input-1"
                 maxLength={100}
-                defaultValue={Data["sysUrl"] || ""}
-                value={Data["sysUrl"] || ""}
+                defaultValue={Data["sysCallbackAddr"] || ""}
+                value={Data["sysCallbackAddr"] || ""}
                 onChange={(e) => {
-                  onUpdata("sysUrl", e.target.value, false);
+                  onUpdata("sysCallbackAddr", e.target.value, false);
                 }}
                 onBlur={(e) => {
                   onUpdata(
-                    "sysUrl",
+                    "sysCallbackAddr",
                     e.target.value,
-                    e.target.value === "" ? false : TableRuleList["sysUrl"].reg
+                    e.target.value === ""
+                      ? false
+                      : TableRuleList["sysCallbackAddr"].reg
                   );
                 }}
               ></Input>
               <span className="input-tips">
-                如需进行OAuth2.0单点登录授权，必须填写登录后的回调地址
+                应用提供接口给平台调用访问时的根路径，如http://www.123.com
               </span>
+              
               {DataTipsVisible[TableRuleList["sysUrl"].TipsVisible] && (
                 <p className="td-tips">输入的授权回调地址有误</p>
               )}
@@ -772,26 +774,24 @@ function NewSubSystem(props, ref) {
           <tr className={"table-tr-1  "}>
             <td>接口服务地址:</td>
             <td colSpan={3}>
-              <Input
+            <Input
                 className="add-input add-input-1"
                 maxLength={100}
-                defaultValue={Data["sysCallbackAddr"] || ""}
-                value={Data["sysCallbackAddr"] || ""}
+                defaultValue={Data["sysUrl"] || ""}
+                value={Data["sysUrl"] || ""}
                 onChange={(e) => {
-                  onUpdata("sysCallbackAddr", e.target.value, false);
+                  onUpdata("sysUrl", e.target.value, false);
                 }}
                 onBlur={(e) => {
                   onUpdata(
-                    "sysCallbackAddr",
+                    "sysUrl",
                     e.target.value,
-                    e.target.value === ""
-                      ? false
-                      : TableRuleList["sysCallbackAddr"].reg
+                    e.target.value === "" ? false : TableRuleList["sysUrl"].reg
                   );
                 }}
               ></Input>
               <span className="input-tips">
-                应用提供接口给平台调用访问时的根路径，如http://www.123.com
+                如需进行OAuth2.0单点登录授权，必须填写登录后的回调地址
               </span>
               {DataTipsVisible[
                 TableRuleList["sysCallbackAddr"].TipsVisible
@@ -895,8 +895,8 @@ export function Detail(props) {
           <tr className={"table-tr-1  "}>
             <td>授权回调地址:</td>
             <td>
-              <span title={Data["sysUrl"]}>
-                {Data["sysUrl"] || <span className="default">[未填写]</span>}
+              <span title={Data["sysCallbackAddr"]}>
+                {Data["sysCallbackAddr"] || <span className="default">[未填写]</span>}
               </span>
             </td>
             <td>应用分类:</td>
@@ -915,8 +915,8 @@ export function Detail(props) {
             </td>
             <td>接口服务地址:</td>
             <td>
-              <span title={Data["sysCallbackAddr"]}>
-                {Data["sysCallbackAddr"] || (
+              <span title={Data["sysUrl"]}>
+                {Data["sysUrl"] || (
                   <span className="default">[未填写]</span>
                 )}
               </span>

@@ -36,7 +36,7 @@ function Card(props, ref) {
     onClickDelete,
     onClickEdit,
   } = data;
-  const [Status, setStatus] = useState(SysState === 5);
+  const [Status, setStatus] = useState(false);
   const [StatusChange, setStatusChange] = useState(false);
   const isOld = useMemo(() => {
     return type === "old";
@@ -47,7 +47,10 @@ function Card(props, ref) {
       canDelete = true
     }
     return canDelete
-  }, [SysState,IsClosable,IsThirdParty])
+  }, [SysState,IsClosable,IsThirdParty]);
+  useEffect(() => {
+    setStatus(SysState === 5)
+  }, [SysState]);
   return (
     <div
       className={`MainAccessCard ${isOld ? "OldAccessCard" : ""} ${
@@ -110,7 +113,7 @@ function Card(props, ref) {
                       setStatusChange(true);
                       onToggleStatus({
                         sysID: SysID,
-                        accessible: !Status ? 0 : 1,
+                        accessible: Status ? 0 : 1,
                       }).then((res) => {
                         if (res) {
                           setStatus((pre) => {

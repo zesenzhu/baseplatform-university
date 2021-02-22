@@ -39,11 +39,10 @@ class TopMenu extends React.Component {
 
   render() {
     let { List } = this.props;
-    let pathname = history.location.pathname;
+    // let pathname = history.location.pathname;
 
-    let pathArr = pathname.split("/");
-    let handleRoute = pathArr[2];
-    console.log(handleRoute)
+    // let pathArr = pathname.split("/");
+    // let handleRoute = pathArr[2];
     // console.log(handleRoute,history)
     let { ProductType } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")

@@ -21,7 +21,6 @@ import {
 } from "../../../../common";
 import { autoAlert } from "../../../../common/js/public.js";
 
-import { useHistory } from "react-router-dom";
 import "./scss/index.scss";
 import useGetList from "../hooks/useGetList";
 import {
@@ -36,13 +35,11 @@ import {
 } from "./api";
 import { Context, reducer, initState } from "./context";
 import Card from "./component/card";
-import AccessAction from "../../action/data/AccessAction";
 
 import AddSubSystem, {
   NewSystem,
   Detail as SystemDetail,
 } from "./Modal/addSubSystem";
-import { console } from "_es6-shim@0.35.6@es6-shim";
 /**
  * @description: 子系统模块
  * @param {*} props

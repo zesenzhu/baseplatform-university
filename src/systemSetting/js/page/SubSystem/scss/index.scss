@@ -677,18 +677,18 @@
     table {
         tr {
             &>td {
-                &:nth-of-type(2) {
-                    width: 500px;
+                &:nth-of-type(2n) {
+                    width: 395px;
                     span {
-                        max-width: 500px;
+                        max-width: 395px;
                     }
                 }
-                &:nth-of-type(4) {
-                    width: 300px;
-                    span {
-                        max-width: 300px;
-                    }
-                }
+                // &:nth-of-type(4) {
+                //     width: 300px;
+                //     span {
+                //         max-width: 300px;
+                //     }
+                // }
                 color: #999999;
                 font-size: 14px;
                 span {
@@ -705,7 +705,7 @@
                 p {
                     line-height: 26px;
                     color: #333333;
-                    max-width: 500px;
+                    max-width: 395px;
                 }
                 .upload-img {
                     .default-upload {

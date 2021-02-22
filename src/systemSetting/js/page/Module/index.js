@@ -38,11 +38,9 @@ import {
   EditModuleInfo,
 } from "./api";
 import { Context, reducer, initState } from "./context";
-import Card from "./component/card";
-import AccessAction from "../../action/data/AccessAction";
+ 
 import { Tooltip } from "antd";
 import AddModule, { NewSystem } from "./Modal/addModule";
-import { console } from "_es6-shim@0.35.6@es6-shim";
 /**
  * @description: 应用模块设置
  * @param {*} props
@@ -115,7 +113,7 @@ function SubSystem(props, ref) {
         onOk: () => {
           DeleteModule({ moduleID }).then((res) => {
             if (res.StatusCode === 200) {
-              autoAlert({ type: "success", title: "操作成功" });
+              autoAlert({ type: "success",autoHide:()=>{}, title: "操作成功" });
             }
             reloadList();
           });

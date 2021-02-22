@@ -26,11 +26,9 @@ import useGetList from "../../hooks/useGetList";
 import { GetAllModule, UploadHandler } from "../api";
 import clamp from "clamp-js";
 
-import Card from "../component/card";
 import { Input } from "antd";
 import { Context } from "../context";
 import { Scrollbars } from "react-custom-scrollbars";
-import { Object } from "_es6-shim@0.35.6@es6-shim";
 import { autoAlert } from "../../../../../common/js/public";
 import { ImgUrlProxy } from "../../../../../common/js/config";
 
