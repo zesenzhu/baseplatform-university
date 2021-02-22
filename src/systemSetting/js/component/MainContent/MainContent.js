@@ -5,6 +5,7 @@ import Semester from "../SettingOptions/YearSemesterSetting";
 import Import from "../Import";
 import School from "../SettingOptions/SchoolnfoSetting";
 import Subsystem from '../../page/SubSystem'
+import Module from '../../page/Module';
 // import Subsystem from '../ApplicationSetting'
 // import Subsystem from '../SubApplication/js'
 // import Subsystem from "../SettingOptions/SubsystemAccessSetting";
@@ -58,6 +59,11 @@ class MainContent extends Component {
             title: "子系统访问设置",
             icon: "menu43",
             onTitleClick: this.handleClick.bind(this.key),
+          },{
+            key: "Module",
+            title: "应用模块设置",
+            icon: "menu43",
+            onTitleClick: this.handleClick.bind(this.key),
           },
         ],
       },
@@ -68,6 +74,7 @@ class MainContent extends Component {
 
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
+        { value: "Module", title: "应用模块设置", icon: "Module" },
       ],
       path:'School'
     };
@@ -241,6 +248,7 @@ class MainContent extends Component {
       path !== "Semester" &&
       path !== "School" &&
       path !== "Subsystem" &&
+      path !== "Module" &&
       path !== "Import"
     ) {
       history.push("/MainContent/School");
@@ -295,6 +303,12 @@ class MainContent extends Component {
                   exact
                   history={history}
                   component={Import}
+                ></Route>
+                <Route
+                  path="/MainContent/Module*"
+                  exact
+                  history={history}
+                  component={Module}
                 ></Route>
                 {/* <Redirect path="/*" to="/MainContent/Semester"></Redirect> */}
               </Router>

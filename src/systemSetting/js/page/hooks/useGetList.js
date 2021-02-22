@@ -31,22 +31,34 @@ export default function useGetList(api, query = {}, initPageData = {}) {
     //   return () => {
     //     unMountRef.current = true;
     //   };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
   useEffect(() => {
+    // console.log(pageOptions)
     getList();
     //   return () => {
     //     unMountRef.current = true;
     //   };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageOptions]);
-  const reloadList = useCallback(
-    (params = {}) => {
+  // const reloadList = useCallback(
+  //   (params = {}) => {
+  //     console.log(pageOptions,query)
+
+  //     getList(params);
+  //   },
+  //   [getList,pageOptions,query]
+  // );
+  const reloadList = useMemo(() => {
+    return (params = {}) => {
+
       getList(params);
-    },
-    [getList]
-  );
+    };
+  }, [getList ]);
   /* 处理分页逻辑 */
   const handerChange = useCallback(
     (options) => {
+      console.log(options);
       return setPageOptions((data) => {
         return { ...data, ...options };
       });

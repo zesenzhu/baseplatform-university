@@ -23,7 +23,9 @@ function AESEncryptionBody(paramsObj, CRYPTOJSKEY = COMMONKEY, SecurityLevel, co
         }
         //console.log(plain)
         return plain;
-    } else {
+    } else if(content_type === 'file'){
+        return paramsObj
+    }else{
         //let body = JSON.stringify(paramsObj);
         let plain = $.param(paramsObj);//json序列化
         // if (SecurityLevel === 4) {

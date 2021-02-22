@@ -1993,8 +1993,20 @@ class AppAlert extends React.Component {
   }
 
   componentDidMount() {
-    const { show } = this.props;
+    const { show, type, onHide } = this.props;
 
+    if (show) {
+      if (
+        type === "success" ||
+        type === "error" ||
+        type === "tips" ||
+        type === "warn"
+      ) {
+        if (onHide) {
+          setTimeout(onHide, 1000);
+        }
+      }
+    }
     /* if(this.AlertBody&&show&&!this.state.readyShow){
 
              this.setState({readyShow:true,left:($(window).width() - this.AlertBody.clientWidth) /2,top:($(window).height() - this.AlertBody.clientHeight)/ 2});
@@ -3860,6 +3872,69 @@ class Tips extends React.Component {
       >
         {children}
       </Tooltip>
+    );
+  }
+}
+/**
+ * @description: 封装的错误提醒
+ * @param {*}
+ * @return {*component}
+ */
+export class ErrorAlert extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: props.show,
+      autoHide: props.autoHide ? props.autoHide : false,
+      type: props.type ? props.type : props.autoHide ? "warn" : "btn-error",
+    };
+  }
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({
+  //     // show: nextProps.show,
+  //     autoHide:nextProps.autoHide?nextProps.autoHide:false,
+  //     type:nextProps.autoHide?'warn':nextProps.type?nextProps.type:'btn-error',
+  //   })
+  // }
+  onOk = () => {
+    let { onOk } = this.props;
+    typeof onOk === "function" && onOk();
+    this.setState({
+      show: false,
+    });
+  };
+
+  onCancel = () => {
+    let { onCancel } = this.props;
+    typeof onCancel === "function" && onCancel();
+    this.setState({
+      show: false,
+    });
+  };
+  onClose = () => {
+    let { onClose } = this.props;
+    typeof onClose === "function" && onClose();
+    this.setState({
+      show: false,
+    });
+  };
+  onHide = () => {
+    typeof this.state.autoHide === "function" && this.state.autoHide();
+    this.state.autoHide && this.onClose();
+  };
+  render() {
+    // console.log(this.state.show)
+    return (
+      <Alert
+        show={this.state.show}
+        type={this.state.type}
+        title={this.props.title}
+        onOk={this.onOk}
+        onCancel={this.onCancel}
+        onClose={this.onClose}
+        cancelShow={this.props.cancelShow ? "y" : "n"}
+        onHide={this.onHide}
+      ></Alert>
     );
   }
 }

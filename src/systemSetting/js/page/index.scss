@@ -39,9 +39,11 @@
      transform: translateY(-50%);
  }
  
- .System-content {
+ .System-content,
+ .Module-content {
      padding: 18px 32px;
-     .System-content-top {
+     .System-content-top,
+     .Module-content-top {
          position: relative;
          line-height: 42px;
          margin-left: 22px;

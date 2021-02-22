@@ -48,61 +48,32 @@ function post() {
     }
   });
 }
-const { SubSystemProxy, AccessProxy_univ, ImgUrlProxy } = CONFIG;
+const { SubSystemProxy,ModuleProxy, AccessProxy_univ, ImgUrlProxy } = CONFIG;
 //操作常量
 /**
- * @description: 获取所有应用（子系统）列表  http://192.168.129.1:8033/showdoc/web/#/11?page_id=2266
+ * @description: 获取所有应用模块列表  http://192.168.129.1:8033/showdoc/web/#/11?page_id=2274
  * @param {*} payload
  * @return {*}
  */
-export function GetAllSubSystem(payload = {}) {
-  let { sysState, userType, sysType, key, pageIndex, pageSize } = payload;
+export function GetAllModule(payload = {}) {
+  let { groupID, userType, sysType, key, pageIndex, pageSize } = payload;
   let url =
-    SubSystemProxy +
-    `/GetAllSubSystem?${sysState ? "sysState=" + sysState : ""}${
+    ModuleProxy +
+    `/GetAllModule?${groupID ? "groupID=" + groupID : ""}${
       userType ? "&userType=" + userType : ""
-    }${sysType ? "&sysType=" + sysType : ""}${key ? "&key=" + key : ""}${
-      pageIndex ? "&pageIndex=" + pageIndex : ""
-    }${pageSize ? "&pageSize=" + pageSize : ""}`;
-
-  return get(url, 2)
-    .then((json) => {
-      if (json.StatusCode === 200) {
-        return {
-          StatusCode: json.StatusCode,
-          Data: json.Data
-            ? {
-                ...json.Data,
-                PageSize: pageSize,
-                PageIndex:
-                  pageIndex * pageSize > json.Data.TotalCount
-                    ? Math.ceil(json.Data.TotalCount / pageSize)
-                    : pageIndex,
-              }
-            : {},
-        };
-      } else {
-        return {
-          StatusCode: json.StatusCode,
-        };
-      }
-    })
-    .catch((res) => {
-      return res;
-    });
-}
-// 获取可添加的应用（子系统）列表 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2268
-export function GetSubSystemToAdd(payload = {}) {
-  let { pageIndex, pageSize } = payload;
-  let url =
-    SubSystemProxy +
-    `/GetSubSystemToAdd?${pageIndex ? "pageIndex=" + pageIndex : ""}${
+    }${key ? "&key=" + key : ""}${pageIndex ? "&pageIndex=" + pageIndex : ""}${
       pageSize ? "&pageSize=" + pageSize : ""
     }`;
 
   return get(url, 2)
     .then((json) => {
       if (json.StatusCode === 200) {
+        let List = json.Data.List.map((c, i) => {
+          let index = json.Data.TotalCount>=pageSize*(pageIndex-1) ?pageIndex-1:Math.floor(json.Data.TotalCount/pageSize)
+          let OrderNo = pageSize * index + i + 1;
+          OrderNo = OrderNo>=10?OrderNo:'0'+OrderNo
+          return { ...c, OrderNo ,key:i };
+        });
         return {
           StatusCode: json.StatusCode,
           Data: json.Data
@@ -113,6 +84,7 @@ export function GetSubSystemToAdd(payload = {}) {
                   pageIndex * pageSize > json.Data.TotalCount
                     ? Math.ceil(json.Data.TotalCount / pageSize)
                     : pageIndex,
+                List,
               }
             : {},
         };
@@ -126,15 +98,16 @@ export function GetSubSystemToAdd(payload = {}) {
       return res;
     });
 }
+ // 获取模块分组列表 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2283
+export function GetModuleGroupList(payload = {}) {
+  let { sysName } = payload;
+  let url =
+    ModuleProxy +
+    `/GetModuleGroupList`;
 
-// 更改应用（子系统）可访问状态 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2272
-export function ToggleAccessState(payload = {}) {
-  // let {  sysID, accessible } = payload;
-  let url = SubSystemProxy + `/ToggleAccessState`;
-
-  return post(url, { ...payload }, 2)
+  return get(url, 2)
     .then((json) => {
-      if (json.StatusCode === 200) {
+      if (json.StatusCode === 200 && json.Data instanceof Array) {
         return {
           StatusCode: json.StatusCode,
           Data: json.Data,
@@ -142,7 +115,6 @@ export function ToggleAccessState(payload = {}) {
       } else {
         return {
           StatusCode: json.StatusCode,
-          Data: false,
         };
       }
     })
@@ -150,20 +122,45 @@ export function ToggleAccessState(payload = {}) {
       return res;
     });
 }
-// 更改应用（子系统）可访问状态 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2272
-export function GetClientidAndKey(payload = {}) {
+
+ // 获取已添加的第三方应用列表 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2282
+ export function GetThirdPartySubSystem(payload = {}) {
   let { sysName } = payload;
   let url =
-    SubSystemProxy +
-    `/GetSubSystemIDAndSecretKey?${sysName ? "sysName=" + sysName : ""}`;
+  SubSystemProxy +
+    `/GetThirdPartySubSystem`;
 
   return get(url, 2)
     .then((json) => {
-      if (json.StatusCode === 200 && json.Data) {
-        let { SysID, SysSecretKey } = json.Data;
+      if (json.StatusCode === 200 && json.Data instanceof Array) {
         return {
           StatusCode: json.StatusCode,
-          Data: { sysID: SysID, sysSecretKey: SysSecretKey },
+          Data: json.Data,
+        };
+      } else {
+        return {
+          StatusCode: json.StatusCode,
+        };
+      }
+    })
+    .catch((res) => {
+      return res;
+    });
+}
+ 
+ // 获取用户身份类型列表 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2284
+ export function GetIdentityTypeList(payload = {}) {
+  let { sysName } = payload;
+  let url =
+  ModuleProxy +
+    `/GetIdentityTypeList`;
+
+  return get(url, 2)
+    .then((json) => {
+      if (json.StatusCode === 200 && json.Data instanceof Array) {
+        return {
+          StatusCode: json.StatusCode,
+          Data: json.Data,
         };
       } else {
         return {
@@ -225,10 +222,35 @@ export function UploadHandler(payload = {}) {
     });
 }
 
-// 添加已有应用（子系统）到学校 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2269
-export function AddSubSystemToSchool(payload = {}) {
+ 
+
+// 添加第三方模块 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2275
+export function AddModule(payload = {}) {
   // let {  sysIDs  } = payload;
-  let url = SubSystemProxy + `/AddSubSystemToSchool`;
+  let url = ModuleProxy + `/AddModule`;
+
+  return post(url, { ...payload }, 2)
+    .then((json) => {
+      if (json.StatusCode === 200) {
+        return {
+          StatusCode: json.StatusCode,
+          Data: json.Data,
+        };
+      } else {
+        return {
+          StatusCode: json.StatusCode,
+          Data: false,
+        };
+      }
+    })
+    .catch((res) => {
+      return res;
+    });
+}
+// 修改模块信息 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2276
+export function EditModuleInfo(payload = {}) {
+  // let {  sysIDs  } = payload;
+  let url = ModuleProxy + `/EditModule`;
 
   return post(url, { ...payload }, 2)
     .then((json) => {
@@ -249,10 +271,11 @@ export function AddSubSystemToSchool(payload = {}) {
     });
 }
 
-// 录入新应用（子系统）信息 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2267
-export function AddSubSystemInfo(payload = {}) {
+
+// 删除第三方模块 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2277
+export function DeleteModule(payload = {}) {
   // let {  sysIDs  } = payload;
-  let url = SubSystemProxy + `/AddSubSystemInfo`;
+  let url = ModuleProxy + `/DeleteModule`;
 
   return post(url, { ...payload }, 2)
     .then((json) => {
@@ -272,73 +295,4 @@ export function AddSubSystemInfo(payload = {}) {
       return res;
     });
 }
-
-// 录入新应用（子系统）信息 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2267
-export function DeleteSubSystemFromSchool(payload = {}) {
-  // let {  sysIDs  } = payload;
-  let url = SubSystemProxy + `/DeleteSubSystemFromSchool`;
-
-  return post(url, { ...payload }, 2)
-    .then((json) => {
-      if (json.StatusCode === 200) {
-        return {
-          StatusCode: json.StatusCode,
-          Data: json.Data,
-        };
-      } else {
-        return {
-          StatusCode: json.StatusCode,
-          Data: false,
-        };
-      }
-    })
-    .catch((res) => {
-      return res;
-    });
-}
-// 查看应用（子系统）详情（  http://192.168.129.1:8033/showdoc/web/#/11?page_id=2271
-export function GetSubSystemDetail(payload = {}) {
-  let { sysID } = payload;
-  let url =
-    SubSystemProxy + `/GetSubSystemDetail?${sysID ? "sysID=" + sysID : ""}`;
-
-  return get(url, 2)
-    .then((json) => {
-      if (json.StatusCode === 200&&json.Data) {
-        return {
-          StatusCode: json.StatusCode,
-          Data: json.Data,
-        };
-      } else {
-        return {
-          StatusCode: json.StatusCode,
-        };
-      }
-    })
-    .catch((res) => {
-      return res;
-    });
-}
-// 录入新应用（子系统）信息 http://192.168.129.1:8033/showdoc/web/#/11?page_id=2270
-export function EditSubSystemInfo(payload = {}) {
-  // let {  sysIDs  } = payload;
-  let url = SubSystemProxy + `/EditSubSystemInfo`;
-
-  return post(url, { ...payload }, 2)
-    .then((json) => {
-      if (json.StatusCode === 200) {
-        return {
-          StatusCode: json.StatusCode,
-          Data: json.Data,
-        };
-      } else {
-        return {
-          StatusCode: json.StatusCode,
-          Data: false,
-        };
-      }
-    })
-    .catch((res) => {
-      return res;
-    });
-}
+ 

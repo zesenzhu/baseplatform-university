@@ -169,7 +169,7 @@ function Card(props, ref) {
             <span
               className={`bar-btn bar-btn-edit ${IsThirdParty?'canEdit':''}`}
               onClick={() => {
-                IsThirdParty&& typeof onClickEdit === "function" && onClickEdit(SysID);
+                typeof onClickEdit === "function" && onClickEdit(SysID);
               }}
             >
               修改
