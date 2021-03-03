@@ -178,7 +178,7 @@ const CommonData = (
       GroupTipsTitle: "请选择教研室",
       SubjectTipsTitle: "请选择学科",
       MajorTipsTitle: "请选择专业",
-      CollegeTipsTitle: "请选择学院",
+      CollegeTipsTitle: "请选择院系",
 
       IDCardNoTipsTitle: "身份证格式错误",
       HomeAdressTipsTitle: "家庭住址格式错误",
@@ -187,11 +187,11 @@ const CommonData = (
       // 编辑专业或教研室
 
       HandleMojorTipsTitle:
-        "专业名称应由1-20位的汉字、字母、数字以及括号组成，建议以学院为前缀",
+        "专业名称应由1-20位的汉字、字母、数字以及括号组成",
       HandleGroupTipsTitle:
-        "教研室名称应由1-20位的汉字、字母、数字以及括号组成，建议以学院为前缀",
+        "教研室名称应由1-20位的汉字、字母、数字以及括号组成",
       AddClassTipsTitle:
-        "班级名称应由1-20位的汉字、字母、数字以及括号组成，建议以学院为前缀",
+        "班级名称应由1-20位的汉字、字母、数字以及括号组成",
     },
     UserArchivesParams: {
       TipsLogName: "",
@@ -316,7 +316,7 @@ const CommonData = (
     InitLogParams: {
       CollegeID: "",
       CollegeName: "",
-      UserType: -1, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：学院领导
+      UserType: -1, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：院系领导
       UserTypeName: "全部",
       OperationType: -1, //-1：全部,1 ：录入,2 ：删除,7 ：更新
       OperationTypeName: "全部",
@@ -327,7 +327,7 @@ const CommonData = (
     LogParams: {
       CollegeID: "",
       CollegeName: "",
-      UserType: -1, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：学院领导
+      UserType: -1, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：院系领导
       UserTypeName: "全部",
       OperationType: -1, //-1：全部,1 ：录入,2 ：删除,7 ：更新
       OperationTypeName: "全部",

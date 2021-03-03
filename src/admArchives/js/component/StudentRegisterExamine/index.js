@@ -294,7 +294,7 @@ class RegisterExamine extends Component {
       history.push("/RegisterExamine/RegisterDidExamine");
     }
   };
-  //学院选择
+  //院系选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(
@@ -874,7 +874,7 @@ class RegisterExamine extends Component {
       },
     } = this.props;
     let { Modalshow } = this.state;
-    let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
+    let College = [{ value: "", title: "全部院系" }].concat(CollegeList);
     let Grade = [{ value: "", title: "全部年级" }].concat(GradeList);
     let Major = [{ value: "", title: "全部专业" }];
     let Class = [{ value: "", title: "全部班级" }];
@@ -945,7 +945,7 @@ class RegisterExamine extends Component {
                   height={240}
                   dropSelectd={{
                     value: collegeID,
-                    title: collegeID ? collegeName : "全部学院",
+                    title: collegeID ? collegeName : "全部院系",
                   }}
                   dropList={College}
                 ></DropDown>

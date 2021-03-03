@@ -351,7 +351,7 @@ class Teacher extends Component {
     //   detailData: DataState.GradeTeacherPreview.pensonalList[key],
     // });
   };
-  //学院选择
+  //院系选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(
@@ -703,7 +703,7 @@ class Teacher extends Component {
       },
     } = this.props;
 
-    let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
+    let College = [{ value: "", title: "全部院系" }].concat(CollegeList);
     let Group = [{ value: "", title: "全部教研室" }];
     let Class = [];
     collegeID  &&
@@ -799,7 +799,7 @@ class Teacher extends Component {
                 height={240}
                 dropSelectd={{
                   value: collegeID,
-                  title: collegeID  ? collegeName : "全部学院",
+                  title: collegeID  ? collegeName : "全部院系",
                 }}
                 dropList={College}
               ></DropDown>

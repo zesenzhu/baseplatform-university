@@ -305,7 +305,7 @@ class LogDynamic extends Component {
       );
     }
   };
-  //学院选择
+  //院系选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(
@@ -558,7 +558,7 @@ class LogDynamic extends Component {
           LogParams: {
             CollegeID,
             CollegeName,
-            UserType, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：学院领导
+            UserType, //-1：全部,1 ：教师,2 ：学生,7 ：学校领导,10 ：院系领导
             UserTypeName,
             OperationType, //-1：全部,1 ：录入,2 ：删除,7 ：更新
             OperationTypeName,
@@ -585,7 +585,7 @@ if (NoLeader) {
         }
       });
     }
-    let College = [{ value: "", title: "全部学院" }].concat(CollegeList);
+    let College = [{ value: "", title: "全部院系" }].concat(CollegeList);
 
     return (
       <div id="LogDynamic" className="Content">
@@ -627,11 +627,11 @@ if (NoLeader) {
                 onChange={this.onCollegeSelect}
                 width={120}
                 disabled={IsCollege}
-                title={"学院:"}
+                title={"院系:"}
                 height={240}
                 dropSelectd={{
                   value: CollegeID,
-                  title: CollegeID !== "" ? CollegeName : "全部学院",
+                  title: CollegeID !== "" ? CollegeName : "全部院系",
                 }}
                 dropList={College}
               ></DropDown>

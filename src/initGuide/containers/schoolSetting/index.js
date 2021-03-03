@@ -904,7 +904,19 @@ function SchoolSetting(props) {
       return { ...d, show: false };
     });
   }, []);
-
+  // 存sessionStorage.getItem("LgBasePlatformInfo")
+  const BaseInfo = useMemo(() => {
+    return sessionStorage.getItem("LgBasePlatformInfo")
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+  }, []);
+  // 当产品类型为3的时候，长条校徽出现
+  const HaveMoreSchool = useMemo(() => {
+    let {ProductType} = sessionStorage.getItem("LgBasePlatformInfo")
+    ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+    : {}
+    return parseInt(ProductType) === 3
+  }, [])
   //提交院校logo事件
   const schoolLogoCommit = useCallback((blob, filePath) => {
     const { ResHttpRootUrl } = JSON.parse(
@@ -935,7 +947,7 @@ function SchoolSetting(props) {
       ? SchoolLogoUrl_Long
       : `${removeSlashUrl(
           ResHttpRootUrl
-        )}/SysSetting/Attach/default_280_40.png`;
+        )}/SysSetting/Attach/default_164_40.png`;
 
     const actionUrl = `${removeSlashUrl(
       ResHttpRootUrl
@@ -964,7 +976,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //当校徽初始化错误
+  //当徽章初始化错误
   const badgeLoadErr = useCallback(() => {
     const { ResHttpRootUrl } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
@@ -975,14 +987,14 @@ function SchoolSetting(props) {
         ...d,
         badgeUrl: `${removeSlashUrl(
           ResHttpRootUrl
-        )}/SysSetting/Attach/default_280_40.png`,
+        )}/SysSetting/Attach/default_164_40.png`,
       };
 
       return {
         ...d,
         badgeUrl: `${removeSlashUrl(
           ResHttpRootUrl
-        )}/SysSetting/Attach/default_280_40.png`,
+        )}/SysSetting/Attach/default_164_40.png`,
       };
     });
   }, []);
@@ -1011,7 +1023,7 @@ function SchoolSetting(props) {
     });
   }, []);
 
-  //校徽文件变化
+  //徽章文件变化
 
   const fileChange = useCallback((e) => {
     const file = e.target.files[0];
@@ -1056,7 +1068,7 @@ function SchoolSetting(props) {
     );
 
     if (
-      uploadImgRef.current.width === 280 &&
+      uploadImgRef.current.width === 164 &&
       uploadImgRef.current.height === 40
     ) {
       //执行上传操作
@@ -1084,7 +1096,7 @@ function SchoolSetting(props) {
     }
   }, []);
 
-  //使用默认校徽
+  //使用默认徽章
   const schoolBadgeReset = useCallback(() => {
     const { ResHttpRootUrl } = JSON.parse(
       sessionStorage.getItem("LgBasePlatformInfo")
@@ -1092,7 +1104,7 @@ function SchoolSetting(props) {
 
     const badgeUrl = `${removeSlashUrl(
       ResHttpRootUrl
-    )}/SysSetting/Attach/default_280_40.png`;
+    )}/SysSetting/Attach/default_164_40.png`;
 
     setSchoolLogo((d) => {
       schoolLogoRef.current = { ...d, badgeUrl };
@@ -1515,35 +1527,49 @@ function SchoolSetting(props) {
                     </div>
                   </div>
 
-                  <div className={"tab"}>圆形校徽</div>
+                  <div className={"tab"}>圆形徽章</div>
                 </div>
 
-                {/* <div className={"school-badge-wrapper clearfix"}>
+                {HaveMoreSchool&&<><div className={"school-badge-wrapper clearfix"}>
+                  <img
+                    alt={"图片"}
+                    width={164}
+                    height={40}
+                    src={schoolLogo.badgeUrl}
+                    onError={badgeLoadErr}
+                    className={"logo-img"}
+                  />
 
-                                <img alt={"图片"} width={280} height={40} src={schoolLogo.badgeUrl} onError={badgeLoadErr}  className={"logo-img"} />
+                  <div className={"btn-wrapper"}>
+                    <Button className={"upload"}>
+                      上传图片
+                      <input
+                        ref={fileRef}
+                        className={"upload-file"}
+                        type={"file"}
+                        accept={"image/png,image/svg"}
+                        onChange={fileChange}
+                      />
+                    </Button>
 
-                                <div className={"btn-wrapper"}>
+                    <Button className={"reset"} onClick={schoolBadgeReset}>
+                      使用默认
+                    </Button>
 
-                                    <Button className={"upload"}>
+                    <div className={"tips"}>
+                      上传要求:大小不能超过2MB,像素为164*40的png/svg，
+                    </div>
+                  </div>
 
-                                        上传图片
+                  <div className={"tab"}>长方形徽章</div>
+                </div><img
+                  className={"img-tmp-file"}
+                  onLoad={tmpImgLoad}
+                  ref={uploadImgRef}
+                  alt=""
+                /></>}
 
-                                        <input ref={fileRef} className={"upload-file"} type={"file"} accept={"image/png,image/svg"} onChange={fileChange}/>
-
-                                    </Button>
-
-                                    <Button className={"reset"} onClick={schoolBadgeReset}>使用默认</Button>
-
-                                    <div className={"tips"}>上传要求:大小不能超过2MB,像素为280*40的png/svg，</div>
-
-                                </div>
-
-                                <div className={"tab"}>长方形校徽</div>
-
-                            </div>
-
-                            <img className={"img-tmp-file"} onLoad={tmpImgLoad} ref={uploadImgRef} alt=""/>
-*/}
+                
               </td>
             </tr>
 

@@ -84,7 +84,7 @@ class HandleMajorModal extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetTipsVisibleParams({
-        MajorTipsVisible: false,
+        MajorNameTipsVisible: false,
       })
     );
     dispatch(
@@ -195,7 +195,7 @@ class HandleMajorModal extends Component {
         >
           <div className="ModalContent">
             <div className="addclass-select-grade" style={{ zIndex: 10 }}>
-              <span className="props">选择学院:</span>
+              <span className="props">选择院系:</span>
 
               {HandleMajorType === "add" && !IsCollege ? (
                 <DropDown

@@ -184,7 +184,7 @@ class AddClassModal extends Component {
         >
           <div className="ModalContent">
             <div className="addclass-select-grade" style={{ zIndex: 10 }}>
-              <span className="props">学院:</span>
+              <span className="props">院系:</span>
               <span title={CollegeName} className="title">
                 {CollegeName ? CollegeName : "--"}
               </span>

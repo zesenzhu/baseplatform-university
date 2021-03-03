@@ -66,7 +66,7 @@ const getCollegePreview = (
         let Data = []
         json.Data&& json.Data.List instanceof Array &&json.Data.List.forEach((child,index)=>{
           child.SchoolCode = SchoolCode;
-          // child.key = index;
+          child.key = child.CollegeCode;
           child.orderNO={Key:index,orderNO:(json.Data.currentIndex-1) * pageSize + index + 1}
           Data.push(child)
         })

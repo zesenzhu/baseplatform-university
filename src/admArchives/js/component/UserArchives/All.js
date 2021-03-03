@@ -133,7 +133,7 @@ class All extends Component {
         type: "category",
         data: this.XData(StudentList),
         //   data: ['一年级','二年级','一年级','二年级','一年级','二年级'],
-        name: !IsCollege ? "学院" : "专业",
+        name: !IsCollege ? "院系" : "专业",
         nameTextStyle: {
           color: "#999",
           fontSize: "14",
@@ -301,7 +301,7 @@ class All extends Component {
       xAxis: {
         type: "category",
         data: this.XData(TeacherList),
-        name: !IsCollege ? "学院" : "教研室",
+        name: !IsCollege ? "院系" : "教研室",
         nameTextStyle: {
           color: "#999",
           fontSize: "14",
@@ -536,7 +536,7 @@ class All extends Component {
         <div className="All-box All-student">
           <p className="All-tips">
             <span className="tips menu10 ">
-              {!IsCollege ? "各学院学生人数统计" : "各专业学生人数统计"}
+              {!IsCollege ? "各院系学生人数统计" : "各专业学生人数统计"}
             </span>
           </p>
           <div className="All-hr"></div>
@@ -548,7 +548,7 @@ class All extends Component {
         <div className="All-box All-teacher">
           <p className="All-tips">
             <span className="tips menu10 ">
-              {!IsCollege ? "各学院教师人数统计" : "各教研室教师人数统计"}
+              {!IsCollege ? "各院系教师人数统计" : "各教研室教师人数统计"}
             </span>
           </p>
           <div className="All-hr"></div>

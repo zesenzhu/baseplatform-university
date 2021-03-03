@@ -574,10 +574,7 @@ class SchoolnfoSetting extends Component {
     let { schoolInfo, dispatch } = this.props;
     schoolInfo = {
       ...schoolInfo,
-      SchoolCode:
-        e.target.value.length > 20
-          ? valueableCode 
-          : e.target.value ,
+      SchoolCode: e.target.value.length > 20 ? valueableCode : e.target.value,
     };
 
     dispatch({
@@ -641,10 +638,7 @@ class SchoolnfoSetting extends Component {
     }
     schoolInfo = {
       ...schoolInfo,
-      SchoolName:
-        e.target.value.length > 20
-          ? valueableLength 
-          : e.target.value ,
+      SchoolName: e.target.value.length > 20 ? valueableLength : e.target.value,
     };
 
     dispatch({
@@ -829,7 +823,7 @@ class SchoolnfoSetting extends Component {
   // 修改搜索关键字
   onChangeSearch = (e) => {
     this.setState({
-      searchValue: e.target.value ,
+      searchValue: e.target.value,
     });
   };
   // 添加院系
@@ -1265,16 +1259,18 @@ class SchoolnfoSetting extends Component {
       });
     }
 
-    // 多院校：当ProductType为3的时候不出现长条校徽
+    // 多院校：当ProductType为3的时候不出现长条徽章
     // LockerMsg代表有效期，空值代表长期有效，试用期为截止日期，如2020年6月21日
-    let { ProductType, ResHttpRootUrl,LockerMsg } = sessionStorage.getItem(
+    let { ProductType, ResHttpRootUrl, LockerMsg } = sessionStorage.getItem(
       "LgBasePlatformInfo"
     )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
     let isMoreSchool = true;
     // LockerMsg= '2020年6月21日'
-    // parseInt(ProductType) === 3;
+    // if (typeof ProductType === "number")
+    // 要与初始化一起修改
+      isMoreSchool = parseInt(ProductType) !== 3;
     return (
       <Loading spinning={semesterloading} opacity={false} tip="请稍后...">
         <div className="school-InfoSetting">
@@ -1317,11 +1313,11 @@ class SchoolnfoSetting extends Component {
               <div className="school-info">
                 {!isMoreSchool ? (
                   <div className="school-badge">
-                    长条校徽:
+                    长条徽章:
                     <i
                       className="SchoolLogoUrl_Long"
                       style={{
-                        background: `url(${schoolInfo.SchoolLogoUrl_Long}) no-repeat center center/280px 40px`,
+                        background: `url(${schoolInfo.SchoolLogoUrl_Long}) no-repeat center center/164px 40px`,
                       }}
                     ></i>
                   </div>
@@ -1349,9 +1345,7 @@ class SchoolnfoSetting extends Component {
                 {LockerMsg ? (
                   <div className="school-type">
                     使用期限:
-                    <span style={{color:'red'}} >
-                      {LockerMsg}前
-                    </span>
+                    <span style={{ color: "red" }}>{LockerMsg}前</span>
                   </div>
                 ) : (
                   ""
@@ -1461,7 +1455,7 @@ class SchoolnfoSetting extends Component {
                       current={currentIndex}
                       hideOnSinglePage={totalCount === 0 ? true : false}
                       total={totalCount}
-                      pageSizeOptions={[4, 10, 20, 50]}
+                      pageSizeOptions={["4", "10", "20", "50"]}
                       onChange={this.onPagiNationChange}
                     ></PagiNation>
                   </div>
@@ -1568,7 +1562,7 @@ class SchoolnfoSetting extends Component {
                 </div>
                 {!isMoreSchool ? (
                   <div className={"row clearfix row-SchoolBadge"}>
-                    <span className="left">长条校徽:</span>
+                    <span className="left">长条徽章:</span>
                     <span className="right">
                       <SchoolBadge
                         schoolBadge={

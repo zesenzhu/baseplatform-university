@@ -9,6 +9,7 @@ import React, {
   forwardRef,
   useCallback,
   useContext,
+  useLayoutEffect,
   createContext,
   useImperativeHandle,
 } from "react";
@@ -3991,6 +3992,7 @@ class Img extends React.Component {
           // style={{opacity: (!this.state.isLoad||this.state.isError)?0:1}}
           onLoad={this.onLoad}
           onError={this.onError}
+          {...params}
         ></img>
         {!this.state.isLoad ? (
           <i
@@ -4029,6 +4031,7 @@ function LgAppModal(props, ref) {
     bodyStyle,
     height,
     children,
+    maskClosable,
     destroyOnClose,
     visible,
     ...reset
@@ -4103,9 +4106,23 @@ function LgAppModal(props, ref) {
   useImperativeHandle(ref, () => ({
     openModal,
   }));
+  // useEffect(() => {
+  //   let ModalMaskDom = $(".ant-modal-mask");
+  //   let zIndex = 1988;
+  //   console.log(ModalMaskDom);
+  //   ModalMaskDom.each(function (i, d) {
+  //     console.log(d.style, this);
+  //     d.style.cssText = `z-index : ${zIndex++} !important`;
+  //     // $(d)
+  //     //   .children(".ant-modal-wrap").get(0).style.cssText = `z-index : ${zIndex++} !important`;
+  //       // .each(function (i1, d1) {
+  //       //   d1.style.cssText = `z-index : ${zIndex++} !important`;
+  //       // });
+  //   });
+  // }, [children]);
   return (
     <AntdModal
-      className={`initModel ${ModalClassName} ${className || ""}`}
+      className={`initModel Lg-Modal ${ModalClassName} ${className || ""}`}
       visible={Visible}
       closeIcon={
         ModalClassName === "Modal-1" ? (
@@ -4118,6 +4135,8 @@ function LgAppModal(props, ref) {
         Height ? { height: Height } : {},
         bodyStyle || {}
       )}
+      centered={centered === undefined ? true : centered}
+      maskClosable={!!maskClosable}
       onOk={OnOk}
       onCancel={OnCancel}
       destroyOnClose={destroyOnClose || true}

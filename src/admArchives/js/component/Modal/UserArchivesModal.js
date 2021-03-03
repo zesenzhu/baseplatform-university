@@ -419,7 +419,7 @@ class UserArchivesModal extends Component {
     );
     // dispatch(CommonAction.SetTipsVisibleParams({ GenderTipsVisible: false }));
   };
-  //学院
+  //院系
   onEditCollegeChange = (e) => {
     const { dispatch, DataState } = this.props;
     dispatch(
@@ -783,11 +783,11 @@ class UserArchivesModal extends Component {
   render() {
     let {
       DataState: {
-        MainData: { StudentTree, TeacherTree, TitleList,SysUrl },
+        MainData: { StudentTree, TeacherTree, TitleList, SysUrl },
         CommonData: {
           ModalVisible: { UserArchivesModalVisible },
           UserArchivesParams: { UserArchivesModalType, UserArchivesModalRole },
-          RolePower: { IsCollege,ProductType_6 },
+          RolePower: { IsCollege, ProductType_6 },
 
           TipsVisible: {
             UserIDTipsVisible,
@@ -1090,7 +1090,7 @@ class UserArchivesModal extends Component {
               UserArchivesModalRole === "Teacher" ? (
                 <div className="row clearfix">
                   <span className="culonm-1">
-                    <span className="must-icon">*</span>学院：
+                    <span className="must-icon">*</span>院系：
                   </span>
                   <div className="culonm-2">
                     <Tips
@@ -1113,9 +1113,9 @@ class UserArchivesModal extends Component {
                             CollegeList.length > 0
                               ? {
                                   value: CollegeID,
-                                  title: CollegeID ? CollegeName : "请选择学院",
+                                  title: CollegeID ? CollegeName : "请选择院系",
                                 }
-                              : { value: -1, title: "暂无创建学院" }
+                              : { value: -1, title: "暂无创建院系" }
                           }
                           dropList={CollegeList}
                           width={200}
@@ -1138,40 +1138,46 @@ class UserArchivesModal extends Component {
                     <Tips
                       overlayClassName="tips"
                       visible={
-                        CollegeID && GroupList.length !== 0
-                          ? GroupTipsVisible
+                        CollegeID
+                          ? // && GroupList.length !== 0
+                            GroupTipsVisible
                           : false
                       }
                       getPopupContainer={(e) => e.parentNode}
                       title={GroupTipsTitle}
                     >
-                      <DropDown
-                        style={{ zIndex: 2 }}
-                        disabled={
-                          GroupList.length === 0 || !CollegeID ? true : false
-                        }
-                        // disabled={this.state.ClassChange.value===-1?false:true}
-                        dropSelectd={
-                          !CollegeID || GroupList.length > 0
-                            ? {
-                                value: GroupID,
-                                title: GroupID ? GroupName : "请选择教研室",
-                              }
-                            : { value: -1, title: "暂无创建教研室" }
-                        }
-                        dropList={GroupList}
-                        width={200}
-                        height={96}
-                        onChange={this.onEditGroupChange}
-                      ></DropDown>
+                      <div style={{display:'inline-block',height:'100%',position:'relative'}}>
+                        <DropDown
+                          style={{ zIndex: 2 }}
+                          disabled={
+                            GroupList.length === 0 || !CollegeID ? true : false
+                          }
+                          // disabled={this.state.ClassChange.value===-1?false:true}
+                          dropSelectd={
+                            !CollegeID || GroupList.length > 0
+                              ? {
+                                  value: GroupID,
+                                  title: GroupID ? GroupName : "请选择教研室",
+                                }
+                              : { value: -1, title: "暂无创建教研室" }
+                          }
+                          dropList={GroupList}
+                          width={200}
+                          height={96}
+                          onChange={this.onEditGroupChange}
+                        ></DropDown>
+                        {CollegeID && GroupList.length === 0 ? (
+                          <span
+                            className="AddOther"
+                            onClick={this.onAddGroupClick}
+                          >
+                            添加教研室
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </Tips>
-                    {CollegeID && GroupList.length === 0 ? (
-                      <span className="AddOther" onClick={this.onAddGroupClick}>
-                        添加教研室
-                      </span>
-                    ) : (
-                      ""
-                    )}
                   </div>
                 </div>
               ) : (
@@ -1186,13 +1192,15 @@ class UserArchivesModal extends Component {
                     <Tips
                       overlayClassName="tips"
                       visible={
-                        CollegeID && MajorList.length !== 0
+                        CollegeID 
+                        // && MajorList.length !== 0
                           ? MajorTipsVisible
                           : false
                       }
                       getPopupContainer={(e) => e.parentNode}
                       title={MajorTipsTitle}
                     >
+                       <div style={{display:'inline-block',height:'100%',position:'relative'}}>
                       <DropDown
                         style={{ zIndex: 3 }}
                         disabled={
@@ -1212,14 +1220,16 @@ class UserArchivesModal extends Component {
                         height={96}
                         onChange={this.onEditMajorChange}
                       ></DropDown>
-                    </Tips>
-                    {CollegeID && MajorList.length === 0 ? (
+                      {CollegeID && MajorList.length === 0 ? (
                       <span className="AddOther" onClick={this.onAddMajorClick}>
                         添加专业
                       </span>
                     ) : (
                       ""
                     )}
+                      </div>
+                    </Tips>
+                    
                   </div>
                 </div>
               ) : (
@@ -1336,24 +1346,28 @@ class UserArchivesModal extends Component {
                       title={TitleTipsTitle}
                     >
                       {/* 教务系统的职称不允许编辑 */}
-                      {UserArchivesModalType!=='add'&&SysUrl['E34']?<span className='UserID-text'>{TitleName}</span>:<DropDown
-                        style={{ zIndex: 1 }}
-                        dropSelectd={{
-                          value: TitleID,
-                          title: TitleID ? TitleName : "请选择职称",
-                        }}
-                        dropList={TitleList}
-                        width={200}
-                        height={96}
-                        onChange={this.onEditTitleChange}
-                      ></DropDown>}
+                      {UserArchivesModalType !== "add" && SysUrl["E34"] ? (
+                        <span className="UserID-text">{TitleName}</span>
+                      ) : (
+                        <DropDown
+                          style={{ zIndex: 1 }}
+                          dropSelectd={{
+                            value: TitleID,
+                            title: TitleID ? TitleName : "请选择职称",
+                          }}
+                          dropList={TitleList}
+                          width={200}
+                          height={96}
+                          onChange={this.onEditTitleChange}
+                        ></DropDown>
+                      )}
                     </Tips>
                   </div>
                 </div>
               ) : (
                 ""
               )}
-              {!ProductType_6&&UserArchivesModalRole === "Teacher" ? (
+              {!ProductType_6 && UserArchivesModalRole === "Teacher" ? (
                 <div className="row clearfix row-subject">
                   <span className="culonm-1 Subject">
                     {/* <span className="must-icon">*</span> */}

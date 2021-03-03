@@ -48,7 +48,8 @@ function AddModule(props, ref) {
       GroupList,
       SysTypeList,
       ImgUrlProxy,
-      UserTypeList,UserTypeData,
+      UserTypeList,
+      UserTypeData,
       ThirdPartySubSystem,
       IdentityTypeList,
     },
@@ -150,7 +151,6 @@ function AddModule(props, ref) {
       }
     }
     setDataTipsVisible(dataTipsVisible);
-    console.log(data);
     setData(data);
     return list;
   }, [defaultData, tableList, type]);
@@ -173,7 +173,11 @@ function AddModule(props, ref) {
       let { key, reg } = TableRuleList[v];
       // 蓝鸽的编辑检查一些不用
 
-      if (IsThirdParty && (key === "userType" || key === "identityCodes")) {
+      if (
+        type === "add" ||
+        !type ||
+        (IsThirdParty && (key === "userType" || key === "identityCodes"))
+      ) {
         // eslint-disable-next-line no-loop-func
         onUpdata(key, [Data[key]], reg, (test) => {
           if (!test) {
@@ -353,7 +357,7 @@ function AddModule(props, ref) {
       <table>
         <tbody>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>所属应用系统:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>所属应用系统:</td>
             <td>
               {IsThirdParty ? (
                 <DropDown
@@ -363,18 +367,26 @@ function AddModule(props, ref) {
                   height={120}
                   style={{ zIndex: 10 }}
                   onChange={(e) => {
-                    console.log(e.value);
-                    onUpdata("sysID", e.value, TableRuleList["sysID"].reg);
+                    console.log(e);
+                    onUpdata(
+                      ["sysID", "logoUrl", 'moduleName'],
+                      [
+                        e.value,
+                        ThirdPartySubSystemForKey[e.value].SysLogoUrl,
+                        ThirdPartySubSystemForKey[e.value].title,
+                      ]
+                      // TableRuleList["sysID"].reg
+                    );
                   }}
                 ></DropDown>
               ) : (
-                <p title={Data.sysName}>{Data.sysName||'--'}</p>
+                <p title={Data.sysName}>{Data.sysName || "--"}</p>
               )}
               {DataTipsVisible[TableRuleList["sysID"].TipsVisible] && (
                 <p className="td-tips">请选择所属应用系统</p>
               )}
             </td>
-            <td className={`${IsThirdParty?'must':''} top`}>模块图标:</td>
+            <td className={`${IsThirdParty ? "must" : ""} top`}>模块图标:</td>
             <td rowSpan={2}>
               <div className="upload-img">
                 <i
@@ -436,7 +448,7 @@ function AddModule(props, ref) {
             </td>
           </tr>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>模块名称:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>模块名称:</td>
             <td>
               {IsThirdParty ? (
                 <Input
@@ -457,7 +469,7 @@ function AddModule(props, ref) {
                   }}
                 ></Input>
               ) : (
-                <p title={Data.moduleName}>{Data.moduleName||'--'}</p>
+                <p title={Data.moduleName}>{Data.moduleName || "--"}</p>
               )}
 
               {DataTipsVisible[TableRuleList["moduleName"].TipsVisible] && (
@@ -466,7 +478,7 @@ function AddModule(props, ref) {
             </td>
           </tr>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>模块简介:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>模块简介:</td>
 
             <td colSpan={3}>
               {IsThirdParty ? (
@@ -488,7 +500,7 @@ function AddModule(props, ref) {
                   }}
                 ></Input>
               ) : (
-                <p title={Data.introduction}>{Data.introduction||'--'}</p>
+                <p title={Data.introduction}>{Data.introduction || "--"}</p>
               )}
 
               {DataTipsVisible[TableRuleList["introduction"].TipsVisible] && (
@@ -497,7 +509,7 @@ function AddModule(props, ref) {
             </td>
           </tr>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>访问地址:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>访问地址:</td>
 
             <td colSpan={3}>
               {IsThirdParty ? (
@@ -521,7 +533,7 @@ function AddModule(props, ref) {
                   }}
                 ></Input>
               ) : (
-                <p title={Data.accessUrl}>{Data.accessUrl||'--'}</p>
+                <p title={Data.accessUrl}>{Data.accessUrl || "--"}</p>
               )}
               {DataTipsVisible[TableRuleList["accessUrl"].TipsVisible] && (
                 <p className="td-tips">输入的访问地址有误</p>
@@ -529,7 +541,7 @@ function AddModule(props, ref) {
             </td>
           </tr>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>所属分组:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>所属分组:</td>
             <td>
               {IsThirdParty ? (
                 <DropDown
@@ -543,7 +555,7 @@ function AddModule(props, ref) {
                   }}
                 ></DropDown>
               ) : (
-                <p title={Data.groupName}>{Data.groupName||'--'}</p>
+                <p title={Data.groupName}>{Data.groupName || "--"}</p>
               )}
               {DataTipsVisible[TableRuleList["groupID"].TipsVisible] && (
                 <p className="td-tips">请选择所属分组</p>
@@ -551,7 +563,7 @@ function AddModule(props, ref) {
             </td>
           </tr>
           <tr className={"table-tr-1  "}>
-            <td className={`${IsThirdParty?'must':''}`}>支持账号类型:</td>
+            <td className={`${IsThirdParty ? "must" : ""}`}>支持账号类型:</td>
             <td colSpan={3}>
               {IsThirdParty ? (
                 <CheckBoxGroup
@@ -578,7 +590,9 @@ function AddModule(props, ref) {
                   })}
                 </CheckBoxGroup>
               ) : (
-                <p title={UserTypeData[Data.userType]}>{UserTypeData[Data.userType]||'--'}</p>
+                <p title={UserTypeData[Data.userType]}>
+                  {UserTypeData[Data.userType] || "--"}
+                </p>
               )}
               {DataTipsVisible[TableRuleList["userType"].TipsVisible] && (
                 <p className="td-tips">请选择支持账号类型</p>

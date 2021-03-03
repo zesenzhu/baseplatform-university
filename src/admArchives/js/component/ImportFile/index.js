@@ -67,7 +67,7 @@ class ImportFile extends React.Component {
       //   props.DataState.LoginUser.UserClass === 1 ||
       //   props.DataState.LoginUser.UserClass === 2
       //     ? true
-      //     : false //1、2表示是学校管理员，4表示学院管理员
+      //     : false //1、2表示是学校管理员，4表示院系管理员
     };
     const { dispatch, DataState } = this.props;
   }

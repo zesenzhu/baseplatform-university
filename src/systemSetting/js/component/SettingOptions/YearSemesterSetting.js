@@ -392,7 +392,7 @@ class YearSemesterSetting extends Component {
             )}
             <Modal
               type="1"
-              title="启用新学年"
+              title="启用新学期"
               visible={this.state.visible_create}
               onOk={this.handUpComfirm}
               onCancel={this.modalCancel}

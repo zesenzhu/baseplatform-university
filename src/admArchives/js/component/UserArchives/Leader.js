@@ -310,7 +310,7 @@ class Leader extends Component {
     //     token
     // );
   };
-  //学院选择
+  //院系选择
   onCollegeSelect = (e) => {
     let { dispatch } = this.props;
     dispatch(

@@ -1,17 +1,18 @@
-.ant-modal-mask {
-    z-index: 2000!important;
-}
-
-.ant-modal-wrap {
-    z-index: 2001!important;
+.ant-modal-root {
+    .ant-modal-mask {
+        z-index: 2001;
+    }
+    .ant-modal-wrap {
+        z-index: 2001;
+    }
 }
 
 .ant-tooltip {
-    z-index: 2002!important;
+    z-index: 2002 !important;
 }
 
 .ant-calendar-picker-container {
-    z-index: 2003!important;
+    z-index: 2003 !important;
 }
 
 .ant-modal-wrap {
@@ -22,6 +23,14 @@
     padding:0;
 
   }*/
+}
+
+.Lg-Modal {
+    .ant-modal-content {
+        .ant-modal-body {
+            padding: 0px;
+        }
+    }
 }
 
 .ant-modal {

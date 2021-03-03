@@ -242,7 +242,7 @@ class App extends Component {
         (FirstRoute === "UserArchives" && SecondRoute === "Leader") ||
         (FirstRoute === "ImportFile" && SecondRoute === "Leader")
       ) {
-        //学院没有领导
+        //院系没有领导
         this.SetFirstDefaultRoute({ isFirst: true });
         return;
       }
@@ -551,12 +551,12 @@ class App extends Component {
         },
       },
     } = this.props;
-    // let isCollege = Role.includes("College"); //判断是否是学院领导或管理员
+    // let isCollege = Role.includes("College"); //判断是否是院系领导或管理员
     // console.log(type, IsCollege);
 
     if (type === "Student") {
       if (RouteData[2]) {
-        //如果有值，说明是要进行学院或专业筛选，需等待下拉数据回来
+        //如果有值，说明是要进行院系或专业筛选，需等待下拉数据回来
         dispatch(
           MainAction.GetTree({
             // isLoading: isFirst,
@@ -571,7 +571,7 @@ class App extends Component {
       }
     } else if (type === "Teacher") {
       if (RouteData[2]) {
-        //如果有值，说明是要进行学院或专业筛选，需等待下拉数据回来
+        //如果有值，说明是要进行院系或专业筛选，需等待下拉数据回来
         dispatch(
           MainAction.GetTeacherTree({
             fn: (State) => {
@@ -589,7 +589,7 @@ class App extends Component {
       dispatch(MainAction.GetLeaderToPage({}));
     } else if (type === "Graduate") {
       if (IsCollege) {
-        //是学院，直接确定学院
+        //是院系，直接确定院系
         InitGraduateParams = {
           ...InitGraduateParams,
           collegeID: CollegeID,
@@ -650,8 +650,8 @@ class App extends Component {
     let data = { ...InitStudentParams }; //初始学生参数
     // console.log(id);
     if (IsCollege) {
-      //是学院且参数没选择，第一次进来
-      //学院的
+      //是院系且参数没选择，第一次进来
+      //院系的
       data.collegeID = CollegeID;
       data.collegeName = CollegeName;
       let major;
@@ -678,7 +678,7 @@ class App extends Component {
 
       if (id) {
         if ((college = CollegeList.find((child) => child.value === id))) {
-          //学院
+          //院系
           data.collegeID = college.value;
           data.collegeName = college.title;
         } else {
@@ -718,8 +718,8 @@ class App extends Component {
     } = this.props;
     let data = { ...InitTeacherParams }; //初始学生参数
     if (IsCollege) {
-      //是学院且参数没选择，第一次进来
-      //学院的
+      //是院系且参数没选择，第一次进来
+      //院系的
       data.collegeID = CollegeID;
       data.collegeName = CollegeName;
       let group;
@@ -746,7 +746,7 @@ class App extends Component {
 
       if (id) {
         if ((college = CollegeList.find((child) => child.value === id))) {
-          //学院
+          //院系
           data.collegeID = college.value;
           data.collegeName = college.title;
         } else {
@@ -819,7 +819,7 @@ class App extends Component {
       //学校管理员（admin_学校代码，创建学校时生成）
       Role = "Admin-School";
     } else if (UserType === 0 && (UserClass === 3 || UserClass === 4)) {
-      //学院管理员
+      //院系管理员
       Role = "Admin-College";
     } else if (UserType === 1) {
       //教师,— UserClass=100000~111111：
@@ -837,7 +837,7 @@ class App extends Component {
       //— UserClass=2 教务主任
       Role = "Leader-School";
     } else if (UserType === 10) {
-      //学院领导（V3.0之后的版本才有此角色）
+      //院系领导（V3.0之后的版本才有此角色）
       // — UserClass=3 院长
       //— UserClass=4 副院长
       Role = "Leader-College";

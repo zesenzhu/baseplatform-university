@@ -4,11 +4,12 @@ import { TokenCheck_Connect } from "../../../../common/js/disconnect";
 import Semester from "../SettingOptions/YearSemesterSetting";
 import Import from "../Import";
 import School from "../SettingOptions/SchoolnfoSetting";
-import Subsystem from '../../page/SubSystem'
-import Module from '../../page/Module';
+import Subsystem from "../../page/SubSystem";
+import Module from "../../page/Module";
 // import Subsystem from '../ApplicationSetting'
 // import Subsystem from '../SubApplication/js'
-// import Subsystem from "../SettingOptions/SubsystemAccessSetting";
+// 不是智慧校园的时候用
+import SubsystemForBase from "../SettingOptions/SubsystemAccessSetting";
 import setting from "../../../images/setting_logo.png";
 import { Menu, Loading } from "../../../../common";
 import config from "../../../../common/js/config";
@@ -27,6 +28,7 @@ import {
   BrowserRouter,
   Redirect,
 } from "react-router-dom";
+import { Number } from "_es6-shim@0.35.6@es6-shim";
 
 class MainContent extends Component {
   constructor(props) {
@@ -59,7 +61,8 @@ class MainContent extends Component {
             title: "子系统访问设置",
             icon: "menu43",
             onTitleClick: this.handleClick.bind(this.key),
-          },{
+          },
+          {
             key: "Module",
             title: "应用模块设置",
             icon: "menu43",
@@ -76,7 +79,7 @@ class MainContent extends Component {
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
         { value: "Module", title: "应用模块设置", icon: "Module" },
       ],
-      path:'School'
+      path: "School",
     };
     const { dispatch } = props;
     const Hash = location.hash;
@@ -159,7 +162,6 @@ class MainContent extends Component {
     let ModuleID = "000001";
     //判断该用户是否是管理员,如果该用户不是管理员跳转到错误页,
     if (UserType !== "0") {
-
       window.location.href = config.ErrorProxy + "/Error.aspx?errcode=E011";
     } else {
       //如果该用户是管理员则检查用户信息和模块ID是否符合
@@ -183,10 +185,10 @@ class MainContent extends Component {
   componentDidMount() {
     let that = this;
     // that.handleMenu();
-        history.listen((location)=>{
-        let path =  location.pathname.split("/")[2];
-        this.setState({path:path})
-        })
+    history.listen((location) => {
+      let path = location.pathname.split("/")[2];
+      this.setState({ path: path });
+    });
   }
   //操作左侧菜单，响应路由变化
   handleMenu = (path) => {
@@ -232,7 +234,27 @@ class MainContent extends Component {
       const UserInfo = JSON.parse(sessionStorage.getItem("UserInfo"));
       UserName = UserInfo.UserName;
       PhotoPath = UserInfo.PhotoPath;
-    } 
+    }
+    // 当不是智慧校园的时候，使用基础的应用管理
+    let { ProductType } = sessionStorage.getItem("LgBasePlatformInfo")
+      ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
+      : {};
+    ProductType = ProductType && Number(ProductType);
+    let List = [];
+let isBase = ProductType !== 3
+
+    let SubSystemConponent = Subsystem;
+    if (isBase) {
+      SubSystemConponent = SubsystemForBase;
+      this.state.List.forEach((c) => {
+        // 不要module,同时在下面的route上修改子应用组件
+        if (c.value !== "Module") {
+          List.push(c);
+        }
+      });
+    } else {
+      List = this.state.List;
+    }
     // else {
     //   return <div></div>;
     // }
@@ -248,11 +270,12 @@ class MainContent extends Component {
       path !== "Semester" &&
       path !== "School" &&
       path !== "Subsystem" &&
-      path !== "Module" &&
+      (path !== "Module"||isBase) &&
       path !== "Import"
     ) {
       history.push("/MainContent/School");
     }
+
     return (
       <Loading opacity={false} size="large" spinning={!this.state.havePower}>
         <Frame
@@ -270,7 +293,7 @@ class MainContent extends Component {
           onRef={this.onRef.bind(this)}
         >
           <div ref="frame-time-barner">
-            <TimeBanner path={ path} List={this.state.List} />
+            <TimeBanner path={path} List={List} />
           </div>
 
           <div ref="frame-right-content">
@@ -294,7 +317,7 @@ class MainContent extends Component {
                   path="/MainContent/Subsystem*"
                   exact
                   history={history}
-                  component={Subsystem}
+                  component={SubSystemConponent}
                 >
                   {/* <Subsystem></Subsystem> */}
                 </Route>

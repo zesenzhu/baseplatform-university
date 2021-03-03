@@ -111,7 +111,7 @@ const getSchoolSummary = async ({ schoolID = "" }) => {
   }
   return data;
 };
-// 获取学院总览--大学
+// 获取院系总览--大学
 const GetCollegeSummary = ({ fn = () => {}, collegeID }) => {
   return (dispatch, getState) => {
     dispatch(PublicAction.ContentLoadingOpen());
@@ -189,7 +189,7 @@ const getCollegeSummary = async ({ collegeID = "" }) => {
   }
   return data;
 };
-// 获取学院、专业、年级、班级信息（用于构建下拉列表）
+// 获取院系、专业、年级、班级信息（用于构建下拉列表）
 const MAIN_GET_TREE_DATA = "MAIN_GET_TREE_DATA";
 
 const GetTree = ({ fn = () => {}, isLoading = true, collegeID, schoolID }) => {
@@ -597,7 +597,7 @@ const GetLeaderToPage = ({
     }
     if (userType === undefined) {
       userType = LeaderParams.userType; //usertype==7为学校领导
-      //usertype==10为学院领导
+      //usertype==10为院系领导
     }
 
     if (keyword === undefined) {
@@ -844,7 +844,7 @@ const getGraduateToPage = async ({
   }
   return data;
 };
-// 获取教师档案-获取学院、教研室信息
+// 获取教师档案-获取院系、教研室信息
 const MAIN_GET_TEACHER_TREE_DATA = "MAIN_GET_TEACHER_TREE_DATA";
 
 const GetTeacherTree = ({
@@ -1104,7 +1104,7 @@ const DeleteLeader = ({ fn = () => {} }) => {
       });
   };
 };
-// 获取学院、专业、年级、班级信息（用于构建下拉列表）
+// 获取院系、专业、年级、班级信息（用于构建下拉列表）
 const MAIN_GET_GRADUATE_TREE_DATA = "MAIN_GET_GRADUATE_TREE_DATA";
 
 const GetGraduateTree = ({ fn = () => {}, collegeID, schoolID }) => {

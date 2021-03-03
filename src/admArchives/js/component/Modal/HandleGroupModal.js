@@ -85,7 +85,7 @@ class HandleGroupModal extends Component {
     let { dispatch } = this.props;
     dispatch(
       CommonAction.SetTipsVisibleParams({
-        GroupTipsVisible: false,
+        GroupNameTipsVisible: false,
       })
     );
     dispatch(
@@ -141,14 +141,14 @@ class HandleGroupModal extends Component {
     const {
       DataState: {
         MainData: {
-          StudentTree: { CollegeList, GroupList: groupList },
-          TeacherTree,
+          TeacherTree: { CollegeList, GroupList: groupList },
+          // TeacherTree,
           TitleList,
         },
         CommonData: {
           ModalVisible: { HandleGroupModalVisible },
           TipsVisible: { HandleMojorTipsVisible, GroupNameTipsVisible },
-          TipsTitle: { HandleMojorTipsTitle },
+          TipsTitle: { HandleGroupTipsTitle },
           RolePower: { IsCollege },
           GroupEditParams: {
             CollegeID,
@@ -196,7 +196,7 @@ class HandleGroupModal extends Component {
         >
           <div className="ModalContent">
             <div className="addclass-select-grade" style={{ zIndex: 10 }}>
-              <span className="props">选择学院:</span>
+              <span className="props">选择院系:</span>
 
               {HandleGroupType === "add" && !IsCollege ? (
                 <DropDown
@@ -222,7 +222,7 @@ class HandleGroupModal extends Component {
               <Tips
                 // placement="bottom"
                 visible={GroupNameTipsVisible}
-                title={HandleMojorTipsTitle}
+                title={HandleGroupTipsTitle}
               >
                 <Input
                   type="text"

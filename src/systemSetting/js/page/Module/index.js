@@ -38,7 +38,7 @@ import {
   EditModuleInfo,
 } from "./api";
 import { Context, reducer, initState } from "./context";
- 
+
 import { Tooltip } from "antd";
 import AddModule, { NewSystem } from "./Modal/addModule";
 /**
@@ -98,11 +98,17 @@ function SubSystem(props, ref) {
     };
   }, [HandleType]);
   const [DetailData, setDetailData] = useState({});
-  const [Data, handleChange, LoadingShow, reloadList] = useGetList(
+  const [ListData, handleChange, LoadingShow, reloadList] = useGetList(
     GetAllModule,
     Query,
     PageInit
   );
+  // 因为当新增时要前端自己添加数据，所以设置这个中间数据源
+  const [Data, setData] = useState(ListData);
+  useEffect(() => {
+    setData(ListData);
+  }, [ListData]);
+
   // 删除
   const Delete = useCallback(
     (moduleID) => {
@@ -113,7 +119,11 @@ function SubSystem(props, ref) {
         onOk: () => {
           DeleteModule({ moduleID }).then((res) => {
             if (res.StatusCode === 200) {
-              autoAlert({ type: "success",autoHide:()=>{}, title: "操作成功" });
+              autoAlert({
+                type: "success",
+                autoHide: () => {},
+                title: "操作成功",
+              });
             }
             reloadList();
           });
@@ -133,7 +143,10 @@ function SubSystem(props, ref) {
         render: (data) => {
           let { OrderNo } = data;
           return (
-            <p className="key-content" title={OrderNo}>
+            <p
+              className={`key-content ${OrderNo === "新增" ? "new-row" : ""}`}
+              title={OrderNo}
+            >
               {OrderNo}
             </p>
           );
@@ -201,7 +214,7 @@ function SubSystem(props, ref) {
           );
         },
       },
-      
+
       {
         title: "所属分组",
         key: "GroupName",
@@ -224,11 +237,13 @@ function SubSystem(props, ref) {
         align: "center",
         render: (data) => {
           let { UserType } = data;
-          let name = UserType.split(",")
-            .map((c) => {
-              return UserTypeData[c];
-            })
-            .join("、");
+          let name =
+            UserType &&
+            UserType.split(",")
+              .map((c) => {
+                return UserTypeData[c];
+              })
+              .join("、");
           return (
             <p className="UserType" title={name}>
               {name || "--"}
@@ -252,10 +267,10 @@ function SubSystem(props, ref) {
           //     )
           //   );
           // });
-          let name2 = IdentityNames.split(",").join("、");
+          let name2 = IdentityNames && IdentityNames.split(",").join("、");
           return (
             <p className="IdentityNames" title={name2}>
-              {name2}
+              {name2 || "--"}
             </p>
           );
         },
@@ -321,7 +336,7 @@ function SubSystem(props, ref) {
                         i.substring(0, 1).toLowerCase() + i.substring(1);
                       // 账号类型和身份要数组
                       if (i === "UserType" || i === "IdentityCodes") {
-                        editData[key] = data[i].split(",");
+                        editData[key] = data[i] ? data[i].split(","):[];
                       } else {
                         editData[key] = data[i];
                       }
@@ -368,7 +383,7 @@ function SubSystem(props, ref) {
       }
       setAddModalLoadingShow(true);
       let promise = "";
-      if (HandleType === "add") {
+      if (HandleType === "add" || !HandleType) {
         promise = AddSubSystemInfo({ ...data });
       } else if (HandleType === "edit") {
         promise = EditModuleInfo({ ...data });
@@ -377,17 +392,31 @@ function SubSystem(props, ref) {
       }
 
       promise.then((res) => {
-        if (res.StatusCode === 200) {
+        let { StatusCode, Data } = res;
+        if (StatusCode === 200) {
           onModalCancel(setAddModalVisible);
-        }
-        reloadList({});
 
+          if (Data instanceof Array) {
+            Data = Data.map((c) => {
+              c.OrderNo = "新增";
+              return c;
+            });
+            let TotalCount = ++ListData.TotalCount;
+            let List = Data.concat(ListData.List);
+            setData({ TotalCount, List });
+          }
+          // 当新增成功，前端自动给插入新数据
+          if(HandleType === "edit"){
+            reloadList({});
+          }
+        }
+        // reloadList({});
         setAddModalLoadingShow(false);
       });
       // onModalCancel(setAddModalVisible,()=>{})
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [reloadList, HandleType]
+    [reloadList, HandleType, ListData]
   );
 
   // 挂载后请求
@@ -434,15 +463,16 @@ function SubSystem(props, ref) {
         let more = {};
         res.Data.map((c) => {
           let { UserType, IdentityCode, IdentityName } = c;
-          UserType.split(",").forEach((u) => {
-            more[u] = more[u] || [];
-            more[u].push({
-              value: IdentityCode,
-              title: IdentityName,
-              userTypes: UserType,
-              userType: u,
+          typeof UserType === "string" &&
+            UserType.split(",").forEach((u) => {
+              more[u] = more[u] || [];
+              more[u].push({
+                value: IdentityCode,
+                title: IdentityName,
+                userTypes: UserType,
+                userType: u,
+              });
             });
-          });
         });
         Dispatch({ type: "identityTypeList", data: more });
       }
@@ -585,6 +615,7 @@ function SubSystem(props, ref) {
       </div>
       <LgModal
         type="1"
+        className={"system-modal"}
         title={HandleParams.title}
         onOk={onAddModalOk}
         onCancel={onModalCancel.bind(this, setAddModalVisible)}
