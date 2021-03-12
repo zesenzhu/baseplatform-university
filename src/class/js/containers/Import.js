@@ -40,7 +40,7 @@ class Import extends Component{
 
                 ImportTitle:'导入班主任及班长',
 
-                ImportTarget:'gangermonitor'
+                ImportTarget:'gangermonitor_1'
 
             };
 

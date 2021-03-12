@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import "./assets/scss/index.scss";
 
-import { Loading, Alert, CheckBox } from "../common";
+import { Loading, Alert, CheckBox, Modal } from "../common";
 
 import { getQueryVariable } from "../common/js/disconnect";
 
@@ -34,6 +34,8 @@ import TopFloor from "./application/TopFloor";
 
 import BottomFloor from "./application/BottomFloor";
 
+import ChangePwdModal from "./components/ChangePwdModal";
+
 function App(props) {
   const [AppLoading, setAppLoading] = useState(true);
 
@@ -53,7 +55,7 @@ function App(props) {
   //监测插件包和MacID
   const [checkBaseMac, setCheckBaseMac] = useState(null);
 
-  const { commSetting, slider, appAlert, dispatch } = props;
+  const { commSetting, slider, appAlert, dispatch, changePwd } = props;
 
   const { skin, WebIndexUrl, ClinetDownUrl } = commSetting;
 
@@ -168,7 +170,7 @@ function App(props) {
                   if (parseInt(i.SysID) === 990) {
                     IntroWebSvrAddr = i.WebSvrAddr;
                   }
-
+                  // 人工智能，当拿到751，同时url没有from_ai_test=1，需要重定向到人工智能考试系统未登录首页
                   if (parseInt(i.SysID) === 751) {
                     PCDownLoadWebSvrAddr = i.WebSvrAddr;
                   }
@@ -177,6 +179,14 @@ function App(props) {
                 data["IntroWebSvrAddr"] = IntroWebSvrAddr;
 
                 data["PCDownLoadWebSvrAddr"] = PCDownLoadWebSvrAddr;
+                if (
+                  parseInt(data.ProductType) === 5 &&
+                  PCDownLoadWebSvrAddr &&
+                  getQueryVariable("from_ai_test") !== "1"
+                ) {
+                  window.location.replace(PCDownLoadWebSvrAddr);
+                  return;
+                }
               }
 
               initData(skin, data);
@@ -662,7 +672,10 @@ function App(props) {
         onCancel={appAlert.cancel}
         okTitle={appAlert.okTitle}
         cancelTitle={appAlert.cancelTitle}
+        onHide={appAlert.hide}
       ></Alert>
+
+      <ChangePwdModal></ChangePwdModal>
     </div>
   );
 }

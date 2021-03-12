@@ -17,7 +17,7 @@ const GetClassMoralEduInfoByCriterias = ({
   pageSize,
   pageNum,
   semester,
-  token,
+  token,classId
 }) => {
   return (dispatch, getState) => {
     let State = getState();
@@ -31,7 +31,7 @@ const GetClassMoralEduInfoByCriterias = ({
             Title,
             PageSize,
             PageNum,
-            Semester,
+            Semester,ClassId
           },
         },
       },
@@ -54,13 +54,16 @@ const GetClassMoralEduInfoByCriterias = ({
     if (token === undefined) {
       token = Token;
     }
+    if (classId === undefined) {
+      classId = ClassId;
+    }
     getClassMoralEduInfoByCriterias({
       Proxy,
       title,
       userId,
       pageSize,
       pageNum,
-      semester,
+      semester,classId,
       token,
     }).then((res) => {
       if (res) {
@@ -79,15 +82,15 @@ const getClassMoralEduInfoByCriterias = async ({
   pageSize = "",
   pageNum = "",
   semester = "",
-  token = "",
+  token = "",classId='',
   Proxy,
 }) => {
   let url =
     Proxy +
-    "/stu/getClassMoralEduInfoByCriterias?title=" +
-    title +
-    "&userId=" +
-    userId +
+    "/getClassMoralEduInfoByCriterias?title=" +
+    title +'&classId='+classId+
+    // "&userId=" +
+    // userId +
     "&pageSize=" +
     pageSize +
     "&pageNum=" +
@@ -410,7 +413,7 @@ const GetTeacherWork = ({
       userName,
       pageSize,
       pageNum,
-      token,
+      token,academyId
     }).then((res) => {
       if (res) {
         dispatch({ type: MAIN_GET_TEACHER_WORK, data: res.data });

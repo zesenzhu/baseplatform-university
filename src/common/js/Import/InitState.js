@@ -41,11 +41,17 @@ const InitState = ({ props, type }) => {
         },
 
         {
+          //中小学班主任班长
           ID: "gangermonitor",
 
           Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FUserMgr%2FClassMgr%2FTemplate%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E7%8F%AD%E4%B8%BB%E4%BB%BB%E7%8F%AD%E9%95%BF%E4%BF%A1%E6%81%AF.xls`,
         },
+        {
+          //大学班主任班长
+          ID: "gangermonitor_1",
 
+          Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FUserMgr%2FClassMgr%2FTemplate%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E7%8F%AD%E4%B8%BB%E4%BB%BB%E7%8F%AD%E9%95%BF%E4%BF%A1%E6%81%AF(%E9%AB%98%E6%95%99%E7%89%88).xls`,
+        },
         {
           ID: "graduate",
 
@@ -77,6 +83,12 @@ const InitState = ({ props, type }) => {
           ID: "subject_university",
 
           Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FUserMgr%2FTeachInfoMgr%2FTemplate%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E5%AD%A6%E7%A7%91%E4%BF%A1%E6%81%AF%EF%BC%88%E5%A4%A7%E5%AD%A6%E7%89%88%EF%BC%89.xls`,
+        },
+        {
+          //大学专业导入
+          ID: "major",
+
+          Url: `${CONFIG.Import}/UserMgr/Comm/Controls/Import/DownloadFile.ashx?fileUrl=~%2FUserMgr%2FUserInfoMgr%2FTemplate%2F%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E4%B8%93%E4%B8%9A%E4%BF%A1%E6%81%AF.xls`,
         },
         {
           //中小学学科导入

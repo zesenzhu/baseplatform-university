@@ -490,6 +490,8 @@ class App extends Component {
               ? "导入毕业生档案"
               : SecondRoute === "Leader"
               ? "导入领导档案"
+              : SecondRoute === "Major"
+              ? "导入专业"
               : "",
         })
       );
@@ -497,6 +499,7 @@ class App extends Component {
         SecondRoute === "Student" ||
         SecondRoute === "Teacher" ||
         SecondRoute === "Graduate" ||
+        SecondRoute === "Major" ||
         SecondRoute === "Leader"
       ) {
       } else {

@@ -57,7 +57,9 @@ function Archives(props) {
   const BaseData = useSelector((state) => state.MoreData.CommonData.BaseData);
 
   const dispatch = useDispatch();
-
+const IsTeacher = useMemo(() => {
+  return UserType === 1
+}, [UserType])
   useEffect(() => {
     if (userStatus.ready) {
       if (UserType === 2) {
@@ -65,30 +67,31 @@ function Archives(props) {
 
         setTabName("学籍档案信息");
       } else {
-        Urls["E34"].WebUrl&& getScientificCaseDetail({
-          proxy: Urls["E34"].WebUrl,
-          userId: UserID,
-          scientificType: 0,
-          dispatch,
-        }).then((data) => {
-          let { achievement, research } = data;
-          let Data = [];
-          if (data && data.length > 0) {
-            achievement&& achievement.forEach((c, i) => {
-              Data.push({
-                Name: c.projectName,
-              });
-            });
-            research&& research.forEach((c, i) => {
-              Data.push({
-                Name: c.achievementName,
-              });
-            });
-            setAwards(data);
-          }
+        // Urls["E34"].WebUrl&& getScientificCaseDetail({
+        //   proxy: Urls["E34"].WebUrl,
+        //   userId: UserID,
+        //   scientificType: 0,
+        //   dispatch,
+        // }).then((data) => {
+        //   let { achievement, research } = data;
+        //   let Data = [];
+        //   if (data && data.length > 0) {
+        //     achievement&& achievement.forEach((c, i) => {
+        //       Data.push({
+        //         Name: c.projectName,
+        //       });
+        //     });
+        //     research&& research.forEach((c, i) => {
+        //       Data.push({
+        //         Name: c.achievementName,
+        //       });
+        //     });
+        //     setAwards(data);
+        //   }
 
-          setLoading(false);
-        });
+        //   setLoading(false);
+        // });
+        setLoading(false);
 
         setTabName("档案信息");
       }
@@ -699,7 +702,7 @@ function Archives(props) {
                   </tr>
 
                   <tr>
-                    <td className={"col1 props"}>工作经历</td>
+                    <td className={"col1 props"}>执教经历</td>
 
                     <td className={"col2"} colSpan={6}>
                       {/* {userStatus.workExperience ? (
@@ -768,7 +771,11 @@ function Archives(props) {
                           <div className="empty">--</div>
                         )}
                       </div> */}
-                      {awards instanceof Array && awards.length > 0 ? (
+                      {
+                      // awards instanceof Array && awards.length > 0
+                      userStatus.honorData instanceof Array &&
+                      userStatus.honorData.length > 0
+                       ? (
                         <div
                           className={"education-background"}
                           // dangerouslySetInnerHTML={{
@@ -776,13 +783,14 @@ function Archives(props) {
                           // }}
                         >
                           {userStatus.honorData.map((c, i) => {
-                            let { Name } = c;
+                            let { gainTime,honorName ,remark} = c;
+                            let title =moment(gainTime).format('YYYY-MM-DD')+'获得'+honorName+remark
                             return (
                               <p key={i} className="detaile-title">
                                 {i + 1}、
-                                <span title={Name}>
+                                <span title={title}>
                                   {/* {moment(gainTime).format("YYYY-MM-DD")} */}
-                                  {Name}
+                                  {title}
                                 </span>
                               </p>
                             );
@@ -1124,7 +1132,7 @@ function Archives(props) {
     <ContentItem type={"archives"} tabName={tabName}>
       <div className={"archives-wrapper"}>
         <div className={"btn-wrapper clearfix"}>
-          {BaseData.ProductType === 3 && Urls["L10"].WebUrl ? (
+          {BaseData.ProductType === 3 && Urls["L10"].WebUrl &&IsTeacher? (
             <LinkBtn onClick={(e) => toGrow()} type={"details"}>
               查看智能画像
             </LinkBtn>

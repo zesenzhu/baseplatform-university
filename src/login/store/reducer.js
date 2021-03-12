@@ -8,6 +8,9 @@ import slider from './slider';
 
 import appAlert from './appAlert';
 
+import changePwd from './changePwd';
+
+
 const reducer = combineReducers({
 
     commSetting,
@@ -16,7 +19,9 @@ const reducer = combineReducers({
 
     slider,
 
-    appAlert
+    appAlert,
+
+    changePwd
 
 });
 

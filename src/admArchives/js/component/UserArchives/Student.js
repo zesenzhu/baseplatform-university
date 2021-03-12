@@ -77,7 +77,7 @@ class Student extends Component {
                     width: "37.5px",
                     height: "47px",
                     display: "inline-block",
-                    background: `url(${arr.PhotoPath}) no-repeat center center / 100% auto`,
+                    background: `url(${arr.PhotoPath_NoCache}) no-repeat center center / 100% auto`,
                   }}
                 ></i>
               </div>
@@ -810,6 +810,19 @@ class Student extends Component {
               >
                 <span className="addMajor">专业管理</span>
               </span>
+              <span className="divide">|</span>
+              <a className="link">
+                <span
+                  onClick={this.onLinkClick.bind(
+                    this,
+                    "导入专业",
+                    "#/ImportFile/Major"
+                  )}
+                  className="ImportFile"
+                >
+                  导入专业
+                </span>
+              </a>{" "}
               <span className="divide">|</span>
               {!LockerVersion_1 ? (
                 <>

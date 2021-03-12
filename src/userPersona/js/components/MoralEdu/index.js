@@ -30,7 +30,7 @@ class MoralEdu extends Component {
         },
       },
       systemUrl: { Urls },
-      targetUser: { UserID },
+      targetUser: { UserID ,ClassId},
       termInfo: { Term },
       loginUser: { SchoolID },
 
@@ -48,7 +48,7 @@ class MoralEdu extends Component {
           // Urls["810"].WsUrl,
           Token: token,
           Semester: Term,
-
+          ClassId:ClassID,
           UserID,
           // SelectBar: "NearExam",
         })

@@ -39,7 +39,7 @@ function Content(props) {
   const { UsedType } = useSelector((state) => state.pageUsedType);
 
   const { Urls, ModuleRely } = useSelector((state) => state.systemUrl);
-
+  // const {state} = useSelector(state => state.loginUser)
   const userArchives = useSelector((state) => state.userArchives);
 
   const targetUser = useSelector((state) => state.targetUser);
@@ -58,7 +58,9 @@ function Content(props) {
         }
       }
       // console.log(BaseData);
-      if (BaseData.ProductType === 3&&Urls['L10'].WebUrl) {
+      if (BaseData.ProductType === 3&&targetUser.UserType===1//教师才去掉，后面等学生智能画像搞好也去掉
+        // &&Urls['L10'].WebUrl
+        ) {
         //为3的时候只要档案账号，同时在档案上面加师资发展的个人画像
         urlGet = false;
       }

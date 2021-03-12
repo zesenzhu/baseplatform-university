@@ -52,6 +52,8 @@ class ImportFile extends React.Component {
           ? "leader_1"
           : route === "Student"
           ? "student_1"
+          : route === "Major"
+          ? "major"
           : "graduate",
       role:
         route === "Teacher"
@@ -62,6 +64,8 @@ class ImportFile extends React.Component {
           ? "学生"
           : route === "Graduate"
           ? "毕业生"
+          : route === "Major"
+          ? "专业"
           : "",
       // userType:
       //   props.DataState.LoginUser.UserClass === 1 ||
@@ -111,7 +115,13 @@ class ImportFile extends React.Component {
     const { UIState, DataState } = this.props;
     let path = history.location.pathname.split("/");
     let route = path[2];
-    console.log(this.state.Route);
+    // console.log(
+    //   route === "Graduate"
+    //     ? "导入毕业去向"
+    //       ? route === "Major"
+    //       : "导入专业"
+    //     : ""
+    // );
 
     // const data = {
     //     userName: '康欣',
@@ -153,7 +163,10 @@ class ImportFile extends React.Component {
         <div
           className="Tab"
           style={{
-            display: this.state.Route === "graduate" ? "none" : "block",
+            display:
+              this.state.Route === "graduate" || this.state.Route === "major"
+                ? "none"
+                : "block",
           }}
         >
           <span
@@ -187,14 +200,20 @@ class ImportFile extends React.Component {
           className={"content-box"}
           style={{
             borderRadius:
-              this.state.Route === "graduate"
+              this.state.Route === "graduate" || this.state.Route === "major"
                 ? "12px 12px 12px 12px"
                 : "0 12px 12px 12px",
           }}
         >
           {this.state.select === "file" ? (
             <ImportExcel
-              ImportTitle={route === "Graduate" ? "导入毕业去向" : ""}
+              ImportTitle={
+                route === "Graduate"
+                  ? "导入毕业去向"
+                  : route === "Major"
+                  ? "导入专业"
+                  : ""
+              }
               ImportTarget={this.state.Route}
             ></ImportExcel>
           ) : (

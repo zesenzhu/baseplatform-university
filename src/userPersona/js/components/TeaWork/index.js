@@ -38,7 +38,8 @@ class TeaWork extends Component {
     } = nextProps;
     // let {}
     let token = sessionStorage.getItem("token");
-    if (firstTime && token && Term && ShortName && Urls["E34"].WsUrl) {
+    // console.log(CollegeID)
+    if (firstTime && token && Term && ShortName && Urls["E34"].WsUrl&&CollegeID) {
       this.setState({
         firstTime: false,
       });

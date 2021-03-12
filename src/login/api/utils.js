@@ -4,6 +4,8 @@ import { getQueryVariable, LogOut } from "../../common/js/disconnect";
 
 import { hideAlert, showErrorAlert } from "../store/appAlert";
 
+import { ChangePwdParams } from "../store/changePwd";
+
 import { GetSchoolInitStatus } from "./index";
 
 //获取数据以及封装数据格式
@@ -96,92 +98,117 @@ export const getNewTkUrl = ({ preUrl, jointParam }) => {
 };
 
 //判断跳转
-export const goToNextPage = ({ dispatch, loadingHide }) => {
-  const { UserType, SchoolID } = JSON.parse(sessionStorage.getItem("UserInfo"));
+export const goToNextPage = ({ dispatch, loadingHide, oldPwd }) => {
+  const { UserType, SchoolID, UserID, LoginInfo } = JSON.parse(
+    sessionStorage.getItem("UserInfo")
+  );
 
   const { WebIndexUrl } = JSON.parse(
     sessionStorage.getItem("LgBasePlatformInfo")
   );
-
+  // 为1才是第一次登陆
+  let isFirstLogin =
+    typeof LoginInfo === "string" && LoginInfo.split("|")[3] === '1';
   const token = sessionStorage.getItem("token");
 
   const preUri = getQueryVariable("lg_preurl");
+  function success() {
+    // alert(UserType,SchoolID)
+    if (parseInt(UserType) === 6) {
+      window.location.href = "/html/admSchoolSetting/index.html";
+    } else if (SchoolID) {
+      const urlObj = preUri
+        ? getNewTkUrl({ preUrl: preUri, jointParam: `?lg_tk=${token}` })
+        : getNewTkUrl({ preUrl: WebIndexUrl, jointParam: `?lg_tk=${token}` });
 
-  let nexUrl = "";
+      const uriMain = urlObj.newUrl.split("#/")[0];
 
-  if (parseInt(UserType) === 6) {
-    window.location.href = "/html/admSchoolSetting/index.html";
-  } else if (SchoolID) {
-    const urlObj = preUri
-      ? getNewTkUrl({ preUrl: preUri, jointParam: `?lg_tk=${token}` })
-      : getNewTkUrl({ preUrl: WebIndexUrl, jointParam: `?lg_tk=${token}` });
+      const uriHash = urlObj.newUrl.split("#/")[1]
+        ? "#/" + urlObj.newUrl.split("#/")[1]
+        : "";
 
-    const uriMain = urlObj.newUrl.split("#/")[0];
+      switch (urlObj.type) {
+        case 1:
+          nexUrl = urlObj.newUrl;
 
-    const uriHash = urlObj.newUrl.split("#/")[1]
-      ? "#/" + urlObj.newUrl.split("#/")[1]
-      : "";
+          break;
+        case 2:
+        case 3:
+          nexUrl =
+            uriMain +
+            (uriMain.includes("?") ? "&lg_tk=" : "?lg_tk=") +
+            token +
+            uriHash;
+          break;
+        // case 2:
 
-    switch (urlObj.type) {
-      case 1:
-        nexUrl = urlObj.newUrl;
+        //     nexUrl = uriMain + '&lg_tk=' + token+uriHash;
 
-        break;
-      case 2:
-      case 3:
-        nexUrl =
-          uriMain +
-          (uriMain.includes("?") ? "&lg_tk=" : "?lg_tk=") +
-          token +
-          uriHash;
-        break;
-      // case 2:
+        //     break;
 
-      //     nexUrl = uriMain + '&lg_tk=' + token+uriHash;
+        // case 3:
 
-      //     break;
+        //     nexUrl = uriMain + '?lg_tk=' + token+uriHash;
 
-      // case 3:
+        //     break;
+        default:
+          break;
+      }
 
-      //     nexUrl = uriMain + '?lg_tk=' + token+uriHash;
+      if (parseInt(UserType) === 0) {
+        GetSchoolInitStatus({ SchoolId: SchoolID }).then((data) => {
+          if (data) {
+            window.location.href = nexUrl;
+          } else {
+            window.location.href = `/html/initGuide?lg_tk=${token}${
+              preUri ? "&lg_preurl=" + preUri : ""
+            }`;
+          }
+        });
+      } else {
+        window.location.href = nexUrl;
+      }
+    } else if (parseInt(UserType) === 0) {
+      nexUrl = `/html/initGuide?lg_tk=${token}${
+        preUri ? "&lg_preurl=" + preUri : ""
+      }`;
 
-      //     break;
-      default:
-        break;
-    }
-
-    if (parseInt(UserType) === 0) {
-      GetSchoolInitStatus({ SchoolId: SchoolID }).then((data) => {
-        if (data) {
-          window.location.href = nexUrl;
-        } else {
-          window.location.href = `/html/initGuide?lg_tk=${token}${
-            preUri ? "&lg_preurl=" + preUri : ""
-          }`;
-        }
-      });
-    } else {
       window.location.href = nexUrl;
-    }
-  } else if (parseInt(UserType) === 0) {
-    nexUrl = `/html/initGuide?lg_tk=${token}${
-      preUri ? "&lg_preurl=" + preUri : ""
-    }`;
+    } else {
+      dispatch(
+        showErrorAlert({
+          title: "登录异常,登录失败",
+          cancelShow: "n",
+          cancel: (e) => logErr(dispatch),
+          close: (e) => logErr(dispatch),
+          ok: (e) => logErr(dispatch),
+        })
+      );
 
-    window.location.href = nexUrl;
-  } else {
+      loadingHide(false);
+    }
+  }
+  let nexUrl = "";
+  // console.log(oldPwd);
+  // 有旧密码才能修改密码
+  if (isFirstLogin && oldPwd) {
+    // console.log(PreLoginTime);
     dispatch(
-      showErrorAlert({
-        title: "登录异常,登录失败",
-        cancelShow: "n",
-        cancel: (e) => logErr(dispatch),
-        close: (e) => logErr(dispatch),
-        ok: (e) => logErr(dispatch),
+      ChangePwdParams({
+        visible: true,
+        oldPwd,
+        onOk: () => {
+          success();
+        },
+        onCancel: () => {
+          success();
+        },
       })
     );
-
-    loadingHide(false);
+  } else {
+    success();
   }
+  // return;
 
   /*if (parseInt(UserType)===6){
 
