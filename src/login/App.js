@@ -108,7 +108,9 @@ function App(props) {
         sessionStorage.setItem("LgBasePlatformInfo", JSON.stringify(data));
 
         let skin = "";
-
+        // data.ProductType = 3
+        // 0,1,3,5为dark_blue风格
+        //2，4，6为dark_tech风格
         switch (parseInt(data.ProductType)) {
           case 1:
             skin = "dark_blue";
@@ -675,7 +677,7 @@ function App(props) {
         onHide={appAlert.hide}
       ></Alert>
 
-      <ChangePwdModal></ChangePwdModal>
+      <ChangePwdModal skin={skin}></ChangePwdModal>
     </div>
   );
 }

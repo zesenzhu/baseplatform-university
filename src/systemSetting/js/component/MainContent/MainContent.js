@@ -236,12 +236,16 @@ class MainContent extends Component {
       PhotoPath = UserInfo.PhotoPath;
     }
     // 当不是智慧校园的时候，使用基础的应用管理
-    let { ProductType } = sessionStorage.getItem("LgBasePlatformInfo")
+    let { ProductType, LockerVersion } = sessionStorage.getItem(
+      "LgBasePlatformInfo"
+    )
       ? JSON.parse(sessionStorage.getItem("LgBasePlatformInfo"))
       : {};
     ProductType = ProductType && Number(ProductType);
+    LockerVersion = LockerVersion && Number(LockerVersion);
+
     let List = [];
-let isBase = ProductType !== 3
+    let isBase = ProductType !== 3 || LockerVersion === 1;
 
     let SubSystemConponent = Subsystem;
     if (isBase) {
@@ -270,7 +274,7 @@ let isBase = ProductType !== 3
       path !== "Semester" &&
       path !== "School" &&
       path !== "Subsystem" &&
-      (path !== "Module"||isBase) &&
+      (path !== "Module" || isBase) &&
       path !== "Import"
     ) {
       history.push("/MainContent/School");

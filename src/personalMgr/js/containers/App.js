@@ -180,7 +180,7 @@ class App extends Component {
     } else {
       let token = sessionStorage.getItem("token");
 
-      faceUrl = SysUrl[0].WebSvrAddr + "MyFace.html?type=1&lg_tk=" + token;
+      faceUrl = SysUrl[0].WebSvrAddr + "NewFace.html?type=1&lg_tk=" + token+'&showType=1';
     }
     let rate = 944 / 1200; //人脸缩放
     return (

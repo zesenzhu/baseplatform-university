@@ -58,7 +58,7 @@ let UpdatePwd = async ({ UserID, UserType, OldPwd, NewPwd, dispatch }) => {
   }
 };
 function ChangePwdModal(props) {
-  const { changePwd, dispatch } = props;
+  const { changePwd, dispatch, skin } = props;
   let {
     firstPwd,
     onOk,
@@ -78,7 +78,7 @@ function ChangePwdModal(props) {
     }
     typeof onCancel === "function" && onCancel();
     // dispatch(ChangePwdParams({ visible: false }));
-  }, [onCancel,loading]);
+  }, [onCancel, loading]);
   const ModalOk = useCallback(() => {
     if (loading) {
       return;
@@ -129,16 +129,16 @@ function ChangePwdModal(props) {
       // typeof onOk === "function" && onOk();
       // ModalCancel();
     }
-  }, [onOk, ModalCancel, oldPwd,loading]);
+  }, [onOk, ModalCancel, oldPwd, loading]);
   const CheckPwd = useCallback((check) => {
     setCheck(check);
   }, []);
   return (
     <Modal
       title={"修改初始密码"}
-      bodyStyle={{ height: 200 }}
-      width={500}
-      className="ChangePwdModal"
+      bodyStyle={{ height: 193 }}
+      width={423}
+      className={`ChangePwdModal ${"ChangePwdModal-" + skin}`}
       visible={visible}
       onOk={ModalOk}
       onCancel={ModalCancel}
