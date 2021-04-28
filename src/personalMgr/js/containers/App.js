@@ -173,7 +173,7 @@ class App extends Component {
     let faceUrl = "";
 
     if (
-      LoginUser.UserType === "0" ||
+      // LoginUser.UserType === "0" ||
       !(SysUrl instanceof Array && SysUrl.length > 0)
     ) {
       Menu.pop();

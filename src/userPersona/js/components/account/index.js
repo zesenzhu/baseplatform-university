@@ -110,7 +110,8 @@ function Account(props) {
 
 	    const lg_ic = getQueryVariable('lg_ic')?getQueryVariable("lg_ic"):identifyInfo[0].IdentityCode;
 
-        if (['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher'].includes(UsedType)){
+        if (['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher',
+        "SuperToOther",].includes(UsedType)){
 
             dispatch(btnQueryAlertShow({
 
@@ -508,11 +509,14 @@ function Account(props) {
 
                     {
 
-                        ['AdmToStu','LeaderToStu','StuToStu','AdmToTeacher','TeacherToTeacher','LeaderToTeacher'].includes(UsedType)?
+                        ['AdmToStu','LeaderToStu','StuToStu','AdmToTeacher','TeacherToTeacher','LeaderToTeacher',
+                        "SuperToOther",].includes(UsedType)?
 
-                            <LinkBtn onClick={btnClick} type={`${['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher'].includes(UsedType)?'reset':'edit'}`}>{
+                            <LinkBtn onClick={btnClick} type={`${['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher',
+                            "SuperToOther",].includes(UsedType)?'reset':'edit'}`}>{
 
-                                ['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher'].includes(UsedType)?'重置密码':'编辑'
+                                ['AdmToStu','LeaderToStu','AdmToTeacher','LeaderToTeacher',
+                                "SuperToOther",].includes(UsedType)?'重置密码':'编辑'
 
                             }</LinkBtn>
 
@@ -526,7 +530,8 @@ function Account(props) {
 
                     {
 
-                        ['AdmToStu','LeaderToStu','ParentsToStu','HeaderTeacherToStu','StuToStu','AdmToTeacher','LeaderToTeacher','TeacherToTeacher'].includes(UsedType)?
+                        ['AdmToStu','LeaderToStu','ParentsToStu','HeaderTeacherToStu','StuToStu','AdmToTeacher','LeaderToTeacher','TeacherToTeacher',"SuperToOther",
+                        "OtherToOther",].includes(UsedType)?
 
                             <tbody>
 
@@ -581,13 +586,19 @@ function Account(props) {
                                 <td className={"col4"}>{isHasValue(userArchives.LoginTimeSpan_Txt)}</td>
                             </tr>
 
-                            <tr>
+                          
+              <tr>
+                <td className={"col1 props identify"}>身份:</td>
 
-                                <td className={"col1 props"}>身份:</td>
+                <td className={"col2 identify"}>{isHasValue(identify)}</td>
+                {UserID && UserType === 3 && (
+                  <>
+                    <td className={"col3 props"}>子女学号:</td>
 
-                                <td className={"col2"}>{isHasValue(identify)}</td>
-
-                            </tr>
+                    <td className={"col4"}>{UserID.substr(3)}</td>
+                  </>
+                )}
+              </tr>
 
                             </tbody>
 

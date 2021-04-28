@@ -1,305 +1,264 @@
-import React,{useEffect,useState,useCallback,useRef,useMemo,memo} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+  memo,
+} from "react";
 
-import {useSelector,useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 
-import {Modal,Loading} from "../../../../common";
+import { Modal, Loading } from "../../../../common";
 
-import {Calendar,Button} from 'antd';
+import { Calendar, Button } from "antd";
 
-import {Scrollbars} from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
 
-import {getFestival} from '../../actions/utils';
+import { getFestival } from "../../actions/utils";
 
-import {SetGetHolidayInfo} from "../../actions/ApiActions";
+import { SetGetHolidayInfo } from "../../actions/ApiActions";
 
-import moment from 'moment';
+import moment from "moment";
 
-import './index.scss';
+import "./index.scss";
 
 import AppAlertActions from "../../actions/AppAlertActions";
-import {getQueryVariable} from "../../../../common/js/disconnect";
+import { getQueryVariable } from "../../../../common/js/disconnect";
 
 function Holiday(props) {
+  const [isInitGuide, setIsInitGuide] = useState(false);
 
-    const [isInitGuide,setIsInitGuide] = useState(false);
+  //月份列表
+  const [monthList, setMonthList] = useState([]);
 
-    //月份列表
-    const [monthList,setMonthList] = useState([]);
+  //loading
+  const [loading, setLoading] = useState(false);
 
+  //已选择的日期
 
-    //loading
-    const [loading,setLoading] = useState(false);
+  const [selectdDate, setSelectdDate] = useState([]);
 
-    //已选择的日期
+  const { SchoolID, UserID } = useSelector((state) => state.LoginUser);
 
-    const [selectdDate,setSelectdDate] = useState([]);
+  const { iFrame } = useSelector((state) => state.frames);
 
-    const {SchoolID,UserID} = useSelector(state=>state.LoginUser);
+  const dispatch = useDispatch();
 
-    const {iFrame} = useSelector(state=>state.frames);
-    
-    const dispatch = useDispatch();
+  const SchoolIDRef = useRef(SchoolID);
 
-    const SchoolIDRef = useRef(SchoolID);
+  const { show, start, end, holidayList, holidayNum } = props;
 
-    const {show,start,end,holidayList,holidayNum} = props;
+  const { holidayOk, holidayCancel } = props;
 
-    const {holidayOk,holidayCancel} = props;
+  const selectdDateRef = useRef(selectdDate);
 
-    const selectdDateRef = useRef(selectdDate);
+  useEffect(() => {
+    if (show) {
+      let startMonthMoment = moment(moment(start).format("YYYY-MM"));
 
-    useEffect(()=>{
+      let endMonthMoment = moment(moment(end).format("YYYY-MM"));
 
-        if (show){
+      let startDateMoment = moment(start);
 
-            let startMonthMoment = moment(moment(start).format("YYYY-MM"));
+      let endDateMoment = moment(end);
 
-            let endMonthMoment = moment(moment(end).format("YYYY-MM"));
+      const list = [];
 
-            let startDateMoment = moment(start);
+      let holidaylist = [];
 
-            let endDateMoment = moment(end);
+      while (startMonthMoment.isSameOrBefore(endMonthMoment)) {
+        list.push(startMonthMoment.format("YYYY-MM"));
 
-            const list = [];
+        startMonthMoment = startMonthMoment.add(1, "M");
+      }
 
-            let holidaylist = [];
+      if (holidayList.length === 0 && holidayNum > 0) {
+        while (startDateMoment.isSameOrBefore(endDateMoment)) {
+          if (startDateMoment.day() === 6 || startDateMoment.day() === 0) {
+            holidaylist.push(startDateMoment.format("YYYY-MM-DD"));
+          }
 
-            while (startMonthMoment.isSameOrBefore(endMonthMoment)){
-
-                list.push(startMonthMoment.format("YYYY-MM"));
-
-                startMonthMoment = startMonthMoment.add(1, 'M');
-
-            }
-
-            if (holidayList.length===0&&holidayNum>0){
-
-                while (startDateMoment.isSameOrBefore(endDateMoment)){
-
-                    if (startDateMoment.day()===6||startDateMoment.day()===0){
-
-                        holidaylist.push(startDateMoment.format("YYYY-MM-DD"));
-
-                    }
-
-                    startDateMoment = startDateMoment.add(1,'d');
-
-                }
-
-            }else{
-
-                holidaylist = holidayList;
-
-            }
-
-            selectdDateRef.current = holidaylist;
-
-            setSelectdDate(holidaylist);
-
-            setMonthList(list);
-
+          startDateMoment = startDateMoment.add(1, "d");
         }
+      } else {
+        holidaylist = holidayList;
+      }
 
-    },[show]);
-    
-    useEffect(()=>{
+      selectdDateRef.current = holidaylist;
 
-        SchoolIDRef.current = SchoolID;
+      setSelectdDate(holidaylist);
 
-    },[SchoolID]);
+      setMonthList(list);
+    }
+  }, [show]);
 
+  useEffect(() => {
+    SchoolIDRef.current = SchoolID;
+  }, [SchoolID]);
 
-    useEffect(()=>{
+  useEffect(() => {
+    if (getQueryVariable("isInitGuide")) {
+      setIsInitGuide(true);
+    }
+  }, []);
 
-        if (getQueryVariable('isInitGuide')){
+  //渲染头部
+  const headerRender = useCallback((i) => {
+    return <div className={"canlender-title"}>{i}</div>;
+  }, []);
 
-            setIsInitGuide(true);
+  //渲染每一个格子
 
-        }
+  const dateFullCellRender = (date, i) => {
+    //判断是否可选
+    const disabled =
+      date.format("YYYY-MM") !== i ||
+      date.isBefore(moment(start)) ||
+      date.isAfter(moment(end));
 
-    },[]);
+    let contentTitle = "";
 
+    let type = "";
 
-    //渲染头部
-    const headerRender = useCallback((i)=>{
+    if (date.format("YYYY-MM-DD") === start && !disabled) {
+      contentTitle = "开学";
+    } else if (date.format("YYYY-MM-DD") === end && !disabled) {
+      contentTitle = "学期结束";
+    } else if (!disabled) {
+      contentTitle = getFestival(date);
+    }
 
-        return <div className={"canlender-title"}>{i}</div>
+    if (selectdDate.includes(date.format("YYYY-MM-DD")) && !disabled) {
+      type = "selectd";
+    }
 
-    },[]);
+    return (
+      <div className={`ant-fullcalendar-date ${disabled ? "disabled" : ""}`}>
+        <div
+          onClick={
+            disabled
+              ? empFuc
+              : (e) => dateSelect({ date, isSelectd: type === "selectd" })
+          }
+          className={`ant-fullcalendar-value ${type}`}
+        >
+          {date.format("DD")}
+        </div>
 
+        <div className="ant-fullcalendar-content">{contentTitle}</div>
+      </div>
+    );
+  };
 
-    //渲染每一个格子
+  const dateSelect = useCallback(({ date, isSelectd }) => {
+    const dateStr = date.format("YYYY-MM-DD");
 
-    const dateFullCellRender = (date,i)=>{
+    if (isSelectd) {
+      const list = Array.from(selectdDateRef.current);
 
-        //判断是否可选
-        const disabled = date.format("YYYY-MM")!==i||(date.isBefore(moment(start))||date.isAfter(moment(end)));
+      const newDateList = list.filter((i) => i !== dateStr);
 
-        let contentTitle = '';
+      setSelectdDate(newDateList);
 
-        let type = '';
-        
-        if (date.format("YYYY-MM-DD")===start&&!disabled){
+      selectdDateRef.current = newDateList;
+    } else {
+      setSelectdDate((d) => {
+        const list = Array.from(d);
 
-            contentTitle = '开学';
+        list.push(dateStr);
 
-        }else if (date.format("YYYY-MM-DD")===end&&!disabled){
+        selectdDateRef.current = list;
 
-            contentTitle = '学期结束';
+        return list;
+      });
+    }
+  }, []);
 
-        }else if (!disabled){
+  //空函数
 
-            contentTitle = getFestival(date);
+  const empFuc = useCallback(() => {}, []);
 
-        }
+  //确定
 
-        if(selectdDate.includes(date.format("YYYY-MM-DD"))&&!disabled){
-
-            type = "selectd";
-
-        }
-
-        return (
-
-            <div className={`ant-fullcalendar-date ${disabled?'disabled':''}`}>
-
-                <div onClick={disabled?empFuc:e=>dateSelect({date,isSelectd:type==='selectd'})} className={`ant-fullcalendar-value ${type}`}>{date.format("DD")}</div>
-
-                <div className="ant-fullcalendar-content">{contentTitle}</div>
-
-            </div>
-
-        )
-
-    };
-
-
-    const dateSelect = useCallback(({date,isSelectd})=>{
-
-        const dateStr = date.format("YYYY-MM-DD");
-
-        if (isSelectd){
-
-            const list = Array.from(selectdDateRef.current);
-
-            const newDateList = list.filter(i=>i!==dateStr);
-
-            setSelectdDate(newDateList);
-
-            selectdDateRef.current = newDateList;
-
-        }else{
-
-            setSelectdDate(d=>{
-
-                const list = Array.from(d);
-
-                list.push(dateStr);
-
-                selectdDateRef.current = list;
-
-                return list;
-
-            })
-
-        }
-
-    },[]);
-
-    //空函数
-
-    const empFuc = useCallback(()=>{},[]);
-
-
-
-    //确定
-
-    const ok = ()=>{
-
-        setLoading(true);
-
-        const HolidayItem = selectdDateRef.current.join(",");
-
-        SetGetHolidayInfo({SchoolID:SchoolIDRef.current,HolidayItem,dispatch}).then(data=>{
-
-            if (data===0){
-
-                dispatch(AppAlertActions.alertSuccess({title:"设置成功！"}));
-
-                modalInit();
-
-                holidayOk();
-
-            }else{
-
-                setLoading(false);
-
-            }
-
-        })
-
-    };
-
-
-    //确定
-
-    const cancel = useCallback(()=>{
+  const ok = () => {
+    setLoading(true);
+
+    const HolidayItem = selectdDateRef.current.join(",");
+
+    SetGetHolidayInfo({
+      SchoolID: SchoolIDRef.current,
+      HolidayItem,
+      dispatch,
+    }).then((data) => {
+      if (data === 0) {
+        dispatch(AppAlertActions.alertSuccess({ title: "设置成功！" }));
 
         modalInit();
 
-        holidayCancel();
-
-    },[]);
-
-
-    //弹窗状态初始化
-    const modalInit = useCallback(() =>{
-
-        setMonthList([]);
-
+        holidayOk();
+      } else {
         setLoading(false);
+      }
+    });
+  };
 
-        setSelectdDate([]);
+  //确定
 
-    },[]);
+  const cancel = useCallback(() => {
+    modalInit();
+    holidayOk();
+    // holidayCancel();
+  }, []);
 
-    return(
+  //弹窗状态初始化
+  const modalInit = useCallback(() => {
+    setMonthList([]);
 
-        <Modal
+    setLoading(false);
 
-            type={1}
+    setSelectdDate([]);
+  }, []);
+  let height = iFrame ? 500 : 600;
+  let width = 1100;
+  let bigWidth = 1220;
+  let rate = width / bigWidth;
 
-            title={"设置节假日"}
+  return (
+    <Modal
+      type={1}
+      title={"设置节假日"}
+      width={width}
+      bodyStyle={{ height: height*rate, padding: 0 }}
+      visible={show}
+      mask={!isInitGuide}
+      className={"set-holiday-modal"}
+      /*onOk={ok}*/
 
-            width={1000}
+      onCancel={cancel}
+      footer={
+        null
+        // <>
+        //   <span className={"tips"} style={{ float: "left" }}>
+        //     已选择<span style={{ color: "#ff6600" }}>{selectdDate.length}</span>
+        //     天
+        //   </span>
 
-            bodyStyle={{height:iFrame?500:600,padding:0}}
+        //   <Button className={"ant-btn Button btn-small btn-green"} onClick={ok}>
+        //     确定
+        //   </Button>
 
-            visible={show}
-
-            mask={!isInitGuide}
-
-            className={"set-holiday-modal"}
-
-            /*onOk={ok}*/
-
-            onCancel={cancel}
-
-            footer={<>
-
-                <span className={"tips"} style={{float:'left'}}>已选择<span style={{color:'#ff6600'}}>{selectdDate.length}</span>天</span>
-
-                <Button className={"ant-btn Button btn-small btn-green"} onClick={ok}>确定</Button>
-
-                <Button className={"ant-btn Button btn-small btn-blue"} onClick={cancel}>取消</Button>
-
-            </>}
-
-        >
-
-            <Loading spinning={loading} tip={"加载中,请稍候..."}>
-
-                <div className={"top-tips"}>请勾选非周末日期设为校内节假日(周末默认为节假日)，节假日默认情况下不会安排课程。</div>
+        //   <Button
+        //     className={"ant-btn Button btn-small btn-blue"}
+        //     onClick={cancel}
+        //   >
+        //     取消
+        //   </Button>
+        // </>
+      }
+    >
+      <Loading spinning={loading} tip={"加载中,请稍候..."}>
+        {/* <div className={"top-tips"}>请勾选非周末日期设为校内节假日(周末默认为节假日)，节假日默认情况下不会安排课程。</div>
 
                 <Scrollbars style={{height:iFrame?452:552}}>
 
@@ -325,14 +284,29 @@ function Holiday(props) {
 
                     </ul>
 
-                </Scrollbars>
-
-            </Loading>
-
-        </Modal>
-
-    )
-
+                </Scrollbars> */}
+        <div style={{ position: "relative", transform: `scale(${rate})` }}>
+          <iframe
+            title={"设置节假日"}
+            width={bigWidth + "px"}
+            height={height  + "px"}
+            style={{
+              border: "none",
+              position: "absolute",
+              top: 0,
+              left: (-(1 - rate) / 2) * bigWidth,
+            }}
+            src={
+              location.origin +
+              "/html/systemSetting?lg_tk=" +
+              getQueryVariable("lg_tk") +
+              "&showBarner=0&showTop=0&showBottom=0#/MainContent/Holiday"
+            }
+          ></iframe>
+        </div>
+      </Loading>
+    </Modal>
+  );
 }
 
 export default memo(Holiday);

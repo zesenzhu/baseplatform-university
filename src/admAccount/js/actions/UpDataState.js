@@ -225,7 +225,7 @@ const setAdminInitPreview = (data) => {
 //获取年级班级信息/改
 const getGradeClassMsg = (url) => {
   return (dispatch) => {
-    dispatch({ type: UpUIState.RIGHT_LOADING_OPEN });
+    // dispatch({ type: UpUIState.RIGHT_LOADING_OPEN });
     getData(CONFIG.UserInfoProxy + url, 2)
       .then((res) => {
         return res.json();
@@ -233,7 +233,7 @@ const getGradeClassMsg = (url) => {
       .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_GRADE_CLASS_MSG, data: json.Data });
-          dispatch({ type: UpUIState.RIGHT_LOADING_CLOSE });
+          // dispatch({ type: UpUIState.RIGHT_LOADING_CLOSE });
         }
       });
   };
@@ -241,7 +241,7 @@ const getGradeClassMsg = (url) => {
 //获取学科信息/改
 const getSubjectTeacherMsg = (url) => {
   return (dispatch) => {
-    dispatch({ type: UpUIState.RIGHT_LOADING_OPEN });
+    // dispatch({ type: UpUIState.RIGHT_LOADING_OPEN });
 
     getData(CONFIG.UserInfoProxy + url, 2)
       .then((res) => {
@@ -250,7 +250,7 @@ const getSubjectTeacherMsg = (url) => {
       .then((json) => {
         if (json.StatusCode === 200) {
           dispatch({ type: GET_SUBJECT_TEACHER_MSG, data: json.Data });
-          dispatch({ type: UpUIState.RIGHT_LOADING_CLOSE });
+          // dispatch({ type: UpUIState.RIGHT_LOADING_CLOSE });
         }
       });
   };

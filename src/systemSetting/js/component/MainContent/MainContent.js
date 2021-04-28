@@ -6,6 +6,7 @@ import Import from "../Import";
 import School from "../SettingOptions/SchoolnfoSetting";
 import Subsystem from "../../page/SubSystem";
 import Module from "../../page/Module";
+import Holiday from "../../page/Holiday";
 // import Subsystem from '../ApplicationSetting'
 // import Subsystem from '../SubApplication/js'
 // 不是智慧校园的时候用
@@ -15,7 +16,9 @@ import { Menu, Loading } from "../../../../common";
 import config from "../../../../common/js/config";
 import history from "../../containers/history";
 import { QueryPower } from "../../../../common/js/power";
+import Public from "../../../../common/js/public";
 import versionChenck from "../../../../common/js/public";
+
 import TimeBanner from "../newEdition/TimeBanner";
 import { connect } from "react-redux";
 
@@ -29,7 +32,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { Number } from "_es6-shim@0.35.6@es6-shim";
-
+const { getQueryVariable } = Public;
 class MainContent extends Component {
   constructor(props) {
     super(props);
@@ -78,6 +81,7 @@ class MainContent extends Component {
         { value: "Semester", title: "学年学期设置", icon: "Semester" },
         { value: "Subsystem", title: "子系统访问设置", icon: "Subsystem" },
         { value: "Module", title: "应用模块设置", icon: "Module" },
+        { value: "Holiday", title: "节假日设置", icon: "Holiday" },
       ],
       path: "School",
     };
@@ -169,7 +173,8 @@ class MainContent extends Component {
       //   console.log(restlu);
 
       //   if (restlu) {
-      this.Frame.getIdentity({ ModuleID }, (identify) => {
+      let noIden = getQueryVariable("showBarner") === "0"&&getQueryVariable('showTop')==='0';
+      if (noIden) {
         this.setState({
           havePower: true,
         });
@@ -177,7 +182,18 @@ class MainContent extends Component {
         //    dispatch(DataChange.getCurrentSchoolInfo(SchoolID));
         //    dispatch(DataChange.getCurrentSbusystemInfo({}));
         dispatch(DataChange.getServerAdd());
-      });
+      } else {
+        this.Frame.getIdentity({ ModuleID }, (identify) => {
+          this.setState({
+            havePower: true,
+          });
+          dispatch(DataChange.getCurrentSemester(SchoolID));
+          //    dispatch(DataChange.getCurrentSchoolInfo(SchoolID));
+          //    dispatch(DataChange.getCurrentSbusystemInfo({}));
+          dispatch(DataChange.getServerAdd());
+        });
+      }
+
       //   });
       // }
     }
@@ -274,6 +290,7 @@ class MainContent extends Component {
       path !== "Semester" &&
       path !== "School" &&
       path !== "Subsystem" &&
+      path !== "Holiday" &&
       (path !== "Module" || isBase) &&
       path !== "Import"
     ) {
@@ -336,6 +353,12 @@ class MainContent extends Component {
                   exact
                   history={history}
                   component={Module}
+                ></Route>
+                <Route
+                  path="/MainContent/Holiday*"
+                  exact
+                  history={history}
+                  component={Holiday}
                 ></Route>
                 {/* <Redirect path="/*" to="/MainContent/Semester"></Redirect> */}
               </Router>

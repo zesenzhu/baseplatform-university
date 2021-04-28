@@ -49,7 +49,11 @@ function Content(props) {
   const moduleList = useMemo(() => {
     if (userArchives) {
       let urlGet = false;
+// 增加管理员，领导，家长账号
+      // 管理员：0，领导：7，10，家长：3
+      //新增的只显示账号
 
+      let onlyAccount = targetUser.OnlyAccount;
       for (let k in Urls) {
         if (Urls[k].WebUrl) {
           urlGet = true;
@@ -212,7 +216,24 @@ function Content(props) {
         });
 
         return newList;
-      } else {
+      } else if (onlyAccount) {
+        return [
+          {
+            title: (
+              <span>
+                账号
+                <br />
+                信息
+              </span>
+            ),
+            id: "account",
+            value: Account,
+            type:
+              "OtherToOther,SuperToOther",
+            rely: "",
+          },
+        ];
+      }else {
         return [
           {
             title: (

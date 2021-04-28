@@ -124,8 +124,7 @@ if (process.env.NODE_ENV === "development") {
     SubSystemProxy: "http://192.168.129.3:30103/SysMgr/Setting/SubSystem/",
     ModuleProxy: "http://192.168.129.3:30103/SysMgr/Setting/Module/",
 
-
-    
+    HolidayProxy: "http://192.168.129.3:30103/SysMgr/Setting/Holiday/",
   };
 }
 
@@ -203,6 +202,7 @@ if (process.env.NODE_ENV === "production") {
     SelectObjectProxy: "/UserMgr/SelectObject/",
     SubSystemProxy: "/SysMgr/Setting/SubSystem/",
     ModuleProxy: "/SysMgr/Setting/Module/",
+    HolidayProxy: "/SysMgr/Setting/Holiday/",
   };
 }
 

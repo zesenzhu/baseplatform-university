@@ -102,6 +102,7 @@
         }
         .ant-modal-header {
             position: relative;
+            border: none;
             &::after {
                 content: "";
                 position: absolute;
@@ -119,6 +120,7 @@
             .pwd-input {
                 background: transparent;
                 border: solid 1px #6390e8;
+                color: white
             }
             .tr {
                 .td-1 {

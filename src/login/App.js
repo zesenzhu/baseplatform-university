@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useLayoutEffect,
+} from "react";
 
 import { connect } from "react-redux";
 
@@ -35,6 +41,8 @@ import TopFloor from "./application/TopFloor";
 import BottomFloor from "./application/BottomFloor";
 
 import ChangePwdModal from "./components/ChangePwdModal";
+
+import GassBlur from "./components/GassBlur";
 
 function App(props) {
   const [AppLoading, setAppLoading] = useState(true);
@@ -108,7 +116,7 @@ function App(props) {
         sessionStorage.setItem("LgBasePlatformInfo", JSON.stringify(data));
 
         let skin = "";
-        // data.ProductType = 3
+        // data.ProductType = 6
         // 0,1,3,5为dark_blue风格
         //2，4，6为dark_tech风格
         switch (parseInt(data.ProductType)) {
@@ -651,34 +659,37 @@ function App(props) {
   }, []);
 
   return (
-    <div className={`app ${skin}`}>
-      {AppLoading ? (
-        <Loading tip={"加载中,请稍后..."}></Loading>
-      ) : (
-        <>
-          <TopFloor aiSchoolLink={aiSchoolLink}></TopFloor>
+    <>
+      <GassBlur></GassBlur>
+      <div className={`app ${skin}`}>
+        {AppLoading ? (
+          <Loading tip={"加载中,请稍后..."}></Loading>
+        ) : (
+          <>
+            <TopFloor aiSchoolLink={aiSchoolLink}></TopFloor>
 
-          <BottomFloor></BottomFloor>
-        </>
-      )}
+            <BottomFloor></BottomFloor>
+          </>
+        )}
 
-      <Alert
-        className={skin}
-        type={appAlert.type}
-        okShow={appAlert.okShow}
-        cancelShow={appAlert.cancelShow}
-        onClose={appAlert.close}
-        show={appAlert.show}
-        title={appAlert.title}
-        onOk={appAlert.ok}
-        onCancel={appAlert.cancel}
-        okTitle={appAlert.okTitle}
-        cancelTitle={appAlert.cancelTitle}
-        onHide={appAlert.hide}
-      ></Alert>
+        <Alert
+          className={skin}
+          type={appAlert.type}
+          okShow={appAlert.okShow}
+          cancelShow={appAlert.cancelShow}
+          onClose={appAlert.close}
+          show={appAlert.show}
+          title={appAlert.title}
+          onOk={appAlert.ok}
+          onCancel={appAlert.cancel}
+          okTitle={appAlert.okTitle}
+          cancelTitle={appAlert.cancelTitle}
+          onHide={appAlert.hide}
+        ></Alert>
 
-      <ChangePwdModal skin={skin}></ChangePwdModal>
-    </div>
+        <ChangePwdModal skin={skin}></ChangePwdModal>
+      </div>
+    </>
   );
 }
 

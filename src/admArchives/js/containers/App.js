@@ -528,6 +528,7 @@ class App extends Component {
     if (key === "Face") {
       window.open(url);
     } else {
+      // dispatch(PublicAction.ContentLoadingOpen());
       history.push("/UserArchives/" + key);
       if (key === handleRoute) {
         //如果路由不变，但点击菜单，默认是不会进行数据请求的
@@ -1080,8 +1081,8 @@ class App extends Component {
             </div>
             <div ref="frame-right-content">
               <Loading
-                opacity={false}
-                // tip="加载中..."
+                opacity={0.5}
+                tip="加载中..."
                 size="small"
                 spinning={ContentLoading}
               >

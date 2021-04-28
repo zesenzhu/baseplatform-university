@@ -107,6 +107,9 @@ class All extends Component {
       },
     } = this.props;
     let { Chart_student } = this.state;
+    let data =  this.XData(StudentList)   
+    let len =  data.length;
+    let maxCount = 11
     // 绘制图表
     Chart_student.setOption({
       color: new echarts.graphic.LinearGradient(
@@ -128,21 +131,46 @@ class All extends Component {
         ],
         false
       ),
+      dataZoom: {
+        type: "slider",
+        show: data.length>maxCount,
+        // xAxisIndex: [0],
+        // start: 0,
+        // end: 10/(dataset.length-1)*100,
+        minSpan: ((maxCount-1) / (data.length-1  )) * 100,
+        maxSpan: ((maxCount-1) / (data.length-1  )) * 100,
+        zoomLock: true,
+        showDetail: false,
+        showDataShadow: false,
+        height: 8,
+        bottom: 20,
+      },
       title: {},
+      
       xAxis: {
         type: "category",
-        data: this.XData(StudentList),
+        data: data,
         //   data: ['一年级','二年级','一年级','二年级','一年级','二年级'],
         name: !IsCollege ? "院系" : "专业",
         nameTextStyle: {
           color: "#999",
           fontSize: "14",
         },
+        axisPointer: {
+          show: true
+        },
         axisLabel: {
           // interval: 0,
-          rotate: this.Xrotate(StudentList),
+          // rotate: this.Xrotate(StudentList),
           width: 30,
-
+          formatter: (value) => {
+            let data = value;
+            let max = len>maxCount?4:maxCount-len+4
+            if (typeof value === "string" && value.length > max) {
+              data = value.slice(0, max) + "...";
+            }
+            return data;
+          },
           textStyle: {
             color: "#333",
             fontSize: "14",
@@ -276,6 +304,9 @@ class All extends Component {
       },
     } = this.props;
     let { Chart_teacher } = this.state;
+    let data =  this.XData(TeacherList)   
+    let len =  data.length;
+    let maxCount = 11
     // 绘制图表
     Chart_teacher.setOption({
       color: new echarts.graphic.LinearGradient(
@@ -298,9 +329,23 @@ class All extends Component {
         false
       ),
       title: {},
+      dataZoom: {
+        type: "slider",
+        show: data.length>maxCount,
+        // xAxisIndex: [0],
+        // start: 0,
+        // end: 10/(dataset.length-1)*100,
+        minSpan: ((maxCount-1) / (data.length-1  )) * 100,
+        maxSpan: ((maxCount-1) / (data.length-1  )) * 100,
+        zoomLock: true,
+        showDetail: false,
+        showDataShadow: false,
+        height: 8,
+        bottom: 20,
+      },
       xAxis: {
         type: "category",
-        data: this.XData(TeacherList),
+        data: data,
         name: !IsCollege ? "院系" : "教研室",
         nameTextStyle: {
           color: "#999",
@@ -308,11 +353,21 @@ class All extends Component {
         },
         axisTick: {
           inside: true,
+        }, axisPointer: {
+          show: true
         },
         axisLabel: {
           // interval: 0,
-          rotate: this.Xrotate(TeacherList),
+          // rotate: this.Xrotate(TeacherList),
           width: 30,
+          formatter: (value) => {
+            let data = value;
+            let max = len>maxCount?4:maxCount-len+4
+            if (typeof value === "string" && value.length > max) {
+              data = value.slice(0, max) + "...";
+            }
+            return data;
+          },
           rich: {},
           textStyle: {
             color: "#333",
@@ -429,11 +484,12 @@ class All extends Component {
       return data;
     }
     return data.map((child) => {
-      let dots = "";
-      if (child.title.length >= 9) {
-        dots = "...";
-      }
-      let value = child.title.split("").splice(0, 8).join("") + dots;
+      // let dots = "";
+      // if (child.title.length >= 6) {
+      //   dots = "...";
+      // }
+      let value = child.title
+      // .split("").splice(0, 5).join("") + dots;
       let textStyle = {};
       return { value, textStyle };
     });

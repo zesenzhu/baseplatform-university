@@ -53,11 +53,11 @@ function TopButtons(props){
 
                             {
 
-                                !iFrame?
+                                // !iFrame?
 
                                     <Button color="blue" className="teacher-btn import-schedule" onClick={()=>Import()}>导入课程安排</Button>
 
-                                    :null
+                                    // :null
 
                             }
 

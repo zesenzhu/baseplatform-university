@@ -22,7 +22,7 @@ import AdjustByTeacherModal from './AdjustByTeacherModal';
 
 import ComPageRefresh from "../../actions/ComPageRefresh";
 
-
+import Public from "../../../../common/js/public";
 import AddTempScheduleModal from './AddTempScheduleModal';
 
 import $ from "jquery";
@@ -30,6 +30,7 @@ import $ from "jquery";
 import SDActions from "../../actions/ScheduleDetailActions";
 
 import {getQueryVariable} from "../../../../common/js/disconnect";
+let { checkUrlAndPostMsg } = Public;
 
 
 class TeacherPersonalSchedule extends Component{
@@ -102,8 +103,11 @@ class TeacherPersonalSchedule extends Component{
     //导入课表
 
     Import(){
+        let url = window.location.href.split(window.location.hash).join('#/Import');
 
-        window.open('/html/schedule/#/Import');
+        // console.log(url);
+        checkUrlAndPostMsg({ btnName:'导入课程安排', url });
+        // window.open('/html/schedule/#/Import');
 
     }
 

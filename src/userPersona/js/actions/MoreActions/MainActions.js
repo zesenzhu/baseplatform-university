@@ -1702,10 +1702,10 @@ const getTeacherAITeachPlan = async ({
      
     // "&SubjectNames=" +
     // subjectNames +
-    "&startTime=" +
+    "&StartTime=" +
     startTime +
     " 00:00:00" +
-    "&endTime=" +
+    "&EndTime=" +
     endTime +
     " 23:59:59";
   // let TransUrl =
