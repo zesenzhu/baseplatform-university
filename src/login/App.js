@@ -56,9 +56,17 @@ function App(props) {
     downLoad: "",
   });
 
-  //默认不选择不再提示
+  //默认选择不再提示
 
-  const [unCheckedTips, setUnCheckedTips] = useState(false);
+  const [unCheckedTips, setUnCheckedTips] = useState(() => {
+    let LgBasePluginsNoCheck = localStorage.getItem("LgBasePluginsNoCheck");
+    if (LgBasePluginsNoCheck) {
+      return LgBasePluginsNoCheck === "true";
+    } else {
+      // localStorage.setItem("LgBasePluginsNoCheck", true);
+      return true;
+    }
+  });
 
   //监测插件包和MacID
   const [checkBaseMac, setCheckBaseMac] = useState(null);
@@ -384,6 +392,9 @@ function App(props) {
           const NoCheck = localStorage.getItem("LgBasePluginsNoCheck");
 
           if (NoCheck !== "true") {
+            if (!NoCheck) {
+              localStorage.setItem("LgBasePluginsNoCheck", true);
+            }
             dispatch(
               showWarnAlert({
                 title: (

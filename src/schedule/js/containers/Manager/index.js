@@ -1,113 +1,123 @@
-import React,{useMemo,useCallback,useState,useRef,useEffect,memo} from 'react';
+import React, {
+  useMemo,
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  memo,
+} from "react";
 
-import {HashRouter as Router,Route,Switch,Redirect} from  'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
-import HeaderRouter from '../../component/HeaderRouter';
+import HeaderRouter from "../../component/HeaderRouter";
 
-import SubjectTeacher from './SubjectTeacher';
+import SubjectTeacher from "./SubjectTeacher";
 
-import ClassTotalSingle from './ClassTotalSingle';
+import ClassTotalSingle from "./ClassTotalSingle";
 
-import ClassRoomTotalSingle from './ClassRoomTotalSingle';
+import ClassRoomTotalSingle from "./ClassRoomTotalSingle";
 
 import AdjustByTeacherModal from "./AdjustByTeacherModal";
 
 import AdjustByClassRoom from "./AdjustByClassRoom";
 
-import {useSelector,useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 
+function Index() {
+  const { LoginUser, productType, identify } = useSelector((state) => state);
 
+  const { UserType, UserClass, UserID } = LoginUser;
 
-function Index(){
+  const HeaderLinkList = useMemo(() => {
+    if (parseInt(UserType) === 0) {
+      if (productType === 6) {
+        return [
+          { link: "/manager/class", name: "班级课表", logo: "class" },
 
+          { link: "/manager/room", name: "教室课表", logo: "classroom" },
+        ];
+      } else {
+        if (identify.isCollegeManager) {
+          return [
+            {
+              link: "/manager/subject-teacher",
+              name: "学科教师课表",
+              logo: "subject",
+            },
 
-    const {LoginUser,productType,identify} = useSelector(state=>state);
+            { link: "/manager/class", name: "班级课表", logo: "class" },
+          ];
+        } else {
+          return [
+            {
+              link: "/manager/subject-teacher",
+              name: "学科教师课表",
+              logo: "subject",
+            },
 
+            { link: "/manager/class", name: "班级课表", logo: "class" },
 
-
-    const HeaderLinkList = useMemo(()=>{
-
-        if (productType===6){
-
-            return [
-
-                {link:"/manager/class",name:"班级课表",logo:"class"},
-
-                {link:"/manager/room",name:"教室课表",logo:"classroom"},
-
-            ];
-
-        }else{
-
-            if (identify.isCollegeManager){
-
-                return [
-
-                    {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
-
-                    {link:"/manager/class",name:"班级课表",logo:"class"}
-
-                ];
-
-            }else{
-
-                return [
-
-                    {link:"/manager/subject-teacher",name:"学科教师课表",logo:"subject"},
-
-                    {link:"/manager/class",name:"班级课表",logo:"class"},
-
-                    {link:"/manager/room",name:"教室课表",logo:"classroom"},
-
-                ];
-
-            }
-
+            { link: "/manager/room", name: "教室课表", logo: "classroom" },
+          ];
         }
+      }
+    } else {
+      window.location.href = "/Error.aspx?errcode=E011";
+    }
+  }, [LoginUser.UserID, productType,UserType]);
 
+  return (
+    <React.Fragment>
+      {/*头部的路由选项卡*/}
 
+      <HeaderRouter HeaderLinkList={HeaderLinkList}></HeaderRouter>
+      {/* 泡泡型标签链接按钮*/}
 
-    },[LoginUser.UserID,productType]);
+      <Router>
+        <Switch>
+          <Route
+            path="/manager/subject-teacher/*"
+            component={SubjectTeacher}
+          ></Route>
 
-    return (
+          <Redirect
+            path="/manager/subject-teacher*"
+            to={{ pathname: "/manager/subject-teacher/subject" }}
+          ></Redirect>
 
-        <React.Fragment>
-            {/*头部的路由选项卡*/}
+          <Route
+            exact
+            path="/manager/class/*"
+            component={ClassTotalSingle}
+          ></Route>
 
-            <HeaderRouter HeaderLinkList={HeaderLinkList}></HeaderRouter>
-           {/* 泡泡型标签链接按钮*/}
+          <Redirect
+            path="/manager/class*"
+            to={{ pathname: "/manager/class/total" }}
+          ></Redirect>
 
-            <Router>
+          <Route
+            path="/manager/room/*"
+            component={ClassRoomTotalSingle}
+          ></Route>
 
-                <Switch>
+          <Redirect
+            path="/manager/room*"
+            to={{ pathname: "/manager/room/total" }}
+          ></Redirect>
+        </Switch>
+      </Router>
 
-                    <Route path="/manager/subject-teacher/*" component={SubjectTeacher}></Route>
+      <AdjustByTeacherModal></AdjustByTeacherModal>
 
-                    <Redirect path="/manager/subject-teacher*" to={{pathname:"/manager/subject-teacher/subject"}}></Redirect>
-
-                    <Route exact path="/manager/class/*" component={ClassTotalSingle}></Route>
-
-                    <Redirect path="/manager/class*" to={{pathname:"/manager/class/total"}}></Redirect>
-
-                    <Route path="/manager/room/*" component={ClassRoomTotalSingle}></Route>
-
-                    <Redirect path="/manager/room*" to={{pathname:"/manager/room/total"}}></Redirect>
-
-                </Switch>
-
-            </Router>
-
-            <AdjustByTeacherModal></AdjustByTeacherModal>
-
-            <AdjustByClassRoom></AdjustByClassRoom>
-
-        </React.Fragment>
-
-    );
-
-
+      <AdjustByClassRoom></AdjustByClassRoom>
+    </React.Fragment>
+  );
 }
-
-
 
 export default memo(Index);

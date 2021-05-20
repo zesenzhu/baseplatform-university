@@ -186,7 +186,7 @@ function Index(props) {
 
     const importCourseClass = useCallback(()=>{
 
-        const url = config.HashPrevProxy+location.pathname+location.search+'#/Import';
+        const url = config.HashPrevProxy+location.pathname+location.search+'#/ImportFile';
 
         checkUrlAndPostMsg({btnName:'导入教学班',url});
 
